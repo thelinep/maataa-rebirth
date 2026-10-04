@@ -35,3 +35,15 @@ node_modules/
 .env
 .env.local
 *.alpha*-backup
+
+# Local alpha bundle-analysis artifacts
+alpha8.*-bundle-*.log
+alpha8.*-dynamic-static-collisions.txt
+alpha8.*-preview-collisions.txt
+alpha8.*-collision-modules.txt
+alpha8.*-largest-js-chunks.txt
+alpha8.*-preview-loader-map.txt
+alpha8.*-preview-source-part*.txt
+alpha8.*-app-static-imports.txt
+alpha8.*-public-barrel.txt
+alpha8.*-components-barrel.txt
