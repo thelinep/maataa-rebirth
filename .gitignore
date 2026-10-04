@@ -14,3 +14,23 @@ node_modules/
 .DS_Store
 .env
 .env.local
+
+# Generated package/certification artifacts
+.certification/package/*.tgz
+
+# Local migration / hotfix backups
+*.backup
+*.pre-alpha*-backup
+
+# Test/build outputs
+demo-dist/
+dist/
+playwright-report/
+test-results/
+coverage/
+
+# Local environment
+node_modules/
+.DS_Store
+.env
+.env.local
