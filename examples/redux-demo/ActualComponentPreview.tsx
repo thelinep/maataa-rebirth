@@ -1,107 +1,9 @@
 import * as React from "react";
-import * as Components from "../../src/components";
-import * as Redux from "../../src/redux";
-import * as Forms from "../../src/forms";
-import * as Navigation from "../../src/navigation";
-import * as Feedback from "../../src/feedback";
-import * as Data from "../../src/data";
-import * as Surfaces from "../../src/surfaces";
-import * as Foundation from "../../src/foundation";
-import * as Actions from "../../src/actions";
-import * as Typography from "../../src/typography";
-import * as StaticData from "../../src/static-data";
-import * as Registries from "../../src/registries";
-import * as Types from "../../src/types";
-import * as Themes from "../../src/themes";
-import * as Identity from "../../src/identity";
-import * as Icons from "../../src/icons";
-import * as Demo from "../../src/demo";
-import * as Visualization from "../../src/visualization";
-import * as Atomic from "../../src/atomic";
-import * as Mobile from "../../src/mobile";
-import * as Maps from "../../src/maps";
+import { PREVIEW_LOADERS } from "./previewLoaders.generated";
 
 type PreviewItem = { id: string; name: string; meta?: string; importPath?: string };
 type RuntimeModule = Record<string, unknown>;
 type RuntimeComponent = React.ElementType<any>;
-
-const staticSourceModules: Record<string, RuntimeModule> = {
-  components: Components as RuntimeModule,
-  redux: Redux as RuntimeModule,
-  forms: Forms as RuntimeModule,
-  navigation: Navigation as RuntimeModule,
-  feedback: Feedback as RuntimeModule,
-  data: Data as RuntimeModule,
-  surfaces: Surfaces as RuntimeModule,
-  foundation: Foundation as RuntimeModule,
-  actions: Actions as RuntimeModule,
-  typography: Typography as RuntimeModule,
-  "static-data": StaticData as RuntimeModule,
-  registries: Registries as RuntimeModule,
-  types: Types as RuntimeModule,
-  themes: Themes as RuntimeModule,
-  identity: Identity as RuntimeModule,
-  icons: Icons as RuntimeModule,
-  demo: Demo as RuntimeModule,
-  visualization: Visualization as RuntimeModule,
-  atomic: Atomic as RuntimeModule,
-  mobile: Mobile as RuntimeModule,
-  maps: Maps as RuntimeModule,
-};
-
-const lazySourceModules = import.meta.glob<RuntimeModule>([
-  "../../src/**/*.tsx",
-  "../../src/**/*.ts",
-
-  "!../../src/components/**",
-  "!../../src/redux/**",
-  "!../../src/forms/**",
-  "!../../src/navigation/**",
-  "!../../src/feedback/**",
-  "!../../src/data/**",
-  "!../../src/surfaces/**",
-  "!../../src/foundation/**",
-  "!../../src/actions/**",
-  "!../../src/typography/**",
-  "!../../src/static-data/**",
-  "!../../src/registries/**",
-  "!../../src/types/**",
-  "!../../src/themes/**",
-  "!../../src/identity/**",
-  "!../../src/icons/**",
-  "!../../src/demo/**",
-  "!../../src/visualization/**",
-  "!../../src/atomic/**",
-  "!../../src/mobile/**",
-  "!../../src/maps/**",
-]);
-
-function sourceCandidates(importPath?: string) {
-  if (!importPath?.startsWith("@maataa/ui/")) return [];
-  const suffix = importPath.slice("@maataa/ui/".length);
-  return [
-    `../../src/${suffix}.tsx`,
-    `../../src/${suffix}.ts`,
-    `../../src/${suffix}/index.tsx`,
-    `../../src/${suffix}/index.ts`,
-  ];
-}
-
-
-function resolveStaticExport(importPath: string | undefined, exportName: string) {
-  if (!importPath?.startsWith("@maataa/ui/")) return null;
-
-  const suffix = importPath.slice("@maataa/ui/".length);
-  const group = suffix.split("/")[0];
-  const namespace = staticSourceModules[group];
-
-  if (!namespace) return null;
-
-  return {
-    source: importPath,
-    value: namespace[exportName],
-  };
-}
 
 function isElementType(value: unknown): value is RuntimeComponent {
   if (typeof value === "function" || typeof value === "string") return true;
@@ -247,64 +149,82 @@ export function ActualComponentPreview({ item, overrides = {} }: { item: Preview
   React.useEffect(() => {
     let live = true;
     setState({status:"loading"});
+
     (async () => {
-      const staticResolution = resolveStaticExport(item.importPath, item.name);
+      const source = item.importPath;
 
-      if (staticResolution) {
-        const { source, value } = staticResolution;
-
-        if (value === undefined) {
-          if (live) {
-            setState({
-              status:"missing",
-              source,
-              message:`${item.name} is not exposed by this public namespace.`,
-            });
-          }
-          return;
+      if (!source) {
+        if (live) {
+          setState({
+            status:"missing",
+            message:"No public import path is registered for this item.",
+          });
         }
+        return;
+      }
+
+      const loader = PREVIEW_LOADERS[source];
+
+      if (!loader) {
+        const componentRecord =
+          item.id.startsWith("COMPONENT.");
+
+        if (live) {
+          setState({
+            status: componentRecord
+              ? "missing"
+              : "non-runtime",
+            source,
+            message: componentRecord
+              ? `${item.name} has no generated canonical preview loader.`
+              : `${item.name} is catalog metadata or a non-runtime export.`,
+          });
+        }
+
+        return;
+      }
+
+      try {
+        const mod =
+          (await loader()) as RuntimeModule;
+
+        const value = mod[item.name];
 
         if (!isElementType(value)) {
           if (live) {
             setState({
               status:"non-runtime",
               source,
-              message:`${item.name} is not a renderable runtime React export in this public namespace.`,
+              message:`${item.name} is not a renderable runtime React export in this module.`,
             });
           }
           return;
         }
 
-        if (live) setState({status:"actual", Component:value, source});
-        return;
-      }
-
-      const candidates = sourceCandidates(item.importPath);
-      const source = candidates.find((candidate) => candidate in lazySourceModules);
-
-      if (!source) {
+        if (live) {
+          setState({
+            status:"actual",
+            Component:value,
+            source,
+          });
+        }
+      } catch (error) {
         if (live) {
           setState({
             status:"missing",
-            message:"No source module matched this public import path.",
+            source,
+            message:
+              error instanceof Error
+                ? error.message
+                : String(error),
           });
         }
-        return;
-      }
-
-      try {
-        const mod = await lazySourceModules[source]();
-        const value = mod[item.name];
-        if (!isElementType(value)) {
-          if (live) setState({status:"non-runtime", source, message:`${item.name} is not a renderable runtime React export in this module.`});
-          return;
-        }
-        if (live) setState({status:"actual", Component:value, source});
-      } catch (error) {
-        if (live) setState({status:"missing", source, message:error instanceof Error?error.message:String(error)});
       }
     })();
-    return () => { live = false; };
+
+    return () => {
+      live = false;
+    };
   }, [item.id, item.importPath, item.name]);
 
   return <div className="actual-component-preview">
