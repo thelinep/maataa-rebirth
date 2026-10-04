@@ -1,0 +1,1 @@
+import{j as i}from"./vendor-react-IAN6ABvC.js";import{a4 as r}from"./maataa-registries-BsYY0ZZj.js";function o({className:e,...a}){return i.jsx("div",{"data-device-region":"speaker",className:r("m-device-atom","m-device-speaker",e),...a})}o.__docgenInfo={description:"",methods:[],displayName:"DeviceSpeaker"};export{o as DeviceSpeaker};

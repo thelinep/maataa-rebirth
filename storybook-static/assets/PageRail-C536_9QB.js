@@ -1,0 +1,1 @@
+import{j as i}from"./vendor-react-IAN6ABvC.js";import{a4 as o}from"./maataa-registries-BsYY0ZZj.js";function r({className:a,...e}){return i.jsx("div",{"data-page-region":"pagerail",className:o("m-page-atom","m-page-pagerail",a),...e})}r.__docgenInfo={description:"",methods:[],displayName:"PageRail"};export{r as PageRail};

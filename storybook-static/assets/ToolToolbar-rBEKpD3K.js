@@ -1,0 +1,1 @@
+import{j as a}from"./vendor-react-IAN6ABvC.js";import{a4 as r}from"./maataa-registries-BsYY0ZZj.js";function l({className:o,...t}){return a.jsx("section",{"data-tool-region":"tooltoolbar",className:r("m-tool-atom","m-tool-tooltoolbar",o),...t})}l.__docgenInfo={description:"",methods:[],displayName:"ToolToolbar"};export{l as ToolToolbar};

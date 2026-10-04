@@ -1,0 +1,3 @@
+import { describe,expect,it } from "vitest";
+import { DEFAULT_COMPOSER_SCENE, createComposerBlock, generateComposerJsx, validateComposerScene } from "../src/composer";
+describe("composer",()=>{it("validates canonical default scene",()=>{expect(validateComposerScene(DEFAULT_COMPOSER_SCENE).valid).toBe(true)});it("generates real package imports",()=>{const code=generateComposerJsx(DEFAULT_COMPOSER_SCENE);expect(code).toContain("@maataa/ui/typography/Heading");expect(code).toContain("@maataa/ui/data/DataTable")});it("creates atomic blocks",()=>{expect(createComposerBlock("button","b1").props.label).toBe("Primary action")})});

@@ -1,0 +1,12 @@
+import { DEMO_ORGANISATIONS } from "./demoOrganisations";
+import { DEMO_USERS } from "./demoUsers";
+import { DEMO_IDENTITIES } from "./demoIdentities";
+import { DEMO_PROJECTS } from "./demoProjects";
+import { DEMO_EVENTS } from "./demoEvents";
+import { DEMO_VENDORS, DEMO_BOOKINGS } from "./demoCommerce";
+import { DEMO_TRANSACTIONS, DEMO_FINANCE_KPIS } from "./demoFinance";
+import { DEMO_TASKS } from "./demoTasks";
+import { DEMO_MODELS, DEMO_AGENTS, DEMO_EVALUATIONS, DEMO_AI_MESSAGES } from "./demoAI";
+import { DEMO_NOTIFICATIONS, DEMO_ACTIVITY } from "./demoNotifications";
+import { DEMO_PRODUCTION } from "./demoProduction";
+export const DEMO_DATA = { organisations:DEMO_ORGANISATIONS, users:DEMO_USERS, identities:DEMO_IDENTITIES, projects:DEMO_PROJECTS, events:DEMO_EVENTS, vendors:DEMO_VENDORS, bookings:DEMO_BOOKINGS, transactions:DEMO_TRANSACTIONS, financeKpis:DEMO_FINANCE_KPIS, tasks:DEMO_TASKS, models:DEMO_MODELS, agents:DEMO_AGENTS, evaluations:DEMO_EVALUATIONS, aiMessages:DEMO_AI_MESSAGES, notifications:DEMO_NOTIFICATIONS, activity:DEMO_ACTIVITY, production:DEMO_PRODUCTION } as const;

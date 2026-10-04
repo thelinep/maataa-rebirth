@@ -1,0 +1,8 @@
+import React, { createContext, useContext } from "react";
+type MapCtx={width:number;height:number};const C=createContext<MapCtx>({width:100,height:100});
+export function Map({children,label="Map",className,style}:{children?:React.ReactNode;label?:string;className?:string;style?:React.CSSProperties}){return <C.Provider value={{width:100,height:100}}><div className={`m-map m-ui ${className??""}`} role="group" aria-label={label} style={style}>{children}</div></C.Provider>}
+export function MapMarker({x,y,label,onClick}:{x:number;y:number;label:string;onClick?:()=>void}){return <button type="button" className="m-map-marker" aria-label={label} title={label} onClick={onClick} style={{insetInlineStart:`${x}%`,insetBlockStart:`${y}%`}}/>}
+export function MapControls({onZoomIn,onZoomOut,onReset}:{onZoomIn?:()=>void;onZoomOut?:()=>void;onReset?:()=>void}){return <div style={{position:"absolute",insetBlockStart:8,insetInlineEnd:8,display:"grid",gap:4}}><button className="m-button" aria-label="Zoom in" onClick={onZoomIn}>+</button><button className="m-button" aria-label="Zoom out" onClick={onZoomOut}>−</button>{onReset&&<button className="m-button" onClick={onReset}>Reset</button>}</div>}
+export function MapLegend({children}:{children:React.ReactNode}){return <div className="m-card" style={{position:"absolute",insetInlineStart:8,insetBlockEnd:8,padding:8}}>{children}</div>}
+export function MapPopup({x,y,children}:{x:number;y:number;children:React.ReactNode}){return <div className="m-popover" style={{insetInlineStart:`${x}%`,insetBlockStart:`${y}%`,translate:"-50% calc(-100% - 12px)"}}>{children}</div>}
+export const GeoMap=Map;

@@ -1,0 +1,1 @@
+import{j as e}from"./vendor-react-IAN6ABvC.js";import{a4 as r}from"./maataa-registries-BsYY0ZZj.js";function m({className:o,...t}){return e.jsx("section",{"data-tool-region":"toolfooter",className:r("m-tool-atom","m-tool-toolfooter",o),...t})}m.__docgenInfo={description:"",methods:[],displayName:"ToolFooter"};export{m as ToolFooter};

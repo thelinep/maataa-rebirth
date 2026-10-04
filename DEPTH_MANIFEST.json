@@ -1,0 +1,24 @@
+{
+  "version": "1.0.0-alpha.8.4",
+  "features": [
+    "visual-composer",
+    "drag-reorder",
+    "selection-inspector",
+    "undo-redo",
+    "local-persistence",
+    "composition-runtime",
+    "responsive-device-runtime",
+    "component-prop-inspector",
+    "semantic-high-contrast",
+    "semantic-oled",
+    "generated-storybook",
+    "depth-tests",
+    "certification-script"
+  ],
+  "generatedStories": 1577,
+  "directImports": 1577,
+  "certification": {
+    "structural": "PASS",
+    "installedDependencyGate": "RUN_ON_CONSUMER"
+  }
+}

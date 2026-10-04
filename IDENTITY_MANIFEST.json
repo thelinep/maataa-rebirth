@@ -1,0 +1,128 @@
+{
+  "package": "@maataa/ui",
+  "version": "1.0.0-alpha.8.4",
+  "kind": "symbolic-demo-identities",
+  "count": 15,
+  "identities": [
+    {
+      "id": "IDENTITY.BRAHMINI",
+      "name": "Brahmini",
+      "family": "maataa",
+      "title": "MAATAA Intelligence",
+      "demoRole": "Orchestration & system stewardship",
+      "motif": "lotus"
+    },
+    {
+      "id": "IDENTITY.SHIV",
+      "name": "Shiv",
+      "family": "deva",
+      "title": "Architecture Steward",
+      "demoRole": "Architecture & transformation",
+      "motif": "trishul"
+    },
+    {
+      "id": "IDENTITY.PARVATI",
+      "name": "Parvati",
+      "family": "deva",
+      "title": "Experience Steward",
+      "demoRole": "Design, care & experience",
+      "motif": "mountain-lotus"
+    },
+    {
+      "id": "IDENTITY.SAPTARISHI.ATRI",
+      "name": "Atri",
+      "family": "saptarishi",
+      "title": "Research Rishi",
+      "demoRole": "Research & observation",
+      "motif": "star"
+    },
+    {
+      "id": "IDENTITY.SAPTARISHI.BHARADVAJA",
+      "name": "Bharadvaja",
+      "family": "saptarishi",
+      "title": "Engineering Rishi",
+      "demoRole": "Engineering & systems",
+      "motif": "book"
+    },
+    {
+      "id": "IDENTITY.SAPTARISHI.GAUTAMA",
+      "name": "Gautama",
+      "family": "saptarishi",
+      "title": "Evidence Rishi",
+      "demoRole": "Evidence, logic & evaluation",
+      "motif": "evidence"
+    },
+    {
+      "id": "IDENTITY.SAPTARISHI.JAMADAGNI",
+      "name": "Jamadagni",
+      "family": "saptarishi",
+      "title": "Operations Rishi",
+      "demoRole": "Operations & discipline",
+      "motif": "flame-staff"
+    },
+    {
+      "id": "IDENTITY.SAPTARISHI.KASHYAPA",
+      "name": "Kashyapa",
+      "family": "saptarishi",
+      "title": "Ecosystem Rishi",
+      "demoRole": "Ecosystem & relationships",
+      "motif": "leaf"
+    },
+    {
+      "id": "IDENTITY.SAPTARISHI.VASHISTHA",
+      "name": "Vashistha",
+      "family": "saptarishi",
+      "title": "Governance Rishi",
+      "demoRole": "Governance & guidance",
+      "motif": "lamp"
+    },
+    {
+      "id": "IDENTITY.SAPTARISHI.VISHVAMITRA",
+      "name": "Vishvamitra",
+      "family": "saptarishi",
+      "title": "Innovation Rishi",
+      "demoRole": "Innovation & expansion",
+      "motif": "bow-star"
+    },
+    {
+      "id": "IDENTITY.PANCHTATVA.PRITHVI",
+      "name": "Prithvi",
+      "family": "panchtatva",
+      "title": "Earth Element",
+      "demoRole": "Infrastructure & stability",
+      "motif": "earth"
+    },
+    {
+      "id": "IDENTITY.PANCHTATVA.VARUNA",
+      "name": "Varuna",
+      "family": "panchtatva",
+      "title": "Water Element",
+      "demoRole": "Data & flow",
+      "motif": "water"
+    },
+    {
+      "id": "IDENTITY.PANCHTATVA.AGNI",
+      "name": "Agni",
+      "family": "panchtatva",
+      "title": "Fire Element",
+      "demoRole": "Compute & execution",
+      "motif": "fire"
+    },
+    {
+      "id": "IDENTITY.PANCHTATVA.VAYU",
+      "name": "Vayu",
+      "family": "panchtatva",
+      "title": "Air Element",
+      "demoRole": "Messaging & movement",
+      "motif": "air"
+    },
+    {
+      "id": "IDENTITY.PANCHTATVA.AKASHA",
+      "name": "Akasha",
+      "family": "panchtatva",
+      "title": "Space Element",
+      "demoRole": "Context, network & spatial field",
+      "motif": "space"
+    }
+  ]
+}

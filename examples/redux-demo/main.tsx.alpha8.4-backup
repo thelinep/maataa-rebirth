@@ -1,0 +1,40 @@
+import * as React from "react";
+import { createRoot } from "react-dom/client";
+import "../../src/styles.css";
+import "./demo.css";
+
+const element = document.getElementById("root");
+if (!element) throw new Error("Missing #root element");
+
+const root = createRoot(element);
+
+function BootstrapError({ message }: { message: string }) {
+  return (
+    <main
+      data-maataa-demo-bootstrap-error="true"
+      style={{ fontFamily: "system-ui, sans-serif", padding: 24, background: "#120f0d", color: "#fff", minHeight: "100vh" }}
+    >
+      <h1>MAATAA UI demo bootstrap failed</h1>
+      <p>The production preview could not import or mount the demo application.</p>
+      <pre style={{ whiteSpace: "pre-wrap", padding: 16, border: "1px solid #8c6f2a", borderRadius: 12 }}>{message}</pre>
+    </main>
+  );
+}
+
+async function bootstrap() {
+  try {
+    const module = await import("./App");
+    const App = module.default;
+    root.render(
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>,
+    );
+  } catch (error) {
+    const message = error instanceof Error ? `${error.name}: ${error.message}\n${error.stack ?? ""}` : String(error);
+    console.error("MAATAA demo bootstrap failed", error);
+    root.render(<BootstrapError message={message} />);
+  }
+}
+
+void bootstrap();

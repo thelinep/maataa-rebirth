@@ -1,0 +1,1 @@
+import{j as s}from"./vendor-react-IAN6ABvC.js";import{a4 as t}from"./maataa-registries-BsYY0ZZj.js";function i({className:a,...e}){return s.jsx("section",{"data-ai-space-region":"aispacesafety",className:t("m-ai-space-atom","m-ai-space-aispacesafety",a),...e})}i.__docgenInfo={description:"",methods:[],displayName:"AISpaceSafety"};export{i as AISpaceSafety};

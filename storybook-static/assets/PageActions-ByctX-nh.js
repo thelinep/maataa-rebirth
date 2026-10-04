@@ -1,0 +1,1 @@
+import{j as e}from"./vendor-react-IAN6ABvC.js";import{a4 as t}from"./maataa-registries-BsYY0ZZj.js";function s({className:a,...o}){return e.jsx("div",{"data-page-region":"pageactions",className:t("m-page-atom","m-page-pageactions",a),...o})}s.__docgenInfo={description:"",methods:[],displayName:"PageActions"};export{s as PageActions};

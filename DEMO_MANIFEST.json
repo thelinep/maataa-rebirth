@@ -1,0 +1,338 @@
+{
+  "version": "1.0.0-alpha.8.4",
+  "generated": "deterministic-source-manifest",
+  "redux": {
+    "slices": 17,
+    "selectors": 34,
+    "middleware": 3
+  },
+  "scenarios": 7,
+  "staticData": {
+    "datasets": 12
+  },
+  "types": {
+    "modules": 9
+  },
+  "files": [
+    {
+      "path": "src/composer/ComponentPropInspector.tsx",
+      "sha256": "18ab37aa8ae6783c566d592c708b634af1bb4adce1087e1898cef6ab8fa81429"
+    },
+    {
+      "path": "src/composer/ComposerRenderer.tsx",
+      "sha256": "b7878da0b1a5ee065a8241e431c1138c131da04d0455f75b80f21c418d8cbc19"
+    },
+    {
+      "path": "src/composer/VisualComposer.tsx",
+      "sha256": "b04a4b17b30c9ab81141a227b5f60d11183b674f353664ea130d62986df22ec1"
+    },
+    {
+      "path": "src/composer/codegen.ts",
+      "sha256": "fcf844757c9c7c52b6643191b0a1756fe9c5e073eeccd2762edb38198724aec1"
+    },
+    {
+      "path": "src/composer/defaults.ts",
+      "sha256": "14036cf5f28c9975121462d41aef7f3a539e321d7da3b50e4cd465bfefc2cd73"
+    },
+    {
+      "path": "src/composer/index.ts",
+      "sha256": "f788f5ef0575c320d10c3b923ed30460e7384168a4d22e48c4703a4d9b8fc8f8"
+    },
+    {
+      "path": "src/composer/propSchemas.ts",
+      "sha256": "b38b65de3f7cb3bfdf8c32df04cc2abf49c7143df73476e8eb6c3976059231ac"
+    },
+    {
+      "path": "src/composer/types.ts",
+      "sha256": "ad4010a0d6218bd57eee96c8618e09a978af941274ee7b5428cf31a2a77ea439"
+    },
+    {
+      "path": "src/composer/validate.ts",
+      "sha256": "8c5fe80f2611c8ca5db75a846ffb0f4f55af74a0bceaa409517df1d7172e5bc1"
+    },
+    {
+      "path": "src/demo/createDemoStore.ts",
+      "sha256": "3cf930f7d92ce1479bb690509ac08ace12e6d784250ceb5e427889e557218990"
+    },
+    {
+      "path": "src/demo/credentials.ts",
+      "sha256": "a605e3e99bff00540f57c359eda3bbcfcec257a4fbd759671b1b06fb99f8146c"
+    },
+    {
+      "path": "src/demo/index.ts",
+      "sha256": "e25b185d22a10cf4ffd3957f09ad2ae24424c7eea21b5032bbae67b0b8b86220"
+    },
+    {
+      "path": "src/demo/publicSurface.ts",
+      "sha256": "aa08ab4c2060806a302f197d857f2b9503c2724f133ffc477dc9c3720be3fdf1"
+    },
+    {
+      "path": "src/demo/routes.ts",
+      "sha256": "3dd58062b469d07e605997e85820d69f8efe79b349d9ef2caf71239c875e23be"
+    },
+    {
+      "path": "src/demo/scenarios.ts",
+      "sha256": "92dc2c669efa49144a35b7fb0be3a1bb07c509e316d658c052fcba9683206c25"
+    },
+    {
+      "path": "src/icons/MaataaIcon.tsx",
+      "sha256": "94ed5c3d3ae0b676455b04bf7b07a5ba27f0a759b1c4ff3e7b3a82ce23dcc1a9"
+    },
+    {
+      "path": "src/icons/iconRegistry.ts",
+      "sha256": "ffb8d53e2a539650eef90037edfa70ec386fadd954b6ce3d11488d53f9042b1a"
+    },
+    {
+      "path": "src/icons/index.ts",
+      "sha256": "51e86c75b5aa79f09b1ba3318e345ae6253bb3efbe30724a851c931a43dca26c"
+    },
+    {
+      "path": "src/identity/IdentityAvatar.tsx",
+      "sha256": "bf11f057d14b33254f497e6f2abe83df4c068bc663d3a96d8866aa780a801e05"
+    },
+    {
+      "path": "src/identity/IdentityAvatarGroup.tsx",
+      "sha256": "adef807dbf2b3e8c08f3fb529f70099f8e8b2ef511a17adb374dcceac8b6d41c"
+    },
+    {
+      "path": "src/identity/IdentityBadge.tsx",
+      "sha256": "b59be33b6c616ef45171c31593aa6fe1ceb2b484f856f607bdf44226f7f63811"
+    },
+    {
+      "path": "src/identity/identityRegistry.ts",
+      "sha256": "c8b6c2e4dd192f4de5c97f07f6fec481dd49bf887cdfc0e127bcc9296dd58e7e"
+    },
+    {
+      "path": "src/identity/index.ts",
+      "sha256": "d336e2a74991d47b725b4a31bcde11906da2d50d9a5437cb686d316f3f24d96a"
+    },
+    {
+      "path": "src/identity/types.ts",
+      "sha256": "8bd0ced624993979be482c2f38d49fd079d79e65fa96205fcda67e9ab29bb7ff"
+    },
+    {
+      "path": "src/redux/MaataaReduxProvider.tsx",
+      "sha256": "834a44560235fb73c4aab7ba7c08c9852926b58e260fef8410bd74c6e3f66e60"
+    },
+    {
+      "path": "src/redux/hooks.ts",
+      "sha256": "a17c52beac9cfcf3f7860647dc128a2a1915528033b53acb5536491feb06dbca"
+    },
+    {
+      "path": "src/redux/index.ts",
+      "sha256": "1141e54fb7f87e170c6eb600b54838d159cb36e876ec71c1d09bd73025a09eaf"
+    },
+    {
+      "path": "src/redux/listeners.ts",
+      "sha256": "70ae458807c2058f032557d33e3645695194814b633e7111b4cdb1c3e537f8b1"
+    },
+    {
+      "path": "src/redux/middleware/auditMiddleware.ts",
+      "sha256": "e4b8537b0b6f31de061cb3783344fd4004d0f9a34d02e6a977c583f673a48f8d"
+    },
+    {
+      "path": "src/redux/middleware/index.ts",
+      "sha256": "05c9d021f05b20330af53c718a42d4d9e740adfe053f6cc385ca8a77ce2b7aaf"
+    },
+    {
+      "path": "src/redux/persistence.ts",
+      "sha256": "81e4ae5d40463285a80269eb3d8294723b37b951242aabaf7ad66d8aa71eecfd"
+    },
+    {
+      "path": "src/redux/selectors/builderSelectors.ts",
+      "sha256": "0e03bc5e3ebe6c5176ebeb0210a84ff383f2961c4b680e01e3eabf276673d702"
+    },
+    {
+      "path": "src/redux/selectors/coreSelectors.ts",
+      "sha256": "9053df30a504d53f08e2f231b53638f7ec0464d2c7b661b887791c19dbe766ea"
+    },
+    {
+      "path": "src/redux/selectors/demoSelectors.ts",
+      "sha256": "dbc5c9d0d5eb6626b04c3318fe4de496497d47c4951ec8e2d28e7700ab431c32"
+    },
+    {
+      "path": "src/redux/selectors/index.ts",
+      "sha256": "0ab21e4ac54bb04c3127175dbaeea6d30e8cde32881e627182122ebfb4775515"
+    },
+    {
+      "path": "src/redux/selectors/registrySelectors.ts",
+      "sha256": "97eee430b857888d45d67f1031be08d17a879b7506abba5b94be98d4e5afea23"
+    },
+    {
+      "path": "src/redux/slices/aiSlice.ts",
+      "sha256": "6c099a28cfb9afd66a0dac6858377ef757cc27204c2a37ad6eb61577cb32fcd8"
+    },
+    {
+      "path": "src/redux/slices/builderSlice.ts",
+      "sha256": "3c1bdfede3357fa9d57d47edca3f6b3509d1085d873e3260f986417574b3c2a0"
+    },
+    {
+      "path": "src/redux/slices/commandSlice.ts",
+      "sha256": "7af6778802009cbeda76501bdeeb34515b138c625049ba90683b4c822d6ecd3c"
+    },
+    {
+      "path": "src/redux/slices/dataSlice.ts",
+      "sha256": "b12726a64287156963109a417623c4e4f1347b18d70b799c967d07fd72ea3ca9"
+    },
+    {
+      "path": "src/redux/slices/demoSlice.ts",
+      "sha256": "eacda0658197701477913509526012285efeea8718dff3d969dc506f105e4270"
+    },
+    {
+      "path": "src/redux/slices/deviceSlice.ts",
+      "sha256": "dad5705a2f1191537d5cbd38e98a4e71d5a58ad93e57c6fb50c5b80446a73de3"
+    },
+    {
+      "path": "src/redux/slices/formSlice.ts",
+      "sha256": "f729f7434f0f33f90fa79936ec9e59e162d65308ec74bdccf627c5fbcc696cb8"
+    },
+    {
+      "path": "src/redux/slices/generatorSlice.ts",
+      "sha256": "06c9aa51688bef0d97eda61ad331728d5b51ae2a9512b2fb8a3a55113536707e"
+    },
+    {
+      "path": "src/redux/slices/index.ts",
+      "sha256": "336b86d90de8a6ebffefb91fb132a09b2cd95d20b72b874d7a1b4ebf84334ecd"
+    },
+    {
+      "path": "src/redux/slices/layoutSlice.ts",
+      "sha256": "7eb1a2b305f52ce5aa56cc66235fb7661e138d48556f9e84eea3c689531a0de2"
+    },
+    {
+      "path": "src/redux/slices/navigationSlice.ts",
+      "sha256": "508a2cf21dd4fa7631743e88fa4b0efc3bcdb0fa49be9b0eb500a43516599cfb"
+    },
+    {
+      "path": "src/redux/slices/notificationSlice.ts",
+      "sha256": "d3f3b9d14e19d5a967fcf47d8091109710406538aa3af72115bb33a9ee769b99"
+    },
+    {
+      "path": "src/redux/slices/pageSlice.ts",
+      "sha256": "8360dead545b1a8e46afe0645a5d6e44b77a600b87ccd5b0c00dc78f2141bfde"
+    },
+    {
+      "path": "src/redux/slices/registrySlice.ts",
+      "sha256": "92b7b050a4214a656cef40ae4b029f6dc93e815276043326ad9547d43cd76ca3"
+    },
+    {
+      "path": "src/redux/slices/sessionSlice.ts",
+      "sha256": "e3a70d3c22e6720256cb5bc24138c7322a040b74fd0a3ccaf3d10c97f606874c"
+    },
+    {
+      "path": "src/redux/slices/toolSlice.ts",
+      "sha256": "47f67dae8396e23ca1c6a9dd643698f452cf76eb1871a9671306e79acb6a579e"
+    },
+    {
+      "path": "src/redux/slices/uiSlice.ts",
+      "sha256": "582b3e4927b98d9ce87e7db064d3df1798b41edb324de68691ac948f36d50cdd"
+    },
+    {
+      "path": "src/redux/slices/workspaceSlice.ts",
+      "sha256": "e910722ae19850dbf73aac54434fd803303a98839e539cd6986d9159ad2be9d6"
+    },
+    {
+      "path": "src/redux/store.ts",
+      "sha256": "3e05b6dc0a0bad7b37b0b215b0d374ba04d0078118ddac85a3cfdf2b76dd30ff"
+    },
+    {
+      "path": "src/runtime/CompositionRuntime.tsx",
+      "sha256": "49d836e81e7943360c2d4df91c1851ff597f5d63b086a9b20c68eb13c90b0897"
+    },
+    {
+      "path": "src/runtime/ResponsiveDeviceRuntime.tsx",
+      "sha256": "61b780b92bc5c2edc372ed23f04ce0fbc08ce38a5b87a71e2ed03b2a108d1a5d"
+    },
+    {
+      "path": "src/runtime/index.ts",
+      "sha256": "693109a5ab9121271d960fe5fa57c766a5e7f67d9d1a20b9f7fc8d2c4ad62898"
+    },
+    {
+      "path": "src/static-data/demoAI.ts",
+      "sha256": "2278314475a131c0afd859802aa5d51bb3a02ba8b21d00cd5af416a994e30b37"
+    },
+    {
+      "path": "src/static-data/demoBundle.ts",
+      "sha256": "16255dc54050231eb01d18116ba81cb1fdcb9b8b542c234df2f8c9e2e98aae94"
+    },
+    {
+      "path": "src/static-data/demoCatalogs.ts",
+      "sha256": "baf5315996ce65a4915d557542987a9735ef66617a22ec9709a4db984431c13d"
+    },
+    {
+      "path": "src/static-data/demoCommerce.ts",
+      "sha256": "6b1665f11fff6a011522c52b6b6f19f1dd17a6e0ba97d5eb8758ef604d65fad2"
+    },
+    {
+      "path": "src/static-data/demoEvents.ts",
+      "sha256": "c42b9818815bbc0b54bea4165fcb2dd35c9ea5e7486d1656d2c383169c0149df"
+    },
+    {
+      "path": "src/static-data/demoFinance.ts",
+      "sha256": "73a8cc91204f487648cf01268f6ed43993220c145091958ddf60b68d0d73ebc0"
+    },
+    {
+      "path": "src/static-data/demoIdentities.ts",
+      "sha256": "33c7dbaa1e07275f72751ea5e563482f4dd13e09b47db64583b28e7304e2cec8"
+    },
+    {
+      "path": "src/static-data/demoNotifications.ts",
+      "sha256": "cc8f3cb5175787e20ce67077cac8b958981fb91abd98acfc84207f937682194b"
+    },
+    {
+      "path": "src/static-data/demoOrganisations.ts",
+      "sha256": "b09c5c42dbde5b86e62dfc0ceed8847f5bc1682b99aa829c35ba7972988222a4"
+    },
+    {
+      "path": "src/static-data/demoProduction.ts",
+      "sha256": "eac9be425f8ec9e271dddde321e11ef5b2c72351580272ac88bae9394821334f"
+    },
+    {
+      "path": "src/static-data/demoProjects.ts",
+      "sha256": "af604f54cdffcaf7e7d8680594c82963fa5094a13becfc4fe09c638f93091cd6"
+    },
+    {
+      "path": "src/static-data/demoTasks.ts",
+      "sha256": "d51299e4b5d38d88e90dc3cefd3cc7388c0658839f633584d5214bfcbd132dfd"
+    },
+    {
+      "path": "src/static-data/demoUsers.ts",
+      "sha256": "1990af9b1f2a23548c6c1033e1aecaee107c348ba35f9928424cff7f54764305"
+    },
+    {
+      "path": "src/static-data/index.ts",
+      "sha256": "202ed2e53362e58c1ec8f8d2c58c4a43848b381708afb2927dc4b9f20abbe405"
+    },
+    {
+      "path": "src/types/ai.ts",
+      "sha256": "158a4efa88e7c58d745d3c21c9dc5ade5d86b4eb72127e159151b3e3fede5baa"
+    },
+    {
+      "path": "src/types/common.ts",
+      "sha256": "4b61e1cd740922d176ecd3e9a8cad6874b42af51e1dd1c9dde541ecb3adaaf66"
+    },
+    {
+      "path": "src/types/demo.ts",
+      "sha256": "f814af5e02348ff07ee6650897094e36debc1cf206a4076109b7426d976e2a4c"
+    },
+    {
+      "path": "src/types/device.ts",
+      "sha256": "b83de4da58cc0b7d735b2c60aba041acdb7664d9c7d410ed6076120bfc1e16e0"
+    },
+    {
+      "path": "src/types/identifiers.ts",
+      "sha256": "0a96ff8445f902df29d794d6454c82eeae133bec67205d64f570f0f41124772f"
+    },
+    {
+      "path": "src/types/index.ts",
+      "sha256": "765fea4269df51d42ed2485558c3e3c60ad79cff3c8b6cfab0a87ae7f539d071"
+    },
+    {
+      "path": "src/types/navigation.ts",
+      "sha256": "a879ee42fc80a23576a2147eaf9d67957096866eb74aee3adfa374c7e653f680"
+    },
+    {
+      "path": "src/types/redux.ts",
+      "sha256": "692c270f4975109aa0c3b5f7b9bf85c33eb28f6e069304c7fbdf2b5662511c02"
+    }
+  ]
+}

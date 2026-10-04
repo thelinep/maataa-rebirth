@@ -1,0 +1,1 @@
+import{j as r}from"./vendor-react-IAN6ABvC.js";import{a4 as s}from"./maataa-registries-BsYY0ZZj.js";function e({className:o,...a}){return r.jsx("div",{"data-workspace-region":"workspacetoolbar",className:s("m-workspace-atom","m-workspace-workspacetoolbar",o),...a})}e.__docgenInfo={description:"",methods:[],displayName:"WorkspaceToolbar"};export{e as WorkspaceToolbar};

@@ -1,0 +1,1 @@
+import{j as e}from"./vendor-react-IAN6ABvC.js";import{a4 as r}from"./maataa-registries-BsYY0ZZj.js";function t({className:a,...o}){return e.jsx("div",{"data-page-region":"pagetoolbar",className:r("m-page-atom","m-page-pagetoolbar",a),...o})}t.__docgenInfo={description:"",methods:[],displayName:"PageToolbar"};export{t as PageToolbar};

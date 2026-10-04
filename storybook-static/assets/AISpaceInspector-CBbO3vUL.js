@@ -1,0 +1,1 @@
+import{j as s}from"./vendor-react-IAN6ABvC.js";import{a4 as o}from"./maataa-registries-BsYY0ZZj.js";function c({className:a,...e}){return s.jsx("section",{"data-ai-space-region":"aispaceinspector",className:o("m-ai-space-atom","m-ai-space-aispaceinspector",a),...e})}c.__docgenInfo={description:"",methods:[],displayName:"AISpaceInspector"};export{c as AISpaceInspector};

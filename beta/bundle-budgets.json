@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "demo": {
+    "assetsDir": "demo-dist/assets",
+    "maxJsChunkBytes": 900000,
+    "maxCssChunkBytes": 180000
+  },
+  "storybook": {
+    "assetsDir": "storybook-static/assets",
+    "maxJsChunkBytes": 1000000,
+    "maxCssChunkBytes": 250000
+  },
+  "notes": [
+    "Budgets are certification gates, not performance targets.",
+    "Alpha 8.4 introduces manual chunking to eliminate the prior ~1.53 MB demo entry chunk.",
+    "Future beta iterations should ratchet these budgets downward."
+  ]
+}

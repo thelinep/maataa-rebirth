@@ -1,0 +1,1 @@
+import{j as i}from"./vendor-react-IAN6ABvC.js";import{a4 as o}from"./maataa-registries-BsYY0ZZj.js";function m({className:e,...a}){return i.jsx("span",{"data-device-region":"label",className:o("m-device-atom","m-device-label",e),...a})}m.__docgenInfo={description:"",methods:[],displayName:"DeviceLabel"};export{m as DeviceLabel};

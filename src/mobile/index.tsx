@@ -1,0 +1,14 @@
+import React, { useRef, useState } from "react";
+import { BottomNavigation, TopNav } from "../navigation";
+import { Drawer } from "../surfaces";
+import { FloatingActionButton } from "../actions";
+import { OnlineStatus, SyncStatus } from "../feedback";
+export function SafeArea({children,style,...p}:React.HTMLAttributes<HTMLDivElement>){return <div {...p} style={{paddingBlockStart:"env(safe-area-inset-top)",paddingInlineEnd:"env(safe-area-inset-right)",paddingBlockEnd:"env(safe-area-inset-bottom)",paddingInlineStart:"env(safe-area-inset-left)",...style}}>{children}</div>}
+export function MobileShell({header,children,bottomNav}:{header?:React.ReactNode;children:React.ReactNode;bottomNav?:React.ReactNode}){return <SafeArea className="maataa-root" style={{minHeight:"100dvh",display:"grid",gridTemplateRows:"auto 1fr auto"}}>{header}<main>{children}</main>{bottomNav}</SafeArea>}
+export const MobileHeader=TopNav;export const MobileBottomNav=BottomNavigation;export const MobileFAB=FloatingActionButton;
+export function MobileDrawer({open,onClose,title,children}:{open:boolean;onClose:()=>void;title?:React.ReactNode;children:React.ReactNode}){return <Drawer open={open} onClose={onClose} side="left" title={title}>{children}</Drawer>}
+export function BottomSheet({open,onClose,title,children}:{open:boolean;onClose:()=>void;title?:React.ReactNode;children:React.ReactNode}){return <Drawer open={open} onClose={onClose} side="bottom" title={title}>{children}</Drawer>}
+export function SwipeAction({children,onSwipeLeft,onSwipeRight,threshold=48}:{children:React.ReactNode;onSwipeLeft?:()=>void;onSwipeRight?:()=>void;threshold?:number}){const start=useRef<number|null>(null);return <div onTouchStart={e=>{start.current=e.touches[0]?.clientX??null}} onTouchEnd={e=>{if(start.current==null)return;const end=e.changedTouches[0]?.clientX??start.current,d=end-start.current;if(d>threshold)onSwipeRight?.();if(d<-threshold)onSwipeLeft?.();start.current=null}}>{children}</div>}
+export function PullToRefresh({children,onRefresh,threshold=64}:{children:React.ReactNode;onRefresh:()=>void|Promise<void>;threshold?:number}){const start=useRef<number|null>(null),[pull,setPull]=useState(0),[busy,setBusy]=useState(false);return <div onTouchStart={e=>{if(window.scrollY<=0)start.current=e.touches[0]?.clientY??null}} onTouchMove={e=>{if(start.current!=null)setPull(Math.max(0,(e.touches[0]?.clientY??start.current)-start.current))}} onTouchEnd={async()=>{if(pull>=threshold){setBusy(true);await onRefresh();setBusy(false)}setPull(0);start.current=null}}><div aria-live="polite" style={{height:pull?Math.min(pull,80):0,overflow:"hidden",textAlign:"center"}}>{busy?"Refreshing…":pull>=threshold?"Release to refresh":"Pull to refresh"}</div>{children}</div>}
+export const OfflineIndicator=({online}:{online:boolean})=><OnlineStatus online={online}/>;
+export const SyncIndicator=({status}:{status:"synced"|"syncing"|"pending"|"error"})=><SyncStatus status={status}/>;

@@ -1,0 +1,86 @@
+{
+  "version": "1.0.0-alpha.8.4",
+  "modules": 9,
+  "files": [
+    {
+      "path": "src/composer/ComponentPropInspector.tsx",
+      "sha256": "18ab37aa8ae6783c566d592c708b634af1bb4adce1087e1898cef6ab8fa81429"
+    },
+    {
+      "path": "src/composer/ComposerRenderer.tsx",
+      "sha256": "b7878da0b1a5ee065a8241e431c1138c131da04d0455f75b80f21c418d8cbc19"
+    },
+    {
+      "path": "src/composer/VisualComposer.tsx",
+      "sha256": "b04a4b17b30c9ab81141a227b5f60d11183b674f353664ea130d62986df22ec1"
+    },
+    {
+      "path": "src/composer/codegen.ts",
+      "sha256": "fcf844757c9c7c52b6643191b0a1756fe9c5e073eeccd2762edb38198724aec1"
+    },
+    {
+      "path": "src/composer/defaults.ts",
+      "sha256": "14036cf5f28c9975121462d41aef7f3a539e321d7da3b50e4cd465bfefc2cd73"
+    },
+    {
+      "path": "src/composer/index.ts",
+      "sha256": "f788f5ef0575c320d10c3b923ed30460e7384168a4d22e48c4703a4d9b8fc8f8"
+    },
+    {
+      "path": "src/composer/propSchemas.ts",
+      "sha256": "b38b65de3f7cb3bfdf8c32df04cc2abf49c7143df73476e8eb6c3976059231ac"
+    },
+    {
+      "path": "src/composer/types.ts",
+      "sha256": "ad4010a0d6218bd57eee96c8618e09a978af941274ee7b5428cf31a2a77ea439"
+    },
+    {
+      "path": "src/composer/validate.ts",
+      "sha256": "8c5fe80f2611c8ca5db75a846ffb0f4f55af74a0bceaa409517df1d7172e5bc1"
+    },
+    {
+      "path": "src/runtime/CompositionRuntime.tsx",
+      "sha256": "49d836e81e7943360c2d4df91c1851ff597f5d63b086a9b20c68eb13c90b0897"
+    },
+    {
+      "path": "src/runtime/ResponsiveDeviceRuntime.tsx",
+      "sha256": "61b780b92bc5c2edc372ed23f04ce0fbc08ce38a5b87a71e2ed03b2a108d1a5d"
+    },
+    {
+      "path": "src/runtime/index.ts",
+      "sha256": "693109a5ab9121271d960fe5fa57c766a5e7f67d9d1a20b9f7fc8d2c4ad62898"
+    },
+    {
+      "path": "src/types/ai.ts",
+      "sha256": "158a4efa88e7c58d745d3c21c9dc5ade5d86b4eb72127e159151b3e3fede5baa"
+    },
+    {
+      "path": "src/types/common.ts",
+      "sha256": "4b61e1cd740922d176ecd3e9a8cad6874b42af51e1dd1c9dde541ecb3adaaf66"
+    },
+    {
+      "path": "src/types/demo.ts",
+      "sha256": "f814af5e02348ff07ee6650897094e36debc1cf206a4076109b7426d976e2a4c"
+    },
+    {
+      "path": "src/types/device.ts",
+      "sha256": "b83de4da58cc0b7d735b2c60aba041acdb7664d9c7d410ed6076120bfc1e16e0"
+    },
+    {
+      "path": "src/types/identifiers.ts",
+      "sha256": "0a96ff8445f902df29d794d6454c82eeae133bec67205d64f570f0f41124772f"
+    },
+    {
+      "path": "src/types/index.ts",
+      "sha256": "765fea4269df51d42ed2485558c3e3c60ad79cff3c8b6cfab0a87ae7f539d071"
+    },
+    {
+      "path": "src/types/navigation.ts",
+      "sha256": "a879ee42fc80a23576a2147eaf9d67957096866eb74aee3adfa374c7e653f680"
+    },
+    {
+      "path": "src/types/redux.ts",
+      "sha256": "692c270f4975109aa0c3b5f7b9bf85c33eb28f6e069304c7fbdf2b5662511c02"
+    }
+  ]
+}

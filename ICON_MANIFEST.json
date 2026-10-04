@@ -1,0 +1,218 @@
+{
+  "package": "@maataa/ui",
+  "version": "1.0.0-alpha.8.4",
+  "kind": "maataa-core-icons",
+  "count": 42,
+  "icons": [
+    {
+      "id": "ICON.MAATAA.HOME",
+      "name": "home",
+      "index": 1
+    },
+    {
+      "id": "ICON.MAATAA.SURFACE",
+      "name": "surface",
+      "index": 2
+    },
+    {
+      "id": "ICON.MAATAA.PLAYGROUND",
+      "name": "playground",
+      "index": 3
+    },
+    {
+      "id": "ICON.MAATAA.SANDBOX",
+      "name": "sandbox",
+      "index": 4
+    },
+    {
+      "id": "ICON.MAATAA.DEMOS",
+      "name": "demos",
+      "index": 5
+    },
+    {
+      "id": "ICON.MAATAA.DOCS",
+      "name": "docs",
+      "index": 6
+    },
+    {
+      "id": "ICON.MAATAA.HELP",
+      "name": "help",
+      "index": 7
+    },
+    {
+      "id": "ICON.MAATAA.SUPPORT",
+      "name": "support",
+      "index": 8
+    },
+    {
+      "id": "ICON.MAATAA.COPY",
+      "name": "copy",
+      "index": 9
+    },
+    {
+      "id": "ICON.MAATAA.SEARCH",
+      "name": "search",
+      "index": 10
+    },
+    {
+      "id": "ICON.MAATAA.SETTINGS",
+      "name": "settings",
+      "index": 11
+    },
+    {
+      "id": "ICON.MAATAA.USER",
+      "name": "user",
+      "index": 12
+    },
+    {
+      "id": "ICON.MAATAA.USERS",
+      "name": "users",
+      "index": 13
+    },
+    {
+      "id": "ICON.MAATAA.WORKSPACE",
+      "name": "workspace",
+      "index": 14
+    },
+    {
+      "id": "ICON.MAATAA.PAGE",
+      "name": "page",
+      "index": 15
+    },
+    {
+      "id": "ICON.MAATAA.LAYOUT",
+      "name": "layout",
+      "index": 16
+    },
+    {
+      "id": "ICON.MAATAA.DEVICE",
+      "name": "device",
+      "index": 17
+    },
+    {
+      "id": "ICON.MAATAA.GENERATOR",
+      "name": "generator",
+      "index": 18
+    },
+    {
+      "id": "ICON.MAATAA.TOOL",
+      "name": "tool",
+      "index": 19
+    },
+    {
+      "id": "ICON.MAATAA.AI",
+      "name": "ai",
+      "index": 20
+    },
+    {
+      "id": "ICON.MAATAA.REGISTRY",
+      "name": "registry",
+      "index": 21
+    },
+    {
+      "id": "ICON.MAATAA.REDUX",
+      "name": "redux",
+      "index": 22
+    },
+    {
+      "id": "ICON.MAATAA.TYPE",
+      "name": "type",
+      "index": 23
+    },
+    {
+      "id": "ICON.MAATAA.DATABASE",
+      "name": "database",
+      "index": 24
+    },
+    {
+      "id": "ICON.MAATAA.EVIDENCE",
+      "name": "evidence",
+      "index": 25
+    },
+    {
+      "id": "ICON.MAATAA.ACTIVITY",
+      "name": "activity",
+      "index": 26
+    },
+    {
+      "id": "ICON.MAATAA.METRICS",
+      "name": "metrics",
+      "index": 27
+    },
+    {
+      "id": "ICON.MAATAA.FORM",
+      "name": "form",
+      "index": 28
+    },
+    {
+      "id": "ICON.MAATAA.TABLE",
+      "name": "table",
+      "index": 29
+    },
+    {
+      "id": "ICON.MAATAA.ACTIONS",
+      "name": "actions",
+      "index": 30
+    },
+    {
+      "id": "ICON.MAATAA.CHEVRON_RIGHT",
+      "name": "chevron-right",
+      "index": 31
+    },
+    {
+      "id": "ICON.MAATAA.PLUS",
+      "name": "plus",
+      "index": 32
+    },
+    {
+      "id": "ICON.MAATAA.MINUS",
+      "name": "minus",
+      "index": 33
+    },
+    {
+      "id": "ICON.MAATAA.CHECK",
+      "name": "check",
+      "index": 34
+    },
+    {
+      "id": "ICON.MAATAA.WARNING",
+      "name": "warning",
+      "index": 35
+    },
+    {
+      "id": "ICON.MAATAA.INFO",
+      "name": "info",
+      "index": 36
+    },
+    {
+      "id": "ICON.MAATAA.STAR",
+      "name": "star",
+      "index": 37
+    },
+    {
+      "id": "ICON.MAATAA.SPARKLES",
+      "name": "sparkles",
+      "index": 38
+    },
+    {
+      "id": "ICON.MAATAA.MENU",
+      "name": "menu",
+      "index": 39
+    },
+    {
+      "id": "ICON.MAATAA.CLOSE",
+      "name": "close",
+      "index": 40
+    },
+    {
+      "id": "ICON.MAATAA.ARROW_LEFT",
+      "name": "arrow-left",
+      "index": 41
+    },
+    {
+      "id": "ICON.MAATAA.ARROW_RIGHT",
+      "name": "arrow-right",
+      "index": 42
+    }
+  ]
+}

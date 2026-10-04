@@ -1,0 +1,1 @@
+import{j as t}from"./vendor-react-IAN6ABvC.js";import{a4 as c}from"./maataa-registries-BsYY0ZZj.js";function i({className:e,...o}){return t.jsx("div",{"data-device-region":"notch",className:c("m-device-atom","m-device-notch",e),...o})}i.__docgenInfo={description:"",methods:[],displayName:"DeviceNotch"};export{i as DeviceNotch};

@@ -1,0 +1,280 @@
+# MAATAA Generator Catalog
+
+This catalog is declarative UI vocabulary. Runtime execution belongs to the host/platform layer.
+
+## G01_UI_GENERATION · UI Generation
+
+- `GENERATOR.COMPONENT_GENERATOR` — Component Generator
+- `GENERATOR.ATOMIC_COMPONENT_GENERATOR` — Atomic Component Generator
+- `GENERATOR.COMPOUND_COMPONENT_GENERATOR` — Compound Component Generator
+- `GENERATOR.PATTERN_GENERATOR` — Pattern Generator
+- `GENERATOR.LAYOUT_GENERATOR` — Layout Generator
+- `GENERATOR.PAGE_GENERATOR` — Page Generator
+- `GENERATOR.WORKSPACE_GENERATOR` — Workspace Generator
+- `GENERATOR.APP_SHELL_GENERATOR` — App Shell Generator
+- `GENERATOR.DASHBOARD_GENERATOR` — Dashboard Generator
+- `GENERATOR.NAVIGATION_GENERATOR` — Navigation Generator
+- `GENERATOR.MENU_GENERATOR` — Menu Generator
+- `GENERATOR.FORM_GENERATOR` — Form Generator
+- `GENERATOR.TABLE_GENERATOR` — Table Generator
+- `GENERATOR.DATA_VIEW_GENERATOR` — Data View Generator
+- `GENERATOR.CARD_GENERATOR` — Card Generator
+- `GENERATOR.MODAL_DIALOG_GENERATOR` — Modal/Dialog Generator
+- `GENERATOR.SETTINGS_PAGE_GENERATOR` — Settings Page Generator
+- `GENERATOR.EMPTY_STATE_GENERATOR` — Empty-State Generator
+- `GENERATOR.ERROR_STATE_GENERATOR` — Error-State Generator
+
+## G02_DESIGN_SYSTEM · Design System
+
+- `GENERATOR.TOKEN_GENERATOR` — Token Generator
+- `GENERATOR.THEME_GENERATOR` — Theme Generator
+- `GENERATOR.COLOR_PALETTE_GENERATOR` — Color Palette Generator
+- `GENERATOR.TYPOGRAPHY_SCALE_GENERATOR` — Typography Scale Generator
+- `GENERATOR.SPACING_SCALE_GENERATOR` — Spacing Scale Generator
+- `GENERATOR.RADIUS_GENERATOR` — Radius Generator
+- `GENERATOR.SHADOW_ELEVATION_GENERATOR` — Shadow/Elevation Generator
+- `GENERATOR.MOTION_TOKEN_GENERATOR` — Motion Token Generator
+- `GENERATOR.RESPONSIVE_RULE_GENERATOR` — Responsive Rule Generator
+- `GENERATOR.ACCESSIBILITY_VARIANT_GENERATOR` — Accessibility Variant Generator
+- `GENERATOR.ICON_GENERATOR` — Icon Generator
+- `GENERATOR.ILLUSTRATION_GENERATOR` — Illustration Generator
+
+## G03_APPLICATION · Application
+
+- `GENERATOR.WEB_APP_GENERATOR` — Web App Generator
+- `GENERATOR.MOBILE_APP_GENERATOR` — Mobile App Generator
+- `GENERATOR.DESKTOP_APP_GENERATOR` — Desktop App Generator
+- `GENERATOR.PWA_GENERATOR` — PWA Generator
+- `GENERATOR.ADMIN_APP_GENERATOR` — Admin App Generator
+- `GENERATOR.PORTAL_GENERATOR` — Portal Generator
+- `GENERATOR.MARKETPLACE_GENERATOR` — Marketplace Generator
+- `GENERATOR.DASHBOARD_APP_GENERATOR` — Dashboard App Generator
+- `GENERATOR.INTERNAL_TOOL_GENERATOR` — Internal Tool Generator
+- `GENERATOR.KIOSK_APP_GENERATOR` — Kiosk App Generator
+
+## G04_CODE · Code
+
+- `GENERATOR.REACT_GENERATOR` — React Generator
+- `GENERATOR.NEXT_JS_GENERATOR` — Next.js Generator
+- `GENERATOR.TYPESCRIPT_GENERATOR` — TypeScript Generator
+- `GENERATOR.HOOK_GENERATOR` — Hook Generator
+- `GENERATOR.STATE_SLICE_GENERATOR` — State Slice Generator
+- `GENERATOR.API_CLIENT_GENERATOR` — API Client Generator
+- `GENERATOR.SDK_GENERATOR` — SDK Generator
+- `GENERATOR.ADAPTER_GENERATOR` — Adapter Generator
+- `GENERATOR.PROVIDER_GENERATOR` — Provider Generator
+- `GENERATOR.REPOSITORY_GENERATOR` — Repository Generator
+- `GENERATOR.SERVICE_GENERATOR` — Service Generator
+- `GENERATOR.CONTROLLER_GENERATOR` — Controller Generator
+- `GENERATOR.ROUTE_GENERATOR` — Route Generator
+- `GENERATOR.MIDDLEWARE_GENERATOR` — Middleware Generator
+- `GENERATOR.TEST_GENERATOR` — Test Generator
+
+## G05_DATA · Data
+
+- `GENERATOR.SCHEMA_GENERATOR` — Schema Generator
+- `GENERATOR.TABLE_GENERATOR` — Table Generator
+- `GENERATOR.ENTITY_GENERATOR` — Entity Generator
+- `GENERATOR.RELATIONSHIP_GENERATOR` — Relationship Generator
+- `GENERATOR.MIGRATION_GENERATOR` — Migration Generator
+- `GENERATOR.SEED_GENERATOR` — Seed Generator
+- `GENERATOR.FIXTURE_GENERATOR` — Fixture Generator
+- `GENERATOR.MOCK_DATA_GENERATOR` — Mock Data Generator
+- `GENERATOR.DATASET_GENERATOR` — Dataset Generator
+- `GENERATOR.SQL_GENERATOR` — SQL Generator
+- `GENERATOR.QUERY_GENERATOR` — Query Generator
+- `GENERATOR.DATA_MAPPING_GENERATOR` — Data Mapping Generator
+- `GENERATOR.ETL_GENERATOR` — ETL Generator
+
+## G06_API · API
+
+- `GENERATOR.API_CONTRACT_GENERATOR` — API Contract Generator
+- `GENERATOR.OPENAPI_GENERATOR` — OpenAPI Generator
+- `GENERATOR.ENDPOINT_GENERATOR` — Endpoint Generator
+- `GENERATOR.REQUEST_SCHEMA_GENERATOR` — Request Schema Generator
+- `GENERATOR.RESPONSE_SCHEMA_GENERATOR` — Response Schema Generator
+- `GENERATOR.ERROR_CONTRACT_GENERATOR` — Error Contract Generator
+- `GENERATOR.MOCK_API_GENERATOR` — Mock API Generator
+- `GENERATOR.WEBHOOK_GENERATOR` — Webhook Generator
+- `GENERATOR.EVENT_CONTRACT_GENERATOR` — Event Contract Generator
+- `GENERATOR.API_TEST_GENERATOR` — API Test Generator
+
+## G07_WORKFLOW · Workflow
+
+- `GENERATOR.WORKFLOW_GENERATOR` — Workflow Generator
+- `GENERATOR.PROCESS_GENERATOR` — Process Generator
+- `GENERATOR.STATE_MACHINE_GENERATOR` — State Machine Generator
+- `GENERATOR.APPROVAL_FLOW_GENERATOR` — Approval Flow Generator
+- `GENERATOR.AUTOMATION_GENERATOR` — Automation Generator
+- `GENERATOR.RULE_GENERATOR` — Rule Generator
+- `GENERATOR.TRIGGER_GENERATOR` — Trigger Generator
+- `GENERATOR.ACTION_CHAIN_GENERATOR` — Action Chain Generator
+- `GENERATOR.SOP_GENERATOR` — SOP Generator
+
+## G08_AI_AGENT · AI / Agent
+
+- `GENERATOR.AGENT_GENERATOR` — Agent Generator
+- `GENERATOR.MULTI_AGENT_GENERATOR` — Multi-Agent Generator
+- `GENERATOR.PROMPT_GENERATOR` — Prompt Generator
+- `GENERATOR.SYSTEM_PROMPT_GENERATOR` — System Prompt Generator
+- `GENERATOR.TOOL_DEFINITION_GENERATOR` — Tool Definition Generator
+- `GENERATOR.FUNCTION_SCHEMA_GENERATOR` — Function Schema Generator
+- `GENERATOR.AI_WORKFLOW_GENERATOR` — AI Workflow Generator
+- `GENERATOR.RAG_PIPELINE_GENERATOR` — RAG Pipeline Generator
+- `GENERATOR.KNOWLEDGE_AGENT_GENERATOR` — Knowledge Agent Generator
+- `GENERATOR.EVALUATION_GENERATOR` — Evaluation Generator
+- `GENERATOR.GUARDRAIL_GENERATOR` — Guardrail Generator
+
+## G09_KNOWLEDGE · Knowledge
+
+- `GENERATOR.KNOWLEDGE_BASE_GENERATOR` — Knowledge Base Generator
+- `GENERATOR.KNOWLEDGE_GRAPH_GENERATOR` — Knowledge Graph Generator
+- `GENERATOR.DOCUMENT_INDEX_GENERATOR` — Document Index Generator
+- `GENERATOR.CHUNK_GENERATOR` — Chunk Generator
+- `GENERATOR.EMBEDDING_DATASET_GENERATOR` — Embedding Dataset Generator
+- `GENERATOR.FAQ_GENERATOR` — FAQ Generator
+- `GENERATOR.GLOSSARY_GENERATOR` — Glossary Generator
+- `GENERATOR.TAXONOMY_GENERATOR` — Taxonomy Generator
+- `GENERATOR.ONTOLOGY_GENERATOR` — Ontology Generator
+
+## G10_CONTENT · Content
+
+- `GENERATOR.ARTICLE_GENERATOR` — Article Generator
+- `GENERATOR.BLOG_GENERATOR` — Blog Generator
+- `GENERATOR.COPY_GENERATOR` — Copy Generator
+- `GENERATOR.HEADLINE_GENERATOR` — Headline Generator
+- `GENERATOR.CAPTION_GENERATOR` — Caption Generator
+- `GENERATOR.SEO_GENERATOR` — SEO Generator
+- `GENERATOR.METADATA_GENERATOR` — Metadata Generator
+- `GENERATOR.EMAIL_GENERATOR` — Email Generator
+- `GENERATOR.PROPOSAL_GENERATOR` — Proposal Generator
+- `GENERATOR.REPORT_GENERATOR` — Report Generator
+- `GENERATOR.PRESENTATION_GENERATOR` — Presentation Generator
+- `GENERATOR.SCRIPT_GENERATOR` — Script Generator
+
+## G11_CREATIVE · Creative
+
+- `GENERATOR.IMAGE_GENERATOR` — Image Generator
+- `GENERATOR.ILLUSTRATION_GENERATOR` — Illustration Generator
+- `GENERATOR.BANNER_GENERATOR` — Banner Generator
+- `GENERATOR.POSTER_GENERATOR` — Poster Generator
+- `GENERATOR.STORYBOARD_GENERATOR` — Storyboard Generator
+- `GENERATOR.MOODBOARD_GENERATOR` — Moodboard Generator
+- `GENERATOR.BRAND_CREATIVE_GENERATOR` — Brand Creative Generator
+- `GENERATOR.SOCIAL_CREATIVE_GENERATOR` — Social Creative Generator
+- `GENERATOR.AD_CREATIVE_GENERATOR` — Ad Creative Generator
+
+## G12_VIDEO · Video
+
+- `GENERATOR.VIDEO_GENERATOR` — Video Generator
+- `GENERATOR.SHOT_GENERATOR` — Shot Generator
+- `GENERATOR.TRAILER_GENERATOR` — Trailer Generator
+- `GENERATOR.MOTION_GRAPHICS_GENERATOR` — Motion Graphics Generator
+- `GENERATOR.STORY_REEL_GENERATOR` — Story Reel Generator
+- `GENERATOR.ANIMATIC_GENERATOR` — Animatic Generator
+- `GENERATOR.SCENE_GENERATOR` — Scene Generator
+
+## G13_AUDIO · Audio
+
+- `GENERATOR.VOICE_GENERATOR` — Voice Generator
+- `GENERATOR.VOICEOVER_GENERATOR` — Voiceover Generator
+- `GENERATOR.SPEECH_GENERATOR` — Speech Generator
+- `GENERATOR.MUSIC_GENERATOR` — Music Generator
+- `GENERATOR.SFX_GENERATOR` — SFX Generator
+- `GENERATOR.AUDIO_BED_GENERATOR` — Audio Bed Generator
+- `GENERATOR.PODCAST_GENERATOR` — Podcast Generator
+
+## G14_SPATIAL_3D · Spatial / 3D
+
+- `GENERATOR.FLOOR_PLAN_GENERATOR` — Floor Plan Generator
+- `GENERATOR.VENUE_LAYOUT_GENERATOR` — Venue Layout Generator
+- `GENERATOR.STAGE_LAYOUT_GENERATOR` — Stage Layout Generator
+- `GENERATOR.BOOTH_LAYOUT_GENERATOR` — Booth Layout Generator
+- `GENERATOR.SPATIAL_SCENE_GENERATOR` — Spatial Scene Generator
+- `GENERATOR.3D_SCENE_GENERATOR` — 3D Scene Generator
+- `GENERATOR.OBJECT_GENERATOR` — Object Generator
+- `GENERATOR.MATERIAL_GENERATOR` — Material Generator
+- `GENERATOR.LIGHTING_GENERATOR` — Lighting Generator
+- `GENERATOR.CAMERA_PATH_GENERATOR` — Camera Path Generator
+- `GENERATOR.DIGITAL_TWIN_GENERATOR` — Digital Twin Generator
+
+## G15_EVENT · Event
+
+- `GENERATOR.EVENT_GENERATOR` — Event Generator
+- `GENERATOR.EVENT_PLAN_GENERATOR` — Event Plan Generator
+- `GENERATOR.RUN_OF_SHOW_GENERATOR` — Run-of-Show Generator
+- `GENERATOR.SCHEDULE_GENERATOR` — Schedule Generator
+- `GENERATOR.GUEST_JOURNEY_GENERATOR` — Guest Journey Generator
+- `GENERATOR.VENDOR_PLAN_GENERATOR` — Vendor Plan Generator
+- `GENERATOR.SERVICE_RECOMMENDATION_GENERATOR` — Service Recommendation Generator
+- `GENERATOR.BUDGET_GENERATOR` — Budget Generator
+- `GENERATOR.SPONSORSHIP_PACKAGE_GENERATOR` — Sponsorship Package Generator
+
+## G16_PRODUCTION_TLPS · Production / TLPS
+
+- `GENERATOR.PRODUCTION_PLAN_GENERATOR` — Production Plan Generator
+- `GENERATOR.SCRIPT_BREAKDOWN_GENERATOR` — Script Breakdown Generator
+- `GENERATOR.SHOT_LIST_GENERATOR` — Shot List Generator
+- `GENERATOR.STORYBOARD_GENERATOR` — Storyboard Generator
+- `GENERATOR.CALL_SHEET_GENERATOR` — Call Sheet Generator
+- `GENERATOR.SHOOTING_SCHEDULE_GENERATOR` — Shooting Schedule Generator
+- `GENERATOR.CREW_PLAN_GENERATOR` — Crew Plan Generator
+- `GENERATOR.CASTING_SHORTLIST_GENERATOR` — Casting Shortlist Generator
+- `GENERATOR.EQUIPMENT_PLAN_GENERATOR` — Equipment Plan Generator
+- `GENERATOR.LOCATION_PLAN_GENERATOR` — Location Plan Generator
+
+## G17_COMMERCE · Commerce
+
+- `GENERATOR.PRODUCT_GENERATOR` — Product Generator
+- `GENERATOR.SKU_GENERATOR` — SKU Generator
+- `GENERATOR.CATALOG_GENERATOR` — Catalog Generator
+- `GENERATOR.PRICING_GENERATOR` — Pricing Generator
+- `GENERATOR.BUNDLE_GENERATOR` — Bundle Generator
+- `GENERATOR.OFFER_GENERATOR` — Offer Generator
+- `GENERATOR.QUOTE_GENERATOR` — Quote Generator
+- `GENERATOR.ORDER_TEMPLATE_GENERATOR` — Order Template Generator
+
+## G18_FINANCE · Finance
+
+- `GENERATOR.BUDGET_GENERATOR` — Budget Generator
+- `GENERATOR.FORECAST_GENERATOR` — Forecast Generator
+- `GENERATOR.INVOICE_GENERATOR` — Invoice Generator
+- `GENERATOR.EXPENSE_PLAN_GENERATOR` — Expense Plan Generator
+- `GENERATOR.CASH_FLOW_GENERATOR` — Cash-Flow Generator
+- `GENERATOR.INVESTMENT_MEMO_GENERATOR` — Investment Memo Generator
+- `GENERATOR.ROI_GENERATOR` — ROI Generator
+- `GENERATOR.SCENARIO_GENERATOR` — Scenario Generator
+
+## G19_DOCUMENTATION · Documentation
+
+- `GENERATOR.README_GENERATOR` — README Generator
+- `GENERATOR.API_DOCS_GENERATOR` — API Docs Generator
+- `GENERATOR.COMPONENT_DOCS_GENERATOR` — Component Docs Generator
+- `GENERATOR.ARCHITECTURE_DOC_GENERATOR` — Architecture Doc Generator
+- `GENERATOR.ADR_GENERATOR` — ADR Generator
+- `GENERATOR.CHANGELOG_GENERATOR` — Changelog Generator
+- `GENERATOR.RELEASE_NOTES_GENERATOR` — Release Notes Generator
+- `GENERATOR.MIGRATION_GUIDE_GENERATOR` — Migration Guide Generator
+
+## G20_QA · QA
+
+- `GENERATOR.UNIT_TEST_GENERATOR` — Unit Test Generator
+- `GENERATOR.INTEGRATION_TEST_GENERATOR` — Integration Test Generator
+- `GENERATOR.E2E_TEST_GENERATOR` — E2E Test Generator
+- `GENERATOR.ACCESSIBILITY_TEST_GENERATOR` — Accessibility Test Generator
+- `GENERATOR.VISUAL_REGRESSION_GENERATOR` — Visual Regression Generator
+- `GENERATOR.TEST_DATA_GENERATOR` — Test Data Generator
+- `GENERATOR.TEST_MATRIX_GENERATOR` — Test Matrix Generator
+
+## G21_RELEASE · Release
+
+- `GENERATOR.BUILD_MANIFEST_GENERATOR` — Build Manifest Generator
+- `GENERATOR.API_MANIFEST_GENERATOR` — API Manifest Generator
+- `GENERATOR.PACKAGE_MANIFEST_GENERATOR` — Package Manifest Generator
+- `GENERATOR.SBOM_GENERATOR` — SBOM Generator
+- `GENERATOR.RELEASE_MANIFEST_GENERATOR` — Release Manifest Generator
+- `GENERATOR.DEPLOYMENT_PLAN_GENERATOR` — Deployment Plan Generator
+- `GENERATOR.ROLLBACK_PLAN_GENERATOR` — Rollback Plan Generator
+- `GENERATOR.EVIDENCE_PACK_GENERATOR` — Evidence Pack Generator
+
+Raw group entries: **212**. Duplicate concepts across groups are intentionally consolidated in the canonical registry with multi-group membership.

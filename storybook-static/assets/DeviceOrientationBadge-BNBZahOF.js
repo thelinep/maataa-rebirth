@@ -1,0 +1,1 @@
+import{j as a}from"./vendor-react-IAN6ABvC.js";import{a4 as o}from"./maataa-registries-BsYY0ZZj.js";function t({className:e,...i}){return a.jsx("span",{"data-device-region":"orientation-badge",className:o("m-device-atom","m-device-orientation-badge",e),...i})}t.__docgenInfo={description:"",methods:[],displayName:"DeviceOrientationBadge"};export{t as DeviceOrientationBadge};

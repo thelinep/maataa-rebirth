@@ -1,0 +1,1 @@
+import{u as a,a as t,b as s}from"./react-redux-DwJscISt.js";import"./vendor-react-IAN6ABvC.js";const p=a.withTypes(),r=t.withTypes(),c=s.withTypes();export{p as useMaataaDispatch,r as useMaataaSelector,c as useMaataaStore};

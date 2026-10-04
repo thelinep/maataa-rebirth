@@ -1,0 +1,16 @@
+import type { RootState } from "../store";
+import { PAGE_TYPES } from "../../registries/pageRegistry";
+import { WORKSPACE_TYPES } from "../../registries/workspaceRegistry";
+import { LAYOUT_TYPES } from "../../registries/layoutRegistry";
+import { DEVICE_REGISTRY } from "../../registries/deviceRegistry";
+import { GENERATOR_REGISTRY } from "../../registries/generatorRegistry";
+import { TOOL_REGISTRY } from "../../registries/toolRegistry";
+import { AI_SPACE_REGISTRY } from "../../registries/aiSpaceRegistry";
+const match=(name:string,id:string,q:string)=>!q||name.toLowerCase().includes(q)||id.toLowerCase().includes(q);
+export const selectFilteredPages=(s:RootState)=>{const q=s.registry.query.toLowerCase();return PAGE_TYPES.filter(x=>match(x.name,x.id,q) && (!s.registry.group||x.groupKey===s.registry.group));};
+export const selectFilteredWorkspaces=(s:RootState)=>{const q=s.registry.query.toLowerCase();return WORKSPACE_TYPES.filter(x=>match(x.name,x.id,q) && (!s.registry.group||x.groupKey===s.registry.group));};
+export const selectFilteredLayouts=(s:RootState)=>{const q=s.registry.query.toLowerCase();return LAYOUT_TYPES.filter(x=>match(x.name,x.id,q) && (!s.registry.group||x.groupKey===s.registry.group));};
+export const selectFilteredDevices=(s:RootState)=>{const q=s.registry.query.toLowerCase();return DEVICE_REGISTRY.filter(x=>match(x.name,x.id,q) && (!s.registry.group||x.group===s.registry.group));};
+export const selectFilteredGenerators=(s:RootState)=>{const q=s.registry.query.toLowerCase();return GENERATOR_REGISTRY.filter(x=>match(x.name,x.id,q));};
+export const selectFilteredTools=(s:RootState)=>{const q=s.registry.query.toLowerCase();return TOOL_REGISTRY.filter(x=>match(x.name,x.id,q));};
+export const selectFilteredAISpaces=(s:RootState)=>{const q=s.registry.query.toLowerCase();return AI_SPACE_REGISTRY.filter(x=>match(x.name,x.id,q));};

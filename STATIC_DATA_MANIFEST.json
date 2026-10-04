@@ -1,0 +1,63 @@
+{
+  "version": "1.0.0-alpha.7.4",
+  "datasets": 12,
+  "aggregate": "DEMO_DATA",
+  "files": [
+    {
+      "path": "src/static-data/demoAI.ts",
+      "sha256": "2278314475a131c0afd859802aa5d51bb3a02ba8b21d00cd5af416a994e30b37"
+    },
+    {
+      "path": "src/static-data/demoBundle.ts",
+      "sha256": "16255dc54050231eb01d18116ba81cb1fdcb9b8b542c234df2f8c9e2e98aae94"
+    },
+    {
+      "path": "src/static-data/demoCatalogs.ts",
+      "sha256": "baf5315996ce65a4915d557542987a9735ef66617a22ec9709a4db984431c13d"
+    },
+    {
+      "path": "src/static-data/demoCommerce.ts",
+      "sha256": "6b1665f11fff6a011522c52b6b6f19f1dd17a6e0ba97d5eb8758ef604d65fad2"
+    },
+    {
+      "path": "src/static-data/demoEvents.ts",
+      "sha256": "c42b9818815bbc0b54bea4165fcb2dd35c9ea5e7486d1656d2c383169c0149df"
+    },
+    {
+      "path": "src/static-data/demoFinance.ts",
+      "sha256": "73a8cc91204f487648cf01268f6ed43993220c145091958ddf60b68d0d73ebc0"
+    },
+    {
+      "path": "src/static-data/demoIdentities.ts",
+      "sha256": "33c7dbaa1e07275f72751ea5e563482f4dd13e09b47db64583b28e7304e2cec8"
+    },
+    {
+      "path": "src/static-data/demoNotifications.ts",
+      "sha256": "cc8f3cb5175787e20ce67077cac8b958981fb91abd98acfc84207f937682194b"
+    },
+    {
+      "path": "src/static-data/demoOrganisations.ts",
+      "sha256": "b09c5c42dbde5b86e62dfc0ceed8847f5bc1682b99aa829c35ba7972988222a4"
+    },
+    {
+      "path": "src/static-data/demoProduction.ts",
+      "sha256": "eac9be425f8ec9e271dddde321e11ef5b2c72351580272ac88bae9394821334f"
+    },
+    {
+      "path": "src/static-data/demoProjects.ts",
+      "sha256": "af604f54cdffcaf7e7d8680594c82963fa5094a13becfc4fe09c638f93091cd6"
+    },
+    {
+      "path": "src/static-data/demoTasks.ts",
+      "sha256": "d51299e4b5d38d88e90dc3cefd3cc7388c0658839f633584d5214bfcbd132dfd"
+    },
+    {
+      "path": "src/static-data/demoUsers.ts",
+      "sha256": "1990af9b1f2a23548c6c1033e1aecaee107c348ba35f9928424cff7f54764305"
+    },
+    {
+      "path": "src/static-data/index.ts",
+      "sha256": "202ed2e53362e58c1ec8f8d2c58c4a43848b381708afb2927dc4b9f20abbe405"
+    }
+  ]
+}

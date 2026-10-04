@@ -1,0 +1,1 @@
+import{j as o}from"./vendor-react-IAN6ABvC.js";import{a4 as e}from"./maataa-registries-BsYY0ZZj.js";function s({className:a,...m}){return o.jsx("section",{"data-ai-space-region":"aispacecommandbar",className:e("m-ai-space-atom","m-ai-space-aispacecommandbar",a),...m})}s.__docgenInfo={description:"",methods:[],displayName:"AISpaceCommandBar"};export{s as AISpaceCommandBar};

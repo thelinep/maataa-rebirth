@@ -1,0 +1,1 @@
+import{j as e}from"./vendor-react-IAN6ABvC.js";import{a4 as c}from"./maataa-registries-BsYY0ZZj.js";function i({className:a,...s}){return e.jsx("section",{"data-ai-space-region":"aispacecanvas",className:c("m-ai-space-atom","m-ai-space-aispacecanvas",a),...s})}i.__docgenInfo={description:"",methods:[],displayName:"AISpaceCanvas"};export{i as AISpaceCanvas};

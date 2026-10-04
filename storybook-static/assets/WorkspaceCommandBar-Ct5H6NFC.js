@@ -1,0 +1,1 @@
+import{j as r}from"./vendor-react-IAN6ABvC.js";import{a4 as m}from"./maataa-registries-BsYY0ZZj.js";function s({className:a,...o}){return r.jsx("div",{"data-workspace-region":"workspacecommandbar",className:m("m-workspace-atom","m-workspace-workspacecommandbar",a),...o})}s.__docgenInfo={description:"",methods:[],displayName:"WorkspaceCommandBar"};export{s as WorkspaceCommandBar};

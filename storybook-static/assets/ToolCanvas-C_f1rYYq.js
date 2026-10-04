@@ -1,0 +1,1 @@
+import{j as t}from"./vendor-react-IAN6ABvC.js";import{a4 as s}from"./maataa-registries-BsYY0ZZj.js";function n({className:o,...a}){return t.jsx("section",{"data-tool-region":"toolcanvas",className:s("m-tool-atom","m-tool-toolcanvas",o),...a})}n.__docgenInfo={description:"",methods:[],displayName:"ToolCanvas"};export{n as ToolCanvas};

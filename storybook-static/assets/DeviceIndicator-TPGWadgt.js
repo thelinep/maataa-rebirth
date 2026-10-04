@@ -1,0 +1,1 @@
+import{j as o}from"./vendor-react-IAN6ABvC.js";import{a4 as t}from"./maataa-registries-BsYY0ZZj.js";function a({className:i,...e}){return o.jsx("div",{"data-device-region":"indicator",className:t("m-device-atom","m-device-indicator",i),...e})}a.__docgenInfo={description:"",methods:[],displayName:"DeviceIndicator"};export{a as DeviceIndicator};

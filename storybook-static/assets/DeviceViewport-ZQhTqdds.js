@@ -1,0 +1,1 @@
+import{j as o}from"./vendor-react-IAN6ABvC.js";import{a4 as t}from"./maataa-registries-BsYY0ZZj.js";function r({className:e,...i}){return o.jsx("div",{"data-device-region":"viewport",className:t("m-device-atom","m-device-viewport",e),...i})}r.__docgenInfo={description:"",methods:[],displayName:"DeviceViewport"};export{r as DeviceViewport};

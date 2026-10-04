@@ -1,0 +1,5 @@
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+export interface DataViewState { query:string; page:number; pageSize:number; sortKey:string|null; sortDirection:"asc"|"desc"; selectedIds:string[]; view:"table"|"grid"|"list"|"board"; }
+export const initialDataState:DataViewState={query:"",page:1,pageSize:25,sortKey:null,sortDirection:"asc",selectedIds:[],view:"table"};
+const slice=createSlice({name:"data",initialState:initialDataState,reducers:{setDataQuery:(s,a:PayloadAction<string>)=>{s.query=a.payload;s.page=1},setPage:(s,a:PayloadAction<number>)=>{s.page=a.payload},setPageSize:(s,a:PayloadAction<number>)=>{s.pageSize=a.payload;s.page=1},setSort:(s,a:PayloadAction<{key:string;direction:"asc"|"desc"}>)=>{s.sortKey=a.payload.key;s.sortDirection=a.payload.direction},toggleSelected:(s,a:PayloadAction<string>)=>{const i=s.selectedIds.indexOf(a.payload);if(i>=0)s.selectedIds.splice(i,1);else s.selectedIds.push(a.payload)},clearSelection:s=>{s.selectedIds=[]},setDataView:(s,a:PayloadAction<DataViewState["view"]>)=>{s.view=a.payload}}});
+export const dataActions=slice.actions; export const dataReducer=slice.reducer;

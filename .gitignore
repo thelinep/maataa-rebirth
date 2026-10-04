@@ -1,0 +1,16 @@
+
+# MAATAA UI generated outputs
+demo-dist/
+dist/
+playwright-report/
+test-results/
+coverage/
+
+# Local hotfix backups
+*.pre-alpha*-backup
+
+# Dependencies / local environment
+node_modules/
+.DS_Store
+.env
+.env.local

@@ -1,0 +1,1 @@
+import{j as r}from"./vendor-react-IAN6ABvC.js";import{a4 as i}from"./maataa-registries-BsYY0ZZj.js";function o({className:a,...e}){return r.jsx("div",{"data-page-region":"pagesidebar",className:i("m-page-atom","m-page-pagesidebar",a),...e})}o.__docgenInfo={description:"",methods:[],displayName:"PageSidebar"};export{o as PageSidebar};

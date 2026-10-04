@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "tarball": "maataa-ui-1.0.0-alpha.8.4.tgz",
+  "fixture": "vite-react",
+  "checks": [
+    "pack",
+    "install",
+    "typecheck",
+    "build"
+  ]
+}

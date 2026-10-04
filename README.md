@@ -1,0 +1,214 @@
+# @maataa/ui
+
+Standalone MAATAA visual UI library for React + TypeScript applications.
+
+This package contains application-agnostic components only. It does **not** provide authentication, authorization, API clients, databases, business workflows, payments, infrastructure provisioning, or application routing.
+
+## Public / demo surface
+
+`pnpm demo` launches the complete hash-routed local surface with Landing, Live Full Surface Explorer, Playground, Sandbox, Demos, Docs, Help and Support. The explorer includes a visual preview canvas and copy controls. See `PUBLIC-SURFACE.md`.
+
+
+## Icons & symbolic demo identities
+
+Alpha 8 adds **42 provider-free MAATAA core SVG icons** and **15 symbolic demo identities**: Brahmini, Shiv, Parvati, seven Saptarishis and five Panchtatva identities. The demo uses these personas for session identity, workspace ownership, AI agents, activity, approvals and avatar groups. Their software responsibilities are demo metaphors only, not theological claims. See `IDENTITIES.md` and `ICONS.md`.
+
+```tsx
+import { IdentityAvatar } from "@maataa/ui/identity/IdentityAvatar";
+import { MaataaIcon } from "@maataa/ui/icons/MaataaIcon";
+```
+
+## Scope
+
+- Foundation/layout primitives and providers
+- Typography
+- Buttons and actions
+- Forms and field composition
+- Navigation and responsive application shell
+- Surfaces, overlays, dialogs, drawers, popovers and toasts
+- Feedback/status/loading/empty/error states
+- Tables, lists, avatars, metrics and trees
+- Lightweight SVG data visualization
+- Provider-neutral map surface components
+- Mobile shell, bottom navigation, drawers, safe areas and adapter-oriented interactions
+- Light/dark/system theme support
+- RTL-compatible layouts using logical CSS properties
+- Reduced-motion support
+
+## Install
+
+```bash
+npm install @maataa/ui react react-dom
+```
+
+> This ZIP is source-ready. The included `package.json` remains `private: true` to prevent accidental publication. Remove that flag only after your release review.
+
+## Quick start
+
+```tsx
+import { UiProvider, AppShell, TopNav, Sidebar, Button } from "@maataa/ui";
+import "@maataa/ui/styles.css";
+
+const items = [
+  { id: "home", label: "Home", href: "/" },
+  { id: "projects", label: "Projects", href: "/projects" },
+];
+
+export function App() {
+  return (
+    <UiProvider theme="system">
+      <AppShell
+        topNav={<TopNav brand={<strong>MAATAA</strong>} />}
+        sidebar={<Sidebar items={items} activeId="home" />}
+      >
+        <main style={{ padding: 24 }}>
+          <h1>Workspace</h1>
+          <Button>Create</Button>
+        </main>
+      </AppShell>
+    </UiProvider>
+  );
+}
+```
+
+## Subpath imports
+
+```tsx
+import { Button, IconButton } from "@maataa/ui/actions";
+import { Input, FormField } from "@maataa/ui/forms";
+import { Modal, ToastProvider } from "@maataa/ui/surfaces";
+import { DataTable } from "@maataa/ui/data";
+import { ThemeProvider } from "@maataa/ui/themes";
+```
+
+## Design behavior
+
+The MAATAA gold/focus glare is static at rest and animates/brightens only on hover, keyboard focus, or active interaction. The stylesheet respects `prefers-reduced-motion`.
+
+## Accessibility
+
+The package is designed around semantic HTML, keyboard operability, visible focus, appropriate ARIA semantics, and touch-friendly controls. Automated checks cannot establish complete WCAG conformance; see `ACCESSIBILITY.md`.
+
+## Development
+
+```bash
+npm install
+npm run typecheck
+npm test
+npm run build
+npm run storybook
+npm run storybook:build
+npm run api:manifest
+npm pack
+```
+
+## Package boundary
+
+`@maataa/ui` owns visual interaction components. Host applications own routing, data fetching, authentication, authorization and business state.
+
+See `COMPONENTS.md`, `THEMING.md`, `ACCESSIBILITY.md`, and `MIGRATION.md`.
+
+## Atomic component contract
+
+Every public UI part is independently importable. Category barrels remain convenience-only. Prefer direct imports when composing new primitives:
+
+```tsx
+import { Button } from "@maataa/ui/actions/Button";
+import { Input } from "@maataa/ui/forms/Input";
+import { DialogHeader, DialogBody, DialogFooter } from "@maataa/ui/atomic";
+import { TableHead, TableBody, TableRow, TableCell } from "@maataa/ui/atomic";
+```
+
+Compound components must be composed from independently addressable parts. Application/domain state remains outside the package.
+
+
+## Layout system
+
+The package includes 34 independently importable layout-region atoms and 100 named compositional layout archetypes, including Holy Grail, Master–Detail, Workbench, Studio, Command Center, IDE, Spatial/CAD, Builder, Dashboard, Map Workspace, Kiosk, Control Room and HUD. See `LAYOUTS.md`.
+
+```tsx
+import { HolyGrailLayout } from "@maataa/ui/layouts/HolyGrailLayout";
+import { LayoutSidebar } from "@maataa/ui/layout-atoms/LayoutSidebar";
+```
+
+## Alpha 6 — full registry-aware + AI + device architecture
+
+The package models the complete UI composition chain:
+
+```text
+Registry Registry
+  → Workspace / AI Space
+  → Page
+  → Layout
+  → Region / Slot
+  → Generator / Tool / Pattern / Composition
+  → Component
+  → Atom
+```
+
+Current snapshot:
+
+- 500 page types in 41 page groups
+- 647 workspace types in 58 workspace groups
+- 100 layout archetypes in 18 layout groups
+- 208 canonical generators across 21 generator groups
+- 491 canonical tools across 19 tool groups
+- 112 AI spaces across 7 AI-space groups
+- 187 canonical device types across 41 device groups
+- 46 viewport classes, 18 input modalities, 14 orientation/folding modes
+- 46 device capabilities, 11 safe-area profiles, 25 responsive transformations
+- 20 device atoms
+- 211 governed registry definitions plus `REGISTRY.REGISTRY`
+- 32 AI-specific registry definitions
+- 27 page atoms, 24 workspace atoms, 34 layout atoms
+- 14 generator atoms, 13 tool atoms, 23 AI-space atoms
+- 22 reusable page templates and 39 reusable workspace templates
+- 1721 public declarations
+- 1572 direct public component imports
+
+Examples:
+
+```tsx
+import { PageHeader } from "@maataa/ui/page-atoms/PageHeader";
+import { HolyGrailLayout } from "@maataa/ui/layouts/HolyGrailLayout";
+import { ComponentGenerator } from "@maataa/ui/generators/ComponentGenerator";
+import { AgentBuilder } from "@maataa/ui/tools/AgentBuilder";
+import { MAATAAAIStudio } from "@maataa/ui/ai-spaces/MAATAAAIStudio";
+import { GENERATOR_REGISTRY, TOOL_REGISTRY, AI_SPACE_REGISTRY } from "@maataa/ui/registries";
+```
+
+All registry metadata is descriptive UI vocabulary. It does **not** implement authentication, authorization, model execution, agent execution, external tool execution, persistence, APIs, infrastructure, migration execution or deployment authority.
+
+## Alpha 5 · Generators, Tools & AI Spaces
+
+Alpha 5 adds atomic visual/editor surfaces and canonical catalogs for generators, tools and AI-related spaces. Each generator/tool/space has a direct import file, while runtime execution remains host-owned. See `GENERATORS.md`, `TOOLS.md`, `AI-SPACES.md` and `AI-ARCHITECTURE.md`.
+
+## Device system
+
+Alpha 6 adds 187 canonical device types across 41 groups plus first-class viewport, input-modality, orientation, device-capability, safe-area and responsive-transformation catalogs. Every canonical device frame has a direct atomic import path under `@maataa/ui/devices/*`. See `DEVICES.md`.
+
+
+## Alpha 7 Redux + demo data
+Use `@maataa/ui/redux`, `@maataa/ui/types`, `@maataa/ui/static-data`, and `@maataa/ui/demo` for stateful demos. The Redux layer is optional and does not provide backend authority or persistence.
+
+## Alpha 8 actual preview guarantee
+
+- Component selection in Full Surface resolves the selected `@maataa/ui/...` import path to its real source module.
+- `ACTUAL EXPORT` means the selected runtime React export itself is mounted in the canvas.
+- Non-renderable type/hook exports are labelled `NON-RUNTIME EXPORT`; context-dependent exports show an explicit context/props message.
+- No shared generic Button/Input/Tabs specimen is presented as another selected component.
+- All 1,572 registered component import paths are source-resolvable in this package revision.
+
+
+## Alpha 8 depth runtime
+
+```tsx
+import { VisualComposer, DEFAULT_COMPOSER_SCENE } from "@maataa/ui/composer";
+import { ResponsiveDeviceRuntime } from "@maataa/ui/runtime";
+```
+
+Run `pnpm certify` for the installed-dependency type/test/Storybook/demo certification gate. See `ALPHA8-DEPTH.md`.
+
+
+## Alpha 8.4 Beta-prep
+Alpha 8.4 adds bundle budgets/manual chunking, clean packed-consumer validation, Playwright desktop/mobile browser smoke tests, automated axe accessibility gates, and deterministic beta-prep evidence. The Alpha 8 baseline is certified; Beta still requires the full `pnpm certify:beta` gate plus manual accessibility/representative real-device acceptance.

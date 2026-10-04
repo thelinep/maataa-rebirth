@@ -1,0 +1,1 @@
+import{j as o}from"./vendor-react-IAN6ABvC.js";import{a4 as n}from"./maataa-registries-BsYY0ZZj.js";function m({className:e,...i}){return o.jsx("div",{"data-device-region":"hinge",className:n("m-device-atom","m-device-hinge",e),...i})}m.__docgenInfo={description:"",methods:[],displayName:"DeviceHinge"};export{m as DeviceHinge};

@@ -1,0 +1,19 @@
+import React from "react";
+import { cx } from "../utils";
+export function Badge({tone="neutral",className,...p}:React.HTMLAttributes<HTMLSpanElement>&{tone?:"neutral"|"success"|"warning"|"danger"|"info"}){return <span className={cx("m-badge m-ui",className)} data-tone={tone} style={{borderColor:tone==="success"?"var(--m-success)":tone==="warning"?"var(--m-warning)":tone==="danger"?"var(--m-danger)":tone==="info"?"var(--m-info)":undefined,...p.style}} {...p}/>}
+export const StatusBadge=Badge;export const Tag=Badge;export const Chip=Badge;
+export function Alert({tone="info",title,children,className,...p}:React.HTMLAttributes<HTMLDivElement>&{tone?:"info"|"success"|"warning"|"danger";title?:React.ReactNode}){return <div role={tone==="danger"?"alert":"status"} className={cx("m-alert m-ui",className)} data-tone={tone} {...p}>{title&&<strong style={{display:"block",marginBlockEnd:4}}>{title}</strong>}{children}</div>}
+export const Banner=Alert;export const Callout=Alert;
+export function Progress({value=0,max=100,label}:{value?:number;max?:number;label?:string}){const pct=max>0?Math.max(0,Math.min(100,value/max*100)):0;return <div><div className="m-progress" role="progressbar" aria-valuenow={value} aria-valuemin={0} aria-valuemax={max} aria-label={label}><span style={{width:`${pct}%`}}/></div></div>}
+export const ProgressBar=Progress;
+export function Spinner({label="Loading"}:{label?:string}){return <span role="status" style={{display:"inline-flex",alignItems:"center",gap:8}}><span className="m-spinner" aria-hidden="true"/><span className="m-sr-only">{label}</span></span>}
+export function Skeleton({width="100%",height=16,label="Loading content"}:{width?:number|string;height?:number|string;label?:string}){return <span className="m-skeleton" role="status" aria-label={label} style={{display:"block",width,height}}/>}
+function State({title,description,action,icon}:{title:React.ReactNode;description?:React.ReactNode;action?:React.ReactNode;icon?:React.ReactNode}){return <div className="m-ui" style={{display:"grid",placeItems:"center",textAlign:"center",gap:8,padding:32}}>{icon&&<div aria-hidden="true" style={{fontSize:28}}>{icon}</div>}<strong>{title}</strong>{description&&<div className="m-field-description">{description}</div>}{action}</div>}
+export const EmptyState=(p:{title?:React.ReactNode;description?:React.ReactNode;action?:React.ReactNode})=><State title={p.title??"Nothing here yet"} description={p.description} action={p.action} icon="○"/>;
+export const LoadingState=(p:{title?:React.ReactNode;description?:React.ReactNode})=><State title={p.title??"Loading"} description={p.description} icon={<Spinner/>}/>;
+export const ErrorState=(p:{title?:React.ReactNode;description?:React.ReactNode;action?:React.ReactNode})=><State title={p.title??"Something went wrong"} description={p.description} action={p.action} icon="!"/>;
+export const OfflineState=(p:{title?:React.ReactNode;description?:React.ReactNode;action?:React.ReactNode})=><State title={p.title??"Offline"} description={p.description} action={p.action} icon="↯"/>;
+export const ForbiddenState=(p:{title?:React.ReactNode;description?:React.ReactNode})=><State title={p.title??"Access restricted"} description={p.description} icon="⊘"/>;
+export const NotFoundState=(p:{title?:React.ReactNode;description?:React.ReactNode})=><State title={p.title??"Not found"} description={p.description} icon="?"/>;
+export function OnlineStatus({online,labelOnline="Online",labelOffline="Offline"}:{online:boolean;labelOnline?:string;labelOffline?:string}){return <Badge tone={online?"success":"danger"}>{online?labelOnline:labelOffline}</Badge>}
+export function SyncStatus({status}:{status:"synced"|"syncing"|"pending"|"error"}){const tone=status==="synced"?"success":status==="error"?"danger":status==="pending"?"warning":"info";return <Badge tone={tone}>{status}</Badge>}

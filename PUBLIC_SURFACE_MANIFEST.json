@@ -1,0 +1,28 @@
+{
+  "version": "1.0.0-alpha.8",
+  "routes": [
+    "/",
+    "/surface",
+    "/playground",
+    "/sandbox",
+    "/demos",
+    "/docs",
+    "/help",
+    "/support"
+  ],
+  "sections": [
+    "LANDING",
+    "SURFACE",
+    "PLAYGROUND",
+    "SANDBOX",
+    "DEMOS",
+    "DOCS",
+    "HELP",
+    "SUPPORT"
+  ],
+  "app": "examples/redux-demo/App.tsx",
+  "routing": "hash",
+  "supportTransport": "none-demo-local-only",
+  "appSha256": "4cea080911d7152d19d958f65fe1c60f8a4abd227e4ca542e862d2bd8550caa0",
+  "sourceSha256": "aa08ab4c2060806a302f197d857f2b9503c2724f133ffc477dc9c3720be3fdf1"
+}

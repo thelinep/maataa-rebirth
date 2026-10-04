@@ -1,0 +1,1 @@
+import{c as N}from"./maataa-registries-BsYY0ZZj.js";import"./vendor-react-IAN6ABvC.js";const A=N.filter(E=>E.groupKey==="COMMERCIAL_FINANCE_INVESTMENT");export{A as COMMERCIAL_FINANCE_INVESTMENT_PAGES};

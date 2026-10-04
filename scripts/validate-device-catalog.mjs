@@ -1,0 +1,4 @@
+import { access, readFile } from "node:fs/promises"; import path from "node:path"; import url from "node:url";
+const root=path.resolve(path.dirname(url.fileURLToPath(import.meta.url)),"..");
+async function embedded(file,name){const s=await readFile(path.join(root,file),"utf8");const m=s.match(new RegExp(`export const ${name}[^=]*= (\\[.*\\]) as const`,`s`));if(!m)throw new Error(`Missing ${name}`);return JSON.parse(m[1]);}
+const devices=await embedded("src/registries/deviceRegistry.ts","DEVICE_REGISTRY"); const ids=new Set(), comps=new Set(); for(const d of devices){if(ids.has(d.id))throw new Error(`Duplicate device id ${d.id}`);if(comps.has(d.component))throw new Error(`Duplicate component ${d.component}`);ids.add(d.id);comps.add(d.component);await access(path.join(root,"src/devices",`${d.component}.tsx`));} console.log(`${devices.length} device records validated`);

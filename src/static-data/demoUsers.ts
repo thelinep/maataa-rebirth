@@ -1,0 +1,19 @@
+import type { DemoUser } from "../types/demo";
+const now = "2026-10-04T08:30:00+05:30";
+export const DEMO_USERS: readonly DemoUser[] = [
+  {id:"user-brahmini",name:"Brahmini",email:"brahmini@demo.maataa.local",identityId:"IDENTITY.BRAHMINI",organisationId:"org-maataa",roleIds:["ROLE.SYSTEM_STEWARD","ROLE.ADMIN"],permissionIds:["*"],createdAt:now,updatedAt:now},
+  {id:"user-shiv",name:"Shiv",email:"shiv@demo.maataa.local",identityId:"IDENTITY.SHIV",organisationId:"org-maataa",roleIds:["ROLE.ARCHITECT"],permissionIds:["ui:*","registry:*","architecture:*"],createdAt:now,updatedAt:now},
+  {id:"user-parvati",name:"Parvati",email:"parvati@demo.maataa.local",identityId:"IDENTITY.PARVATI",organisationId:"org-maataa",roleIds:["ROLE.EXPERIENCE_STEWARD","ROLE.DESIGNER"],permissionIds:["ui:view","ui:edit","event:view","event:edit"],createdAt:now,updatedAt:now},
+  {id:"user-atri",name:"Atri",email:"atri@demo.maataa.local",identityId:"IDENTITY.SAPTARISHI.ATRI",organisationId:"org-maataa",roleIds:["ROLE.RESEARCH"],permissionIds:["research:*","docs:view","evidence:view"],createdAt:now,updatedAt:now},
+  {id:"user-bharadvaja",name:"Bharadvaja",email:"bharadvaja@demo.maataa.local",identityId:"IDENTITY.SAPTARISHI.BHARADVAJA",organisationId:"org-siddham",roleIds:["ROLE.ENGINEER"],permissionIds:["dev:*","build:*","sdk:*"],createdAt:now,updatedAt:now},
+  {id:"user-gautama",name:"Gautama",email:"gautama@demo.maataa.local",identityId:"IDENTITY.SAPTARISHI.GAUTAMA",organisationId:"org-maataa",roleIds:["ROLE.EVIDENCE_REVIEWER","ROLE.AI_OPERATOR"],permissionIds:["ai:view","ai:execute","eval:*","evidence:*"],createdAt:now,updatedAt:now},
+  {id:"user-jamadagni",name:"Jamadagni",email:"jamadagni@demo.tlps.local",identityId:"IDENTITY.SAPTARISHI.JAMADAGNI",organisationId:"org-tlps",roleIds:["ROLE.LINE_PRODUCER","ROLE.OPERATIONS"],permissionIds:["production:*","operations:*"],createdAt:now,updatedAt:now},
+  {id:"user-kashyapa",name:"Kashyapa",email:"kashyapa@demo.nevo.local",identityId:"IDENTITY.SAPTARISHI.KASHYAPA",organisationId:"org-nevo",roleIds:["ROLE.ECOSYSTEM_MANAGER"],permissionIds:["vendor:*","marketplace:*","service:*"],createdAt:now,updatedAt:now},
+  {id:"user-vashistha",name:"Vashistha",email:"vashistha@demo.maataa.local",identityId:"IDENTITY.SAPTARISHI.VASHISTHA",organisationId:"org-maataa",roleIds:["ROLE.GOVERNANCE"],permissionIds:["policy:*","approval:*","audit:*"],createdAt:now,updatedAt:now},
+  {id:"user-vishvamitra",name:"Vishvamitra",email:"vishvamitra@demo.maataa.local",identityId:"IDENTITY.SAPTARISHI.VISHVAMITRA",organisationId:"org-maataa",roleIds:["ROLE.INNOVATION"],permissionIds:["labs:*","generator:*","tool:*"],createdAt:now,updatedAt:now},
+  {id:"user-prithvi",name:"Prithvi",email:"prithvi@demo.maataa.local",identityId:"IDENTITY.PANCHTATVA.PRITHVI",organisationId:"org-maataa",roleIds:["ROLE.INFRASTRUCTURE"],permissionIds:["infra:*","storage:*","runtime:view"],createdAt:now,updatedAt:now},
+  {id:"user-varuna",name:"Varuna",email:"varuna@demo.maataa.local",identityId:"IDENTITY.PANCHTATVA.VARUNA",organisationId:"org-maataa",roleIds:["ROLE.DATA_FLOW"],permissionIds:["data:*","finance:view","sync:*"],createdAt:now,updatedAt:now},
+  {id:"user-agni",name:"Agni",email:"agni@demo.maataa.local",identityId:"IDENTITY.PANCHTATVA.AGNI",organisationId:"org-maataa",roleIds:["ROLE.EXECUTION"],permissionIds:["build:*","compute:*","deploy:view"],createdAt:now,updatedAt:now},
+  {id:"user-vayu",name:"Vayu",email:"vayu@demo.nevo.local",identityId:"IDENTITY.PANCHTATVA.VAYU",organisationId:"org-nevo",roleIds:["ROLE.COMMUNICATIONS","ROLE.LOGISTICS"],permissionIds:["communication:*","transport:*","notification:*"],createdAt:now,updatedAt:now},
+  {id:"user-akasha",name:"Akasha",email:"akasha@demo.maataa.local",identityId:"IDENTITY.PANCHTATVA.AKASHA",organisationId:"org-maataa",roleIds:["ROLE.CONTEXT_NETWORK"],permissionIds:["knowledge:*","graph:*","spatial:*"],createdAt:now,updatedAt:now}
+] as const;

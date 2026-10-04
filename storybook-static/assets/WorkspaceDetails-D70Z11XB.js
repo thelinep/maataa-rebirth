@@ -1,0 +1,1 @@
+import{j as e}from"./vendor-react-IAN6ABvC.js";import{a4 as o}from"./maataa-registries-BsYY0ZZj.js";function r({className:a,...s}){return e.jsx("div",{"data-workspace-region":"workspacedetails",className:o("m-workspace-atom","m-workspace-workspacedetails",a),...s})}r.__docgenInfo={description:"",methods:[],displayName:"WorkspaceDetails"};export{r as WorkspaceDetails};
