@@ -47,3 +47,9 @@ alpha8.*-preview-source-part*.txt
 alpha8.*-app-static-imports.txt
 alpha8.*-public-barrel.txt
 alpha8.*-components-barrel.txt
+alpha8.*-dynamic-modules-*.txt
+alpha8.*-dynamic-groups-*.txt
+alpha8.*-collision-groups.txt
+alpha8.*-loader-split-*.log
+alpha8.*-loader-split-*-largest.txt
+alpha8.*-loader-split-largest.txt
