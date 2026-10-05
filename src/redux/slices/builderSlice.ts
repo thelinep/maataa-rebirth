@@ -1,13 +1,15 @@
 import { createSlice, current, type PayloadAction } from "@reduxjs/toolkit";
 import { DEFAULT_COMPOSER_SCENE, createComposerBlock } from "../../composer/defaults";
+import { updateCompositionSpec } from "../../composer/spec";
+import { validateComposerScene } from "../../composer/validate";
 import type { ComposerBlockKind, ComposerScene } from "../../composer/types";
 
 export interface BuilderState { past:ComposerScene[]; present:ComposerScene; future:ComposerScene[]; selectedBlockId:string|null; nextBlockNumber:number; persistenceEnabled:boolean; }
 export const initialBuilderState:BuilderState={past:[],present:DEFAULT_COMPOSER_SCENE,future:[],selectedBlockId:DEFAULT_COMPOSER_SCENE.blocks[0]?.id??null,nextBlockNumber:6,persistenceEnabled:true};
 function snapshot(scene:ComposerScene){return JSON.parse(JSON.stringify(current(scene) as ComposerScene)) as ComposerScene}
-function commit(state:BuilderState,next:ComposerScene){state.past.push(snapshot(state.present));if(state.past.length>60)state.past.shift();state.present={...next,updatedAt:new Date().toISOString()};state.future=[];}
+function commit(state:BuilderState,next:ComposerScene){state.past.push(snapshot(state.present));if(state.past.length>60)state.past.shift();state.present=updateCompositionSpec({...next,updatedAt:new Date().toISOString()});state.future=[];}
 const slice=createSlice({name:"builder",initialState:initialBuilderState,reducers:{
-  setScene:(s,a:PayloadAction<ComposerScene>)=>commit(s,a.payload),
+  setScene:(s,a:PayloadAction<ComposerScene>)=>{if(!validateComposerScene(a.payload).valid)throw new Error("Invalid composition scene");commit(s,a.payload)},
   resetScene:(s)=>{commit(s,DEFAULT_COMPOSER_SCENE);s.selectedBlockId=DEFAULT_COMPOSER_SCENE.blocks[0]?.id??null},
   selectBlock:(s,a:PayloadAction<string|null>)=>{s.selectedBlockId=a.payload},
   addBlock:(s,a:PayloadAction<ComposerBlockKind>)=>{const id=`block-${s.nextBlockNumber++}`;commit(s,{...snapshot(s.present),blocks:[...snapshot(s.present).blocks,createComposerBlock(a.payload,id)]});s.selectedBlockId=id},

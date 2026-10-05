@@ -1,3 +1,5 @@
+import { toCompositionSpec } from "./spec";
+import { COMPOSER_COMPONENT_BINDINGS } from "./componentBindings.generated";
 import type { ComposerBlock, ComposerBlockKind, ComposerScene } from "./types";
 
 export const COMPOSER_BLOCK_DEFAULTS: Record<ComposerBlockKind, Record<string, unknown>> = {
@@ -13,10 +15,10 @@ export const COMPOSER_BLOCK_DEFAULTS: Record<ComposerBlockKind, Record<string, u
 };
 
 export function createComposerBlock(kind: ComposerBlockKind, id: string): ComposerBlock {
-  return { id, kind, props: { ...COMPOSER_BLOCK_DEFAULTS[kind] } };
+  return { id, kind, componentId:COMPOSER_COMPONENT_BINDINGS[kind].componentId, props: { ...COMPOSER_BLOCK_DEFAULTS[kind] } };
 }
 
-export const DEFAULT_COMPOSER_SCENE: ComposerScene = {
+export const DEFAULT_COMPOSER_SCENE: ComposerScene = toCompositionSpec({
   id: "COMPOSER.DEMO.MAATAA_OPERATIONS",
   name: "MAATAA Operations Composer",
   workspaceTypeId: "WORKSPACE.MAATAA_CORE_STUDIO.MAATAA_UI_STUDIO",
@@ -34,4 +36,4 @@ export const DEFAULT_COMPOSER_SCENE: ComposerScene = {
     createComposerBlock("button", "block-5"),
   ],
   updatedAt: "2026-10-04T00:00:00.000Z",
-};
+});

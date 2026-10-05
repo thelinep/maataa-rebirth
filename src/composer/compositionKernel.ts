@@ -1,4 +1,5 @@
-import { evaluateDeviceCapabilities } from "../runtime/deviceRuntime";
+import { inspectComposerScene } from "./sceneData";
+import { evaluateDeviceCapabilities } from "../registries/deviceRuntimeMetadata";
 import type { ComposerScene } from "./types";
 import {
   evaluateCompositionCompatibility,
@@ -339,6 +340,12 @@ export function validateCompositionKernel(
   scene: ComposerScene,
   context: CompositionContext = {},
 ): CompositionKernelValidation {
+  const shape=inspectComposerScene(scene);
+  if(!shape.validShape)return {
+    valid:false,errors:[],warnings:[],resolution:{regions:[],components:[],transformations:[]},
+    sceneValidation:{valid:false,issues:shape.issues},compatibility:{status:"unverified",candidateEvidence:[]},
+    deviceCapabilities:{status:"UNVERIFIED",supported:[],missing:[],unknown:[],evidence:"device-registry-declaration"},
+  };
   const references =
     validateCompositionReferences(
       {

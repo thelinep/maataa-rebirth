@@ -110,6 +110,15 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "nav",
+        "hero",
+        "toolbar",
+        "main",
+        "actions",
+        "footer"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/SingleColumnLayout.tsx",
@@ -222,6 +231,15 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "nav",
+        "hero",
+        "toolbar",
+        "main",
+        "actions",
+        "footer"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/CenteredContainerLayout.tsx",
@@ -334,6 +352,16 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "nav",
+        "toolbar",
+        "main",
+        "details",
+        "actions",
+        "footer",
+        "bottomnav"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/FluidLayout.tsx",
@@ -446,6 +474,16 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "nav",
+        "toolbar",
+        "main",
+        "details",
+        "actions",
+        "footer",
+        "bottomnav"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/FixedLayout.tsx",
@@ -558,6 +596,16 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "nav",
+        "toolbar",
+        "main",
+        "details",
+        "actions",
+        "footer",
+        "bottomnav"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/FullBleedLayout.tsx",
@@ -670,6 +718,15 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "nav",
+        "hero",
+        "toolbar",
+        "main",
+        "actions",
+        "footer"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/HeroContentLayout.tsx",
@@ -782,6 +839,15 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "nav",
+        "hero",
+        "toolbar",
+        "main",
+        "actions",
+        "footer"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/EditorialLayout.tsx",
@@ -894,6 +960,15 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "nav",
+        "toolbar",
+        "sidebar",
+        "main",
+        "filters",
+        "footer"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/TwoColumnLayout.tsx",
@@ -1006,6 +1081,17 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "nav",
+        "toolbar",
+        "sidebar",
+        "main",
+        "inspector",
+        "list",
+        "details",
+        "footer"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/ThreeColumnLayout.tsx",
@@ -1118,6 +1204,15 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "nav",
+        "toolbar",
+        "sidebar",
+        "main",
+        "rail",
+        "footer"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/HolyGrailLayout.tsx",
@@ -1230,6 +1325,17 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "nav",
+        "toolbar",
+        "sidebar",
+        "main",
+        "inspector",
+        "list",
+        "details",
+        "footer"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/ResponsiveThreePaneLayout.tsx",
@@ -1342,6 +1448,15 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "nav",
+        "toolbar",
+        "sidebar",
+        "main",
+        "filters",
+        "footer"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/SidebarShellLayout.tsx",
@@ -1454,6 +1569,13 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "nav",
+        "sidebar",
+        "main",
+        "footer"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/TopNavigationLayout.tsx",
@@ -1566,6 +1688,13 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "nav",
+        "sidebar",
+        "main",
+        "footer"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/TopNavSidebarLayout.tsx",
@@ -1678,6 +1807,15 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "nav",
+        "toolbar",
+        "sidebar",
+        "main",
+        "filters",
+        "footer"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/CollapsibleSidebarLayout.tsx",
@@ -1790,6 +1928,17 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "nav",
+        "toolbar",
+        "sidebar",
+        "main",
+        "inspector",
+        "list",
+        "details",
+        "footer"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/DoubleSidebarLayout.tsx",
@@ -1902,6 +2051,16 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "nav",
+        "toolbar",
+        "main",
+        "details",
+        "actions",
+        "footer",
+        "bottomnav"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/FixedAppShellLayout.tsx",
@@ -2014,6 +2173,13 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "toolbar",
+        "main",
+        "preview",
+        "footer"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/SplitScreenLayout.tsx",
@@ -2126,6 +2292,13 @@
       ],
       "primarySlot": "details",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "toolbar",
+        "list",
+        "details",
+        "footer"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/MasterDetailLayout.tsx",
@@ -2238,6 +2411,17 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "nav",
+        "toolbar",
+        "sidebar",
+        "main",
+        "inspector",
+        "list",
+        "details",
+        "footer"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/ListDetailInspectorLayout.tsx",
@@ -2350,6 +2534,13 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "toolbar",
+        "main",
+        "preview",
+        "footer"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/ResizableSplitPaneLayout.tsx",
@@ -2462,6 +2653,16 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "nav",
+        "toolbar",
+        "main",
+        "details",
+        "actions",
+        "footer",
+        "bottomnav"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/ScrollablePaneLayout.tsx",
@@ -2574,6 +2775,7 @@
       ],
       "primarySlot": "main",
       "placementStatus": "fallback-main",
+      "gridRegions": [],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/DashboardGridLayout.tsx",
@@ -2686,6 +2888,7 @@
       ],
       "primarySlot": "main",
       "placementStatus": "fallback-main",
+      "gridRegions": [],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/CardGridLayout.tsx",
@@ -2798,6 +3001,7 @@
       ],
       "primarySlot": "main",
       "placementStatus": "fallback-main",
+      "gridRegions": [],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/BentoGridLayout.tsx",
@@ -2910,6 +3114,7 @@
       ],
       "primarySlot": "main",
       "placementStatus": "fallback-main",
+      "gridRegions": [],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/MasonryLayout.tsx",
@@ -3022,6 +3227,16 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "nav",
+        "toolbar",
+        "main",
+        "details",
+        "actions",
+        "footer",
+        "bottomnav"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/ResponsiveAdaptiveLayout.tsx",
@@ -3134,6 +3349,16 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "nav",
+        "toolbar",
+        "main",
+        "details",
+        "actions",
+        "footer",
+        "bottomnav"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/IntrinsicLayout.tsx",
@@ -3246,6 +3471,15 @@
       ],
       "primarySlot": "canvas",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "toolbar",
+        "palette",
+        "canvas",
+        "inspector",
+        "timeline",
+        "statusbar"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/WorkbenchLayout.tsx",
@@ -3358,6 +3592,14 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "toolbar",
+        "sidebar",
+        "main",
+        "inspector",
+        "dock",
+        "statusbar"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/IDELayout.tsx",
@@ -3470,6 +3712,15 @@
       ],
       "primarySlot": "canvas",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "toolbar",
+        "palette",
+        "canvas",
+        "inspector",
+        "timeline",
+        "statusbar"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/StudioLayout.tsx",
@@ -3582,6 +3833,16 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "nav",
+        "toolbar",
+        "main",
+        "details",
+        "actions",
+        "footer",
+        "bottomnav"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/TabbedWorkspaceLayout.tsx",
@@ -3694,6 +3955,16 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "nav",
+        "toolbar",
+        "main",
+        "details",
+        "actions",
+        "footer",
+        "bottomnav"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/DockablePanelLayout.tsx",
@@ -3806,6 +4077,15 @@
       ],
       "primarySlot": "canvas",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "toolbar",
+        "palette",
+        "canvas",
+        "inspector",
+        "timeline",
+        "statusbar"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/BuilderLayout.tsx",
@@ -3918,6 +4198,15 @@
       ],
       "primarySlot": "canvas",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "toolbar",
+        "palette",
+        "canvas",
+        "inspector",
+        "timeline",
+        "statusbar"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/PageBuilderLayout.tsx",
@@ -4030,6 +4319,15 @@
       ],
       "primarySlot": "canvas",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "toolbar",
+        "palette",
+        "canvas",
+        "inspector",
+        "timeline",
+        "statusbar"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/WorkflowBuilderLayout.tsx",
@@ -4142,6 +4440,11 @@
       ],
       "primarySlot": "canvas",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "toolbar",
+        "canvas",
+        "statusbar"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/CanvasLayout.tsx",
@@ -4254,6 +4557,15 @@
       ],
       "primarySlot": "canvas",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "toolbar",
+        "palette",
+        "canvas",
+        "inspector",
+        "timeline",
+        "statusbar"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/SpatialCADLayout.tsx",
@@ -4366,6 +4678,11 @@
       ],
       "primarySlot": "canvas",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "toolbar",
+        "canvas",
+        "statusbar"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/MapWorkspaceLayout.tsx",
@@ -4478,6 +4795,13 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "toolbar",
+        "filters",
+        "main",
+        "details",
+        "footer"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/DataExplorerLayout.tsx",
@@ -4590,6 +4914,13 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "toolbar",
+        "filters",
+        "main",
+        "details",
+        "footer"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/TableWorkspaceLayout.tsx",
@@ -4702,6 +5033,7 @@
       ],
       "primarySlot": "main",
       "placementStatus": "fallback-main",
+      "gridRegions": [],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/AnalyticsLayout.tsx",
@@ -4814,6 +5146,13 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "toolbar",
+        "main",
+        "preview",
+        "footer"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/ComparisonLayout.tsx",
@@ -4926,6 +5265,13 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "toolbar",
+        "main",
+        "preview",
+        "footer"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/BeforeAfterLayout.tsx",
@@ -5038,6 +5384,7 @@
       ],
       "primarySlot": "main",
       "placementStatus": "fallback-main",
+      "gridRegions": [],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/KanbanLayout.tsx",
@@ -5150,6 +5497,7 @@
       ],
       "primarySlot": "main",
       "placementStatus": "fallback-main",
+      "gridRegions": [],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/BoardLayout.tsx",
@@ -5262,6 +5610,12 @@
       ],
       "primarySlot": "details",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "toolbar",
+        "sidebar",
+        "timeline",
+        "details"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/TimelineLayout.tsx",
@@ -5374,6 +5728,12 @@
       ],
       "primarySlot": "details",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "toolbar",
+        "sidebar",
+        "timeline",
+        "details"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/GanttLayout.tsx",
@@ -5486,6 +5846,12 @@
       ],
       "primarySlot": "details",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "toolbar",
+        "sidebar",
+        "timeline",
+        "details"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/CalendarLayout.tsx",
@@ -5598,6 +5964,12 @@
       ],
       "primarySlot": "details",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "toolbar",
+        "sidebar",
+        "timeline",
+        "details"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/SchedulerLayout.tsx",
@@ -5710,6 +6082,17 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "nav",
+        "toolbar",
+        "sidebar",
+        "main",
+        "inspector",
+        "list",
+        "details",
+        "footer"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/InboxLayout.tsx",
@@ -5822,6 +6205,17 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "nav",
+        "toolbar",
+        "sidebar",
+        "main",
+        "inspector",
+        "list",
+        "details",
+        "footer"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/ChatLayout.tsx",
@@ -5934,6 +6328,7 @@
       ],
       "primarySlot": "main",
       "placementStatus": "fallback-main",
+      "gridRegions": [],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/SocialFeedLayout.tsx",
@@ -6046,6 +6441,17 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "nav",
+        "toolbar",
+        "sidebar",
+        "main",
+        "inspector",
+        "list",
+        "details",
+        "footer"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/CRMLayout.tsx",
@@ -6158,6 +6564,7 @@
       ],
       "primarySlot": "main",
       "placementStatus": "fallback-main",
+      "gridRegions": [],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/GalleryLayout.tsx",
@@ -6270,6 +6677,9 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "main"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/LightboxLayout.tsx",
@@ -6382,6 +6792,14 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "toolbar",
+        "sidebar",
+        "main",
+        "inspector",
+        "dock",
+        "statusbar"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/MediaEditingLayout.tsx",
@@ -6494,6 +6912,14 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "toolbar",
+        "sidebar",
+        "main",
+        "inspector",
+        "dock",
+        "statusbar"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/VideoEditingLayout.tsx",
@@ -6606,6 +7032,13 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "toolbar",
+        "sidebar",
+        "main",
+        "rail",
+        "footer"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/PresentationLayout.tsx",
@@ -6718,6 +7151,13 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "nav",
+        "main",
+        "rail",
+        "actions"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/WizardLayout.tsx",
@@ -6830,6 +7270,13 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "nav",
+        "main",
+        "rail",
+        "actions"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/StepperFormLayout.tsx",
@@ -6942,6 +7389,13 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "toolbar",
+        "main",
+        "preview",
+        "footer"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/FormPreviewLayout.tsx",
@@ -7054,6 +7508,13 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "nav",
+        "main",
+        "rail",
+        "actions"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/ApprovalWorkspaceLayout.tsx",
@@ -7166,6 +7627,13 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "nav",
+        "main",
+        "rail",
+        "actions"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/ReviewLayout.tsx",
@@ -7278,6 +7746,15 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "nav",
+        "toolbar",
+        "sidebar",
+        "main",
+        "filters",
+        "footer"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/FacetedCommerceLayout.tsx",
@@ -7390,6 +7867,14 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "nav",
+        "main",
+        "rail",
+        "actions",
+        "footer"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/ProductDetailLayout.tsx",
@@ -7502,6 +7987,14 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "nav",
+        "main",
+        "rail",
+        "actions",
+        "footer"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/MarketplaceLayout.tsx",
@@ -7614,6 +8107,14 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "nav",
+        "main",
+        "rail",
+        "actions",
+        "footer"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/BookingLayout.tsx",
@@ -7726,6 +8227,14 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "nav",
+        "main",
+        "rail",
+        "actions",
+        "footer"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/CheckoutLayout.tsx",
@@ -7838,6 +8347,14 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "nav",
+        "main",
+        "rail",
+        "actions",
+        "footer"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/PricingLayout.tsx",
@@ -7950,6 +8467,13 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "toolbar",
+        "sidebar",
+        "main",
+        "rail",
+        "footer"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/DocumentEditorLayout.tsx",
@@ -8062,6 +8586,13 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "toolbar",
+        "sidebar",
+        "main",
+        "rail",
+        "footer"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/KnowledgeBaseLayout.tsx",
@@ -8174,6 +8705,13 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "toolbar",
+        "sidebar",
+        "main",
+        "rail",
+        "footer"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/DocumentationLayout.tsx",
@@ -8286,6 +8824,15 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "nav",
+        "toolbar",
+        "sidebar",
+        "main",
+        "filters",
+        "footer"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/SearchResultsLayout.tsx",
@@ -8398,6 +8945,15 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "nav",
+        "hero",
+        "toolbar",
+        "main",
+        "actions",
+        "footer"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/LandingPageLayout.tsx",
@@ -8510,6 +9066,7 @@
       ],
       "primarySlot": "main",
       "placementStatus": "fallback-main",
+      "gridRegions": [],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/MagazineLayout.tsx",
@@ -8622,6 +9179,7 @@
       ],
       "primarySlot": "main",
       "placementStatus": "fallback-main",
+      "gridRegions": [],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/NewspaperLayout.tsx",
@@ -8734,6 +9292,16 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "nav",
+        "toolbar",
+        "main",
+        "details",
+        "actions",
+        "footer",
+        "bottomnav"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/MobileStackLayout.tsx",
@@ -8846,6 +9414,16 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "nav",
+        "toolbar",
+        "main",
+        "details",
+        "actions",
+        "footer",
+        "bottomnav"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/MobileTabLayout.tsx",
@@ -8958,6 +9536,16 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "nav",
+        "toolbar",
+        "main",
+        "details",
+        "actions",
+        "footer",
+        "bottomnav"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/BottomNavigationAppLayout.tsx",
@@ -9070,6 +9658,13 @@
       ],
       "primarySlot": "details",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "toolbar",
+        "list",
+        "details",
+        "footer"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/MobileMasterDetailLayout.tsx",
@@ -9182,6 +9777,16 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "nav",
+        "toolbar",
+        "main",
+        "details",
+        "actions",
+        "footer",
+        "bottomnav"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/SidebarToDrawerLayout.tsx",
@@ -9294,6 +9899,16 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "nav",
+        "toolbar",
+        "main",
+        "details",
+        "actions",
+        "footer",
+        "bottomnav"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/InspectorToSheetLayout.tsx",
@@ -9406,6 +10021,16 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "nav",
+        "toolbar",
+        "main",
+        "details",
+        "actions",
+        "footer",
+        "bottomnav"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/AccordionLayout.tsx",
@@ -9518,6 +10143,16 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "nav",
+        "toolbar",
+        "main",
+        "details",
+        "actions",
+        "footer",
+        "bottomnav"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/DisclosureLayout.tsx",
@@ -9630,6 +10265,16 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "nav",
+        "toolbar",
+        "main",
+        "details",
+        "actions",
+        "footer",
+        "bottomnav"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/DrawerLayout.tsx",
@@ -9742,6 +10387,9 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "main"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/ModalWorkspaceLayout.tsx",
@@ -9854,6 +10502,16 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "nav",
+        "toolbar",
+        "main",
+        "details",
+        "actions",
+        "footer",
+        "bottomnav"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/BottomSheetLayout.tsx",
@@ -9966,6 +10624,7 @@
       ],
       "primarySlot": "main",
       "placementStatus": "fallback-main",
+      "gridRegions": [],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/CommandCenterLayout.tsx",
@@ -10078,6 +10737,7 @@
       ],
       "primarySlot": "main",
       "placementStatus": "fallback-main",
+      "gridRegions": [],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/CockpitLayout.tsx",
@@ -10190,6 +10850,7 @@
       ],
       "primarySlot": "main",
       "placementStatus": "fallback-main",
+      "gridRegions": [],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/ControlRoomLayout.tsx",
@@ -10302,6 +10963,7 @@
       ],
       "primarySlot": "main",
       "placementStatus": "fallback-main",
+      "gridRegions": [],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/OperationsWallboardLayout.tsx",
@@ -10414,6 +11076,11 @@
       ],
       "primarySlot": "canvas",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "toolbar",
+        "canvas",
+        "statusbar"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/HUDLayout.tsx",
@@ -10526,6 +11193,9 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "main"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/KioskLayout.tsx",
@@ -10638,6 +11308,9 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "main"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/TVLargeScreenLayout.tsx",
@@ -10750,6 +11423,16 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "nav",
+        "toolbar",
+        "main",
+        "details",
+        "actions",
+        "footer",
+        "bottomnav"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/StickyHeaderLayout.tsx",
@@ -10862,6 +11545,15 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "nav",
+        "toolbar",
+        "sidebar",
+        "main",
+        "filters",
+        "footer"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/StickySidebarLayout.tsx",
@@ -10974,6 +11666,16 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "nav",
+        "toolbar",
+        "main",
+        "details",
+        "actions",
+        "footer",
+        "bottomnav"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/StickyActionFooterLayout.tsx",
@@ -11086,6 +11788,15 @@
       ],
       "primarySlot": "main",
       "placementStatus": "source-declared",
+      "gridRegions": [
+        "header",
+        "nav",
+        "toolbar",
+        "sidebar",
+        "main",
+        "filters",
+        "footer"
+      ],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/SettingsLayout.tsx",
@@ -11198,6 +11909,7 @@
       ],
       "primarySlot": "main",
       "placementStatus": "fallback-main",
+      "gridRegions": [],
       "evidence": {
         "kind": "source",
         "reference": "src/layouts/ProfileLayout.tsx",

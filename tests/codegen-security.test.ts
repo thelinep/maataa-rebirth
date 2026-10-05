@@ -13,8 +13,9 @@ const attacks = [
 ];
 function attackScene(value: string): ComposerScene {
   const kinds = ["heading", "text", "button", "input", "card", "table", "metric", "badge", "divider"] as const;
+  const {regions,schemaVersion,...base}=DEFAULT_COMPOSER_SCENE;
   return {
-    ...DEFAULT_COMPOSER_SCENE, name: "123 bad",
+    ...base, name: "123 bad",
     blocks: kinds.map((kind, i) => ({ ...createComposerBlock(kind, `b${i}`), props: {
       text: value, label: value, title: value, body: value, value, helper: value,
       placeholder: value, level: value, variant: value, tone: value,
@@ -50,7 +51,8 @@ describe("codegen trust boundary", () => {
   });
   it("serializes identity attributes and rejects invalid numeric/enum props", () => {
     const scene = attackScene('"} onClick={alert(1)}');
-    const code = generateComposerJsx({ ...scene, workspaceTypeId: scene.blocks[0].props.text as any });
+    expect(()=>generateComposerJsx({ ...scene, workspaceTypeId: scene.blocks[0].props.text as any })).toThrow(/Unknown workspace|not present/);
+    const code = generateComposerJsx(scene);
     expect(syntaxErrors(code)).toEqual([]);
     expect(code).toContain('level={2}');
     expect(code).toContain('variant={"primary"}');

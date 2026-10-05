@@ -10,6 +10,7 @@ import { LAYOUT_TYPES } from "../registries/layoutRegistry";
 import { DEVICE_REGISTRY } from "../registries/deviceRegistry";
 import { createComposerBlock } from "./defaults";
 import { ComposerBlockView } from "./ComposerRenderer";
+import { updateCompositionSpec } from "./spec";
 import { generateComposerJsx } from "./codegen";
 import { validateCompositionKernel } from "./compositionKernel";
 import { getVerifiedPageIdsForWorkspace, getVerifiedLayoutIdsForComposition } from "./compatibility";
@@ -51,7 +52,7 @@ export function VisualComposer({scene,selectedBlockId=null,canUndo,canRedo,onSce
     ...validation.sceneValidation.issues,
     ...validation.warnings.map(issue => ({code:issue.code,level:"warning",message:issue.message,blockId:undefined})),
   ];
-  const commit = (next: ComposerScene) => onSceneChange({...next,updatedAt:new Date().toISOString()});
+  const commit = (next: ComposerScene) => onSceneChange(updateCompositionSpec({...next,updatedAt:new Date().toISOString()}));
   const add = (kind:ComposerBlockKind) => { const block=createComposerBlock(kind,nextId(scene)); commit({...scene,blocks:[...scene.blocks,block]}); onSelectBlock?.(block.id); };
   const remove = (id:string) => { commit({...scene,blocks:scene.blocks.filter((b)=>b.id!==id)}); if(selectedBlockId===id)onSelectBlock?.(null); };
   const duplicate = (block:ComposerBlock) => { const copy={...block,id:nextId(scene),props:{...block.props}}; commit({...scene,blocks:[...scene.blocks,copy]}); onSelectBlock?.(copy.id); };

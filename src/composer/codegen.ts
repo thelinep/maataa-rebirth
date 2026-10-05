@@ -1,4 +1,5 @@
-import { LAYOUT_RUNTIME_CONTRACTS } from "../runtime/layoutContracts.generated";
+import { planSceneRegions } from "./regionPlan";
+import { toCompositionSpec, validateCompositionSpec } from "./spec";
 import { LAYOUT_TYPES } from "../registries/layoutRegistry";
 import type { ComposerBlock, ComposerScene } from "./types";
 
@@ -65,17 +66,23 @@ function selectedLayout(scene:ComposerScene) {
   return layout;
 }
 export function generateComposerImports(scene: ComposerScene) {
+  const result=validateCompositionSpec(toCompositionSpec(scene));
+  if(!result.accepted)throw new Error(result.errors.join(" "));
   const used = [...new Set(scene.blocks.filter((b) => !b.hidden).map((b) => b.kind))];
   const layout=selectedLayout(scene);
   return [`import { ${layout.name} } from "${layout.importPath}";`, ...used.map((kind) => `import { ${imports[kind].name} } from "${imports[kind].path}";`)].join("\n");
 }
 
 export function generateComposerJsx(scene: ComposerScene) {
-  const layout=selectedLayout(scene);
+  const spec=toCompositionSpec(scene);
+  const layout=selectedLayout(spec);
+  const result=validateCompositionSpec(spec);
+  if(!result.accepted)throw new Error(result.errors.join(" "));
   const importsText = generateComposerImports(scene);
   const usesTable = scene.blocks.some((b) => b.kind === "table" && !b.hidden);
   const data = usesTable ? `\nconst rows = [{id:1,name:"Surface Registry",status:"ready"},{id:2,name:"Device Matrix",status:"simulated"}];\nconst columns = [{id:"name",header:"Name"},{id:"status",header:"Status"}];\n` : "\n";
-  const slot=LAYOUT_RUNTIME_CONTRACTS[scene.layoutTypeId]?.primarySlot??"main";
-  const body = scene.blocks.filter((b) => !b.hidden).map((b) => `      ${blockJsx(b)}`).join("\n");
-  return `${importsText}${data}\nexport function ${componentIdentifier(scene.name,[layout.name,...Object.values(imports).map(item=>item.name)])}() {\n  return (\n    <${layout.name} data-workspace=${jsxAttributeValue(scene.workspaceTypeId)} data-page=${jsxAttributeValue(scene.pageTypeId)} data-layout=${jsxAttributeValue(scene.layoutTypeId)} ${slot}={<div>\n${body}\n    </div>} />\n  );\n}\n`;
+  const plan=planSceneRegions(result.spec);
+  const regionProps=[...plan.assignments].map(([slot,blocks])=>`${slot}={<div>\n${blocks.filter(block=>!block.hidden).map(block=>`      ${blockJsx(block)}`).join("\n")}\n    </div>}`).join(" ");
+  const placementNote=plan.unverified.length?"// Region placement unverified; primary-region fallback is explicit.\n":"";
+  return `${importsText}${data}${placementNote}\nexport function ${componentIdentifier(scene.name,[layout.name,...Object.values(imports).map(item=>item.name)])}() {\n  return (\n    <${layout.name} data-workspace=${jsxAttributeValue(scene.workspaceTypeId)} data-page=${jsxAttributeValue(scene.pageTypeId)} data-layout=${jsxAttributeValue(scene.layoutTypeId)} ${regionProps} />\n  );\n}\n`;
 }

@@ -10,9 +10,14 @@ export interface ComposerBlock {
   props: Record<string, unknown>;
   hidden?: boolean;
   locked?: boolean;
+  componentId?: string;
 }
 
+export interface CompositionRegionAssignment {regionId:string;blockIds:string[];}
+
 export interface ComposerScene {
+  schemaVersion?: "1";
+  regions?: CompositionRegionAssignment[];
   id: string;
   name: string;
   workspaceTypeId: WorkspaceTypeId;
@@ -36,4 +41,11 @@ export interface ComposerValidationIssue {
 export interface ComposerValidationResult {
   valid: boolean;
   issues: ComposerValidationIssue[];
+}
+
+/** Version 1 is the existing scene contract enriched with canonical component/region references. */
+export interface CompositionSpecV1 extends ComposerScene {
+  schemaVersion:"1";
+  regions:CompositionRegionAssignment[];
+  blocks:(ComposerBlock&{componentId:string})[];
 }

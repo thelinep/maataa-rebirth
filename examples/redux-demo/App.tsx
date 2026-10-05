@@ -63,7 +63,7 @@ import { IdentityAvatarGroup } from "@maataa/ui/identity/IdentityAvatarGroup";
 import { IdentityBadge } from "@maataa/ui/identity/IdentityBadge";
 import { MaataaIcon, type MaataaIconName } from "@maataa/ui/icons/MaataaIcon";
 import { ActualComponentPreview } from "./ActualComponentPreview";
-import { ComponentPropInspector, VisualComposer } from "@maataa/ui/composer";
+import { ComponentPropInspector, VisualComposer, parseCompositionInput } from "@maataa/ui/composer";
 import { CanonicalCompositionRuntime, ResponsiveDeviceRuntime } from "@maataa/ui/runtime";
 
 const money = new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
@@ -71,16 +71,6 @@ const money = new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR
 type AnyRecord = Record<string, unknown>;
 type CatalogItem = { id: string; name: string; meta?: string; importPath?: string };
 type Catalog = { key: string; label: string; description: string; items: readonly CatalogItem[] };
-type SandboxBlock = "header" | "metrics" | "form" | "table" | "actions" | "activity";
-
-type SandboxSpec = {
-  title: string;
-  subtitle: string;
-  blocks: SandboxBlock[];
-  accent: "gold" | "neutral" | "success";
-  compact: boolean;
-};
-
 const ROUTE_ICONS: Record<string, MaataaIconName> = {
   "PUBLIC_SURFACE.LANDING":"home",
   "PUBLIC_SURFACE.SURFACE":"surface",
@@ -399,24 +389,6 @@ import { Card } from "@maataa/ui/surfaces/Card";\n\nexport function PlaygroundSp
   </section>;
 }
 
-const DEFAULT_SANDBOX: SandboxSpec = { title: "MAATAA Operations Sandbox", subtitle: "Safe isolated composition preview", blocks: ["header", "metrics", "form", "actions"], accent: "gold", compact: false };
-
-function SandboxScene({ spec }: { spec: SandboxSpec }) {
-  return <div className="sandbox-scene" data-accent={spec.accent} data-compact={spec.compact}><div className="sandbox-chrome"><span></span><span></span><span></span><strong>isolated sandbox</strong></div>{spec.blocks.map((block) => {
-    if (block === "header") return <div className="sb-header" key={block}><div className="sb-header-identity"><IdentityAvatar identity="IDENTITY.BRAHMINI" size={48}/><div><small>COMPOSITION</small><h2>{spec.title}</h2><p>{spec.subtitle}</p></div></div><IdentityAvatarGroup identities={["IDENTITY.SHIV","IDENTITY.PARVATI","IDENTITY.SAPTARISHI.GAUTAMA"]} size={30}/></div>;
-    if (block === "metrics") return <div className="sb-metrics" key={block}><Stat value="48" label="records"/><Stat value="92%" label="quality"/><Stat value="7" label="actions"/></div>;
-    if (block === "form") return <Card key={block} header={<strong>Configuration</strong>}><div className="sb-form"><label>Name<Input defaultValue="MAATAA surface"/></label><label>Mode<select defaultValue="preview"><option>preview</option><option>review</option></select></label></div></Card>;
-    if (block === "table") return <Card key={block} header={<strong>Records</strong>}><table className="sb-table"><tbody><tr><td>Surface Registry</td><td><Badge tone="success">ready</Badge></td></tr><tr><td>Device Matrix</td><td><Badge tone="info">simulated</Badge></td></tr><tr><td>Evidence Pack</td><td><Badge tone="warning">review</Badge></td></tr></tbody></table></Card>;
-    if (block === "activity") return <Card key={block} header={<strong><MaataaIcon name="activity"/> Activity</strong>}><div className="preview-list"><div><IdentityBadge identity="IDENTITY.SAPTARISHI.GAUTAMA" size={22}/> <span>10:20 Registry validated</span></div><div><IdentityBadge identity="IDENTITY.PARVATI" size={22}/> <span>10:22 Preview composed</span></div><div><IdentityBadge identity="IDENTITY.SAPTARISHI.VASHISTHA" size={22}/> <span>10:24 Evidence updated</span></div></div></Card>;
-    return <div className="sb-actions" key={block}><Button>Save composition</Button><Button variant="secondary">Preview</Button><Button variant="ghost">Reset</Button></div>;
-  })}</div>;
-}
-
-function sandboxJsx(spec: SandboxSpec) {
-  const lines = spec.blocks.map((block) => `      <${({header:'PageHeader',metrics:'MetricGrid',form:'FormPanel',table:'DataTable',actions:'ActionBar',activity:'ActivityPanel'} as Record<SandboxBlock,string>)[block]} />`).join("\n");
-  return `export function SandboxComposition() {\n  return (\n    <WorkspaceSurface title="${spec.title.replace(/"/g,'\\"')}">\n${lines}\n    </WorkspaceSurface>\n  );\n}`;
-}
-
 function Sandbox() {
   const dispatch = useMaataaDispatch();
   const scene = useMaataaSelector(selectComposerScene);
@@ -427,13 +399,13 @@ function Sandbox() {
   const [draft, setDraft] = React.useState(JSON.stringify(scene, null, 2));
   const [error, setError] = React.useState<string|null>(null);
   React.useEffect(()=>setDraft(JSON.stringify(scene,null,2)),[scene]);
-  const applyJson=()=>{try{const parsed=JSON.parse(draft);dispatch(builderActions.setScene(parsed));setError(null)}catch(reason){setError(reason instanceof Error?reason.message:"Invalid JSON")}};
+  const applyJson=()=>{try{const parsed=parseCompositionInput(draft);dispatch(builderActions.setScene(parsed));setError(null)}catch(reason){setError(reason instanceof Error?reason.message:"Invalid JSON")}};
   return <section className="page-section">
     <SectionHeading kicker="MAATAA Visual Composer" title="Compose real package components" body="Drag or add package-owned blocks, reorder them on canvas, edit props, switch workspace/page/layout/device/state context, undo/redo, persist locally, and preview the resulting canonical composition." />
     <div className="composer-mode-tabs"><button data-active={mode==="compose"} onClick={()=>setMode("compose")}>Composer</button><button data-active={mode==="preview"} onClick={()=>setMode("preview")}>Responsive preview</button><button data-active={mode==="json"} onClick={()=>setMode("json")}>Scene JSON</button><span>Selected: {selectedBlock?.id ?? "none"}</span></div>
     {mode==="compose" && <VisualComposer scene={scene} selectedBlockId={selectedBlock?.id??null} canUndo={canUndo} canRedo={canRedo} onSceneChange={(next)=>dispatch(builderActions.setScene(next))} onSelectBlock={(id)=>dispatch(builderActions.selectBlock(id))} onUndo={()=>dispatch(builderActions.undo())} onRedo={()=>dispatch(builderActions.redo())}/>} 
     {mode==="preview" && <div className="composer-preview-grid"><ResponsiveDeviceRuntime deviceId={scene.deviceId}><CanonicalCompositionRuntime scene={scene}/></ResponsiveDeviceRuntime><ResponsiveDeviceRuntime deviceId="DEVICE.PHONES.SMARTPHONE" orientation="portrait"><CanonicalCompositionRuntime scene={{...scene,deviceId:"DEVICE.PHONES.SMARTPHONE"}}/></ResponsiveDeviceRuntime></div>}
-    {mode==="json" && <div className="composer-json"><div className="editor-tabs"><strong>Canonical ComposerScene</strong><CopyButton text={draft}/></div><textarea value={draft} onChange={(e)=>setDraft(e.target.value)} spellCheck={false}/>{error&&<div className="sandbox-error">{error}</div>}<div className="support-actions"><button className="gold-button" onClick={applyJson}>Apply JSON</button><button className="ghost-button" onClick={()=>dispatch(builderActions.resetScene())}>Reset scene</button></div></div>}
+    {mode==="json" && <div className="composer-json"><div className="editor-tabs"><strong>Canonical ComposerScene</strong><CopyButton text={draft}/></div><textarea aria-label="Composition JSON" value={draft} onChange={(e)=>setDraft(e.target.value)} spellCheck={false}/>{error&&<div className="sandbox-error">{error}</div>}<div className="support-actions"><button className="gold-button" onClick={applyJson}>Apply JSON</button><button className="ghost-button" onClick={()=>dispatch(builderActions.resetScene())}>Reset scene</button></div></div>}
   </section>;
 }
 

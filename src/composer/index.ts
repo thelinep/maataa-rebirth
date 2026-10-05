@@ -12,3 +12,7 @@ export * from "./compositionKernel";
 export * from "./compatibility";
 
 export * from "./grammar";
+
+export * from "./spec";
+export * from "./sceneData";
+export * from "./planner";

@@ -93,3 +93,9 @@ test("critical primitives support keyboard focus and selection",async({page})=>{
  const combo=page.getByRole("combobox",{name:"First choice"});await combo.click();await combo.press("ArrowDown");await combo.press("Enter");await expect(combo).toHaveValue("Two");await expect(combo).toHaveAttribute("aria-expanded","false");
  await page.getByRole("button",{name:"Open drawer",exact:true}).click();await expect(page.getByRole("dialog",{name:"Keyboard drawer"})).toBeVisible();await page.keyboard.press("Escape");await expect(page.getByRole("button",{name:"Open drawer",exact:true})).toBeFocused();
 });
+
+test("JSON and planner boundary refuses malformed scenes without replacing state",async({page})=>{
+ await openReadySurface(page,"/sandbox");await page.getByRole("button",{name:"Scene JSON",exact:true}).click();
+ const editor=page.getByRole("textbox",{name:"Composition JSON"});await editor.fill('{"blocks":null}');await page.getByRole("button",{name:"Apply JSON",exact:true}).click();
+ await expect(page.locator('.sandbox-error')).toContainText("must be a string");await page.getByRole("button",{name:"Composer",exact:true}).click();await expect(page.getByRole("status",{name:"Composition status"})).toHaveText("verified");
+});
