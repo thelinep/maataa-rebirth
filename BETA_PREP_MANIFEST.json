@@ -1,28 +1,24 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "package": "@maataa/ui",
   "version": "1.0.0-alpha.8.4",
-  "stage": "ALPHA_8_4_BETA_PREP",
+  "stage": "DEVELOPMENT_UNQUALIFIED",
   "baselineCertification": {
-    "typecheck": "PASS",
-    "vitest": "21/21 PASS",
-    "generatedStories": 1577,
-    "storybookBuild": "PASS",
-    "demoBuild": "PASS",
-    "depthValidation": "PASS",
-    "evidence": "CERTIFICATION-EVIDENCE.md"
+    "status": "STALE",
+    "reason": "Historical root evidence does not certify the current source commit"
+  },
+  "releaseEvidence": {
+    "status": "NOT_RUN",
+    "workflow": "pnpm certify:enterprise",
+    "location": ".certification/release-evidence/<commit>/<run-ID>",
+    "rule": "Only actual execution against an unchanged clean source commit can qualify an automated gate"
   },
   "betaPrep": {
-    "bundleBudgets": "ENFORCED_AFTER_BUILD",
-    "packedConsumer": "SCRIPTED",
-    "browserSmoke": "PLAYWRIGHT_CHROMIUM_DESKTOP_MOBILE",
-    "automatedAccessibility": "AXE_CRITICAL_SERIOUS_GATE",
     "publishability": "PRIVATE_PACKAGE_BLOCKS_PUBLISH"
   },
   "commands": {
     "baseline": "pnpm certify",
-    "noBrowser": "pnpm certify:beta:no-browser",
-    "full": "pnpm certify:beta",
+    "full": "pnpm certify:enterprise",
     "browserSetup": "pnpm browser:install"
   }
 }

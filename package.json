@@ -512,11 +512,12 @@
     "beta:manifest": "node scripts/beta-prep-manifest.mjs",
     "beta:validate": "node scripts/validate-beta-prep.mjs",
     "certify:beta:no-browser": "pnpm certify && pnpm package:consumer && pnpm bundle:check && pnpm beta:validate",
-    "certify:beta": "pnpm certify && pnpm package:consumer && pnpm browser:test && pnpm bundle:check && pnpm beta:validate",
+    "certify:beta": "pnpm certify:enterprise",
     "security:baseline": "node scripts/security-baseline.mjs",
     "performance:check": "node scripts/check-composition-performance.mjs",
     "docs:generate": "node scripts/generate-canonical-docs.mjs",
-    "docs:check": "node scripts/generate-canonical-docs.mjs --check"
+    "docs:check": "node scripts/generate-canonical-docs.mjs --check",
+    "certify:enterprise": "node scripts/certify-enterprise.mjs"
   },
   "engines": {
     "node": ">=20"

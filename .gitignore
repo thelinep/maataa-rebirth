@@ -81,3 +81,4 @@ alpha8.*-compatibility-build.log
 .certification/performance/
 # Historical tracked Storybook snapshot remains archived; new builds use .certification.
 storybook-static/
+.certification/release-evidence/
