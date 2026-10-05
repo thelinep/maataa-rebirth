@@ -48,3 +48,15 @@ test("sandbox supports composer interaction", async ({ page }) => {
   await expect(page.getByText("Compose real package components", { exact:false })).toBeVisible();
   await expect(page.getByRole("button", { name: /undo/i }).first()).toBeVisible();
 });
+
+test("composer searches the complete catalogue and preserves unverified choices", async ({page}) => {
+  await openReadySurface(page,"/sandbox");
+  const pagePicker=page.getByRole("combobox",{name:"Page",exact:true});
+  await pagePicker.fill("PAGE.EVENTS.EVENT_DASHBOARD");
+  await expect(page.getByRole("option",{name:/Event Dashboard/})).toBeVisible();
+  await pagePicker.press("Enter");
+  await expect(page.getByRole("status",{name:"Composition status"})).toHaveText("unverified");
+  await expect(page.getByRole("button",{name:"Undo",exact:true})).toBeEnabled();
+  await page.getByRole("button",{name:"Undo",exact:true}).click();
+  await expect(page.getByRole("status",{name:"Composition status"})).toHaveText("verified");
+});

@@ -2,6 +2,7 @@ import * as React from "react";
 import { Button } from "../actions/Button";
 import { Input } from "../forms/Input";
 import { Select } from "../forms";
+import { ComboboxControl } from "../internal/ComboboxControl";
 import { Badge } from "../feedback/Badge";
 import { PAGE_TYPES } from "../registries/pageRegistry";
 import { WORKSPACE_TYPES } from "../registries/workspaceRegistry";
@@ -38,7 +39,14 @@ export function VisualComposer({scene,selectedBlockId=null,canUndo,canRedo,onSce
   const status = !validation.valid ? "invalid" : validation.compatibility.status;
   const recommendedPages = new Set(getVerifiedPageIdsForWorkspace(scene.workspaceTypeId));
   const recommendedLayouts = new Set(getVerifiedLayoutIdsForComposition(scene.workspaceTypeId, scene.pageTypeId));
-  const rank = <T extends {id:string}>(items: readonly T[], ids: ReadonlySet<string>) => [...items].sort((a,b)=>Number(ids.has(b.id))-Number(ids.has(a.id)));
+  const [recent,setRecent] = React.useState<readonly string[]>([]);
+  const options = (items: readonly {id:string;name:string;groupKey?:string;group?:string}[], verified:ReadonlySet<string>=new Set()) =>
+    [...items].sort((a,b)=>Number(verified.has(b.id))-Number(verified.has(a.id)) || Number(recent.includes(b.id))-Number(recent.includes(a.id)))
+    .map(item=>({value:item.id,label:item.name,description:item.id,group:`${verified.has(item.id)?"Verified · ":recent.includes(item.id)?"Recent · ":""}${item.groupKey??item.group??"Canonical"}`}));
+  const select = (key:"workspaceTypeId"|"pageTypeId"|"layoutTypeId"|"deviceId", value:string) => {
+    setRecent(previous=>[value,...previous.filter(id=>id!==value)]);
+    commit({...scene,[key]:value});
+  };
   const issues = [
     ...validation.sceneValidation.issues,
     ...validation.warnings.map(issue => ({code:issue.code,level:"warning",message:issue.message,blockId:undefined})),
@@ -55,10 +63,10 @@ export function VisualComposer({scene,selectedBlockId=null,canUndo,canRedo,onSce
       <div className="m-composer-toolbar-actions"><Button variant="ghost" disabled={!canUndo} onClick={onUndo}>Undo</Button><Button variant="ghost" disabled={!canRedo} onClick={onRedo}>Redo</Button><Badge role="status" aria-label="Composition status" tone={status==="verified"?"success":status==="invalid"?"danger":"warning"}>{status}</Badge></div>
     </div>
     <div className="m-composer-context">
-      <label>Workspace<Select value={scene.workspaceTypeId} onChange={(e)=>commit({...scene,workspaceTypeId:e.target.value as any})}>{WORKSPACE_TYPES.slice(0,120).map((x)=><option key={x.id} value={x.id}>{x.name}</option>)}</Select></label>
-      <label>Page<Select value={scene.pageTypeId} onChange={(e)=>commit({...scene,pageTypeId:e.target.value as any})}>{rank(PAGE_TYPES.slice(0,160),recommendedPages).map((x)=><option key={x.id} value={x.id}>{x.name}</option>)}</Select></label>
-      <label>Layout<Select value={scene.layoutTypeId} onChange={(e)=>commit({...scene,layoutTypeId:e.target.value as any})}>{rank(LAYOUT_TYPES,recommendedLayouts).map((x)=><option key={x.id} value={x.id}>{x.name}</option>)}</Select></label>
-      <label>Device<Select value={scene.deviceId} onChange={(e)=>commit({...scene,deviceId:e.target.value as any})}>{DEVICE_REGISTRY.slice(0,90).map((x)=><option key={x.id} value={x.id}>{x.name}</option>)}</Select></label>
+      <ComboboxControl label="Workspace" value={scene.workspaceTypeId} options={options(WORKSPACE_TYPES)} onValueChange={value=>select("workspaceTypeId",value)}/>
+      <ComboboxControl label="Page" value={scene.pageTypeId} options={options(PAGE_TYPES,recommendedPages)} onValueChange={value=>select("pageTypeId",value)}/>
+      <ComboboxControl label="Layout" value={scene.layoutTypeId} options={options(LAYOUT_TYPES,recommendedLayouts)} onValueChange={value=>select("layoutTypeId",value)}/>
+      <ComboboxControl label="Device" value={scene.deviceId} options={options(DEVICE_REGISTRY)} onValueChange={value=>select("deviceId",value)}/>
       <label>State<Select value={scene.stateMode} onChange={(e)=>commit({...scene,stateMode:e.target.value as any})}>{["default","loading","empty","error","disabled","offline","success"].map((x)=><option key={x}>{x}</option>)}</Select></label>
     </div>
     <div className="m-composer-grid">
