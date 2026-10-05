@@ -1,4 +1,8 @@
 import type { ComposerScene } from "./types";
+import {
+  evaluateCompositionCompatibility,
+  type CompositionCompatibilityEvaluation,
+} from "./compatibility";
 import { validateComposerScene } from "./validate";
 
 import { COMPONENT_REGISTRY } from "../registries/componentRegistry";
@@ -70,7 +74,8 @@ export type CompositionReferenceIssueCode =
   | "UNKNOWN_REGION"
   | "UNKNOWN_COMPONENT"
   | "DUPLICATE_REGION"
-  | "DUPLICATE_COMPONENT";
+  | "DUPLICATE_COMPONENT"
+  | "UNVERIFIED_COMPOSITION";
 
 export interface CompositionReferenceIssue {
   severity: "error" | "warning";
@@ -115,6 +120,8 @@ export interface CompositionKernelValidation
   sceneValidation: ReturnType<
     typeof validateComposerScene
   >;
+  compatibility:
+    CompositionCompatibilityEvaluation;
 }
 
 function duplicateValues(
@@ -337,18 +344,64 @@ export function validateCompositionKernel(
         layoutTypeId:
           scene.layoutTypeId,
       },
-      context,
+      {
+        ...context,
+        deviceId:
+          context.deviceId ??
+          scene.deviceId,
+      },
     );
 
   const sceneValidation =
     validateComposerScene(scene);
 
+  const compatibility =
+    evaluateCompositionCompatibility({
+      workspaceTypeId:
+        scene.workspaceTypeId,
+      pageTypeId:
+        scene.pageTypeId,
+      layoutTypeId:
+        scene.layoutTypeId,
+      deviceId:
+        context.deviceId ??
+        scene.deviceId,
+    });
+
+  const warnings = [
+    ...references.warnings,
+  ];
+
+  if (
+    references.valid &&
+    compatibility.status ===
+      "unverified"
+  ) {
+    warnings.push({
+      severity: "warning",
+      code:
+        "UNVERIFIED_COMPOSITION",
+      path: "composition",
+      id: [
+        scene.workspaceTypeId,
+        scene.pageTypeId,
+        scene.layoutTypeId,
+        context.deviceId ??
+          scene.deviceId,
+      ].join(" :: "),
+      message:
+        "Composition uses canonical IDs but this exact combination has no evidence-backed compatibility record yet.",
+    });
+  }
+
   return {
     ...references,
+    warnings,
     valid:
       references.valid &&
       sceneValidation.valid,
     sceneValidation,
+    compatibility,
   };
 }
 

@@ -37,3 +37,5 @@ export * from "./demoScenarioRegistry";
 
 export * from "./iconRegistry";
 export * from "./actorRegistry";
+
+export * from "./compositionCompatibilityRegistry";

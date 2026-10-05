@@ -65,3 +65,8 @@ alpha8.*-registry-grammar-audit.txt
 
 # Local alpha8.7 composition build evidence
 alpha8.*-composition-kernel-build.log
+
+# Local alpha8.7 compatibility audits
+alpha8.*-compatibility-audit.txt
+alpha8.*-group-contract-audit.txt
+alpha8.*-compatibility-build.log

@@ -8,3 +8,5 @@ export * from "./ComponentPropInspector";
 export * from "./propSchemas";
 
 export * from "./compositionKernel";
+
+export * from "./compatibility";
