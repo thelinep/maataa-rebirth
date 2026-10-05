@@ -187,7 +187,7 @@
 .m-search-combobox{position:relative;min-width:0;display:grid;gap:5px}
 .m-search-combobox label{font-size:11px;color:var(--m-fg-muted)}
 .m-search-selection{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px;color:var(--m-fg-muted)}
-.m-search-results{position:absolute;inset-inline:0;inset-block-start:100%;z-index:30;background:var(--m-panel);color:var(--m-fg);border:1px solid var(--m-line);border-radius:8px;max-height:280px;overflow:auto;min-width:min(320px,80vw)}
+.m-search-results{position:absolute;inset-inline:0;inset-block-start:100%;z-index:30;background:var(--m-panel,var(--m-surface));color:var(--m-fg,var(--m-text));border:1px solid var(--m-line,var(--m-border));border-radius:8px;max-height:280px;overflow:auto;min-width:min(320px,80vw)}
 .m-search-results [role="option"]{padding:10px;display:grid;gap:4px;cursor:pointer;border-block-end:1px solid var(--m-line)}
 .m-search-results [role="option"][data-active="true"]{background:var(--m-selection)}
 .m-search-results [role="option"] span,.m-search-results code{font-size:11px;overflow-wrap:anywhere}
@@ -208,3 +208,15 @@
  .m-composition-runtime-canonical .m-layout-preset>.m-layout-main{grid-column:auto}
 }
 @container maataa-device (max-width:640px){.m-composition-runtime-canonical{padding:8px}.m-composition-runtime-canonical .m-layout-preset{gap:8px}}
+.m-composer-toolbar>div:first-child{min-width:0}
+.m-composer-toolbar>div:first-child span{overflow-wrap:anywhere}
+.m-composer-grid>*{min-width:0}
+.m-composer-node-body{min-width:0;max-width:100%;overflow:auto}
+@media(max-width:700px){
+ .m-composer-toolbar{flex-wrap:wrap}
+ .m-composer-toolbar-actions{width:100%;justify-content:flex-end;flex-wrap:wrap}
+ .m-composer-grid{grid-template-columns:minmax(0,1fr)}
+ .m-composer-palette{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .m-composer-palette>small{grid-column:1/-1}
+ .m-composer-palette button{overflow-wrap:anywhere}
+}

@@ -52,6 +52,8 @@ import { TYPE_CONTRACT_REGISTRY } from "@maataa/ui/registries/typeContractRegist
 import { WORKSPACE_TYPES } from "@maataa/ui/registries/workspaceRegistry";
 import { Button } from "@maataa/ui/actions/Button";
 import { Input } from "@maataa/ui/forms/Input";
+import { Modal, Drawer } from "@maataa/ui/surfaces";
+import { Combobox } from "@maataa/ui/forms";
 import { Card } from "@maataa/ui/surfaces/Card";
 import { Badge } from "@maataa/ui/feedback/Badge";
 import { Tabs } from "@maataa/ui/navigation/Tabs";
@@ -351,6 +353,15 @@ function SurfaceExplorer() {
   </section>;
 }
 
+function KeyboardControls() {
+ const [modal,setModal]=React.useState(false),[drawer,setDrawer]=React.useState(false),[choice,setChoice]=React.useState("one");
+ const options=[{value:"one",label:"One"},{value:"two",label:"Two"}];
+ return <Card header={<strong>Keyboard controls</strong>}><div className="specimen-actions"><Button onClick={()=>setModal(true)}>Open dialog</Button><Button variant="secondary" onClick={()=>setDrawer(true)}>Open drawer</Button></div>
+ <Combobox label="First choice" value={choice} onValueChange={setChoice} options={options}/><Combobox label="Second choice" options={options}/>
+ <Modal open={modal} onClose={()=>setModal(false)} title="Keyboard dialog"><Input aria-label="Dialog name"/><Button onClick={()=>setModal(false)}>Done</Button></Modal>
+ <Drawer open={drawer} onClose={()=>setDrawer(false)} title="Keyboard drawer"><Button onClick={()=>setDrawer(false)}>Done</Button></Drawer>
+ </Card>;
+}
 function Playground() {
   const [theme, setTheme] = React.useState<"dark" | "light">("dark");
   const [density, setDensity] = React.useState<"comfortable" | "compact">("comfortable");
@@ -358,7 +369,9 @@ function Playground() {
   const [width, setWidth] = React.useState(860);
   const [tab, setTab] = React.useState("overview");
   const [value, setValue] = React.useState("MAATAA live playground");
-  const code = `import { Button } from "@maataa/ui/actions/Button";\nimport { Input } from "@maataa/ui/forms/Input";\nimport { Card } from "@maataa/ui/surfaces/Card";\n\nexport function PlaygroundSpecimen() {\n  return (\n    <Card>\n      <Input defaultValue="${value.replace(/"/g, '\\"')}" />\n      <Button>Run action</Button>\n    </Card>\n  );\n}`;
+  const code = `import { Button } from "@maataa/ui/actions/Button";\nimport { Input } from "@maataa/ui/forms/Input";\nimport { Modal, Drawer } from "@maataa/ui/surfaces";
+import { Combobox } from "@maataa/ui/forms";
+import { Card } from "@maataa/ui/surfaces/Card";\n\nexport function PlaygroundSpecimen() {\n  return (\n    <Card>\n      <Input defaultValue="${value.replace(/"/g, '\\"')}" />\n      <Button>Run action</Button>\n    </Card>\n  );\n}`;
   return <section className="page-section">
     <SectionHeading kicker="MAATAA Playground" title="Interact with the real UI package" body="Tune presentation controls, interact with package-owned components, resize the canvas, and copy a usable source example." />
     <div className="playground-shell">
@@ -376,6 +389,7 @@ function Playground() {
           <div className="playground-content">
             <div className="pg-hero"><small>MAATAA UI</small><h2>Composable interface specimen</h2><p>Change the controls on the left. This surface is rendered from the same package components consumers import.</p><div className="specimen-actions"><Button>Primary action</Button><Button variant="secondary">Secondary</Button><Button variant="ghost">Ghost</Button></div></div>
             <div className="pg-grid"><Card header={<strong>Input</strong>}><Input value={value} onChange={(event) => setValue(event.target.value)} /></Card><Card header={<strong>Status</strong>}><div className="specimen-actions"><Badge tone="success">verified</Badge><Badge tone="warning">review</Badge><Badge tone="info">simulated</Badge></div></Card></div>
+            <KeyboardControls/>
             <Card header={<strong>Tabs</strong>}><Tabs value={tab} onValueChange={setTab} tabs={[{id:'overview',label:'Overview',content:<p>Overview content responds to the live playground state.</p>},{id:'evidence',label:'Evidence',content:<p>Visual demo only. Runtime authority remains host-owned.</p>},{id:'states',label:'States',content:<div className="preview-list"><div>Theme <strong>{theme}</strong></div><div>Density <strong>{density}</strong></div><div>Radius <strong>{radius}px</strong></div></div>}]} /></Card>
           </div>
         </div>

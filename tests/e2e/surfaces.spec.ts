@@ -81,3 +81,15 @@ test("phone composition responds to its container in a desktop viewport",async({
   expect(columns).toBe(1);
   await expect(phone.locator('[data-composition-status]')).toHaveAttribute("data-composition-status","unverified");
 });
+
+test("critical primitives support keyboard focus and selection",async({page})=>{
+ await openReadySurface(page,"/playground");
+ const trigger=page.getByRole("button",{name:"Open dialog",exact:true});await trigger.click();
+ const dialog=page.getByRole("dialog",{name:"Keyboard dialog"});const close=dialog.getByRole("button",{name:"Close",exact:true});
+ await expect(close).toBeFocused();await page.keyboard.press("Shift+Tab");await expect(dialog.getByRole("button",{name:"Done"})).toBeFocused();
+ await page.keyboard.press("Tab");await expect(close).toBeFocused();await page.keyboard.press("Escape");await expect(trigger).toBeFocused();await expect(dialog).toHaveCount(0);
+ const overview=page.getByRole("tab",{name:"Overview",exact:true});await overview.focus();await page.keyboard.press("ArrowRight");await expect(page.getByRole("tab",{name:"Evidence",exact:true})).toBeFocused();
+ await page.keyboard.press("Home");await expect(overview).toBeFocused();
+ const combo=page.getByRole("combobox",{name:"First choice"});await combo.click();await combo.press("ArrowDown");await combo.press("Enter");await expect(combo).toHaveValue("Two");await expect(combo).toHaveAttribute("aria-expanded","false");
+ await page.getByRole("button",{name:"Open drawer",exact:true}).click();await expect(page.getByRole("dialog",{name:"Keyboard drawer"})).toBeVisible();await page.keyboard.press("Escape");await expect(page.getByRole("button",{name:"Open drawer",exact:true})).toBeFocused();
+});
