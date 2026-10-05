@@ -1,37 +1,47 @@
 import { createHash } from "node:crypto";
-import { access, readFile, writeFile } from "node:fs/promises";
+import fs from "node:fs";
 import path from "node:path";
-import url from "node:url";
+import ts from "typescript";
 
-const root = path.resolve(path.dirname(url.fileURLToPath(import.meta.url)), "..");
-const categories = ["foundation","typography","actions","forms","navigation","surfaces","feedback","data","visualization","maps","mobile","device-atoms","devices","device-groups","themes","atomic","layout-atoms","layouts","page-atoms","pages","workspace-atoms","workspaces","registry-atoms","registry-ui","registries","page-groups","workspace-groups","layout-groups","generator-atoms","generators","generator-groups","tool-atoms","tools","tool-groups","ai-space-atoms","ai-spaces","ai-space-groups","types","redux","static-data","demo","identity","icons","composer","runtime"];
-const exportsList = [];
-async function indexFile(category) {
-  for (const name of ["index.tsx", "index.ts"]) {
-    const file = path.join(root, "src", category, name);
-    try { await access(file); return file; } catch {}
+const root=process.cwd();
+const config=ts.readConfigFile(path.join(root,"tsconfig.json"),ts.sys.readFile);
+if(config.error)throw new Error(ts.flattenDiagnosticMessageText(config.error.messageText,"\n"));
+const parsed=ts.parseJsonConfigFileContent(config.config,ts.sys,root);
+const program=ts.createProgram(parsed.fileNames,{...parsed.options,noEmit:true});
+const diagnostics=ts.getPreEmitDiagnostics(program);
+if(diagnostics.length)throw new Error(ts.formatDiagnosticsWithColorAndContext(diagnostics,{getCurrentDirectory:()=>root,getCanonicalFileName:x=>x,getNewLine:()=>"\n"}));
+const checker=program.getTypeChecker();
+const pkg=JSON.parse(fs.readFileSync("package.json","utf8"));
+const exportsList=[];
+const entryPoints=[];
+for(const [subpath,target] of Object.entries(pkg.exports)){
+ if(typeof target==="string"){entryPoints.push({subpath,kind:"css",stability:"EXPERIMENTAL"});continue;}
+ const sourceStem=target.types.replace(/^\.\/dist\//,"src/").replace(/\.d\.ts$/,"");
+ const files=subpath.includes("*")?program.getSourceFiles().filter(file=>{
+  const relative=path.relative(root,file.fileName).split(path.sep).join("/");
+  const [prefix,suffix]=sourceStem.split("*");return relative.startsWith(prefix)&&relative.replace(/\.tsx?$/,"").endsWith(suffix??"")&&!relative.endsWith(".d.ts");
+ }):[program.getSourceFile(path.join(root,sourceStem+".ts"))??program.getSourceFile(path.join(root,sourceStem+".tsx"))];
+ if(!files.length||files.some(file=>!file))throw new Error(`Unresolved public entry ${subpath}`);
+ for(const file of files){
+  const relative=path.relative(root,file.fileName).split(path.sep).join("/");
+  const concrete=subpath.includes("*")?subpath.replace("*",relative.replace(/\.tsx?$/,"").slice(sourceStem.split("*")[0].length)):subpath;
+  const moduleSymbol=checker.getSymbolAtLocation(file);if(!moduleSymbol)throw new Error(`Missing module symbol ${relative}`);
+  entryPoints.push({subpath:concrete,source:relative,kind:"module",stability:"EXPERIMENTAL"});
+  for(const symbol of checker.getExportsOfModule(moduleSymbol)){
+   const resolved=symbol.flags&ts.SymbolFlags.Alias?checker.getAliasedSymbol(symbol):symbol;
+   const declarations=resolved.getDeclarations()??[];
+   const typeOnly=(symbol.getDeclarations()??[]).some(declaration=>ts.isExportSpecifier(declaration)&&(declaration.isTypeOnly||declaration.parent.parent.isTypeOnly));
+   const deprecated=resolved.getJsDocTags().some(tag=>tag.name==="deprecated");
+   exportsList.push({name:symbol.name,subpath:concrete,kind:!typeOnly&&(resolved.flags&ts.SymbolFlags.Value)?"runtime":"type",stability:deprecated?"DEPRECATED":"EXPERIMENTAL",sources:[...new Set(declarations.map(declaration=>path.relative(root,declaration.getSourceFile().fileName).split(path.sep).join("/")))].sort()});
   }
-  throw new Error(`Missing public index for ${category}`);
+ }
 }
-for (const category of categories) {
-  const file = await indexFile(category);
-  const source = await readFile(file, "utf8");
-  const names = new Set();
-  for (const match of source.matchAll(/export\s+(?:const|function|class|type|interface)\s+([A-Za-z_$][\w$]*)/g)) names.add(match[1]);
-  for (const match of source.matchAll(/export\s*\{([^}]+)\}/g)) {
-    for (const part of match[1].split(",")) {
-      const cleaned = part.trim().replace(/^type\s+/, "");
-      const name = cleaned.split(/\s+as\s+/).at(-1)?.trim();
-      if (name) names.add(name);
-    }
-  }
-  for (const match of source.matchAll(/export\s+\*\s+from\s+["']\.\/([^"']+)["']/g)) names.add(match[1]);
-  for (const name of [...names].sort()) exportsList.push({ name, subpath: `./${category}`, kind: /^[A-Z]/.test(name) ? "component-or-type" : "api" });
-}
-const pkg = JSON.parse(await readFile(path.join(root, "package.json"), "utf8"));
-const manifest = { schemaVersion: "1.0.0", package: pkg.name, version: pkg.version, generatedFrom: "src category public exports", exports: exportsList };
-const pretty = JSON.stringify(manifest, null, 2) + "\n";
-await writeFile(path.join(root, "PUBLIC_API.json"), pretty);
-const hash = createHash("sha256").update(pretty).digest("hex");
-await writeFile(path.join(root, "PUBLIC_API.sha256"), `${hash}  PUBLIC_API.json\n`);
-console.log(`${exportsList.length} public declarations · ${hash}`);
+exportsList.sort((a,b)=>a.subpath.localeCompare(b.subpath)||a.name.localeCompare(b.name));
+entryPoints.sort((a,b)=>a.subpath.localeCompare(b.subpath));
+const manifest={schemaVersion:"2.0.0",package:pkg.name,version:pkg.version,generatedFrom:"TypeScript resolved symbols and package export map",classificationPolicy:"Pre-GA public APIs remain EXPERIMENTAL until a reviewed freeze; non-exported implementation modules are INTERNAL.",entryPoints,exports:exportsList};
+const pretty=JSON.stringify(manifest,null,2)+"\n";
+const hash=createHash("sha256").update(pretty).digest("hex");
+if(process.argv.includes("--check")){
+ if(fs.readFileSync("PUBLIC_API.json","utf8")!==pretty||fs.readFileSync("PUBLIC_API.sha256","utf8")!==`${hash}  PUBLIC_API.json\n`)throw new Error("Public API snapshot stale; regenerate and review the API change.");
+}else{fs.writeFileSync("PUBLIC_API.json",pretty);fs.writeFileSync("PUBLIC_API.sha256",`${hash}  PUBLIC_API.json\n`);}
+console.log(`${exportsList.length} resolved public symbols across ${entryPoints.length} entry points · ${hash}`);
