@@ -58,3 +58,10 @@ alpha8.*-loader-split-largest.txt
 alpha8.*-generated-loader*.log
 alpha8.*-final-demo-build.log
 alpha8.*-generated-loader*-largest.txt
+
+# Local composition architecture audits
+alpha8.*-composition-audit.txt
+alpha8.*-registry-grammar-audit.txt
+
+# Local alpha8.7 composition build evidence
+alpha8.*-composition-kernel-build.log
