@@ -1,0 +1,5 @@
+{
+  "policy": "Candidate regression ceilings approximately 10 percent above the first measured post-contract baseline; these are not enterprise latency targets.",
+  "baseline": {"initialJsBytes":963296,"initialGzipBytes":171820,"composerJsBytes":97654,"largestAsyncJsBytes":356527},
+  "limits": {"initialJsBytes":1060000,"initialGzipBytes":190000,"composerJsBytes":108000,"largestAsyncJsBytes":393000}
+}

@@ -78,3 +78,6 @@ alpha8.*-compatibility-build.log
 .certification/consumer-vite/
 .certification/security/
 .certification/storybook/
+.certification/performance/
+# Historical tracked Storybook snapshot remains archived; new builds use .certification.
+storybook-static/

@@ -513,7 +513,8 @@
     "beta:validate": "node scripts/validate-beta-prep.mjs",
     "certify:beta:no-browser": "pnpm certify && pnpm package:consumer && pnpm bundle:check && pnpm beta:validate",
     "certify:beta": "pnpm certify && pnpm package:consumer && pnpm browser:test && pnpm bundle:check && pnpm beta:validate",
-    "security:baseline": "node scripts/security-baseline.mjs"
+    "security:baseline": "node scripts/security-baseline.mjs",
+    "performance:check": "node scripts/check-composition-performance.mjs"
   },
   "engines": {
     "node": ">=20"

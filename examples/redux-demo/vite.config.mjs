@@ -1,5 +1,6 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import { bundleTopology } from "../../scripts/bundle-topology.mjs";
 import { fileURLToPath, URL } from "node:url";
 
 const demoRoot = fileURLToPath(new URL(".", import.meta.url));
@@ -37,7 +38,7 @@ function maataaManualChunks(id) {
 
 export default defineConfig({
   root: demoRoot,
-  plugins: [react()],
+  plugins: [react(),bundleTopology()],
   resolve: {
     alias: [
       { find: /^@maataa\/ui$/, replacement: `${srcRoot}/index.ts` },
