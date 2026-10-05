@@ -82,3 +82,4 @@ alpha8.*-compatibility-build.log
 # Historical tracked Storybook snapshot remains archived; new builds use .certification.
 storybook-static/
 .certification/release-evidence/
+.certification/consumer-react18/
