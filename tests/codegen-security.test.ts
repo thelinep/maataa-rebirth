@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import ts from "typescript";
 import path from "node:path";
 import { DEFAULT_COMPOSER_SCENE, createComposerBlock, generateComposerJsx } from "../src/composer";
+import { LAYOUT_TYPES } from "../src/registries/layoutRegistry";
 import type { ComposerScene } from "../src/composer/types";
 
 const attacks = [
@@ -42,7 +43,7 @@ describe("codegen trust boundary", () => {
     expect(literals.filter(text => text === value).length).toBeGreaterThanOrEqual(10);
     expect(code).not.toContain("<script>");
   });
-  it.each(["123 bad", "", "class", "await", "eval", "arguments", "lowercase", "🙂", "名字", "$Name", "A\\nB"])("emits a consumable component name: %s", name => {
+  it.each(["123 bad", "", "class", "await", "eval", "arguments", "lowercase", "🙂", "名字", "$Name", "A\\nB", "BuilderLayout", "Text", "Input", "DataTable"])("emits a consumable component name: %s", name => {
     const code = generateComposerJsx({ ...DEFAULT_COMPOSER_SCENE, name });
     expect(syntaxErrors(code)).toEqual([]);
     expect(code).toMatch(/export function [A-Z][A-Za-z0-9_$]*\(/);
@@ -60,6 +61,7 @@ describe("codegen trust boundary", () => {
       [path.resolve("generated-default.tsx"), generateComposerJsx(DEFAULT_COMPOSER_SCENE)],
       [path.resolve("generated-adversarial.tsx"), generateComposerJsx(attackScene(attacks[3]))],
     ]);
+    for(const layout of LAYOUT_TYPES) sources.set(path.resolve(`generated-${layout.name}.tsx`),generateComposerJsx({...DEFAULT_COMPOSER_SCENE,name:layout.name,layoutTypeId:layout.id}));
     const options: ts.CompilerOptions = {
       noEmit: true, strict: true, skipLibCheck: true, esModuleInterop: true,
       jsx: ts.JsxEmit.ReactJSX, target: ts.ScriptTarget.ES2022,

@@ -1,4 +1,6 @@
 import * as React from "react";
+import { LAYOUT_RUNTIME_CONTRACTS } from "./layoutContracts.generated";
+import { CanonicalLayout } from "./CanonicalLayout";
 import { ComposerRenderer } from "../composer/ComposerRenderer";
 import { validateComposerScene } from "../composer/validate";
 import type { ComposerScene } from "../composer/types";
@@ -20,10 +22,15 @@ export function CompositionRuntime({
   const validation =
     validationOverride ?? validateComposerScene(scene);
   const status = !validation.valid ? "invalid" : ("compatibility" in validation ? validation.compatibility?.status : undefined) ?? "unverified";
-  return <div className="m-composition-runtime" data-workspace={scene.workspaceTypeId} data-page={scene.pageTypeId} data-layout={scene.layoutTypeId} data-maataa-theme={scene.theme} data-density={scene.density}>
-    <header className="m-composition-header">{header??<><strong>{scene.name}</strong><small>{scene.pageTypeId}</small></>}</header>
-    <aside className="m-composition-sidebar">{sidebar??<nav><span>Overview</span><span>Data</span><span>Evidence</span></nav>}</aside>
-    <main className="m-composition-main"><ComposerRenderer scene={scene}/></main>
-    <aside className="m-composition-inspector">{inspector??<><strong>Composition</strong><code>{scene.layoutTypeId}</code><span>{status}</span></>}</aside>
+  if(!validation.valid) return <div role="alert" data-composition-status="invalid">Composition is invalid. Correct its canonical identities and scene before rendering.</div>;
+  const contract=LAYOUT_RUNTIME_CONTRACTS[scene.layoutTypeId];
+  const contentProps={[contract?.primarySlot??"main"]:<ComposerRenderer scene={scene}/>};
+  return <div className="m-composition-runtime-canonical" data-composition-status={status} data-placement-status={contract?.placementStatus??"unverified"} data-workspace={scene.workspaceTypeId} data-page={scene.pageTypeId} data-layout={scene.layoutTypeId} data-maataa-theme={scene.theme} data-density={scene.density}>
+    <div className="m-composition-evidence" role="status">Composition: {status}</div>
+    <CanonicalLayout layoutTypeId={scene.layoutTypeId}
+      header={header??<><strong>{scene.name}</strong><small>{scene.pageTypeId}</small></>}
+      sidebar={sidebar}
+      inspector={inspector}
+      {...contentProps}/>
   </div>;
 }

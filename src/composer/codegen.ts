@@ -1,3 +1,5 @@
+import { LAYOUT_RUNTIME_CONTRACTS } from "../runtime/layoutContracts.generated";
+import { LAYOUT_TYPES } from "../registries/layoutRegistry";
 import type { ComposerBlock, ComposerScene } from "./types";
 
 const imports: Record<string, { name: string; path: string }> = {
@@ -34,12 +36,14 @@ const reservedIdentifiers = new Set([
   "return", "static", "super", "switch", "this", "throw", "true", "try", "typeof",
   "var", "void", "while", "with", "yield", "eval", "arguments",
 ]);
-function componentIdentifier(value: string): string {
+function componentIdentifier(value: string, forbidden: readonly string[] = []): string {
   const name = value.replace(/[^A-Za-z0-9_$]/g, "");
   if (!name) return "MaataaComposition";
   // Components need an uppercase first character for JSX consumers as well.
-  return /^[A-Z]/.test(name) && !reservedIdentifiers.has(name)
+  let identifier = /^[A-Z]/.test(name) && !reservedIdentifiers.has(name)
     ? name : `Maataa${name}`;
+  while(forbidden.includes(identifier)) identifier=`Maataa${identifier}`;
+  return identifier;
 }
 function enumValue(value: unknown, choices: readonly string[], fallback: string): string {
   const text = String(value ?? fallback);
@@ -64,15 +68,23 @@ function blockJsx(block: ComposerBlock) {
   }
 }
 
+function selectedLayout(scene:ComposerScene) {
+  const layout=LAYOUT_TYPES.find(item=>item.id===scene.layoutTypeId);
+  if(!layout)throw new Error(`Unknown canonical layout: ${scene.layoutTypeId}`);
+  return layout;
+}
 export function generateComposerImports(scene: ComposerScene) {
   const used = [...new Set(scene.blocks.filter((b) => !b.hidden).map((b) => b.kind))];
-  return used.map((kind) => `import { ${imports[kind].name} } from "${imports[kind].path}";`).join("\n");
+  const layout=selectedLayout(scene);
+  return [`import { ${layout.name} } from "${layout.importPath}";`, ...used.map((kind) => `import { ${imports[kind].name} } from "${imports[kind].path}";`)].join("\n");
 }
 
 export function generateComposerJsx(scene: ComposerScene) {
+  const layout=selectedLayout(scene);
   const importsText = generateComposerImports(scene);
   const usesTable = scene.blocks.some((b) => b.kind === "table" && !b.hidden);
   const data = usesTable ? `\nconst rows = [{id:1,name:"Surface Registry",status:"ready"},{id:2,name:"Device Matrix",status:"simulated"}];\nconst columns = [{id:"name",header:"Name"},{id:"status",header:"Status"}];\n` : "\n";
+  const slot=LAYOUT_RUNTIME_CONTRACTS[scene.layoutTypeId]?.primarySlot??"main";
   const body = scene.blocks.filter((b) => !b.hidden).map((b) => `      ${blockJsx(b)}`).join("\n");
-  return `${importsText}${data}\nexport function ${componentIdentifier(scene.name)}() {\n  return (\n    <div data-workspace=${jsxAttributeValue(scene.workspaceTypeId)} data-page=${jsxAttributeValue(scene.pageTypeId)} data-layout=${jsxAttributeValue(scene.layoutTypeId)}>\n${body}\n    </div>\n  );\n}\n`;
+  return `${importsText}${data}\nexport function ${componentIdentifier(scene.name,[layout.name,...Object.values(imports).map(item=>item.name)])}() {\n  return (\n    <${layout.name} data-workspace=${jsxAttributeValue(scene.workspaceTypeId)} data-page=${jsxAttributeValue(scene.pageTypeId)} data-layout=${jsxAttributeValue(scene.layoutTypeId)} ${slot}={<div>\n${body}\n    </div>} />\n  );\n}\n`;
 }

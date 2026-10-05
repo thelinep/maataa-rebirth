@@ -60,3 +60,13 @@ test("composer searches the complete catalogue and preserves unverified choices"
   await page.getByRole("button",{name:"Undo",exact:true}).click();
   await expect(page.getByRole("status",{name:"Composition status"})).toHaveText("verified");
 });
+
+test("selected canonical layout executes in responsive preview",async({page})=>{
+  await openReadySurface(page,"/sandbox");
+  const picker=page.getByRole("combobox",{name:"Layout",exact:true});
+  await picker.fill("LAYOUT.BASIC_CONTENT.SINGLECOLUMN");
+  await picker.press("Enter");
+  await page.getByRole("button",{name:"Responsive preview",exact:true}).click();
+  await expect(page.locator('[data-layout-name="SingleColumn"]')).toHaveCount(2);
+  await expect(page.locator('[data-layout-region="main"]').first()).toContainText("Primary action");
+});
