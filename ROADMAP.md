@@ -21,6 +21,8 @@ Run `pnpm certify:enterprise` from a clean committed tree. The workflow preserve
 
 ## Remaining release milestones
 
+User designations recorded on 2026-10-05: **TLPS** is the selected enterprise pilot; **Hemant Kumar Dixit** owns release approval and private security reporting. Pilot integration/results, owner acceptance, a private reporting channel and response commitments remain pending. Additional structurally different pilots are still needed for multi-product acceptance. Historical dashboard ownership blockers refer to missing acceptance evidence; the designation alone does not turn those gates into PASS.
+
 | Step | Milestone | Required evidence |
 | --- | --- | --- |
 | 32 | Alpha qualification/promotion | Exact candidate automation, reviewed scope and deliberate version/tag decision; frozen alpha8.6 stays unchanged |
