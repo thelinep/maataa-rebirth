@@ -76,3 +76,5 @@ alpha8.*-compatibility-build.log
 .certification/consumer-vite/src/GeneratedScene.tsx
 .certification/package-consumer.json
 .certification/consumer-vite/
+.certification/security/
+.certification/storybook/
