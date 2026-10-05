@@ -1,0 +1,22 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "rootDir": ".",
+    "baseUrl": ".",
+    "paths": {
+      "@maataa/ui": [
+        "src/index.ts"
+      ],
+      "@maataa/ui/*": [
+        "src/*"
+      ]
+    },
+    "allowImportingTsExtensions": true
+  },
+  "include": [
+    "src",
+    "examples/redux-demo/*.ts",
+    "examples/redux-demo/*.tsx"
+  ]
+}
