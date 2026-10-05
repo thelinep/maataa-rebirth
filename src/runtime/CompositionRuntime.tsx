@@ -8,7 +8,7 @@ export interface CompositionRuntimeProps {
   header?: React.ReactNode;
   sidebar?: React.ReactNode;
   inspector?: React.ReactNode;
-  validation?: Readonly<{ valid: boolean }>;
+  validation?: Readonly<{ valid: boolean; compatibility?: {status:"verified"|"unverified"}; warnings?: readonly {code:string;message:string}[] }>;
 }
 export function CompositionRuntime({
   scene,
@@ -19,10 +19,11 @@ export function CompositionRuntime({
 }: CompositionRuntimeProps) {
   const validation =
     validationOverride ?? validateComposerScene(scene);
+  const status = !validation.valid ? "invalid" : ("compatibility" in validation ? validation.compatibility?.status : undefined) ?? "unverified";
   return <div className="m-composition-runtime" data-workspace={scene.workspaceTypeId} data-page={scene.pageTypeId} data-layout={scene.layoutTypeId} data-maataa-theme={scene.theme} data-density={scene.density}>
     <header className="m-composition-header">{header??<><strong>{scene.name}</strong><small>{scene.pageTypeId}</small></>}</header>
     <aside className="m-composition-sidebar">{sidebar??<nav><span>Overview</span><span>Data</span><span>Evidence</span></nav>}</aside>
     <main className="m-composition-main"><ComposerRenderer scene={scene}/></main>
-    <aside className="m-composition-inspector">{inspector??<><strong>Composition</strong><code>{scene.layoutTypeId}</code><span>{validation.valid?"valid":"needs review"}</span></>}</aside>
+    <aside className="m-composition-inspector">{inspector??<><strong>Composition</strong><code>{scene.layoutTypeId}</code><span>{status}</span></>}</aside>
   </div>;
 }

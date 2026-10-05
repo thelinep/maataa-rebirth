@@ -10,7 +10,8 @@ import { DEVICE_REGISTRY } from "../registries/deviceRegistry";
 import { createComposerBlock } from "./defaults";
 import { ComposerBlockView } from "./ComposerRenderer";
 import { generateComposerJsx } from "./codegen";
-import { validateComposerScene } from "./validate";
+import { validateCompositionKernel } from "./compositionKernel";
+import { getVerifiedPageIdsForWorkspace, getVerifiedLayoutIdsForComposition } from "./compatibility";
 import type { ComposerBlock, ComposerBlockKind, ComposerScene } from "./types";
 
 export interface VisualComposerProps {
@@ -33,7 +34,15 @@ function nextId(scene: ComposerScene) { const n = scene.blocks.reduce((max,b)=>M
 export function VisualComposer({scene,selectedBlockId=null,canUndo,canRedo,onSceneChange,onSelectBlock,onUndo,onRedo}:VisualComposerProps) {
   const [dragId,setDragId] = React.useState<string|null>(null);
   const selected = scene.blocks.find((b)=>b.id===selectedBlockId) ?? null;
-  const validation = React.useMemo(()=>validateComposerScene(scene),[scene]);
+  const validation = React.useMemo(()=>validateCompositionKernel(scene),[scene]);
+  const status = !validation.valid ? "invalid" : validation.compatibility.status;
+  const recommendedPages = new Set(getVerifiedPageIdsForWorkspace(scene.workspaceTypeId));
+  const recommendedLayouts = new Set(getVerifiedLayoutIdsForComposition(scene.workspaceTypeId, scene.pageTypeId));
+  const rank = <T extends {id:string}>(items: readonly T[], ids: ReadonlySet<string>) => [...items].sort((a,b)=>Number(ids.has(b.id))-Number(ids.has(a.id)));
+  const issues = [
+    ...validation.sceneValidation.issues,
+    ...validation.warnings.map(issue => ({code:issue.code,level:"warning",message:issue.message,blockId:undefined})),
+  ];
   const commit = (next: ComposerScene) => onSceneChange({...next,updatedAt:new Date().toISOString()});
   const add = (kind:ComposerBlockKind) => { const block=createComposerBlock(kind,nextId(scene)); commit({...scene,blocks:[...scene.blocks,block]}); onSelectBlock?.(block.id); };
   const remove = (id:string) => { commit({...scene,blocks:scene.blocks.filter((b)=>b.id!==id)}); if(selectedBlockId===id)onSelectBlock?.(null); };
@@ -43,12 +52,12 @@ export function VisualComposer({scene,selectedBlockId=null,canUndo,canRedo,onSce
   return <div className="m-visual-composer" data-maataa-theme={scene.theme}>
     <div className="m-composer-toolbar">
       <div><strong>{scene.name}</strong><span>{scene.workspaceTypeId}</span></div>
-      <div className="m-composer-toolbar-actions"><Button variant="ghost" disabled={!canUndo} onClick={onUndo}>Undo</Button><Button variant="ghost" disabled={!canRedo} onClick={onRedo}>Redo</Button><Badge tone={validation.valid?"success":"warning"}>{validation.valid?"valid":`${validation.issues.length} issues`}</Badge></div>
+      <div className="m-composer-toolbar-actions"><Button variant="ghost" disabled={!canUndo} onClick={onUndo}>Undo</Button><Button variant="ghost" disabled={!canRedo} onClick={onRedo}>Redo</Button><Badge role="status" aria-label="Composition status" tone={status==="verified"?"success":status==="invalid"?"danger":"warning"}>{status}</Badge></div>
     </div>
     <div className="m-composer-context">
       <label>Workspace<Select value={scene.workspaceTypeId} onChange={(e)=>commit({...scene,workspaceTypeId:e.target.value as any})}>{WORKSPACE_TYPES.slice(0,120).map((x)=><option key={x.id} value={x.id}>{x.name}</option>)}</Select></label>
-      <label>Page<Select value={scene.pageTypeId} onChange={(e)=>commit({...scene,pageTypeId:e.target.value as any})}>{PAGE_TYPES.slice(0,160).map((x)=><option key={x.id} value={x.id}>{x.name}</option>)}</Select></label>
-      <label>Layout<Select value={scene.layoutTypeId} onChange={(e)=>commit({...scene,layoutTypeId:e.target.value as any})}>{LAYOUT_TYPES.map((x)=><option key={x.id} value={x.id}>{x.name}</option>)}</Select></label>
+      <label>Page<Select value={scene.pageTypeId} onChange={(e)=>commit({...scene,pageTypeId:e.target.value as any})}>{rank(PAGE_TYPES.slice(0,160),recommendedPages).map((x)=><option key={x.id} value={x.id}>{x.name}</option>)}</Select></label>
+      <label>Layout<Select value={scene.layoutTypeId} onChange={(e)=>commit({...scene,layoutTypeId:e.target.value as any})}>{rank(LAYOUT_TYPES,recommendedLayouts).map((x)=><option key={x.id} value={x.id}>{x.name}</option>)}</Select></label>
       <label>Device<Select value={scene.deviceId} onChange={(e)=>commit({...scene,deviceId:e.target.value as any})}>{DEVICE_REGISTRY.slice(0,90).map((x)=><option key={x.id} value={x.id}>{x.name}</option>)}</Select></label>
       <label>State<Select value={scene.stateMode} onChange={(e)=>commit({...scene,stateMode:e.target.value as any})}>{["default","loading","empty","error","disabled","offline","success"].map((x)=><option key={x}>{x}</option>)}</Select></label>
     </div>
@@ -61,7 +70,7 @@ export function VisualComposer({scene,selectedBlockId=null,canUndo,canRedo,onSce
         </div>)}
         {scene.blocks.length===0 && <div className="m-composer-drop-empty">Drop a palette item here.</div>}
       </div>
-      <aside className="m-composer-inspector"><small>INSPECTOR</small>{selected?<><strong>{selected.kind}</strong><code>{selected.id}</code>{Object.entries(selected.props).map(([key,value])=><label key={key}><span>{key}</span>{typeof value==="boolean"?<input type="checkbox" checked={value} onChange={(e)=>updateSelected({[key]:e.target.checked})}/>:<Input value={String(value??"")} onChange={(e)=>updateSelected({[key]:key==="level"?Number(e.target.value):e.target.value})}/>}</label>)}</>:<p>Select a block on the canvas.</p>}<hr/><details><summary>Validation</summary>{validation.issues.length===0?<p>No issues.</p>:validation.issues.map((i)=><p key={`${i.code}-${i.blockId??"scene"}`} data-level={i.level}>{i.level}: {i.message}</p>)}</details><details><summary>Generated JSX</summary><pre><code>{generateComposerJsx(scene)}</code></pre></details></aside>
+      <aside className="m-composer-inspector"><small>INSPECTOR</small>{selected?<><strong>{selected.kind}</strong><code>{selected.id}</code>{Object.entries(selected.props).map(([key,value])=><label key={key}><span>{key}</span>{typeof value==="boolean"?<input type="checkbox" checked={value} onChange={(e)=>updateSelected({[key]:e.target.checked})}/>:<Input value={String(value??"")} onChange={(e)=>updateSelected({[key]:key==="level"?Number(e.target.value):e.target.value})}/>}</label>)}</>:<p>Select a block on the canvas.</p>}<hr/><details><summary>Validation</summary>{issues.length===0?<p>No issues.</p>:issues.map((i)=><p key={`${i.code}-${i.blockId??"scene"}`} data-level={i.level}>{i.level}: {i.message}</p>)}</details><details><summary>Generated JSX</summary><pre><code>{generateComposerJsx(scene)}</code></pre></details></aside>
     </div>
   </div>;
 }

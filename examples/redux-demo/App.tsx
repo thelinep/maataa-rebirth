@@ -62,7 +62,7 @@ import { IdentityBadge } from "@maataa/ui/identity/IdentityBadge";
 import { MaataaIcon, type MaataaIconName } from "@maataa/ui/icons/MaataaIcon";
 import { ActualComponentPreview } from "./ActualComponentPreview";
 import { ComponentPropInspector, VisualComposer } from "@maataa/ui/composer";
-import { CompositionRuntime, ResponsiveDeviceRuntime } from "@maataa/ui/runtime";
+import { CanonicalCompositionRuntime, ResponsiveDeviceRuntime } from "@maataa/ui/runtime";
 
 const money = new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
 
@@ -418,7 +418,7 @@ function Sandbox() {
     <SectionHeading kicker="MAATAA Visual Composer" title="Compose real package components" body="Drag or add package-owned blocks, reorder them on canvas, edit props, switch workspace/page/layout/device/state context, undo/redo, persist locally, and preview the resulting canonical composition." />
     <div className="composer-mode-tabs"><button data-active={mode==="compose"} onClick={()=>setMode("compose")}>Composer</button><button data-active={mode==="preview"} onClick={()=>setMode("preview")}>Responsive preview</button><button data-active={mode==="json"} onClick={()=>setMode("json")}>Scene JSON</button><span>Selected: {selectedBlock?.id ?? "none"}</span></div>
     {mode==="compose" && <VisualComposer scene={scene} selectedBlockId={selectedBlock?.id??null} canUndo={canUndo} canRedo={canRedo} onSceneChange={(next)=>dispatch(builderActions.setScene(next))} onSelectBlock={(id)=>dispatch(builderActions.selectBlock(id))} onUndo={()=>dispatch(builderActions.undo())} onRedo={()=>dispatch(builderActions.redo())}/>} 
-    {mode==="preview" && <div className="composer-preview-grid"><ResponsiveDeviceRuntime preset="desktop"><CompositionRuntime scene={scene}/></ResponsiveDeviceRuntime><ResponsiveDeviceRuntime preset="mobile" orientation="portrait"><CompositionRuntime scene={scene}/></ResponsiveDeviceRuntime></div>}
+    {mode==="preview" && <div className="composer-preview-grid"><ResponsiveDeviceRuntime preset="desktop"><CanonicalCompositionRuntime scene={scene}/></ResponsiveDeviceRuntime><ResponsiveDeviceRuntime preset="mobile" orientation="portrait"><CanonicalCompositionRuntime scene={scene}/></ResponsiveDeviceRuntime></div>}
     {mode==="json" && <div className="composer-json"><div className="editor-tabs"><strong>Canonical ComposerScene</strong><CopyButton text={draft}/></div><textarea value={draft} onChange={(e)=>setDraft(e.target.value)} spellCheck={false}/>{error&&<div className="sandbox-error">{error}</div>}<div className="support-actions"><button className="gold-button" onClick={applyJson}>Apply JSON</button><button className="ghost-button" onClick={()=>dispatch(builderActions.resetScene())}>Reset scene</button></div></div>}
   </section>;
 }
