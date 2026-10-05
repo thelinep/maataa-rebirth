@@ -2,17 +2,8 @@ import { LAYOUT_RUNTIME_CONTRACTS } from "../runtime/layoutContracts.generated";
 import { LAYOUT_TYPES } from "../registries/layoutRegistry";
 import type { ComposerBlock, ComposerScene } from "./types";
 
-const imports: Record<string, { name: string; path: string }> = {
-  heading: { name: "Heading", path: "@maataa/ui/typography/Heading" },
-  text: { name: "Text", path: "@maataa/ui/typography/Text" },
-  button: { name: "Button", path: "@maataa/ui/actions/Button" },
-  input: { name: "Input", path: "@maataa/ui/forms/Input" },
-  card: { name: "Card", path: "@maataa/ui/surfaces/Card" },
-  table: { name: "DataTable", path: "@maataa/ui/data/DataTable" },
-  metric: { name: "Metric", path: "@maataa/ui/data/Metric" },
-  badge: { name: "Badge", path: "@maataa/ui/feedback/Badge" },
-  divider: { name: "Divider", path: "@maataa/ui/foundation/Divider" },
-};
+import { COMPOSER_COMPONENT_BINDINGS } from "./componentBindings.generated";
+const imports = COMPOSER_COMPONENT_BINDINGS;
 
 /** Serialize data for a JavaScript expression, including script-embedding boundaries. */
 function stringLiteral(value: unknown): string {

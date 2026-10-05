@@ -10,3 +10,5 @@ export * from "./propSchemas";
 export * from "./compositionKernel";
 
 export * from "./compatibility";
+
+export * from "./grammar";
