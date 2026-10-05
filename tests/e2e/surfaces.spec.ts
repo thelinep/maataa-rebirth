@@ -70,3 +70,14 @@ test("selected canonical layout executes in responsive preview",async({page})=>{
   await expect(page.locator('[data-layout-name="SingleColumn"]')).toHaveCount(2);
   await expect(page.locator('[data-layout-region="main"]').first()).toContainText("Primary action");
 });
+
+test("phone composition responds to its container in a desktop viewport",async({page})=>{
+  await page.setViewportSize({width:1440,height:1000});
+  await openReadySurface(page,"/sandbox");
+  await page.getByRole("button",{name:"Responsive preview",exact:true}).click();
+  const phone=page.locator('.m-responsive-runtime[data-device-id="DEVICE.PHONES.SMARTPHONE"]');
+  await expect(phone.locator('[data-layout-name]')).toBeVisible();
+  const columns=await phone.locator('[data-layout-name]').evaluate(element=>getComputedStyle(element).gridTemplateColumns.trim().split(/\s+/).length);
+  expect(columns).toBe(1);
+  await expect(phone.locator('[data-composition-status]')).toHaveAttribute("data-composition-status","unverified");
+});

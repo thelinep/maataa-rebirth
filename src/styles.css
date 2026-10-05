@@ -196,3 +196,15 @@
 .m-composition-runtime-canonical{background:var(--m-canvas);color:var(--m-fg);padding:12px;min-width:0}.m-composition-evidence{font-size:12px;color:var(--m-fg-muted);padding-block:8px}
 
 .m-composition-runtime-canonical .m-layout-main:empty{display:none}
+
+/* Composition previews respond to their measured device container. */
+.m-responsive-runtime-screen{container-type:inline-size;container-name:maataa-device;border:0;outline:10px solid #171717}
+.m-responsive-runtime:not([data-frame]) .m-responsive-runtime-screen{outline:0}
+.m-composition-runtime-canonical[data-responsive-stack="true"] .m-layout-preset{grid-template-columns:minmax(0,1fr)}
+.m-responsive-disclosure{padding:12px;background:var(--m-panel)}
+.m-responsive-disclosure summary{cursor:pointer;min-height:32px}
+@container maataa-device (max-width:900px){
+ .m-composition-runtime-canonical .m-layout-preset[data-layout-template]{grid-template-columns:minmax(0,1fr);grid-template-areas:"header" "nav" "toolbar" "sidebar" "palette" "main" "canvas" "stage" "preview" "details" "inspector" "footer" "bottomnav";min-height:0}
+ .m-composition-runtime-canonical .m-layout-preset>.m-layout-main{grid-column:auto}
+}
+@container maataa-device (max-width:640px){.m-composition-runtime-canonical{padding:8px}.m-composition-runtime-canonical .m-layout-preset{gap:8px}}
