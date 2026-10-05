@@ -7,3 +7,7 @@ Vitest and its matching coverage adapter are pinned to patched 4.1.11. A narrow 
 `pnpm security:baseline` records the audit, a bounded high-confidence secret scan, installed-package license inventory, CycloneDX SBOM, lockfile hash, artifact checksums and Git provenance. It distinguishes generated inventory from manual license approval, and local frozen-tag verification from remote tag protection. An uncommitted tree is explicitly recorded and cannot be release-certified.
 
 Before publishing, the release owner must designate a private vulnerability-reporting channel, triage owner and response commitments; approve licenses; enforce immutable release tags at the repository host; and configure a controlled publisher with artifact provenance. These external governance gates remain NOT_RUN until evidence exists. Never publish a package to establish whether permissions happen to permit it.
+
+License records include the package metadata hash. If that metadata omits a license, an explicit MIT heading in the package's LICENSE file can resolve it, with the file hash recorded as provenance. Other missing or ambiguous declarations remain UNKNOWN. This is inventory extraction and does not constitute legal or distribution approval.
+
+The SBOM follows pnpm's resolved dependency graph rather than every directory in its virtual store. Stale cached versions are excluded. Component references and dependency edges identify active package versions; license provenance remains attached to each component.
