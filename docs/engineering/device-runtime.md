@@ -7,3 +7,5 @@ Composition-specific CSS uses a named inline-size container. Runtime transformat
 Capability declarations establish positive support. Missing declared capability evidence yields LIMITED; unknown requirements/device evidence yields UNVERIFIED. UNSUPPORTED is reserved for future explicit negative evidence and is not inferred from absence. Device metadata is declared support, not physical-hardware certification.
 
 C1–C3 development qualification: TypeScript, 178 unit tests, production demo build and 40 desktop/mobile Chromium tests passed. All 187 devices resolve to positive viewport dimensions. A browser test proves the phone layout stacks inside a 1440px host viewport. The 100-layout derived mapping remains current. No dynamic/static collision warnings were introduced.
+
+C4 connects optional requiredCapabilityIds to the shared composition kernel. LIMITED/UNVERIFIED capability results are warnings and do not invalidate canonical identities. Qualification: TypeScript and 179 full-suite unit tests passed. No physical device or explicit denial evidence has been fabricated.

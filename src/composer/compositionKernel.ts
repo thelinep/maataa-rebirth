@@ -1,3 +1,4 @@
+import { evaluateDeviceCapabilities } from "../runtime/deviceRuntime";
 import type { ComposerScene } from "./types";
 import {
   evaluateCompositionCompatibility,
@@ -75,7 +76,9 @@ export type CompositionReferenceIssueCode =
   | "UNKNOWN_COMPONENT"
   | "DUPLICATE_REGION"
   | "DUPLICATE_COMPONENT"
-  | "UNVERIFIED_COMPOSITION";
+  | "UNVERIFIED_COMPOSITION"
+  | "DEVICE_CAPABILITY_LIMITED"
+  | "DEVICE_CAPABILITY_UNVERIFIED";
 
 export interface CompositionReferenceIssue {
   severity: "error" | "warning";
@@ -96,6 +99,7 @@ export interface CompositionContext {
   regionIds?: readonly string[];
   componentIds?: readonly string[];
   responsiveCondition?: string;
+  requiredCapabilityIds?: readonly string[];
 }
 
 export interface CompositionResolution {
@@ -117,6 +121,7 @@ export interface CompositionReferenceValidation {
 
 export interface CompositionKernelValidation
   extends CompositionReferenceValidation {
+  deviceCapabilities: ReturnType<typeof evaluateDeviceCapabilities>;
   sceneValidation: ReturnType<
     typeof validateComposerScene
   >;
@@ -368,9 +373,13 @@ export function validateCompositionKernel(
         scene.deviceId,
     });
 
-  const warnings = [
-    ...references.warnings,
-  ];
+  const deviceCapabilities=evaluateDeviceCapabilities(context.deviceId??scene.deviceId,context.requiredCapabilityIds);
+  const warnings = [...references.warnings];
+  if(deviceCapabilities.status!=="SUPPORTED") warnings.push({
+    severity:"warning",code:deviceCapabilities.status==="LIMITED"?"DEVICE_CAPABILITY_LIMITED":"DEVICE_CAPABILITY_UNVERIFIED",
+    path:"context.requiredCapabilityIds",id:context.deviceId??scene.deviceId,
+    message:`Device capability evidence is ${deviceCapabilities.status.toLowerCase()}; missing: ${deviceCapabilities.missing.join(", ")||"none"}; unknown: ${deviceCapabilities.unknown.join(", ")||"none"}.`,
+  });
 
   if (
     references.valid &&
@@ -401,6 +410,7 @@ export function validateCompositionKernel(
       references.valid &&
       sceneValidation.valid,
     sceneValidation,
+    deviceCapabilities,
     compatibility,
   };
 }

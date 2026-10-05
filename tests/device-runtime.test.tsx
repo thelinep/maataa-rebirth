@@ -1,6 +1,8 @@
 import React from "react";
 import { afterEach,describe,expect,it } from "vitest";
 import { cleanup,render,screen } from "@testing-library/react";
+import { validateCompositionKernel } from "../src/composer/compositionKernel";
+import { DEFAULT_COMPOSER_SCENE } from "../src/composer/defaults";
 import { DEVICE_REGISTRY } from "../src/registries/deviceRegistry";
 import { resolveDeviceRuntime,evaluateDeviceCapabilities } from "../src/runtime/deviceRuntime";
 import { ResponsiveDeviceRuntime } from "../src/runtime/ResponsiveDeviceRuntime";
@@ -30,4 +32,10 @@ describe("device runtime",()=>{
    expect(screen.getByText("Navigation")).toBeInTheDocument();expect(screen.getByText("Inspector")).toBeInTheDocument();
    expect(result.unverified.length).toBeGreaterThan(0);
  });
+});
+
+it("includes capability uncertainty in shared composition validation without forbidding canonical choices",()=>{
+ const result=validateCompositionKernel(DEFAULT_COMPOSER_SCENE,{requiredCapabilityIds:["CAPABILITY.INVENTED"]});
+ expect(result.valid).toBe(true);expect(result.deviceCapabilities.status).toBe("UNVERIFIED");
+ expect(result.warnings.map(x=>x.code)).toContain("DEVICE_CAPABILITY_UNVERIFIED");
 });
