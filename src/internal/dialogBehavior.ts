@@ -18,13 +18,13 @@ function focusables(dialog:HTMLElement){
     getComputedStyle(element).display!=="none"&&getComputedStyle(element).visibility!=="hidden");
 }
 /** Portal dialogs only: contain focus, isolate background, restore state on close/unmount. */
-export function useDialogBehavior(open:boolean,ref:React.RefObject<HTMLElement|null>,onClose:()=>void){
+export function useDialogBehavior(open:boolean,ref:React.RefObject<HTMLElement|null>,onClose:()=>void,returnFocusRef?:React.RefObject<HTMLElement|null>){
   const close=React.useRef(onClose);
   React.useEffect(()=>{close.current=onClose;},[onClose]);
   React.useEffect(()=>{
     const dialog=ref.current;
     if(!open||!dialog)return;
-    const previous=document.activeElement instanceof HTMLElement?document.activeElement:undefined;
+    const previous=returnFocusRef?.current??(document.activeElement instanceof HTMLElement?document.activeElement:undefined);
     if(!dialogs.length){previousOverflow=document.body.style.overflow;document.body.style.overflow="hidden";}
     dialogs.push(dialog);syncBackground();
     const observer=new MutationObserver(syncBackground);observer.observe(document.body,{childList:true});
@@ -47,5 +47,5 @@ export function useDialogBehavior(open:boolean,ref:React.RefObject<HTMLElement|n
       const wasTop=isTop();const index=dialogs.indexOf(dialog);if(index>=0)dialogs.splice(index,1);
       syncBackground();if(wasTop&&previous?.isConnected&&!previous.closest('[inert]'))previous.focus();
     };
-  },[open,ref]);
+  },[open,ref,returnFocusRef]);
 }

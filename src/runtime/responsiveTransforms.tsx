@@ -5,8 +5,9 @@ import { RESPONSIVE_TRANSFORMATION_REGISTRY } from "../registries/responsiveTran
 import type { LayoutPresetProps } from "../internal/layoutPreset";
 function ResponsiveRegionOverlay({name,side,children,transformation}:{name:string;side:"left"|"bottom";children:React.ReactNode;transformation:string}) {
   const [open,setOpen]=React.useState(false);
-  return <div data-transformation={transformation}><Button variant="secondary" onClick={()=>setOpen(true)}>{name}</Button>
-    <Drawer open={open} onClose={()=>setOpen(false)} side={side} title={name}>{children}</Drawer>
+  const trigger=React.useRef<HTMLButtonElement>(null);
+  return <div data-transformation={transformation}><Button ref={trigger} variant="secondary" onClick={()=>setOpen(true)}>{name}</Button>
+    <Drawer returnFocusRef={trigger} open={open} onClose={()=>setOpen(false)} side={side} title={name}>{children}</Drawer>
   </div>;
 }
 export function applicableResponsiveTransformations(width:number,inputModalities:readonly string[]=[]) {

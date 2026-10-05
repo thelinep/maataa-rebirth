@@ -345,11 +345,12 @@ function SurfaceExplorer() {
 
 function KeyboardControls() {
  const [modal,setModal]=React.useState(false),[drawer,setDrawer]=React.useState(false),[choice,setChoice]=React.useState("one");
+ const modalTrigger=React.useRef<HTMLButtonElement>(null),drawerTrigger=React.useRef<HTMLButtonElement>(null);
  const options=[{value:"one",label:"One"},{value:"two",label:"Two"}];
- return <Card header={<strong>Keyboard controls</strong>}><div className="specimen-actions"><Button onClick={()=>setModal(true)}>Open dialog</Button><Button variant="secondary" onClick={()=>setDrawer(true)}>Open drawer</Button></div>
+ return <Card header={<strong>Keyboard controls</strong>}><div className="specimen-actions"><Button ref={modalTrigger} onClick={()=>setModal(true)}>Open dialog</Button><Button ref={drawerTrigger} variant="secondary" onClick={()=>setDrawer(true)}>Open drawer</Button></div>
  <Combobox label="First choice" value={choice} onValueChange={setChoice} options={options}/><Combobox label="Second choice" options={options}/>
- <Modal open={modal} onClose={()=>setModal(false)} title="Keyboard dialog"><Input aria-label="Dialog name"/><Button onClick={()=>setModal(false)}>Done</Button></Modal>
- <Drawer open={drawer} onClose={()=>setDrawer(false)} title="Keyboard drawer"><Button onClick={()=>setDrawer(false)}>Done</Button></Drawer>
+ <Modal returnFocusRef={modalTrigger} open={modal} onClose={()=>setModal(false)} title="Keyboard dialog"><Input aria-label="Dialog name"/><Button onClick={()=>setModal(false)}>Done</Button></Modal>
+ <Drawer returnFocusRef={drawerTrigger} open={drawer} onClose={()=>setDrawer(false)} title="Keyboard drawer"><Button onClick={()=>setDrawer(false)}>Done</Button></Drawer>
  </Card>;
 }
 function Playground() {

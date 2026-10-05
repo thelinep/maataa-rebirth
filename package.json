@@ -506,7 +506,7 @@
     "storybook:check": "node scripts/check-storybook-stack.mjs",
     "bundle:check": "node scripts/check-bundle-budgets.mjs",
     "package:consumer": "node scripts/certify-consumer.mjs",
-    "browser:install": "playwright install chromium",
+    "browser:install": "playwright install chromium firefox webkit",
     "browser:test": "pnpm demo:build && playwright test",
     "browser:a11y": "pnpm demo:build && playwright test tests/e2e/accessibility.spec.ts",
     "beta:manifest": "node scripts/beta-prep-manifest.mjs",

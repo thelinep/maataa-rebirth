@@ -6,9 +6,9 @@ import { Button } from "../actions";
 export function Surface(p:React.HTMLAttributes<HTMLDivElement>){return <div {...p} className={cx("m-surface m-ui",p.className)}/>}
 export function Card({header,footer,children,className,...p}:React.HTMLAttributes<HTMLDivElement>&{header?:React.ReactNode;footer?:React.ReactNode}){return <article {...p} className={cx("m-card m-ui",className)}>{header&&<header style={{marginBlockEnd:12}}>{header}</header>}{children}{footer&&<footer style={{marginBlockStart:12}}>{footer}</footer>}</article>}
 export function Panel(p:React.HTMLAttributes<HTMLDivElement>){return <div {...p} className={cx("m-panel m-ui",p.className)} style={{padding:16,...p.style}}/>}
-export function Modal({open,isOpen,onClose,title,description,children,footer,closeLabel="Close"}:{open?:boolean;isOpen?:boolean;onClose:()=>void;title?:React.ReactNode;description?:React.ReactNode;children?:React.ReactNode;footer?:React.ReactNode;closeLabel?:string}) {
+export function Modal({open,isOpen,onClose,title,description,children,footer,returnFocusRef,closeLabel="Close"}:{open?:boolean;isOpen?:boolean;onClose:()=>void;title?:React.ReactNode;description?:React.ReactNode;children?:React.ReactNode;footer?:React.ReactNode;closeLabel?:string;returnFocusRef?:React.RefObject<HTMLElement|null>}) {
  const visible=open??isOpen??false,titleId=useId(),descId=useId(),dialog=useRef<HTMLDivElement>(null);
- useDialogBehavior(visible,dialog,onClose);
+ useDialogBehavior(visible,dialog,onClose,returnFocusRef);
  if(!visible||typeof document==="undefined")return null;
  return createPortal(<div className="maataa-root m-modal-backdrop" onMouseDown={event=>{if(event.currentTarget===event.target)onClose();}}>
   <div ref={dialog} tabIndex={-1} data-maataa-modal className="m-dialog" role="dialog" aria-modal="true" aria-label={!title?"Dialog":undefined} aria-labelledby={title?titleId:undefined} aria-describedby={description?descId:undefined}>
@@ -19,8 +19,8 @@ export function Modal({open,isOpen,onClose,title,description,children,footer,clo
 }
 export const Dialog=Modal;
 export function AlertDialog({open,onClose,title,description,onConfirm,confirmLabel="Confirm",cancelLabel="Cancel"}:{open:boolean;onClose:()=>void;title:string;description?:string;onConfirm:()=>void;confirmLabel?:string;cancelLabel?:string}){return <Modal open={open} onClose={onClose} title={title} description={description} footer={<><Button variant="secondary" onClick={onClose}>{cancelLabel}</Button><Button variant="destructive" onClick={()=>{onConfirm();onClose()}}>{confirmLabel}</Button></>}/>}
-export function Drawer({open,onClose,side="right",title,children}:{open:boolean;onClose:()=>void;side?:"left"|"right"|"bottom";title?:React.ReactNode;children?:React.ReactNode}) {
- const dialog=useRef<HTMLElement>(null),titleId=useId();useDialogBehavior(open,dialog,onClose);
+export function Drawer({open,onClose,side="right",title,children,returnFocusRef}:{open:boolean;onClose:()=>void;side?:"left"|"right"|"bottom";title?:React.ReactNode;children?:React.ReactNode;returnFocusRef?:React.RefObject<HTMLElement|null>}) {
+ const dialog=useRef<HTMLElement>(null),titleId=useId();useDialogBehavior(open,dialog,onClose,returnFocusRef);
  if(!open||typeof document==="undefined")return null;
  return createPortal(<div className="maataa-root m-modal-backdrop" onMouseDown={event=>{if(event.currentTarget===event.target)onClose();}}>
   <aside ref={dialog} tabIndex={-1} className="m-drawer" data-side={side} role="dialog" aria-modal="true" aria-label={!title?"Drawer":undefined} aria-labelledby={title?titleId:undefined}>

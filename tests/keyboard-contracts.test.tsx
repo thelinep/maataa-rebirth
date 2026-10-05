@@ -1,6 +1,6 @@
 import React from "react";
 import { afterEach,describe,expect,it,vi } from "vitest";
-import { cleanup,render,screen,within } from "@testing-library/react";
+import { cleanup,fireEvent,render,screen,within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Modal,Drawer } from "../src/surfaces";
 import { Tabs } from "../src/navigation";
@@ -70,3 +70,9 @@ describe("broader interaction contracts",()=>{
   expect(screen.getByRole("textbox",{name:"Search commands"})).toHaveFocus();await user.keyboard("{Escape}");expect(close).toHaveBeenCalledWith(false);
  });
 });
+
+describe("explicit dialog return target",()=>{it.each(["modal","drawer"])("restores %s trigger even when pointer activation did not focus it",async kind=>{
+ const user=userEvent.setup();
+ function App(){const [open,setOpen]=React.useState(false);const trigger=React.useRef<HTMLButtonElement>(null);return <><button ref={trigger} onClick={()=>setOpen(true)}>Pointer trigger</button>{kind==="modal"?<Modal open={open} title="Explicit modal" returnFocusRef={trigger} onClose={()=>setOpen(false)}/>:<Drawer open={open} title="Explicit drawer" returnFocusRef={trigger} onClose={()=>setOpen(false)}/>}</>;}
+ render(<App/>);const trigger=screen.getByRole("button",{name:"Pointer trigger"});expect(trigger).not.toHaveFocus();fireEvent.click(trigger);expect(screen.getByRole("dialog")).toBeVisible();await user.keyboard("{Escape}");expect(trigger).toHaveFocus();
+});});
