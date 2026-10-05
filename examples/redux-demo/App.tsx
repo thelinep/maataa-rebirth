@@ -1,5 +1,6 @@
 import * as React from "react";
 const TlpsWorkflow = React.lazy(() => import("./TlpsWorkflow").then(module => ({ default: module.TlpsWorkflow })));
+const TlpsSurfaces = React.lazy(() => import("./TlpsSurfaces").then(module => ({ default: module.TlpsSurfaces })));
 import { MaataaReduxProvider } from "@maataa/ui/redux/MaataaReduxProvider";
 import { createMaataaStore } from "@maataa/ui/redux/store";
 import { useMaataaDispatch, useMaataaSelector } from "@maataa/ui/redux/hooks";
@@ -179,7 +180,7 @@ function Shell({ route, navigate, children }: { route: string; navigate: (path: 
       <button className="nav-toggle" onClick={() => setOpen((value) => !value)} aria-expanded={open}><MaataaIcon name="menu"/> Menu</button>
       <nav className="site-nav" data-open={open} aria-label="Primary navigation">
         {PUBLIC_SURFACE_ROUTES.map((item) => <button key={item.id} data-active={route === item.path || (item.path !== "/" && route.startsWith(item.path))} onClick={() => { navigate(item.path); setOpen(false); }}><MaataaIcon name={ROUTE_ICONS[item.id] ?? "page"}/><span>{item.label}</span></button>)}
-        <button data-active={route === "/tlps-workflow"} onClick={() => { navigate("/tlps-workflow"); setOpen(false); }}>TLPS Workflow</button>
+        <button data-active={route.startsWith("/tlps")} onClick={() => { navigate("/tlps"); setOpen(false); }}>TLPS</button>
       </nav>
       <div className="header-actions"><button className="ghost-button" onClick={() => navigate("/playground")}><MaataaIcon name="playground"/> Playground</button><button className="gold-button" onClick={() => navigate("/demos")}><MaataaIcon name="demos"/> Open demo</button></div>
     </header>
@@ -425,7 +426,7 @@ function DemoDashboard() {
   return <section className="page-section">
     <SectionHeading kicker="Demos" title="Deterministic Redux scenario hub" body="Scenario switching updates workspace, page, layout and device state from canonical IDs." />
     <div className="scenario-grid">{DEMO_SCENARIOS.map((item) => <button className="scenario-card" data-active={item.id === scenario.id} key={item.id} onClick={() => dispatch(demoActions.activateScenario(item.id))}><strong>{item.name}</strong><span>{item.description}</span></button>)}</div>
-    {scenario.id === "scenario-tlps" && <p><a className="gold-button" href="#/tlps-workflow">Open full TLPS workflow</a></p>}
+    {scenario.id === "scenario-tlps" && <p className="tlps-dashboard-links"><a className="gold-button" href="#/tlps">TLPS public overview</a><a className="ghost-button" href="#/tlps/onboarding">Guided onboarding</a><a className="text-link" href="#/tlps-workflow">Open workflow preview →</a></p>}
     <div className="demo-dashboard-header"><div className="demo-dashboard-identity"><IdentityAvatar identity="IDENTITY.BRAHMINI" size={58}/><div><div className="demo-kicker">Active scenario</div><h2>{scenario.name}</h2><p>{scenario.description}</p></div></div><div className="header-copy-group"><IdentityAvatarGroup identities={["IDENTITY.SHIV","IDENTITY.PARVATI","IDENTITY.SAPTARISHI.GAUTAMA","IDENTITY.PANCHTATVA.AGNI"]} size={30}/><span className="demo-badge">{unread} unread</span><CopyButton text={compositionJson} label="Copy composition"/></div></div>
     <div className="metrics-grid compact"><Stat value={PAGE_TYPES.length} label="pages"/><Stat value={WORKSPACE_TYPES.length} label="workspaces"/><Stat value={LAYOUT_TYPES.length} label="layouts"/><Stat value={DEVICE_REGISTRY.length} label="devices"/></div>
     <div className="demo-grid">
@@ -503,6 +504,7 @@ function AppBody() {
   const [route, navigate] = useHashRoute();
   let content: React.ReactNode;
   if (route === "/") content = <Landing navigate={navigate}/>;
+  else if ((route === "/tlps" || route.startsWith("/tlps/"))) content = <React.Suspense fallback={<p role="status">Loading TLPS…</p>}><TlpsSurfaces route={route} navigate={navigate}/></React.Suspense>;
   else if (route === "/tlps-workflow") content = <React.Suspense fallback={<p role="status">Loading TLPS workflow…</p>}><TlpsWorkflow/></React.Suspense>;
   else if (route.startsWith("/surface")) content = <SurfaceExplorer/>;
   else if (route.startsWith("/playground")) content = <Playground/>;
