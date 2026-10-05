@@ -30,6 +30,7 @@ const steps=[
  ["ai-catalog","pnpm",["validate:ai"]],
  ["consumer","pnpm",["package:consumer"]],
  ["performance","pnpm",["performance:check"]],
+ ["runtime-performance","pnpm",["performance:runtime"]],
  ["security","pnpm",["security:baseline"]],
 ];
 const gates=Object.fromEntries(steps.map(([name])=>[name,{status:"NOT_RUN"}]));
@@ -45,7 +46,7 @@ for(const [name,command,args] of steps){
 function capture(file,input,gate){if(gates[gate]?.status!=="PASS"){write(file,{status:"NOT_RUN",reason:"Producing execution gate did not pass in this run"});return;}if(fs.existsSync(input))write(file,{status:file==="licenses.json"?"NOT_RUN":"PASS",artifactGenerated:true,executionGate:gate,evidence:JSON.parse(fs.readFileSync(input,"utf8"))});else throw new Error(`Missing execution artifact ${input}`);}
 capture("tests.json",path.join(directory,"tests.raw.json"),"tests");capture("browser.json",path.join(directory,"browser.raw.json"),"browser");
 if(gates.browser.status==="PASS"&&fs.existsSync(path.join(directory,"browser.raw.json"))){const browser=JSON.parse(fs.readFileSync(path.join(directory,"browser.raw.json"),"utf8"));const axe=[];function visit(suite){for(const spec of suite.specs??[])if(spec.title.startsWith("axe "))axe.push({title:spec.title,tests:spec.tests});for(const child of suite.suites??[])visit(child);}for(const suite of browser.suites??[])visit(suite);write("accessibility.json",{scope:"Automated axe and browser keyboard/focus tests; manual review separate",axe});}
-capture("bundle.json",".certification/performance/topology.json","demo");capture("performance.json",".certification/performance/budgets.json","performance");capture("public-api.json","PUBLIC_API.json","api");capture("registries.json","docs/canonical-catalog.json","docs");capture("package-consumer.json",".certification/package-consumer.json","consumer");capture("security.json",".certification/security/security.json","security");capture("sbom.json",".certification/security/sbom.json","security");capture("licenses.json",".certification/security/licenses.json","security");
+capture("bundle.json",".certification/performance/topology.json","demo");capture("performance.json",".certification/performance/budgets.json","performance");capture("runtime-performance.json",".certification/performance/runtime.json","runtime-performance");capture("public-api.json","PUBLIC_API.json","api");capture("registries.json","docs/canonical-catalog.json","docs");capture("package-consumer.json",".certification/package-consumer.json","consumer");capture("security.json",".certification/security/security.json","security");capture("sbom.json",".certification/security/sbom.json","security");capture("licenses.json",".certification/security/licenses.json","security");
 const sha=file=>crypto.createHash("sha256").update(fs.readFileSync(file)).digest("hex");
 const tarballs=gates.consumer.status==="PASS"&&fs.existsSync(".certification/package")?fs.readdirSync(".certification/package").filter(file=>file.endsWith(".tgz")).map(file=>({file,sha256:sha(path.join(".certification/package",file))})):[];
 write("provenance/artifacts.json",{tarballs,lockfileSha256:sha("pnpm-lock.yaml"),distribution:"Local tarballs; no hosted publisher attestation claimed"});

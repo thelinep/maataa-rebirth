@@ -517,7 +517,8 @@
     "performance:check": "node scripts/check-composition-performance.mjs",
     "docs:generate": "node scripts/generate-canonical-docs.mjs",
     "docs:check": "node scripts/generate-canonical-docs.mjs --check",
-    "certify:enterprise": "node scripts/certify-enterprise.mjs"
+    "certify:enterprise": "node scripts/certify-enterprise.mjs",
+    "performance:runtime": "node scripts/measure-runtime-performance.mjs"
   },
   "engines": {
     "node": ">=20"

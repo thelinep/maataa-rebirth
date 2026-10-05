@@ -1,0 +1,9 @@
+{
+  "policy": "Candidate local ceilings, reviewed against the first 18-trial baseline: 306 ms interaction, 1.49 MB route scripts, 6.13 MB Chromium heap, 3.94 ms registry import. Enterprise hardware/network acceptance remains owner-reviewed; no production SLA is implied.",
+  "limits": {
+    "navigationToVerifiedInteractionMs": 1000,
+    "routeJavascriptBytes": 2000000,
+    "chromiumHeapBytes": 33554432,
+    "registryColdImportMs": 100
+  }
+}
