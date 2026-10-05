@@ -1,11 +1,7 @@
 {
-  "status": "PASS",
-  "tarball": "maataa-ui-1.0.0-alpha.8.4.tgz",
-  "fixture": "vite-react",
-  "checks": [
-    "pack",
-    "install",
-    "typecheck",
-    "build"
-  ]
+  "status": "STALE",
+  "reason": "The legacy consumer report lacks exact-commit provenance and must not certify a release.",
+  "currentWorkflow": "pnpm package:consumer",
+  "executionReport": ".certification/package-consumer.json",
+  "releaseCertification": "Requires a fresh evidence pack for the exact candidate commit."
 }

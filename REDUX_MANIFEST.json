@@ -31,7 +31,7 @@
     },
     {
       "path": "src/redux/persistence.ts",
-      "sha256": "81e4ae5d40463285a80269eb3d8294723b37b951242aabaf7ad66d8aa71eecfd"
+      "sha256": "9382211c625a7e5da7f4b12fe85fcaf41960c0ca2d1d7554aed752529ff81530"
     },
     {
       "path": "src/redux/selectors/builderSelectors.ts",
@@ -59,7 +59,7 @@
     },
     {
       "path": "src/redux/slices/builderSlice.ts",
-      "sha256": "3c1bdfede3357fa9d57d47edca3f6b3509d1085d873e3260f986417574b3c2a0"
+      "sha256": "12027bd8fa2d9ceb63d92b904ddd441fc76b935572c5bbe9f7c2e2ee7a42b75e"
     },
     {
       "path": "src/redux/slices/commandSlice.ts",

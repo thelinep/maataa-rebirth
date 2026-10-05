@@ -70,3 +70,9 @@ alpha8.*-composition-kernel-build.log
 alpha8.*-compatibility-audit.txt
 alpha8.*-group-contract-audit.txt
 alpha8.*-compatibility-build.log
+
+# Clean consumer qualification outputs
+.certification/consumer-next/
+.certification/consumer-vite/src/GeneratedScene.tsx
+.certification/package-consumer.json
+.certification/consumer-vite/

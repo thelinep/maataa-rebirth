@@ -3,16 +3,11 @@ import { readdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import url from "node:url";
 const root = path.resolve(path.dirname(url.fileURLToPath(import.meta.url)), "..");
-const categories = ["foundation","typography","actions","forms","navigation","surfaces","feedback","data","visualization","maps","mobile","device-atoms","devices","device-groups","themes","atomic","layout-atoms","layouts","page-atoms","pages","workspace-atoms","workspaces","registry-atoms","registry-ui","registries","page-groups","workspace-groups","layout-groups","generator-atoms","generators","generator-groups","tool-atoms","tools","tool-groups","ai-space-atoms","ai-spaces","ai-space-groups","identity","icons","composer","runtime"];
-const publicDirectImports=[];
-for (const category of categories) {
-  const dir=path.join(root,"src",category);
-  const files=(await readdir(dir)).filter((f)=>/\.tsx$/.test(f)&&!f.startsWith("_")&&!f.startsWith("index.")).sort();
-  for (const file of files) {
-    const name=file.replace(/\.tsx$/,"");
-    publicDirectImports.push({category,import:`@maataa/ui/${category}/${name}`,name});
-  }
-}
+const { readCatalog }=await import("./read-canonical-catalog.mjs");
+const categories=["foundation","typography","actions","forms","navigation","surfaces","feedback","data","visualization","maps","mobile","device-atoms","devices","device-groups","themes","atomic","layout-atoms","layouts","page-atoms","pages","workspace-atoms","workspaces","registry-atoms","registry-ui","registries","page-groups","workspace-groups","layout-groups","generator-atoms","generators","generator-groups","tool-atoms","tools","tool-groups","ai-space-atoms","ai-spaces","ai-space-groups","identity","icons","composer","runtime"];
+const records=readCatalog(path.join(root,"src/registries/componentRegistry.ts"),"COMPONENT_REGISTRY");
+const publicDirectImports=records.map(record=>({category:record.importPath.split("/")[2],import:record.importPath,name:record.name})).sort((a,b)=>categories.indexOf(a.category)-categories.indexOf(b.category)||(a.name<b.name?-1:a.name>b.name?1:0));
+if(new Set(publicDirectImports.map(record=>record.import)).size!==records.length)throw new Error("Ambiguous canonical direct imports");
 const pkg=JSON.parse(await readFile(path.join(root,"package.json"),"utf8"));
 const manifest={architecture:"atomic-layout-page-workspace-registry-ai-generator-tool-space-aware",package:pkg.name,version:pkg.version,publicDirectImports};
 const pretty=JSON.stringify(manifest,null,2)+"\n";

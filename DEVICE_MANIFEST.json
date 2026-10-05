@@ -5413,28 +5413,32 @@
       "name": "Sidebar To Drawer",
       "from": "Sidebar",
       "to": "Drawer",
-      "condition": "tablet-and-below"
+      "condition": "tablet-and-below",
+      "operation": "sidebar-drawer"
     },
     {
       "id": "RESPONSIVE.INSPECTOR_TO_BOTTOM_SHEET",
       "name": "Inspector To Bottom Sheet",
       "from": "Inspector",
       "to": "BottomSheet",
-      "condition": "mobile"
+      "condition": "mobile",
+      "operation": "inspector-sheet"
     },
     {
       "id": "RESPONSIVE.TOP_NAV_TO_BOTTOM_NAV",
       "name": "Top Nav To Bottom Nav",
       "from": "TopNav",
       "to": "BottomNavigation",
-      "condition": "mobile"
+      "condition": "mobile",
+      "operation": "navigation-bottom"
     },
     {
       "id": "RESPONSIVE.GRID_TO_STACK",
       "name": "Grid To Stack",
       "from": "Grid",
       "to": "Stack",
-      "condition": "mobile"
+      "condition": "mobile",
+      "operation": "grid-stack"
     },
     {
       "id": "RESPONSIVE.MASTER_DETAIL_TO_ROUTES",

@@ -475,7 +475,7 @@
     "@axe-core/playwright": "^4.10.0"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json && node scripts/copy-css.mjs",
+    "build": "tsc -p tsconfig.json && node scripts/finalize-esm.mjs && node scripts/copy-css.mjs",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
