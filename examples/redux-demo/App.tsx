@@ -1,6 +1,8 @@
 import * as React from "react";
 const TlpsWorkflow = React.lazy(() => import("./TlpsWorkflow").then(module => ({ default: module.TlpsWorkflow })));
 const TlpsSurfaces = React.lazy(() => import("./TlpsSurfaces").then(module => ({ default: module.TlpsSurfaces })));
+const ThemeStudio = React.lazy(() => import("./ThemeStudio").then(module => ({ default: module.ThemeStudio })));
+import { STUDIO_ACTIVE_KEY, applyThemeTokens, parseActiveTheme } from "./themeStudioModel";
 import { MaataaReduxProvider } from "@maataa/ui/redux/MaataaReduxProvider";
 import { createMaataaStore } from "@maataa/ui/redux/store";
 import { useMaataaDispatch, useMaataaSelector } from "@maataa/ui/redux/hooks";
@@ -257,6 +259,7 @@ function Shell({ route, navigate, children }: { route: string; navigate: (path: 
       <button className="nav-toggle" onClick={() => setOpen((value) => !value)} aria-expanded={open}><MaataaIcon name="menu"/> {copy.menu}</button>
       <nav className="site-nav" data-open={open} aria-label="Primary navigation">
         {PUBLIC_SURFACE_ROUTES.map((item) => <button key={item.id} data-active={route === item.path || (item.path !== "/" && route.startsWith(item.path))} onClick={() => { navigate(item.path); setOpen(false); }}><MaataaIcon name={ROUTE_ICONS[item.id] ?? "page"}/><span>{routeLabel(item.id, item.label)}</span></button>)}
+        <button data-active={route.startsWith("/theme-studio")} onClick={() => { navigate("/theme-studio"); setOpen(false); }}><MaataaIcon name="settings"/><span>Theme Studio</span></button>
         <button data-active={route.startsWith("/tlps")} onClick={() => { navigate("/tlps"); setOpen(false); }}>TLPS</button>
       </nav>
       <div className="header-actions"><button className="ghost-button" onClick={() => navigate("/playground")}><MaataaIcon name="playground"/> {copy.playground}</button><button className="gold-button" onClick={() => navigate("/demos")}><MaataaIcon name="demos"/> {copy.openDemo}</button></div>
@@ -294,6 +297,7 @@ function Landing({ navigate }: { navigate: (path: string) => void }) {
         <article className="feature-card"><span>02</span><h3>Playground</h3><strong>Interactive real components</strong><p>Change theme, density, radius and viewport width while interacting with package-owned Button, Input, Card, Badge and Tabs.</p><button className="text-link" onClick={() => navigate('/playground')}>Play →</button></article>
         <article className="feature-card"><span>03</span><h3>Sandbox</h3><strong>Safe composition builder</strong><p>Add and remove regions, edit JSON configuration, apply it without eval, and copy generated JSX or JSON.</p><button className="text-link" onClick={() => navigate('/sandbox')}>Compose →</button></article>
         <article className="feature-card"><span>04</span><h3>Demo scenarios</h3><strong>{DEMO_SCENARIOS.length} Redux scenarios</strong><p>Switch complete deterministic workspace/page/layout/device compositions and inspect supporting static data.</p><button className="text-link" onClick={() => navigate('/demos')}>Run →</button></article>
+        <article className="feature-card"><span>05</span><h3>Theme Studio</h3><strong>Design tokens, live</strong><p>Build typography, color, surface, shadow, motion and focus systems, then preview, save and export them.</p><button className="text-link" onClick={() => navigate('/theme-studio')}>Design →</button></article>
       </div>
     </section>
 
@@ -644,7 +648,7 @@ function Docs() {
       <article className="doc-article" id="docs-identities"><h3>Icons & symbolic demo identities</h3><p>{DEMO_IDENTITIES.length} symbolic demo identities and {ICON_REGISTRY.length} core vector icons are available. Identity software roles are demo metaphors, not theological claims.</p><CodeBlock code={codeExamples.identity}/><div style={{marginTop:16}}><IdentityAvatarGroup identities={DEMO_IDENTITIES.map((entry)=>entry.id)} size={36} max={15}/></div></article>
       <article className="doc-article" id="docs-devices"><h3>Devices & responsive</h3><p>{DEVICE_REGISTRY.length} canonical device definitions are available for visual simulation and responsive metadata. A declared frame is not a claim of real-device certification.</p></article>
       <article className="doc-article" id="docs-ai"><h3>AI surfaces</h3><p>{AI_SPACE_REGISTRY.length} AI spaces and {TOOL_REGISTRY.length} tools define host-neutral UI vocabulary. Actual model/tool execution remains outside the package.</p></article>
-      <article className="doc-article" id="docs-theming"><h3>Theming</h3><p>Theme/token vocabulary is package-owned. Gold glare remains static at rest and may animate only on hover, focus or active interaction states.</p></article>
+      <article className="doc-article" id="docs-theming"><h3>Theming</h3><p>Theme Studio edits the package CSS custom properties for semantic colors, font stacks, type scale, spacing density, surface style, radius, shadows, animation timing, reduced motion and focus rings. Apply a theme locally, save it in this browser, or export CSS variables and JSON. Custom font stacks use fonts available to the host application.</p></article>
       <article className="doc-article" id="docs-accessibility"><h3>Accessibility</h3><p>Keyboard, focus, semantics, contrast and reduced-motion behavior are required certification dimensions; demo presence alone is not certification.</p></article>
     </div>
   </section>;
@@ -675,8 +679,15 @@ function NotFound({ navigate }: { navigate: (path: string) => void }) { return <
 
 function AppBody() {
   const [route, navigate] = useHashRoute();
+  React.useEffect(() => {
+    try {
+      const active = parseActiveTheme(window.localStorage.getItem(STUDIO_ACTIVE_KEY));
+      if (active) applyThemeTokens(document.documentElement, active);
+    } catch { /* Keep the built-in theme when browser storage is unavailable. */ }
+  }, []);
   let content: React.ReactNode;
   if (route === "/") content = <Landing navigate={navigate}/>;
+  else if (route === "/theme-studio") content = <React.Suspense fallback={<p role="status">Loading Theme Studio…</p>}><ThemeStudio navigate={navigate}/></React.Suspense>;
   else if ((route === "/tlps" || route.startsWith("/tlps/"))) content = <React.Suspense fallback={<p role="status">Loading TLPS…</p>}><TlpsSurfaces route={route} navigate={navigate}/></React.Suspense>;
   else if (route === "/tlps-workflow") content = <React.Suspense fallback={<p role="status">Loading TLPS workflow…</p>}><TlpsWorkflow/></React.Suspense>;
   else if (route.startsWith("/surface")) content = <SurfaceExplorer/>;

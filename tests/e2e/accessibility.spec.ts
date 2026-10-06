@@ -1,7 +1,7 @@
 import { test, expect, type Page } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
-const routes=["/","/surface","/playground","/sandbox","/demos","/docs","/help","/support"];
+const routes=["/","/surface","/playground","/sandbox","/demos","/docs","/help","/support","/theme-studio"];
 const themes=["system","light","dark","high-contrast","oled"] as const;
 
 async function openReadySurface(page: Page, route: string) {

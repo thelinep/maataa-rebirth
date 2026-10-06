@@ -22,16 +22,26 @@
   --m-shadow-md: 0 8px 30px rgba(42, 34, 22, .12);
   --m-space-1: 4px; --m-space-2: 8px; --m-space-3: 12px; --m-space-4: 16px; --m-space-5: 20px; --m-space-6: 24px; --m-space-8: 32px;
   --m-font-sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --m-font-heading: var(--m-font-sans);
   --m-font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  color: var(--m-text); background: var(--m-bg); font-family: var(--m-font-sans);
+  --m-font-size-base: 16px; --m-font-scale: 1.22; --m-line-height: 1.5; --m-font-weight-strong: 650; --m-letter-spacing: 0em;
+  --m-border-width: 1px; --m-density: 1; --m-motion-duration: 160ms; --m-motion-easing: ease; --m-hover-lift: -1px; --m-focus-width: 2px;
+  color: var(--m-text); background: var(--m-bg); font-family: var(--m-font-sans); font-size: var(--m-font-size-base); line-height: var(--m-line-height);
 }
+.maataa-root :is(h1,h2,h3,h4,h5,h6) { font-family: var(--m-font-heading); font-weight: var(--m-font-weight-strong); letter-spacing: var(--m-letter-spacing); line-height: 1.15; }
+.maataa-root h1 { font-size: var(--m-font-size-h1, 1.802rem); }
+.maataa-root h2 { font-size: var(--m-font-size-h2, 1.488rem); }
+.maataa-root h3 { font-size: var(--m-font-size-h3, 1.22rem); }
+.maataa-root h4 { font-size: var(--m-font-size-h4, 1rem); }
+.maataa-root h5 { font-size: var(--m-font-size-h5, .82rem); }
+.maataa-root h6 { font-size: var(--m-font-size-h6, .67rem); }
 .maataa-root[data-theme="dark"], [data-maataa-theme="dark"] {
   --m-bg:#17140f; --m-surface:#211d17; --m-elevated:#29231b; --m-text:#f6efe3; --m-muted:#bdb2a3; --m-border:#42392f; --m-primary:#d5ad61; --m-primary-contrast:#1b150b; --m-secondary:#3a3024; --m-success:#73c69a; --m-warning:#e7b458; --m-danger:#eb8a7f; --m-info:#83b7e1; --m-focus:#edc66f;
 }
 .maataa-root *, .maataa-root *::before, .maataa-root *::after { box-sizing: border-box; }
-.maataa-root :focus-visible { outline: 2px solid var(--m-focus); outline-offset: 2px; }
+.maataa-root :focus-visible { outline: var(--m-focus-width) solid var(--m-focus); outline-offset: 2px; }
 .m-ui { font: inherit; color: inherit; }
-.m-button { position:relative; display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:40px; padding:8px 14px; border:1px solid var(--m-border); border-radius:var(--m-radius-sm); background:var(--m-surface); color:var(--m-text); cursor:pointer; transition:background .16s ease,border-color .16s ease,transform .16s ease,box-shadow .16s ease; }
+.m-button { position:relative; display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:40px; padding:calc(8px * var(--m-density)) calc(14px * var(--m-density)); border:var(--m-border-width) solid var(--m-border); border-radius:var(--m-radius-sm); background:var(--m-surface); color:var(--m-text); cursor:pointer; transition:background var(--m-motion-duration) var(--m-motion-easing),border-color var(--m-motion-duration) var(--m-motion-easing),transform var(--m-motion-duration) var(--m-motion-easing),box-shadow var(--m-motion-duration) var(--m-motion-easing); }
 .m-button[data-variant="primary"] { background:var(--m-primary); color:var(--m-primary-contrast); border-color:var(--m-primary); }
 .m-button[data-variant="secondary"] { background:var(--m-secondary); }
 .m-button[data-variant="ghost"] { background:transparent; border-color:transparent; }
@@ -40,14 +50,15 @@
 .m-button:active:not(:disabled) { transform:translateY(1px); }
 .m-button:disabled { opacity:.52; cursor:not-allowed; }
 .m-icon-button { width:40px; padding:8px; }
-.m-input, .m-select, .m-textarea { width:100%; min-height:40px; padding:9px 11px; border:1px solid var(--m-border); border-radius:var(--m-radius-sm); color:var(--m-text); background:var(--m-surface); font:inherit; }
+.m-input, .m-select, .m-textarea { width:100%; min-height:40px; padding:calc(9px * var(--m-density)) calc(11px * var(--m-density)); border:var(--m-border-width) solid var(--m-border); border-radius:var(--m-radius-sm); color:var(--m-text); background:var(--m-surface); font:inherit; }
 .m-textarea { min-height:96px; resize:vertical; }
 .m-field { display:grid; gap:6px; }
 .m-field-label { font-weight:600; font-size:.9rem; }
 .m-field-description { color:var(--m-muted); font-size:.82rem; }
 .m-field-error { color:var(--m-danger); font-size:.82rem; }
-.m-card,.m-panel,.m-surface { background:var(--m-surface); border:1px solid var(--m-border); border-radius:var(--m-radius-md); box-shadow:var(--m-shadow-sm); }
-.m-card { padding:var(--m-space-4); }
+.m-card,.m-panel,.m-surface { background:var(--m-card-bg,var(--m-surface)); border:var(--m-border-width) solid var(--m-border); border-radius:var(--m-radius-md); box-shadow:var(--m-card-shadow,var(--m-shadow-sm)); }
+.m-card { padding:calc(var(--m-space-4) * var(--m-density)); transition:transform var(--m-motion-duration) var(--m-motion-easing),box-shadow var(--m-motion-duration) var(--m-motion-easing); }
+.maataa-root .m-card:hover { transform:translateY(var(--m-hover-lift)); }
 .m-badge { display:inline-flex; align-items:center; gap:6px; border:1px solid var(--m-border); border-radius:999px; padding:2px 8px; font-size:.78rem; background:var(--m-elevated); }
 .m-stack { display:flex; flex-direction:column; }
 .m-flex { display:flex; }
