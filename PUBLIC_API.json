@@ -8040,6 +8040,18 @@
       "stability": "EXPERIMENTAL"
     },
     {
+      "subpath": "./redux/selectors/domainSelectors",
+      "source": "src/redux/selectors/domainSelectors.ts",
+      "kind": "module",
+      "stability": "EXPERIMENTAL"
+    },
+    {
+      "subpath": "./redux/selectors/domainSelectors",
+      "source": "src/redux/selectors/domainSelectors.ts",
+      "kind": "module",
+      "stability": "EXPERIMENTAL"
+    },
+    {
       "subpath": "./redux/selectors/index",
       "source": "src/redux/selectors/index.ts",
       "kind": "module",
@@ -8064,6 +8076,18 @@
       "stability": "EXPERIMENTAL"
     },
     {
+      "subpath": "./redux/slices/activitySlice",
+      "source": "src/redux/slices/activitySlice.ts",
+      "kind": "module",
+      "stability": "EXPERIMENTAL"
+    },
+    {
+      "subpath": "./redux/slices/activitySlice",
+      "source": "src/redux/slices/activitySlice.ts",
+      "kind": "module",
+      "stability": "EXPERIMENTAL"
+    },
+    {
       "subpath": "./redux/slices/aiSlice",
       "source": "src/redux/slices/aiSlice.ts",
       "kind": "module",
@@ -8072,6 +8096,18 @@
     {
       "subpath": "./redux/slices/aiSlice",
       "source": "src/redux/slices/aiSlice.ts",
+      "kind": "module",
+      "stability": "EXPERIMENTAL"
+    },
+    {
+      "subpath": "./redux/slices/bookingSlice",
+      "source": "src/redux/slices/bookingSlice.ts",
+      "kind": "module",
+      "stability": "EXPERIMENTAL"
+    },
+    {
+      "subpath": "./redux/slices/bookingSlice",
+      "source": "src/redux/slices/bookingSlice.ts",
       "kind": "module",
       "stability": "EXPERIMENTAL"
     },
@@ -8096,6 +8132,18 @@
     {
       "subpath": "./redux/slices/commandSlice",
       "source": "src/redux/slices/commandSlice.ts",
+      "kind": "module",
+      "stability": "EXPERIMENTAL"
+    },
+    {
+      "subpath": "./redux/slices/createDemoCollectionSlice",
+      "source": "src/redux/slices/createDemoCollectionSlice.ts",
+      "kind": "module",
+      "stability": "EXPERIMENTAL"
+    },
+    {
+      "subpath": "./redux/slices/createDemoCollectionSlice",
+      "source": "src/redux/slices/createDemoCollectionSlice.ts",
       "kind": "module",
       "stability": "EXPERIMENTAL"
     },
@@ -8132,6 +8180,42 @@
     {
       "subpath": "./redux/slices/deviceSlice",
       "source": "src/redux/slices/deviceSlice.ts",
+      "kind": "module",
+      "stability": "EXPERIMENTAL"
+    },
+    {
+      "subpath": "./redux/slices/evaluationSlice",
+      "source": "src/redux/slices/evaluationSlice.ts",
+      "kind": "module",
+      "stability": "EXPERIMENTAL"
+    },
+    {
+      "subpath": "./redux/slices/evaluationSlice",
+      "source": "src/redux/slices/evaluationSlice.ts",
+      "kind": "module",
+      "stability": "EXPERIMENTAL"
+    },
+    {
+      "subpath": "./redux/slices/eventSlice",
+      "source": "src/redux/slices/eventSlice.ts",
+      "kind": "module",
+      "stability": "EXPERIMENTAL"
+    },
+    {
+      "subpath": "./redux/slices/eventSlice",
+      "source": "src/redux/slices/eventSlice.ts",
+      "kind": "module",
+      "stability": "EXPERIMENTAL"
+    },
+    {
+      "subpath": "./redux/slices/financeSlice",
+      "source": "src/redux/slices/financeSlice.ts",
+      "kind": "module",
+      "stability": "EXPERIMENTAL"
+    },
+    {
+      "subpath": "./redux/slices/financeSlice",
+      "source": "src/redux/slices/financeSlice.ts",
       "kind": "module",
       "stability": "EXPERIMENTAL"
     },
@@ -8220,6 +8304,30 @@
       "stability": "EXPERIMENTAL"
     },
     {
+      "subpath": "./redux/slices/productionSlice",
+      "source": "src/redux/slices/productionSlice.ts",
+      "kind": "module",
+      "stability": "EXPERIMENTAL"
+    },
+    {
+      "subpath": "./redux/slices/productionSlice",
+      "source": "src/redux/slices/productionSlice.ts",
+      "kind": "module",
+      "stability": "EXPERIMENTAL"
+    },
+    {
+      "subpath": "./redux/slices/projectSlice",
+      "source": "src/redux/slices/projectSlice.ts",
+      "kind": "module",
+      "stability": "EXPERIMENTAL"
+    },
+    {
+      "subpath": "./redux/slices/projectSlice",
+      "source": "src/redux/slices/projectSlice.ts",
+      "kind": "module",
+      "stability": "EXPERIMENTAL"
+    },
+    {
       "subpath": "./redux/slices/registrySlice",
       "source": "src/redux/slices/registrySlice.ts",
       "kind": "module",
@@ -8244,6 +8352,18 @@
       "stability": "EXPERIMENTAL"
     },
     {
+      "subpath": "./redux/slices/taskSlice",
+      "source": "src/redux/slices/taskSlice.ts",
+      "kind": "module",
+      "stability": "EXPERIMENTAL"
+    },
+    {
+      "subpath": "./redux/slices/taskSlice",
+      "source": "src/redux/slices/taskSlice.ts",
+      "kind": "module",
+      "stability": "EXPERIMENTAL"
+    },
+    {
       "subpath": "./redux/slices/toolSlice",
       "source": "src/redux/slices/toolSlice.ts",
       "kind": "module",
@@ -8264,6 +8384,18 @@
     {
       "subpath": "./redux/slices/uiSlice",
       "source": "src/redux/slices/uiSlice.ts",
+      "kind": "module",
+      "stability": "EXPERIMENTAL"
+    },
+    {
+      "subpath": "./redux/slices/vendorSlice",
+      "source": "src/redux/slices/vendorSlice.ts",
+      "kind": "module",
+      "stability": "EXPERIMENTAL"
+    },
+    {
+      "subpath": "./redux/slices/vendorSlice",
+      "source": "src/redux/slices/vendorSlice.ts",
       "kind": "module",
       "stability": "EXPERIMENTAL"
     },
@@ -79663,6 +79795,24 @@
       ]
     },
     {
+      "name": "activityActions",
+      "subpath": "./redux",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/activitySlice.ts"
+      ]
+    },
+    {
+      "name": "activityReducer",
+      "subpath": "./redux",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/activitySlice.ts"
+      ]
+    },
+    {
       "name": "aiActions",
       "subpath": "./redux",
       "kind": "runtime",
@@ -79696,6 +79846,24 @@
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/redux/store.ts"
+      ]
+    },
+    {
+      "name": "bookingActions",
+      "subpath": "./redux",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/bookingSlice.ts"
+      ]
+    },
+    {
+      "name": "bookingReducer",
+      "subpath": "./redux",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/bookingSlice.ts"
       ]
     },
     {
@@ -79858,6 +80026,60 @@
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/redux/slices/deviceSlice.ts"
+      ]
+    },
+    {
+      "name": "evaluationActions",
+      "subpath": "./redux",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/evaluationSlice.ts"
+      ]
+    },
+    {
+      "name": "evaluationReducer",
+      "subpath": "./redux",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/evaluationSlice.ts"
+      ]
+    },
+    {
+      "name": "eventActions",
+      "subpath": "./redux",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/eventSlice.ts"
+      ]
+    },
+    {
+      "name": "eventReducer",
+      "subpath": "./redux",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/eventSlice.ts"
+      ]
+    },
+    {
+      "name": "financeActions",
+      "subpath": "./redux",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/financeSlice.ts"
+      ]
+    },
+    {
+      "name": "financeReducer",
+      "subpath": "./redux",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/financeSlice.ts"
       ]
     },
     {
@@ -80212,6 +80434,42 @@
       ]
     },
     {
+      "name": "productionActions",
+      "subpath": "./redux",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/productionSlice.ts"
+      ]
+    },
+    {
+      "name": "productionReducer",
+      "subpath": "./redux",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/productionSlice.ts"
+      ]
+    },
+    {
+      "name": "projectActions",
+      "subpath": "./redux",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/projectSlice.ts"
+      ]
+    },
+    {
+      "name": "projectReducer",
+      "subpath": "./redux",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/projectSlice.ts"
+      ]
+    },
+    {
       "name": "ReduxAuditEvent",
       "subpath": "./redux",
       "kind": "type",
@@ -80257,7 +80515,25 @@
       ]
     },
     {
+      "name": "selectActivityCollection",
+      "subpath": "./redux",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
+      ]
+    },
+    {
       "name": "selectAI",
+      "subpath": "./redux",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectBookingCollection",
       "subpath": "./redux",
       "kind": "runtime",
       "stability": "EXPERIMENTAL",
@@ -80356,12 +80632,39 @@
       ]
     },
     {
+      "name": "selectEvaluationCollection",
+      "subpath": "./redux",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
+      ]
+    },
+    {
       "name": "selectEventById",
       "subpath": "./redux",
       "kind": "runtime",
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/redux/selectors/demoSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectEventCollection",
+      "subpath": "./redux",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectFilteredActivity",
+      "subpath": "./redux",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
       ]
     },
     {
@@ -80374,12 +80677,39 @@
       ]
     },
     {
+      "name": "selectFilteredBookings",
+      "subpath": "./redux",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
+      ]
+    },
+    {
       "name": "selectFilteredDevices",
       "subpath": "./redux",
       "kind": "runtime",
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/redux/selectors/registrySelectors.ts"
+      ]
+    },
+    {
+      "name": "selectFilteredEvaluations",
+      "subpath": "./redux",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectFilteredEvents",
+      "subpath": "./redux",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
       ]
     },
     {
@@ -80410,6 +80740,33 @@
       ]
     },
     {
+      "name": "selectFilteredProductionRecords",
+      "subpath": "./redux",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectFilteredProjects",
+      "subpath": "./redux",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectFilteredTasks",
+      "subpath": "./redux",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
+      ]
+    },
+    {
       "name": "selectFilteredTools",
       "subpath": "./redux",
       "kind": "runtime",
@@ -80419,12 +80776,39 @@
       ]
     },
     {
+      "name": "selectFilteredTransactions",
+      "subpath": "./redux",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectFilteredVendors",
+      "subpath": "./redux",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
+      ]
+    },
+    {
       "name": "selectFilteredWorkspaces",
       "subpath": "./redux",
       "kind": "runtime",
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/redux/selectors/registrySelectors.ts"
+      ]
+    },
+    {
+      "name": "selectFinanceCollection",
+      "subpath": "./redux",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
       ]
     },
     {
@@ -80482,12 +80866,30 @@
       ]
     },
     {
+      "name": "selectProductionCollection",
+      "subpath": "./redux",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
+      ]
+    },
+    {
       "name": "selectProjectById",
       "subpath": "./redux",
       "kind": "runtime",
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/redux/selectors/demoSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectProjectCollection",
+      "subpath": "./redux",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
       ]
     },
     {
@@ -80501,6 +80903,15 @@
     },
     {
       "name": "selectSession",
+      "subpath": "./redux",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectTaskCollection",
       "subpath": "./redux",
       "kind": "runtime",
       "stability": "EXPERIMENTAL",
@@ -80545,6 +80956,15 @@
       ]
     },
     {
+      "name": "selectVendorCollection",
+      "subpath": "./redux",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
+      ]
+    },
+    {
       "name": "selectWorkspace",
       "subpath": "./redux",
       "kind": "runtime",
@@ -80569,6 +80989,24 @@
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/redux/slices/sessionSlice.ts"
+      ]
+    },
+    {
+      "name": "taskActions",
+      "subpath": "./redux",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/taskSlice.ts"
+      ]
+    },
+    {
+      "name": "taskReducer",
+      "subpath": "./redux",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/taskSlice.ts"
       ]
     },
     {
@@ -80632,6 +81070,24 @@
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/redux/hooks.ts"
+      ]
+    },
+    {
+      "name": "vendorActions",
+      "subpath": "./redux",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/vendorSlice.ts"
+      ]
+    },
+    {
+      "name": "vendorReducer",
+      "subpath": "./redux",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/vendorSlice.ts"
       ]
     },
     {
@@ -80680,6 +81136,24 @@
       ]
     },
     {
+      "name": "activityActions",
+      "subpath": "./redux/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/activitySlice.ts"
+      ]
+    },
+    {
+      "name": "activityReducer",
+      "subpath": "./redux/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/activitySlice.ts"
+      ]
+    },
+    {
       "name": "aiActions",
       "subpath": "./redux/index",
       "kind": "runtime",
@@ -80713,6 +81187,24 @@
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/redux/store.ts"
+      ]
+    },
+    {
+      "name": "bookingActions",
+      "subpath": "./redux/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/bookingSlice.ts"
+      ]
+    },
+    {
+      "name": "bookingReducer",
+      "subpath": "./redux/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/bookingSlice.ts"
       ]
     },
     {
@@ -80875,6 +81367,60 @@
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/redux/slices/deviceSlice.ts"
+      ]
+    },
+    {
+      "name": "evaluationActions",
+      "subpath": "./redux/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/evaluationSlice.ts"
+      ]
+    },
+    {
+      "name": "evaluationReducer",
+      "subpath": "./redux/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/evaluationSlice.ts"
+      ]
+    },
+    {
+      "name": "eventActions",
+      "subpath": "./redux/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/eventSlice.ts"
+      ]
+    },
+    {
+      "name": "eventReducer",
+      "subpath": "./redux/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/eventSlice.ts"
+      ]
+    },
+    {
+      "name": "financeActions",
+      "subpath": "./redux/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/financeSlice.ts"
+      ]
+    },
+    {
+      "name": "financeReducer",
+      "subpath": "./redux/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/financeSlice.ts"
       ]
     },
     {
@@ -81229,6 +81775,42 @@
       ]
     },
     {
+      "name": "productionActions",
+      "subpath": "./redux/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/productionSlice.ts"
+      ]
+    },
+    {
+      "name": "productionReducer",
+      "subpath": "./redux/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/productionSlice.ts"
+      ]
+    },
+    {
+      "name": "projectActions",
+      "subpath": "./redux/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/projectSlice.ts"
+      ]
+    },
+    {
+      "name": "projectReducer",
+      "subpath": "./redux/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/projectSlice.ts"
+      ]
+    },
+    {
       "name": "ReduxAuditEvent",
       "subpath": "./redux/index",
       "kind": "type",
@@ -81274,7 +81856,25 @@
       ]
     },
     {
+      "name": "selectActivityCollection",
+      "subpath": "./redux/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
+      ]
+    },
+    {
       "name": "selectAI",
+      "subpath": "./redux/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectBookingCollection",
       "subpath": "./redux/index",
       "kind": "runtime",
       "stability": "EXPERIMENTAL",
@@ -81373,12 +81973,39 @@
       ]
     },
     {
+      "name": "selectEvaluationCollection",
+      "subpath": "./redux/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
+      ]
+    },
+    {
       "name": "selectEventById",
       "subpath": "./redux/index",
       "kind": "runtime",
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/redux/selectors/demoSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectEventCollection",
+      "subpath": "./redux/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectFilteredActivity",
+      "subpath": "./redux/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
       ]
     },
     {
@@ -81391,12 +82018,39 @@
       ]
     },
     {
+      "name": "selectFilteredBookings",
+      "subpath": "./redux/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
+      ]
+    },
+    {
       "name": "selectFilteredDevices",
       "subpath": "./redux/index",
       "kind": "runtime",
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/redux/selectors/registrySelectors.ts"
+      ]
+    },
+    {
+      "name": "selectFilteredEvaluations",
+      "subpath": "./redux/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectFilteredEvents",
+      "subpath": "./redux/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
       ]
     },
     {
@@ -81427,6 +82081,33 @@
       ]
     },
     {
+      "name": "selectFilteredProductionRecords",
+      "subpath": "./redux/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectFilteredProjects",
+      "subpath": "./redux/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectFilteredTasks",
+      "subpath": "./redux/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
+      ]
+    },
+    {
       "name": "selectFilteredTools",
       "subpath": "./redux/index",
       "kind": "runtime",
@@ -81436,12 +82117,39 @@
       ]
     },
     {
+      "name": "selectFilteredTransactions",
+      "subpath": "./redux/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectFilteredVendors",
+      "subpath": "./redux/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
+      ]
+    },
+    {
       "name": "selectFilteredWorkspaces",
       "subpath": "./redux/index",
       "kind": "runtime",
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/redux/selectors/registrySelectors.ts"
+      ]
+    },
+    {
+      "name": "selectFinanceCollection",
+      "subpath": "./redux/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
       ]
     },
     {
@@ -81499,12 +82207,30 @@
       ]
     },
     {
+      "name": "selectProductionCollection",
+      "subpath": "./redux/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
+      ]
+    },
+    {
       "name": "selectProjectById",
       "subpath": "./redux/index",
       "kind": "runtime",
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/redux/selectors/demoSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectProjectCollection",
+      "subpath": "./redux/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
       ]
     },
     {
@@ -81518,6 +82244,15 @@
     },
     {
       "name": "selectSession",
+      "subpath": "./redux/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectTaskCollection",
       "subpath": "./redux/index",
       "kind": "runtime",
       "stability": "EXPERIMENTAL",
@@ -81562,6 +82297,15 @@
       ]
     },
     {
+      "name": "selectVendorCollection",
+      "subpath": "./redux/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
+      ]
+    },
+    {
       "name": "selectWorkspace",
       "subpath": "./redux/index",
       "kind": "runtime",
@@ -81586,6 +82330,24 @@
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/redux/slices/sessionSlice.ts"
+      ]
+    },
+    {
+      "name": "taskActions",
+      "subpath": "./redux/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/taskSlice.ts"
+      ]
+    },
+    {
+      "name": "taskReducer",
+      "subpath": "./redux/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/taskSlice.ts"
       ]
     },
     {
@@ -81649,6 +82411,24 @@
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/redux/hooks.ts"
+      ]
+    },
+    {
+      "name": "vendorActions",
+      "subpath": "./redux/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/vendorSlice.ts"
+      ]
+    },
+    {
+      "name": "vendorReducer",
+      "subpath": "./redux/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/vendorSlice.ts"
       ]
     },
     {
@@ -81922,6 +82702,24 @@
       ]
     },
     {
+      "name": "selectActivityCollection",
+      "subpath": "./redux/selectors/coreSelectors",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectActivityCollection",
+      "subpath": "./redux/selectors/coreSelectors",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
+      ]
+    },
+    {
       "name": "selectAI",
       "subpath": "./redux/selectors/coreSelectors",
       "kind": "runtime",
@@ -81932,6 +82730,24 @@
     },
     {
       "name": "selectAI",
+      "subpath": "./redux/selectors/coreSelectors",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectBookingCollection",
+      "subpath": "./redux/selectors/coreSelectors",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectBookingCollection",
       "subpath": "./redux/selectors/coreSelectors",
       "kind": "runtime",
       "stability": "EXPERIMENTAL",
@@ -82004,6 +82820,60 @@
     },
     {
       "name": "selectDevice",
+      "subpath": "./redux/selectors/coreSelectors",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectEvaluationCollection",
+      "subpath": "./redux/selectors/coreSelectors",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectEvaluationCollection",
+      "subpath": "./redux/selectors/coreSelectors",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectEventCollection",
+      "subpath": "./redux/selectors/coreSelectors",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectEventCollection",
+      "subpath": "./redux/selectors/coreSelectors",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectFinanceCollection",
+      "subpath": "./redux/selectors/coreSelectors",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectFinanceCollection",
       "subpath": "./redux/selectors/coreSelectors",
       "kind": "runtime",
       "stability": "EXPERIMENTAL",
@@ -82120,6 +82990,42 @@
       ]
     },
     {
+      "name": "selectProductionCollection",
+      "subpath": "./redux/selectors/coreSelectors",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectProductionCollection",
+      "subpath": "./redux/selectors/coreSelectors",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectProjectCollection",
+      "subpath": "./redux/selectors/coreSelectors",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectProjectCollection",
+      "subpath": "./redux/selectors/coreSelectors",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
+      ]
+    },
+    {
       "name": "selectRegistry",
       "subpath": "./redux/selectors/coreSelectors",
       "kind": "runtime",
@@ -82148,6 +83054,24 @@
     },
     {
       "name": "selectSession",
+      "subpath": "./redux/selectors/coreSelectors",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectTaskCollection",
+      "subpath": "./redux/selectors/coreSelectors",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectTaskCollection",
       "subpath": "./redux/selectors/coreSelectors",
       "kind": "runtime",
       "stability": "EXPERIMENTAL",
@@ -82202,6 +83126,24 @@
     },
     {
       "name": "selectUnreadNotificationCount",
+      "subpath": "./redux/selectors/coreSelectors",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectVendorCollection",
+      "subpath": "./redux/selectors/coreSelectors",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectVendorCollection",
       "subpath": "./redux/selectors/coreSelectors",
       "kind": "runtime",
       "stability": "EXPERIMENTAL",
@@ -82300,6 +83242,168 @@
       ]
     },
     {
+      "name": "selectFilteredActivity",
+      "subpath": "./redux/selectors/domainSelectors",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectFilteredActivity",
+      "subpath": "./redux/selectors/domainSelectors",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectFilteredBookings",
+      "subpath": "./redux/selectors/domainSelectors",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectFilteredBookings",
+      "subpath": "./redux/selectors/domainSelectors",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectFilteredEvaluations",
+      "subpath": "./redux/selectors/domainSelectors",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectFilteredEvaluations",
+      "subpath": "./redux/selectors/domainSelectors",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectFilteredEvents",
+      "subpath": "./redux/selectors/domainSelectors",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectFilteredEvents",
+      "subpath": "./redux/selectors/domainSelectors",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectFilteredProductionRecords",
+      "subpath": "./redux/selectors/domainSelectors",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectFilteredProductionRecords",
+      "subpath": "./redux/selectors/domainSelectors",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectFilteredProjects",
+      "subpath": "./redux/selectors/domainSelectors",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectFilteredProjects",
+      "subpath": "./redux/selectors/domainSelectors",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectFilteredTasks",
+      "subpath": "./redux/selectors/domainSelectors",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectFilteredTasks",
+      "subpath": "./redux/selectors/domainSelectors",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectFilteredTransactions",
+      "subpath": "./redux/selectors/domainSelectors",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectFilteredTransactions",
+      "subpath": "./redux/selectors/domainSelectors",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectFilteredVendors",
+      "subpath": "./redux/selectors/domainSelectors",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectFilteredVendors",
+      "subpath": "./redux/selectors/domainSelectors",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
+      ]
+    },
+    {
       "name": "selectActiveScenario",
       "subpath": "./redux/selectors/index",
       "kind": "runtime",
@@ -82310,6 +83414,24 @@
     },
     {
       "name": "selectActiveScenario",
+      "subpath": "./redux/selectors/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectActivityCollection",
+      "subpath": "./redux/selectors/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectActivityCollection",
       "subpath": "./redux/selectors/index",
       "kind": "runtime",
       "stability": "EXPERIMENTAL",
@@ -82328,6 +83450,24 @@
     },
     {
       "name": "selectAI",
+      "subpath": "./redux/selectors/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectBookingCollection",
+      "subpath": "./redux/selectors/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectBookingCollection",
       "subpath": "./redux/selectors/index",
       "kind": "runtime",
       "stability": "EXPERIMENTAL",
@@ -82516,6 +83656,24 @@
       ]
     },
     {
+      "name": "selectEvaluationCollection",
+      "subpath": "./redux/selectors/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectEvaluationCollection",
+      "subpath": "./redux/selectors/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
+      ]
+    },
+    {
       "name": "selectEventById",
       "subpath": "./redux/selectors/index",
       "kind": "runtime",
@@ -82531,6 +83689,42 @@
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/redux/selectors/demoSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectEventCollection",
+      "subpath": "./redux/selectors/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectEventCollection",
+      "subpath": "./redux/selectors/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectFilteredActivity",
+      "subpath": "./redux/selectors/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectFilteredActivity",
+      "subpath": "./redux/selectors/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
       ]
     },
     {
@@ -82552,6 +83746,24 @@
       ]
     },
     {
+      "name": "selectFilteredBookings",
+      "subpath": "./redux/selectors/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectFilteredBookings",
+      "subpath": "./redux/selectors/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
+      ]
+    },
+    {
       "name": "selectFilteredDevices",
       "subpath": "./redux/selectors/index",
       "kind": "runtime",
@@ -82567,6 +83779,42 @@
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/redux/selectors/registrySelectors.ts"
+      ]
+    },
+    {
+      "name": "selectFilteredEvaluations",
+      "subpath": "./redux/selectors/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectFilteredEvaluations",
+      "subpath": "./redux/selectors/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectFilteredEvents",
+      "subpath": "./redux/selectors/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectFilteredEvents",
+      "subpath": "./redux/selectors/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
       ]
     },
     {
@@ -82624,6 +83872,60 @@
       ]
     },
     {
+      "name": "selectFilteredProductionRecords",
+      "subpath": "./redux/selectors/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectFilteredProductionRecords",
+      "subpath": "./redux/selectors/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectFilteredProjects",
+      "subpath": "./redux/selectors/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectFilteredProjects",
+      "subpath": "./redux/selectors/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectFilteredTasks",
+      "subpath": "./redux/selectors/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectFilteredTasks",
+      "subpath": "./redux/selectors/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
+      ]
+    },
+    {
       "name": "selectFilteredTools",
       "subpath": "./redux/selectors/index",
       "kind": "runtime",
@@ -82639,6 +83941,42 @@
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/redux/selectors/registrySelectors.ts"
+      ]
+    },
+    {
+      "name": "selectFilteredTransactions",
+      "subpath": "./redux/selectors/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectFilteredTransactions",
+      "subpath": "./redux/selectors/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectFilteredVendors",
+      "subpath": "./redux/selectors/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectFilteredVendors",
+      "subpath": "./redux/selectors/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/domainSelectors.ts"
       ]
     },
     {
@@ -82657,6 +83995,24 @@
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/redux/selectors/registrySelectors.ts"
+      ]
+    },
+    {
+      "name": "selectFinanceCollection",
+      "subpath": "./redux/selectors/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectFinanceCollection",
+      "subpath": "./redux/selectors/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
       ]
     },
     {
@@ -82768,6 +84124,24 @@
       ]
     },
     {
+      "name": "selectProductionCollection",
+      "subpath": "./redux/selectors/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectProductionCollection",
+      "subpath": "./redux/selectors/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
+      ]
+    },
+    {
       "name": "selectProjectById",
       "subpath": "./redux/selectors/index",
       "kind": "runtime",
@@ -82783,6 +84157,24 @@
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/redux/selectors/demoSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectProjectCollection",
+      "subpath": "./redux/selectors/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectProjectCollection",
+      "subpath": "./redux/selectors/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
       ]
     },
     {
@@ -82814,6 +84206,24 @@
     },
     {
       "name": "selectSession",
+      "subpath": "./redux/selectors/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectTaskCollection",
+      "subpath": "./redux/selectors/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectTaskCollection",
       "subpath": "./redux/selectors/index",
       "kind": "runtime",
       "stability": "EXPERIMENTAL",
@@ -82886,6 +84296,24 @@
     },
     {
       "name": "selectUnreadNotificationCount",
+      "subpath": "./redux/selectors/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectVendorCollection",
+      "subpath": "./redux/selectors/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/selectors/coreSelectors.ts"
+      ]
+    },
+    {
+      "name": "selectVendorCollection",
       "subpath": "./redux/selectors/index",
       "kind": "runtime",
       "stability": "EXPERIMENTAL",
@@ -83038,6 +84466,42 @@
       ]
     },
     {
+      "name": "activityActions",
+      "subpath": "./redux/slices/activitySlice",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/activitySlice.ts"
+      ]
+    },
+    {
+      "name": "activityActions",
+      "subpath": "./redux/slices/activitySlice",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/activitySlice.ts"
+      ]
+    },
+    {
+      "name": "activityReducer",
+      "subpath": "./redux/slices/activitySlice",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/activitySlice.ts"
+      ]
+    },
+    {
+      "name": "activityReducer",
+      "subpath": "./redux/slices/activitySlice",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/activitySlice.ts"
+      ]
+    },
+    {
       "name": "aiActions",
       "subpath": "./redux/slices/aiSlice",
       "kind": "runtime",
@@ -83089,6 +84553,42 @@
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/redux/slices/aiSlice.ts"
+      ]
+    },
+    {
+      "name": "bookingActions",
+      "subpath": "./redux/slices/bookingSlice",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/bookingSlice.ts"
+      ]
+    },
+    {
+      "name": "bookingActions",
+      "subpath": "./redux/slices/bookingSlice",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/bookingSlice.ts"
+      ]
+    },
+    {
+      "name": "bookingReducer",
+      "subpath": "./redux/slices/bookingSlice",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/bookingSlice.ts"
+      ]
+    },
+    {
+      "name": "bookingReducer",
+      "subpath": "./redux/slices/bookingSlice",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/bookingSlice.ts"
       ]
     },
     {
@@ -83233,6 +84733,24 @@
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/redux/slices/commandSlice.ts"
+      ]
+    },
+    {
+      "name": "createDemoCollectionSlice",
+      "subpath": "./redux/slices/createDemoCollectionSlice",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/createDemoCollectionSlice.ts"
+      ]
+    },
+    {
+      "name": "createDemoCollectionSlice",
+      "subpath": "./redux/slices/createDemoCollectionSlice",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/createDemoCollectionSlice.ts"
       ]
     },
     {
@@ -83434,6 +84952,114 @@
       ]
     },
     {
+      "name": "evaluationActions",
+      "subpath": "./redux/slices/evaluationSlice",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/evaluationSlice.ts"
+      ]
+    },
+    {
+      "name": "evaluationActions",
+      "subpath": "./redux/slices/evaluationSlice",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/evaluationSlice.ts"
+      ]
+    },
+    {
+      "name": "evaluationReducer",
+      "subpath": "./redux/slices/evaluationSlice",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/evaluationSlice.ts"
+      ]
+    },
+    {
+      "name": "evaluationReducer",
+      "subpath": "./redux/slices/evaluationSlice",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/evaluationSlice.ts"
+      ]
+    },
+    {
+      "name": "eventActions",
+      "subpath": "./redux/slices/eventSlice",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/eventSlice.ts"
+      ]
+    },
+    {
+      "name": "eventActions",
+      "subpath": "./redux/slices/eventSlice",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/eventSlice.ts"
+      ]
+    },
+    {
+      "name": "eventReducer",
+      "subpath": "./redux/slices/eventSlice",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/eventSlice.ts"
+      ]
+    },
+    {
+      "name": "eventReducer",
+      "subpath": "./redux/slices/eventSlice",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/eventSlice.ts"
+      ]
+    },
+    {
+      "name": "financeActions",
+      "subpath": "./redux/slices/financeSlice",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/financeSlice.ts"
+      ]
+    },
+    {
+      "name": "financeActions",
+      "subpath": "./redux/slices/financeSlice",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/financeSlice.ts"
+      ]
+    },
+    {
+      "name": "financeReducer",
+      "subpath": "./redux/slices/financeSlice",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/financeSlice.ts"
+      ]
+    },
+    {
+      "name": "financeReducer",
+      "subpath": "./redux/slices/financeSlice",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/financeSlice.ts"
+      ]
+    },
+    {
       "name": "formActions",
       "subpath": "./redux/slices/formSlice",
       "kind": "runtime",
@@ -83578,6 +85204,42 @@
       ]
     },
     {
+      "name": "activityActions",
+      "subpath": "./redux/slices/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/activitySlice.ts"
+      ]
+    },
+    {
+      "name": "activityActions",
+      "subpath": "./redux/slices/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/activitySlice.ts"
+      ]
+    },
+    {
+      "name": "activityReducer",
+      "subpath": "./redux/slices/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/activitySlice.ts"
+      ]
+    },
+    {
+      "name": "activityReducer",
+      "subpath": "./redux/slices/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/activitySlice.ts"
+      ]
+    },
+    {
       "name": "aiActions",
       "subpath": "./redux/slices/index",
       "kind": "runtime",
@@ -83611,6 +85273,42 @@
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/redux/slices/aiSlice.ts"
+      ]
+    },
+    {
+      "name": "bookingActions",
+      "subpath": "./redux/slices/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/bookingSlice.ts"
+      ]
+    },
+    {
+      "name": "bookingActions",
+      "subpath": "./redux/slices/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/bookingSlice.ts"
+      ]
+    },
+    {
+      "name": "bookingReducer",
+      "subpath": "./redux/slices/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/bookingSlice.ts"
+      ]
+    },
+    {
+      "name": "bookingReducer",
+      "subpath": "./redux/slices/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/bookingSlice.ts"
       ]
     },
     {
@@ -83863,6 +85561,114 @@
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/redux/slices/deviceSlice.ts"
+      ]
+    },
+    {
+      "name": "evaluationActions",
+      "subpath": "./redux/slices/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/evaluationSlice.ts"
+      ]
+    },
+    {
+      "name": "evaluationActions",
+      "subpath": "./redux/slices/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/evaluationSlice.ts"
+      ]
+    },
+    {
+      "name": "evaluationReducer",
+      "subpath": "./redux/slices/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/evaluationSlice.ts"
+      ]
+    },
+    {
+      "name": "evaluationReducer",
+      "subpath": "./redux/slices/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/evaluationSlice.ts"
+      ]
+    },
+    {
+      "name": "eventActions",
+      "subpath": "./redux/slices/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/eventSlice.ts"
+      ]
+    },
+    {
+      "name": "eventActions",
+      "subpath": "./redux/slices/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/eventSlice.ts"
+      ]
+    },
+    {
+      "name": "eventReducer",
+      "subpath": "./redux/slices/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/eventSlice.ts"
+      ]
+    },
+    {
+      "name": "eventReducer",
+      "subpath": "./redux/slices/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/eventSlice.ts"
+      ]
+    },
+    {
+      "name": "financeActions",
+      "subpath": "./redux/slices/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/financeSlice.ts"
+      ]
+    },
+    {
+      "name": "financeActions",
+      "subpath": "./redux/slices/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/financeSlice.ts"
+      ]
+    },
+    {
+      "name": "financeReducer",
+      "subpath": "./redux/slices/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/financeSlice.ts"
+      ]
+    },
+    {
+      "name": "financeReducer",
+      "subpath": "./redux/slices/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/financeSlice.ts"
       ]
     },
     {
@@ -84442,6 +86248,78 @@
       ]
     },
     {
+      "name": "productionActions",
+      "subpath": "./redux/slices/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/productionSlice.ts"
+      ]
+    },
+    {
+      "name": "productionActions",
+      "subpath": "./redux/slices/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/productionSlice.ts"
+      ]
+    },
+    {
+      "name": "productionReducer",
+      "subpath": "./redux/slices/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/productionSlice.ts"
+      ]
+    },
+    {
+      "name": "productionReducer",
+      "subpath": "./redux/slices/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/productionSlice.ts"
+      ]
+    },
+    {
+      "name": "projectActions",
+      "subpath": "./redux/slices/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/projectSlice.ts"
+      ]
+    },
+    {
+      "name": "projectActions",
+      "subpath": "./redux/slices/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/projectSlice.ts"
+      ]
+    },
+    {
+      "name": "projectReducer",
+      "subpath": "./redux/slices/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/projectSlice.ts"
+      ]
+    },
+    {
+      "name": "projectReducer",
+      "subpath": "./redux/slices/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/projectSlice.ts"
+      ]
+    },
+    {
       "name": "registryActions",
       "subpath": "./redux/slices/index",
       "kind": "runtime",
@@ -84514,6 +86392,42 @@
       ]
     },
     {
+      "name": "taskActions",
+      "subpath": "./redux/slices/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/taskSlice.ts"
+      ]
+    },
+    {
+      "name": "taskActions",
+      "subpath": "./redux/slices/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/taskSlice.ts"
+      ]
+    },
+    {
+      "name": "taskReducer",
+      "subpath": "./redux/slices/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/taskSlice.ts"
+      ]
+    },
+    {
+      "name": "taskReducer",
+      "subpath": "./redux/slices/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/taskSlice.ts"
+      ]
+    },
+    {
       "name": "toolActions",
       "subpath": "./redux/slices/index",
       "kind": "runtime",
@@ -84583,6 +86497,42 @@
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/redux/slices/uiSlice.ts"
+      ]
+    },
+    {
+      "name": "vendorActions",
+      "subpath": "./redux/slices/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/vendorSlice.ts"
+      ]
+    },
+    {
+      "name": "vendorActions",
+      "subpath": "./redux/slices/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/vendorSlice.ts"
+      ]
+    },
+    {
+      "name": "vendorReducer",
+      "subpath": "./redux/slices/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/vendorSlice.ts"
+      ]
+    },
+    {
+      "name": "vendorReducer",
+      "subpath": "./redux/slices/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/vendorSlice.ts"
       ]
     },
     {
@@ -84856,6 +86806,78 @@
       ]
     },
     {
+      "name": "productionActions",
+      "subpath": "./redux/slices/productionSlice",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/productionSlice.ts"
+      ]
+    },
+    {
+      "name": "productionActions",
+      "subpath": "./redux/slices/productionSlice",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/productionSlice.ts"
+      ]
+    },
+    {
+      "name": "productionReducer",
+      "subpath": "./redux/slices/productionSlice",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/productionSlice.ts"
+      ]
+    },
+    {
+      "name": "productionReducer",
+      "subpath": "./redux/slices/productionSlice",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/productionSlice.ts"
+      ]
+    },
+    {
+      "name": "projectActions",
+      "subpath": "./redux/slices/projectSlice",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/projectSlice.ts"
+      ]
+    },
+    {
+      "name": "projectActions",
+      "subpath": "./redux/slices/projectSlice",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/projectSlice.ts"
+      ]
+    },
+    {
+      "name": "projectReducer",
+      "subpath": "./redux/slices/projectSlice",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/projectSlice.ts"
+      ]
+    },
+    {
+      "name": "projectReducer",
+      "subpath": "./redux/slices/projectSlice",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/projectSlice.ts"
+      ]
+    },
+    {
       "name": "initialRegistryState",
       "subpath": "./redux/slices/registrySlice",
       "kind": "runtime",
@@ -84964,6 +86986,42 @@
       ]
     },
     {
+      "name": "taskActions",
+      "subpath": "./redux/slices/taskSlice",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/taskSlice.ts"
+      ]
+    },
+    {
+      "name": "taskActions",
+      "subpath": "./redux/slices/taskSlice",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/taskSlice.ts"
+      ]
+    },
+    {
+      "name": "taskReducer",
+      "subpath": "./redux/slices/taskSlice",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/taskSlice.ts"
+      ]
+    },
+    {
+      "name": "taskReducer",
+      "subpath": "./redux/slices/taskSlice",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/taskSlice.ts"
+      ]
+    },
+    {
       "name": "initialToolState",
       "subpath": "./redux/slices/toolSlice",
       "kind": "runtime",
@@ -85069,6 +87127,42 @@
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/redux/slices/uiSlice.ts"
+      ]
+    },
+    {
+      "name": "vendorActions",
+      "subpath": "./redux/slices/vendorSlice",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/vendorSlice.ts"
+      ]
+    },
+    {
+      "name": "vendorActions",
+      "subpath": "./redux/slices/vendorSlice",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/vendorSlice.ts"
+      ]
+    },
+    {
+      "name": "vendorReducer",
+      "subpath": "./redux/slices/vendorSlice",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/vendorSlice.ts"
+      ]
+    },
+    {
+      "name": "vendorReducer",
+      "subpath": "./redux/slices/vendorSlice",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/redux/slices/vendorSlice.ts"
       ]
     },
     {
@@ -116941,6 +119035,15 @@
       ]
     },
     {
+      "name": "DemoCollectionState",
+      "subpath": "./types",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/types/redux.ts"
+      ]
+    },
+    {
       "name": "DemoEvent",
       "subpath": "./types",
       "kind": "type",
@@ -117895,6 +119998,15 @@
       ]
     },
     {
+      "name": "DemoCollectionState",
+      "subpath": "./types/index",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/types/redux.ts"
+      ]
+    },
+    {
       "name": "DemoEvent",
       "subpath": "./types/index",
       "kind": "type",
@@ -118337,6 +120449,15 @@
     },
     {
       "name": "AIState",
+      "subpath": "./types/redux",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/types/redux.ts"
+      ]
+    },
+    {
+      "name": "DemoCollectionState",
       "subpath": "./types/redux",
       "kind": "type",
       "stability": "EXPERIMENTAL",

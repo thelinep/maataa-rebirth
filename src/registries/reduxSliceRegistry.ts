@@ -15,5 +15,14 @@ export const REDUX_SLICE_REGISTRY = [
   {id:"REDUX_SLICE.FORM", name:"form", reducerKey:"form", importPath:"@maataa/ui/redux/slices/formSlice"},
   {id:"REDUX_SLICE.DATA", name:"data", reducerKey:"data", importPath:"@maataa/ui/redux/slices/dataSlice"},
   {id:"REDUX_SLICE.DEMO", name:"demo", reducerKey:"demo", importPath:"@maataa/ui/redux/slices/demoSlice"},
-  {id:"REDUX_SLICE.BUILDER", name:"builder", reducerKey:"builder", importPath:"@maataa/ui/redux/slices/builderSlice"}
+  {id:"REDUX_SLICE.BUILDER", name:"builder", reducerKey:"builder", importPath:"@maataa/ui/redux/slices/builderSlice"},
+  {id:"REDUX_SLICE.PROJECT", name:"project", reducerKey:"project", importPath:"@maataa/ui/redux/slices/projectSlice"},
+  {id:"REDUX_SLICE.EVENT", name:"event", reducerKey:"event", importPath:"@maataa/ui/redux/slices/eventSlice"},
+  {id:"REDUX_SLICE.VENDOR", name:"vendor", reducerKey:"vendor", importPath:"@maataa/ui/redux/slices/vendorSlice"},
+  {id:"REDUX_SLICE.BOOKING", name:"booking", reducerKey:"booking", importPath:"@maataa/ui/redux/slices/bookingSlice"},
+  {id:"REDUX_SLICE.FINANCE", name:"finance", reducerKey:"finance", importPath:"@maataa/ui/redux/slices/financeSlice"},
+  {id:"REDUX_SLICE.TASK", name:"task", reducerKey:"task", importPath:"@maataa/ui/redux/slices/taskSlice"},
+  {id:"REDUX_SLICE.PRODUCTION", name:"production", reducerKey:"production", importPath:"@maataa/ui/redux/slices/productionSlice"},
+  {id:"REDUX_SLICE.ACTIVITY", name:"activity", reducerKey:"activity", importPath:"@maataa/ui/redux/slices/activitySlice"},
+  {id:"REDUX_SLICE.EVALUATION", name:"evaluation", reducerKey:"evaluation", importPath:"@maataa/ui/redux/slices/evaluationSlice"}
 ] as const;

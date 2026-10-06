@@ -14,4 +14,5 @@ export interface RegistryState { activeRegistryId: RegistryId; query: string; gr
 export interface DeviceState extends DeviceSimulationState { status: AsyncStatus; }
 export interface GeneratorState { selectedGeneratorId: GeneratorId | null; drafts: Record<string,Record<string,unknown>>; runs: Array<{id:string; generatorId:GeneratorId; status:AsyncStatus; createdAt:string}>; }
 export interface ToolState { selectedToolId: ToolId | null; favorites: ToolId[]; executions: Array<{id:string; toolId:ToolId; status:AsyncStatus; createdAt:string; result?:unknown}>; }
-export interface AIState { activeSpaceId: AISpaceId; selectedAgentId: string | null; selectedModelId: string | null; messages: AIMessage[]; traceEnabled: boolean; }
+export interface AIState { activeSpaceId: AISpaceId | null; selectedAgentId: string | null; selectedModelId: string | null; messages: AIMessage[]; traceEnabled: boolean; }
+export interface DemoCollectionState { query: string; facet: string | null; selectedId: string | null; selectedIds: string[]; view: "table" | "grid" | "list" | "board"; }

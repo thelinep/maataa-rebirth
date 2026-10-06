@@ -9,8 +9,10 @@ import { builderActions } from "@maataa/ui/redux/slices/builderSlice";
 import {
   selectAI,
   selectDevice,
+  selectGenerator,
   selectLayout,
   selectPage,
+  selectTool,
   selectUnreadNotificationCount,
   selectWorkspace,
 } from "@maataa/ui/redux/selectors/coreSelectors";
@@ -60,6 +62,7 @@ import { Card } from "@maataa/ui/surfaces/Card";
 import { Badge } from "@maataa/ui/feedback/Badge";
 import { Tabs } from "@maataa/ui/navigation/Tabs";
 import { SmartphoneFrame } from "@maataa/ui/devices/SmartphoneFrame";
+import { DeviceSurface } from "@maataa/ui/devices/DeviceSurface";
 import { IdentityAvatar } from "@maataa/ui/identity/IdentityAvatar";
 import { IdentityAvatarGroup } from "@maataa/ui/identity/IdentityAvatarGroup";
 import { IdentityBadge } from "@maataa/ui/identity/IdentityBadge";
@@ -67,11 +70,16 @@ import { MaataaIcon, type MaataaIconName } from "@maataa/ui/icons/MaataaIcon";
 import { ActualComponentPreview } from "./ActualComponentPreview";
 import { ComponentPropInspector, VisualComposer, parseCompositionInput } from "@maataa/ui/composer";
 import { CanonicalCompositionRuntime, ResponsiveDeviceRuntime } from "@maataa/ui/runtime";
+import { createPageSpecimen } from "./pageSpecimens";
+import { createProductPageSlice, type ProductPageContext } from "./productPageSlices";
+import { createWorkspaceDataSlice } from "./workspaceDataSlices";
+import { createLayoutDataSlice } from "./layoutDataSlices";
+import { createAISpaceDataSlice, createDeviceDataSlice, createGeneratorDataSlice, createToolDataSlice } from "./catalogDataSlices";
 
 const money = new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
 
 type AnyRecord = Record<string, unknown>;
-type CatalogItem = { id: string; name: string; meta?: string; importPath?: string };
+type CatalogItem = { id: string; name: string; meta?: string; importPath?: string; ordinal?: number; groupId?: string; groupKey?: string; groupLabel?: string };
 type Catalog = { key: string; label: string; description: string; items: readonly CatalogItem[] };
 const ROUTE_ICONS: Record<string, MaataaIconName> = {
   "PUBLIC_SURFACE.LANDING":"home",
@@ -95,6 +103,10 @@ function normalize(items: readonly AnyRecord[], nameKeys: string[] = ["name"]): 
       name,
       meta: group ? String(group) : undefined,
       importPath: typeof item.importPath === "string" ? item.importPath : undefined,
+      ordinal: typeof item.ordinal === "number" ? item.ordinal : index + 1,
+      groupId: typeof item.groupId === "string" ? item.groupId : "CATALOG",
+      groupKey: typeof item.groupKey === "string" ? item.groupKey : undefined,
+      groupLabel: typeof item.groupLabel === "string" ? item.groupLabel : (group ? String(group) : "MAATAA UI"),
     };
   });
 }
@@ -233,16 +245,76 @@ function Landing({ navigate }: { navigate: (path: string) => void }) {
   </>;
 }
 
-function LayoutPreview({ name }: { name: string }) {
-  return <div className="layout-preview"><div className="lp-header">{name} · Header</div><div className="lp-body"><div className="lp-sidebar">Navigation</div><div className="lp-main"><div className="lp-toolbar">Toolbar</div><div className="lp-canvas"><div className="mini-card large"></div><div className="mini-card"></div><div className="mini-card"></div><div className="mini-card wide"></div></div></div><div className="lp-inspector">Inspector</div></div><div className="lp-footer">Status / footer</div></div>;
+function LayoutPreview({ item }: { item: CatalogItem }) {
+  const slice = createLayoutDataSlice({
+    id: item.id,
+    name: item.name,
+    ordinal: item.ordinal ?? 1,
+    groupKey: item.groupKey ?? "",
+    importPath: item.importPath ?? "",
+  });
+  return <div className="layout-preview" data-layout-id={item.id} data-layout-slice={slice.domain} data-layout-reference={slice.reference}>
+    <div className="lp-header"><span>{slice.title}</span><small>SYNTHETIC LAYOUT DATA · {slice.domain.toUpperCase()}</small></div>
+    <p className="layout-slice-summary">{slice.summary}</p>
+    <div className="layout-regions" style={{ gridTemplateColumns: slice.columns }}>
+      {slice.regions.map((region) => <section className="layout-region" data-layout-region={region.title} key={region.title}>
+        <h4>{region.title}</h4><p>{region.label}</p><strong>{region.value}</strong><span>{region.note}</span>
+      </section>)}
+    </div>
+    <footer className="layout-slice-footer"><span>{slice.provenance} · {slice.boundary}</span><code>{slice.reference}</code></footer>
+  </div>;
 }
 
-function PagePreview({ name }: { name: string }) {
-  return <div className="page-preview"><div className="preview-page-head"><div><small>PAGE PREVIEW</small><h3>{name}</h3><p>Canonical page purpose rendered inside a generic MAATAA application shell.</p></div><Button>Primary action</Button></div><div className="preview-metrics"><Stat value="72%" label="progress"/><Stat value="12" label="active"/><Stat value="4" label="blocked"/></div><div className="preview-content-grid"><Card header={<strong>Primary content</strong>}><p>Page content, states, data and actions compose here without changing the page identity.</p><div className="fake-chart"><span style={{height:'40%'}}></span><span style={{height:'67%'}}></span><span style={{height:'52%'}}></span><span style={{height:'82%'}}></span><span style={{height:'71%'}}></span></div></Card><Card header={<strong>Context</strong>}><ul className="preview-list"><li>Evidence <Badge tone="success">verified</Badge></li><li>Runtime <Badge tone="info">demo</Badge></li><li>Actions <Badge>3</Badge></li></ul></Card></div></div>;
+function PagePreview({ item, dataContext }: { item: CatalogItem; dataContext: ProductPageContext }) {
+  const specimen = createPageSpecimen({
+    id: item.id,
+    name: item.name,
+    ordinal: item.ordinal ?? 1,
+    groupId: item.groupId ?? "CATALOG",
+    groupKey: item.groupKey ?? "",
+    groupLabel: item.groupLabel ?? item.meta ?? "MAATAA UI",
+  });
+  const slice = createProductPageSlice({
+    id: item.id,
+    name: item.name,
+    ordinal: item.ordinal ?? 1,
+    groupId: item.groupId ?? "CATALOG",
+    groupKey: item.groupKey ?? "",
+    groupLabel: item.groupLabel ?? item.meta ?? "MAATAA UI",
+  }, dataContext);
+  return <article className="page-preview" data-page-id={specimen.id} data-page-kind={specimen.kind}>
+    <header className="preview-page-head"><div><small>SYNTHETIC PAGE SPECIMEN · {specimen.groupLabel}</small><h3>{specimen.heading}</h3><p>{specimen.purpose}</p><code>{specimen.id}</code></div><span className="page-specimen-action">Illustrative action · {specimen.action}</span></header>
+    {slice?.mapped ? <section className="product-page-slice" data-product-slice={slice.product} data-product-domain={slice.domain}>
+      <div className="product-slice-heading"><small>{slice.product} · SYNTHETIC DATA SLICE</small><h4>{slice.title}</h4><p>{slice.summary}</p></div>
+      <div className="product-slice-rows">{slice.rows.map((row) => <article key={row.label}><small>{row.label}</small><strong>{row.value}</strong><span>{row.note}</span></article>)}</div>
+      <footer className="page-specimen-boundary"><span>{specimen.boundary}</span><code>{slice.reference}</code></footer>
+    </section> : <>
+      {slice && <aside className="product-slice-unmapped" data-product-slice-unmapped={slice.product}><strong>{slice.title}</strong><span>{slice.summary}</span><code>{slice.reference}</code></aside>}
+      <div className="page-specimen-metrics">{specimen.metrics.map((metric) => <div className="page-specimen-metric" key={metric.label}><small>{metric.label}</small><strong>{metric.value}</strong></div>)}</div>
+      <div className="page-specimen-sections" data-page-kind={specimen.kind}>{specimen.sections.map((section) => <section className="page-specimen-section" key={section.reference}><h4>{section.title}</h4><p>{section.detail}</p><code>{section.reference}</code></section>)}</div>
+      <footer className="page-specimen-boundary"><span>{specimen.boundary}</span><code>FIXTURE {specimen.reference}</code></footer>
+    </>}
+  </article>;
 }
 
-function WorkspacePreview({ name }: { name: string }) {
-  return <div className="workspace-preview"><div className="ws-rail"><IdentityAvatar identity="IDENTITY.BRAHMINI" size={30}/><span><MaataaIcon name="home"/></span><span><MaataaIcon name="workspace"/></span><span><MaataaIcon name="ai"/></span><span><MaataaIcon name="settings"/></span></div><div className="ws-shell"><div className="ws-top"><div><small>WORKSPACE</small><strong>{name}</strong></div><IdentityBadge identity="IDENTITY.SHIV" showRole/></div><div className="ws-toolbar"><button><MaataaIcon name="home"/> Overview</button><button><MaataaIcon name="surface"/> Board</button><button><MaataaIcon name="database"/> Data</button><button><MaataaIcon name="evidence"/> Evidence</button></div><div className="ws-grid"><Card header={<strong>Work queue</strong>}><div className="preview-list"><div><IdentityBadge identity="IDENTITY.PARVATI" size={24}/> <span>Review surface registry</span> <Badge tone="warning">review</Badge></div><div><IdentityBadge identity="IDENTITY.SAPTARISHI.GAUTAMA" size={24}/> <span>Validate demo composition</span> <Badge tone="success">done</Badge></div><div><IdentityBadge identity="IDENTITY.SAPTARISHI.VASHISTHA" size={24}/> <span>Publish evidence pack</span> <Badge tone="info">next</Badge></div></div></Card><Card header={<strong>Live context</strong>}><p>Persistent workspace state survives navigation across its pages and layouts.</p><IdentityAvatarGroup identities={["IDENTITY.BRAHMINI","IDENTITY.SHIV","IDENTITY.PARVATI","IDENTITY.SAPTARISHI.ATRI","IDENTITY.PANCHTATVA.AGNI"]}/><div className="mini-timeline"><i></i><i></i><i></i><i></i></div></Card></div></div></div>;
+function WorkspacePreview({ item }: { item: CatalogItem }) {
+  const slice = createWorkspaceDataSlice({
+    ordinal: item.ordinal ?? 1,
+    id: item.id,
+    name: item.name,
+    groupId: item.groupId ?? "W00",
+    groupKey: item.groupKey ?? "",
+    groupLabel: item.groupLabel ?? item.meta ?? "Workspace",
+  });
+  return <div className="workspace-preview" data-workspace-id={item.id} data-workspace-slice={slice.domain}>
+    <div className="ws-rail" aria-hidden="true"><MaataaIcon name="home"/><MaataaIcon name="workspace"/><MaataaIcon name="settings"/></div>
+    <div className="ws-shell">
+      <header className="ws-top"><div><strong>{item.name}</strong><p>{slice.title} · {slice.summary}</p></div></header>
+      <nav className="ws-toolbar" aria-label="Illustrative workspace sections">{slice.navigation.map((label) => <span key={label}>{label}</span>)}</nav>
+      <div className="ws-grid">{slice.sections.map((section) => <section className="workspace-sample-section" key={section.title}><h4>{section.title}</h4><ul>{section.lines.map((line) => <li key={line}>{line}</li>)}</ul></section>)}</div>
+      <footer className="workspace-slice-footer"><span><strong>{slice.provenance}</strong> · {slice.boundary}</span><code>{slice.reference}</code></footer>
+    </div>
+  </div>;
 }
 
 function ComponentPreview({ item, overrides }: { item: CatalogItem; overrides?: Record<string, unknown> }) {
@@ -259,21 +331,53 @@ function IconPreview({ item }: { item: CatalogItem }) {
   return <div className="icon-preview"><div className="icon-hero"><span className="icon-hero-mark"><MaataaIcon name={iconName} size={72}/></span><div><small>MAATAA CORE ICON</small><h3>{item.name}</h3><code>{item.id}</code></div></div><div className="icon-size-row">{[16,20,24,32,48].map((size)=><div key={size}><MaataaIcon name={iconName} size={size}/><span>{size}px</span></div>)}</div><div className="icon-context-row"><button><MaataaIcon name={iconName}/> Action</button><span><MaataaIcon name={iconName}/> Navigation</span><Badge><MaataaIcon name={iconName} size={13}/> status</Badge></div></div>;
 }
 
-function DevicePreview({ name }: { name: string }) {
-  return <div className="device-preview-stage"><SmartphoneFrame label={`${name} · simulated`} viewportWidth={330} viewportHeight={620}><div className="phone-demo"><div className="phone-status"><span>9:41</span><span>● ● ●</span></div><div className="phone-hero"><small>MAATAA MOBILE</small><h3>Device-aware surface</h3><p>Viewport, modality, orientation, safe-area and responsive metadata.</p></div><div className="phone-cards"><div><strong>12</strong><span>tasks</span></div><div><strong>4</strong><span>alerts</span></div></div><button>Open workspace</button></div></SmartphoneFrame></div>;
+function DevicePreview({ item }: { item: CatalogItem }) {
+  const definition = DEVICE_REGISTRY.find((device) => device.id === item.id);
+  const slice = definition ? createDeviceDataSlice(definition) : undefined;
+  const sourceWidth = slice?.width ?? 390;
+  const sourceHeight = slice?.height ?? 844;
+  const scale = Math.min(1, 720 / sourceWidth, 440 / sourceHeight);
+  const viewWidth = Math.max(1, Math.round(sourceWidth * scale));
+  const viewHeight = Math.max(1, Math.round(sourceHeight * scale));
+  return <div className="device-preview-stage" data-device-id={item.id} data-device-slice={slice?.domain} data-device-reference={slice?.reference}>
+    <div className="device-preview-meta"><strong>{item.name}</strong><span>Simulated viewport · {slice?.viewportName ?? "unmapped viewport"} · {sourceWidth} × {sourceHeight}</span><span>Inputs · {slice?.inputModalities.join(", ") ?? "not declared"}</span><span>Safe area · {slice?.safeArea ?? "not declared"}</span><span>Capabilities · {slice?.capabilities.join(", ") ?? "not declared"}</span></div>
+    {definition ? <DeviceSurface deviceId={item.id} name={item.name} viewportWidth={viewWidth} viewportHeight={viewHeight} orientation={definition.defaultOrientation as "portrait" | "landscape"} label="Synthetic viewport specimen">
+      <div className="device-sample-content"><small>SYNTHETIC DEVICE DATA · {slice!.family}</small><h3>{slice!.title}</h3><p>{slice!.summary}</p><div className="device-sample-row">{slice!.regions.map((region) => <span key={region.title}><strong>{region.title}</strong>{region.value}</span>)}</div></div>
+    </DeviceSurface> : <p className="demo-muted">No device record is registered for this selection.</p>}
+    {slice && <footer className="catalog-slice-footer"><span>{slice.provenance} · {slice.boundary}</span><code>{slice.reference}</code></footer>}
+  </div>;
 }
 
-function GeneratorPreview({ name }: { name: string }) {
-  const [brief, setBrief] = React.useState("Premium operational dashboard");
-  return <div className="tool-preview"><div className="tool-preview-head"><Badge tone="info">generator</Badge><h3>{name}</h3></div><label>Generation brief<Input value={brief} onChange={(event) => setBrief(event.target.value)}/></label><div className="generated-artifact"><small>GENERATED PREVIEW</small><strong>{brief}</strong><div className="artifact-grid"><i></i><i></i><i></i><i></i></div></div><Button>Generate variant</Button></div>;
+function GeneratorPreview({ item }: { item: CatalogItem }) {
+  const slice = createGeneratorDataSlice(item.id);
+  const [brief, setBrief] = React.useState(slice.initialInput);
+  React.useEffect(() => setBrief(slice.initialInput), [item.id]);
+  return <div className="tool-preview catalog-slice-preview" data-generator-id={item.id} data-generator-slice={slice.domain} data-generator-reference={slice.reference}>
+    <div className="tool-preview-head"><Badge tone="info">SYNTHETIC GENERATOR DATA · {slice.family}</Badge><h3>{slice.title}</h3></div>
+    <p className="catalog-slice-summary">{slice.summary}</p>
+    <label>{slice.inputLabel}<Input value={brief} onChange={(event) => setBrief(event.target.value)}/></label>
+    <div className="generated-artifact"><small>LOCAL OUTLINE · NO PROVIDER CALLED</small><strong>{brief || "Enter a brief to update this local outline"}</strong><p>{slice.outputShape}</p></div>
+    <footer className="catalog-slice-footer"><span>{slice.provenance} · {slice.boundary}</span><code>{slice.reference}</code></footer>
+  </div>;
 }
 
-function ToolPreview({ name }: { name: string }) {
-  return <div className="tool-preview"><div className="tool-preview-head"><Badge tone="warning">tool</Badge><h3>{name}</h3></div><div className="tool-call"><div><small>INPUT</small><code>{`{ target: "current-surface", mode: "inspect" }`}</code></div><span>→</span><div><small>RESULT</small><code>{`{ status: "ready", evidence: 3 }`}</code></div></div><div className="preview-list"><div>Permission <Badge tone="success">allowed</Badge></div><div>Host binding <Badge tone="info">simulated</Badge></div><div>Evidence <Badge>available</Badge></div></div><Button variant="secondary">Run demo tool</Button></div>;
+function ToolPreview({ item }: { item: CatalogItem }) {
+  const slice = createToolDataSlice(item.id);
+  return <div className="tool-preview catalog-slice-preview" data-tool-id={item.id} data-tool-slice={slice.domain} data-tool-reference={slice.reference}>
+    <div className="tool-preview-head"><Badge tone="warning">SYNTHETIC TOOL DATA · {slice.family}</Badge><h3>{slice.title}</h3></div>
+    <p className="catalog-slice-summary">{slice.summary}</p>
+    <div className="tool-call"><div><small>ILLUSTRATIVE INPUT · NOT SENT</small><code>{slice.input}</code></div><span aria-hidden="true">→</span><div><small>NON-EXECUTED OUTPUT SHAPE</small><code>{slice.output}</code></div></div>
+    <div className="tool-boundary"><strong>Not executed</strong><span>{slice.boundary}</span></div>
+    <footer className="catalog-slice-footer"><span>{slice.provenance} · No permission is granted by this preview.</span><code>{slice.reference}</code></footer>
+  </div>;
 }
 
-function AiPreview({ name }: { name: string }) {
-  return <div className="ai-preview"><div className="ai-sidebar"><IdentityAvatar identity="IDENTITY.SAPTARISHI.GAUTAMA" size={44}/><small>AI SPACE</small><strong>{name}</strong><button data-active="true"><MaataaIcon name="ai"/> Session</button><button><MaataaIcon name="database"/> Knowledge</button><button><MaataaIcon name="tool"/> Tools</button><button><MaataaIcon name="evidence"/> Evaluations</button></div><div className="ai-thread"><div className="ai-message user"><IdentityAvatar identity="IDENTITY.BRAHMINI" size={28}/> <span>Review this MAATAA surface for unsupported claims.</span></div><div className="ai-message assistant"><div className="ai-message-head"><IdentityBadge identity="IDENTITY.SAPTARISHI.GAUTAMA" size={28}/><Badge tone="success">grounded</Badge></div><p>I found 3 claims. All are mapped to package-owned registry evidence in this deterministic demo.</p><div className="citation-row"><span><MaataaIcon name="registry"/> Registry</span><span><MaataaIcon name="docs"/> Manifest</span><span><MaataaIcon name="evidence"/> Source</span></div></div><div className="ai-composer">Ask {name}… <button><MaataaIcon name="arrow-right"/> Send</button></div></div></div>;
+function AiPreview({ item }: { item: CatalogItem }) {
+  const slice = createAISpaceDataSlice(item.id);
+  return <div className="ai-preview catalog-slice-preview" data-ai-space-id={item.id} data-ai-space-slice={slice.domain} data-ai-space-reference={slice.reference}>
+    <aside className="ai-sidebar"><small>SYNTHETIC AI-SPACE DATA · {slice.family}</small><strong>{item.name}</strong><span>Session · {slice.reference}</span><span>Context · synthetic only</span><span>Tools · disabled</span><span>Evaluations · not run</span></aside>
+    <div className="ai-thread"><section className="ai-space-context"><h3>{slice.task}</h3><p>{slice.summary}</p><p>{slice.context}</p><p>{slice.tools}</p></section><section className="ai-space-output"><small>ILLUSTRATIVE OUTPUT · NO MODEL CALLED</small><p>{slice.output}</p><span>Provider: not connected · Tool execution: disabled</span></section><footer className="catalog-slice-footer"><span>{slice.provenance} · {slice.boundary}</span><code>{slice.reference}</code></footer></div>
+  </div>;
 }
 
 function RegistryPreview({ name }: { name: string }) {
@@ -284,17 +388,17 @@ function DataPreview({ kind, name }: { kind: string; name: string }) {
   return <div className="data-preview"><div className="tool-preview-head"><Badge>{kind}</Badge><h3>{name}</h3></div><div className="state-tree"><div><span>status</span><strong>ready</strong></div><div><span>records</span><strong>12</strong></div><div><span>source</span><strong>static-demo</strong></div><div><span>authority</span><strong>visual-only</strong></div></div><div className="json-lines"><code>{`{`}</code><code>{`  "selected": "${name}",`}</code><code>{`  "mode": "preview",`}</code><code>{`  "verified": true`}</code><code>{`}`}</code></div></div>;
 }
 
-function PreviewCanvas({ catalogKey, item, propOverrides }: { catalogKey: string; item: CatalogItem; propOverrides?: Record<string, unknown> }) {
+function PreviewCanvas({ catalogKey, item, propOverrides, pageDataContext = "generic" }: { catalogKey: string; item: CatalogItem; propOverrides?: Record<string, unknown>; pageDataContext?: ProductPageContext }) {
   if (catalogKey === "identities") return <IdentityPreview item={item}/>;
   if (catalogKey === "icons") return <IconPreview item={item}/>;
   if (catalogKey === "components" || catalogKey === "atoms") return <ComponentPreview item={item} overrides={propOverrides}/>;
-  if (catalogKey === "layouts") return <LayoutPreview name={item.name}/>;
-  if (catalogKey === "pages") return <PagePreview name={item.name}/>;
-  if (catalogKey === "workspaces") return <WorkspacePreview name={item.name}/>;
-  if (catalogKey === "devices") return <DevicePreview name={item.name}/>;
-  if (catalogKey === "generators") return <GeneratorPreview name={item.name}/>;
-  if (catalogKey === "tools") return <ToolPreview name={item.name}/>;
-  if (catalogKey === "ai") return <AiPreview name={item.name}/>;
+  if (catalogKey === "layouts") return <LayoutPreview item={item}/>;
+  if (catalogKey === "pages") return <PagePreview item={item} dataContext={pageDataContext}/>;
+  if (catalogKey === "workspaces") return <WorkspacePreview item={item}/>;
+  if (catalogKey === "devices") return <DevicePreview item={item}/>;
+  if (catalogKey === "generators") return <GeneratorPreview item={item}/>;
+  if (catalogKey === "tools") return <ToolPreview item={item}/>;
+  if (catalogKey === "ai") return <AiPreview item={item}/>;
   if (catalogKey === "registries") return <RegistryPreview name={item.name}/>;
   return <DataPreview kind={catalogKey} name={item.name}/>;
 }
@@ -316,6 +420,7 @@ function SurfaceExplorer() {
   const [selectedId, setSelectedId] = React.useState<string | null>(null);
   const [page, setPage] = React.useState(0);
   const [propValues, setPropValues] = React.useState<Record<string, unknown>>({});
+  const [pageDataContext, setPageDataContext] = React.useState<ProductPageContext>("generic");
   const pageSize = 40;
   const catalog = CATALOGS.find((item) => item.key === catalogKey) ?? CATALOGS[0];
   const normalized = query.trim().toLowerCase();
@@ -329,6 +434,7 @@ function SurfaceExplorer() {
   return <section className="page-section surface-page">
     <SectionHeading kicker="Full surface" title="Live MAATAA UI explorer" body="Select a canonical record to drive the visual preview canvas. Inspect metadata and copy IDs, import paths and generated examples from the same screen." />
     <div className="catalog-tabs" role="tablist">{CATALOGS.map((item) => <button key={item.key} data-active={item.key === catalog.key} onClick={() => setCatalogKey(item.key)}>{item.label}<span>{item.items.length}</span></button>)}</div>
+    {catalog.key === "pages" && <div className="page-data-context"><label>Page data context<select aria-label="Page data context" value={pageDataContext} onChange={(event) => setPageDataContext(event.target.value as ProductPageContext)}><option value="generic">Generic synthetic specimen</option><option value="tlps">TLPS production data slice</option><option value="nevo">NEVO Events data slice</option></select></label><span>All records shown here are synthetic demo fixtures.</span></div>}
     <div className="surface-workbench">
       <aside className="surface-catalog-pane">
         <div className="pane-head"><div><strong>{catalog.label}</strong><small>{matches.length} records</small></div><label className="surface-search"><span className="sr-only">Search</span><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder={`Search ${catalog.label.toLowerCase()}…`} /></label></div>
@@ -337,7 +443,7 @@ function SurfaceExplorer() {
       </aside>
       <div className="surface-preview-pane">
         <div className="pane-head preview-pane-head"><div><small>VISUAL PREVIEW</small><strong>{selected?.name ?? "No result"}</strong></div><div className="preview-mode-badges"><span>live</span><span>responsive</span></div></div>
-        <div className="surface-preview-canvas">{selected && <PreviewCanvas catalogKey={catalogKey} item={selected} propOverrides={propValues}/>}</div>
+        <div className="surface-preview-canvas">{selected && <PreviewCanvas catalogKey={catalogKey} item={selected} propOverrides={propValues} pageDataContext={pageDataContext}/>}</div>
       </div>
       <aside className="surface-inspector-pane">
         {selected && <><div className="inspector-section"><small>SELECTED</small><h3>{selected.name}</h3><div className="copy-row"><code>{selected.id}</code><CopyButton text={selected.id} label="Copy ID"/></div>{selected.meta && <p>{selected.meta}</p>}</div>{selected.importPath && <div className="inspector-section"><small>IMPORT</small><div className="copy-stack"><code>{selected.importPath}</code><CopyButton text={selected.importPath} label="Copy path"/></div></div>}{(catalogKey === "components" || catalogKey === "atoms") && <div className="inspector-section"><small>LIVE PROPS</small><ComponentPropInspector componentName={selected.name} values={propValues} onChange={setPropValues}/></div>}<div className="inspector-section"><CodeBlock code={snippet} label="Example"/></div><div className="inspector-section inspector-links"><a href="#/playground">Open Playground</a><a href="#/sandbox">Open Sandbox</a><a href="#/docs">Read docs</a></div></>}
@@ -421,16 +527,18 @@ function DemoDashboard() {
   const page = useMaataaSelector(selectPage);
   const layout = useMaataaSelector(selectLayout);
   const device = useMaataaSelector(selectDevice);
+  const generator = useMaataaSelector(selectGenerator);
+  const tool = useMaataaSelector(selectTool);
   const ai = useMaataaSelector(selectAI);
-  const compositionJson = JSON.stringify({workspace:workspace.activeWorkspaceTypeId,page:page.activePageTypeId,layout:layout.activeLayoutTypeId,device:device.deviceId,aiSpace:scenario.aiSpaceId ?? ai.activeSpaceId},null,2);
+  const compositionJson = JSON.stringify({workspace:workspace.activeWorkspaceTypeId,page:page.activePageTypeId,layout:layout.activeLayoutTypeId,device:device.deviceId,generator:generator.selectedGeneratorId,tool:tool.selectedToolId,aiSpace:ai.activeSpaceId},null,2);
   return <section className="page-section">
-    <SectionHeading kicker="Demos" title="Deterministic Redux scenario hub" body="Scenario switching updates workspace, page, layout and device state from canonical IDs." />
+    <SectionHeading kicker="Demos" title="Deterministic Redux scenario hub" body="Scenario switching updates workspace, page, layout, device, generator, tool, and AI-space state from canonical IDs." />
     <div className="scenario-grid">{DEMO_SCENARIOS.map((item) => <button className="scenario-card" data-active={item.id === scenario.id} key={item.id} onClick={() => dispatch(demoActions.activateScenario(item.id))}><strong>{item.name}</strong><span>{item.description}</span></button>)}</div>
     {scenario.id === "scenario-tlps" && <p className="tlps-dashboard-links"><a className="gold-button" href="#/tlps">TLPS public overview</a><a className="ghost-button" href="#/tlps/onboarding">Guided onboarding</a><a className="text-link" href="#/tlps-workflow">Open workflow preview →</a></p>}
     <div className="demo-dashboard-header"><div className="demo-dashboard-identity"><IdentityAvatar identity="IDENTITY.BRAHMINI" size={58}/><div><div className="demo-kicker">Active scenario</div><h2>{scenario.name}</h2><p>{scenario.description}</p></div></div><div className="header-copy-group"><IdentityAvatarGroup identities={["IDENTITY.SHIV","IDENTITY.PARVATI","IDENTITY.SAPTARISHI.GAUTAMA","IDENTITY.PANCHTATVA.AGNI"]} size={30}/><span className="demo-badge">{unread} unread</span><CopyButton text={compositionJson} label="Copy composition"/></div></div>
     <div className="metrics-grid compact"><Stat value={PAGE_TYPES.length} label="pages"/><Stat value={WORKSPACE_TYPES.length} label="workspaces"/><Stat value={LAYOUT_TYPES.length} label="layouts"/><Stat value={DEVICE_REGISTRY.length} label="devices"/></div>
     <div className="demo-grid">
-      <article className="demo-card wide"><h2>Active composition</h2><ul className="demo-list"><li className="demo-row"><span>Workspace</span><span className="demo-code">{workspace.activeWorkspaceTypeId}</span></li><li className="demo-row"><span>Page</span><span className="demo-code">{page.activePageTypeId}</span></li><li className="demo-row"><span>Layout</span><span className="demo-code">{layout.activeLayoutTypeId}</span></li><li className="demo-row"><span>Device</span><span className="demo-code">{device.deviceId}</span></li><li className="demo-row"><span>AI space</span><span className="demo-code">{scenario.aiSpaceId ?? ai.activeSpaceId}</span></li></ul></article>
+      <article className="demo-card wide"><h2>Active composition</h2><ul className="demo-list"><li className="demo-row"><span>Workspace</span><span className="demo-code">{workspace.activeWorkspaceTypeId}</span></li><li className="demo-row"><span>Page</span><span className="demo-code">{page.activePageTypeId}</span></li><li className="demo-row"><span>Layout</span><span className="demo-code">{layout.activeLayoutTypeId}</span></li><li className="demo-row"><span>Device</span><span className="demo-code">{device.deviceId}</span></li><li className="demo-row"><span>Generator</span><span className="demo-code">{generator.selectedGeneratorId ?? "None"}</span></li><li className="demo-row"><span>Tool</span><span className="demo-code">{tool.selectedToolId ?? "None"}</span></li><li className="demo-row"><span>AI space</span><span className="demo-code">{ai.activeSpaceId ?? "None"}</span></li></ul></article>
       <article className="demo-card wide"><h2>Finance demo</h2><ul className="demo-list"><li className="demo-row"><span>Cash available</span><strong>{money.format(DEMO_FINANCE_KPIS.cashAvailable)}</strong></li><li className="demo-row"><span>Committed cost</span><strong>{money.format(DEMO_FINANCE_KPIS.committedCost)}</strong></li><li className="demo-row"><span>Event budget</span><strong>{money.format(DEMO_FINANCE_KPIS.eventBudget)}</strong></li><li className="demo-row"><span>Approvals pending</span><strong>{DEMO_FINANCE_KPIS.approvalsPending}</strong></li></ul></article>
       <article className="demo-card wide"><h2>Projects</h2><ul className="demo-list">{DEMO_PROJECTS.slice(0, 4).map((project) => <li key={project.id}><div className="demo-row"><span>{project.name}</span><strong>{project.progress}%</strong></div><div className="demo-progress"><span style={{ width: `${project.progress}%` }} /></div></li>)}</ul></article>
       <article className="demo-card wide"><h2>AI evaluations</h2><ul className="demo-list">{DEMO_EVALUATIONS.map((evaluation) => <li className="demo-row" key={evaluation.id}><span>{evaluation.name}</span><strong>{Math.round(evaluation.score * 100)}%</strong></li>)}</ul></article>

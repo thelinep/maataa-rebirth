@@ -2,6 +2,8 @@
 
 Resume point: the engineering implementation is committed through governance; the final security inventory and release evidence changes complete the interrupted engineering work. This file records implementation coverage, not current qualification. Current execution status lives in each exact-commit release pack's `release.json` and `dashboard.json`.
 
+The remaining steps below track enterprise release qualification. Product capability work from the current registry/specimen prototype to a complete, adoptable UI product is sequenced separately in [`docs/product-roadmap.md`](docs/product-roadmap.md).
+
 | Steps | Delivered scope | Implementation commits |
 | --- | --- | --- |
 | 01–03 | Safe generated source, identifiers and adversarial regressions | c399812 |

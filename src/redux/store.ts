@@ -16,6 +16,15 @@ import { formReducer } from "./slices/formSlice";
 import { dataReducer } from "./slices/dataSlice";
 import { demoReducer } from "./slices/demoSlice";
 import { builderReducer } from "./slices/builderSlice";
+import { projectReducer } from "./slices/projectSlice";
+import { eventReducer } from "./slices/eventSlice";
+import { vendorReducer } from "./slices/vendorSlice";
+import { bookingReducer } from "./slices/bookingSlice";
+import { financeReducer } from "./slices/financeSlice";
+import { taskReducer } from "./slices/taskSlice";
+import { productionReducer } from "./slices/productionSlice";
+import { activityReducer } from "./slices/activitySlice";
+import { evaluationReducer } from "./slices/evaluationSlice";
 import { createPersistenceMiddleware, loadPersistedMaataaState } from "./persistence";
 import { maataaListenerMiddleware } from "./listeners";
 import { createAuditMiddleware } from "./middleware/auditMiddleware";
@@ -38,6 +47,15 @@ export const maataaRootReducer = combineReducers({
   data: dataReducer,
   demo: demoReducer,
   builder: builderReducer,
+  project: projectReducer,
+  event: eventReducer,
+  vendor: vendorReducer,
+  booking: bookingReducer,
+  finance: financeReducer,
+  task: taskReducer,
+  production: productionReducer,
+  activity: activityReducer,
+  evaluation: evaluationReducer,
 });
 
 export type RootState = ReturnType<typeof maataaRootReducer>;

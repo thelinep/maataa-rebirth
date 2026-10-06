@@ -1,3 +1,4 @@
+import { createSelector } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
 import { PAGE_TYPES } from "../../registries/pageRegistry";
 import { WORKSPACE_TYPES } from "../../registries/workspaceRegistry";
@@ -6,11 +7,42 @@ import { DEVICE_REGISTRY } from "../../registries/deviceRegistry";
 import { GENERATOR_REGISTRY } from "../../registries/generatorRegistry";
 import { TOOL_REGISTRY } from "../../registries/toolRegistry";
 import { AI_SPACE_REGISTRY } from "../../registries/aiSpaceRegistry";
-const match=(name:string,id:string,q:string)=>!q||name.toLowerCase().includes(q)||id.toLowerCase().includes(q);
-export const selectFilteredPages=(s:RootState)=>{const q=s.registry.query.toLowerCase();return PAGE_TYPES.filter(x=>match(x.name,x.id,q) && (!s.registry.group||x.groupKey===s.registry.group));};
-export const selectFilteredWorkspaces=(s:RootState)=>{const q=s.registry.query.toLowerCase();return WORKSPACE_TYPES.filter(x=>match(x.name,x.id,q) && (!s.registry.group||x.groupKey===s.registry.group));};
-export const selectFilteredLayouts=(s:RootState)=>{const q=s.registry.query.toLowerCase();return LAYOUT_TYPES.filter(x=>match(x.name,x.id,q) && (!s.registry.group||x.groupKey===s.registry.group));};
-export const selectFilteredDevices=(s:RootState)=>{const q=s.registry.query.toLowerCase();return DEVICE_REGISTRY.filter(x=>match(x.name,x.id,q) && (!s.registry.group||x.group===s.registry.group));};
-export const selectFilteredGenerators=(s:RootState)=>{const q=s.registry.query.toLowerCase();return GENERATOR_REGISTRY.filter(x=>match(x.name,x.id,q));};
-export const selectFilteredTools=(s:RootState)=>{const q=s.registry.query.toLowerCase();return TOOL_REGISTRY.filter(x=>match(x.name,x.id,q));};
-export const selectFilteredAISpaces=(s:RootState)=>{const q=s.registry.query.toLowerCase();return AI_SPACE_REGISTRY.filter(x=>match(x.name,x.id,q));};
+
+type CatalogRecord = Readonly<{ id: string; name: string; [key: string]: unknown }>;
+type CatalogGroupFields = "groupKey" | "group" | "groups" | "groupIds" | "groupLabels";
+
+const selectQuery = (state: RootState) => state.registry.query.trim().toLowerCase();
+const selectGroup = (state: RootState) => state.registry.group;
+const selectLifecycle = (state: RootState) => state.registry.lifecycle;
+
+function hasText(record: CatalogRecord, query: string): boolean {
+  if (!query) return true;
+  return `${record.name} ${record.id}`.toLowerCase().includes(query);
+}
+
+function hasGroup(record: CatalogRecord, group: string | null, groupFields: readonly CatalogGroupFields[]): boolean {
+  if (!group) return true;
+  return groupFields.some((field) => {
+    const value = record[field];
+    return Array.isArray(value) ? value.includes(group) : value === group;
+  });
+}
+
+function hasLifecycle(record: CatalogRecord, lifecycle: string | null): boolean {
+  return !lifecycle || record.lifecycle === lifecycle;
+}
+
+function createFilteredCatalog<T extends CatalogRecord>(records: readonly T[], groupFields: readonly CatalogGroupFields[]) {
+  return createSelector([selectQuery, selectGroup, selectLifecycle], (query, group, lifecycle) =>
+    records.filter((record) => hasText(record, query) && hasGroup(record, group, groupFields) && hasLifecycle(record, lifecycle)),
+  );
+}
+
+/** Memoized selectors keep stable catalog references until a relevant filter changes. */
+export const selectFilteredPages = createFilteredCatalog(PAGE_TYPES, ["groupKey"]);
+export const selectFilteredWorkspaces = createFilteredCatalog(WORKSPACE_TYPES, ["groupKey"]);
+export const selectFilteredLayouts = createFilteredCatalog(LAYOUT_TYPES, ["groupKey"]);
+export const selectFilteredDevices = createFilteredCatalog(DEVICE_REGISTRY, ["group", "groups"]);
+export const selectFilteredGenerators = createFilteredCatalog(GENERATOR_REGISTRY, ["groupIds", "groupLabels"]);
+export const selectFilteredTools = createFilteredCatalog(TOOL_REGISTRY, ["groupIds", "groupLabels"]);
+export const selectFilteredAISpaces = createFilteredCatalog(AI_SPACE_REGISTRY, ["groupIds", "groupLabels"]);

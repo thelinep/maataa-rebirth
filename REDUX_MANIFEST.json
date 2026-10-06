@@ -1,13 +1,13 @@
 {
   "version": "1.0.0-alpha.8.4",
-  "slices": 17,
-  "selectors": 34,
+  "slices": 26,
+  "selectors": 52,
   "middleware": 3,
   "listeners": 1,
   "files": [
     {
       "path": "src/redux/MaataaReduxProvider.tsx",
-      "sha256": "834a44560235fb73c4aab7ba7c08c9852926b58e260fef8410bd74c6e3f66e60"
+      "sha256": "4cb6ebd4c71a193e7ac53378a15be3481ca950b2485f914c8231cda0d68d54f9"
     },
     {
       "path": "src/redux/hooks.ts",
@@ -19,7 +19,7 @@
     },
     {
       "path": "src/redux/listeners.ts",
-      "sha256": "70ae458807c2058f032557d33e3645695194814b633e7111b4cdb1c3e537f8b1"
+      "sha256": "2ac146b8ecda3b6065f771f98bf2734bb6dd98ef061ba836a3d1e18c46698fba"
     },
     {
       "path": "src/redux/middleware/auditMiddleware.ts",
@@ -39,23 +39,35 @@
     },
     {
       "path": "src/redux/selectors/coreSelectors.ts",
-      "sha256": "9053df30a504d53f08e2f231b53638f7ec0464d2c7b661b887791c19dbe766ea"
+      "sha256": "efc5de6faccf076fdb8e4d4d1165d40fb110b3d1d72dd5a72e0a82f332081618"
     },
     {
       "path": "src/redux/selectors/demoSelectors.ts",
       "sha256": "dbc5c9d0d5eb6626b04c3318fe4de496497d47c4951ec8e2d28e7700ab431c32"
     },
     {
+      "path": "src/redux/selectors/domainSelectors.ts",
+      "sha256": "fb04bcbb775d491aa156e63ac5f9e0122109a91ecb248af058b4b34b9e274faa"
+    },
+    {
       "path": "src/redux/selectors/index.ts",
-      "sha256": "0ab21e4ac54bb04c3127175dbaeea6d30e8cde32881e627182122ebfb4775515"
+      "sha256": "9fd79b5645253256f3004b319c15e0fe2b00549e72b2f8840ad472ea04947b6c"
     },
     {
       "path": "src/redux/selectors/registrySelectors.ts",
-      "sha256": "97eee430b857888d45d67f1031be08d17a879b7506abba5b94be98d4e5afea23"
+      "sha256": "7f4d7d882d4385cdf5b52f2f32e17341ea8f54fa2874b505d6cd93e79189fd9c"
+    },
+    {
+      "path": "src/redux/slices/activitySlice.ts",
+      "sha256": "fecc037e818e5d29321586637c9984cc8a115d1c4acbee539e488951b1601525"
     },
     {
       "path": "src/redux/slices/aiSlice.ts",
-      "sha256": "6c099a28cfb9afd66a0dac6858377ef757cc27204c2a37ad6eb61577cb32fcd8"
+      "sha256": "10d8470b92ea68a15c518df3d095c701e62c5c4648f8c4fabe6ffaa6516affee"
+    },
+    {
+      "path": "src/redux/slices/bookingSlice.ts",
+      "sha256": "f8a28f8a3173178450b947e86ff487a99b935997097c7aec3b11aa27a697bba2"
     },
     {
       "path": "src/redux/slices/builderSlice.ts",
@@ -64,6 +76,10 @@
     {
       "path": "src/redux/slices/commandSlice.ts",
       "sha256": "7af6778802009cbeda76501bdeeb34515b138c625049ba90683b4c822d6ecd3c"
+    },
+    {
+      "path": "src/redux/slices/createDemoCollectionSlice.ts",
+      "sha256": "5400aa079cc419dbf2010274523ac9ec988a1649e11ec2ae5990bdc379ad2403"
     },
     {
       "path": "src/redux/slices/dataSlice.ts",
@@ -75,7 +91,19 @@
     },
     {
       "path": "src/redux/slices/deviceSlice.ts",
-      "sha256": "dad5705a2f1191537d5cbd38e98a4e71d5a58ad93e57c6fb50c5b80446a73de3"
+      "sha256": "b2d41ec3b88131e0e984ed97d0c3a253c23ffda919a6e30e86cfbcc17c52866b"
+    },
+    {
+      "path": "src/redux/slices/evaluationSlice.ts",
+      "sha256": "9842b10b3663b0fabba3b970e8a04728e7cdaf9bc60e5e1e4534e10903fd60ad"
+    },
+    {
+      "path": "src/redux/slices/eventSlice.ts",
+      "sha256": "89b2c746b9ba74d492b786d71147af7c68092809bf9dd59d11f84d7c29b00ae7"
+    },
+    {
+      "path": "src/redux/slices/financeSlice.ts",
+      "sha256": "24d73d7cd4966cbe9b873e86da66986842c00fb46673a2ef3c43e2e90a96b4c3"
     },
     {
       "path": "src/redux/slices/formSlice.ts",
@@ -87,7 +115,7 @@
     },
     {
       "path": "src/redux/slices/index.ts",
-      "sha256": "336b86d90de8a6ebffefb91fb132a09b2cd95d20b72b874d7a1b4ebf84334ecd"
+      "sha256": "bf3cc163697ee619853a27ad1e48ac3ed981fd4ef10e879e501c5ea9620f1c32"
     },
     {
       "path": "src/redux/slices/layoutSlice.ts",
@@ -106,12 +134,24 @@
       "sha256": "8360dead545b1a8e46afe0645a5d6e44b77a600b87ccd5b0c00dc78f2141bfde"
     },
     {
+      "path": "src/redux/slices/productionSlice.ts",
+      "sha256": "4edfb5d12f3c5c3604f4cf9147d5d77bace6e6b59c33dafd5512668447a3b1cb"
+    },
+    {
+      "path": "src/redux/slices/projectSlice.ts",
+      "sha256": "919b5096c37b2c3413b6364fd0674b02a09858cc5e1418faf4af390e871214cb"
+    },
+    {
       "path": "src/redux/slices/registrySlice.ts",
       "sha256": "92b7b050a4214a656cef40ae4b029f6dc93e815276043326ad9547d43cd76ca3"
     },
     {
       "path": "src/redux/slices/sessionSlice.ts",
       "sha256": "e3a70d3c22e6720256cb5bc24138c7322a040b74fd0a3ccaf3d10c97f606874c"
+    },
+    {
+      "path": "src/redux/slices/taskSlice.ts",
+      "sha256": "a5376ace8c97dab302349e25f2c8eb2f4cb72e2975a1a99eb3c03713a06400e0"
     },
     {
       "path": "src/redux/slices/toolSlice.ts",
@@ -122,12 +162,16 @@
       "sha256": "582b3e4927b98d9ce87e7db064d3df1798b41edb324de68691ac948f36d50cdd"
     },
     {
+      "path": "src/redux/slices/vendorSlice.ts",
+      "sha256": "23ee68458b436f3977b48530af6d11320c9bd845c42d9480238007f390880e67"
+    },
+    {
       "path": "src/redux/slices/workspaceSlice.ts",
       "sha256": "e910722ae19850dbf73aac54434fd803303a98839e539cd6986d9159ad2be9d6"
     },
     {
       "path": "src/redux/store.ts",
-      "sha256": "3e05b6dc0a0bad7b37b0b215b0d374ba04d0078118ddac85a3cfdf2b76dd30ff"
+      "sha256": "b5ff7b0c9d3b271a51f3150589ab1f469745522a5a858ed60061c5b414ff5e1a"
     }
   ]
 }

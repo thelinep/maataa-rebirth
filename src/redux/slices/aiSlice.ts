@@ -19,6 +19,9 @@ const slice = createSlice({
     activateAISpace: (state, action: PayloadAction<AISpaceId>) => {
       state.activeSpaceId = action.payload;
     },
+    clearActiveSpace: (state) => {
+      state.activeSpaceId = null;
+    },
     selectAgent: (state, action: PayloadAction<string | null>) => {
       state.selectedAgentId = action.payload;
     },
