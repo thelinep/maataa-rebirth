@@ -73,6 +73,17 @@ async function mockRuntime(page: Page) {
   return calls;
 }
 
+async function completeProductIntake(page: Page, idea: string) {
+  await page.getByRole("button", { name: "Product Forge" }).click();
+  await page.getByRole("textbox", { name: "Working name" }).fill("Community tool library");
+  await page
+    .getByRole("textbox", { name: "What idea should the first product slice explore?" })
+    .fill(idea);
+  await page.getByRole("button", { name: "Step 8: Review" }).click();
+  await expect(page.getByText("Ready for your review")).toBeVisible();
+  await page.getByRole("button", { name: "Use reviewed brief in Product Forge" }).click();
+}
+
 test("Brahmini is reachable from Help and answers with provider and local-source attribution", async ({
   page,
 }) => {
@@ -109,14 +120,12 @@ test("Product Forge conducts a multi-agent handoff and synthesizes downloadable 
   await page
     .getByRole("combobox", { name: "Parvati provider" })
     .selectOption("gemini");
-  await page.getByRole("button", { name: "Product Forge" }).click();
-  await page
-    .getByRole("textbox", { name: "Describe the product idea" })
-    .fill(
-      "A local library for community tool lending with availability and repair notes.",
-    );
+  await completeProductIntake(
+    page,
+    "A local library for community tool lending with availability and repair notes.",
+  );
   await page.getByRole("button", { name: "Develop product draft" }).click();
-  await expect(page.getByRole("status")).toContainText(
+  await expect(page.locator(".brahmini-run-status")).toContainText(
     "Agent conversations complete",
     { timeout: 15_000 },
   );
@@ -134,14 +143,11 @@ test("idea becomes a reviewed graph, canonical TypeScript snapshot and Sandbox c
 }) => {
   await mockRuntime(page);
   await page.goto("/#/brahmini");
-  await page.getByRole("button", { name: "Product Forge" }).click();
-  await page
-    .getByRole("textbox", { name: "Describe the product idea" })
-    .fill("A tool library for local makers.");
+  await completeProductIntake(page, "A tool library for local makers.");
   await page
     .getByRole("button", { name: "Extract structured product schema" })
     .click();
-  await expect(page.getByRole("status")).toContainText("Schema valid");
+  await expect(page.locator(".brahmini-run-status")).toContainText("Schema valid");
   const graphEditor = page.getByRole("textbox", {
     name: "Product graph JSON · edit",
   });
@@ -159,7 +165,7 @@ test("idea becomes a reviewed graph, canonical TypeScript snapshot and Sandbox c
   await page
     .getByRole("button", { name: "Extract structured product schema" })
     .click();
-  await expect(page.getByRole("status")).toContainText("Schema valid");
+  await expect(page.locator(".brahmini-run-status")).toContainText("Schema valid");
   await page
     .getByRole("button", { name: "Compile TypeScript snapshot" })
     .click();
@@ -216,9 +222,53 @@ test("Sandbox composition library reopens a named snapshot after reload", async 
   const directory = resolve(process.cwd(), ".impeccable/review");
   mkdirSync(directory, { recursive: true });
   await page.screenshot({
-    path: resolve(directory, mobile ? "mobile.png" : "desktop.png"),
+    path: resolve(directory, mobile ? "sandbox-mobile.png" : "sandbox-desktop.png"),
     fullPage: true,
   });
+});
+
+test("guided product intake keeps gaps explicit and gates provider calls until review", async ({ page }) => {
+  const calls = await mockRuntime(page);
+  await page.goto("/#/brahmini");
+  await page.getByRole("button", { name: "Product Forge" }).click();
+  await page.getByRole("button", { name: "Continue" }).click();
+  await expect(page.getByRole("alert")).toContainText("Add a working name");
+  await expect(page.getByRole("heading", { name: "Start with the idea" })).toBeVisible();
+  await page.getByRole("combobox", { name: "Product context" }).selectOption("tlps");
+  await page.getByRole("textbox", { name: "Working name" }).fill("Planning helper");
+  await page.getByRole("textbox", { name: "What idea should the first product slice explore?" }).fill("A planning helper for a production team.");
+  await page.getByRole("button", { name: "Step 8: Review" }).click();
+  await expect(page.getByRole("textbox", { name: "Review and edit the brief that will be sent" })).toHaveValue(/TLPS context/);
+  await expect(page.getByRole("textbox", { name: "Review and edit the brief that will be sent" })).toHaveValue(/does not import or verify domain facts/);
+  await expect(page.getByRole("textbox", { name: "Review and edit the brief that will be sent" })).toHaveValue(/Not supplied yet — keep this as unknown/);
+  await expect(page.getByRole("button", { name: "Use reviewed brief in Product Forge" })).toBeEnabled();
+  await expect(page.getByRole("button", { name: "Develop product draft" })).toBeDisabled();
+  expect(calls).toHaveLength(0);
+  await page.getByRole("button", { name: "Use reviewed brief in Product Forge" }).click();
+  await page.getByRole("button", { name: "Develop product draft" }).click();
+  await expect(page.locator(".brahmini-run-status")).toContainText("Agent conversations complete", { timeout: 15_000 });
+  expect(calls).toHaveLength(8);
+});
+
+test("guided intake draft resumes after reload and edits invalidate approval", async ({ page }) => {
+  await mockRuntime(page);
+  await page.goto("/#/brahmini");
+  await page.getByRole("button", { name: "Product Forge" }).click();
+  await page.getByRole("textbox", { name: "Working name" }).fill("Community tool library");
+  await page.getByRole("textbox", { name: "What idea should the first product slice explore?" }).fill("A local tool lending workflow.");
+  await page.getByRole("button", { name: "Step 8: Review" }).click();
+  await expect(page.getByRole("heading", { name: "Review before using models" })).toBeVisible();
+  await page.getByRole("button", { name: "Use reviewed brief in Product Forge" }).click();
+  await page.reload();
+  await page.getByRole("button", { name: "Product Forge" }).click();
+  await expect(page.getByRole("textbox", { name: "Review and edit the brief that will be sent" })).toHaveValue(/Community tool library/);
+  await page.getByRole("button", { name: "Step 8: Review" }).click();
+  await expect(page.getByRole("button", { name: "Develop product draft" })).toBeDisabled();
+  await expect(page.getByText("Complete all intake steps, review the brief, then apply it to enable provider calls")).toBeVisible();
+  await page.getByRole("button", { name: "Step 1: Concept" }).click();
+  await page.getByRole("textbox", { name: "What idea should the first product slice explore?" }).fill("A shared directory with repair notes.");
+  await page.getByRole("button", { name: "Step 8: Review" }).click();
+  await expect(page.getByRole("button", { name: "Develop product draft" })).toBeDisabled();
 });
 
 test("working notes persist locally and disclose that this is not fine-tuning", async ({
@@ -281,22 +331,30 @@ test("capture the Brahmini Workbench for desktop and mobile review", async ({
   );
   await page.goto("/#/brahmini");
   await page.getByRole("button", { name: "Product Forge" }).click();
+  await page.getByRole("textbox", { name: "Working name" }).fill("Community tool library");
+  await page.getByRole("textbox", { name: "What idea should the first product slice explore?" }).fill("A local tool lending workflow.");
+  await page.getByRole("button", { name: "Step 8: Review" }).click();
+  await expect(page.getByRole("heading", { name: "Review before using models" })).toBeVisible();
   await expect(
     page.getByRole("heading", { name: "Brahmini Workbench" }),
   ).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Guided product intake" })).toBeVisible();
   if (mobile) {
+    await expect(page.getByText("Scroll the steps to see the full sequence.")).toBeVisible();
     await expect(page.locator(".brahmini-agent-picker")).toHaveCSS(
       "max-height",
       "none",
     );
     await expect(page.getByText("Kashyapa", { exact: true })).toBeVisible();
+  } else {
+    await expect(page.getByText("Scroll the steps to see the full sequence.")).toBeHidden();
   }
   const directory = resolve(process.cwd(), ".impeccable/review");
   mkdirSync(directory, { recursive: true });
   await page.screenshot({
     path: resolve(
       directory,
-      mobile ? "brahmini-mobile.png" : "brahmini-desktop.png",
+      mobile ? "mobile.png" : "desktop.png",
     ),
     fullPage: true,
   });

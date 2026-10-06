@@ -2,6 +2,8 @@
 
 Standalone MAATAA visual UI library for React + TypeScript applications.
 
+New to this repository? Start with [`docs/START-HERE.md`](docs/START-HERE.md) for setup, a folder map, and safe first steps.
+
 This package contains application-agnostic components only. It does **not** provide authentication, authorization, API clients, databases, business workflows, payments, infrastructure provisioning, or application routing.
 
 ## Public / demo surface

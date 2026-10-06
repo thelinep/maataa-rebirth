@@ -6,6 +6,7 @@ import { PAGE_TYPES } from "@maataa/ui/registries/pageRegistry";
 import { TOOL_REGISTRY } from "@maataa/ui/registries/toolRegistry";
 import { useMaataaDispatch } from "@maataa/ui/redux/hooks";
 import { builderActions } from "@maataa/ui/redux/slices/builderSlice";
+import { ProductIdeaWizard } from "./ProductIdeaWizard";
 import {
   compileProductGraph,
   parseProductGraph,
@@ -379,6 +380,7 @@ export function BrahminiWorkbench({
     }
   });
   const [idea, setIdea] = React.useState("");
+  const [forgeBriefApproved, setForgeBriefApproved] = React.useState(false);
   const [forgeResults, setForgeResults] = React.useState<ChatMessage[]>([]);
   const [graphDraft, setGraphDraft] = React.useState("");
   const [productGraph, setProductGraph] = React.useState<ProductGraphV1 | null>(
@@ -507,6 +509,10 @@ export function BrahminiWorkbench({
 
   const runTeam = async (kind: "forge" | "council") => {
     const request = (kind === "forge" ? idea : question).trim();
+    if (kind === "forge" && !forgeBriefApproved) {
+      setError("Review and apply the guided product brief before sending it to agents.");
+      return;
+    }
     if (!request) {
       setError(
         kind === "forge"
@@ -636,6 +642,10 @@ export function BrahminiWorkbench({
 
   const extractProductGraph = async () => {
     const submitted = idea.trim();
+    if (!forgeBriefApproved) {
+      setGraphError("Review and apply the guided product brief before extracting a schema.");
+      return;
+    }
     if (!submitted) {
       setGraphError("Describe the product idea first.");
       return;
@@ -819,6 +829,7 @@ export function BrahminiWorkbench({
             type="button"
             aria-current={mode === item.id ? "page" : undefined}
             onClick={() => {
+              if (item.id !== "forge") setForgeBriefApproved(false);
               setMode(item.id);
               setError("");
             }}
@@ -1006,16 +1017,26 @@ export function BrahminiWorkbench({
                 does not write or run code.
               </p>
             </div>
+            <ProductIdeaWizard
+              onBriefInvalidated={() => setForgeBriefApproved(false)}
+              onBriefApproved={(brief) => {
+                setIdea(brief);
+                setForgeBriefApproved(true);
+                setForgeResults([]);
+                setGraphDraft("");
+                setProductGraph(null);
+                setProductSnapshot(null);
+                setGraphError("");
+                setError("");
+              }}
+            />
             <div className="brahmini-forge-grid">
               <div className="brahmini-form-panel">
-                <label htmlFor="brahmini-idea">Describe the product idea</label>
-                <textarea
-                  id="brahmini-idea"
-                  rows={7}
-                  value={idea}
-                  onChange={(event) => setIdea(event.target.value)}
-                  placeholder="Who is it for? What problem should it solve? What would a successful first release do?"
-                />
+                <div className="brahmini-reviewed-brief" role="status">
+                  {forgeBriefApproved
+                    ? "Reviewed brief applied · provider calls are enabled"
+                    : "Complete all intake steps, review the brief, then apply it to enable provider calls"}
+                </div>
                 <label className="brahmini-sub-label">
                   Working team · {team.length} selected
                 </label>
@@ -1049,7 +1070,7 @@ export function BrahminiWorkbench({
                 <button
                   className="gold-button"
                   type="button"
-                  disabled={busy || !idea.trim() || !available.length}
+                  disabled={busy || !forgeBriefApproved || !available.length}
                   onClick={() => void runTeam("forge")}
                 >
                   {busy
@@ -1060,7 +1081,7 @@ export function BrahminiWorkbench({
                   className="ghost-button product-graph-action"
                   type="button"
                   disabled={
-                    graphBusy || !idea.trim() || !selectedProvider?.configured
+                    graphBusy || !forgeBriefApproved || !selectedProvider?.configured
                   }
                   onClick={() => void extractProductGraph()}
                 >

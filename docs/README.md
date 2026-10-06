@@ -1,6 +1,6 @@
 # MAATAA developer documentation
 
-Start with the root Getting Started and theming guides for package usage. The package remains a private prerelease; passing a local check does not establish enterprise certification.
+Start with [`START-HERE.md`](START-HERE.md) for repository setup and navigation, then use the root theming guide for package usage. The package remains a private prerelease; passing a local check does not establish enterprise certification.
 
 | Audience | Canonical guides |
 | --- | --- |
@@ -9,6 +9,8 @@ Start with the root Getting Started and theming guides for package usage. The pa
 | Platform architect | Root ARCHITECTURE and REGISTRIES; engineering/composition-grammar.md, performance.md |
 | AI/tool developer | composition-spec.md, engineering/codegen-trust-boundary.md |
 | Enterprise evaluator | versioning-policy.md, security/dependency-policy.md, package-consumers.md, performance.md |
+
+For a dated, bounded reconstruction of related workstreams and decisions, see [`WORKSPACE-RECOLLECTION-2026-10-07.md`](WORKSPACE-RECOLLECTION-2026-10-07.md). It is a navigation aid, not current evidence for the other repositories.
 
 `canonical-catalog.json` is generated from component, layout, page, workspace, device and region source records. `pnpm docs:check` rejects drift. IDs, names, categories, paths and device declarations are copied only where the canonical record supplies them. Missing purpose, props, anatomy, accessibility qualification, supported relationships or deprecation data remains unknown; documentation does not manufacture complete coverage.
 
