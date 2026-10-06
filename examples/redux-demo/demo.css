@@ -190,3 +190,12 @@ a { color:inherit; }
 @media(max-width:640px){.layout-slice-footer{flex-direction:column}.layout-region{padding:11px}}
 .catalog-slice-preview{min-width:0}.catalog-slice-summary{margin:0 0 14px;color:#a4a4ac;font-size:.74rem;line-height:1.5}.catalog-slice-footer{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;border-top:1px solid #29292e;padding-top:11px;color:#92929a;font-size:.67rem;line-height:1.5}.catalog-slice-footer code{flex:0 0 auto;color:#dfcf8c;font-size:.64rem;white-space:nowrap}.device-preview-meta span{overflow-wrap:anywhere}.device-sample-row{align-items:stretch}.device-sample-row span{display:grid;gap:4px;min-width:0}.device-sample-row strong{color:#e0cf8f;font-size:.62rem}.ai-thread .catalog-slice-footer{margin-top:auto}
 @media(max-width:640px){.catalog-slice-footer{flex-direction:column}.catalog-slice-preview .tool-call{grid-template-columns:1fr}.device-sample-row{flex-direction:column}}
+
+/* Keep device specimen content readable against the light simulated screen. */
+.device-sample-content{min-height:100%;padding:14px;background:#fbfaf6;color:#26251f}
+.device-sample-content small{display:block;color:#6b5100;font-size:.62rem;letter-spacing:.1em;line-height:1.4}
+.device-sample-content h3{margin:8px 0;color:#25241f;font-size:1.1rem;line-height:1.25}
+.device-sample-content p{margin:0 0 12px;color:#46443d;font-size:.76rem;line-height:1.5}
+.device-sample-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;align-content:start}
+.device-sample-row span{border:1px solid #a39b84;border-radius:8px;padding:9px 10px;background:#fffef9;color:#33312b;font-size:.72rem;line-height:1.4;overflow-wrap:anywhere}
+.device-sample-row strong{color:#594500;font-size:.65rem;line-height:1.4}
