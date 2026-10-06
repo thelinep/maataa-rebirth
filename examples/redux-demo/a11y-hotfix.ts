@@ -26,6 +26,11 @@ const CSS_TEXT = `
 .surface-inspector-pane .m-prop-inspector > label > span {
   color: #b7afa5 !important;
 }
+.site-shell[data-demo-theme="light"] .catalog-tabs > button[data-active="false"],
+.site-shell[data-demo-theme="light"] .catalog-tabs > button[data-active="false"] > span,
+.site-shell[data-demo-theme="light"] .surface-inspector-pane .m-prop-inspector > label > span {
+  color: #514d45 !important;
+}
 
 /* /playground: keep the dark preview internally coherent. */
 .playground-viewport[data-theme="dark"] {
@@ -53,6 +58,9 @@ const CSS_TEXT = `
   color: #f5f5f5 !important;
   background: #1b1b20 !important;
   border-color: #8b8b94 !important;
+}
+.site-shell[data-demo-theme="light"] .playground-viewport[data-theme="dark"] label {
+  color: #c2c2c8 !important;
 }
 
 /* alpha8.5.3: the remaining Axe failures are the three playground tabs.

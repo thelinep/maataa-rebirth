@@ -163,7 +163,7 @@ export function ActualComponentPreview({ item, overrides = {} }: { item: Preview
         return;
       }
 
-      const loader = PREVIEW_LOADERS[source];
+      const loader = PREVIEW_LOADERS.get(source);
 
       if (!loader) {
         const componentRecord =

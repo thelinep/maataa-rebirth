@@ -2,6 +2,7 @@ import { test, expect, type Page } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
 const routes=["/","/surface","/playground","/sandbox","/demos","/docs","/help","/support"];
+const themes=["system","light","dark","high-contrast","oled"] as const;
 
 async function openReadySurface(page: Page, route: string) {
   const pageErrors: string[] = [];
@@ -30,5 +31,31 @@ for(const route of routes){
     const results=await new AxeBuilder({page}).withTags(["wcag2a","wcag2aa","wcag21a","wcag21aa"]).analyze();
     const blocking=results.violations.filter((violation)=>violation.impact==="critical"||violation.impact==="serious");
     expect(blocking,JSON.stringify(blocking,null,2)).toEqual([]);
+  });
+}
+
+for (const theme of themes) {
+  test(`axe critical/serious across public routes in ${theme} theme`, async ({ page }) => {
+    for (const [index, route] of routes.entries()) {
+      await openReadySurface(page, route);
+      if (index === 0) {
+        await page.getByRole("button", { name: "Settings" }).click();
+        await page.getByLabel("Theme").selectOption(theme);
+        await page.getByRole("button", { name: "Settings" }).click();
+      }
+      await expect(page.locator(".site-shell")).toHaveAttribute(
+        "data-demo-theme",
+        theme === "system"
+          ? await page.evaluate(() => matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
+          : theme,
+      );
+      const results = await new AxeBuilder({ page })
+        .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
+        .analyze();
+      const blocking = results.violations.filter(
+        (violation) => violation.impact === "critical" || violation.impact === "serious",
+      );
+      expect(blocking, `${theme} ${route}: ${JSON.stringify(blocking, null, 2)}`).toEqual([]);
+    }
   });
 }

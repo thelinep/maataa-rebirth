@@ -8,7 +8,8 @@ test.use({
 });
 test.setTimeout(60_000);
 
-const videoDirectory = path.resolve("artifacts/demo-videos");
+const requestedVideoDirectory = process.env.MAATAA_DEMO_VIDEO_OUTPUT_DIR;
+const defaultVideoDirectory = path.resolve("test-results/demo-videos");
 
 async function openSurface(page: Page) {
   const errors: string[] = [];
@@ -32,15 +33,21 @@ async function holdPreview(page: Page, selector: string) {
   await page.waitForTimeout(1700);
 }
 
-async function saveVideo(page: Page, filename: string) {
+async function saveVideo(page: Page, filename: string, projectName: string) {
+  const videoDirectory = requestedVideoDirectory
+    ? path.resolve(requestedVideoDirectory)
+    : path.join(defaultVideoDirectory, projectName);
   await mkdir(videoDirectory, { recursive: true });
   const video = page.video();
   if (!video) throw new Error("Playwright video recording was not enabled for this page");
   await page.close();
-  await video.saveAs(path.join(videoDirectory, filename));
+  const outputName = requestedVideoDirectory && projectName !== "chromium-desktop"
+    ? filename.replace(/\.webm$/, `-${projectName}.webm`)
+    : filename;
+  await video.saveAs(path.join(videoDirectory, outputName));
 }
 
-test("record Pages data-slice demo", async ({ page }) => {
+test("record Pages data-slice demo", async ({ page }, testInfo) => {
   await openSurface(page);
   const canvas = page.locator(".surface-preview-canvas");
 
@@ -65,10 +72,10 @@ test("record Pages data-slice demo", async ({ page }) => {
   await selectRecord(page, "Pages", "PAGE.AUTHENTICATION.SIGN_IN");
   await expect(canvas.locator('[data-product-slice-unmapped="NEVO"]')).toContainText("outside the current NEVO pilot data map");
   await holdPreview(page, ".surface-preview-canvas");
-  await saveVideo(page, "pages-demo.webm");
+  await saveVideo(page, "pages-demo.webm", testInfo.project.name);
 });
 
-test("record Workspaces data-slice demo", async ({ page }) => {
+test("record Workspaces data-slice demo", async ({ page }, testInfo) => {
   await openSurface(page);
   const canvas = page.locator(".surface-preview-canvas");
 
@@ -97,5 +104,5 @@ test("record Workspaces data-slice demo", async ({ page }) => {
   await expect(personal).toContainText("Personal work");
   await expect(personal).toContainText("Synthetic fixture");
   await holdPreview(page, '[data-workspace-id="WORKSPACE.PERSONAL_HOME.PERSONAL"]');
-  await saveVideo(page, "workspaces-demo.webm");
+  await saveVideo(page, "workspaces-demo.webm", testInfo.project.name);
 });

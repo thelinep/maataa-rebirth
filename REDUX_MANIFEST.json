@@ -159,7 +159,7 @@
     },
     {
       "path": "src/redux/slices/uiSlice.ts",
-      "sha256": "582b3e4927b98d9ce87e7db064d3df1798b41edb324de68691ac948f36d50cdd"
+      "sha256": "e6850f565bba956f1d3b1a562a271fc03228624f9255c08a2b654be0951d2ec9"
     },
     {
       "path": "src/redux/slices/vendorSlice.ts",
