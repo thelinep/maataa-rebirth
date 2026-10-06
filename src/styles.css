@@ -65,7 +65,13 @@
 .m-grid { display:grid; }
 .m-divider { border:0; border-block-start:1px solid var(--m-border); margin:0; }
 .m-modal-backdrop { position:fixed; inset:0; background:rgba(0,0,0,.45); display:grid; place-items:center; padding:24px; z-index:1000; }
-.m-dialog { width:min(560px,100%); max-height:min(720px,calc(100vh - 48px)); overflow:auto; background:var(--m-surface); border:1px solid var(--m-border); border-radius:var(--m-radius-lg); box-shadow:var(--m-shadow-md); padding:20px; }
+.m-dialog { display:grid; gap:16px; width:min(560px,100%); max-height:min(720px,calc(100vh - 48px)); overflow:auto; background:var(--m-surface); border:1px solid var(--m-border); border-radius:var(--m-radius-lg); box-shadow:var(--m-shadow-md); padding:24px; }
+.m-dialog-header { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; }
+.m-dialog-header h2 { margin:0; }
+.m-dialog-body { display:grid; gap:12px; min-width:0; }
+.m-dialog-body > .m-button { justify-self:end; }
+.m-dialog-footer { display:flex; justify-content:flex-end; gap:8px; }
+@media(max-width:480px) { .m-dialog { padding:18px; gap:14px; } .m-dialog-body { gap:10px; } }
 .m-drawer { position:fixed; background:var(--m-surface); z-index:1001; box-shadow:var(--m-shadow-md); overflow:auto; }
 .m-drawer[data-side="right"] { inset-block:0; inset-inline-end:0; width:min(420px,90vw); }
 .m-drawer[data-side="left"] { inset-block:0; inset-inline-start:0; width:min(420px,90vw); }

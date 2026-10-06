@@ -12,8 +12,8 @@ export function Modal({open,isOpen,onClose,title,description,children,footer,ret
  if(!visible||typeof document==="undefined")return null;
  return createPortal(<div className="maataa-root m-modal-backdrop" onMouseDown={event=>{if(event.currentTarget===event.target)onClose();}}>
   <div ref={dialog} tabIndex={-1} data-maataa-modal className="m-dialog" role="dialog" aria-modal="true" aria-label={!title?"Dialog":undefined} aria-labelledby={title?titleId:undefined} aria-describedby={description?descId:undefined}>
-   <div style={{display:"flex",justifyContent:"space-between",gap:12}}><div>{title&&<h2 id={titleId}>{title}</h2>}{description&&<p id={descId} className="m-field-description">{description}</p>}</div><Button variant="ghost" aria-label={closeLabel} onClick={onClose}>×</Button></div>
-   <div>{children}</div>{footer&&<footer>{footer}</footer>}
+   <div className="m-dialog-header"><div>{title&&<h2 id={titleId}>{title}</h2>}{description&&<p id={descId} className="m-field-description">{description}</p>}</div><Button variant="ghost" aria-label={closeLabel} onClick={onClose}>×</Button></div>
+   <div className="m-dialog-body">{children}</div>{footer&&<footer className="m-dialog-footer">{footer}</footer>}
   </div>
  </div>,document.body);
 }
