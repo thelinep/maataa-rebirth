@@ -4,6 +4,7 @@ const TlpsSurfaces = React.lazy(() => import("./TlpsSurfaces").then(module => ({
 import { MaataaReduxProvider } from "@maataa/ui/redux/MaataaReduxProvider";
 import { createMaataaStore } from "@maataa/ui/redux/store";
 import { useMaataaDispatch, useMaataaSelector } from "@maataa/ui/redux/hooks";
+import { uiActions } from "@maataa/ui/redux/slices/uiSlice";
 import { demoActions } from "@maataa/ui/redux/slices/demoSlice";
 import { builderActions } from "@maataa/ui/redux/slices/builderSlice";
 import {
@@ -14,6 +15,7 @@ import {
   selectPage,
   selectTool,
   selectUnreadNotificationCount,
+  selectUI,
   selectWorkspace,
 } from "@maataa/ui/redux/selectors/coreSelectors";
 import { selectDemoScenario } from "@maataa/ui/redux/selectors/demoSelectors";
@@ -79,6 +81,32 @@ import { createAISpaceDataSlice, createDeviceDataSlice, createGeneratorDataSlice
 const money = new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
 
 type AnyRecord = Record<string, unknown>;
+type DemoLocale = "en-IN" | "hi-IN";
+type DemoTheme = "light" | "dark" | "system" | "high-contrast" | "oled";
+const SHELL_COPY: Record<DemoLocale, Record<string, string>> = {
+  "en-IN": {
+    settings: "Settings", appearance: "Appearance", theme: "Theme", language: "Language",
+    dark: "Dark", light: "Light", system: "System", highContrast: "High contrast", oled: "OLED black", english: "English (India)", hindi: "हिन्दी (भारत)",
+    scope: "Shared navigation and settings are translated. Catalog and product copy remains in its authored language.",
+    menu: "Menu", playground: "Playground", openDemo: "Open demo", home: "MAATAA UI home",
+    landing: "Home", surface: "Full Surface", sandbox: "Sandbox", demos: "Demos", docs: "Docs", help: "Help", support: "Support",
+    footer: "Registry-driven, atomic, host-neutral React UI vocabulary.",
+  },
+  "hi-IN": {
+    settings: "सेटिंग्स", appearance: "रूप-रंग", theme: "थीम", language: "भाषा",
+    dark: "डार्क", light: "लाइट", system: "सिस्टम", highContrast: "हाई कॉन्ट्रास्ट", oled: "OLED ब्लैक", english: "English (India)", hindi: "हिन्दी (भारत)",
+    scope: "नेविगेशन और सेटिंग्स का अनुवाद उपलब्ध है। कैटलॉग और उत्पाद सामग्री अपनी मूल भाषा में है।",
+    menu: "मेनू", playground: "प्लेग्राउंड", openDemo: "डेमो खोलें", home: "MAATAA UI होम",
+    landing: "होम", surface: "फुल सरफेस", sandbox: "सैंडबॉक्स", demos: "डेमो", docs: "दस्तावेज़", help: "सहायता", support: "सपोर्ट",
+    footer: "रजिस्ट्री-आधारित, atomic और host-neutral React UI vocabulary.",
+  },
+};
+const HINDI_ROUTE_LABELS: Record<string, string> = {
+  "PUBLIC_SURFACE.LANDING": "होम", "PUBLIC_SURFACE.SURFACE": "फुल सरफेस",
+  "PUBLIC_SURFACE.PLAYGROUND": "प्लेग्राउंड", "PUBLIC_SURFACE.SANDBOX": "सैंडबॉक्स",
+  "PUBLIC_SURFACE.DEMOS": "डेमो", "PUBLIC_SURFACE.DOCS": "दस्तावेज़",
+  "PUBLIC_SURFACE.HELP": "सहायता", "PUBLIC_SURFACE.SUPPORT": "सपोर्ट",
+};
 type CatalogItem = { id: string; name: string; meta?: string; importPath?: string; ordinal?: number; groupId?: string; groupKey?: string; groupLabel?: string };
 type Catalog = { key: string; label: string; description: string; items: readonly CatalogItem[] };
 const ROUTE_ICONS: Record<string, MaataaIconName> = {
@@ -184,22 +212,59 @@ function CodeBlock({ code, label = "Code" }: { code: string; label?: string }) {
 
 function Shell({ route, navigate, children }: { route: string; navigate: (path: string) => void; children: React.ReactNode }) {
   const [open, setOpen] = React.useState(false);
-  return <div className="site-shell" data-maataa-demo-ready="true">
+  const [settingsOpen, setSettingsOpen] = React.useState(false);
+  const dispatch = useMaataaDispatch();
+  const ui = useMaataaSelector(selectUI);
+  const locale: DemoLocale = ui.locale === "hi-IN" ? "hi-IN" : "en-IN";
+  const copy = SHELL_COPY[locale];
+  const [systemDark, setSystemDark] = React.useState(() => typeof window !== "undefined" && window.matchMedia?.("(prefers-color-scheme: dark)").matches === true);
+  const theme: DemoTheme = ui.theme === "light" || ui.theme === "dark" || ui.theme === "high-contrast" || ui.theme === "oled" ? ui.theme : "system";
+  const resolvedTheme = theme === "system" ? (systemDark ? "dark" : "light") : theme;
+  React.useEffect(() => {
+    const query = window.matchMedia?.("(prefers-color-scheme: dark)");
+    if (!query) return;
+    const update = () => setSystemDark(query.matches);
+    update();
+    query.addEventListener?.("change", update);
+    return () => query.removeEventListener?.("change", update);
+  }, []);
+  React.useEffect(() => {
+    document.documentElement.dataset.maataaTheme = resolvedTheme;
+    document.documentElement.lang = locale;
+    return () => { delete document.documentElement.dataset.maataaTheme; document.documentElement.lang = "en"; };
+  }, [resolvedTheme, locale]);
+  React.useEffect(() => {
+    if (!settingsOpen) return;
+    const onKeyDown = (event: KeyboardEvent) => { if (event.key === "Escape") setSettingsOpen(false); };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [settingsOpen]);
+  const routeLabel = (id: string, label: string) => locale === "hi-IN" ? HINDI_ROUTE_LABELS[id] ?? label : label;
+  return <div className="site-shell" data-demo-theme={resolvedTheme} data-locale={locale} data-maataa-demo-ready="true">
     <header className="site-header">
-      <button className="brand-button" onClick={() => navigate("/")} aria-label="MAATAA UI home">
+      <button className="brand-button" onClick={() => navigate("/")} aria-label={copy.home}>
         <IdentityAvatar identity="IDENTITY.BRAHMINI" size={34}/><span><strong>MAATAA UI</strong><small>Alpha 8</small></span>
       </button>
-      <button className="nav-toggle" onClick={() => setOpen((value) => !value)} aria-expanded={open}><MaataaIcon name="menu"/> Menu</button>
+      <div className="global-preferences">
+        <button className="preferences-trigger" aria-label={copy.settings} aria-expanded={settingsOpen} aria-controls="global-preferences-panel" onClick={() => setSettingsOpen((value) => !value)}><MaataaIcon name="settings"/><span>{copy.settings}</span></button>
+        <div className="preferences-panel" id="global-preferences-panel" role="group" aria-label={copy.settings} hidden={!settingsOpen}>
+          <strong>{copy.appearance} &amp; {copy.language}</strong>
+          <label>{copy.theme}<select aria-label={copy.theme} value={theme} onChange={(event) => dispatch(uiActions.setTheme(event.target.value as DemoTheme))}><option value="system">{copy.system}</option><option value="dark">{copy.dark}</option><option value="light">{copy.light}</option><option value="high-contrast">{copy.highContrast}</option><option value="oled">{copy.oled}</option></select></label>
+          <label>{copy.language}<select aria-label={copy.language} value={locale} onChange={(event) => dispatch(uiActions.setLocale(event.target.value))}><option value="en-IN">{copy.english}</option><option value="hi-IN">{copy.hindi}</option></select></label>
+          <p>{copy.scope}</p>
+        </div>
+      </div>
+      <button className="nav-toggle" onClick={() => setOpen((value) => !value)} aria-expanded={open}><MaataaIcon name="menu"/> {copy.menu}</button>
       <nav className="site-nav" data-open={open} aria-label="Primary navigation">
-        {PUBLIC_SURFACE_ROUTES.map((item) => <button key={item.id} data-active={route === item.path || (item.path !== "/" && route.startsWith(item.path))} onClick={() => { navigate(item.path); setOpen(false); }}><MaataaIcon name={ROUTE_ICONS[item.id] ?? "page"}/><span>{item.label}</span></button>)}
+        {PUBLIC_SURFACE_ROUTES.map((item) => <button key={item.id} data-active={route === item.path || (item.path !== "/" && route.startsWith(item.path))} onClick={() => { navigate(item.path); setOpen(false); }}><MaataaIcon name={ROUTE_ICONS[item.id] ?? "page"}/><span>{routeLabel(item.id, item.label)}</span></button>)}
         <button data-active={route.startsWith("/tlps")} onClick={() => { navigate("/tlps"); setOpen(false); }}>TLPS</button>
       </nav>
-      <div className="header-actions"><button className="ghost-button" onClick={() => navigate("/playground")}><MaataaIcon name="playground"/> Playground</button><button className="gold-button" onClick={() => navigate("/demos")}><MaataaIcon name="demos"/> Open demo</button></div>
+      <div className="header-actions"><button className="ghost-button" onClick={() => navigate("/playground")}><MaataaIcon name="playground"/> {copy.playground}</button><button className="gold-button" onClick={() => navigate("/demos")}><MaataaIcon name="demos"/> {copy.openDemo}</button></div>
     </header>
     <main>{children}</main>
     <footer className="site-footer">
-      <div><strong>MAATAA UI</strong><p>Registry-driven, atomic, host-neutral React UI vocabulary.</p></div>
-      <div className="footer-links">{PUBLIC_SURFACE_ROUTES.map((item) => <button key={item.id} onClick={() => navigate(item.path)}>{item.label}</button>)}</div>
+      <div><strong>MAATAA UI</strong><p>{copy.footer}</p></div>
+      <div className="footer-links">{PUBLIC_SURFACE_ROUTES.map((item) => <button key={item.id} onClick={() => navigate(item.path)}>{routeLabel(item.id, item.label)}</button>)}</div>
       <div className="demo-muted">Demo data only · no live backend authority</div>
     </footer>
   </div>;
