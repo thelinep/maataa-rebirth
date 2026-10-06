@@ -1,4 +1,4 @@
-.theme-studio-page{--muted:#a5a5ae;--line:#35353c;--gold:#d4af37;max-width:1760px;padding-top:48px}
+.theme-studio-page{--muted:var(--m-muted,#514d45);--line:#35353c;--gold:#d4af37;max-width:1760px;padding-top:48px}
 .theme-studio-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:32px;margin:0 auto 30px;max-width:1600px}
 .theme-studio-heading h1{font-size:clamp(2.6rem,5vw,4.5rem);letter-spacing:-.055em;line-height:.98;margin:8px 0 12px}
 .theme-studio-heading>div:first-child>p:last-child{max-width:650px;color:var(--muted);line-height:1.65;margin:0}
