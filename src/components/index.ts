@@ -230,5 +230,6 @@ export * from "./VisuallyHidden";
 export * from "./darkTheme";
 export * from "./lightTheme";
 export * from "./useFilteredData";
+export * from "./useScrollBackToTop";
 export * from "./useTheme";
 export * from "./useToast";

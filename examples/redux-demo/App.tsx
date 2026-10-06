@@ -2,8 +2,10 @@ import * as React from "react";
 const TlpsWorkflow = React.lazy(() => import("./TlpsWorkflow").then(module => ({ default: module.TlpsWorkflow })));
 const TlpsSurfaces = React.lazy(() => import("./TlpsSurfaces").then(module => ({ default: module.TlpsSurfaces })));
 const ThemeStudio = React.lazy(() => import("./ThemeStudio").then(module => ({ default: module.ThemeStudio })));
+const BrahminiWorkbench = React.lazy(() => import("./BrahminiWorkbench").then(module => ({ default: module.BrahminiWorkbench })));
 import { STUDIO_ACTIVE_KEY, applyThemeTokens, parseActiveTheme } from "./themeStudioModel";
 import { MaataaReduxProvider } from "@maataa/ui/redux/MaataaReduxProvider";
+import { useAutoHideNavbar } from "@maataa/ui/hooks";
 import { createMaataaStore } from "@maataa/ui/redux/store";
 import { useMaataaDispatch, useMaataaSelector } from "@maataa/ui/redux/hooks";
 import { uiActions } from "@maataa/ui/redux/slices/uiSlice";
@@ -28,6 +30,7 @@ import {
   selectComposerCanRedo,
 } from "@maataa/ui/redux/selectors/builderSelectors";
 import { DEMO_SCENARIOS } from "@maataa/ui/demo/scenarios";
+import { DEMO_ROUTES } from "@maataa/ui/demo/routes";
 import {
   PUBLIC_SURFACE_DOC_SECTIONS,
   PUBLIC_SURFACE_HELP_TOPICS,
@@ -79,6 +82,8 @@ import { createProductPageSlice, type ProductPageContext } from "./productPageSl
 import { createWorkspaceDataSlice } from "./workspaceDataSlices";
 import { createLayoutDataSlice } from "./layoutDataSlices";
 import { createAISpaceDataSlice, createDeviceDataSlice, createGeneratorDataSlice, createToolDataSlice } from "./catalogDataSlices";
+import { DemoExperience } from "./DemoExperiences";
+import { deleteComposition, duplicateComposition, loadCompositionLibrary, saveComposition, writeCompositionLibrary, type CompositionLibraryV1 } from "./compositionLibrary";
 
 const money = new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
 
@@ -215,6 +220,7 @@ function CodeBlock({ code, label = "Code" }: { code: string; label?: string }) {
 function Shell({ route, navigate, children }: { route: string; navigate: (path: string) => void; children: React.ReactNode }) {
   const [open, setOpen] = React.useState(false);
   const [settingsOpen, setSettingsOpen] = React.useState(false);
+  const { isHidden: navbarHidden, reveal: revealNavbar } = useAutoHideNavbar({ enabled: !open && !settingsOpen });
   const dispatch = useMaataaDispatch();
   const ui = useMaataaSelector(selectUI);
   const locale: DemoLocale = ui.locale === "hi-IN" ? "hi-IN" : "en-IN";
@@ -243,7 +249,7 @@ function Shell({ route, navigate, children }: { route: string; navigate: (path: 
   }, [settingsOpen]);
   const routeLabel = (id: string, label: string) => locale === "hi-IN" ? HINDI_ROUTE_LABELS[id] ?? label : label;
   return <div className="site-shell" data-demo-theme={resolvedTheme} data-locale={locale} data-maataa-demo-ready="true">
-    <header className="site-header">
+    <header className="site-header" data-hidden={navbarHidden ? "true" : undefined} onFocusCapture={revealNavbar}>
       <button className="brand-button" onClick={() => navigate("/")} aria-label={copy.home}>
         <IdentityAvatar identity="IDENTITY.BRAHMINI" size={34}/><span><strong>MAATAA UI</strong><small>Alpha 8</small></span>
       </button>
@@ -265,6 +271,7 @@ function Shell({ route, navigate, children }: { route: string; navigate: (path: 
       <div className="header-actions"><button className="ghost-button" onClick={() => navigate("/playground")}><MaataaIcon name="playground"/> {copy.playground}</button><button className="gold-button" onClick={() => navigate("/demos")}><MaataaIcon name="demos"/> {copy.openDemo}</button></div>
     </header>
     <main>{children}</main>
+    {!route.startsWith("/brahmini") && <button className="brahmini-global-trigger" type="button" onClick={() => navigate(`/brahmini?from=${encodeURIComponent(route)}`)} aria-label="Open Brahmini help and product assistant"><IdentityAvatar identity="IDENTITY.BRAHMINI" size={30}/><span>Brahmini</span></button>}
     <footer className="site-footer">
       <div><strong>MAATAA UI</strong><p>{copy.footer}</p></div>
       <div className="footer-links">{PUBLIC_SURFACE_ROUTES.map((item) => <button key={item.id} onClick={() => navigate(item.path)}>{routeLabel(item.id, item.label)}</button>)}</div>
@@ -308,7 +315,7 @@ function Landing({ navigate }: { navigate: (path: string) => void }) {
       </div>
     </section>
 
-    <section className="content-section identity-showcase"><SectionHeading kicker="Demo identities" title="A symbolic identity constellation for the demo" body="Brahmini, Shiv, Parvati, the Saptarishis and Panchtatva identities replace anonymous placeholder users and give demo activity a consistent visual language."/><div className="identity-showcase-grid">{DEMO_IDENTITIES.map((identity)=><article key={identity.id}><IdentityAvatar identity={identity.id} size={58}/><div><strong>{identity.name}</strong><span>{identity.title}</span><small>{identity.demoRole}</small></div></article>)}</div><p className="demo-muted">These software roles are symbolic demo metaphors only; they are not theological claims.</p></section>
+    <section className="content-section identity-showcase"><div className="section-heading"><h2>Named roles that do real product work</h2><p>Each identity maps to an executable agent role in Brahmini Workbench: research, architecture, experience, engineering, quality, governance, operations, data, platform and communications.</p></div><div className="identity-showcase-grid">{DEMO_IDENTITIES.map((identity)=><article key={identity.id}><IdentityAvatar identity={identity.id} size={58}/><div><strong>{identity.name}</strong><span>{identity.title}</span><small>{identity.demoRole}</small></div></article>)}</div><p className="demo-muted">Agent roles act only when you start a run. They use the provider assigned in Brahmini Workbench; proposals do not edit or deploy the product.</p><button className="gold-button" onClick={()=>navigate("/brahmini?from=%2F")}>Open Brahmini Workbench</button></section>
 
     <section className="content-section final-cta"><div><div className="demo-kicker">Start building</div><h2>Use MAATAA UI as a package, a visual reference, or a living composition laboratory.</h2></div><div className="hero-actions"><button className="ghost-button" onClick={() => navigate("/docs")}>Read docs</button><button className="gold-button" onClick={() => navigate("/playground")}>Launch Playground</button></div></section>
   </>;
@@ -577,10 +584,24 @@ function Sandbox() {
   const [mode, setMode] = React.useState<"compose"|"preview"|"json">("compose");
   const [draft, setDraft] = React.useState(JSON.stringify(scene, null, 2));
   const [error, setError] = React.useState<string|null>(null);
+  const [library, setLibrary] = React.useState<CompositionLibraryV1>(() => {
+    try { const loaded = loadCompositionLibrary(window.localStorage); if (loaded.migrated) writeCompositionLibrary(window.localStorage, loaded.library); return loaded.library; }
+    catch { return { schemaVersion: "maataa.composition-library.v1", items: [] }; }
+  });
+  const [savedId, setSavedId] = React.useState("");
+  const [saveName, setSaveName] = React.useState(scene.name);
+  const [libraryNotice, setLibraryNotice] = React.useState("");
   React.useEffect(()=>setDraft(JSON.stringify(scene,null,2)),[scene]);
+  const updateLibrary = (next:CompositionLibraryV1) => { try { writeCompositionLibrary(window.localStorage,next); setLibrary(next); setLibraryNotice("Saved in this browser · library v1"); } catch (reason) { setLibraryNotice(reason instanceof Error ? reason.message : "Browser storage is unavailable."); } };
+  const saveAsNew = () => { try { const next=saveComposition(library,scene,saveName); updateLibrary(next); setSavedId(next.items.at(-1)?.id??""); } catch(reason) { setLibraryNotice(reason instanceof Error?reason.message:"Composition could not be saved."); } };
+  const updateSaved = () => { if(!savedId){saveAsNew();return;} try { const next=saveComposition(library,scene,saveName,new Date(),savedId); updateLibrary(next); } catch(reason) { setLibraryNotice(reason instanceof Error?reason.message:"Composition could not be updated."); } };
+  const loadSaved = () => { const item=library.items.find(entry=>entry.id===savedId); if(!item){setLibraryNotice("Choose a saved composition first.");return;} dispatch(builderActions.setScene(item.scene)); setSaveName(item.name); setLibraryNotice(`Loaded ${item.name} · composition schema ${item.scene.schemaVersion}`); };
+  const duplicateSaved = () => { try { const next=duplicateComposition(library,savedId); updateLibrary(next); const copy=next.items.at(-1); if(copy){setSavedId(copy.id);setSaveName(copy.name);} } catch(reason) { setLibraryNotice(reason instanceof Error?reason.message:"Composition could not be duplicated."); } };
+  const removeSaved = () => { if(!savedId)return; const next=deleteComposition(library,savedId); updateLibrary(next); setSavedId(""); setSaveName(scene.name); };
   const applyJson=()=>{try{const parsed=parseCompositionInput(draft);dispatch(builderActions.setScene(parsed));setError(null)}catch(reason){setError(reason instanceof Error?reason.message:"Invalid JSON")}};
   return <section className="page-section">
     <SectionHeading kicker="MAATAA Visual Composer" title="Compose real package components" body="Drag or add package-owned blocks, reorder them on canvas, edit props, switch workspace/page/layout/device/state context, undo/redo, persist locally, and preview the resulting canonical composition." />
+    <section className="composer-library" aria-labelledby="composer-library-title"><div><h2 id="composer-library-title">Composition library</h2><p>Named local snapshots · versioned schema · safe reopen and legacy-scene migration</p></div><label>Saved compositions<select aria-label="Saved compositions" value={savedId} onChange={event=>{setSavedId(event.target.value);const item=library.items.find(entry=>entry.id===event.target.value);if(item)setSaveName(item.name);}}><option value="">Choose a saved composition</option>{library.items.map(item=><option key={item.id} value={item.id}>{item.name} · v{item.scene.schemaVersion}</option>)}</select></label><label>Composition name<input aria-label="Composition name" value={saveName} maxLength={120} onChange={event=>setSaveName(event.target.value)}/></label><div className="composer-library-actions"><button className="gold-button" type="button" onClick={saveAsNew}>Save as new</button><button className="ghost-button" type="button" onClick={updateSaved}>Update selected</button><button className="ghost-button" type="button" disabled={!savedId} onClick={loadSaved}>Open</button><button className="ghost-button" type="button" disabled={!savedId} onClick={duplicateSaved}>Duplicate</button><button className="ghost-button" type="button" disabled={!savedId} onClick={removeSaved}>Delete</button></div>{libraryNotice&&<p role="status">{libraryNotice}</p>}</section>
     <div className="composer-mode-tabs"><button data-active={mode==="compose"} onClick={()=>setMode("compose")}>Composer</button><button data-active={mode==="preview"} onClick={()=>setMode("preview")}>Responsive preview</button><button data-active={mode==="json"} onClick={()=>setMode("json")}>Scene JSON</button><span>Selected: {selectedBlock?.id ?? "none"}</span></div>
     {mode==="compose" && <VisualComposer scene={scene} selectedBlockId={selectedBlock?.id??null} canUndo={canUndo} canRedo={canRedo} onSceneChange={(next)=>dispatch(builderActions.setScene(next))} onSelectBlock={(id)=>dispatch(builderActions.selectBlock(id))} onUndo={()=>dispatch(builderActions.undo())} onRedo={()=>dispatch(builderActions.redo())}/>} 
     {mode==="preview" && <div className="composer-preview-grid"><ResponsiveDeviceRuntime deviceId={scene.deviceId}><CanonicalCompositionRuntime scene={scene}/></ResponsiveDeviceRuntime><ResponsiveDeviceRuntime deviceId="DEVICE.PHONES.SMARTPHONE" orientation="portrait"><CanonicalCompositionRuntime scene={{...scene,deviceId:"DEVICE.PHONES.SMARTPHONE"}}/></ResponsiveDeviceRuntime></div>}
@@ -588,10 +609,9 @@ function Sandbox() {
   </section>;
 }
 
-function DemoDashboard() {
+function DemoDashboard({ route, navigate }: { route: string; navigate: (path: string) => void }) {
   const dispatch = useMaataaDispatch();
   const scenario = useMaataaSelector(selectDemoScenario);
-  const unread = useMaataaSelector(selectUnreadNotificationCount);
   const workspace = useMaataaSelector(selectWorkspace);
   const page = useMaataaSelector(selectPage);
   const layout = useMaataaSelector(selectLayout);
@@ -599,23 +619,21 @@ function DemoDashboard() {
   const generator = useMaataaSelector(selectGenerator);
   const tool = useMaataaSelector(selectTool);
   const ai = useMaataaSelector(selectAI);
-  const compositionJson = JSON.stringify({workspace:workspace.activeWorkspaceTypeId,page:page.activePageTypeId,layout:layout.activeLayoutTypeId,device:device.deviceId,generator:generator.selectedGeneratorId,tool:tool.selectedToolId,aiSpace:ai.activeSpaceId},null,2);
+  const standalone = DEMO_ROUTES.find((item) => item.path === route);
+  const activeScenario = standalone ? DEMO_SCENARIOS.find((item) => item.id === standalone.scenarioId) ?? scenario : scenario;
+  React.useEffect(() => {
+    if (standalone && scenario.id !== standalone.scenarioId) dispatch(demoActions.activateScenario(standalone.scenarioId));
+  }, [dispatch, scenario.id, standalone]);
+  const scenarioPath = (scenarioId: string) => DEMO_ROUTES.find((item) => item.scenarioId === scenarioId)?.path ?? "/demos";
+  const isTlps = activeScenario.id === "scenario-tlps";
   return <section className="page-section">
-    <SectionHeading kicker="Demos" title="Deterministic Redux scenario hub" body="Scenario switching updates workspace, page, layout, device, generator, tool, and AI-space state from canonical IDs." />
-    <div className="scenario-grid">{DEMO_SCENARIOS.map((item) => <button className="scenario-card" data-active={item.id === scenario.id} key={item.id} onClick={() => dispatch(demoActions.activateScenario(item.id))}><strong>{item.name}</strong><span>{item.description}</span></button>)}</div>
-    {scenario.id === "scenario-tlps" && <p className="tlps-dashboard-links"><a className="gold-button" href="#/tlps">TLPS public overview</a><a className="ghost-button" href="#/tlps/onboarding">Guided onboarding</a><a className="text-link" href="#/tlps-workflow">Open workflow preview →</a></p>}
-    <div className="demo-dashboard-header"><div className="demo-dashboard-identity"><IdentityAvatar identity="IDENTITY.BRAHMINI" size={58}/><div><div className="demo-kicker">Active scenario</div><h2>{scenario.name}</h2><p>{scenario.description}</p></div></div><div className="header-copy-group"><IdentityAvatarGroup identities={["IDENTITY.SHIV","IDENTITY.PARVATI","IDENTITY.SAPTARISHI.GAUTAMA","IDENTITY.PANCHTATVA.AGNI"]} size={30}/><span className="demo-badge">{unread} unread</span><CopyButton text={compositionJson} label="Copy composition"/></div></div>
-    <div className="metrics-grid compact"><Stat value={PAGE_TYPES.length} label="pages"/><Stat value={WORKSPACE_TYPES.length} label="workspaces"/><Stat value={LAYOUT_TYPES.length} label="layouts"/><Stat value={DEVICE_REGISTRY.length} label="devices"/></div>
-    <div className="demo-grid">
-      <article className="demo-card wide"><h2>Active composition</h2><ul className="demo-list"><li className="demo-row"><span>Workspace</span><span className="demo-code">{workspace.activeWorkspaceTypeId}</span></li><li className="demo-row"><span>Page</span><span className="demo-code">{page.activePageTypeId}</span></li><li className="demo-row"><span>Layout</span><span className="demo-code">{layout.activeLayoutTypeId}</span></li><li className="demo-row"><span>Device</span><span className="demo-code">{device.deviceId}</span></li><li className="demo-row"><span>Generator</span><span className="demo-code">{generator.selectedGeneratorId ?? "None"}</span></li><li className="demo-row"><span>Tool</span><span className="demo-code">{tool.selectedToolId ?? "None"}</span></li><li className="demo-row"><span>AI space</span><span className="demo-code">{ai.activeSpaceId ?? "None"}</span></li></ul></article>
-      <article className="demo-card wide"><h2>Finance demo</h2><ul className="demo-list"><li className="demo-row"><span>Cash available</span><strong>{money.format(DEMO_FINANCE_KPIS.cashAvailable)}</strong></li><li className="demo-row"><span>Committed cost</span><strong>{money.format(DEMO_FINANCE_KPIS.committedCost)}</strong></li><li className="demo-row"><span>Event budget</span><strong>{money.format(DEMO_FINANCE_KPIS.eventBudget)}</strong></li><li className="demo-row"><span>Approvals pending</span><strong>{DEMO_FINANCE_KPIS.approvalsPending}</strong></li></ul></article>
-      <article className="demo-card wide"><h2>Projects</h2><ul className="demo-list">{DEMO_PROJECTS.slice(0, 4).map((project) => <li key={project.id}><div className="demo-row"><span>{project.name}</span><strong>{project.progress}%</strong></div><div className="demo-progress"><span style={{ width: `${project.progress}%` }} /></div></li>)}</ul></article>
-      <article className="demo-card wide"><h2>AI evaluations</h2><ul className="demo-list">{DEMO_EVALUATIONS.map((evaluation) => <li className="demo-row" key={evaluation.id}><span>{evaluation.name}</span><strong>{Math.round(evaluation.score * 100)}%</strong></li>)}</ul></article>
-      <article className="demo-card full"><h2>Static event data</h2><div className="table-scroll"><table className="demo-table"><thead><tr><th>Event</th><th>City</th><th>Status</th><th>Guests</th><th>Budget</th></tr></thead><tbody>{DEMO_EVENTS.map((event) => <tr key={event.id}><td>{event.name}</td><td>{event.city}</td><td>{event.status}</td><td>{event.guests}</td><td>{money.format(event.budget)}</td></tr>)}</tbody></table></div></article>
-      <article className="demo-card wide"><h2>Tasks</h2><ul className="demo-list">{DEMO_TASKS.map((task) => <li className="demo-row" key={task.id}><span>{task.name}</span><span>{task.status} · {task.priority}</span></li>)}</ul></article>
-      <article className="demo-card wide"><h2>Demo identities</h2><div className="identity-card-grid">{DEMO_USERS.slice(0,8).map((user)=><div key={user.id}><IdentityBadge identity={user.identityId} size={32} showRole/></div>)}</div></article>
-      <article className="demo-card wide"><h2>Agents</h2><ul className="demo-list">{DEMO_AGENTS.map((agent) => <li className="demo-row" key={agent.id}><span>{agent.identityId ? <IdentityBadge identity={agent.identityId} size={28}/> : agent.name}</span><span>{agent.status}</span></li>)}</ul></article>
+    {standalone ? <div className="experience-return"><button className="text-link" onClick={() => navigate("/demos")}>← All demos</button><span>Sample workspace and local interactions</span></div> : <SectionHeading kicker="Seven guided experiences" title="Choose a demo to explore" body="Each demo opens its own interactive flow, uses labeled sample data, and keeps changes local to this browser." />}
+    {!standalone && <div className="scenario-grid">{DEMO_SCENARIOS.map((item) => <button className="scenario-card" data-active={item.id === activeScenario.id} key={item.id} onClick={() => { dispatch(demoActions.activateScenario(item.id)); navigate(scenarioPath(item.id)); }}><strong>{item.name}</strong><span>{item.description}</span><span className="scenario-open-label">Open experience →</span></button>)}</div>}
+    <div className="independent-demo" key={activeScenario.id}>
+      {isTlps ? <React.Suspense fallback={<p role="status">Loading TLPS workflow…</p>}><TlpsWorkflow /></React.Suspense> : <DemoExperience scenarioId={activeScenario.id as "scenario-ui" | "scenario-nevo" | "scenario-spatial" | "scenario-ai" | "scenario-mobile" | "scenario-control"} />}
     </div>
+    <article className="demo-card wide experience-composition"><h2>Active composition</h2><ul className="demo-list"><li className="demo-row"><span>Workspace</span><span className="demo-code">{workspace.activeWorkspaceTypeId}</span></li><li className="demo-row"><span>Page</span><span className="demo-code">{page.activePageTypeId}</span></li><li className="demo-row"><span>Layout</span><span className="demo-code">{layout.activeLayoutTypeId}</span></li><li className="demo-row"><span>Device</span><span className="demo-code">{device.deviceId}</span></li><li className="demo-row"><span>Generator</span><span className="demo-code">{generator.selectedGeneratorId ?? "None"}</span></li><li className="demo-row"><span>Tool</span><span className="demo-code">{tool.selectedToolId ?? "None"}</span></li><li className="demo-row"><span>AI space</span><span className="demo-code">{ai.activeSpaceId ?? "None"}</span></li></ul></article>
+    {isTlps && <p className="tlps-dashboard-links"><a className="gold-button" href="#/tlps">TLPS public overview</a><a className="ghost-button" href="#/tlps/onboarding">Guided onboarding</a><a className="text-link" href="#/tlps-workflow">Open workflow on its own page →</a></p>}
   </section>;
 }
 
@@ -645,9 +663,9 @@ function Docs() {
       <article className="doc-article"><h3>Direct imports</h3><p>Use explicit public subpaths to keep package boundaries understandable and tree-shakable.</p><CodeBlock code={codeExamples.component}/></article>
       <article className="doc-article" id="docs-redux"><h3>Redux demo state</h3><p>Redux is optional. The demo layer includes {REDUX_SLICE_REGISTRY.length} slices and {REDUX_SELECTOR_REGISTRY.length} registered selectors.</p><CodeBlock code={codeExamples.redux}/></article>
       <article className="doc-article" id="docs-registries"><h3>Registries</h3><p>The package exposes canonical catalogs rather than requiring consumers to duplicate their own surface vocabulary.</p><CodeBlock code={codeExamples.registries}/></article>
-      <article className="doc-article" id="docs-identities"><h3>Icons & symbolic demo identities</h3><p>{DEMO_IDENTITIES.length} symbolic demo identities and {ICON_REGISTRY.length} core vector icons are available. Identity software roles are demo metaphors, not theological claims.</p><CodeBlock code={codeExamples.identity}/><div style={{marginTop:16}}><IdentityAvatarGroup identities={DEMO_IDENTITIES.map((entry)=>entry.id)} size={36} max={15}/></div></article>
+      <article className="doc-article" id="docs-identities"><h3>Identity-backed working agents</h3><p>{DEMO_IDENTITIES.length} named software roles can be assigned provider-backed work in Brahmini Workbench. The identity registry still supplies display names and visual treatment; the Workbench supplies each role's task, prompt and provider assignment. {ICON_REGISTRY.length} core vector icons are also available.</p><CodeBlock code={codeExamples.identity}/><div style={{marginTop:16}}><IdentityAvatarGroup identities={DEMO_IDENTITIES.map((entry)=>entry.id)} size={36} max={15}/></div><div className="doc-actions"><a href="#/brahmini">Open Brahmini Workbench</a></div></article>
       <article className="doc-article" id="docs-devices"><h3>Devices & responsive</h3><p>{DEVICE_REGISTRY.length} canonical device definitions are available for visual simulation and responsive metadata. A declared frame is not a claim of real-device certification.</p></article>
-      <article className="doc-article" id="docs-ai"><h3>AI surfaces</h3><p>{AI_SPACE_REGISTRY.length} AI spaces and {TOOL_REGISTRY.length} tools define host-neutral UI vocabulary. Actual model/tool execution remains outside the package.</p></article>
+      <article className="doc-article" id="docs-ai"><h3>AI surfaces</h3><p>{AI_SPACE_REGISTRY.length} AI spaces and {TOOL_REGISTRY.length} tools define host-neutral UI vocabulary. The optional Brahmini demo host connects to local Ollama, Anthropic, or Gemini through its local runtime; model execution remains outside the @maataa/ui package.</p><div className="doc-actions"><a href="#/brahmini">Configure providers and agents</a></div></article>
       <article className="doc-article" id="docs-theming"><h3>Theming</h3><p>Theme Studio edits the package CSS custom properties for semantic colors, font stacks, type scale, spacing density, surface style, radius, shadows, animation timing, reduced motion and focus rings. Apply a theme locally, save it in this browser, or export CSS variables and JSON. Custom font stacks use fonts available to the host application.</p></article>
       <article className="doc-article" id="docs-accessibility"><h3>Accessibility</h3><p>Keyboard, focus, semantics, contrast and reduced-motion behavior are required certification dimensions; demo presence alone is not certification.</p></article>
     </div>
@@ -659,7 +677,7 @@ function Help({ navigate }: { navigate: (path: string) => void }) {
   return <section className="page-section"><SectionHeading kicker="Help center" title="Find answers quickly" body="Setup, visual explorer, playground, sandbox and package-usage guidance." />
     <div className="help-actions"><button onClick={() => navigate("/surface")}>Full Surface</button><button onClick={() => navigate("/playground")}>Playground</button><button onClick={() => navigate("/sandbox")}>Sandbox</button><button onClick={() => navigate("/docs")}>Documentation</button><button onClick={() => navigate("/support")}>Support</button></div>
     <div className="faq-list">{PUBLIC_SURFACE_HELP_TOPICS.map((topic) => <article key={topic.id} className="faq-item" data-open={open === topic.id}><button onClick={() => setOpen(open === topic.id ? null : topic.id)} aria-expanded={open === topic.id}><span>{topic.title}</span><span>{open === topic.id ? '−' : '+'}</span></button>{open === topic.id && <p>{topic.body}</p>}</article>)}</div>
-    <div className="help-grid"><article><h3>Package architecture</h3><p>Use Full Surface to verify whether a page, layout, device, generator, tool or AI space already exists before creating another identity.</p></article><article><h3>Runtime boundary</h3><p>The demo is deterministic and local. Identity, authorization, APIs, databases, live AI and external providers must be bound by the host application.</p></article><article><h3>Certification</h3><p>Distinguish declared, simulated, tested and certified support. Catalog coverage is not equivalent to runtime/browser/device certification.</p></article></div>
+    <div className="help-grid"><article><h3>Package architecture</h3><p>Use Full Surface to verify whether a page, layout, device, generator, tool or AI space already exists before creating another identity.</p></article><article><h3>Runtime boundary</h3><p>The package stays provider-neutral. Brahmini's optional local demo runtime can call Ollama, Anthropic and Gemini; production identity, authorization, persistence and integrations remain host responsibilities.</p></article><article><h3>Certification</h3><p>Distinguish declared, simulated, tested and certified support. Catalog coverage is not equivalent to runtime/browser/device certification.</p><button className="text-link" onClick={()=>navigate("/brahmini?from=%2Fhelp")}>Ask Brahmini →</button></article></div>
   </section>;
 }
 
@@ -693,7 +711,8 @@ function AppBody() {
   else if (route.startsWith("/surface")) content = <SurfaceExplorer/>;
   else if (route.startsWith("/playground")) content = <Playground/>;
   else if (route.startsWith("/sandbox")) content = <Sandbox/>;
-  else if (route.startsWith("/demos")) content = <DemoDashboard/>;
+  else if (route.startsWith("/demos") || route === "/demo" || route.startsWith("/demo/")) content = <DemoDashboard route={route} navigate={navigate}/>;
+  else if (route.startsWith("/brahmini")) content = <React.Suspense fallback={<section className="page-section"><p role="status">Opening Brahmini Workbench…</p></section>}><BrahminiWorkbench navigate={navigate} sourceRoute={route}/></React.Suspense>;
   else if (route.startsWith("/docs")) content = <Docs/>;
   else if (route.startsWith("/help")) content = <Help navigate={navigate}/>;
   else if (route.startsWith("/support")) content = <Support/>;

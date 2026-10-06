@@ -100,7 +100,7 @@
     },
     {
       "path": "src/demo/publicSurface.ts",
-      "sha256": "aa08ab4c2060806a302f197d857f2b9503c2724f133ffc477dc9c3720be3fdf1"
+      "sha256": "e1b5cf7ba7f3ba17f9c905603d00c8adfd9a75f569218ee419a4b49e6b2eccbb"
     },
     {
       "path": "src/demo/routes.ts",

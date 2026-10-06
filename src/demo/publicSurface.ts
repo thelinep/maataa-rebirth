@@ -23,10 +23,10 @@ export const PUBLIC_SURFACE_DOC_SECTIONS = [
   { id: "surface", title: "Live surface explorer", summary: "Select catalog records and inspect visual preview, metadata and copyable code." },
   { id: "playground", title: "Playground", summary: "Interactively tune theme, density, radius and device width while previewing MAATAA components." },
   { id: "sandbox", title: "Sandbox", summary: "Compose a safe isolated scene, edit JSON configuration and copy generated JSX." },
-  { id: "redux", title: "Redux demo state", summary: "16 typed slices, selectors, listeners, preloaded static scenarios and demo state." },
+  { id: "redux", title: "Redux demo state", summary: "Optional typed demo slices, selectors, listeners, preloaded scenarios and interaction state." },
   { id: "registries", title: "Registry system", summary: "Governed catalogs for UI, devices, AI, generators, tools, Redux and demo data." },
   { id: "devices", title: "Device system", summary: "187 device definitions plus viewport, input, orientation, capability, safe-area and transformation metadata." },
-  { id: "identities", title: "Icons & demo identities", summary: "Symbolic Brahmini, Shiv, Parvati, Saptarishi and Panchtatva personas plus MAATAA core vector icons." },
+  { id: "identities", title: "Icons & working agents", summary: "Fifteen named software identities map to task prompts and provider assignments in the optional Brahmini Workbench, alongside MAATAA core vector icons." },
   { id: "ai", title: "AI surfaces", summary: "AI spaces, agents, prompts, models, knowledge, evaluation, safety and evidence-oriented UI vocabulary." },
   { id: "theming", title: "Theming", summary: "Tokens, themes and interaction rules, including static-at-rest gold glare." },
   { id: "accessibility", title: "Accessibility", summary: "Keyboard, focus, contrast, reduced-motion and semantic requirements." }
@@ -39,10 +39,10 @@ export const PUBLIC_SURFACE_HELP_TOPICS = [
   { id: "sandbox", title: "Use the Sandbox", body: "Open Sandbox to add/remove composition blocks, edit the JSON scene spec, apply it safely, and copy generated JSX or JSON." },
   { id: "build-demo", title: "Build the demo", body: "Run pnpm demo:build to create a production Vite build of the public/demo surface." },
   { id: "imports", title: "Use direct imports", body: "Prefer explicit public subpaths such as @maataa/ui/actions/Button or @maataa/ui/layouts/HolyGrailLayout." },
-  { id: "identity-avatars", title: "Use icons and demo avatars", body: "Import IdentityAvatar from @maataa/ui/identity/IdentityAvatar and MaataaIcon from @maataa/ui/icons/MaataaIcon. The named identities are symbolic demo personas only." },
+  { id: "identity-avatars", title: "Use icons and agent identities", body: "Import IdentityAvatar from @maataa/ui/identity/IdentityAvatar and MaataaIcon from @maataa/ui/icons/MaataaIcon. Brahmini Workbench assigns the named software identities to agent roles; avatar components only render their visual identity." },
   { id: "redux", title: "Use Redux optionally", body: "Import createMaataaStore or MaataaReduxProvider from @maataa/ui/redux only when demo/application state is required." },
   { id: "esbuild", title: "pnpm blocks esbuild", body: "Approve esbuild for the project build policy, rebuild it, and rerun pnpm demo." },
-  { id: "authority", title: "UI is not authority", body: "Permissions, identity, APIs, database writes and model/tool execution remain host/runtime responsibilities." }
+  { id: "authority", title: "UI is not authority", body: "Permissions, production identity, APIs, database writes and model/tool execution remain host/runtime responsibilities. The optional local Brahmini demo host can call configured models but does not authorize production actions." }
 ] as const;
 
 export const PUBLIC_SURFACE_SUPPORT_CATEGORIES = [

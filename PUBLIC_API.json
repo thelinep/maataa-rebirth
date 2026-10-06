@@ -2766,6 +2766,12 @@
       "stability": "EXPERIMENTAL"
     },
     {
+      "subpath": "./components/useScrollBackToTop",
+      "source": "src/components/useScrollBackToTop.tsx",
+      "kind": "module",
+      "stability": "EXPERIMENTAL"
+    },
+    {
       "subpath": "./components/useTheme",
       "source": "src/components/useTheme.tsx",
       "kind": "module",
@@ -6102,6 +6108,12 @@
       "stability": "EXPERIMENTAL"
     },
     {
+      "subpath": "./hooks",
+      "source": "src/hooks/index.ts",
+      "kind": "module",
+      "stability": "EXPERIMENTAL"
+    },
+    {
       "subpath": "./icons",
       "source": "src/icons/index.ts",
       "kind": "module",
@@ -7244,6 +7256,12 @@
     {
       "subpath": "./mobile/SyncIndicator",
       "source": "src/mobile/SyncIndicator.tsx",
+      "kind": "module",
+      "stability": "EXPERIMENTAL"
+    },
+    {
+      "subpath": "./mobile/useScrollBackToTop",
+      "source": "src/mobile/useScrollBackToTop.ts",
       "kind": "module",
       "stability": "EXPERIMENTAL"
     },
@@ -20872,6 +20890,15 @@
       ]
     },
     {
+      "name": "PersistentState",
+      "subpath": ".",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/hooks/index.ts"
+      ]
+    },
+    {
       "name": "PersonalWorkspace",
       "subpath": ".",
       "kind": "runtime",
@@ -24112,12 +24139,237 @@
       ]
     },
     {
+      "name": "useAutoHideNavbar",
+      "subpath": ".",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/hooks/index.ts"
+      ]
+    },
+    {
+      "name": "UseAutoHideNavbarOptions",
+      "subpath": ".",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/hooks/index.ts"
+      ]
+    },
+    {
+      "name": "UseAutoHideNavbarResult",
+      "subpath": ".",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/hooks/index.ts"
+      ]
+    },
+    {
+      "name": "useClipboard",
+      "subpath": ".",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/hooks/index.ts"
+      ]
+    },
+    {
+      "name": "UseClipboardResult",
+      "subpath": ".",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/hooks/index.ts"
+      ]
+    },
+    {
+      "name": "useControllableState",
+      "subpath": ".",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/hooks/index.ts"
+      ]
+    },
+    {
+      "name": "UseControllableStateOptions",
+      "subpath": ".",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/hooks/index.ts"
+      ]
+    },
+    {
+      "name": "useDebounce",
+      "subpath": ".",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/hooks/index.ts"
+      ]
+    },
+    {
+      "name": "useEscapeKey",
+      "subpath": ".",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/hooks/index.ts"
+      ]
+    },
+    {
       "name": "useFilteredData",
       "subpath": ".",
       "kind": "runtime",
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/data/index.tsx"
+      ]
+    },
+    {
+      "name": "useIntersectionObserver",
+      "subpath": ".",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/hooks/index.ts"
+      ]
+    },
+    {
+      "name": "UseIntersectionObserverOptions",
+      "subpath": ".",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/hooks/index.ts"
+      ]
+    },
+    {
+      "name": "UseIntersectionObserverResult",
+      "subpath": ".",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/hooks/index.ts"
+      ]
+    },
+    {
+      "name": "useLocalStorage",
+      "subpath": ".",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/hooks/index.ts"
+      ]
+    },
+    {
+      "name": "useMediaQuery",
+      "subpath": ".",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/hooks/index.ts"
+      ]
+    },
+    {
+      "name": "useOnlineStatus",
+      "subpath": ".",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/hooks/index.ts"
+      ]
+    },
+    {
+      "name": "useOutsideClick",
+      "subpath": ".",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/hooks/index.ts"
+      ]
+    },
+    {
+      "name": "usePagination",
+      "subpath": ".",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/hooks/index.ts"
+      ]
+    },
+    {
+      "name": "UsePaginationResult",
+      "subpath": ".",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/hooks/index.ts"
+      ]
+    },
+    {
+      "name": "usePrevious",
+      "subpath": ".",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/hooks/index.ts"
+      ]
+    },
+    {
+      "name": "useResizeObserver",
+      "subpath": ".",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/hooks/index.ts"
+      ]
+    },
+    {
+      "name": "UseResizeObserverResult",
+      "subpath": ".",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/hooks/index.ts"
+      ]
+    },
+    {
+      "name": "useScrollBackToTop",
+      "subpath": ".",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/mobile/useScrollBackToTop.ts"
+      ]
+    },
+    {
+      "name": "UseScrollBackToTopOptions",
+      "subpath": ".",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/mobile/useScrollBackToTop.ts"
+      ]
+    },
+    {
+      "name": "UseScrollBackToTopResult",
+      "subpath": ".",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/mobile/useScrollBackToTop.ts"
+      ]
+    },
+    {
+      "name": "useSessionStorage",
+      "subpath": ".",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/hooks/index.ts"
       ]
     },
     {
@@ -36559,6 +36811,33 @@
       ]
     },
     {
+      "name": "useScrollBackToTop",
+      "subpath": "./components",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/mobile/useScrollBackToTop.ts"
+      ]
+    },
+    {
+      "name": "UseScrollBackToTopOptions",
+      "subpath": "./components",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/mobile/useScrollBackToTop.ts"
+      ]
+    },
+    {
+      "name": "UseScrollBackToTopResult",
+      "subpath": "./components",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/mobile/useScrollBackToTop.ts"
+      ]
+    },
+    {
       "name": "useTheme",
       "subpath": "./components",
       "kind": "runtime",
@@ -39538,6 +39817,33 @@
       ]
     },
     {
+      "name": "useScrollBackToTop",
+      "subpath": "./components/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/mobile/useScrollBackToTop.ts"
+      ]
+    },
+    {
+      "name": "UseScrollBackToTopOptions",
+      "subpath": "./components/index",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/mobile/useScrollBackToTop.ts"
+      ]
+    },
+    {
+      "name": "UseScrollBackToTopResult",
+      "subpath": "./components/index",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/mobile/useScrollBackToTop.ts"
+      ]
+    },
+    {
       "name": "useTheme",
       "subpath": "./components/index",
       "kind": "runtime",
@@ -40768,6 +41074,33 @@
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/data/index.tsx"
+      ]
+    },
+    {
+      "name": "useScrollBackToTop",
+      "subpath": "./components/useScrollBackToTop",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/mobile/useScrollBackToTop.ts"
+      ]
+    },
+    {
+      "name": "UseScrollBackToTopOptions",
+      "subpath": "./components/useScrollBackToTop",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/mobile/useScrollBackToTop.ts"
+      ]
+    },
+    {
+      "name": "UseScrollBackToTopResult",
+      "subpath": "./components/useScrollBackToTop",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/mobile/useScrollBackToTop.ts"
       ]
     },
     {
@@ -68194,6 +68527,240 @@
       ]
     },
     {
+      "name": "PersistentState",
+      "subpath": "./hooks",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/hooks/index.ts"
+      ]
+    },
+    {
+      "name": "useAutoHideNavbar",
+      "subpath": "./hooks",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/hooks/index.ts"
+      ]
+    },
+    {
+      "name": "UseAutoHideNavbarOptions",
+      "subpath": "./hooks",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/hooks/index.ts"
+      ]
+    },
+    {
+      "name": "UseAutoHideNavbarResult",
+      "subpath": "./hooks",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/hooks/index.ts"
+      ]
+    },
+    {
+      "name": "useClipboard",
+      "subpath": "./hooks",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/hooks/index.ts"
+      ]
+    },
+    {
+      "name": "UseClipboardResult",
+      "subpath": "./hooks",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/hooks/index.ts"
+      ]
+    },
+    {
+      "name": "useControllableState",
+      "subpath": "./hooks",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/hooks/index.ts"
+      ]
+    },
+    {
+      "name": "UseControllableStateOptions",
+      "subpath": "./hooks",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/hooks/index.ts"
+      ]
+    },
+    {
+      "name": "useDebounce",
+      "subpath": "./hooks",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/hooks/index.ts"
+      ]
+    },
+    {
+      "name": "useEscapeKey",
+      "subpath": "./hooks",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/hooks/index.ts"
+      ]
+    },
+    {
+      "name": "useIntersectionObserver",
+      "subpath": "./hooks",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/hooks/index.ts"
+      ]
+    },
+    {
+      "name": "UseIntersectionObserverOptions",
+      "subpath": "./hooks",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/hooks/index.ts"
+      ]
+    },
+    {
+      "name": "UseIntersectionObserverResult",
+      "subpath": "./hooks",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/hooks/index.ts"
+      ]
+    },
+    {
+      "name": "useLocalStorage",
+      "subpath": "./hooks",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/hooks/index.ts"
+      ]
+    },
+    {
+      "name": "useMediaQuery",
+      "subpath": "./hooks",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/hooks/index.ts"
+      ]
+    },
+    {
+      "name": "useOnlineStatus",
+      "subpath": "./hooks",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/hooks/index.ts"
+      ]
+    },
+    {
+      "name": "useOutsideClick",
+      "subpath": "./hooks",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/hooks/index.ts"
+      ]
+    },
+    {
+      "name": "usePagination",
+      "subpath": "./hooks",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/hooks/index.ts"
+      ]
+    },
+    {
+      "name": "UsePaginationResult",
+      "subpath": "./hooks",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/hooks/index.ts"
+      ]
+    },
+    {
+      "name": "usePrevious",
+      "subpath": "./hooks",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/hooks/index.ts"
+      ]
+    },
+    {
+      "name": "useResizeObserver",
+      "subpath": "./hooks",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/hooks/index.ts"
+      ]
+    },
+    {
+      "name": "UseResizeObserverResult",
+      "subpath": "./hooks",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/hooks/index.ts"
+      ]
+    },
+    {
+      "name": "useScrollBackToTop",
+      "subpath": "./hooks",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/mobile/useScrollBackToTop.ts"
+      ]
+    },
+    {
+      "name": "UseScrollBackToTopOptions",
+      "subpath": "./hooks",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/mobile/useScrollBackToTop.ts"
+      ]
+    },
+    {
+      "name": "UseScrollBackToTopResult",
+      "subpath": "./hooks",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/mobile/useScrollBackToTop.ts"
+      ]
+    },
+    {
+      "name": "useSessionStorage",
+      "subpath": "./hooks",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/hooks/index.ts"
+      ]
+    },
+    {
       "name": "ICON_REGISTRY",
       "subpath": "./icons",
       "kind": "runtime",
@@ -75331,6 +75898,33 @@
       ]
     },
     {
+      "name": "useScrollBackToTop",
+      "subpath": "./mobile",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/mobile/useScrollBackToTop.ts"
+      ]
+    },
+    {
+      "name": "UseScrollBackToTopOptions",
+      "subpath": "./mobile",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/mobile/useScrollBackToTop.ts"
+      ]
+    },
+    {
+      "name": "UseScrollBackToTopResult",
+      "subpath": "./mobile",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/mobile/useScrollBackToTop.ts"
+      ]
+    },
+    {
       "name": "BottomSheet",
       "subpath": "./mobile/BottomSheet",
       "kind": "runtime",
@@ -75439,6 +76033,33 @@
       ]
     },
     {
+      "name": "useScrollBackToTop",
+      "subpath": "./mobile/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/mobile/useScrollBackToTop.ts"
+      ]
+    },
+    {
+      "name": "UseScrollBackToTopOptions",
+      "subpath": "./mobile/index",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/mobile/useScrollBackToTop.ts"
+      ]
+    },
+    {
+      "name": "UseScrollBackToTopResult",
+      "subpath": "./mobile/index",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/mobile/useScrollBackToTop.ts"
+      ]
+    },
+    {
       "name": "MobileBottomNav",
       "subpath": "./mobile/MobileBottomNav",
       "kind": "runtime",
@@ -75526,6 +76147,33 @@
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/mobile/index.tsx"
+      ]
+    },
+    {
+      "name": "useScrollBackToTop",
+      "subpath": "./mobile/useScrollBackToTop",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/mobile/useScrollBackToTop.ts"
+      ]
+    },
+    {
+      "name": "UseScrollBackToTopOptions",
+      "subpath": "./mobile/useScrollBackToTop",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/mobile/useScrollBackToTop.ts"
+      ]
+    },
+    {
+      "name": "UseScrollBackToTopResult",
+      "subpath": "./mobile/useScrollBackToTop",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/mobile/useScrollBackToTop.ts"
       ]
     },
     {

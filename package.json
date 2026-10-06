@@ -17,6 +17,7 @@
     "COMPONENTS.md",
     "THEMING.md",
     "ACCESSIBILITY.md",
+    "HOOKS.md",
     "MIGRATION.md",
     "CHANGELOG.md",
     "PUBLIC_API.json",
@@ -92,6 +93,10 @@
     "./forms": {
       "types": "./dist/forms/index.d.ts",
       "default": "./dist/forms/index.js"
+    },
+    "./hooks": {
+      "types": "./dist/hooks/index.d.ts",
+      "default": "./dist/hooks/index.js"
     },
     "./navigation": {
       "types": "./dist/navigation/index.d.ts",
@@ -492,6 +497,9 @@
     "demo:manifest": "node scripts/demo-manifest.mjs",
     "validate:demo": "node scripts/validate-demo.mjs",
     "demo": "vite --config examples/redux-demo/vite.config.mjs",
+    "brahmini:runtime": "node examples/redux-demo/brahmini-runtime.mjs",
+    "brahmini:dev": "node scripts/start-brahmini-demo.mjs",
+    "brahmini:preview": "node scripts/start-brahmini-demo.mjs --preview",
     "demo:build": "vite build --config examples/redux-demo/vite.config.mjs",
     "demo:videos": "pnpm demo:build && node scripts/record-demo-videos.mjs",
     "demo:preview": "vite preview --config examples/redux-demo/vite.config.mjs",

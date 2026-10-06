@@ -3,6 +3,7 @@ import { BottomNavigation, TopNav } from "../navigation";
 import { Drawer } from "../surfaces";
 import { FloatingActionButton } from "../actions";
 import { OnlineStatus, SyncStatus } from "../feedback";
+export * from "./useScrollBackToTop";
 export function SafeArea({children,style,...p}:React.HTMLAttributes<HTMLDivElement>){return <div {...p} style={{paddingBlockStart:"env(safe-area-inset-top)",paddingInlineEnd:"env(safe-area-inset-right)",paddingBlockEnd:"env(safe-area-inset-bottom)",paddingInlineStart:"env(safe-area-inset-left)",...style}}>{children}</div>}
 export function MobileShell({header,children,bottomNav}:{header?:React.ReactNode;children:React.ReactNode;bottomNav?:React.ReactNode}){return <SafeArea className="maataa-root" style={{minHeight:"100dvh",display:"grid",gridTemplateRows:"auto 1fr auto"}}>{header}<main>{children}</main>{bottomNav}</SafeArea>}
 export const MobileHeader=TopNav;export const MobileBottomNav=BottomNavigation;export const MobileFAB=FloatingActionButton;

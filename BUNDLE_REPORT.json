@@ -10,17 +10,17 @@
         "maxCssChunkBytes": 180000
       },
       "largestJs": {
-        "file": "demo-dist/assets/maataa-registries-C_d_sb6Y.js",
-        "bytes": 819389
+        "file": "demo-dist/assets/useTheme-zoLunGXX.js",
+        "bytes": 405079
       },
       "largestCss": {
-        "file": "demo-dist/assets/index-C1XP4hJT.css",
-        "bytes": 72374
+        "file": "demo-dist/assets/index-CZnWcepP.css",
+        "bytes": 109382
       },
-      "jsChunks": 89,
-      "cssChunks": 1,
-      "totalJsBytes": 2040176,
-      "totalCssBytes": 72374
+      "jsChunks": 110,
+      "cssChunks": 5,
+      "totalJsBytes": 1920058,
+      "totalCssBytes": 156961
     },
     {
       "name": "storybook",
@@ -34,13 +34,13 @@
         "bytes": 887406
       },
       "largestCss": {
-        "file": "storybook-static/assets/preview-BOvuvoP0.css",
-        "bytes": 31215
+        "file": "storybook-static/assets/preview-DX7ZCmqp.css",
+        "bytes": 33867
       },
-      "jsChunks": 3172,
-      "cssChunks": 1,
-      "totalJsBytes": 7978030,
-      "totalCssBytes": 31215
+      "jsChunks": 6174,
+      "cssChunks": 2,
+      "totalJsBytes": 14479338,
+      "totalCssBytes": 65082
     }
   ]
 }
