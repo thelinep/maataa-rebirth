@@ -12,7 +12,7 @@ const pkg = JSON.parse(
 );
 const archive = JSON.parse(
   fs.readFileSync(
-    path.join(repo, "packages/absorbed-maataa-sources/manifest.json"),
+    path.join(repo, "archives/maataa-ui-source-snapshots/manifest.json"),
     "utf8",
   ),
 );
@@ -102,7 +102,7 @@ function exportedNames(file) {
 }
 
 for (const source of archive.sources) {
-  const root = path.join(repo, "packages/absorbed-maataa-sources", source.id);
+  const root = path.join(repo, "archives/maataa-ui-source-snapshots", source.id);
   if (!fs.existsSync(root)) continue;
   const walk = (directory) => {
     for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
@@ -263,7 +263,7 @@ const report = {
     source: "src/",
     apiManifest: "manifests/PUBLIC_API.json",
   },
-  archiveManifest: "packages/absorbed-maataa-sources/manifest.json",
+  archiveManifest: "archives/maataa-ui-source-snapshots/manifest.json",
   archiveComparison:
     "Named imports missing from the canonical API are checked against exported declarations in the absorbed source snapshots; these are candidates only, not a recommendation to port branded/dependencyful behavior.",
   consumerScope:
@@ -278,7 +278,7 @@ fs.writeFileSync(jsonPath, `${JSON.stringify(report, null, 2)}\n`);
 const lines = [
   "# MAATAA UI export comparison against active consumers",
   "",
-  `Canonical package: \`${pkg.name}@${pkg.version}\` (\`src/\`). The archived source inventory is indexed by [the absorption manifest](../../packages/absorbed-maataa-sources/manifest.json). This scan reads active consumer TS/JS imports and compares named imports and subpaths to the canonical public API manifest; generated output and static assets are excluded.`,
+  `Canonical package: \`${pkg.name}@${pkg.version}\` (\`src/\`). The archived source inventory is indexed by [the absorption manifest](../../archives/maataa-ui-source-snapshots/manifest.json). This scan reads active consumer TS/JS imports and compares named imports and subpaths to the canonical public API manifest; generated output and static assets are excluded.`,
   "",
   "Migration and validation outcomes are tracked in [the consumer migration status matrix](MAATAA_UI_CONSUMER_MIGRATION_STATUS_2026-10-07.md).",
   "",
@@ -330,7 +330,7 @@ fs.writeFileSync(
     repo,
     "docs/knowledge-graph/MAATAA_UI_API_CONSUMER_COMPARISON_2026-10-07.md",
   ),
-  `${lines.join("\n")}\n`,
+  `${lines.join("\n").trimEnd()}\n`,
 );
 console.log(
   `Wrote API comparison for ${results.filter((item) => !item.status).length} active consumers: ${jsonPath}`,

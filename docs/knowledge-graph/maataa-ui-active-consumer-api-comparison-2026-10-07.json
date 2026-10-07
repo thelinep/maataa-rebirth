@@ -6,7 +6,7 @@
     "source": "src/",
     "apiManifest": "manifests/PUBLIC_API.json"
   },
-  "archiveManifest": "packages/absorbed-maataa-sources/manifest.json",
+  "archiveManifest": "archives/maataa-ui-source-snapshots/manifest.json",
   "archiveComparison": "Named imports missing from the canonical API are checked against exported declarations in the absorbed source snapshots; these are candidates only, not a recommendation to port branded/dependencyful behavior.",
   "consumerScope": "Active application source and stories; generated builds, static public assets, and archived snapshots are excluded.",
   "consumers": [

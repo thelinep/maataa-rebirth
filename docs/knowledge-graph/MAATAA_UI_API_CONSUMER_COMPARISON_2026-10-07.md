@@ -1,6 +1,6 @@
 # MAATAA UI export comparison against active consumers
 
-Canonical package: `@maataa/ui@1.0.0-alpha.8.4` (`src/`). The archived source inventory is indexed by [the absorption manifest](../../packages/absorbed-maataa-sources/manifest.json). This scan reads active consumer TS/JS imports and compares named imports and subpaths to the canonical public API manifest; generated output and static assets are excluded.
+Canonical package: `@maataa/ui@1.0.0-alpha.8.4` (`src/`). The archived source inventory is indexed by [the absorption manifest](../../archives/maataa-ui-source-snapshots/manifest.json). This scan reads active consumer TS/JS imports and compares named imports and subpaths to the canonical public API manifest; generated output and static assets are excluded.
 
 Migration and validation outcomes are tracked in [the consumer migration status matrix](MAATAA_UI_CONSUMER_MIGRATION_STATUS_2026-10-07.md).
 

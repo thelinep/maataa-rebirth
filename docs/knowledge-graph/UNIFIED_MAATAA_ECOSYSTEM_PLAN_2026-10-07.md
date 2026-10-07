@@ -6,7 +6,7 @@ Status: executed. **41 folders** were organized into the hub and four domain fam
 
 Use the active `/Users/vesahe/Downloads/maataa-ui-full-alpha7` checkout as the canonical shared React package pointer: `@maataa/ui` 1.0.0-alpha.8.4, observed HEAD `eef053ff`. It had 153 changed paths at inventory time, so preserve it in place and treat the hub as a pointer to the active working tree, not a release certificate.
 
-Keep older package generations separate by version; do not flatten files or merge unrelated Git histories. Their package sources have now also been absorbed into this canonical repository under [`packages/absorbed-maataa-sources/`](../../packages/absorbed-maataa-sources/), with per-file hashes and original Git-state observations. The hub snapshots remain recovery copies. Exact duplicates are recorded as aliases rather than duplicated again. See the [source absorption report](MAATAA_UI_SOURCE_ABSORPTION_2026-10-07.md) for the generation-by-generation ownership boundary.
+Keep older package generations separate by version; do not flatten files or merge unrelated Git histories. Their package sources have now also been absorbed into this canonical repository under [`archives/maataa-ui-source-snapshots/`](../../archives/maataa-ui-source-snapshots/), with per-file hashes and original Git-state observations. The hub snapshots remain recovery copies. Exact duplicates are recorded as aliases rather than duplicated again. See the [source absorption report](MAATAA_UI_SOURCE_ABSORPTION_2026-10-07.md) for the generation-by-generation ownership boundary.
 
 ## Domain layout
 

@@ -8,7 +8,7 @@ New to this repository? Start with [`docs/START-HERE.md`](docs/START-HERE.md) fo
 
 ```text
 src/                         Reusable UI package source
-packages/absorbed-maataa-sources/ Historical MAATAA UI generations, hash-indexed
+archives/maataa-ui-source-snapshots/ Historical MAATAA UI generations, hash-indexed
 examples/redux-demo/         MAATAA product explorer, Theme Studio, Brahmini and pilot demos
 examples/support-center/     Standalone Support Center and Electron desktop shell
 tests/                       Unit, accessibility and browser end-to-end tests
@@ -27,7 +27,7 @@ The repository root keeps the package manager files and tool configs that the cu
 
 For a navigable reconstruction of the product, pilots, Brahmini workbench, authority boundaries and release gates, open the [MAATAA ecosystem knowledge graph](docs/knowledge-graph/).
 
-Historical MAATAA UI package copies have been absorbed into this repository under [`packages/absorbed-maataa-sources/`](packages/absorbed-maataa-sources/), with source provenance and SHA-256 inventories. The canonical shared package remains `src/`; the absorption and consumer-migration boundaries are documented in the [source absorption report](docs/knowledge-graph/MAATAA_UI_SOURCE_ABSORPTION_2026-10-07.md).
+Historical MAATAA UI package copies have been absorbed into this repository under [`archives/maataa-ui-source-snapshots/`](archives/maataa-ui-source-snapshots/), with source provenance and SHA-256 inventories. The canonical shared package remains `src/`; the absorption and consumer-migration boundaries are documented in the [source absorption report](docs/knowledge-graph/MAATAA_UI_SOURCE_ABSORPTION_2026-10-07.md).
 
 This package contains application-agnostic components only. It does **not** provide authentication, authorization, API clients, databases, business workflows, payments, infrastructure provisioning, or application routing.
 

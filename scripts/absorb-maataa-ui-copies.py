@@ -2,7 +2,7 @@
 """Vendor historical MAATAA UI package sources into this repository, read-only.
 
 The active package remains the repository's top-level src/. Historical sources
-are preserved under packages/absorbed-maataa-sources/ for migration and audit;
+are preserved under archives/maataa-ui-source-snapshots/ for migration and audit;
 this script never edits or removes an input tree.
 """
 
@@ -16,7 +16,7 @@ from pathlib import Path
 
 
 REPO = Path(__file__).resolve().parents[1]
-DEST = REPO / "packages" / "absorbed-maataa-sources"
+DEST = REPO / "archives" / "maataa-ui-source-snapshots"
 EXCLUDED = {
     ".git",
     "node_modules",
