@@ -16,6 +16,7 @@ const appScreens = [
   ["app-help", "/help", "Help"],
   ["app-support", "/support", "Support"],
   ["app-theme-studio", "/theme-studio", "Theme Studio"],
+  ["app-branding-studio", "/branding-studio", "Branding Studio"],
   ["app-tlps-overview", "/tlps", "TLPS"],
   ["app-tlps-marketing", "/tlps/marketing", "One operating picture"],
   ["app-tlps-onboarding", "/tlps/onboarding", "Set up your TLPS preview"],
@@ -115,4 +116,66 @@ test("capture TLPS, theme, and component interaction states", async ({ page }) =
   await page.goto("/#/theme-studio", { waitUntil: "domcontentloaded" });
   await page.getByRole("button", { name: "Colors" }).click();
   await capture(page, "state-theme-studio-colors");
+
+  const thesis = "Describe the shared promise and the audiences each domain serves. Keep domain-specific facts in their own evidence-backed briefs.";
+  await page.route("**/api/brahmini/status", route => route.fulfill({ json: { providers: [{ id: "ollama", label: "Local Ollama", configured: true, models: [{ id: "qwen2.5:7b", label: "qwen2.5:7b" }], message: "Screenshot fixture only" }] } }));
+  await page.route("**/api/brahmini/chat", route => route.fulfill({ json: { text: JSON.stringify({ summary: "A source-aware shared direction, ready for review.", suggestions: [{ nodeId: "brand-thesis", field: "content", before: thesis, after: "One source-aware identity system with explicit, reviewed product variations.", reason: "Clarifies shared and domain-specific responsibilities." }] }), provider: "ollama", model: "qwen2.5:7b", modelDigest: "fixture-only" } }));
+  await page.goto("/#/branding-studio", { waitUntil: "domcontentloaded" });
+  await page.getByLabel("Include Shared brand thesis · draft in AI context").check();
+  await page.getByRole("button", { name: /Review & assign/ }).click();
+  await page.getByLabel("What should Brahmini review?").fill("Clarify the relationship between the shared identity system and product-specific variations.");
+  await page.getByRole("button", { name: "Generate review suggestions" }).click();
+  await expect(page.getByRole("heading", { name: "Review model suggestions" })).toBeVisible();
+  await capture(page, "state-branding-ai-suggestions");
+});
+
+test("capture surface examples and verify reusable states across every requested catalogue", async ({ page }) => {
+  await page.goto("/#/surface", { waitUntil: "domcontentloaded" });
+  const preview = page.locator(".surface-preview-canvas");
+  const stateButton = (name: string) => page.getByRole("group", { name: "Preview state" }).getByRole("button", { name });
+  await page.locator(".surface-search input").fill("Button");
+  await expect(page.locator(".preview-pane-head strong")).toHaveText("Button");
+
+  await expect(preview.locator('[data-surface-state="example"]')).toBeVisible();
+  await capture(page, "state-surface-example");
+  await stateButton("Skeleton").click();
+  await expect(preview.locator('[data-surface-state="loading"]')).toBeVisible();
+  await capture(page, "state-surface-skeleton");
+  await stateButton("Empty").click();
+  await expect(preview.locator('[data-surface-state="empty"]')).toBeVisible();
+  await capture(page, "state-surface-empty");
+  await stateButton("Error").click();
+  await expect(preview.locator('[data-surface-state="error"]')).toBeVisible();
+  await capture(page, "state-surface-error");
+  await page.getByRole("button", { name: "Retry example" }).click();
+  await expect(preview.locator('[data-surface-state="example"]')).toBeVisible();
+  await stateButton("Disabled").click();
+  await expect(preview.locator('[data-surface-state="disabled"]')).toBeVisible();
+  await capture(page, "state-surface-disabled");
+  await stateButton("Example").click();
+  await expect(preview.locator('[data-surface-state="example"]')).toBeVisible();
+  await page.locator(".surface-search input").fill("");
+
+  const catalogTabs = page.locator(".catalog-tabs");
+  for (const label of ["Components", "Layouts", "Pages", "Workspaces", "Generators", "AI spaces"]) {
+    await catalogTabs.getByRole("button", { name: new RegExp(`^${label.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\s*\\d*$`) }).click();
+    await expect(preview.locator('[data-surface-state="example"]')).toBeVisible();
+    await stateButton("Skeleton").click();
+    await expect(preview.locator('[data-surface-state="loading"]')).toBeVisible();
+    await stateButton("Empty").click();
+    await expect(preview.locator('[data-surface-state="empty"]')).toBeVisible();
+    await stateButton("Error").click();
+    await expect(preview.locator('[data-surface-state="error"]')).toBeVisible();
+    await stateButton("Disabled").click();
+    await expect(preview.locator('[data-surface-state="disabled"]')).toBeVisible();
+  }
+
+  await catalogTabs.getByRole("button", { name: /^Generators\s*\d*$/ }).click();
+  await stateButton("Example").click();
+  await expect(preview.locator("[data-generator-id]")).toBeVisible();
+  await capture(page, "state-surface-generator");
+  await catalogTabs.getByRole("button", { name: /^AI spaces\s*\d*$/ }).click();
+  await stateButton("Example").click();
+  await expect(preview.locator("[data-ai-space-id]")).toBeVisible();
+  await capture(page, "state-surface-ai-space");
 });

@@ -112,7 +112,7 @@ test("screen directory is reachable and links into the documented app screens", 
   }
   await page.getByRole("navigation", { name: "Main navigation" }).getByRole("link", { name: "Screens", exact: true }).click();
   await expect(page.getByRole("heading", { name: "Application screens" })).toBeVisible();
-  await expect(page.locator(".sc-record-total")).toContainText("13");
+  await expect(page.locator(".sc-record-total")).toContainText("15");
   if (testInfo.project.name === "chromium-desktop") {
     await page.screenshot({ path: path.join(evidenceDirectory, "support-center-screen-directory.png"), fullPage: true, animations: "disabled" });
   }
@@ -129,7 +129,7 @@ test("screen directory is reachable and links into the documented app screens", 
 test("product map covers the full package layers and hook library", async ({ page }) => {
   await page.goto("/#/product-map", { waitUntil: "domcontentloaded" });
   await expect(page.getByRole("heading", { name: "MAATAA UI product map" })).toBeVisible();
-  await expect(page.locator(".sc-record-total")).toContainText("49");
+  await expect(page.locator(".sc-record-total")).toContainText("50");
   for (const layer of ["Components", "Atomic components", "Layout atoms", "Page atoms", "Workspace atoms", "Registry atoms", "Device atoms", "Generator atoms", "Tool atoms", "AI-space atoms", "Pages", "Workspaces", "Layouts", "Devices", "Generators", "Tools", "AI spaces", "Hooks", "Themes and visual tokens", "Redux slices", "Static datasets", "Demo experiences", "Foundation", "Typography", "Actions", "Forms", "Navigation", "Surfaces", "Feedback", "Data display", "Visualization", "Maps", "Mobile", "Page groups", "Workspace groups", "Layout groups", "Generator groups", "Tool groups", "AI-space groups", "Device groups", "Registry UI", "Composer", "Runtime", "Redux middleware"]) {
     await expect(page.locator(".sc-product-row").filter({ hasText: layer }).first()).toBeVisible();
   }
@@ -150,23 +150,23 @@ test("product map covers the full package layers and hook library", async ({ pag
 test("screenshot gallery has working catalogue filters and a keyboard-closeable viewer", async ({ page }) => {
   await page.goto("/#/screenshots", { waitUntil: "domcontentloaded" });
   await expect(page.getByRole("heading", { name: "MAATAA UI screenshots" })).toBeVisible();
-  await expect(page.locator(".sc-record-total")).toContainText("88 of 88 captures");
+  await expect(page.locator(".sc-record-total")).toContainText("108 of 108 captures");
   const sources = await page.locator(".sc-screenshot-card img").evaluateAll(images => images.map(image => (image as HTMLImageElement).src));
   const assetResponses = await Promise.all(sources.map(source => page.request.get(source)));
-  expect(assetResponses).toHaveLength(88);
+  expect(assetResponses).toHaveLength(108);
   expect(assetResponses.every(response => response.ok())).toBe(true);
   const group = page.getByRole("combobox", { name: "Show" });
   await group.selectOption("Catalogues");
-  await expect(page.locator(".sc-record-total")).toContainText("17 of 88 captures");
+  await expect(page.locator(".sc-record-total")).toContainText("17 of 108 captures");
   await expect(page.getByRole("heading", { name: "Atomic components" })).toBeVisible();
   await group.selectOption("App screens");
-  await expect(page.locator(".sc-record-total")).toContainText("14 of 88 captures");
+  await expect(page.locator(".sc-record-total")).toContainText("15 of 108 captures");
   await group.selectOption("Support Center");
-  await expect(page.locator(".sc-record-total")).toContainText("13 of 88 captures");
+  await expect(page.locator(".sc-record-total")).toContainText("18 of 108 captures");
   await group.selectOption("Responsive views");
-  await expect(page.locator(".sc-record-total")).toContainText("27 of 88 captures");
+  await expect(page.locator(".sc-record-total")).toContainText("33 of 108 captures");
   await group.selectOption("Interaction states");
-  await expect(page.locator(".sc-record-total")).toContainText("10 of 88 captures");
+  await expect(page.locator(".sc-record-total")).toContainText("18 of 108 captures");
   await group.selectOption("App screens");
   await page.getByRole("button", { name: "Enlarge MAATAA home screenshot" }).click();
   await expect(page.getByRole("dialog", { name: "MAATAA home" })).toBeVisible();
