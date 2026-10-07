@@ -6,8 +6,10 @@ import {
   emptyCompositionLibrary,
   loadCompositionLibrary,
   parseCompositionLibrary,
+  restoreCompositionRevision,
   saveComposition,
   writeCompositionLibrary,
+  LEGACY_COMPOSITION_LIBRARY_KEY,
   type StorageLike,
 } from "../examples/redux-demo/compositionLibrary";
 import { DEFAULT_COMPOSER_SCENE } from "../src/composer/defaults";
@@ -38,6 +40,7 @@ describe("local composition library", () => {
     );
     expect(duplicate.items).toHaveLength(2);
     expect(duplicate.items[1]!.name).toBe("Operations copy");
+    expect(first.items[0]!.revision).toBe(1);
     const updated = saveComposition(
       duplicate,
       { ...DEFAULT_COMPOSER_SCENE, name: "Updated scene" },
@@ -46,6 +49,21 @@ describe("local composition library", () => {
       first.items[0]!.id,
     );
     expect(updated.items[0]!.scene.name).toBe("Updated scene");
+    expect(updated.items[0]!.revision).toBe(2);
+    expect(updated.items[0]!.history.map((entry) => entry.revision)).toEqual([
+      1,
+    ]);
+    const restored = restoreCompositionRevision(
+      updated,
+      first.items[0]!.id,
+      1,
+      new Date("2026-10-06T00:00:00.003Z"),
+    );
+    expect(restored.items[0]!.revision).toBe(3);
+    expect(restored.items[0]!.scene.name).toBe(DEFAULT_COMPOSER_SCENE.name);
+    expect(restored.items[0]!.history.map((entry) => entry.revision)).toEqual([
+      1, 2,
+    ]);
     expect(
       deleteComposition(updated, duplicate.items[1]!.id).items,
     ).toHaveLength(1);
@@ -60,7 +78,7 @@ describe("local composition library", () => {
     ).toThrow(/no longer exists/);
   });
 
-  it("round-trips through storage and migrates legacy arrays into schema v1", () => {
+  it("round-trips through storage and migrates legacy scene arrays", () => {
     const storage = memoryStorage();
     const library = saveComposition(
       emptyCompositionLibrary(),
@@ -74,7 +92,75 @@ describe("local composition library", () => {
       JSON.stringify([DEFAULT_COMPOSER_SCENE]),
     );
     expect(migrated.migrated).toBe(true);
-    expect(migrated.library.items[0]?.scene.schemaVersion).toBe("1");
+    expect(migrated.library.schemaVersion).toBe(
+      "maataa.composition-library.v2",
+    );
+    expect(migrated.sourceVersion).toBe("legacy-array");
+    expect(migrated.library.items[0]?.revision).toBe(1);
+  });
+
+  it("migrates v1 libraries from their old storage key and preserves revision 1", () => {
+    const storage = memoryStorage();
+    const scene = saveComposition(
+      emptyCompositionLibrary(),
+      DEFAULT_COMPOSER_SCENE,
+      "Plan",
+    ).items[0]!.scene;
+    storage.setItem(
+      LEGACY_COMPOSITION_LIBRARY_KEY,
+      JSON.stringify({
+        schemaVersion: "maataa.composition-library.v1",
+        items: [
+          {
+            id: "plan-1",
+            name: "Plan",
+            savedAt: "2026-10-06T00:00:00.000Z",
+            scene,
+          },
+        ],
+      }),
+    );
+    const loaded = loadCompositionLibrary(storage);
+    expect(loaded.migrated).toBe(true);
+    expect(loaded.sourceVersion).toBe("v1");
+    expect(loaded.library.items[0]).toMatchObject({
+      id: "plan-1",
+      revision: 1,
+      history: [],
+    });
+    writeCompositionLibrary(storage, loaded.library);
+    expect(storage.values.has("maataa.composition-library.v2")).toBe(true);
+  });
+
+  it("bounds revision retention and rejects unsupported future formats", () => {
+    let library = saveComposition(
+      emptyCompositionLibrary(),
+      DEFAULT_COMPOSER_SCENE,
+      "Bounded",
+    );
+    const id = library.items[0]!.id;
+    for (let revision = 2; revision <= 25; revision += 1) {
+      library = saveComposition(
+        library,
+        { ...DEFAULT_COMPOSER_SCENE, name: `Revision ${revision}` },
+        "Bounded",
+        new Date(
+          `2026-10-${String(Math.min(revision, 28)).padStart(2, "0")}T00:00:00.000Z`,
+        ),
+        id,
+      );
+    }
+    expect(library.items[0]!.revision).toBe(25);
+    expect(library.items[0]!.history).toHaveLength(20);
+    expect(library.items[0]!.history[0]!.revision).toBe(5);
+    expect(() =>
+      parseCompositionLibrary(
+        JSON.stringify({
+          schemaVersion: "maataa.composition-library.v3",
+          items: [],
+        }),
+      ),
+    ).toThrow(/Unsupported/);
   });
 
   it("rejects corrupt, unsupported, duplicate-ID and extra-field library data", () => {
@@ -92,7 +178,7 @@ describe("local composition library", () => {
     expect(() =>
       parseCompositionLibrary(
         JSON.stringify({
-          schemaVersion: "maataa.composition-library.v1",
+          schemaVersion: "maataa.composition-library.v2",
           items: [item, item],
         }),
       ),
@@ -100,7 +186,7 @@ describe("local composition library", () => {
     expect(() =>
       parseCompositionLibrary(
         JSON.stringify({
-          schemaVersion: "maataa.composition-library.v1",
+          schemaVersion: "maataa.composition-library.v2",
           items: [],
           injected: true,
         }),

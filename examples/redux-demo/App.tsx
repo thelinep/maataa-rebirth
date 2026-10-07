@@ -84,8 +84,9 @@ import { createProductPageSlice, type ProductPageContext } from "./productPageSl
 import { createWorkspaceDataSlice } from "./workspaceDataSlices";
 import { createLayoutDataSlice } from "./layoutDataSlices";
 import { createAISpaceDataSlice, createDeviceDataSlice, createGeneratorDataSlice, createToolDataSlice } from "./catalogDataSlices";
+import { createRecordCatalogDataSlice, type RecordCatalogKind } from "./recordCatalogDataSlices";
 import { DemoExperience } from "./DemoExperiences";
-import { deleteComposition, duplicateComposition, loadCompositionLibrary, saveComposition, writeCompositionLibrary, type CompositionLibraryV1 } from "./compositionLibrary";
+import { deleteComposition, duplicateComposition, emptyCompositionLibrary, loadCompositionLibrary, restoreCompositionRevision, saveComposition, writeCompositionLibrary, type CompositionLibraryV1 } from "./compositionLibrary";
 
 const money = new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
 
@@ -460,12 +461,15 @@ function AiPreview({ item }: { item: CatalogItem }) {
   </div>;
 }
 
-function RegistryPreview({ name }: { name: string }) {
-  return <div className="registry-preview"><div className="registry-title"><div><small>GOVERNED REGISTRY</small><h3>{name}</h3></div><Badge tone="success">canonical</Badge></div><table><thead><tr><th>ID</th><th>Lifecycle</th><th>Authority</th></tr></thead><tbody><tr><td>REGISTRY.ITEM.001</td><td>CANONICAL</td><td>@maataa/ui</td></tr><tr><td>REGISTRY.ITEM.002</td><td>REVIEWED</td><td>@maataa/ui</td></tr><tr><td>REGISTRY.ITEM.003</td><td>DRAFT</td><td>@maataa/ui</td></tr></tbody></table><div className="hash-line">sha256: 008c994d…a232a42</div></div>;
-}
-
-function DataPreview({ kind, name }: { kind: string; name: string }) {
-  return <div className="data-preview"><div className="tool-preview-head"><Badge>{kind}</Badge><h3>{name}</h3></div><div className="state-tree"><div><span>status</span><strong>ready</strong></div><div><span>records</span><strong>12</strong></div><div><span>source</span><strong>static-demo</strong></div><div><span>authority</span><strong>visual-only</strong></div></div><div className="json-lines"><code>{`{`}</code><code>{`  "selected": "${name}",`}</code><code>{`  "mode": "preview",`}</code><code>{`  "verified": true`}</code><code>{`}`}</code></div></div>;
+function RecordCatalogPreview({ kind, item }: { kind: RecordCatalogKind; item: CatalogItem }) {
+  const slice = createRecordCatalogDataSlice(kind, item);
+  return <article className="data-preview record-catalog-preview" data-record-catalog-kind={kind} data-record-id={slice.recordId} data-record-reference={slice.reference}>
+    <div className="tool-preview-head"><Badge>{kind === "redux" ? "REDUX SLICE CONTRACT" : kind === "selectors" ? "SELECTOR CONTRACT" : kind === "types" ? "TYPE CONTRACT" : kind === "datasets" ? "SYNTHETIC DATASET" : kind === "scenarios" ? "DETERMINISTIC SCENARIO" : "REGISTRY METADATA"}</Badge><h3>{slice.title}</h3></div>
+    <p>{slice.detail}</p>
+    <dl className="record-catalog-facts"><div><dt>Group</dt><dd>{slice.family}</dd></div><div><dt>Source</dt><dd><code>{slice.source}</code></dd></div><div><dt>Reference</dt><dd><code>{slice.reference}</code></dd></div></dl>
+    <details><summary>Inspect registered sample</summary><pre>{slice.sample}</pre></details>
+    <footer className="catalog-slice-footer"><span>{slice.provenance} · {slice.boundary}</span><code>{slice.recordId}</code></footer>
+  </article>;
 }
 
 function PreviewCanvas({ catalogKey, item, propOverrides, pageDataContext = "generic" }: { catalogKey: string; item: CatalogItem; propOverrides?: Record<string, unknown>; pageDataContext?: ProductPageContext }) {
@@ -479,8 +483,8 @@ function PreviewCanvas({ catalogKey, item, propOverrides, pageDataContext = "gen
   if (catalogKey === "generators") return <GeneratorPreview item={item}/>;
   if (catalogKey === "tools") return <ToolPreview item={item}/>;
   if (catalogKey === "ai") return <AiPreview item={item}/>;
-  if (catalogKey === "registries") return <RegistryPreview name={item.name}/>;
-  return <DataPreview kind={catalogKey} name={item.name}/>;
+  if (["redux", "selectors", "types", "datasets", "scenarios", "registries"].includes(catalogKey)) return <RecordCatalogPreview kind={catalogKey as RecordCatalogKind} item={item}/>;
+  return <div className="actual-preview-message" data-tone="warning" data-record-preview-unsupported={catalogKey}><strong>No preview contract is registered.</strong><p>{item.id} is listed, but this catalog has no record-specific specimen renderer yet.</p></div>;
 }
 
 type SurfacePreviewState = "example" | "loading" | "empty" | "error" | "disabled";
@@ -619,9 +623,10 @@ function Sandbox() {
   const [error, setError] = React.useState<string|null>(null);
   const [library, setLibrary] = React.useState<CompositionLibraryV1>(() => {
     try { const loaded = loadCompositionLibrary(window.localStorage); if (loaded.migrated) writeCompositionLibrary(window.localStorage, loaded.library); return loaded.library; }
-    catch { return { schemaVersion: "maataa.composition-library.v1", items: [] }; }
+    catch { return emptyCompositionLibrary(); }
   });
   const [savedId, setSavedId] = React.useState("");
+  const [revisionToRestore, setRevisionToRestore] = React.useState("");
   const [saveName, setSaveName] = React.useState(scene.name);
   const [libraryNotice, setLibraryNotice] = React.useState("");
   React.useEffect(()=>setDraft(JSON.stringify(scene,null,2)),[scene]);
@@ -631,10 +636,11 @@ function Sandbox() {
   const loadSaved = () => { const item=library.items.find(entry=>entry.id===savedId); if(!item){setLibraryNotice("Choose a saved composition first.");return;} dispatch(builderActions.setScene(item.scene)); setSaveName(item.name); setLibraryNotice(`Loaded ${item.name} · composition schema ${item.scene.schemaVersion}`); };
   const duplicateSaved = () => { try { const next=duplicateComposition(library,savedId); updateLibrary(next); const copy=next.items.at(-1); if(copy){setSavedId(copy.id);setSaveName(copy.name);} } catch(reason) { setLibraryNotice(reason instanceof Error?reason.message:"Composition could not be duplicated."); } };
   const removeSaved = () => { if(!savedId)return; const next=deleteComposition(library,savedId); updateLibrary(next); setSavedId(""); setSaveName(scene.name); };
+  const restoreSavedRevision = () => { if(!savedId||!revisionToRestore)return; try { const next=restoreCompositionRevision(library,savedId,Number(revisionToRestore)); updateLibrary(next); const item=next.items.find(entry=>entry.id===savedId); if(item){dispatch(builderActions.setScene(item.scene));setRevisionToRestore("");setLibraryNotice(`Restored revision ${item.revision} as a new version.`);} } catch(reason) { setLibraryNotice(reason instanceof Error?reason.message:"Revision could not be restored."); } };
   const applyJson=()=>{try{const parsed=parseCompositionInput(draft);dispatch(builderActions.setScene(parsed));setError(null)}catch(reason){setError(reason instanceof Error?reason.message:"Invalid JSON")}};
   return <section className="page-section">
     <SectionHeading kicker="MAATAA Visual Composer" title="Compose real package components" body="Drag or add package-owned blocks, reorder them on canvas, edit props, switch workspace/page/layout/device/state context, undo/redo, persist locally, and preview the resulting canonical composition." />
-    <section className="composer-library" aria-labelledby="composer-library-title"><div><h2 id="composer-library-title">Composition library</h2><p>Named local snapshots · versioned schema · safe reopen and legacy-scene migration</p></div><label>Saved compositions<select aria-label="Saved compositions" value={savedId} onChange={event=>{setSavedId(event.target.value);const item=library.items.find(entry=>entry.id===event.target.value);if(item)setSaveName(item.name);}}><option value="">Choose a saved composition</option>{library.items.map(item=><option key={item.id} value={item.id}>{item.name} · v{item.scene.schemaVersion}</option>)}</select></label><label>Composition name<input aria-label="Composition name" value={saveName} maxLength={120} onChange={event=>setSaveName(event.target.value)}/></label><div className="composer-library-actions"><button className="gold-button" type="button" onClick={saveAsNew}>Save as new</button><button className="ghost-button" type="button" onClick={updateSaved}>Update selected</button><button className="ghost-button" type="button" disabled={!savedId} onClick={loadSaved}>Open</button><button className="ghost-button" type="button" disabled={!savedId} onClick={duplicateSaved}>Duplicate</button><button className="ghost-button" type="button" disabled={!savedId} onClick={removeSaved}>Delete</button></div>{libraryNotice&&<p role="status">{libraryNotice}</p>}</section>
+    <section className="composer-library" aria-labelledby="composer-library-title"><div><h2 id="composer-library-title">Composition library</h2><p>Browser-local snapshots · schema v2 · revision restore · v1 and legacy-scene migration</p></div><label>Saved compositions<select aria-label="Saved compositions" value={savedId} onChange={event=>{setSavedId(event.target.value);setRevisionToRestore("");const item=library.items.find(entry=>entry.id===event.target.value);if(item)setSaveName(item.name);}}><option value="">Choose a saved composition</option>{library.items.map(item=><option key={item.id} value={item.id}>{item.name} · revision {item.revision}</option>)}</select></label><label>Composition name<input aria-label="Composition name" value={saveName} maxLength={120} onChange={event=>setSaveName(event.target.value)}/></label><div className="composer-library-actions"><button className="gold-button" type="button" onClick={saveAsNew}>Save as new</button><button className="ghost-button" type="button" onClick={updateSaved}>Update selected</button><button className="ghost-button" type="button" disabled={!savedId} onClick={loadSaved}>Open</button><button className="ghost-button" type="button" disabled={!savedId} onClick={duplicateSaved}>Duplicate</button><button className="ghost-button" type="button" disabled={!savedId} onClick={removeSaved}>Delete</button></div>{savedId&&library.items.find(item=>item.id===savedId)?.history.length ? <div className="composer-revision-controls"><label>Restore prior revision<select aria-label="Restore prior revision" value={revisionToRestore} onChange={event=>setRevisionToRestore(event.target.value)}><option value="">Choose a prior revision</option>{[...library.items.find(item=>item.id===savedId)!.history].reverse().map(entry=><option key={entry.revision} value={entry.revision}>Revision {entry.revision} · {new Date(entry.savedAt).toLocaleString()}</option>)}</select></label><button className="ghost-button" type="button" disabled={!revisionToRestore} onClick={restoreSavedRevision}>Restore as new revision</button><span>Up to 20 prior revisions per composition</span></div>:null}{libraryNotice&&<p role="status">{libraryNotice}</p>}</section>
     <div className="composer-mode-tabs"><button data-active={mode==="compose"} onClick={()=>setMode("compose")}>Composer</button><button data-active={mode==="preview"} onClick={()=>setMode("preview")}>Responsive preview</button><button data-active={mode==="json"} onClick={()=>setMode("json")}>Scene JSON</button><span>Selected: {selectedBlock?.id ?? "none"}</span></div>
     {mode==="compose" && <VisualComposer scene={scene} selectedBlockId={selectedBlock?.id??null} canUndo={canUndo} canRedo={canRedo} onSceneChange={(next)=>dispatch(builderActions.setScene(next))} onSelectBlock={(id)=>dispatch(builderActions.selectBlock(id))} onUndo={()=>dispatch(builderActions.undo())} onRedo={()=>dispatch(builderActions.redo())}/>} 
     {mode==="preview" && <div className="composer-preview-grid"><ResponsiveDeviceRuntime deviceId={scene.deviceId}><CanonicalCompositionRuntime scene={scene}/></ResponsiveDeviceRuntime><ResponsiveDeviceRuntime deviceId="DEVICE.PHONES.SMARTPHONE" orientation="portrait"><CanonicalCompositionRuntime scene={{...scene,deviceId:"DEVICE.PHONES.SMARTPHONE"}}/></ResponsiveDeviceRuntime></div>}

@@ -5,14 +5,23 @@ import type {
   ComposerScene,
 } from "../../src/composer/types";
 
-export const COMPOSITION_LIBRARY_KEY = "maataa.composition-library.v1";
+export const COMPOSITION_LIBRARY_KEY = "maataa.composition-library.v2";
+export const LEGACY_COMPOSITION_LIBRARY_KEY = "maataa.composition-library.v1";
 export const COMPOSITION_LIBRARY_SCHEMA =
-  "maataa.composition-library.v1" as const;
+  "maataa.composition-library.v2" as const;
+export const COMPOSITION_REVISION_LIMIT = 20;
+export interface CompositionRevisionV2 {
+  revision: number;
+  savedAt: string;
+  scene: CompositionSpecV1;
+}
 export interface SavedCompositionV1 {
   id: string;
   name: string;
   savedAt: string;
+  revision: number;
   scene: CompositionSpecV1;
+  history: CompositionRevisionV2[];
 }
 export interface CompositionLibraryV1 {
   schemaVersion: typeof COMPOSITION_LIBRARY_SCHEMA;
@@ -21,6 +30,7 @@ export interface CompositionLibraryV1 {
 export interface CompositionLibraryLoad {
   library: CompositionLibraryV1;
   migrated: boolean;
+  sourceVersion: "v2" | "v1" | "legacy-array" | "empty";
 }
 export interface StorageLike {
   getItem(key: string): string | null;
@@ -42,25 +52,93 @@ function safeId(value: string) {
   );
 }
 
+function parseScene(value: unknown): CompositionSpecV1 {
+  return parseCompositionInput(JSON.stringify(value));
+}
+
 function migrateLegacyItems(value: unknown): CompositionLibraryV1 | undefined {
   if (!Array.isArray(value) || value.length > 100) return undefined;
   try {
-    const items = value.map((candidate, index) => {
+    const ids = new Set<string>();
+    const items = value.map((candidate, index): SavedCompositionV1 => {
       if (!candidate || typeof candidate !== "object")
         throw new Error("Invalid legacy scene");
-      const scene = parseCompositionInput(JSON.stringify(candidate) as string);
+      const scene = parseScene(candidate);
       const old = candidate as Partial<ComposerScene>;
+      const baseId = safeId(old.id || `legacy-${index + 1}`);
+      let id = baseId;
+      let suffix = 2;
+      while (ids.has(id)) id = `${baseId}-${suffix++}`;
+      const name = (old.name || `Migrated composition ${index + 1}`).slice(
+        0,
+        120,
+      );
+      ids.add(id);
       return {
-        id: safeId(old.id || `legacy-${index + 1}`),
-        name: old.name || `Migrated composition ${index + 1}`,
+        id,
+        name,
         savedAt: scene.updatedAt,
+        revision: 1,
         scene,
+        history: [],
       };
     });
     return { schemaVersion: COMPOSITION_LIBRARY_SCHEMA, items };
   } catch {
     return undefined;
   }
+}
+
+function normalizeV1Items(value: unknown): CompositionLibraryV1 | undefined {
+  if (!Array.isArray(value) || value.length > 100) return undefined;
+  try {
+    const ids = new Set<string>();
+    const items = value.map((raw, index): SavedCompositionV1 => {
+      if (!raw || typeof raw !== "object" || Array.isArray(raw))
+        throw new Error("Invalid v1 item");
+      const item = raw as Record<string, unknown>;
+      if (
+        Object.keys(item).some(
+          (key) => !["id", "name", "savedAt", "scene"].includes(key),
+        )
+      )
+        throw new Error("Unsupported v1 item field");
+      const scene = parseScene(item.scene);
+      validMetadata(item, ids, index);
+      return {
+        id: item.id as string,
+        name: item.name as string,
+        savedAt: item.savedAt as string,
+        revision: 1,
+        scene,
+        history: [],
+      };
+    });
+    return { schemaVersion: COMPOSITION_LIBRARY_SCHEMA, items };
+  } catch {
+    return undefined;
+  }
+}
+
+function validMetadata(
+  item: Record<string, unknown>,
+  ids: Set<string>,
+  index: number,
+) {
+  if (
+    typeof item.id !== "string" ||
+    !/^[a-z0-9][a-z0-9-]{1,80}$/.test(item.id) ||
+    typeof item.name !== "string" ||
+    item.name.trim().length < 1 ||
+    item.name.length > 120 ||
+    typeof item.savedAt !== "string" ||
+    !Number.isFinite(Date.parse(item.savedAt)) ||
+    ids.has(item.id)
+  )
+    throw new Error(
+      `Saved item ${index + 1} has missing or duplicate metadata.`,
+    );
+  ids.add(item.id);
 }
 
 export function parseCompositionLibrary(
@@ -75,12 +153,12 @@ export function parseCompositionLibrary(
     throw new Error("Saved composition library is invalid JSON.");
   }
   if (Array.isArray(input)) {
-    const migrated = migrateLegacyItems(input);
-    if (!migrated)
+    const library = migrateLegacyItems(input);
+    if (!library)
       throw new Error(
         "Legacy composition library could not be safely migrated.",
       );
-    return { library: migrated, migrated: true };
+    return { library, migrated: true, sourceVersion: "legacy-array" };
   }
   if (
     !isCompositionData(input) ||
@@ -91,14 +169,20 @@ export function parseCompositionLibrary(
     throw new Error("Saved composition library must be safe plain JSON data.");
   const value = input as Record<string, unknown>;
   if (
-    Object.keys(value).some((key) => key !== "schemaVersion" && key !== "items")
+    Object.keys(value).some((key) => !["schemaVersion", "items"].includes(key))
   )
     throw new Error("Saved composition library has unsupported fields.");
-  if (
-    value.schemaVersion !== COMPOSITION_LIBRARY_SCHEMA ||
-    !Array.isArray(value.items) ||
-    value.items.length > 100
-  )
+  if (!Array.isArray(value.items) || value.items.length > 100)
+    throw new Error("Unsupported composition library version or item count.");
+  if (value.schemaVersion === "maataa.composition-library.v1") {
+    const library = normalizeV1Items(value.items);
+    if (!library)
+      throw new Error(
+        "Version 1 composition library could not be safely migrated.",
+      );
+    return { library, migrated: true, sourceVersion: "v1" };
+  }
+  if (value.schemaVersion !== COMPOSITION_LIBRARY_SCHEMA)
     throw new Error("Unsupported composition library version or item count.");
   const ids = new Set<string>();
   const items = value.items.map((raw, index): SavedCompositionV1 => {
@@ -112,50 +196,114 @@ export function parseCompositionLibrary(
     const item = raw as Record<string, unknown>;
     if (
       Object.keys(item).some(
-        (key) => !["id", "name", "savedAt", "scene"].includes(key),
+        (key) =>
+          !["id", "name", "savedAt", "revision", "scene", "history"].includes(
+            key,
+          ),
       )
     )
       throw new Error(`Saved item ${index + 1} has unsupported fields.`);
+    validMetadata(item, ids, index);
     if (
-      typeof item.id !== "string" ||
-      !/^[a-z0-9][a-z0-9-]{1,80}$/.test(item.id) ||
-      typeof item.name !== "string" ||
-      typeof item.savedAt !== "string" ||
-      !Number.isFinite(Date.parse(item.savedAt)) ||
-      ids.has(item.id)
+      !Number.isSafeInteger(item.revision) ||
+      (item.revision as number) < 1 ||
+      !Array.isArray(item.history) ||
+      item.history.length > COMPOSITION_REVISION_LIMIT
+    )
+      throw new Error(`Saved item ${index + 1} has invalid revision history.`);
+    const scene = parseScene(item.scene);
+    let previous = 0;
+    const history = item.history.map(
+      (rawRevision, revisionIndex): CompositionRevisionV2 => {
+        if (
+          !rawRevision ||
+          typeof rawRevision !== "object" ||
+          Array.isArray(rawRevision) ||
+          !isCompositionData(rawRevision)
+        )
+          throw new Error(
+            `Saved item ${index + 1} revision ${revisionIndex + 1} is invalid.`,
+          );
+        const entry = rawRevision as Record<string, unknown>;
+        if (
+          Object.keys(entry).some(
+            (key) => !["revision", "savedAt", "scene"].includes(key),
+          ) ||
+          !Number.isSafeInteger(entry.revision) ||
+          (entry.revision as number) <= previous ||
+          (entry.revision as number) >= (item.revision as number) ||
+          typeof entry.savedAt !== "string" ||
+          !Number.isFinite(Date.parse(entry.savedAt))
+        )
+          throw new Error(
+            `Saved item ${index + 1} revision ${revisionIndex + 1} has invalid metadata.`,
+          );
+        previous = entry.revision as number;
+        return {
+          revision: previous,
+          savedAt: entry.savedAt,
+          scene: parseScene(entry.scene),
+        };
+      },
+    );
+    const expectedHistoryLength = Math.min(
+      (item.revision as number) - 1,
+      COMPOSITION_REVISION_LIMIT,
+    );
+    const firstExpectedRevision =
+      (item.revision as number) - expectedHistoryLength;
+    if (
+      history.length !== expectedHistoryLength ||
+      history.some(
+        (entry, historyIndex) =>
+          entry.revision !== firstExpectedRevision + historyIndex,
+      )
     )
       throw new Error(
-        `Saved item ${index + 1} has missing or duplicate metadata.`,
+        `Saved item ${index + 1} has incomplete revision history.`,
       );
-    if (item.name.trim().length < 1 || item.name.length > 120)
-      throw new Error(
-        `Saved item ${index + 1} needs a name under 120 characters.`,
-      );
-    ids.add(item.id);
     return {
-      id: item.id,
-      name: item.name,
-      savedAt: item.savedAt,
-      scene: parseCompositionInput(JSON.stringify(item.scene)),
+      id: item.id as string,
+      name: item.name as string,
+      savedAt: item.savedAt as string,
+      revision: item.revision as number,
+      scene,
+      history,
     };
   });
   return {
     library: { schemaVersion: COMPOSITION_LIBRARY_SCHEMA, items },
     migrated: false,
+    sourceVersion: "v2",
   };
 }
 
 export function loadCompositionLibrary(
   storage?: StorageLike,
 ): CompositionLibraryLoad {
-  if (!storage) return { library: emptyCompositionLibrary(), migrated: false };
+  if (!storage)
+    return {
+      library: emptyCompositionLibrary(),
+      migrated: false,
+      sourceVersion: "empty",
+    };
   try {
-    const raw = storage.getItem(COMPOSITION_LIBRARY_KEY);
-    return raw
-      ? parseCompositionLibrary(raw)
-      : { library: emptyCompositionLibrary(), migrated: false };
+    const current = storage.getItem(COMPOSITION_LIBRARY_KEY);
+    if (current) return parseCompositionLibrary(current);
+    const legacy = storage.getItem(LEGACY_COMPOSITION_LIBRARY_KEY);
+    return legacy
+      ? parseCompositionLibrary(legacy)
+      : {
+          library: emptyCompositionLibrary(),
+          migrated: false,
+          sourceVersion: "empty",
+        };
   } catch {
-    return { library: emptyCompositionLibrary(), migrated: false };
+    return {
+      library: emptyCompositionLibrary(),
+      migrated: false,
+      sourceVersion: "empty",
+    };
   }
 }
 
@@ -163,7 +311,6 @@ export function writeCompositionLibrary(
   storage: StorageLike,
   library: CompositionLibraryV1,
 ): void {
-  // Round-trip through the same gate used for imports before persistence.
   const safe = parseCompositionLibrary(JSON.stringify(library)).library;
   storage.setItem(COMPOSITION_LIBRARY_KEY, JSON.stringify(safe));
 }
@@ -180,27 +327,41 @@ export function saveComposition(
     throw new Error(
       "Give the composition a name between 1 and 120 characters.",
     );
-  const parsed = parseCompositionInput(JSON.stringify(scene));
-  if (replaceId && !library.items.some((existing) => existing.id === replaceId))
+  const parsed = parseScene(scene);
+  const existing = replaceId
+    ? library.items.find((item) => item.id === replaceId)
+    : undefined;
+  if (replaceId && !existing)
     throw new Error(
       "The selected saved composition no longer exists. Choose it again or save a new copy.",
     );
   let id = replaceId ?? `${safeId(cleanName)}-${now.getTime().toString(36)}`;
   if (!replaceId) {
     let suffix = 2;
-    while (library.items.some((existing) => existing.id === id))
+    while (library.items.some((item) => item.id === id))
       id = `${safeId(cleanName)}-${now.getTime().toString(36)}-${suffix++}`;
   }
-  const item = {
+  const savedAt = now.toISOString();
+  const history = existing
+    ? [
+        ...existing.history,
+        {
+          revision: existing.revision,
+          savedAt: existing.savedAt,
+          scene: existing.scene,
+        },
+      ]
+    : [];
+  const item: SavedCompositionV1 = {
     id,
     name: cleanName,
-    savedAt: now.toISOString(),
+    savedAt,
+    revision: existing ? existing.revision + 1 : 1,
     scene: parsed,
+    history: history.slice(-COMPOSITION_REVISION_LIMIT),
   };
-  const items = replaceId
-    ? library.items.map((existing) =>
-        existing.id === replaceId ? item : existing,
-      )
+  const items = existing
+    ? library.items.map((entry) => (entry.id === replaceId ? item : entry))
     : [...library.items, item];
   if (items.length > 100)
     throw new Error("The local library is full (100 compositions).");
@@ -214,8 +375,21 @@ export function duplicateComposition(
 ): CompositionLibraryV1 {
   const source = library.items.find((item) => item.id === itemId);
   if (!source) throw new Error("Choose a saved composition to duplicate.");
-  const copyName = `${source.name} copy`;
-  return saveComposition(library, source.scene, copyName, now);
+  return saveComposition(library, source.scene, `${source.name} copy`, now);
+}
+
+export function restoreCompositionRevision(
+  library: CompositionLibraryV1,
+  itemId: string,
+  revision: number,
+  now = new Date(),
+): CompositionLibraryV1 {
+  const source = library.items.find((item) => item.id === itemId);
+  if (!source) throw new Error("Choose a saved composition first.");
+  const snapshot = source.history.find((entry) => entry.revision === revision);
+  if (!snapshot)
+    throw new Error("That composition revision is no longer available.");
+  return saveComposition(library, snapshot.scene, source.name, now, itemId);
 }
 
 export function deleteComposition(

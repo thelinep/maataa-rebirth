@@ -66,31 +66,81 @@ test("sandbox supports composer interaction", async ({ page }) => {
   ).toBeVisible();
 });
 
-test("surface explorer lazy-loads real component previews by category", async ({ page }) => {
+test("composition library updates create restorable revisions that survive reload", async ({
+  page,
+}) => {
+  await openReadySurface(page, "/sandbox");
+  const name = page.getByRole("textbox", { name: "Composition name" });
+  await name.fill("Release scope draft");
+  await page.getByRole("button", { name: "Save as new", exact: true }).click();
+  const saved = page.getByRole("combobox", { name: "Saved compositions" });
+  await expect(saved).toContainText("Release scope draft · revision 1");
+
+  await page.getByRole("button", { name: "Scene JSON", exact: true }).click();
+  const editor = page.getByRole("textbox", { name: "Composition JSON" });
+  const scene = JSON.parse(await editor.inputValue());
+  scene.name = "Release scope revised";
+  await editor.fill(JSON.stringify(scene, null, 2));
+  await page.getByRole("button", { name: "Apply JSON", exact: true }).click();
+  await page
+    .getByRole("button", { name: "Update selected", exact: true })
+    .click();
+  await expect(saved).toContainText("Release scope draft · revision 2");
+  const revision = page.getByRole("combobox", {
+    name: "Restore prior revision",
+  });
+  await revision.selectOption("1");
+  await page
+    .getByRole("button", { name: "Restore as new revision", exact: true })
+    .click();
+  await expect(saved).toContainText("Release scope draft · revision 3");
+  await page.reload();
+  await openReadySurface(page, "/sandbox");
+  await expect(
+    page.getByRole("combobox", { name: "Saved compositions" }),
+  ).toContainText("Release scope draft · revision 3");
+  const persisted = await page.evaluate(() =>
+    JSON.parse(localStorage.getItem("maataa.composition-library.v2") || "{}"),
+  );
+  expect(persisted.schemaVersion).toBe("maataa.composition-library.v2");
+  expect(
+    persisted.items[0].history.map(
+      (entry: { revision: number }) => entry.revision,
+    ),
+  ).toEqual([1, 2]);
+});
+
+test("surface explorer lazy-loads real component previews by category", async ({
+  page,
+}) => {
   await openReadySurface(page, "/surface");
   const status = page.locator(".actual-status");
-  await expect(status).toHaveAttribute("data-status", "actual", { timeout: 10_000 });
+  await expect(status).toHaveAttribute("data-status", "actual", {
+    timeout: 10_000,
+  });
 
   const search = page.getByPlaceholder("Search components…");
   await search.fill("Tooltip");
   await page.getByRole("button", { name: /^Tooltip COMPONENT\./ }).click();
   await expect(page.locator(".actual-preview-head h3")).toHaveText("Tooltip");
-  await expect(status).toHaveAttribute("data-status", "actual", { timeout: 10_000 });
-  await expect(page.getByRole("button", { name: "Hover or focus me" })).toBeVisible();
+  await expect(status).toHaveAttribute("data-status", "actual", {
+    timeout: 10_000,
+  });
+  await expect(
+    page.getByRole("button", { name: "Hover or focus me" }),
+  ).toBeVisible();
 });
 
 test("Redux scenarios set and clear generator, tool, and AI-space selections", async ({
   page,
 }) => {
   await openReadySurface(page, "/demos");
-  const composition = page
-    .locator(".demo-card")
-    .filter({
-      has: page.getByRole("heading", {
-        name: "Active composition",
-        exact: true,
-      }),
-    });
+  const composition = page.locator(".demo-card").filter({
+    has: page.getByRole("heading", {
+      name: "Active composition",
+      exact: true,
+    }),
+  });
   const scenario = (name: string) =>
     page.getByRole("button", { name: new RegExp(name) });
 
@@ -373,6 +423,37 @@ test("surface families render distinct record-specific, non-executing specimens"
     "No model was called, source retrieved, citation verified",
   );
   await expect(aiSpace).toContainText("Provider: not connected");
+});
+
+test("metadata catalogs preview the selected record instead of shared placeholder data", async ({
+  page,
+}) => {
+  await openReadySurface(page, "/surface");
+  const canvas = page.locator(".surface-preview-canvas");
+  const select = async (family: string, id: string) => {
+    await page.getByRole("button", { name: new RegExp(`^${family}`) }).click();
+    await page.locator(".surface-search input").fill(id);
+    await page.getByRole("button", { name: id }).click();
+  };
+
+  for (const [family, id, kind] of [
+    ["Redux slices", "REDUX_SLICE.BUILDER", "redux"],
+    ["Redux selectors", "REDUX_SELECTOR.SELECT_COMPOSER_SCENE", "selectors"],
+    ["Type contracts", "TYPE_CONTRACT.COMPOSER", "types"],
+    ["Static datasets", "DEMO_DATASET.PRODUCTION", "datasets"],
+    ["Demo scenarios", "DEMO_SCENARIO.TLPS", "scenarios"],
+    ["Registries", "REGISTRY.REGISTRY", "registries"],
+  ] as const) {
+    await select(family, id);
+    const record = canvas.locator(`[data-record-catalog-kind="${kind}"]`);
+    await expect(record).toHaveAttribute("data-record-id", id);
+    await expect(record.locator("summary")).toHaveText(
+      "Inspect registered sample",
+    );
+    await expect(record.locator("footer")).toContainText(/does not|not|only/i);
+    await expect(record).not.toContainText("REGISTRY.ITEM.001");
+    await expect(record).not.toContainText('"verified": true');
+  }
 });
 
 test("layout selections bind synthetic data slices to canonical records", async ({
