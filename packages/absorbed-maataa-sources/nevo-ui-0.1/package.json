@@ -1,0 +1,57 @@
+{
+  "name": "@maataa/ui",
+  "version": "0.1.0",
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./styles.css": "./src/styles.css",
+    "./marketing.css": "./src/marketing.css",
+    "./tokens.css": "./src/tokens.css",
+    "./nevo": {
+      "types": "./dist/nevo.d.ts",
+      "import": "./dist/nevo.js"
+    },
+    "./wizard": {
+      "types": "./dist/wizard/index.d.ts",
+      "import": "./dist/wizard/index.js"
+    },
+    "./wizard.css": "./src/wizard/wizard.css",
+    "./advanced.css": "./src/advanced.css",
+    "./spatial-preview.css": "./src/spatial-preview.css",
+    "./themes/nevo/*": "./src/themes/nevo/*"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "pnpm build && node --test --import ./tests/dom-setup.mjs tests/*.test.mjs"
+  },
+  "peerDependencies": {
+    "react": ">=19",
+    "react-dom": ">=19"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "typescript": "^5.9.0",
+    "jsdom": "^25.0.0",
+    "@testing-library/react": "^16.0.0",
+    "@testing-library/user-event": "^14.5.0",
+    "@testing-library/dom": "^10.4.0",
+    "@types/jsdom": "^21.1.0"
+  },
+  "dependencies": {
+    "react-icons": "^5.7.0",
+    "@base-ui/react": "^1.8.0",
+    "maplibre-gl": "^5.0.0"
+  }
+}

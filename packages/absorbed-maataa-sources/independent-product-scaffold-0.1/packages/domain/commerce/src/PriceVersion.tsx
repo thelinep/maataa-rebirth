@@ -1,0 +1,1 @@
+import * as React from "react";export function PriceVersion({children}:{children?:React.ReactNode}){return <section data-maataa-domain="commerce" data-maataa-component="PriceVersion">{children}</section>;}

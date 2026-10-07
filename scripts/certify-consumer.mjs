@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
+import assert from "node:assert/strict";
 
 const root=process.cwd();
 const cert=path.join(root,".certification");
@@ -47,6 +48,18 @@ run("pnpm",["install","--prefer-offline","--ignore-scripts"],nextConsumer);
 fs.copyFileSync(path.join(consumer,"src/GeneratedScene.tsx"),path.join(nextConsumer,"app/GeneratedScene.tsx"));
 run("pnpm",["build"],nextConsumer);
 run("pnpm",["typecheck"],nextConsumer);
-const report={status:"PASS",tarball:tgz,fixtures:["vite-react19","vite-react18.2","next-app-router"],checks:["pack","install","typecheck","build","plain-node-ssr-import","react18-minimum-peer","node20-minimum-ssr-import"]};
+run("pnpm",["exec","playwright","test","--config","playwright.consumer.config.ts"]);
+const exportedHome=path.join(nextConsumer,"out/index.html");
+const exportedWorkflow=path.join(nextConsumer,"out/workflow.html");
+assert.ok(fs.existsSync(exportedHome),"Next App Router home page was not exported");
+assert.ok(fs.existsSync(exportedWorkflow),"Next App Router workflow page was not exported");
+const homeHtml=fs.readFileSync(exportedHome,"utf8");
+const workflowHtml=fs.readFileSync(exportedWorkflow,"utf8");
+assert.match(homeHtml,/A shared React package for product-specific applications/);
+assert.match(homeHtml,/Toggle MAATAA theme/);
+assert.match(workflowHtml,/Shape an event plan before handoff/);
+assert.match(workflowHtml,/Technology Innovation Summit/);
+assert.match(workflowHtml,/PUBLIC BRIEF/);
+const report={status:"PASS",tarball:tgz,fixtures:["vite-react19","vite-react18.2","next-app-router"],checks:["pack","install","typecheck","build","plain-node-ssr-import","react18-minimum-peer","node20-minimum-ssr-import","next-static-home-and-nevo-workflow-export","public-route-and-theme-control-render","playwright-theme-and-nevo-planning-journey"]};
 fs.writeFileSync(path.join(cert,"package-consumer.json"),JSON.stringify(report,null,2)+"\n");
 console.log(JSON.stringify(report,null,2));

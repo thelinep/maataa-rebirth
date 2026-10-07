@@ -1,0 +1,1 @@
+import * as React from "react";export function LicenseBadge({children}:{children?:React.ReactNode}){return <section data-maataa-domain="creators" data-maataa-component="LicenseBadge">{children}</section>;}

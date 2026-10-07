@@ -1,0 +1,1 @@
+import * as React from "react";export function ReconciliationStatus({children}:{children?:React.ReactNode}){return <section data-maataa-domain="finance" data-maataa-component="ReconciliationStatus">{children}</section>;}

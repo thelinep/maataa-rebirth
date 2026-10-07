@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="description" content="MAATAA UI and Support Center desktop workspace." />
+    <title>MAATAA Desktop</title>
+    <link rel="stylesheet" href="desktop-shell.css" />
+    <script>if (location.protocol === "file:") document.documentElement.classList.add("source-file-preview");</script>
+  </head>
+  <body>
+    <header class="desktop-bar">
+      <a class="brand" href="#" aria-label="MAATAA Desktop home">
+        <span class="brand-mark" aria-hidden="true">M</span>
+        <span><strong>MAATAA</strong><small>DESKTOP</small></span>
+      </a>
+      <nav class="surface-switcher" aria-label="Applications">
+        <button type="button" data-surface="maataa" aria-pressed="true">MAATAA UI</button>
+        <button type="button" data-surface="support" aria-pressed="false">Support Center</button>
+      </nav>
+      <span class="desktop-status" id="desktop-status" role="status">Product workspace</span>
+    </header>
+    <main class="desktop-content">
+      <section class="file-preview" aria-labelledby="file-preview-title">
+        <span class="brand-mark" aria-hidden="true">M</span>
+        <p class="preview-kicker">MAATAA DESKTOP</p>
+        <h1 id="file-preview-title">Launch the desktop app to open both workspaces</h1>
+        <p>This page is the Electron window source. Open it through MAATAA Desktop so its local app server can load the MAATAA UI and Support Center.</p>
+        <a class="launch-link" href="http://127.0.0.1:4179/">Open MAATAA Desktop</a>
+        <p class="preview-help">To launch the packaged build, open <strong>MAATAA Desktop.app</strong>. For development, run <code>pnpm maataa:desktop:dev</code>.</p>
+      </section>
+      <iframe id="maataa-frame" title="MAATAA UI" src="/maataa/index.html#/"></iframe>
+      <iframe id="support-frame" title="Support Center" src="/support/index.html#/home" hidden></iframe>
+    </main>
+    <script type="module" src="desktop-shell.mjs"></script>
+  </body>
+</html>

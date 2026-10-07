@@ -1,0 +1,35 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "ui-system/**/*.ts",
+    "ui-system/**/*.tsx"
+  ],
+  "exclude": [
+    "dist",
+    "node_modules",
+    "ui-system/components/cards.ts",
+    "ui-system/components/charts.ts",
+    "ui-system/components/forms.ts",
+    "ui-system/components/tables.ts",
+    "ui-system/layouts/command-center.ts",
+    "ui-system/layouts/deal-room.ts",
+    "ui-system/layouts/evidence-vault.ts",
+    "ui-system/layouts/knowledge-atlas.ts",
+    "ui-system/layouts/marketplace.ts",
+    "ui-system/layouts/observatory.ts",
+    "ui-system/runtime-widgets/citation.ts",
+    "ui-system/runtime-widgets/fact.ts",
+    "ui-system/runtime-widgets/hkd-link.ts",
+    "ui-system/runtime-widgets/knowledge-graph.ts",
+    "ui-system/runtime-widgets/knowledge-search.ts",
+    "ui-system/runtime-shells/ai.ts",
+    "ui-system/runtime-shells/cic.ts",
+    "ui-system/runtime-shells/commerce.ts",
+    "ui-system/runtime-shells/hkd.ts",
+    "ui-system/runtime-shells/human.ts",
+    "ui-system/runtime-shells/identity.ts",
+    "ui-system/runtime-shells/investor-hub.ts",
+    "ui-system/runtime-shells/knowledge.ts",
+    "ui-system/runtime-shells/tlp.ts"
+  ]
+}

@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Evidence-linked interactive map of the MAATAA UI product, pilots, Brahmini workbench, and release gates.">
+  <title>MAATAA Ecosystem · Full Vertical Mind Map</title>
+  <style>
+    :root { color-scheme: light; --ink:#201d17; --muted:#655f54; --line:#d8d0c1; --paper:#f6f3ec; --card:#fffefa; --gold:#d2ad2e; --gold-dark:#785b0b; --blue:#3568a5; --green:#28734e; --orange:#94631c; --red:#8c4242; font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif }
+    * { box-sizing:border-box } body { margin:0; background:var(--paper); color:var(--ink) }
+    header { position:sticky; top:0; z-index:3; background:#f6f3ecee; backdrop-filter:blur(12px); border-bottom:1px solid var(--line); padding:18px clamp(16px,4vw,56px) }
+    .head { display:flex; justify-content:space-between; align-items:center; gap:20px; max-width:1440px; margin:auto }
+    h1 { margin:0; font-size:clamp(1.25rem,3vw,2rem); letter-spacing:-.04em } .eyebrow { color:var(--gold-dark); font-size:.72rem; font-weight:800; letter-spacing:.15em; text-transform:uppercase }
+    .controls { max-width:1440px; margin:16px auto 0; display:flex; flex-wrap:wrap; gap:8px }
+    input,button { font:inherit } input { flex:1 1 260px; min-height:44px; padding:10px 14px; border:1px solid var(--line); border-radius:12px; background:var(--card); color:var(--ink) }
+    button { min-height:40px; border:1px solid var(--line); border-radius:10px; background:var(--card); padding:8px 12px; color:var(--ink); cursor:pointer }
+    button:hover,button:focus-visible { border-color:var(--gold-dark); outline:2px solid #d2ad2e55; outline-offset:1px }
+    .filter[aria-pressed="true"] { background:var(--ink); color:white; border-color:var(--ink) }
+    main { max-width:1440px; margin:auto; padding:28px clamp(16px,4vw,56px) 60px }
+    .scope { max-width:940px; color:var(--muted); line-height:1.6; margin:0 0 24px }
+    .legend { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 30px }
+    .pill,.kind { display:inline-flex; align-items:center; border-radius:999px; border:1px solid var(--line); padding:4px 9px; font-size:.72rem; font-weight:700; color:var(--muted); background:#fffefa }
+    .pill[data-status="current"] { color:var(--green) }.pill[data-status="historical"] { color:var(--blue) }.pill[data-status="unresolved"] { color:var(--orange) }.pill[data-status="boundary"] { color:var(--red) }
+    #graph { display:flex; flex-direction:column; align-items:stretch; gap:12px }
+    .root,.branches { width:min(100%,980px); margin-inline:auto }
+    .root { border:2px solid var(--gold); box-shadow:0 12px 36px #4b3a1714 }
+    .root .node-title { font-size:1.2rem }
+    .branches { display:flex; flex-direction:column; gap:8px; padding-left:18px; border-left:2px solid var(--line) }
+    .branch { position:relative; min-width:0; padding-left:16px }
+    .branch:before { content:""; position:absolute; top:22px; left:0; width:16px; border-top:2px solid var(--line) }
+    .node-row { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:8px; align-items:stretch }
+    .node { position:relative; width:100%; text-align:left; min-height:0; padding:13px 15px; border-radius:12px; background:var(--card); box-shadow:0 5px 18px #2b241008 }
+    .node.selected { border-color:var(--gold-dark); box-shadow:0 0 0 2px #d2ad2e42 }
+    .node-head { display:flex; justify-content:space-between; align-items:flex-start; gap:10px }
+    .node-title { font-weight:800; letter-spacing:-.02em }.node-meta { display:flex; gap:6px; flex-wrap:wrap; margin-top:7px }
+    .branch-toggle { min-width:48px; padding:8px; font-weight:800; color:var(--gold-dark) }
+    .children { display:flex; flex-direction:column; gap:8px; margin:8px 0 0 8px; padding-left:14px; border-left:2px solid var(--line) }
+    .children .node { padding:11px 13px; border-radius:11px }
+    .children .node-title { font-size:.92rem }
+    .hidden { display:none!important }
+    .details { margin-top:28px; display:grid; grid-template-columns:minmax(0,1.5fr) minmax(260px,1fr); gap:16px }
+    .panel { background:var(--card); border:1px solid var(--line); border-radius:16px; padding:20px }
+    .panel h2,.panel h3 { margin:0 0 10px; letter-spacing:-.03em }.panel p { color:var(--muted); line-height:1.6 }
+    .source-list,.edge-list { margin:10px 0 0; padding-left:20px; color:var(--muted); line-height:1.65; overflow-wrap:anywhere }
+    a { color:#315f96 } .stats { color:var(--muted); font-size:.88rem }
+    #empty { text-align:center; padding:40px; color:var(--muted) }
+    @media(max-width:760px) { .head { align-items:flex-start; flex-direction:column } header { position:static }.branches { padding-left:12px }.branch { padding-left:12px }.branch:before { top:21px; width:12px }.children { margin-left:4px; padding-left:10px }.details { grid-template-columns:1fr } }
+    @media(prefers-reduced-motion:reduce) { *,*:before,*:after { scroll-behavior:auto!important; transition:none!important; animation:none!important } }
+  </style>
+</head>
+<body>
+  <header><div class="head"><div><div class="eyebrow">Evidence-linked · vertical · interactive</div><h1>MAATAA ecosystem mind map</h1></div><button id="download" type="button">Download graph JSON</button></div>
+    <div class="controls" role="search"><input id="search" type="search" placeholder="Search products, workflows, owners, evidence…" aria-label="Search the knowledge graph">
+      <button class="filter" data-filter="all" aria-pressed="true">All</button><button class="filter" data-filter="current" aria-pressed="false">Current evidence</button><button class="filter" data-filter="historical" aria-pressed="false">Historical</button><button class="filter" data-filter="unresolved" aria-pressed="false">Needs proof</button><button class="filter" data-filter="boundary" aria-pressed="false">Boundaries</button>
+      <button id="expand-all" type="button">Expand all</button><button id="collapse-all" type="button">Collapse all</button>
+    </div>
+  </header>
+  <main>
+    <p class="scope" id="scope"></p>
+    <div class="legend" aria-label="Evidence status legend"></div>
+    <p class="stats" id="stats" aria-live="polite"></p>
+    <div id="graph" role="group" aria-label="Full vertical interactive MAATAA ecosystem mind map"></div>
+    <div id="empty" class="hidden">No matching nodes. Try another search.</div>
+    <section class="details" aria-label="Selected node details">
+      <article class="panel" id="selected" aria-live="polite"><h2>Select a node</h2><p>Choose a map node to see its description and source documents.</p></article>
+      <article class="panel"><h3>Related relationships</h3><ul class="edge-list" id="edges"><li>Select a node to inspect connected relationships.</li></ul><p class="stats">A relationship records a documented product or authority connection; it does not assert a live integration.</p></article>
+    </section>
+    <p class="stats" style="margin-top:24px">For the written reconstruction and source boundaries, see <a href="../WORKSPACE-RECOLLECTION-2026-10-07.md">Workspace recollection</a> and <a href="../README.md">Documentation index</a>.</p>
+  </main>
+  <script src="maataa-ecosystem.graph.js"></script>
+  <script>
+    const data = window.MAATAA_KNOWLEDGE_GRAPH;
+    const byId = new Map(data.nodes.map(node => [node.id,node]));
+    const children = new Map();
+    for (const node of data.nodes) { const list=children.get(node.parent)||[]; list.push(node); children.set(node.parent,list); }
+    const graphEl=document.querySelector('#graph'), searchEl=document.querySelector('#search'), filterButtons=[...document.querySelectorAll('.filter')];
+    let filter='all', query='', selected='ecosystem';
+    const collapsed=new Set();
+    document.querySelector('#scope').textContent=data.scope;
+    document.querySelector('.legend').innerHTML=Object.entries(data.statuses).map(([key,value])=>`<span class="pill" data-status="${key}" title="${escapeHtml(value)}">${escapeHtml(statusLabel(key))}</span>`).join('');
+    function escapeHtml(value) { return String(value).replace(/[&<>"']/g, character => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[character])); }
+    function statusLabel(key) { return ({current:'Current evidence',historical:'Historical',unresolved:'Needs proof',boundary:'Boundary'})[key]||key; }
+    function matches(node) { return (filter==='all'||node.status===filter) && (!query||`${node.label} ${node.summary} ${node.kind} ${node.sources.join(' ')}`.toLowerCase().includes(query)); }
+    function subtreeHasMatch(node) { return matches(node)||(children.get(node.id)||[]).some(subtreeHasMatch); }
+    function nodeRow(node, isRoot=false) {
+      const row=document.createElement('div'); row.className=`node-row${isRoot?' root':''}`;
+      const button=document.createElement('button'); button.type='button'; button.className=`node${selected===node.id?' selected':''}`; button.dataset.id=node.id; button.setAttribute('aria-pressed',String(selected===node.id));
+      const head=document.createElement('span'); head.className='node-head';
+      const title=document.createElement('span'); title.className='node-title'; title.textContent=node.label;
+      const status=document.createElement('span'); status.className='pill'; status.dataset.status=node.status; status.textContent=statusLabel(node.status);
+      head.append(title,status); button.append(head);
+      const meta=document.createElement('span'); meta.className='node-meta'; const kind=document.createElement('span'); kind.className='kind'; kind.textContent=node.kind; meta.append(kind); button.append(meta);
+      button.addEventListener('click',()=>{selected=node.id;graphEl.querySelectorAll('.node').forEach(item=>{const active=item.dataset.id===node.id;item.classList.toggle('selected',active);item.setAttribute('aria-pressed',String(active));});renderDetails(node);});
+      row.append(button);
+      const descendants=(children.get(node.id)||[]).filter(subtreeHasMatch);
+      if(descendants.length){
+        const toggle=document.createElement('button');toggle.type='button';toggle.className='branch-toggle';toggle.dataset.toggleId=node.id;toggle.setAttribute('aria-expanded',String(!collapsed.has(node.id)));toggle.setAttribute('aria-controls',`children-${node.id}`);toggle.setAttribute('aria-label',`${collapsed.has(node.id)?'Expand':'Collapse'} ${descendants.length} matching child branches for ${node.label}`);toggle.textContent=`${collapsed.has(node.id)?'+':'−'} ${descendants.length}`;
+        toggle.addEventListener('click',()=>{if(collapsed.has(node.id))collapsed.delete(node.id);else collapsed.add(node.id);render();graphEl.querySelector(`[data-toggle-id="${CSS.escape(node.id)}"]`)?.focus();});row.append(toggle);
+      }
+      return row;
+    }
+    function renderBranch(node) {
+      const wrapper=document.createElement('section'); wrapper.className='branch';
+      if(!subtreeHasMatch(node)){wrapper.classList.add('hidden');return wrapper;}
+      if(matches(node)) wrapper.append(nodeRow(node));
+      const descendants=(children.get(node.id)||[]).filter(subtreeHasMatch);
+      if(descendants.length){const stack=document.createElement('div');stack.className='children';stack.id=`children-${node.id}`;stack.setAttribute('role','group');stack.hidden=collapsed.has(node.id);for(const child of descendants)stack.append(renderBranch(child));wrapper.append(stack);}
+      return wrapper;
+    }
+    function render() {
+      graphEl.replaceChildren();
+      const root=byId.get('ecosystem');
+      if(subtreeHasMatch(root)) {
+        if(matches(root)) graphEl.append(nodeRow(root,true));
+        const branches=document.createElement('div');branches.className='branches';
+        branches.id=`children-${root.id}`;branches.setAttribute('role','group');
+        for(const child of children.get(root.id)||[]) if(subtreeHasMatch(child)) branches.append(renderBranch(child));
+        branches.hidden=collapsed.has(root.id);graphEl.append(branches);
+      }
+      document.querySelector('#empty').classList.toggle('hidden',graphEl.childElementCount>0);
+      const visibleNodes=[...graphEl.querySelectorAll('.node')].filter(node=>!node.closest('[hidden],.hidden')).length;
+      document.querySelector('#stats').textContent=`${visibleNodes} visible of ${data.nodes.length} nodes · ${data.edges.length} relationships · ${filter==='all'?'all evidence states':statusLabel(filter)} · ${query?`matching “${query}”`: 'full map'}`;
+      if(byId.has(selected)) renderDetails(byId.get(selected));
+    }
+    function renderDetails(node) {
+      const panel=document.querySelector('#selected'); panel.replaceChildren();
+      const title=document.createElement('h2');title.textContent=node.label;panel.append(title);
+      const badge=document.createElement('span');badge.className='pill';badge.dataset.status=node.status;badge.textContent=statusLabel(node.status);panel.append(badge);
+      const text=document.createElement('p');text.textContent=node.summary;panel.append(text);
+      const sourceTitle=document.createElement('h3');sourceTitle.textContent='Evidence and context';panel.append(sourceTitle);
+      const list=document.createElement('ul');list.className='source-list';
+      for(const source of node.sources){const item=document.createElement('li');const link=document.createElement('a');link.href=source.endsWith('/')?`../../${source}`:`../../${source}`;link.textContent=source;link.title='Open repository source';item.append(link);list.append(item);}
+      panel.append(list);
+      const linked=data.edges.filter(edge=>edge.from===node.id||edge.to===node.id);const edges=document.querySelector('#edges');edges.replaceChildren();
+      if(!linked.length){const item=document.createElement('li');item.textContent='No explicit cross-link recorded.';edges.append(item);return;}
+      for(const edge of linked){const item=document.createElement('li');const other=byId.get(edge.from===node.id?edge.to:edge.from);item.textContent=`${edge.from===node.id?'→':'←'} ${other?.label||edge.to}: ${edge.label}`;edges.append(item);}
+    }
+    searchEl.addEventListener('input',()=>{query=searchEl.value.trim().toLowerCase();collapsed.clear();render();});
+    filterButtons.forEach(button=>button.addEventListener('click',()=>{filter=button.dataset.filter;collapsed.clear();filterButtons.forEach(item=>item.setAttribute('aria-pressed',String(item===button)));render();}));
+    document.querySelector('#expand-all').addEventListener('click',()=>{collapsed.clear();render();});
+    document.querySelector('#collapse-all').addEventListener('click',()=>{for(const node of data.nodes)if((children.get(node.id)||[]).length)collapsed.add(node.id);render();});
+    document.querySelector('#download').addEventListener('click',()=>{const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const link=document.createElement('a');link.href=URL.createObjectURL(blob);link.download='maataa-ecosystem.graph.json';link.click();URL.revokeObjectURL(link.href);});
+    render();
+  </script>
+</body>
+</html>

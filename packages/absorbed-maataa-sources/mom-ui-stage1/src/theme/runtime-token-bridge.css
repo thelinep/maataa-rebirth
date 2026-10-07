@@ -1,0 +1,126 @@
+/* =============================================================================
+ * @maataa/maataa-ui — runtime-token-bridge.css
+ *
+ * Phase 3.5 — bridge the legacy `--maataa-*` token namespace used by
+ * packages/maataa-ui/src/primitives/* onto the canonical `--runtime-*`
+ * contract owned by packages/maataa-ui/src/theme/ (Epic A1).
+ *
+ * READ THIS BEFORE WIRING THE BRIDGE
+ * -----------------------------------------------------------------------------
+ * apps/web/app/globals.css currently runs the relationship in REVERSE:
+ *     --runtime-bg: var(--maataa-bg);
+ *     --runtime-panel: var(--maataa-panel);
+ *     ... etc.
+ * That means the canonical tokens are presently *derived from* the legacy
+ * namespace. Activating this bridge in :root scope AT THE SAME TIME as the
+ * existing reverse direction would create a CSS-variable reference cycle.
+ *
+ * Per CSS spec, variable cycles render the involved properties invalid at
+ * computed-value time — but `var(--cycle-target, fallback)` resolves to the
+ * fallback. This bridge ships hardcoded fallbacks for every legacy token,
+ * so the cycle aborts gracefully into baseline colors rather than breaking
+ * the cascade. Primitives reading `--maataa-bg` etc. always get a value.
+ *
+ * To get the bridge to PROPAGATE THE CANONICAL THEME into legacy primitives
+ * (the real point of the bridge), the operator must do exactly one of:
+ *
+ *   OPTION A — global mode (recommended once globals.css is cleaned up):
+ *     Remove apps/web/app/globals.css lines 6–14 (the
+ *     "--runtime-* := var(--maataa-*)" block), then import this file in
+ *     globals.css *after* the design-system imports.
+ *
+ *   OPTION B — opt-in mode (works today, no globals.css change):
+ *     Add `data-maataa-bridge="1"` to any container where you want
+ *     canonical-theme propagation. The opt-in selector below applies the
+ *     same aliases inside that subtree only, with no :root cycle.
+ *     Example:
+ *       <main data-maataa-bridge="1" className="runtime-themed">
+ *         {/* RuntimeCard / RuntimePanel / RuntimeTable now see
+ *             --runtime-* values through their --maataa-* reads. */ /*}
+ *       </main>
+ *
+ * BOTH MODES ARE PROVIDED. The :root block is safe-by-fallback when the
+ * reverse-direction bridge in globals.css is also present; the opt-in
+ * block is cycle-free and works immediately.
+ *
+ * Inventory: 12 distinct legacy tokens consumed by primitives/
+ *   --maataa-bg, --maataa-text, --maataa-surface, --maataa-surface-alt,
+ *   --maataa-border, --maataa-muted, --maataa-primary, --maataa-secondary,
+ *   --maataa-success, --maataa-warning, --maataa-danger, --maataa-glow
+ *
+ * Baseline fallbacks below match `core-dark` (themelab `runtime-pulse`).
+ * Override per-theme by setting the corresponding --runtime-* variables.
+ *
+ * PHKD: this file is a token bridge ONLY. It does not rewrite primitives.
+ * It does not promote any surface. It reduces architectural debt by giving
+ * legacy primitives a clear path to the canonical contract.
+ * ============================================================================= */
+
+/* -----------------------------------------------------------------------------
+ * Mode A — global :root bridge.
+ * Safe under cycle: hardcoded fallbacks prevent broken cascade. To propagate
+ * canonical theme values, remove the reverse-direction block from
+ * apps/web/app/globals.css first.
+ * --------------------------------------------------------------------------- */
+:root {
+  /* Surface tokens — canonical 4 + ink + muted */
+  --maataa-bg: var(--runtime-bg, #070711);
+  --maataa-text: var(--runtime-ink, #f0eaff);
+  --maataa-surface: var(--runtime-panel, #0e0e1e);
+  --maataa-border: var(--runtime-border, #23234a);
+  --maataa-muted: var(--runtime-muted, #9a93c0);
+
+  /* surface-alt: a derived neighbour of panel. No exact canonical equivalent;
+     we mix panel toward bg to land on a subtly darker surface. */
+  --maataa-surface-alt: color-mix(in srgb, var(--runtime-panel, #0e0e1e) 86%, var(--runtime-bg, #070711));
+
+  /* Accent + primary/secondary — canonical contract has one accent slot;
+     legacy split into primary + secondary + accent. We map primary to the
+     canonical accent and treat secondary as a derived tone. */
+  --maataa-primary: var(--runtime-accent, #8b5cf6);
+  --maataa-secondary: color-mix(in srgb, var(--runtime-accent, #8b5cf6) 70%, var(--runtime-muted, #9a93c0));
+
+  /* Semantic tones */
+  --maataa-success: var(--runtime-success, #22c55e);
+  --maataa-warning: var(--runtime-warning, #f59e0b);
+  --maataa-danger: var(--runtime-error, #ef4444);
+
+  /* Glow — derived rgba from accent. color-mix into transparent gives an
+     alpha-channel-ish shadow color suitable for box-shadow usage. */
+  --maataa-glow: color-mix(in srgb, var(--runtime-accent, #8b5cf6) 30%, transparent);
+}
+
+/* -----------------------------------------------------------------------------
+ * Mode B — opt-in scoped bridge.
+ * Cycle-free immediately. Add `data-maataa-bridge="1"` to any container to
+ * propagate canonical --runtime-* values into legacy --maataa-* reads inside
+ * that subtree. Specificity is intentionally low (attribute selector only) so
+ * it can be overridden by component-local rules.
+ * --------------------------------------------------------------------------- */
+[data-maataa-bridge="1"] {
+  --maataa-bg: var(--runtime-bg, #070711);
+  --maataa-text: var(--runtime-ink, #f0eaff);
+  --maataa-surface: var(--runtime-panel, #0e0e1e);
+  --maataa-border: var(--runtime-border, #23234a);
+  --maataa-muted: var(--runtime-muted, #9a93c0);
+  --maataa-surface-alt: color-mix(in srgb, var(--runtime-panel, #0e0e1e) 86%, var(--runtime-bg, #070711));
+  --maataa-primary: var(--runtime-accent, #8b5cf6);
+  --maataa-secondary: color-mix(in srgb, var(--runtime-accent, #8b5cf6) 70%, var(--runtime-muted, #9a93c0));
+  --maataa-success: var(--runtime-success, #22c55e);
+  --maataa-warning: var(--runtime-warning, #f59e0b);
+  --maataa-danger: var(--runtime-error, #ef4444);
+  --maataa-glow: color-mix(in srgb, var(--runtime-accent, #8b5cf6) 30%, transparent);
+}
+
+/* -----------------------------------------------------------------------------
+ * Forward-compat aliases.
+ * Some primitives may grow to reference canonical names directly. These rules
+ * let an `--maataa-*` consumer keep working if a future patch flips reads to
+ * `--runtime-*` — no-op today, harmless if redundant tomorrow.
+ * --------------------------------------------------------------------------- */
+:root {
+  /* Explicit identity aliases (no-op when both are equal, cycle-safe with
+     fallbacks above). */
+  --runtime-ink: var(--runtime-ink, var(--maataa-text, #f0eaff));
+  --runtime-muted: var(--runtime-muted, var(--maataa-muted, #9a93c0));
+}

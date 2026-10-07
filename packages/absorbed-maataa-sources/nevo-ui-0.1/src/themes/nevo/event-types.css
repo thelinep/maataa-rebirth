@@ -1,0 +1,2 @@
+.eventTypeIconTile{display:flex;align-items:center;justify-content:center;width:3.4rem;height:3.4rem;margin:-4px 0 16px;border-radius:var(--radius-lg);background:var(--nevo-pink-soft,#fdf0f7);color:var(--nevo-fuchsia-dark);}
+.publicList article{overflow:hidden}

@@ -1,0 +1,1 @@
+import * as React from "react";export function IncidentRecommendation({children}:{children?:React.ReactNode}){return <section data-maataa-domain="production" data-maataa-component="IncidentRecommendation">{children}</section>;}

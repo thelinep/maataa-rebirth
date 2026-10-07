@@ -25,11 +25,14 @@ Open the local address printed by Vite. The demo is a local preview; its fixture
 | Change hooks, themes, or typography          | `src/hooks/`, `src/themes/`, or `src/typography/`                                                                     |
 | Change UI catalogs and composition           | `src/registries/`, `src/pages/`, `src/layouts/`, `src/workspaces/`, `src/devices/`, `src/tools/`, or `src/ai-spaces/` |
 | Change demo behavior or sample data          | `examples/redux-demo/`, `src/demo/`, or `src/static-data/`                                                            |
+| Update Help, FAQs, workspace directory, or desktop shell | `examples/support-center/`, including its `electron/` shell and screenshot gallery                       |
 | Add or update component examples             | `stories/`; generated stories are under `stories/generated/`                                                          |
 | Add or update tests                          | `tests/`; browser-driven end-to-end checks are under `tests/e2e/`                                                     |
-| Learn the architecture or product boundaries | `docs/README.md`, `ARCHITECTURE.md`, and `PUBLIC-SURFACE.md`                                                          |
-| Find theme and accessibility rules           | `THEMING.md` and `ACCESSIBILITY.md`                                                                                   |
-| Find historical local analysis               | `.certification/analysis-history/` and `docs/archive/README.md`                                                       |
+| Update package/API snapshots                 | `manifests/`; use the generator and validation scripts in `scripts/`                                                  |
+| Update roadmap or release evidence            | `docs/product/PRODUCT-ROADMAP.md` or `docs/release/`, including `EVIDENCE.md`                                            |
+| Learn the architecture or product boundaries | `../README.md`, `product/ARCHITECTURE.md`, and `product/PUBLIC-SURFACE.md`                                               |
+| Find theme and accessibility rules           | `product/THEMING.md` and `product/ACCESSIBILITY.md`                                                                    |
+| Find historical local analysis               | `.certification/analysis-history/` and `archive/README.md`                                                            |
 
 Prefer editing the owning source module. Generated catalogs, manifests, and stories are outputs; check their generator and validation script before editing them directly.
 
@@ -58,4 +61,4 @@ Keep `.env` local. Do not paste secret values into issues, docs, screenshots, or
 
 ## More detailed guides
 
-Use [`docs/README.md`](README.md) to choose a guide by audience. For an end-user view of the application, run the local demo and open the Docs or Help sections from its menu.
+Use [`README.md`](README.md) to choose a guide by audience. For an end-user view of the application, run the local demo and open the Docs or Help sections from its menu.

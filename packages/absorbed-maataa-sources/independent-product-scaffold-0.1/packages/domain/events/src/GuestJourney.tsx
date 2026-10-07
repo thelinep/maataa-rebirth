@@ -1,0 +1,1 @@
+import * as React from "react";export function GuestJourney({children}:{children?:React.ReactNode}){return <section data-maataa-domain="events" data-maataa-component="GuestJourney">{children}</section>;}

@@ -1,4 +1,5 @@
 import React, { useId, useMemo, useState } from "react";
+export { Fieldset, Form, Legend as FieldsetLegend } from "./SemanticForm";
 import { cx } from "../utils";
 import { ComboboxControl } from "../internal/ComboboxControl";
 import { Button } from "../actions";

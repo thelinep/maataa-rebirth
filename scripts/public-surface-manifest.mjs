@@ -15,5 +15,6 @@ const manifest = {
   sourceSha256: crypto.createHash("sha256").update(routeFile).digest("hex")
 };
 const raw=JSON.stringify(manifest,null,2)+"\n";
-fs.writeFileSync("PUBLIC_SURFACE_MANIFEST.json",raw);
-fs.writeFileSync("PUBLIC_SURFACE_MANIFEST.sha256",`${crypto.createHash("sha256").update(raw).digest("hex")}  PUBLIC_SURFACE_MANIFEST.json\n`);
+fs.mkdirSync("manifests",{recursive:true});
+fs.writeFileSync("manifests/PUBLIC_SURFACE_MANIFEST.json",raw);
+fs.writeFileSync("manifests/PUBLIC_SURFACE_MANIFEST.sha256",`${crypto.createHash("sha256").update(raw).digest("hex")}  PUBLIC_SURFACE_MANIFEST.json\n`);

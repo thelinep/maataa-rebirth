@@ -1,0 +1,1 @@
+import * as React from "react";export function TemplateFork({children}:{children?:React.ReactNode}){return <section data-maataa-domain="creators" data-maataa-component="TemplateFork">{children}</section>;}

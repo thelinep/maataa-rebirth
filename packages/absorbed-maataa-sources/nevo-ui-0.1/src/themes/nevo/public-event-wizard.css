@@ -1,0 +1,88 @@
+/* UI-FOUNDATION-3: the only genuinely new markup this migration introduces
+ * beyond @maataa/ui/wizard's own framework CSS is the final step's real
+ * "Review in protected workspace" Link inside the mobile-breakpoint nav row
+ * (public-event-wizard.tsx's PublicEventWizardActions) -- every other class
+ * used throughout this component (.nevo-wizard__*, .eventBuilder*,
+ * .eventType*, .builderLabel) is either already styled by
+ * @maataa/ui/wizard's wizard.css or by the pre-existing
+ * apps/web/app/event-builder.css, unchanged. .nevo-wizard__mobile-nav-actions
+ * was designed for two short icon-only buttons (wizard.css), not one
+ * full-sentence link; this rule only lets that row size correctly, it does
+ * not restyle the framework's own bar. */
+.public-event-wizard__mobile-nav-final .nevo-wizard__mobile-nav-actions {
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.public-event-wizard__mobile-nav-final .nevo-wizard__mobile-nav-actions a {
+  min-height: 2.25rem;
+  padding: 0.45rem 0.85rem;
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+
+/* Public planning is deliberately non-blocking, but it must never feel like
+   sixteen unrelated prompts. This orientation layer groups the unchanged
+   persisted fields into visible phases without changing validation, storage,
+   or the protected-workspace handoff. */
+.public-event-wizard { position: relative; min-height: 34rem; }
+.public-event-wizard .nevo-wizard__header,
+.public-event-wizard .nevo-wizard__progress,
+.public-event-wizard .nevo-wizard__body,
+.public-event-wizard .nevo-wizard__actions { align-self: start; }
+.public-event-wizard .nevo-wizard__title { max-width: 16ch; font-size: clamp(2.25rem, 5vw, 4.5rem); line-height: .96; text-wrap: balance; }
+.public-event-wizard .nevo-wizard__body { max-width: 58rem; }
+.publicPlannerOrientation { display: grid; gap: var(--maataa-space-2); margin: 0 0 var(--maataa-space-3); }
+.publicPlannerPhase { display: grid; grid-template-columns: auto 1fr; column-gap: var(--maataa-space-2); align-items: baseline; padding: var(--maataa-space-3); border-radius: var(--maataa-radius-lg); background: var(--maataa-surface-muted); color: var(--maataa-plum); }
+.publicPlannerPhase > span { color: var(--maataa-accent-strong); font-size: .72rem; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
+.publicPlannerPhase > b { font: 650 1rem var(--font-display); }
+.publicPlannerPhase > small { grid-column: 2; max-width: 68ch; color: var(--maataa-text-muted); font-size: .8rem; line-height: 1.45; overflow-wrap: anywhere; }
+.publicPlannerHandoffNote { max-width:23rem; margin: 0 0 .55rem; color: var(--maataa-text-muted); font-size: .75rem; line-height: 1.45; text-align: right; }
+@media (max-width: 700px) { .publicPlannerPhase { grid-template-columns: 1fr; row-gap: .22rem; } .publicPlannerPhase > small { grid-column: 1; } .publicPlannerHandoffNote { display: none; } }
+.publicPlannerHandoffDetails { display:grid; gap:.32rem; max-width:42rem; margin:1rem 0; padding:1rem; border-radius:var(--maataa-radius-lg); background:var(--maataa-surface-muted); color:var(--maataa-plum); }
+.publicPlannerHandoffDetails b { font:650 1rem var(--font-display); }
+.publicPlannerHandoffDetails span,.publicPlannerHandoffDetails small { color:var(--maataa-text-muted); font-size:.78rem; line-height:1.45; overflow-wrap:anywhere; }
+.publicPlannerHandoffDetails small { font-weight:700; }
+.publicPlannerFields { display:grid; gap:.75rem; color:var(--maataa-plum); font-weight:700; }
+.publicPlannerFields legend { margin-bottom:.2rem; font:650 1rem var(--font-display); }
+.publicPlannerFields :is(select,input) { width:100%; min-height:3rem; border:1px solid var(--maataa-line); border-radius:var(--maataa-radius-md); background:var(--maataa-surface); color:var(--maataa-ink); padding:.65rem .75rem; font:inherit; font-size:1rem; }
+.publicPlannerMulti { display:grid; grid-template-columns:repeat(auto-fit,minmax(12rem,1fr)); gap:.55rem; }
+.publicPlannerMulti label { display:flex; align-items:center; gap:.55rem; min-height:2.75rem; border:1px solid var(--maataa-line); border-radius:var(--maataa-radius-md); background:var(--maataa-surface); padding:.55rem .7rem; font-size:.9rem; overflow-wrap:anywhere; }
+.publicPlannerMulti label.isSelected { border-color:color-mix(in srgb,var(--maataa-accent-strong) 55%,var(--maataa-line)); background:color-mix(in srgb,var(--maataa-accent) 8%,var(--maataa-surface)); }
+.publicPlannerMulti input { width:1.05rem; min-height:auto; accent-color:var(--maataa-accent-strong); }
+.publicPlannerSaveState { justify-self:end; max-width:18rem; padding:.42rem .65rem; border:1px solid var(--maataa-line); border-radius:999px; background:var(--maataa-surface); color:var(--maataa-text-muted); font-size:.68rem; font-weight:800; line-height:1.2; text-align:center; }
+.publicPlannerSaveState--saved { border-color:color-mix(in srgb,var(--maataa-success) 35%,var(--maataa-line)); color:var(--maataa-success); }
+.publicPlannerSaveState--error { border-color:color-mix(in srgb,var(--maataa-danger) 35%,var(--maataa-line)); color:var(--maataa-danger); }
+.publicPlannerThemeGrid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:.6rem; }
+.publicPlannerThemeGrid button { position:relative; display:grid; align-content:start; gap:.45rem; padding:0 0 .55rem; overflow:hidden; border:1px solid var(--maataa-line); border-radius:var(--maataa-radius-lg); background:var(--maataa-surface); color:var(--maataa-ink); cursor:pointer; font-size:.78rem; font-weight:800; text-align:left; }
+.publicPlannerThemeGrid button:is(:hover,:focus-visible,.isSelected) { border-color:var(--maataa-accent-strong); box-shadow:var(--maataa-shadow-sm); }
+.publicPlannerThemeGrid button > span:not(.publicPlannerSelectedMark) { padding-inline:.55rem; }
+.publicPlannerSelectedMark { position:absolute; inset-block-start:.35rem; inset-inline-end:.35rem; display:grid; width:1.35rem; height:1.35rem; place-items:center; margin:0; border:2px solid white; border-radius:50%; background:var(--maataa-accent-strong); color:white; font-size:.7rem; line-height:1; box-shadow:0 2px 8px rgb(0 0 0 / .22); }
+.publicPlannerBlueprintLayout { display:grid; grid-template-columns:minmax(0,1fr) minmax(15rem,20rem); gap:1rem; align-items:start; max-width:74rem; }
+.publicPlannerRationale { display:grid; gap:.75rem; padding:1rem; border:1px solid var(--maataa-line); border-radius:var(--maataa-radius-lg); background:var(--maataa-surface); color:var(--maataa-ink); box-shadow:var(--maataa-shadow-sm); }
+.publicPlannerRationale > b { font:650 1.2rem var(--font-display); color:var(--maataa-plum); }
+.publicPlannerRationale ul { display:grid; gap:.5rem; margin:0; padding:0; list-style:none; }
+.publicPlannerRationale li { display:grid; gap:.12rem; padding-block:.45rem; border-bottom:1px solid var(--maataa-line); }
+.publicPlannerRationale li:last-child { border-bottom:0; }
+.publicPlannerRationale li strong { color:var(--maataa-accent-strong); font-size:.68rem; letter-spacing:.06em; text-transform:uppercase; }
+.publicPlannerRationale li span { color:var(--maataa-text-muted); font-size:.78rem; line-height:1.35; }
+.publicPlannerRationaleNote { margin:0; padding:.7rem; border-radius:var(--maataa-radius-md); background:color-mix(in srgb,var(--maataa-success) 10%,var(--maataa-surface)); color:var(--maataa-ink); font-size:.76rem; line-height:1.4; }
+.publicPlannerBlueprintNotice { grid-column:1 / -1; margin:0; }
+@media (min-width: 761px) {
+  .public-event-wizard .nevo-wizard__stepper { position: absolute; inset-block-start: 0; inset-inline-start: 0; width: 16rem; max-height: min(34rem, calc(100dvh - 8rem)); overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; }
+}
+@media (max-width:700px) { .publicPlannerHandoffDetails { margin-bottom:5.5rem; } .publicPlannerHandoffNote { display:block; max-width:none; text-align:left; } }
+@media (max-width: 760px) {
+  .public-event-wizard { min-height: 0; }
+  .public-event-wizard .nevo-wizard__header { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:.45rem; align-items:start; }
+  .public-event-wizard .nevo-wizard__title { font-size:clamp(1.8rem,8.5vw,2.55rem); }
+  .publicPlannerOrientation { margin-bottom:.25rem; }
+  .publicPlannerPhase { grid-template-columns:auto 1fr; row-gap:.12rem; padding:.55rem .7rem; }
+  .publicPlannerPhase > b { font-size:.9rem; }
+  .publicPlannerPhase > small { grid-column:1 / -1; }
+  .publicPlannerMulti { grid-template-columns:1fr; }
+  .publicPlannerMulti label { min-height:2.65rem; padding:.48rem .6rem; }
+  .publicPlannerThemeGrid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:.5rem; }
+  .publicPlannerBlueprintLayout { grid-template-columns:1fr; }
+  .publicPlannerSaveState { max-width:8.5rem; font-size:.62rem; }
+}

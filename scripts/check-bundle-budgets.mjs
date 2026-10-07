@@ -28,7 +28,8 @@ function inspect(name, cfg) {
 const results=[inspect("demo",config.demo),inspect("storybook",config.storybook)];
 const report={schemaVersion:1,status:results.every(x=>x.pass)?"PASS":"FAIL",results};
 const canonical=JSON.stringify(report,null,2)+"\n";
-fs.writeFileSync(path.join(root,"BUNDLE_REPORT.json"),canonical);
-fs.writeFileSync(path.join(root,"BUNDLE_REPORT.sha256"),crypto.createHash("sha256").update(canonical).digest("hex")+"  BUNDLE_REPORT.json\n");
+fs.mkdirSync(path.join(root,"manifests"),{recursive:true});
+fs.writeFileSync(path.join(root,"manifests/BUNDLE_REPORT.json"),canonical);
+fs.writeFileSync(path.join(root,"manifests/BUNDLE_REPORT.sha256"),crypto.createHash("sha256").update(canonical).digest("hex")+"  BUNDLE_REPORT.json\n");
 console.log(canonical.trim());
 if(report.status!=="PASS") process.exit(1);

@@ -1,0 +1,1 @@
+.networkStatus{position:fixed;inset:auto 1rem 1rem;z-index:1001;margin:auto;width:min(42rem,calc(100vw - 2rem));border:1px solid #b54708;border-radius:.65rem;background:#fff7ed;color:#7a2e0e;padding:.8rem 1rem;font:700 .9rem/1.35 var(--maataa-font-body,system-ui,sans-serif);box-shadow:0 8px 24px rgba(15,23,42,.16)}

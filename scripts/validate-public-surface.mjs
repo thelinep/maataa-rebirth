@@ -1,6 +1,6 @@
 import fs from "node:fs";
 const required=["/","/surface","/playground","/sandbox","/demos","/docs","/help","/support"];
-const manifest=JSON.parse(fs.readFileSync("PUBLIC_SURFACE_MANIFEST.json","utf8"));
+const manifest=JSON.parse(fs.readFileSync("manifests/PUBLIC_SURFACE_MANIFEST.json","utf8"));
 const missing=required.filter((route)=>!manifest.routes.includes(route));
 const duplicates=manifest.routes.filter((route,index,all)=>all.indexOf(route)!==index);
 const files=["examples/redux-demo/index.html","examples/redux-demo/main.tsx","examples/redux-demo/App.tsx","examples/redux-demo/demo.css","examples/redux-demo/vite.config.mjs","src/demo/publicSurface.ts"];

@@ -560,7 +560,7 @@ import { Card } from "@maataa/ui/surfaces/Card";\n\nexport function PlaygroundSp
       </aside>
       <div className="playground-main">
         <div className="playground-ruler"><span>320</span><span>768</span><span>1120</span></div>
-        <div className="playground-viewport" data-theme={theme} data-density={density} style={{maxWidth: width, "--play-radius": `${radius}px`} as React.CSSProperties}>
+        <div className="playground-viewport" data-theme={theme} data-maataa-theme={theme} data-density={density} style={{maxWidth: width, "--play-radius": `${radius}px`} as React.CSSProperties}>
           <div className="playground-topbar"><div><small>LIVE VIEWPORT</small><strong>{width}px · {theme} · {density}</strong></div><Badge tone="success">interactive</Badge></div>
           <div className="playground-content">
             <div className="pg-hero"><small>MAATAA UI</small><h2>Composable interface specimen</h2><p>Change the controls on the left. This surface is rendered from the same package components consumers import.</p><div className="specimen-actions"><Button>Primary action</Button><Button variant="secondary">Secondary</Button><Button variant="ghost">Ghost</Button></div></div>

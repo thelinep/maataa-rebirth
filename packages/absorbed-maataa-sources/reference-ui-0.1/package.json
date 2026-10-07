@@ -1,0 +1,12 @@
+{
+  "name": "@maataa/ui-repository",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "pnpm@11.19.0",
+  "scripts": {
+    "build": "pnpm --filter @maataa/ui build",
+    "test": "pnpm --filter @maataa/ui test",
+    "typecheck": "pnpm --filter @maataa/ui typecheck",
+    "check": "pnpm typecheck && pnpm build && pnpm test"
+  }
+}

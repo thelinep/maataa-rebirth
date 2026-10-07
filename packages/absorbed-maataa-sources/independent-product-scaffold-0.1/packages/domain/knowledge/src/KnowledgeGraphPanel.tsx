@@ -1,0 +1,1 @@
+import * as React from "react";export function KnowledgeGraphPanel({children}:{children?:React.ReactNode}){return <section data-maataa-domain="knowledge" data-maataa-component="KnowledgeGraphPanel">{children}</section>;}

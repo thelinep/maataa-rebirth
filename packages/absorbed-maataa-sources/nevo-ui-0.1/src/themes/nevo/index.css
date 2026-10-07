@@ -1,0 +1,34 @@
+/*
+ * NEVO theme for @maataa/ui: the one stylesheet an app loads
+ * (import "@maataa/ui/themes/nevo/index.css" once, in the root layout).
+ * Order is the cascade order the routes relied on when each loaded its own
+ * files: global base first, then surface stylesheets.
+ */
+@import "./globals.css";
+@import "./design.css";
+@import "./nevo-theme.css";
+@import "./mobile.css";
+@import "./maataa-a11y.css";
+@import "./luminous-glass.css";
+@import "./utilities.css";
+@import "./app-feedback.css";
+@import "./route-visual-identity.css";
+@import "./marketplace.css";
+@import "./public.css";
+@import "./event-builder.css";
+@import "./event-types.css";
+@import "./maataa-form-builder.css";
+@import "./public-discovery.css";
+@import "./showcase.css";
+@import "./roles.css";
+@import "./shree-surfaces.css";
+@import "./cookie-consent.css";
+@import "./public-shell.css";
+@import "./brief-intake.css";
+@import "./maataa-event-blueprint.css";
+@import "./public-event-wizard.css";
+@import "./quote-form.css";
+@import "./upi-settlement-test.css";
+@import "./form-creator.css";
+@import "./home-v2.css";
+@import "./v2.css";

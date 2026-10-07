@@ -1,0 +1,1 @@
+export const certificationMatrix=["render","interaction","keyboard","screen_reader","responsive","theme","high_contrast","rtl","localization","streaming","loading","empty","error","stale_data","permission_denied","approval_required","offline"] as const;

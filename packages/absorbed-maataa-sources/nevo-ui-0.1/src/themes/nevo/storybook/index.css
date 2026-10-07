@@ -1,0 +1,24 @@
+/* Storybook-only chrome and catalog stories for the NEVO theme. Loaded by apps/web/.storybook/preview.tsx after ../index.css. */
+@import "./storybook-theme.css";
+@import "./application-mind-map.css";
+@import "./surface-inventory.css";
+@import "./operations-catalog.css";
+
+.maataaFullCatalogue { max-width: 100%; }
+.maataaCatalogueNotice { display: grid; gap: .65rem; margin: 0 0 1.5rem; }
+.maataaCatalogueNotice p { margin: 0; }
+.maataaCatalogueJump { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); gap: .65rem; margin: 0 0 2rem; }
+.maataaCatalogueJump a { display: flex; align-items: center; justify-content: space-between; min-height: 2.75rem; padding: .7rem .85rem; border: 1px solid var(--maataa-line); border-radius: var(--maataa-radius-control); background: var(--maataa-surface); color: var(--maataa-ink); font-weight: 650; text-decoration: none; }
+.maataaCatalogueJump a:hover { border-color: var(--maataa-accent-strong); color: var(--maataa-accent-strong); }
+.maataaCatalogueJump span { color: var(--maataa-muted); font-variant-numeric: tabular-nums; }
+.maataaCatalogueSection { scroll-margin-top: 1rem; }
+.maataaCatalogueGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); gap: .85rem; }
+.maataaCatalogueItem { display: flex; flex-direction: column; gap: .7rem; min-height: 10rem; }
+.maataaCatalogueItemHead { display: flex; align-items: flex-start; justify-content: space-between; gap: .75rem; }
+.maataaCatalogueExports { margin: 0; color: var(--maataa-muted); font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: .78rem; line-height: 1.55; overflow-wrap: anywhere; }
+.maataaCatalogueStoryLink { margin-top: auto; color: var(--maataa-accent-strong); font-weight: 700; text-decoration: none; }
+.maataaCatalogueStoryLink:hover { text-decoration: underline; text-underline-offset: .2em; }
+.maataaCatalogueSourceState { margin-top: auto; color: var(--maataa-muted); font-size: .82rem; font-weight: 650; }
+.maataaThemeFamilyGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr)); gap: .75rem; }
+.maataaThemeFamilyGrid .card { display: grid; gap: .25rem; }
+.maataaThemeFamilyGrid span { color: var(--maataa-muted); font-size: .82rem; }

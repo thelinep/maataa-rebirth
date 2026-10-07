@@ -1,0 +1,108 @@
+import { type AccessibilityThemeId } from "./accessibility-themes.ts";
+import { type AgeThemeId } from "./age-themes.ts";
+import { type AIThemeId } from "./ai-themes.ts";
+import { type ChakraThemeId } from "./chakra-themes.ts";
+import { type CinematicThemeId } from "./cinematic-themes.ts";
+import { type DeviceThemeId } from "./device-themes.ts";
+import { type EmotionThemeId } from "./emotion-themes.ts";
+import { type LanguageThemeId } from "./language-themes.ts";
+import { type NetworkThemeId } from "./network-themes.ts";
+import { type OperatorThemeId } from "./operator-themes.ts";
+import { type RuntimeThemeId } from "./runtime-themes.ts";
+import {
+  type CSSVariableMap,
+  type MaataaTheme,
+  type ResolvedThemeStack,
+  type ThemeFamily,
+  type ThemeProfile,
+  type ThemeStackInput
+} from "./types.ts";
+export type ThemeId =
+  | AgeThemeId
+  | AccessibilityThemeId
+  | RuntimeThemeId
+  | AIThemeId
+  | DeviceThemeId
+  | EmotionThemeId
+  | LanguageThemeId
+  | NetworkThemeId
+  | ChakraThemeId
+  | OperatorThemeId
+  | CinematicThemeId;
+export declare const THEME_REGISTRY: readonly [
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme,
+  MaataaTheme
+];
+export declare function getThemeById(id: ThemeId | string): MaataaTheme | undefined;
+export declare function getThemesByFamily(family: ThemeFamily): readonly MaataaTheme[];
+export declare function themeToCSSVariables(theme: MaataaTheme | ThemeId | string | undefined): CSSVariableMap;
+export declare function getRecommendedThemes(profile?: ThemeProfile): readonly MaataaTheme[];
+export declare function resolveThemeStack(input?: ThemeStackInput): ResolvedThemeStack;
+export declare function getThemeFamilies(): readonly ThemeFamily[];
+//# sourceMappingURL=registry.d.ts.map

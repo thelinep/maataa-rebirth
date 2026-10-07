@@ -1,6 +1,6 @@
 from pathlib import Path
 import re, json, hashlib
-root=Path('/mnt/data/maataa-ui-full-alpha4')
+root=Path(__file__).resolve().parent.parent
 
 # Exact page-type vocabulary established in the MAATAA UI design session.
 pages_text = r'''
@@ -826,7 +826,7 @@ pkg=json.loads((root/'package.json').read_text())
 for cat in ['page-atoms','pages','workspace-atoms','workspaces','registries','page-groups','workspace-groups','layout-groups']:
     pkg['exports'][f'./{cat}']={'types':f'./dist/{cat}/index.d.ts','default':f'./dist/{cat}/index.js'}
     pkg['exports'][f'./{cat}/*']={'types':f'./dist/{cat}/*.d.ts','default':f'./dist/{cat}/*.js'}
-for doc in ['PAGES.md','WORKSPACES.md','REGISTRIES.md','ARCHITECTURE.md','FULL-STATUS.md','REGISTRY_MANIFEST.json','REGISTRY_MANIFEST.sha256']:
+for doc in ['docs/product/PAGES.md','docs/product/WORKSPACES.md','docs/product/REGISTRIES.md','docs/product/ARCHITECTURE.md','docs/release/FULL-STATUS.md','manifests/REGISTRY_MANIFEST.json','manifests/REGISTRY_MANIFEST.sha256']:
     if doc not in pkg['files']: pkg['files'].append(doc)
 (root/'package.json').write_text(json.dumps(pkg,indent=2)+'\n')
 
@@ -838,16 +838,16 @@ for script_name in ['api-manifest.mjs','atomic-manifest.mjs']:
     p.write_text(t)
 
 # Docs
-write(Path('PAGES.md'), '# Page Registry\n\nThe package defines **500 page types** grouped into 41 page families. Page types are purpose metadata, not 500 monolithic screens. Reusable page templates compose independent `page-atoms`.\n\n'+ '\n'.join(f'## {gid} · {label}\n\n'+', '.join(name for n,name in page_names if a<=n<=b)+'\n' for gid,key,label,a,b in page_groups))
-write(Path('WORKSPACES.md'), '# Workspace Registry\n\nA workspace is a persistent operational environment that can host multiple pages and layouts. The package defines **58 workspace groups** and their named workspace types.\n\n'+ '\n'.join(f'## {gid} · {label}\n\n{items_s.replace(";", ",")}\n' for gid,key,label,items_s in workspace_groups))
-write(Path('REGISTRIES.md'), '# Registry Architecture\n\n`REGISTRY.REGISTRY` is the registry of registries. `@maataa/ui` owns UI vocabulary and metadata only. Runtime/auth/data/infrastructure registries are declared as integration vocabulary and remain host/platform authority.\n\n'+ '\n'.join(f'## {group}\n\n'+', '.join(names)+'\n' for group,names in registry_groups))
-write(Path('ARCHITECTURE.md'), '''# MAATAA UI Architecture\n\n```text\nRegistry Registry\n  ↓\nWorkspace Registry\n  ↓\nPage Registry\n  ↓\nLayout Registry\n  ↓\nRegion / Slot\n  ↓\nPattern / Composition\n  ↓\nComponent\n  ↓\nAtom\n```\n\n`@maataa/ui` remains visual and host-agnostic. Registry metadata must not be mistaken for backend runtime authority, authentication, authorization, persistence, infrastructure reality, migration approval, or deployment approval.\n''')
+write(Path('docs/product/PAGES.md'), '# Page Registry\n\nThe package defines **500 page types** grouped into 41 page families. Page types are purpose metadata, not 500 monolithic screens. Reusable page templates compose independent `page-atoms`.\n\n'+ '\n'.join(f'## {gid} · {label}\n\n'+', '.join(name for n,name in page_names if a<=n<=b)+'\n' for gid,key,label,a,b in page_groups))
+write(Path('docs/product/WORKSPACES.md'), '# Workspace Registry\n\nA workspace is a persistent operational environment that can host multiple pages and layouts. The package defines **58 workspace groups** and their named workspace types.\n\n'+ '\n'.join(f'## {gid} · {label}\n\n{items_s.replace(";", ",")}\n' for gid,key,label,items_s in workspace_groups))
+write(Path('docs/product/REGISTRIES.md'), '# Registry Architecture\n\n`REGISTRY.REGISTRY` is the registry of registries. `@maataa/ui` owns UI vocabulary and metadata only. Runtime/auth/data/infrastructure registries are declared as integration vocabulary and remain host/platform authority.\n\n'+ '\n'.join(f'## {group}\n\n'+', '.join(names)+'\n' for group,names in registry_groups))
+write(Path('docs/product/ARCHITECTURE.md'), '''# MAATAA UI Architecture\n\n```text\nRegistry Registry\n  ↓\nWorkspace Registry\n  ↓\nPage Registry\n  ↓\nLayout Registry\n  ↓\nRegion / Slot\n  ↓\nPattern / Composition\n  ↓\nComponent\n  ↓\nAtom\n```\n\n`@maataa/ui` remains visual and host-agnostic. Registry metadata must not be mistaken for backend runtime authority, authentication, authorization, persistence, infrastructure reality, migration approval, or deployment approval.\n''')
 
 # Registry manifest JSON/hash
 manifest={'schemaVersion':'1.0.0','package':'@maataa/ui','version':pkg['version'],'counts':{'pageTypes':len(page_records),'pageGroups':len(page_groups),'workspaceTypes':len(workspace_records),'workspaceGroups':len(workspace_groups),'layoutTypes':len(layout_records),'registryDefinitions':len(registry_defs)-1,'registryDefinitionsIncludingMeta':len(registry_defs),'pageAtoms':len(page_atoms),'workspaceAtoms':len(workspace_atoms),'pageTemplates':len(page_templates),'workspaceTemplates':len(workspace_templates)},'registries':{'pages':page_records,'pageGroups':pg_meta,'workspaces':workspace_records,'workspaceGroups':wg_meta,'layouts':layout_records,'registryRegistry':registry_defs}}
-pretty=json.dumps(manifest,ensure_ascii=False,indent=2)+'\n'; write(Path('REGISTRY_MANIFEST.json'),pretty); h=hashlib.sha256(pretty.encode()).hexdigest(); write(Path('REGISTRY_MANIFEST.sha256'),f'{h}  REGISTRY_MANIFEST.json\n')
+pretty=json.dumps(manifest,ensure_ascii=False,indent=2)+'\n'; write(Path('manifests/REGISTRY_MANIFEST.json'),pretty); h=hashlib.sha256(pretty.encode()).hexdigest(); write(Path('manifests/REGISTRY_MANIFEST.sha256'),f'{h}  REGISTRY_MANIFEST.json\n')
 
-write(Path('FULL-STATUS.md'), f'''# Full package status\n\n- version: `{pkg['version']}`\n- page types: **{len(page_records)}**\n- page groups: **{len(page_groups)}**\n- workspace types: **{len(workspace_records)}**\n- workspace groups: **{len(workspace_groups)}**\n- layout types: **{len(layout_records)}**\n- page atoms: **{len(page_atoms)}**\n- workspace atoms: **{len(workspace_atoms)}**\n- page templates: **{len(page_templates)}**\n- workspace templates: **{len(workspace_templates)}**\n- registry catalog definitions: **{len(registry_defs)-1}** plus `REGISTRY.REGISTRY`\n\nThis package is still alpha. Registry completeness is not production certification.\n''')
+write(Path('docs/release/FULL-STATUS.md'), f'''# Full package status\n\n- version: `{pkg['version']}`\n- page types: **{len(page_records)}**\n- page groups: **{len(page_groups)}**\n- workspace types: **{len(workspace_records)}**\n- workspace groups: **{len(workspace_groups)}**\n- layout types: **{len(layout_records)}**\n- page atoms: **{len(page_atoms)}**\n- workspace atoms: **{len(workspace_atoms)}**\n- page templates: **{len(page_templates)}**\n- workspace templates: **{len(workspace_templates)}**\n- registry catalog definitions: **{len(registry_defs)-1}** plus `REGISTRY.REGISTRY`\n\nThis package is still alpha. Registry completeness is not production certification.\n''')
 
 print(json.dumps(manifest['counts'],indent=2))
 
@@ -925,10 +925,10 @@ write(Path('tests/registries.test.ts'),'''import { describe, expect, it } from "
 write(Path('stories/Registries.stories.tsx'),'''import type { Meta, StoryObj } from "@storybook/react";\nimport { RegistryBrowser } from "../src/registry-ui";\nimport { PAGE_TYPES } from "../src/registries";\nconst meta={ title:"Registries/Page Registry", component:RegistryBrowser } satisfies Meta<typeof RegistryBrowser>; export default meta; type Story=StoryObj<typeof meta>; export const Pages:Story={ args:{ title:"Page Registry", items:PAGE_TYPES.map((p)=>({id:p.id,name:p.name,group:p.groupLabel})) } };\n''')
 
 # Refresh manifest with expanded component counts.
-manifest=json.loads((root/'REGISTRY_MANIFEST.json').read_text())
+manifest=json.loads((root/'manifests/REGISTRY_MANIFEST.json').read_text())
 manifest['counts']['componentRegistry']=len(component_records)
 manifest['counts']['atomicComponentRegistry']=len(atomic_records)
 manifest['counts']['regions']=len(region_records)
 manifest['counts']['registryAtoms']=len(registry_atoms)
-pretty=json.dumps(manifest,ensure_ascii=False,indent=2)+'\n'; write(Path('REGISTRY_MANIFEST.json'),pretty); h=hashlib.sha256(pretty.encode()).hexdigest(); write(Path('REGISTRY_MANIFEST.sha256'),f'{h}  REGISTRY_MANIFEST.json\n')
+pretty=json.dumps(manifest,ensure_ascii=False,indent=2)+'\n'; write(Path('manifests/REGISTRY_MANIFEST.json'),pretty); h=hashlib.sha256(pretty.encode()).hexdigest(); write(Path('manifests/REGISTRY_MANIFEST.sha256'),f'{h}  REGISTRY_MANIFEST.json\n')
 print(json.dumps({'components':len(component_records),'atomicComponents':len(atomic_records),'regions':len(region_records),'registryAtoms':len(registry_atoms)},indent=2))

@@ -1,0 +1,6 @@
+{
+  "name": "maataa-support-center-electron",
+  "private": true,
+  "type": "module",
+  "main": "main.mjs"
+}

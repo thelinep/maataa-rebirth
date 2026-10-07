@@ -1,6 +1,9 @@
 
 # MAATAA UI generated outputs
 demo-dist/
+support-center-dist/
+support-center-electron-dist/
+maataa-desktop-dist/
 dist/
 playwright-report/
 test-results/

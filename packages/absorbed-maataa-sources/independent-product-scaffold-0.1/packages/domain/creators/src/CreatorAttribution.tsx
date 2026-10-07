@@ -1,0 +1,1 @@
+import * as React from "react";export function CreatorAttribution({children}:{children?:React.ReactNode}){return <section data-maataa-domain="creators" data-maataa-component="CreatorAttribution">{children}</section>;}

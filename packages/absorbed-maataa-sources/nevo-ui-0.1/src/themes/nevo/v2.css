@@ -1,0 +1,59 @@
+/*
+ * NEVO v2 look (from the Home v2 mockup, docs/design/home-v2): navy and cream
+ * surfaces, light-gold primary actions with dark ink text, deep-gold text
+ * accents, and a serif display face for headings. Loaded last, so it only
+ * re-points tokens and restyles primary actions; layout is untouched.
+ */
+/* Playfair Display (SIL OFL 1.1), self-hosted by the app at /fonts; licence in apps/web/public/fonts. */
+@font-face {
+  font-family: "Playfair Display";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400 900;
+  src: url("/fonts/playfair-display-latin-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+:root {
+  --nevo-v2-navy-950: #051928;
+  --nevo-v2-navy-900: #0b161f;
+  --nevo-v2-ink: #0b1a2b;
+  --nevo-v2-gold: #e0b364;
+  --nevo-v2-gold-hi: #ecc47a;
+  --nevo-v2-gold-text: #7d5419;   /* 6.4:1 on cream, 7:1 on white: safe for text and white-on-fill */
+  --nevo-v2-gold-text-hi: #9a6a26;
+  --nevo-v2-cream: #fbfaf7;
+  --nevo-v2-mist: #e6f2f3;
+  --nevo-v2-serif: "Playfair Display", Georgia, "Times New Roman", serif;
+
+  --maataa-font-display: var(--nevo-v2-serif);
+  --maataa-accent: var(--nevo-v2-gold-text-hi);
+  --maataa-accent-strong: var(--nevo-v2-gold-text);
+  --maataa-focus-ring: 0 0 0 .2rem rgba(224, 179, 100, .5);
+  --nevo-pearl: var(--nevo-v2-cream);
+  --footer: var(--nevo-v2-navy-950);
+  --glass-header: rgba(251, 250, 247, .88);
+}
+
+/* Primary actions: light gold with ink text (ink on #e0b364 is 9.6:1). */
+:is(.maataa-ui__button--primary, .nevoButton--primary, .button.primary, .publicCta) {
+  border-color: transparent !important;
+  background: linear-gradient(180deg, var(--nevo-v2-gold-hi), var(--nevo-v2-gold)) !important;
+  color: var(--nevo-v2-ink) !important;
+  box-shadow: 0 .45rem 1.1rem rgba(185, 133, 69, .28) !important;
+}
+:is(.maataa-ui__button--primary, .nevoButton--primary, .button.primary, .publicCta):hover:not(:disabled) {
+  background: var(--nevo-v2-gold) !important;
+  color: var(--nevo-v2-ink) !important;
+}
+:is(.maataa-ui__button--primary, .nevoButton--primary, .button.primary, .publicCta):disabled { opacity: .55; }
+
+/* Wordmark in the serif, gold degree mark. */
+.publicBrand { font-weight: 500; }
+.publicBrand span { color: var(--nevo-v2-gold-text-hi); }
+
+/* Serif headings read lighter than the Inter bold they replace. */
+:is(.publicPage, .publicHero, .publicSection, .publicFinal) :is(h1, h2) { font-weight: 600; letter-spacing: -.01em; }
+
+/* The floating Install button covered page content on desktop, where the
+   browser's own install control is in the address bar. Keep it for phones. */
+@media (min-width: 801px) { .pwaInstall { display: none; } }

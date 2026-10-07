@@ -1,0 +1,16 @@
+appId: in.maataa.desktop
+productName: MAATAA Desktop
+asar: true
+directories:
+  output: maataa-desktop-dist
+files:
+  - examples/support-center/electron/**
+  - demo-dist/**
+  - support-center-dist/**
+extraMetadata:
+  name: maataa-desktop-electron
+  main: examples/support-center/electron/main.mjs
+mac:
+  target:
+    - target: dir
+    - target: zip

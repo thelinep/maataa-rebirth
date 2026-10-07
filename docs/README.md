@@ -1,19 +1,15 @@
-# MAATAA developer documentation
+# MAATAA UI documentation
 
-Start with [`START-HERE.md`](START-HERE.md) for repository setup and navigation, then use the root theming guide for package usage. The package remains a private prerelease; passing a local check does not establish enterprise certification.
+Start with the audience guides, then open a focused product or release reference.
 
-| Audience | Canonical guides |
-| --- | --- |
-| UI consumer | Root README, THEMING, ACCESSIBILITY, MIGRATION; engineering/accessibility-contracts.md |
-| Application developer | engineering/canonical-composer.md, composition-spec.md, package-consumers.md |
-| Platform architect | Root ARCHITECTURE and REGISTRIES; engineering/composition-grammar.md, performance.md |
-| AI/tool developer | composition-spec.md, engineering/codegen-trust-boundary.md |
-| Enterprise evaluator | versioning-policy.md, security/dependency-policy.md, package-consumers.md, performance.md |
+- [Getting started](START-HERE.md)
+- [MAATAA ecosystem knowledge graph](knowledge-graph/index.html): searchable vertical map with evidence status, source links, and relationships
+- [Product references](product/): architecture, product roadmap, accessibility, atoms, components, hooks, registries, Redux, themes, and UI surfaces
+- [Release planning and evidence](release/): enterprise roadmap, execution evidence, readiness, changelog, certification, and status
+- [Hotfix history](release/hotfixes/): alpha 8.5 patch notes
+- [Pilot plans](pilots/): TLPS and NEVO scope and locally generated runs
+- [Engineering references](engineering/): composition grammar, audits, and performance
+- [Security](security/)
+- [Archived material](archive/)
 
-For a dated, bounded reconstruction of related workstreams and decisions, see [`WORKSPACE-RECOLLECTION-2026-10-07.md`](WORKSPACE-RECOLLECTION-2026-10-07.md). It is a navigation aid, not current evidence for the other repositories.
-
-`canonical-catalog.json` is generated from component, layout, page, workspace, device and region source records. `pnpm docs:check` rejects drift. IDs, names, categories, paths and device declarations are copied only where the canonical record supplies them. Missing purpose, props, anatomy, accessibility qualification, supported relationships or deprecation data remains unknown; documentation does not manufacture complete coverage.
-
-Use the resolved `PUBLIC_API.json` for concrete import symbols and prerelease classifications. Use the composition relationships and compatibility records for provenance. Device dimensions and capabilities are declarations; executable transformations and actual layout placement are separate runtime contracts. Generated JSX accepts validated data and serializes text safely.
-
-Browser support, supported framework versions, release ownership, manual reviews and pilot acceptance must be qualified in a fresh release pack before any GA support claim. Historical root certification documents are not current execution evidence.
+Generated API and catalog snapshots live in [`../manifests/`](../manifests/).

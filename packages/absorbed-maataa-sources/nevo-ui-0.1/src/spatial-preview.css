@@ -1,0 +1,17 @@
+/*
+ * Styling for `SpatialPreview` -- a plain <canvas> 2D-context
+ * illustration (see spatial-preview.tsx's own header comment: not
+ * WebGL/3D) ported from the apps/vr prototype. Kept out of advanced.css
+ * on purpose: unlike that file's family (Table, Toast, Tooltip, Tabs,
+ * Modal, Combobox, DatePicker, Map, Accordion, Drawer, Menu), this
+ * component pulls in no @base-ui/react overlay/popup machinery at all,
+ * so it gets its own small stylesheet the same way wizard.css and
+ * marketing.css are split out for their own families. Scoped under
+ * .maataa-ui and built only from that scope's own custom properties (see
+ * styles.css's ".maataa-ui { --maataa-*: ... }" block) -- same rule as
+ * every other stylesheet here.
+ */
+
+.maataa-ui__spatial-preview { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: var(--maataa-radius-card); background: #050914; }
+.maataa-ui__spatial-preview-canvas { display: block; width: 100%; height: 100%; }
+.maataa-ui__spatial-preview-disclaimer { position: absolute; inset: auto .75rem .75rem auto; max-width: min(22rem, calc(100% - 1.5rem)); margin: 0; padding: .5rem .75rem; border-radius: var(--maataa-radius-control); background: rgba(5, 9, 20, .68); color: #d7e6ff; font-size: .72rem; line-height: 1.35; }

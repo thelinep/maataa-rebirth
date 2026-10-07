@@ -11,7 +11,8 @@ if(new Set(publicDirectImports.map(record=>record.import)).size!==records.length
 const pkg=JSON.parse(await readFile(path.join(root,"package.json"),"utf8"));
 const manifest={architecture:"atomic-layout-page-workspace-registry-ai-generator-tool-space-aware",package:pkg.name,version:pkg.version,publicDirectImports};
 const pretty=JSON.stringify(manifest,null,2)+"\n";
-await writeFile(path.join(root,"PUBLIC_API.atomic.json"),pretty);
+const output=path.join(root,"manifests");await (await import("node:fs/promises")).mkdir(output,{recursive:true});
+await writeFile(path.join(root,"manifests","PUBLIC_API.atomic.json"),pretty);
 const hash=createHash("sha256").update(pretty).digest("hex");
-await writeFile(path.join(root,"PUBLIC_API.atomic.sha256"),`${hash}  PUBLIC_API.atomic.json\n`);
+await writeFile(path.join(root,"manifests","PUBLIC_API.atomic.sha256"),`${hash}  PUBLIC_API.atomic.json\n`);
 console.log(`${publicDirectImports.length} direct imports · ${hash}`);

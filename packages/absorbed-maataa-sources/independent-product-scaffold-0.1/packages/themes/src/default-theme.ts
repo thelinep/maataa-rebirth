@@ -1,0 +1,1 @@
+import type { MaataaTheme } from "./types.js"; export const defaultTheme:MaataaTheme={id:"maataa-default",name:"MAATAA Default",tokens:{"surface.default":"#fff","surface.advisory":"#f4f8ff","surface.proposed":"#fff8e8","surface.approved":"#eef8f1","surface.danger":"#fff0f0","text.primary":"#142033","text.secondary":"#667085"}};

@@ -2,7 +2,7 @@
 
 The current package is a private prerelease. Public exports and CSS entry points are EXPERIMENTAL until their reviewed release freeze. JSDoc-deprecated symbols are DEPRECATED. Implementation files outside the package export map are INTERNAL. No API is labelled STABLE merely because it exists or passes a local test.
 
-`PUBLIC_API.json` resolves actual TypeScript module exports, including wildcard re-exports, aliases, type-only symbols and concrete leaf entry points. `node scripts/api-manifest.mjs --check` refuses stale snapshots. Changes to this file require a reviewer to evaluate import paths, runtime symbols, types, provider and hook contracts, and CSS entry points. Snapshot integrity is a static API check, not release certification.
+[`manifests/PUBLIC_API.json`](../manifests/PUBLIC_API.json) resolves actual TypeScript module exports, including wildcard re-exports, aliases, type-only symbols and concrete leaf entry points. `node scripts/api-manifest.mjs --check` refuses stale snapshots. Changes to this file require a reviewer to evaluate import paths, runtime symbols, types, provider and hook contracts, and CSS entry points. Snapshot integrity is a static API check, not release certification.
 
 At the reviewed 1.0 freeze, STABLE contracts follow SemVer: incompatible runtime, type, CSS, schema or import-path changes require a major release; compatible additions require a minor release; compatible fixes require a patch. Prerelease changes must still document migrations. Package versions change in a dedicated qualified release step.
 

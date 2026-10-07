@@ -1,0 +1,11 @@
+.operationsCatalog { width: min(100%, 1200px); margin: 0 auto; padding: clamp(1.25rem, 3vw, 2.5rem); }
+.operationsCatalogStats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+.operationsCatalogBoundary { max-width: 72rem; margin: 0 0 1.5rem; color: var(--maataa-muted); line-height: 1.55; }
+.operationsCatalog section + section { margin-top: 1.5rem; }
+.operationsCatalogGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: .875rem; }
+.operationsCatalogEntry { display: grid; align-content: start; gap: .55rem; min-height: 11rem; padding: 1rem; border: 1px solid var(--maataa-line); border-radius: .875rem; background: var(--maataa-surface); box-shadow: 0 .4rem 1rem color-mix(in srgb, var(--maataa-ink) 5%, transparent); }
+.operationsCatalogEntry > div { display: flex; flex-wrap: wrap; gap: .35rem; }
+.operationsCatalogEntry h3 { margin: .1rem 0 0; color: var(--maataa-ink); font-size: 1rem; }
+.operationsCatalogEntry code { overflow-wrap: anywhere; color: var(--maataa-accent-strong); font-size: .78rem; }
+.operationsCatalogEntry small { color: var(--maataa-muted); font-size: .75rem; overflow-wrap: anywhere; }
+@media (max-width: 700px) { .operationsCatalogStats { grid-template-columns: 1fr; } }

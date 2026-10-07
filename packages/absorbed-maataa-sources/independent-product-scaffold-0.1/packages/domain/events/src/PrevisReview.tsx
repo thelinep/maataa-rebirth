@@ -1,0 +1,1 @@
+import * as React from "react";export function PrevisReview({children}:{children?:React.ReactNode}){return <section data-maataa-domain="events" data-maataa-component="PrevisReview">{children}</section>;}

@@ -4,16 +4,41 @@ Standalone MAATAA visual UI library for React + TypeScript applications.
 
 New to this repository? Start with [`docs/START-HERE.md`](docs/START-HERE.md) for setup, a folder map, and safe first steps.
 
+## Repository map
+
+```text
+src/                         Reusable UI package source
+packages/absorbed-maataa-sources/ Historical MAATAA UI generations, hash-indexed
+examples/redux-demo/         MAATAA product explorer, Theme Studio, Brahmini and pilot demos
+examples/support-center/     Standalone Support Center and Electron desktop shell
+tests/                       Unit, accessibility and browser end-to-end tests
+stories/                     Storybook examples; generated stories live in stories/generated/
+docs/product/                Product guides and UI catalog references
+docs/release/                Roadmap, release status, evidence and hotfix history
+docs/engineering/            Runtime, composition and implementation contracts
+docs/pilots/                  TLPS and NEVO pilot plans and local run records
+manifests/                   Generated API, catalogue, demo and release-prep snapshots
+scripts/                     Build, validation, packaging and reporting tools
+scripts/hotfixes/alpha8.5/    Archived Alpha 8.5 apply, rollback and verification tools
+beta/                         Beta budgets and qualification policy
+```
+
+The repository root keeps the package manager files and tool configs that the current TypeScript, Vite, Vitest and Playwright commands resolve from there. Product planning lives in [`docs/product/PRODUCT-ROADMAP.md`](docs/product/PRODUCT-ROADMAP.md), enterprise release planning in [`docs/release/ROADMAP.md`](docs/release/ROADMAP.md), and current release-evidence rules in [`docs/release/EVIDENCE.md`](docs/release/EVIDENCE.md). Browse the rest of the docs in [`docs/README.md`](docs/README.md); generated snapshots are indexed in [`manifests/README.md`](manifests/README.md).
+
+For a navigable reconstruction of the product, pilots, Brahmini workbench, authority boundaries and release gates, open the [MAATAA ecosystem knowledge graph](docs/knowledge-graph/).
+
+Historical MAATAA UI package copies have been absorbed into this repository under [`packages/absorbed-maataa-sources/`](packages/absorbed-maataa-sources/), with source provenance and SHA-256 inventories. The canonical shared package remains `src/`; the absorption and consumer-migration boundaries are documented in the [source absorption report](docs/knowledge-graph/MAATAA_UI_SOURCE_ABSORPTION_2026-10-07.md).
+
 This package contains application-agnostic components only. It does **not** provide authentication, authorization, API clients, databases, business workflows, payments, infrastructure provisioning, or application routing.
 
 ## Public / demo surface
 
-`pnpm demo` launches the complete hash-routed local surface with Landing, Live Full Surface Explorer, Playground, Sandbox, Demos, Docs, Help and Support. The explorer includes a visual preview canvas and copy controls. See `PUBLIC-SURFACE.md`.
+`pnpm demo` launches the complete hash-routed local surface with Landing, Live Full Surface Explorer, Playground, Sandbox, Demos, Docs, Help and Support. The explorer includes a visual preview canvas and copy controls. See [the public surface guide](docs/product/PUBLIC-SURFACE.md).
 
 
 ## Icons & symbolic demo identities
 
-Alpha 8 adds **42 provider-free MAATAA core SVG icons** and **15 symbolic demo identities**: Brahmini, Shiv, Parvati, seven Saptarishis and five Panchtatva identities. The demo uses these personas for session identity, workspace ownership, AI agents, activity, approvals and avatar groups. Their software responsibilities are demo metaphors only, not theological claims. See `IDENTITIES.md` and `ICONS.md`.
+Alpha 8 adds **42 provider-free MAATAA core SVG icons** and **15 symbolic demo identities**: Brahmini, Shiv, Parvati, seven Saptarishis and five Panchtatva identities. The demo uses these personas for session identity, workspace ownership, AI agents, activity, approvals and avatar groups. Their software responsibilities are demo metaphors only, not theological claims. See [identities](docs/product/IDENTITIES.md) and [icons](docs/product/ICONS.md).
 
 ```tsx
 import { IdentityAvatar } from "@maataa/ui/identity/IdentityAvatar";
@@ -89,7 +114,7 @@ The MAATAA gold/focus glare is static at rest and animates/brightens only on hov
 
 ## Accessibility
 
-The package is designed around semantic HTML, keyboard operability, visible focus, appropriate ARIA semantics, and touch-friendly controls. Automated checks cannot establish complete WCAG conformance; see `ACCESSIBILITY.md`.
+The package is designed around semantic HTML, keyboard operability, visible focus, appropriate ARIA semantics, and touch-friendly controls. Automated checks cannot establish complete WCAG conformance; see [the accessibility guide](docs/product/ACCESSIBILITY.md).
 
 ## Development
 
@@ -108,7 +133,7 @@ npm pack
 
 `@maataa/ui` owns visual interaction components. Host applications own routing, data fetching, authentication, authorization and business state.
 
-See `COMPONENTS.md`, `THEMING.md`, `ACCESSIBILITY.md`, and `MIGRATION.md`.
+See [components](docs/product/COMPONENTS.md), [themes](docs/product/THEMING.md), [accessibility](docs/product/ACCESSIBILITY.md), and [migration](docs/product/MIGRATION.md).
 
 ## Atomic component contract
 
@@ -126,7 +151,7 @@ Compound components must be composed from independently addressable parts. Appli
 
 ## Layout system
 
-The package includes 34 independently importable layout-region atoms and 100 named compositional layout archetypes, including Holy Grail, Master–Detail, Workbench, Studio, Command Center, IDE, Spatial/CAD, Builder, Dashboard, Map Workspace, Kiosk, Control Room and HUD. See `LAYOUTS.md`.
+The package includes 34 independently importable layout-region atoms and 100 named compositional layout archetypes, including Holy Grail, Master–Detail, Workbench, Studio, Command Center, IDE, Spatial/CAD, Builder, Dashboard, Map Workspace, Kiosk, Control Room and HUD. See [layouts](docs/product/LAYOUTS.md).
 
 ```tsx
 import { HolyGrailLayout } from "@maataa/ui/layouts/HolyGrailLayout";
@@ -183,11 +208,11 @@ All registry metadata is descriptive UI vocabulary. It does **not** implement au
 
 ## Alpha 5 · Generators, Tools & AI Spaces
 
-Alpha 5 adds atomic visual/editor surfaces and canonical catalogs for generators, tools and AI-related spaces. Each generator/tool/space has a direct import file, while runtime execution remains host-owned. See `GENERATORS.md`, `TOOLS.md`, `AI-SPACES.md` and `AI-ARCHITECTURE.md`.
+Alpha 5 adds atomic visual/editor surfaces and canonical catalogs for generators, tools and AI-related spaces. Each generator/tool/space has a direct import file, while runtime execution remains host-owned. See [generators](docs/product/GENERATORS.md), [tools](docs/product/TOOLS.md), [AI spaces](docs/product/AI-SPACES.md) and [AI architecture](docs/product/AI-ARCHITECTURE.md).
 
 ## Device system
 
-Alpha 6 adds 187 canonical device types across 41 groups plus first-class viewport, input-modality, orientation, device-capability, safe-area and responsive-transformation catalogs. Every canonical device frame has a direct atomic import path under `@maataa/ui/devices/*`. See `DEVICES.md`.
+Alpha 6 adds 187 canonical device types across 41 groups plus first-class viewport, input-modality, orientation, device-capability, safe-area and responsive-transformation catalogs. Every canonical device frame has a direct atomic import path under `@maataa/ui/devices/*`. See [devices](docs/product/DEVICES.md).
 
 
 ## Alpha 7 Redux + demo data
@@ -209,7 +234,7 @@ import { VisualComposer, DEFAULT_COMPOSER_SCENE } from "@maataa/ui/composer";
 import { ResponsiveDeviceRuntime } from "@maataa/ui/runtime";
 ```
 
-Run `pnpm certify` for the installed-dependency type/test/Storybook/demo certification gate. See `ALPHA8-DEPTH.md`.
+Run `pnpm certify` for the installed-dependency type/test/Storybook/demo certification gate. See [Alpha 8 depth](docs/release/ALPHA8-DEPTH.md) and the [release roadmap](docs/release/ROADMAP.md).
 
 
 ## Alpha 8.4 Beta-prep

@@ -1,0 +1,1 @@
+import * as React from "react";export function FinancialApproval({children}:{children?:React.ReactNode}){return <section data-maataa-domain="finance" data-maataa-component="FinancialApproval">{children}</section>;}

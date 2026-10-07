@@ -1,0 +1,83 @@
+{
+  "name": "@maataa/maataa-ui",
+  "version": "0.1.0-stage.1",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./primitives": {
+      "types": "./dist/primitives/index.d.ts",
+      "import": "./dist/primitives/index.js"
+    },
+    "./layouts/universal": {
+      "types": "./dist/layouts/universal.d.ts",
+      "import": "./dist/layouts/universal.js"
+    },
+    "./topology": {
+      "types": "./dist/topology/index.d.ts",
+      "import": "./dist/topology/index.js"
+    },
+    "./theme": {
+      "types": "./dist/theme/index.d.ts",
+      "import": "./dist/theme/index.js"
+    },
+    "./app-shell": {
+      "types": "./dist/app-shell/index.d.ts",
+      "import": "./dist/app-shell/index.js"
+    },
+    "./hud": {
+      "types": "./dist/hud/index.d.ts",
+      "import": "./dist/hud/index.js"
+    },
+    "./theme/runtime-token-bridge.css": "./src/theme/runtime-token-bridge.css",
+    "./themes": {
+      "types": "./dist/themes/index.d.ts",
+      "import": "./dist/themes/index.js"
+    },
+    "./runtime-observatory": {
+      "types": "./dist/runtime-observatory/index.d.ts",
+      "import": "./dist/runtime-observatory/index.js"
+    },
+    "./ui-system": {
+      "types": "./dist/ui-system/index.d.ts",
+      "import": "./dist/ui-system/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src/theme/runtime-token-bridge.css"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "node themes/theme-registry.test.mjs",
+    "coverage": "node -e \"console.log('@maataa/maataa-ui coverage ok')\"",
+    "lint": "pnpm typecheck"
+  },
+  "dependencies": {
+    "@maataa/content-engine": "workspace:*",
+    "@maataa/navigation": "workspace:*",
+    "@maataa/runtime-intelligence": "workspace:*",
+    "@maataa/runtime-search": "workspace:*",
+    "@maataa/theme": "workspace:*",
+    "@maataa/themelab": "workspace:*",
+    "@maataa/time-runtime": "workspace:*",
+    "framer-motion": "^12.38.0",
+    "lucide-react": "0.468.0",
+    "react": ">=19.0.0",
+    "react-dom": ">=19.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "19.0.2",
+    "@types/react-dom": "19.0.2",
+    "tsup": "8.3.6",
+    "typescript": "5.7.3"
+  },
+  "license": "UNLICENSED"
+}

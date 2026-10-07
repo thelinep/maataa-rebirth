@@ -1,0 +1,53 @@
+/* Layout utilities generated from former inline styles on NEVO public and
+   sign-in routes. !important keeps the precedence the inline style had. */
+.nv-c-accent-strong{color:var(--nevo-fuchsia-dark)!important}
+.nv-c-b91c1c{color:#b91c1c!important}
+.nv-cols-1fr{grid-template-columns:1fr!important}
+.nv-d-block{display:block!important}
+.nv-d-flex{display:flex!important}
+.nv-d-grid{display:grid!important}
+.nv-d-inline-flex{display:inline-flex!important}
+.nv-flex-1{flex:1!important}
+.nv-fs-12{font-size:12px!important}
+.nv-fw-800{font-weight:800!important}
+.nv-gap-10{gap:10px!important}
+.nv-gap-12{gap:12px!important}
+.nv-gap-14{gap:14px!important}
+.nv-gap-6{gap:6px!important}
+.nv-gap-8{gap:8px!important}
+.nv-height-2rem{height:2rem!important}
+.nv-height-3_4rem{height:3.4rem!important}
+.nv-items-center{align-items:center!important}
+.nv-items-start{align-items:flex-start!important}
+.nv-justify-between{justify-content:space-between!important}
+.nv-justify-center{justify-content:center!important}
+.nv-list-none{list-style:none!important}
+.nv-ls-0_08em{letter-spacing:.08em!important}
+.nv-m-0-0-4{margin:0 0 4px!important}
+.nv-m-0{margin:0!important}
+.nv-m-10-0-4{margin:10px 0 4px!important}
+.nv-m-12-0-4{margin:12px 0 4px!important}
+.nv-m-12-0{margin:12px 0!important}
+.nv-m-18-0-6{margin:18px 0 6px!important}
+.nv-m-4-0-10{margin:4px 0 10px!important}
+.nv-maxw-100{max-width:100%!important}
+.nv-maxw-20rem{max-width:20rem!important}
+.nv-maxw-22rem{max-width:22rem!important}
+.nv-maxw-36rem{max-width:36rem!important}
+.nv-maxw-62{max-width:62%!important}
+.nv-maxw-860{max-width:860px!important}
+.nv-mt-10{margin-top:10px!important}
+.nv-mt-12{margin-top:12px!important}
+.nv-mt-16{margin-top:16px!important}
+.nv-mt-18{margin-top:18px!important}
+.nv-mt-1_5rem{margin-top:1.5rem!important}
+.nv-mt-1_75rem{margin-top:1.75rem!important}
+.nv-mt-20{margin-top:20px!important}
+.nv-mt-24{margin-top:24px!important}
+.nv-mt-28{margin-top:28px!important}
+.nv-mt-3rem{margin-top:3rem!important}
+.nv-mt-6{margin-top:6px!important}
+.nv-mt-8{margin-top:8px!important}
+.nv-p-0{padding:0!important}
+.nv-pt-64{padding-top:64px!important}
+.nv-wrap{flex-wrap:wrap!important}

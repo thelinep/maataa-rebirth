@@ -26,7 +26,8 @@ const manifest = {
   files: items,
 };
 const raw = JSON.stringify(manifest, null, 2) + "\n";
-fs.writeFileSync("DEMO_MANIFEST.json", raw);
+fs.mkdirSync("manifests", { recursive: true });
+fs.writeFileSync("manifests/DEMO_MANIFEST.json", raw);
 const hash = crypto.createHash("sha256").update(raw).digest("hex");
-fs.writeFileSync("DEMO_MANIFEST.sha256", `${hash}  DEMO_MANIFEST.json\n`);
+fs.writeFileSync("manifests/DEMO_MANIFEST.sha256", `${hash}  DEMO_MANIFEST.json\n`);
 console.log(hash);

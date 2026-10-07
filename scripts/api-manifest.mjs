@@ -40,8 +40,9 @@ exportsList.sort((a,b)=>a.subpath.localeCompare(b.subpath)||a.name.localeCompare
 entryPoints.sort((a,b)=>a.subpath.localeCompare(b.subpath));
 const manifest={schemaVersion:"2.0.0",package:pkg.name,version:pkg.version,generatedFrom:"TypeScript resolved symbols and package export map",classificationPolicy:"Pre-GA public APIs remain EXPERIMENTAL until a reviewed freeze; non-exported implementation modules are INTERNAL.",entryPoints,exports:exportsList};
 const pretty=JSON.stringify(manifest,null,2)+"\n";
+const output=path.join(root,"manifests");fs.mkdirSync(output,{recursive:true});
 const hash=createHash("sha256").update(pretty).digest("hex");
 if(process.argv.includes("--check")){
- if(fs.readFileSync("PUBLIC_API.json","utf8")!==pretty||fs.readFileSync("PUBLIC_API.sha256","utf8")!==`${hash}  PUBLIC_API.json\n`)throw new Error("Public API snapshot stale; regenerate and review the API change.");
-}else{fs.writeFileSync("PUBLIC_API.json",pretty);fs.writeFileSync("PUBLIC_API.sha256",`${hash}  PUBLIC_API.json\n`);}
+ if(fs.readFileSync(path.join(output,"PUBLIC_API.json"),"utf8")!==pretty||fs.readFileSync(path.join(output,"PUBLIC_API.sha256"),"utf8")!==`${hash}  PUBLIC_API.json\n`)throw new Error("Public API snapshot stale; regenerate and review the API change.");
+}else{fs.writeFileSync(path.join(output,"PUBLIC_API.json"),pretty);fs.writeFileSync(path.join(output,"PUBLIC_API.sha256"),`${hash}  PUBLIC_API.json\n`);}
 console.log(`${exportsList.length} resolved public symbols across ${entryPoints.length} entry points · ${hash}`);

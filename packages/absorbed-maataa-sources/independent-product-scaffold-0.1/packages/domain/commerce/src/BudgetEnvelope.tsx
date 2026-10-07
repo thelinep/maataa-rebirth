@@ -1,0 +1,1 @@
+import * as React from "react";export function BudgetEnvelope({children}:{children?:React.ReactNode}){return <section data-maataa-domain="commerce" data-maataa-component="BudgetEnvelope">{children}</section>;}

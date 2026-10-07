@@ -1,0 +1,17 @@
+:root {
+  --chakra-root: #e74c3c;
+  --chakra-sacral: #f39c12;
+  --chakra-solar: #f1c40f;
+  --chakra-heart: #e84393;
+  --chakra-throat: #0984e3;
+  --chakra-thirdeye: #6c5ce7;
+  --chakra-crown: #8e44ad;
+}
+[data-theme='dark'] {
+  --chakra-bg: #000;
+  --chakra-text: #fff;
+}
+[data-theme='light'] {
+  --chakra-bg: #fff;
+  --chakra-text: #000;
+}

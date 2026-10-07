@@ -1,0 +1,1620 @@
+{
+  "generatedAt": "2026-10-07",
+  "canonicalPackage": {
+    "name": "@maataa/ui",
+    "version": "1.0.0-alpha.8.4",
+    "source": "src/",
+    "apiManifest": "manifests/PUBLIC_API.json"
+  },
+  "archiveManifest": "packages/absorbed-maataa-sources/manifest.json",
+  "archiveComparison": "Named imports missing from the canonical API are checked against exported declarations in the absorbed source snapshots; these are candidates only, not a recommendation to port branded/dependencyful behavior.",
+  "consumerScope": "Active application source and stories; generated builds, static public assets, and archived snapshots are excluded.",
+  "consumers": [
+    {
+      "id": "NEVO web",
+      "packageName": "@maataa/ui",
+      "root": "/Users/vesahe/Documents/Repos/nevo-event-os-3/apps/web",
+      "importedSymbols": 128,
+      "importedSubpaths": [
+        {
+          "moduleName": "@maataa/ui/themes/nevo/index.css",
+          "symbolCount": 0
+        },
+        {
+          "moduleName": "@maataa/ui/themes/nevo/storybook/index.css",
+          "symbolCount": 0
+        },
+        {
+          "moduleName": "@maataa/ui",
+          "symbolCount": 98
+        },
+        {
+          "moduleName": "@maataa/ui/nevo",
+          "symbolCount": 13
+        },
+        {
+          "moduleName": "@maataa/ui/wizard",
+          "symbolCount": 17
+        }
+      ],
+      "gaps": [
+        {
+          "moduleName": "@maataa/ui/themes/nevo/index.css",
+          "importedSymbols": 0,
+          "exportPresent": false,
+          "missingSymbols": [],
+          "archiveCandidates": {}
+        },
+        {
+          "moduleName": "@maataa/ui/themes/nevo/storybook/index.css",
+          "importedSymbols": 0,
+          "exportPresent": false,
+          "missingSymbols": [],
+          "archiveCandidates": {}
+        },
+        {
+          "moduleName": "@maataa/ui",
+          "importedSymbols": 98,
+          "exportPresent": true,
+          "missingSymbols": [
+            "Anchor",
+            "AudioOutput",
+            "AutoGrid",
+            "Body",
+            "ButtonBase",
+            "CardMachine",
+            "CreateCard",
+            "DataList",
+            "DateRange",
+            "Details",
+            "DocumentCover",
+            "DocumentIndex",
+            "DocumentMachine",
+            "Glossary",
+            "Glyph",
+            "GlyphName",
+            "HeroImage",
+            "Html",
+            "ImageHolder",
+            "Img",
+            "LineBreak",
+            "ListCards",
+            "ListGroup",
+            "ListItem",
+            "MarketingLinkComponent",
+            "MarketingNav",
+            "MarketingNavLink",
+            "MediaAssetReferenceAdapter",
+            "MediaInput",
+            "MegaMenu",
+            "NevoIcon",
+            "NevoIconGradientDefs",
+            "NevoIconKey",
+            "Option",
+            "OtpInput",
+            "Picture",
+            "Region",
+            "SelectOption",
+            "SignaturePad",
+            "SignerListAdapter",
+            "Source",
+            "SpatialPreview",
+            "Summary",
+            "TableColumn",
+            "TextInput",
+            "TextLink",
+            "Toggle",
+            "ToolCard",
+            "TrendChart",
+            "UiLinkComponent",
+            "UiLinkProvider",
+            "VarScope",
+            "VideoOutput",
+            "Widget",
+            "themeFamilies",
+            "themes"
+          ],
+          "archiveCandidates": {
+            "Anchor": [
+              "nevo-ui-0.1"
+            ],
+            "AudioOutput": [
+              "nevo-ui-0.1"
+            ],
+            "AutoGrid": [
+              "nevo-ui-0.1"
+            ],
+            "Body": [
+              "nevo-ui-0.1"
+            ],
+            "ButtonBase": [
+              "nevo-ui-0.1"
+            ],
+            "CardMachine": [
+              "nevo-ui-0.1"
+            ],
+            "CreateCard": [
+              "nevo-ui-0.1"
+            ],
+            "DataList": [
+              "nevo-ui-0.1"
+            ],
+            "DateRange": [
+              "fused-ui-alpha0",
+              "nevo-ui-0.1"
+            ],
+            "Details": [
+              "nevo-ui-0.1"
+            ],
+            "DocumentCover": [
+              "nevo-ui-0.1"
+            ],
+            "DocumentIndex": [
+              "nevo-ui-0.1"
+            ],
+            "DocumentMachine": [
+              "nevo-ui-0.1"
+            ],
+            "Glossary": [
+              "nevo-ui-0.1"
+            ],
+            "Glyph": [
+              "nevo-ui-0.1"
+            ],
+            "GlyphName": [
+              "nevo-ui-0.1"
+            ],
+            "HeroImage": [
+              "nevo-ui-0.1"
+            ],
+            "Html": [
+              "nevo-ui-0.1"
+            ],
+            "ImageHolder": [
+              "nevo-ui-0.1"
+            ],
+            "Img": [
+              "nevo-ui-0.1"
+            ],
+            "LineBreak": [
+              "nevo-ui-0.1"
+            ],
+            "ListCards": [
+              "nevo-ui-0.1"
+            ],
+            "ListGroup": [
+              "nevo-ui-0.1"
+            ],
+            "ListItem": [
+              "nevo-ui-0.1"
+            ],
+            "MarketingLinkComponent": [
+              "nevo-ui-0.1"
+            ],
+            "MarketingNav": [
+              "nevo-ui-0.1"
+            ],
+            "MarketingNavLink": [
+              "nevo-ui-0.1"
+            ],
+            "MediaAssetReferenceAdapter": [
+              "nevo-ui-0.1"
+            ],
+            "MediaInput": [
+              "nevo-ui-0.1"
+            ],
+            "MegaMenu": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1",
+              "nevo-ui-0.1"
+            ],
+            "NevoIcon": [
+              "nevo-ui-0.1"
+            ],
+            "NevoIconGradientDefs": [
+              "nevo-ui-0.1"
+            ],
+            "NevoIconKey": [
+              "nevo-ui-0.1"
+            ],
+            "Option": [
+              "nevo-ui-0.1"
+            ],
+            "OtpInput": [
+              "nevo-ui-0.1"
+            ],
+            "Picture": [
+              "nevo-ui-0.1"
+            ],
+            "Region": [
+              "nevo-ui-0.1"
+            ],
+            "SelectOption": [
+              "fused-ui-alpha0",
+              "nevo-ui-0.1"
+            ],
+            "SignaturePad": [
+              "nevo-ui-0.1"
+            ],
+            "SignerListAdapter": [
+              "nevo-ui-0.1"
+            ],
+            "Source": [
+              "nevo-ui-0.1"
+            ],
+            "SpatialPreview": [
+              "nevo-ui-0.1"
+            ],
+            "Summary": [
+              "nevo-ui-0.1"
+            ],
+            "TableColumn": [
+              "nevo-ui-0.1"
+            ],
+            "TextInput": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1",
+              "nevo-ui-0.1"
+            ],
+            "TextLink": [
+              "nevo-ui-0.1"
+            ],
+            "Toggle": [
+              "fused-ui-alpha0",
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1",
+              "nevo-ui-0.1"
+            ],
+            "ToolCard": [
+              "nevo-ui-0.1"
+            ],
+            "TrendChart": [
+              "nevo-ui-0.1"
+            ],
+            "UiLinkComponent": [
+              "nevo-ui-0.1"
+            ],
+            "UiLinkProvider": [
+              "nevo-ui-0.1"
+            ],
+            "VarScope": [
+              "nevo-ui-0.1"
+            ],
+            "VideoOutput": [
+              "nevo-ui-0.1"
+            ],
+            "Widget": [
+              "nevo-ui-0.1"
+            ],
+            "themeFamilies": [
+              "legacy-ui-repository-0.1",
+              "nevo-ui-0.1",
+              "reference-ui-0.1"
+            ],
+            "themes": [
+              "legacy-ui-repository-0.1",
+              "nevo-ui-0.1",
+              "reference-ui-0.1"
+            ]
+          }
+        },
+        {
+          "moduleName": "@maataa/ui/nevo",
+          "importedSymbols": 13,
+          "exportPresent": false,
+          "missingSymbols": [
+            "ActionGroup",
+            "Button",
+            "Card",
+            "EmptyState",
+            "EventTypeIcon",
+            "IconButton",
+            "LoadingState",
+            "PageHeader",
+            "Pill",
+            "Section",
+            "Select",
+            "Stat",
+            "StatusBadge"
+          ],
+          "archiveCandidates": {
+            "ActionGroup": [
+              "nevo-ui-0.1"
+            ],
+            "Button": [
+              "hybrid-runtime-ui-1.0",
+              "independent-product-scaffold-0.1",
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1",
+              "nevo-ui-0.1",
+              "standalone-ui-lib-alpha0"
+            ],
+            "Card": [
+              "hybrid-runtime-ui-1.0",
+              "independent-product-scaffold-0.1",
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1",
+              "nevo-ui-0.1",
+              "standalone-ui-lib-alpha0"
+            ],
+            "EmptyState": [
+              "fused-ui-alpha0",
+              "independent-product-scaffold-0.1",
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1",
+              "nevo-ui-0.1",
+              "standalone-ui-lib-alpha0"
+            ],
+            "EventTypeIcon": [
+              "nevo-ui-0.1"
+            ],
+            "IconButton": [
+              "fused-ui-alpha0",
+              "nevo-ui-0.1",
+              "standalone-ui-lib-alpha0"
+            ],
+            "LoadingState": [
+              "nevo-ui-0.1"
+            ],
+            "PageHeader": [
+              "nevo-ui-0.1"
+            ],
+            "Pill": [
+              "fused-ui-alpha0",
+              "nevo-ui-0.1",
+              "standalone-ui-lib-alpha0"
+            ],
+            "Section": [
+              "nevo-ui-0.1"
+            ],
+            "Select": [
+              "fused-ui-alpha0",
+              "nevo-ui-0.1"
+            ],
+            "Stat": [
+              "hybrid-runtime-ui-1.0",
+              "nevo-ui-0.1"
+            ],
+            "StatusBadge": [
+              "fused-ui-alpha0",
+              "legacy-ui-repository-0.1",
+              "nevo-ui-0.1",
+              "reference-ui-0.1",
+              "standalone-ui-lib-alpha0"
+            ]
+          }
+        },
+        {
+          "moduleName": "@maataa/ui/wizard",
+          "importedSymbols": 17,
+          "exportPresent": false,
+          "missingSymbols": [
+            "NevoWizard",
+            "NevoWizardActions",
+            "NevoWizardBody",
+            "NevoWizardDefaultLayout",
+            "NevoWizardHeader",
+            "NevoWizardMobileNav",
+            "NevoWizardProgress",
+            "NevoWizardShell",
+            "NevoWizardStep",
+            "NevoWizardStepper",
+            "NevoWizardSummary",
+            "Wizard",
+            "WizardMode",
+            "WizardPersistenceAdapter",
+            "WizardStepDefinition",
+            "WizardValidationResult",
+            "useNevoWizard"
+          ],
+          "archiveCandidates": {
+            "NevoWizard": [
+              "nevo-ui-0.1"
+            ],
+            "NevoWizardActions": [
+              "nevo-ui-0.1"
+            ],
+            "NevoWizardBody": [
+              "nevo-ui-0.1"
+            ],
+            "NevoWizardDefaultLayout": [
+              "nevo-ui-0.1"
+            ],
+            "NevoWizardHeader": [
+              "nevo-ui-0.1"
+            ],
+            "NevoWizardMobileNav": [
+              "nevo-ui-0.1"
+            ],
+            "NevoWizardProgress": [
+              "nevo-ui-0.1"
+            ],
+            "NevoWizardShell": [
+              "nevo-ui-0.1"
+            ],
+            "NevoWizardStep": [
+              "nevo-ui-0.1"
+            ],
+            "NevoWizardStepper": [
+              "nevo-ui-0.1"
+            ],
+            "NevoWizardSummary": [
+              "nevo-ui-0.1"
+            ],
+            "Wizard": [
+              "nevo-ui-0.1"
+            ],
+            "WizardMode": [
+              "nevo-ui-0.1"
+            ],
+            "WizardPersistenceAdapter": [
+              "nevo-ui-0.1"
+            ],
+            "WizardStepDefinition": [
+              "nevo-ui-0.1"
+            ],
+            "WizardValidationResult": [
+              "nevo-ui-0.1"
+            ],
+            "useNevoWizard": [
+              "nevo-ui-0.1"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "MOM web",
+      "packageName": "@maataa/maataa-ui",
+      "root": "/Users/vesahe/revenue/live/mom/apps/web",
+      "importedSymbols": 80,
+      "importedSubpaths": [
+        {
+          "moduleName": "@maataa/ui/layouts/universal",
+          "symbolCount": 3
+        },
+        {
+          "moduleName": "@maataa/ui",
+          "symbolCount": 45
+        },
+        {
+          "moduleName": "@maataa/ui/themes",
+          "symbolCount": 18
+        },
+        {
+          "moduleName": "@maataa/ui/runtime-observatory",
+          "symbolCount": 2
+        },
+        {
+          "moduleName": "@maataa/ui/theme",
+          "symbolCount": 6
+        },
+        {
+          "moduleName": "@maataa/ui/app-shell",
+          "symbolCount": 6
+        }
+      ],
+      "gaps": [
+        {
+          "moduleName": "@maataa/ui/layouts/universal",
+          "importedSymbols": 3,
+          "exportPresent": false,
+          "missingSymbols": [
+            "UniversalGrid",
+            "UniversalLayout",
+            "UniversalPanel"
+          ],
+          "archiveCandidates": {
+            "UniversalGrid": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "UniversalLayout": [
+              "maataa-os-ui-alpha1",
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "UniversalPanel": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ]
+          }
+        },
+        {
+          "moduleName": "@maataa/ui",
+          "importedSymbols": 45,
+          "exportPresent": true,
+          "missingSymbols": [
+            "AdminKpiCard",
+            "GlassPanel",
+            "GraphLegend",
+            "MetricCard",
+            "PageShell",
+            "ReleaseBadge",
+            "RuntimeActionBar",
+            "RuntimeActionGate",
+            "RuntimeApprovalCenter",
+            "RuntimeApprovalItem",
+            "RuntimeApprovalWidget",
+            "RuntimeClock",
+            "RuntimeDeploymentCenter",
+            "RuntimeDeploymentItem",
+            "RuntimeEvidenceCenter",
+            "RuntimeEvidenceItem",
+            "RuntimeHUDMobile",
+            "RuntimeHUDNotification",
+            "RuntimeHUDOverlay",
+            "RuntimeHUDOverlayTab",
+            "RuntimeHUDPanelId",
+            "RuntimeHUDRail",
+            "RuntimeHUDRoleMode",
+            "RuntimeHUDStatus",
+            "RuntimeHUDStatusBar",
+            "RuntimeHUDWidgetProps",
+            "RuntimeHealthWidget",
+            "RuntimeNotificationCenter",
+            "RuntimeObservatoryHUD",
+            "RuntimeOperatorWorkspace",
+            "RuntimePageShell",
+            "RuntimeRouteWidget",
+            "RuntimeStatusGrid",
+            "RuntimeStatusGridItem",
+            "RuntimeTelemetryHUD",
+            "RuntimeTelemetryWidget",
+            "RuntimeTimeline",
+            "RuntimeTopologyHUD",
+            "RuntimeTopologyWidget",
+            "SectionHeader",
+            "SovereignRuntimeProvider",
+            "ThemeRuntimeProvider"
+          ],
+          "archiveCandidates": {
+            "AdminKpiCard": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "GlassPanel": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "GraphLegend": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "MetricCard": [
+              "fused-ui-alpha0",
+              "independent-product-scaffold-0.1",
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1",
+              "standalone-ui-lib-alpha0"
+            ],
+            "PageShell": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "ReleaseBadge": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeActionBar": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeActionGate": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeApprovalCenter": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeApprovalItem": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeApprovalWidget": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeClock": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeDeploymentCenter": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeDeploymentItem": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeEvidenceCenter": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeEvidenceItem": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeHUDMobile": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeHUDNotification": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeHUDOverlay": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeHUDOverlayTab": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeHUDPanelId": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeHUDRail": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeHUDRoleMode": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeHUDStatus": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeHUDStatusBar": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeHUDWidgetProps": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeHealthWidget": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeNotificationCenter": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeObservatoryHUD": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeOperatorWorkspace": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimePageShell": [
+              "maataa-os-ui-alpha1",
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeRouteWidget": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeStatusGrid": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeStatusGridItem": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeTelemetryHUD": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeTelemetryWidget": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeTimeline": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeTopologyHUD": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeTopologyWidget": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "SectionHeader": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "SovereignRuntimeProvider": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "ThemeRuntimeProvider": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ]
+          }
+        },
+        {
+          "moduleName": "@maataa/ui/themes",
+          "importedSymbols": 18,
+          "exportPresent": true,
+          "missingSymbols": [
+            "ACCESSIBILITY_THEMES",
+            "AGE_THEMES",
+            "BASE_COLOR_TOKENS",
+            "BASE_TYPOGRAPHY_TOKENS",
+            "CHAKRA_THEMES",
+            "CSSVariableMap",
+            "DEVICE_THEMES",
+            "NETWORK_THEMES",
+            "THEME_FAMILIES",
+            "THEME_REGISTRY",
+            "ThemeFamily",
+            "ThemeId",
+            "getThemeById",
+            "getThemeFamilies",
+            "getThemesByFamily",
+            "resolveThemeStack",
+            "themeToCSSVariables"
+          ],
+          "archiveCandidates": {
+            "ACCESSIBILITY_THEMES": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "AGE_THEMES": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "BASE_COLOR_TOKENS": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "BASE_TYPOGRAPHY_TOKENS": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "CHAKRA_THEMES": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "CSSVariableMap": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "DEVICE_THEMES": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "NETWORK_THEMES": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "THEME_FAMILIES": [
+              "maataa-os-ui-alpha1",
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "THEME_REGISTRY": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "ThemeFamily": [
+              "legacy-ui-repository-0.1",
+              "maataa-os-ui-alpha1",
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1",
+              "nevo-ui-0.1",
+              "reference-ui-0.1"
+            ],
+            "ThemeId": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "getThemeById": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "getThemeFamilies": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "getThemesByFamily": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "resolveThemeStack": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "themeToCSSVariables": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ]
+          }
+        },
+        {
+          "moduleName": "@maataa/ui/runtime-observatory",
+          "importedSymbols": 2,
+          "exportPresent": false,
+          "missingSymbols": [
+            "RuntimeObservatoryEvidence",
+            "loadRuntimeObservatoryEvidence"
+          ],
+          "archiveCandidates": {
+            "RuntimeObservatoryEvidence": [
+              "maataa-os-ui-alpha1",
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "loadRuntimeObservatoryEvidence": [
+              "maataa-os-ui-alpha1",
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ]
+          }
+        },
+        {
+          "moduleName": "@maataa/ui/theme",
+          "importedSymbols": 6,
+          "exportPresent": false,
+          "missingSymbols": [
+            "RouteThemeBoundary",
+            "ThemeNode",
+            "applyTheme",
+            "loadTheme",
+            "restoreTheme",
+            "saveTheme"
+          ],
+          "archiveCandidates": {
+            "RouteThemeBoundary": [
+              "mom-ui-stage1"
+            ],
+            "ThemeNode": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "applyTheme": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "loadTheme": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "restoreTheme": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "saveTheme": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ]
+          }
+        },
+        {
+          "moduleName": "@maataa/ui/app-shell",
+          "importedSymbols": 6,
+          "exportPresent": false,
+          "missingSymbols": [
+            "ContextDock",
+            "DomainSwitcher",
+            "GlobalRuntimeThemeProvider",
+            "RuntimeStatusItem",
+            "resolveThemeForHostname",
+            "useGlobalRuntimeTheme"
+          ],
+          "archiveCandidates": {
+            "ContextDock": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "DomainSwitcher": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "GlobalRuntimeThemeProvider": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeStatusItem": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "resolveThemeForHostname": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "useGlobalRuntimeTheme": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "MOM Storybook",
+      "packageName": "@maataa/maataa-ui",
+      "root": "/Users/vesahe/revenue/live/mom/apps/storybook",
+      "importedSymbols": 114,
+      "importedSubpaths": [
+        {
+          "moduleName": "@maataa/ui",
+          "symbolCount": 112
+        },
+        {
+          "moduleName": "@maataa/ui/ui-system",
+          "symbolCount": 2
+        }
+      ],
+      "gaps": [
+        {
+          "moduleName": "@maataa/ui",
+          "importedSymbols": 112,
+          "exportPresent": true,
+          "missingSymbols": [
+            "AdminKpiCard",
+            "AmbientGradient",
+            "BrandAsset",
+            "BrandButton",
+            "CinematicHomepage",
+            "ContextDock",
+            "CosmicCaption",
+            "CosmicGrid",
+            "DeviceTrustBadge",
+            "DharmaQuote",
+            "DomainCard",
+            "DomainStatusBadge",
+            "EcosystemExplorer",
+            "EcosystemGraph",
+            "FieldShell",
+            "FooterDomains",
+            "FooterKnowledge",
+            "FooterStatus",
+            "FooterTrust",
+            "GlassPanel",
+            "GlowCard",
+            "GlowMetric",
+            "GlowRing",
+            "GraphLegend",
+            "HKDDate",
+            "HemantSamwatDate",
+            "HeroHeading",
+            "HoverDepth",
+            "Layout",
+            "LiveStatusMatrix",
+            "MegaMenu",
+            "MetricsCard",
+            "MobileBottomDock",
+            "MobileCommandOverlay",
+            "MobileNavigator",
+            "MobileQuickActions",
+            "MobileRuntimeShell",
+            "MobileRuntimeStatus",
+            "MotionPanel",
+            "Navigation",
+            "ObservabilityRuntimeTimeline",
+            "OrbitalOverlay",
+            "ReleaseBadge",
+            "RuntimeActionBar",
+            "RuntimeApprovalCenter",
+            "RuntimeApprovalWidget",
+            "RuntimeBadge",
+            "RuntimeBreadcrumbs",
+            "RuntimeCard",
+            "RuntimeCheckbox",
+            "RuntimeClock",
+            "RuntimeContainer",
+            "RuntimeDataTimeline",
+            "RuntimeDeploymentCenter",
+            "RuntimeDock",
+            "RuntimeEvidenceCenter",
+            "RuntimeGlow",
+            "RuntimeGrid",
+            "RuntimeHUDMobile",
+            "RuntimeHUDOverlay",
+            "RuntimeHUDRail",
+            "RuntimeHUDStatusBar",
+            "RuntimeHealth",
+            "RuntimeHealthWidget",
+            "RuntimeInput",
+            "RuntimeMetricCard",
+            "RuntimeNotificationCenter",
+            "RuntimeObservatoryHUD",
+            "RuntimeOperatorWorkspace",
+            "RuntimeOrbit",
+            "RuntimeOverlay",
+            "RuntimePage",
+            "RuntimePageShell",
+            "RuntimePanel",
+            "RuntimeProgress",
+            "RuntimePulse",
+            "RuntimeReveal",
+            "RuntimeRouteWidget",
+            "RuntimeSearch",
+            "RuntimeSelect",
+            "RuntimeShell",
+            "RuntimeSidebar",
+            "RuntimeStack",
+            "RuntimeStat",
+            "RuntimeStatus",
+            "RuntimeStatusGrid",
+            "RuntimeSwitch",
+            "RuntimeTable",
+            "RuntimeTelemetryHUD",
+            "RuntimeTelemetryWidget",
+            "RuntimeTextarea",
+            "RuntimeTimeline",
+            "RuntimeTopbar",
+            "RuntimeTopologyHUD",
+            "RuntimeTopologyMap",
+            "RuntimeTopologyVisualizer",
+            "RuntimeTopologyWidget",
+            "RuntimeTree",
+            "SectionLabel",
+            "SovereignFooter",
+            "SovereignHeader",
+            "SovereignRuntimeProvider",
+            "StatusCard",
+            "StatusMatrix",
+            "ThemeRuntimeProvider",
+            "TruthBadge",
+            "UniversalContainer",
+            "UniversalGrid",
+            "UniversalLayout",
+            "UniversalPanel",
+            "UnlockTrustStrip",
+            "themeRegistry"
+          ],
+          "archiveCandidates": {
+            "AdminKpiCard": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "AmbientGradient": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "BrandAsset": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "BrandButton": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "CinematicHomepage": [
+              "maataa-os-ui-alpha1",
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "ContextDock": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "CosmicCaption": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "CosmicGrid": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "DeviceTrustBadge": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "DharmaQuote": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "DomainCard": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "DomainStatusBadge": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "EcosystemExplorer": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "EcosystemGraph": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "FieldShell": [
+              "fused-ui-alpha0",
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "FooterDomains": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "FooterKnowledge": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "FooterStatus": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "FooterTrust": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "GlassPanel": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "GlowCard": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "GlowMetric": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "GlowRing": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "GraphLegend": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "HKDDate": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "HemantSamwatDate": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "HeroHeading": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "HoverDepth": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "Layout": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "LiveStatusMatrix": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "MegaMenu": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1",
+              "nevo-ui-0.1"
+            ],
+            "MetricsCard": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "MobileBottomDock": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "MobileCommandOverlay": [
+              "maataa-os-ui-alpha1",
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "MobileNavigator": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "MobileQuickActions": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "MobileRuntimeShell": [
+              "maataa-os-ui-alpha1",
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "MobileRuntimeStatus": [
+              "maataa-os-ui-alpha1",
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "MotionPanel": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "Navigation": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "ObservabilityRuntimeTimeline": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "OrbitalOverlay": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "ReleaseBadge": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeActionBar": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeApprovalCenter": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeApprovalWidget": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeBadge": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeBreadcrumbs": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeCard": [
+              "maataa-os-ui-alpha1",
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeCheckbox": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeClock": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeContainer": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeDataTimeline": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeDeploymentCenter": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeDock": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeEvidenceCenter": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeGlow": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeGrid": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeHUDMobile": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeHUDOverlay": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeHUDRail": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeHUDStatusBar": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeHealth": [
+              "maataa-os-ui-alpha1",
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeHealthWidget": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeInput": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeMetricCard": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeNotificationCenter": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeObservatoryHUD": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeOperatorWorkspace": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeOrbit": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeOverlay": [
+              "maataa-os-ui-alpha1",
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimePage": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimePageShell": [
+              "maataa-os-ui-alpha1",
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimePanel": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeProgress": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimePulse": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeReveal": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeRouteWidget": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeSearch": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeSelect": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeShell": [
+              "maataa-os-ui-alpha1",
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeSidebar": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeStack": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeStat": [
+              "maataa-os-ui-alpha1",
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeStatus": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeStatusGrid": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeSwitch": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeTable": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeTelemetryHUD": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeTelemetryWidget": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeTextarea": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeTimeline": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeTopbar": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeTopologyHUD": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeTopologyMap": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeTopologyVisualizer": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeTopologyWidget": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "RuntimeTree": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "SectionLabel": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "SovereignFooter": [
+              "maataa-os-ui-alpha1",
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "SovereignHeader": [
+              "maataa-os-ui-alpha1",
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "SovereignRuntimeProvider": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "StatusCard": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "StatusMatrix": [
+              "independent-product-scaffold-0.1",
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "ThemeRuntimeProvider": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "TruthBadge": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "UniversalContainer": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "UniversalGrid": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "UniversalLayout": [
+              "maataa-os-ui-alpha1",
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "UniversalPanel": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "UnlockTrustStrip": [
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ],
+            "themeRegistry": [
+              "maataa-os-ui-alpha1",
+              "mom-investor-demo-stage1",
+              "mom-ui-stage1"
+            ]
+          }
+        },
+        {
+          "moduleName": "@maataa/ui/ui-system",
+          "importedSymbols": 2,
+          "exportPresent": false,
+          "missingSymbols": [
+            "components",
+            "foundations"
+          ],
+          "archiveCandidates": {}
+        }
+      ]
+    },
+    {
+      "id": "MOM 3D exhibition (migrated)",
+      "packageName": "@maataa/ui",
+      "root": "/Users/vesahe/revenue/live/mom/apps/exhibition-3d",
+      "importedSymbols": 2,
+      "importedSubpaths": [
+        {
+          "moduleName": "@maataa/ui",
+          "symbolCount": 2
+        },
+        {
+          "moduleName": "@maataa/ui/styles.css",
+          "symbolCount": 0
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "id": "Hybrid Next consumer",
+      "packageName": "@maataa/ui",
+      "root": "/Users/vesahe/Documents/Repos/maataa-hybrid-runtime/src/apps/next",
+      "importedSymbols": 15,
+      "importedSubpaths": [
+        {
+          "moduleName": "@maataa/ui",
+          "symbolCount": 15
+        }
+      ],
+      "gaps": [
+        {
+          "moduleName": "@maataa/ui",
+          "importedSymbols": 15,
+          "exportPresent": true,
+          "missingSymbols": [
+            "CardContent",
+            "ChakraAura",
+            "ChakraPulse",
+            "ChakraRing",
+            "ChakraTimeline"
+          ],
+          "archiveCandidates": {
+            "CardContent": [
+              "hybrid-runtime-ui-1.0"
+            ],
+            "ChakraAura": [
+              "hybrid-runtime-ui-1.0"
+            ],
+            "ChakraPulse": [
+              "hybrid-runtime-ui-1.0"
+            ],
+            "ChakraRing": [
+              "hybrid-runtime-ui-1.0"
+            ],
+            "ChakraTimeline": [
+              "hybrid-runtime-ui-1.0"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

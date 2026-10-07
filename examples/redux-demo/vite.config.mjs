@@ -38,6 +38,8 @@ function maataaManualChunks(id) {
 
 export default defineConfig({
   root: demoRoot,
+  // Keep assets loadable from the packaged Electron file:// origin as well as Vite.
+  base: "./",
   plugins: [react(),bundleTopology()],
   resolve: {
     alias: [

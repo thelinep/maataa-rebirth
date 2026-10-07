@@ -1,0 +1,1 @@
+export const semanticTokens={"surface.default":"var(--maataa-surface-default)","surface.advisory":"var(--maataa-surface-advisory)","surface.proposed":"var(--maataa-surface-proposed)","surface.approved":"var(--maataa-surface-approved)","surface.danger":"var(--maataa-surface-danger)"} as const;

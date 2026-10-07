@@ -1,0 +1,19 @@
+{
+  "name": "@maataa/maataa-ui ui-system",
+  "generatedAt": "2026-06-06",
+  "status": "IMPLEMENTED",
+  "note": "Foundations are token modules; components/layouts/runtime-widgets/runtime-shells are real headless-React + inline-style implementations using foundation tokens. Code is implemented; product surfaces remain PREVIEW / CONTROLLED_NO_GO.",
+  "phkd": {
+    "runtime": "CONTROLLED_NO_GO",
+    "production": "PRODUCTION_READY_NO",
+    "runtimePromotion": false,
+    "productionReadinessClaimed": false
+  },
+  "layers": {
+    "foundations": ["colors", "typography", "spacing", "icons"],
+    "components": ["cards", "tables", "forms", "charts"],
+    "layouts": ["command-center", "observatory", "knowledge-atlas", "marketplace", "deal-room", "evidence-vault"],
+    "runtime-widgets": ["knowledge-search", "knowledge-graph", "citation", "fact", "hkd-link"],
+    "runtime-shells": ["human", "identity", "cic", "ai", "knowledge", "hkd", "tlp", "investor-hub", "commerce"]
+  }
+}

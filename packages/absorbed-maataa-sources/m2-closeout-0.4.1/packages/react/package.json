@@ -1,0 +1,40 @@
+{
+  "name": "@maataa/react",
+  "version": "0.4.1",
+  "type": "module",
+  "private": true,
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.mjs"
+  },
+  "files": [
+    "src",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "node --test test/*.test.mjs"
+  },
+  "dependencies": {
+    "@maataa/core": "*",
+    "@maataa/ai": "*",
+    "@maataa/governance": "*",
+    "@maataa/control": "*",
+    "@maataa/renderer": "*",
+    "@maataa/registry": "*"
+  },
+  "peerDependencies": {
+    "react": ">=18.2.0 <20"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
+  },
+  "maataaPolicy": {
+    "hostPeer": "react",
+    "classification": "host-provided-peer",
+    "runtimeDependencyClaim": "excluded-from-external-dependencies-claim",
+    "adapterContractVersion": "1.0.0",
+    "browserCertification": "M2-closeout-0.4.1"
+  }
+}

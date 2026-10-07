@@ -1,0 +1,37 @@
+{
+  "name": "maataa-ui-v3",
+  "version": "0.3.1",
+  "private": true,
+  "type": "module",
+  "packageManager": "npm@10.9.2",
+  "engines": {
+    "node": ">=22.16.0 <23",
+    "npm": ">=10.9.0 <11"
+  },
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "generate": "node scripts/generate.mjs",
+    "gate:toolchain": "node scripts/check-toolchain.mjs",
+    "gate:drift": "node scripts/check-drift.mjs",
+    "lint": "node scripts/lint.mjs",
+    "format:check": "node scripts/format-check.mjs",
+    "check:boundaries": "node scripts/check-boundaries.mjs",
+    "check:exports": "node scripts/check-exports.mjs",
+    "test": "node --test tests/**/*.test.mjs packages/*/test/*.test.mjs",
+    "test:contracts": "node --test tests/contracts/*.test.mjs",
+    "test:control": "node --test tests/control/*.test.mjs",
+    "test:security": "node --test tests/security/*.test.mjs",
+    "test:a11y": "node --test tests/accessibility/*.test.mjs",
+    "test:e2e": "node --test tests/e2e/*.test.mjs",
+    "build": "node scripts/build.mjs",
+    "certify:kernel": "npm run gate:toolchain && npm run gate:drift && npm run lint && npm run format:check && npm run check:boundaries && npm run check:exports && npm test && npm run build",
+    "fresh-clone": "node scripts/fresh-clone.mjs",
+    "certify": "node scripts/certify.mjs",
+    "report:certification": "node scripts/generate-certification-report.mjs",
+    "release:check": "node scripts/release-check.mjs",
+    "serve": "node scripts/serve.mjs"
+  }
+}

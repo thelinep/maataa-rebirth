@@ -1,0 +1,3 @@
+.showcaseRoleSteps { margin: 18px 0 0; padding-left: 18px; color: #58617a; line-height: 1.7; }
+.showcaseRoleSteps li::marker { color: #df2581; }
+.showcaseRoleGrid .showcaseCard { min-height: 220px; }

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { cx } from "../utils";
+export { ConfirmButton, type ConfirmButtonProps } from "./ConfirmButton";
 export type ButtonVariant="primary"|"secondary"|"ghost"|"destructive";
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>{variant?:ButtonVariant;loading?:boolean;loadingLabel?:string}
 export const Button=React.forwardRef<HTMLButtonElement,ButtonProps>(({variant="primary",loading=false,loadingLabel="Loading",disabled,className,children,...p},ref)=><button ref={ref} type={p.type??"button"} className={cx("m-button m-ui",className)} data-variant={variant} aria-busy={loading||undefined} disabled={disabled||loading} {...p}>{loading?<><span className="m-spinner" style={{width:16,height:16}} aria-hidden="true"/><span>{loadingLabel}</span></>:children}</button>);Button.displayName="Button";

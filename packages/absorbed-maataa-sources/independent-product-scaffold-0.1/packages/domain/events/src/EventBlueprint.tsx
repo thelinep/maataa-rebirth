@@ -1,0 +1,1 @@
+import * as React from "react";export function EventBlueprint({children}:{children?:React.ReactNode}){return <section data-maataa-domain="events" data-maataa-component="EventBlueprint">{children}</section>;}

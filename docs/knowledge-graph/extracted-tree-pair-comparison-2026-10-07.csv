@@ -1,0 +1,28 @@
+root_a,root_b,files_a,files_b,same_relative_path_and_hash,shared_relative_paths,match_ratio_of_smaller_tree,match_ratio_of_larger_tree,shared_unique_content_hashes,classification
+MAATAA_UI_M2_0_4_1_CLOSEOUT,tps-v2-p2-event-intelligence,41730,199,0,8,0.0000,0.0000,1,RELATED_OVERLAP
+MAATAA_UI_M2_0_4_1_CLOSEOUT,tps-v2-p3-production-scene-composer,41730,207,0,8,0.0000,0.0000,1,RELATED_OVERLAP
+NEVO_EOS_ICONS_LIGHT_DARK,NEVO_EVENTS_ICON_FULL_PLATFORM_SET,198,89,0,0,0.0000,0.0000,71,RELATED_OVERLAP
+allb-28-cinematic-assets-final,allb-28-generated-assets-complete,673,676,434,556,0.6449,0.6420,434,RELATED_OVERLAP
+ferty9_tlps_route_with_BTL_coverage,ferty9_tlps_route_with_BTL_coverage (1),4,4,4,4,1.0000,1.0000,4,EXACT_TREE
+mom_release_bundle,mom_release_bundle 2,41,41,41,41,1.0000,1.0000,41,EXACT_TREE
+tlps_in_release_code_ready,tlps_launch_scaffold,35,4,1,2,0.2500,0.0286,1,RELATED_OVERLAP
+tps-v2-p0-p7,tps-v2-p0-p7-complete,33,32,32,32,1.0000,0.9697,32,PATH_SUBSET
+tps-v2-p0-p7,tps-v2-p0-p7-complete 2,33,32,32,32,1.0000,0.9697,32,PATH_SUBSET
+tps-v2-p0-p7,tps-v2-p6-pricing-final,33,11,10,11,0.9091,0.3030,10,RELATED_OVERLAP
+tps-v2-p0-p7,tps-v2-p7-booking-contracting-final,33,21,21,21,1.0000,0.6364,21,PATH_SUBSET
+tps-v2-p0-p7-complete,tps-v2-p0-p7-complete 2,32,32,32,32,1.0000,1.0000,32,EXACT_TREE
+tps-v2-p0-p7-complete,tps-v2-p6-pricing-final,32,11,10,11,0.9091,0.3125,10,RELATED_OVERLAP
+tps-v2-p0-p7-complete,tps-v2-p7-booking-contracting-final,32,21,21,21,1.0000,0.6562,21,PATH_SUBSET
+tps-v2-p0-p7-complete 2,tps-v2-p6-pricing-final,32,11,10,11,0.9091,0.3125,10,RELATED_OVERLAP
+tps-v2-p0-p7-complete 2,tps-v2-p7-booking-contracting-final,32,21,21,21,1.0000,0.6562,21,PATH_SUBSET
+tps-v2-p2-event-intelligence,tps-v2-p3-production-scene-composer,199,207,197,199,0.9899,0.9517,188,RELATED_OVERLAP
+tps-v2-p2-event-intelligence,tps-v2-p5-event-marketplace,199,21,7,8,0.3333,0.0352,7,RELATED_OVERLAP
+tps-v2-p2-event-intelligence,tps-v2-p5-real-components,199,40,7,11,0.1750,0.0352,7,RELATED_OVERLAP
+tps-v2-p2-event-intelligence,tps-v2-p5-real-components 2,199,40,7,11,0.1750,0.0352,7,RELATED_OVERLAP
+tps-v2-p3-production-scene-composer,tps-v2-p5-event-marketplace,207,21,8,9,0.3810,0.0386,8,RELATED_OVERLAP
+tps-v2-p3-production-scene-composer,tps-v2-p5-real-components,207,40,8,12,0.2000,0.0386,8,RELATED_OVERLAP
+tps-v2-p3-production-scene-composer,tps-v2-p5-real-components 2,207,40,8,12,0.2000,0.0386,8,RELATED_OVERLAP
+tps-v2-p5-event-marketplace,tps-v2-p5-real-components,21,40,21,21,1.0000,0.5250,21,PATH_SUBSET
+tps-v2-p5-event-marketplace,tps-v2-p5-real-components 2,21,40,21,21,1.0000,0.5250,21,PATH_SUBSET
+tps-v2-p5-real-components,tps-v2-p5-real-components 2,40,40,40,40,1.0000,1.0000,40,EXACT_TREE
+tps-v2-p6-pricing-final,tps-v2-p7-booking-contracting-final,11,21,10,11,0.9091,0.4762,10,RELATED_OVERLAP

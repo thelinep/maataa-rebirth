@@ -1,0 +1,107 @@
+@import "../../styles.css";
+@import "../../tokens.css";
+@import "../../advanced.css";
+@import "../../spatial-preview.css";
+/* NevoWizard framework styles (@maataa/ui/wizard) -- previously loaded only
+   by Storybook's preview.tsx, never by the real app, so the wizard rendered
+   with none of its own layout/breakpoint rules (including the 760px
+   desktop-stepper/mobile-nav switch) outside Storybook. Loaded here, once,
+   alongside the base tokens/styles it depends on -- same canonical 760px
+   breakpoint defined in wizard.css itself, not duplicated here. */
+@import "../../wizard/wizard.css";
+
+/* NEVO visual foundation. Shared by public and authenticated surfaces so that
+   images, icon treatments, typography, states and touch targets feel like one product. */
+:root {
+  color-scheme: light;
+  /* Aliased to the canonical @maataa/ui tokens (tokens.css) — one source
+     of truth, identical computed values. */
+  --nevo-ink: var(--maataa-ink);
+  --nevo-plum: var(--maataa-plum);
+  --nevo-magenta: var(--maataa-accent-strong);
+  --nevo-violet: var(--maataa-accent);
+  --nevo-cyan: var(--maataa-cyan);
+  --nevo-cream: var(--maataa-cream);
+  --nevo-glass: var(--maataa-glass);
+  --nevo-gradient: var(--maataa-gradient);
+  --nevo-display: var(--maataa-font-display);
+  --nevo-body: var(--maataa-font-body);
+  --nevo-radius-sm: var(--maataa-radius-sm);
+  --nevo-radius-md: var(--maataa-radius-md);
+  --nevo-radius-lg: var(--maataa-radius-lg);
+  --nevo-space-1: var(--maataa-space-1);
+  --nevo-space-2: var(--maataa-space-2);
+  --nevo-space-3: var(--maataa-space-3);
+  --nevo-space-4: var(--maataa-space-4);
+  --nevo-focus-ring: var(--maataa-focus-ring);
+  /* Single source of truth for the authenticated shell's fixed mobile
+     workspace nav (MobileNavigation, .mobileNav in mobile.css) total
+     rendered height, safe-area excluded (that's added separately via
+     env(safe-area-inset-bottom) wherever this is consumed, since .mobileNav
+     already bakes its own safe-area padding into this same height).
+     Consumed by mobile.css's .main scroll-clearance padding, and by
+     @maataa/ui/wizard.css's NevoWizardMobileNav so the wizard's own fixed
+     bottom nav docks above this one instead of physically overlapping it
+     -- see wizard.css's UI-FOUNDATION-1D comment. Keep this the one place
+     that number is written; update it here if MobileNavigation's layout
+     ever changes. */
+  --nevo-mobile-nav-height: 94px;
+  /* Height of the authenticated shell's top bar (.shellTopbar in
+     globals.css), consumed by .shellNavbar's sticky offset/height below
+     it -- keep this the one place that number is written, same
+     convention as --nevo-mobile-nav-height above. */
+  --nevo-topbar-height: 72px;
+}
+
+html { min-width: 320px; background: var(--nevo-cream); }
+body { min-width: 320px; font-family: var(--nevo-body); }
+::selection { background: rgba(29, 78, 216, .22); color: var(--nevo-ink); }
+img { max-width: 100%; }
+button, a, input, select, textarea { -webkit-tap-highlight-color: transparent; }
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: none; box-shadow: var(--nevo-focus-ring); }
+.nevoButton { min-height: 2.75rem; border-color: rgba(27, 52, 112, .25); background: #fff; color: var(--nevo-plum); }
+.nevoButton--primary { border-color: transparent; background: var(--nevo-gradient); color: #fff; box-shadow: 0 .65rem 1.25rem rgba(69, 122, 246, .2); }
+.nevoButton--primary:hover:not(:disabled) { background: #1e3a8a; color: #fff; }
+.nevoIconButton { display: inline-grid; width: 2.75rem; min-height: 2.75rem; place-items: center; padding: 0; border: 1px solid rgba(27, 52, 112, .25); border-radius: 999px; background: #fff; color: var(--nevo-plum); cursor: pointer; }
+.nevoIconButton:hover { border-color: var(--nevo-magenta); background: #eff6ff; }
+.nevoActionGroup { gap: var(--nevo-space-2); }
+.nevoSectionHeader { display: grid; gap: .3rem; margin-bottom: var(--nevo-space-3); }
+.nevoSectionHeader h2 { margin: 0; }
+.nevoSectionHeader p { margin: 0; }
+.nevoStatus--success { border-color: rgba(22, 118, 94, .26); background: #ecfbf5; color: #116249; }
+.nevoStatus--attention { border-color: rgba(166, 99, 12, .26); background: #fff8e7; color: #805005; }
+.nevoStatus--danger { border-color: rgba(185, 28, 28, .26); background: #fef2f2; color: #b91c1c; }
+.appearanceSettings{max-width:52rem}.appearanceOptions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem;margin-top:1rem}.appearanceOption{display:flex;gap:.75rem;align-items:flex-start;min-height:5rem;padding:1rem;border:1px solid var(--maataa-line);border-radius:var(--maataa-radius-md);background:var(--maataa-surface-raised);cursor:pointer}.appearanceOption input{width:1.2rem;height:1.2rem;margin:.1rem 0 0;accent-color:var(--maataa-accent)}.appearanceOption b,.appearanceOption small{display:block}.appearanceOption small{margin-top:.2rem;color:var(--maataa-text-muted);line-height:1.4}
+
+/* Workspace shell: a quiet rail on desktop, a measured canvas on tablet. */
+.shell{background:var(--maataa-cream)}.shellTopbar{background:linear-gradient(180deg,var(--maataa-sidebar-strong),var(--maataa-sidebar));box-shadow:inset 0 -1px rgba(255,255,255,.08)}.shellNavbar{background:linear-gradient(180deg,var(--maataa-sidebar-strong),var(--maataa-sidebar));box-shadow:inset 1px 0 rgba(255,255,255,.08)}.shellTopbar .brand{color:#fff}.shellTopbarLeft .sub,.navGroup{color:#b7c8dc}.nav a{border-radius:var(--maataa-radius-sm)}.nav a[aria-current="page"],.nav a:hover{background:rgba(255,255,255,.12);color:#fff}.main{margin:0 auto;max-width:1440px;padding:clamp(1.25rem,3vw,2.5rem)}.top{margin-bottom:1.5rem}.card,.row{border-color:var(--maataa-line)}.hero{border-radius:var(--maataa-radius-lg);box-shadow:var(--shadow-sm)}.grid,.grid2,.grid3{gap:1rem}.row{min-height:3.5rem}.button,.nevoButton{min-height:2.75rem;border-radius:var(--maataa-radius-sm);font-weight:750}.button.primary{box-shadow:0 .5rem 1.1rem rgba(29,78,216,.2)}input,select,textarea{min-height:2.75rem;border-radius:var(--maataa-radius-sm)}
+
+/* Reliable mobile navigation on safe-area devices. */
+@media (max-width: 800px) {.mobileNav{border-color:rgba(203,213,225,.28);background:rgba(11,31,58,.97)}.mobileNav a,.mobileNavSignOut{min-height:3.5rem;color:#eef6ff}.mobileNav a:focus-visible,.mobileNavSignOut:focus-visible{outline:2px solid #fff;outline-offset:-3px}.pwaInstall{bottom:calc(4.75rem + env(safe-area-inset-bottom))}.pwaInstallButton{min-height:2.75rem}.authMain{padding-bottom:calc(5.5rem + env(safe-area-inset-bottom))}}
+
+@media (min-width:801px) and (max-width:1120px){.shellBody{grid-template-columns:minmax(0,1fr) 14.5rem}.shellNavbar{padding:1.25rem .75rem}.shellTopbarLeft .sub{font-size:.6rem}.nav a{padding:.65rem .55rem;font-size:.86rem}.main{padding:1.5rem}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+.nevoPublic { background: radial-gradient(circle at 100% 0, rgba(37, 99, 235, .08), transparent 25rem), var(--nevo-cream); }
+.nevoPublic .publicNav { box-shadow: 0 1px 0 rgba(27, 52, 112, .05), 0 12px 30px rgba(25, 44, 90, .04); }
+.nevoPublic .publicBrand { display: inline-flex; align-items: center; gap: .38rem; font-family: var(--nevo-display); }
+.nevoPublic .publicBrand::before { display: grid; width: 1.35rem; height: 1.35rem; place-items: center; border: 1px solid rgba(29, 78, 216, .46); border-radius: 50%; background: var(--nevo-plum); color: #fff; content: "N"; font-family: var(--nevo-display); font-weight: 700; font-size: .68rem; letter-spacing: 0; }
+.nevoPublic .publicCta { background: var(--nevo-gradient); }
+.nevoPublic .publicCta:hover { background: linear-gradient(115deg, #1547bc, #2858c8 58%, #1d61c9); }
+.nevoPublic .publicTextLink { text-decoration: underline; text-decoration-color: rgba(30, 86, 217, .35); text-decoration-thickness: 2px; text-underline-offset: .28em; }
+
+.nevoImageFrame { position: relative; overflow: hidden; border: 1px solid rgba(15, 23, 42, .12); border-radius: .75rem; background: #14304d; box-shadow: 0 1rem 2.5rem rgba(15, 23, 42, .15); }
+.nevoImageFrame img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.nevoImageFrame::after { position: absolute; inset: 0; background: linear-gradient(145deg, transparent 38%, rgba(5, 13, 31, .34)); content: ""; pointer-events: none; }
+.nevoKicker { color: var(--nevo-magenta); font: 800 .72rem/1 var(--nevo-body); letter-spacing: .16em; text-transform: uppercase; }
+.nevoPill { display: inline-flex; min-height: 2rem; align-items: center; gap: .38rem; padding: .4rem .7rem; border: 1px solid rgba(15, 23, 42, .14); border-radius: 999px; background: rgba(255, 255, 255, .9); color: var(--nevo-plum); font-size: .76rem; font-weight: 800; }
+.nevoPill::before { width: .48rem; height: .48rem; border-radius: 50%; background: var(--nevo-cyan); box-shadow: 0 0 0 .25rem rgba(14, 116, 144, .14); content: ""; }
+
+@media (max-width: 800px) {
+  .nevoPublic .publicBrand::before { width: 1.15rem; height: 1.15rem; font-size: .52rem; }
+  .nevoPublic .publicBrand { gap: .28rem; }
+  .appearanceOptions{grid-template-columns:1fr}
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; }
+}

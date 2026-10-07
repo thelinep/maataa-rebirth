@@ -1,0 +1,25 @@
+{
+  "name": "@maataa/recipes",
+  "version": "0.4.1",
+  "type": "module",
+  "private": true,
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.mjs"
+  },
+  "files": [
+    "src",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "node --test test/*.test.mjs"
+  },
+  "dependencies": {
+    "@maataa/contracts": "*",
+    "@maataa/core": "*",
+    "@maataa/ai": "*",
+    "@maataa/governance": "*",
+    "@maataa/control": "*",
+    "@maataa/renderer": "*"
+  }
+}
