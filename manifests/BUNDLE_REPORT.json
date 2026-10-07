@@ -10,17 +10,17 @@
         "maxCssChunkBytes": 180000
       },
       "largestJs": {
-        "file": "demo-dist/assets/ChartPoint-CaLL6e0h.js",
-        "bytes": 274451
+        "file": "demo-dist/assets/ChartPoint-DTTEF_FD.js",
+        "bytes": 278131
       },
       "largestCss": {
-        "file": "demo-dist/assets/index-CZnWcepP.css",
-        "bytes": 109382
+        "file": "demo-dist/assets/index-iZ1lk0O2.css",
+        "bytes": 112835
       },
-      "jsChunks": 141,
-      "cssChunks": 5,
-      "totalJsBytes": 2058978,
-      "totalCssBytes": 163304
+      "jsChunks": 142,
+      "cssChunks": 6,
+      "totalJsBytes": 2101332,
+      "totalCssBytes": 185844
     },
     {
       "name": "storybook",

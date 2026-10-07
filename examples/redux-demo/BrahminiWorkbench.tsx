@@ -227,7 +227,7 @@ const DOCS = [
   },
   {
     title: "Connect local providers",
-    text: "Run pnpm brahmini:dev from the repository root to start the demo proxy and interface. Start Ollama locally with ollama serve and use an installed model. Anthropic and Google Gemini credentials belong in the ignored .env.brahmini.local file read only by the local Node runtime.",
+    text: "Run pnpm brahmini:dev from the repository root to start the demo proxy and interface. Start Ollama locally with ollama serve and use an installed model. Anthropic and Google Gemini credentials can be placed in the ignored .env.brahmini.local file, or as a server-only fallback in the ignored root .env. The local Node runtime reads them; the browser bundle does not.",
   },
 ];
 const PROVIDER_LABELS: Record<ProviderId, string> = {
@@ -1516,8 +1516,8 @@ export function BrahminiWorkbench({
             <p className="brahmini-boundary">
               Start both local services with <code>pnpm brahmini:dev</code>. Run
               <code> ollama serve</code> for local models. Put cloud keys in
-              ignored <code>.env.brahmini.local</code>; never paste them into
-              the browser.
+              ignored <code>.env.brahmini.local</code> or the ignored root
+              <code> .env</code>; the Node runtime reads them, never the browser.
             </p>
             <button
               type="button"

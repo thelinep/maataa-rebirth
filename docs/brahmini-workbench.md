@@ -15,7 +15,7 @@ Brahmini is the MAATAA demo host's assistant for package help, docs, product pla
 
 Run `pnpm brahmini:dev` from the repository root. This starts the Vite demo and its loopback-only Node runtime together. The demo proxy forwards `/api/brahmini` requests to `127.0.0.1:4175`.
 
-Ollama must be running locally. To use a different address, set `OLLAMA_BASE_URL`. To enable a cloud provider, create an ignored `.env.brahmini.local` in the repository root with the provider's server-side key:
+Ollama must be running locally. To use a different address, set `OLLAMA_BASE_URL`. To enable a cloud provider, place its server-side key in the ignored `.env.brahmini.local` file, or use the ignored root `.env` as a fallback for `ANTHROPIC_API_KEY` and `GEMINI_API_KEY`. The dedicated file takes precedence over root `.env`, and process environment variables take precedence over both:
 
 ```dotenv
 ANTHROPIC_API_KEY=your-anthropic-key

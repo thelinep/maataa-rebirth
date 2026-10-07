@@ -8,6 +8,7 @@ export default defineConfig({
     "support-center-gallery.spec.ts",
     "support-center.spec.ts",
     "support-center-screenshots.spec.ts",
+    "branding-studio-live-ai.spec.ts",
   ],
   timeout: 30_000,
   fullyParallel: true,

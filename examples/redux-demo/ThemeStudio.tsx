@@ -33,6 +33,7 @@ const WARM_LIGHT_COLORS: StudioTheme["colors"] = {
   ...DEFAULT_STUDIO_THEME.colors, canvas: "#f6f4ef", surface: "#fffdfa", elevated: "#ffffff", text: "#24211b",
   muted: "#514d45", border: "#d7d1c5", primary: "#745a14", primaryText: "#ffffff", secondary: "#ede9df", focus: "#745a14",
 };
+const BRAND_THEME_HANDOFF_KEY = "maataa.branding-studio.theme-handoff.v1";
 
 function readStorage(key: string): string | null {
   try { return typeof window === "undefined" ? null : window.localStorage.getItem(key); }
@@ -76,6 +77,20 @@ export function ThemeStudio({ navigate }: { navigate: (path: string) => void }) 
   const [previewTab, setPreviewTab] = React.useState("Overview");
   const [previewValue, setPreviewValue] = React.useState("Design tokens at work");
   const cssVariables = React.useMemo(() => themeToCssVariables(draft) as React.CSSProperties, [draft]);
+
+  React.useEffect(() => {
+    const raw = readStorage(BRAND_THEME_HANDOFF_KEY);
+    if (!raw) return;
+    try {
+      const handoff = JSON.parse(raw) as { schemaVersion?: string; theme?: unknown };
+      const incoming = handoff.schemaVersion === "maataa.brand-theme-handoff.v1" ? parseActiveTheme(JSON.stringify(handoff.theme)) : null;
+      if (incoming) {
+        setDraft(incoming);
+        setNotice("Brand candidate loaded for component preview. It remains unapproved.");
+      }
+    } catch { setNotice("Could not read the Branding Studio handoff; the current local theme is open."); }
+    try { window.localStorage.removeItem(BRAND_THEME_HANDOFF_KEY); } catch { /* Keep the editor usable without browser storage. */ }
+  }, []);
   const textCanvasRatio = contrastRatio(draft.colors.text, draft.colors.canvas);
   const mutedSurfaceRatio = contrastRatio(draft.colors.muted, draft.colors.surface);
   const primaryRatio = contrastRatio(draft.colors.primaryText, draft.colors.primary);
@@ -140,8 +155,8 @@ export function ThemeStudio({ navigate }: { navigate: (path: string) => void }) 
 
   return <section className="page-section theme-studio-page">
     <div className="theme-studio-heading">
-      <div><p className="studio-eyebrow">DESIGN SYSTEM WORKSPACE <span>LOCAL</span></p><h1>Theme Studio</h1><p>Shape the MAATAA visual language, test it on real components, then save or export your tokens.</p></div>
-      <div className="studio-header-actions"><button className="ghost-button" onClick={() => navigate("/playground")}>Preview components</button><button className="ghost-button" onClick={downloadJson}>Export JSON</button><button className="gold-button" onClick={applyGlobally}>Apply theme</button></div>
+      <div><p className="studio-eyebrow">DESIGN SYSTEM WORKSPACE <span>LOCAL</span></p><h1>Theme Studio</h1><p>Shape semantic tokens, inspect real MAATAA components, then save or export a theme draft.</p></div>
+      <div className="studio-header-actions"><button className="ghost-button" onClick={() => navigate("/branding-studio")}>Branding Studio</button><button className="ghost-button" onClick={() => navigate("/playground")}>Preview components</button><button className="ghost-button" onClick={downloadJson}>Export JSON</button><button className="gold-button" onClick={applyGlobally}>Apply theme</button></div>
     </div>
 
     <div className="theme-studio-workspace">

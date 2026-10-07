@@ -1,25 +1,14 @@
 import { createServer } from "node:http";
-import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { resolve } from "node:path";
 import { createHash } from "node:crypto";
 import { validateChat } from "./brahmini-input.mjs";
+import { loadBrahminiEnvironment } from "./brahmini-config.mjs";
 
-const localEnvPath = resolve(
-  fileURLToPath(new URL("../../.env.brahmini.local", import.meta.url)),
-);
-try {
-  for (const line of readFileSync(localEnvPath, "utf8").split(/\r?\n/)) {
-    const match = line
-      .trim()
-      .match(/^(?:export\s+)?([A-Z][A-Z0-9_]*)\s*=\s*(.*)$/);
-    if (!match || process.env[match[1]]) continue;
-    const value = match[2].trim().replace(/^(['"])(.*)\1$/, "$2");
-    if (value && !value.startsWith("#")) process.env[match[1]] = value;
-  }
-} catch {
-  /* A local credentials file is optional. */
-}
+loadBrahminiEnvironment({
+  localConfigPath: resolve(fileURLToPath(new URL("../../.env.brahmini.local", import.meta.url))),
+  rootEnvPath: resolve(fileURLToPath(new URL("../../.env", import.meta.url))),
+});
 
 const port = Number(process.env.BRAHMINI_RUNTIME_PORT || 4175);
 const ollamaBase = (

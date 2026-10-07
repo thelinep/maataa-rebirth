@@ -2,6 +2,7 @@ import * as React from "react";
 const TlpsWorkflow = React.lazy(() => import("./TlpsWorkflow").then(module => ({ default: module.TlpsWorkflow })));
 const TlpsSurfaces = React.lazy(() => import("./TlpsSurfaces").then(module => ({ default: module.TlpsSurfaces })));
 const ThemeStudio = React.lazy(() => import("./ThemeStudio").then(module => ({ default: module.ThemeStudio })));
+const BrandingStudio = React.lazy(() => import("./BrandingStudio").then(module => ({ default: module.BrandingStudio })));
 const BrahminiWorkbench = React.lazy(() => import("./BrahminiWorkbench").then(module => ({ default: module.BrahminiWorkbench })));
 import { STUDIO_ACTIVE_KEY, applyThemeTokens, parseActiveTheme } from "./themeStudioModel";
 import { MaataaReduxProvider } from "@maataa/ui/redux/MaataaReduxProvider";
@@ -67,6 +68,7 @@ import { Modal, Drawer } from "@maataa/ui/surfaces";
 import { Combobox } from "@maataa/ui/forms";
 import { Card } from "@maataa/ui/surfaces/Card";
 import { Badge } from "@maataa/ui/feedback/Badge";
+import { EmptyState, ErrorState, Skeleton } from "@maataa/ui/feedback";
 import { Tabs } from "@maataa/ui/navigation/Tabs";
 import { SmartphoneFrame } from "@maataa/ui/devices/SmartphoneFrame";
 import { DeviceSurface } from "@maataa/ui/devices/DeviceSurface";
@@ -266,6 +268,7 @@ function Shell({ route, navigate, children }: { route: string; navigate: (path: 
       <nav className="site-nav" data-open={open} aria-label="Primary navigation">
         {PUBLIC_SURFACE_ROUTES.map((item) => <button key={item.id} data-active={route === item.path || (item.path !== "/" && route.startsWith(item.path))} onClick={() => { navigate(item.path); setOpen(false); }}><MaataaIcon name={ROUTE_ICONS[item.id] ?? "page"}/><span>{routeLabel(item.id, item.label)}</span></button>)}
         <button data-active={route.startsWith("/theme-studio")} onClick={() => { navigate("/theme-studio"); setOpen(false); }}><MaataaIcon name="settings"/><span>Theme Studio</span></button>
+        <button data-active={route.startsWith("/branding-studio")} onClick={() => { navigate("/branding-studio"); setOpen(false); }}><MaataaIcon name="star"/><span>Branding Studio</span></button>
         <button data-active={route.startsWith("/tlps")} onClick={() => { navigate("/tlps"); setOpen(false); }}>TLPS</button>
       </nav>
       <div className="header-actions"><button className="ghost-button" onClick={() => navigate("/playground")}><MaataaIcon name="playground"/> {copy.playground}</button><button className="gold-button" onClick={() => navigate("/demos")}><MaataaIcon name="demos"/> {copy.openDemo}</button></div>
@@ -305,6 +308,7 @@ function Landing({ navigate }: { navigate: (path: string) => void }) {
         <article className="feature-card"><span>03</span><h3>Sandbox</h3><strong>Safe composition builder</strong><p>Add and remove regions, edit JSON configuration, apply it without eval, and copy generated JSX or JSON.</p><button className="text-link" onClick={() => navigate('/sandbox')}>Compose →</button></article>
         <article className="feature-card"><span>04</span><h3>Demo scenarios</h3><strong>{DEMO_SCENARIOS.length} Redux scenarios</strong><p>Switch complete deterministic workspace/page/layout/device compositions and inspect supporting static data.</p><button className="text-link" onClick={() => navigate('/demos')}>Run →</button></article>
         <article className="feature-card"><span>05</span><h3>Theme Studio</h3><strong>Design tokens, live</strong><p>Build typography, color, surface, shadow, motion and focus systems, then preview, save and export them.</p><button className="text-link" onClick={() => navigate('/theme-studio')}>Design →</button></article>
+        <article className="feature-card"><span>06</span><h3>Branding Studio</h3><strong>One reviewable brand workflow</strong><p>Map identity sources, refine candidate tokens, preview components, review versions and prepare product assignments.</p><button className="text-link" onClick={() => navigate('/branding-studio')}>Open studio →</button></article>
       </div>
     </section>
 
@@ -479,6 +483,33 @@ function PreviewCanvas({ catalogKey, item, propOverrides, pageDataContext = "gen
   return <DataPreview kind={catalogKey} name={item.name}/>;
 }
 
+type SurfacePreviewState = "example" | "loading" | "empty" | "error" | "disabled";
+const SURFACE_PREVIEW_STATES: { id: SurfacePreviewState; label: string }[] = [
+  { id: "example", label: "Example" },
+  { id: "loading", label: "Skeleton" },
+  { id: "empty", label: "Empty" },
+  { id: "error", label: "Error" },
+  { id: "disabled", label: "Disabled" },
+];
+
+function SurfaceSkeleton({ catalogKey, name }: { catalogKey: string; name: string }) {
+  return <div className={`surface-specimen-skeleton surface-specimen-skeleton--${catalogKey}`} data-surface-state="loading" aria-busy="true" role="status" aria-label={`Loading ${name} example`}>
+    <div aria-hidden="true">
+    <div className="surface-skeleton-heading"><Skeleton width="38%" height={22} label={`Loading ${name} example`}/><Skeleton width="24%" height={12} label="Loading status"/></div>
+    <div className="surface-skeleton-grid"><section><Skeleton height={14}/><Skeleton height={74}/><Skeleton width="76%" height={14}/></section><section><Skeleton height={14}/><Skeleton height={74}/><Skeleton width="64%" height={14}/></section><section className="surface-skeleton-wide"><Skeleton height={14}/><Skeleton height={54}/></section></div>
+    <small>Loading the {catalogKey === "ai" ? "AI-space" : catalogKey === "generators" ? "generator" : catalogKey.slice(0, -1)} example</small>
+    </div>
+  </div>;
+}
+
+function StatefulPreviewCanvas({ catalogKey, item, state, propOverrides, pageDataContext, onRetry }: { catalogKey: string; item: CatalogItem; state: SurfacePreviewState; propOverrides?: Record<string, unknown>; pageDataContext: ProductPageContext; onRetry: () => void }) {
+  if (state === "loading") return <SurfaceSkeleton catalogKey={catalogKey} name={item.name}/>;
+  if (state === "empty") return <div className="surface-specimen-state" data-surface-state="empty"><EmptyState title={`No ${catalogKey === "ai" ? "AI-space" : catalogKey.slice(0, -1)} data yet`} description={`This ${item.name} example has no records to show. Add a record or switch back to the example state.`}/></div>;
+  if (state === "error") return <div className="surface-specimen-state" data-surface-state="error"><ErrorState title={`${item.name} could not be loaded`} description="This is a demonstration of an in-page error state. No request was sent and no data was changed." action={<Button onClick={onRetry}>Retry example</Button>}/></div>;
+  if (state === "disabled") return <div className="surface-specimen-disabled" data-surface-state="disabled" aria-disabled="true"><PreviewCanvas catalogKey={catalogKey} item={item} propOverrides={propOverrides} pageDataContext={pageDataContext}/><div className="surface-disabled-note"><strong>Example unavailable</strong><span>This surface is currently disabled in the illustrative state.</span></div></div>;
+  return <div data-surface-state="example"><PreviewCanvas catalogKey={catalogKey} item={item} propOverrides={propOverrides} pageDataContext={pageDataContext}/></div>;
+}
+
 function exampleCode(catalogKey: string, item: CatalogItem) {
   const safeName = item.name.replace(/[^A-Za-z0-9_$]/g, "");
   if (catalogKey === "identities") return `import { IdentityAvatar } from "@maataa/ui/identity/IdentityAvatar";\n\n<IdentityAvatar identity="${item.id}" size={48} />`;
@@ -497,12 +528,13 @@ function SurfaceExplorer() {
   const [page, setPage] = React.useState(0);
   const [propValues, setPropValues] = React.useState<Record<string, unknown>>({});
   const [pageDataContext, setPageDataContext] = React.useState<ProductPageContext>("generic");
+  const [previewState, setPreviewState] = React.useState<SurfacePreviewState>("example");
   const pageSize = 40;
   const catalog = CATALOGS.find((item) => item.key === catalogKey) ?? CATALOGS[0];
   const normalized = query.trim().toLowerCase();
   const matches = catalog.items.filter((item) => !normalized || `${item.id} ${item.name} ${item.meta ?? ""} ${item.importPath ?? ""}`.toLowerCase().includes(normalized));
   const pageCount = Math.max(1, Math.ceil(matches.length / pageSize));
-  React.useEffect(() => { setPage(0); setSelectedId(null); setPropValues({}); }, [catalogKey, query]);
+  React.useEffect(() => { setPage(0); setSelectedId(null); setPropValues({}); setPreviewState("example"); }, [catalogKey, query]);
   React.useEffect(() => { setPropValues({}); }, [selectedId]);
   const visible = matches.slice(page * pageSize, (page + 1) * pageSize);
   const selected = matches.find((item) => item.id === selectedId) ?? visible[0] ?? catalog.items[0];
@@ -519,7 +551,8 @@ function SurfaceExplorer() {
       </aside>
       <div className="surface-preview-pane">
         <div className="pane-head preview-pane-head"><div><small>VISUAL PREVIEW</small><strong>{selected?.name ?? "No result"}</strong></div><div className="preview-mode-badges"><span>live</span><span>responsive</span></div></div>
-        <div className="surface-preview-canvas">{selected && <PreviewCanvas catalogKey={catalogKey} item={selected} propOverrides={propValues} pageDataContext={pageDataContext}/>}</div>
+        <div className="surface-state-picker" role="group" aria-label="Preview state">{SURFACE_PREVIEW_STATES.map(state => <button key={state.id} aria-pressed={previewState === state.id} data-active={previewState === state.id} onClick={() => setPreviewState(state.id)}>{state.label}</button>)}</div>
+        <div className="surface-preview-canvas">{selected && <StatefulPreviewCanvas catalogKey={catalogKey} item={selected} state={previewState} propOverrides={propValues} pageDataContext={pageDataContext} onRetry={() => setPreviewState("example")}/>}</div>
       </div>
       <aside className="surface-inspector-pane">
         {selected && <><div className="inspector-section"><small>SELECTED</small><h3>{selected.name}</h3><div className="copy-row"><code>{selected.id}</code><CopyButton text={selected.id} label="Copy ID"/></div>{selected.meta && <p>{selected.meta}</p>}</div>{selected.importPath && <div className="inspector-section"><small>IMPORT</small><div className="copy-stack"><code>{selected.importPath}</code><CopyButton text={selected.importPath} label="Copy path"/></div></div>}{(catalogKey === "components" || catalogKey === "atoms") && <div className="inspector-section"><small>LIVE PROPS</small><ComponentPropInspector componentName={selected.name} values={propValues} onChange={setPropValues}/></div>}<div className="inspector-section"><CodeBlock code={snippet} label="Example"/></div><div className="inspector-section inspector-links"><a href="#/playground">Open Playground</a><a href="#/sandbox">Open Sandbox</a><a href="#/docs">Read docs</a></div></>}
@@ -706,6 +739,7 @@ function AppBody() {
   let content: React.ReactNode;
   if (route === "/") content = <Landing navigate={navigate}/>;
   else if (route === "/theme-studio") content = <React.Suspense fallback={<p role="status">Loading Theme Studio…</p>}><ThemeStudio navigate={navigate}/></React.Suspense>;
+  else if (route === "/branding-studio") content = <React.Suspense fallback={<p role="status">Loading Branding Studio…</p>}><BrandingStudio navigate={navigate}/></React.Suspense>;
   else if ((route === "/tlps" || route.startsWith("/tlps/"))) content = <React.Suspense fallback={<p role="status">Loading TLPS…</p>}><TlpsSurfaces route={route} navigate={navigate}/></React.Suspense>;
   else if (route === "/tlps-workflow") content = <React.Suspense fallback={<p role="status">Loading TLPS workflow…</p>}><TlpsWorkflow/></React.Suspense>;
   else if (route.startsWith("/surface")) content = <SurfaceExplorer/>;
