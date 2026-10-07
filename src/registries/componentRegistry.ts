@@ -173,14 +173,14 @@ export const COMPONENT_REGISTRY = [
     "id": "COMPONENT.ACTIONS.BUTTONPROPS",
     "name": "ButtonProps",
     "category": "actions",
-    "kind": "component",
+    "kind": "type",
     "importPath": "@maataa/ui/actions/ButtonProps"
   },
   {
     "id": "COMPONENT.ACTIONS.BUTTONVARIANT",
     "name": "ButtonVariant",
     "category": "actions",
-    "kind": "component",
+    "kind": "type",
     "importPath": "@maataa/ui/actions/ButtonVariant"
   },
   {
@@ -495,7 +495,7 @@ export const COMPONENT_REGISTRY = [
     "id": "COMPONENT.NAVIGATION.NAVITEMDATA",
     "name": "NavItemData",
     "category": "navigation",
-    "kind": "component",
+    "kind": "type",
     "importPath": "@maataa/ui/navigation/NavItemData"
   },
   {
@@ -817,7 +817,7 @@ export const COMPONENT_REGISTRY = [
     "id": "COMPONENT.DATA.DATACOLUMN",
     "name": "DataColumn",
     "category": "data",
-    "kind": "component",
+    "kind": "type",
     "importPath": "@maataa/ui/data/DataColumn"
   },
   {
@@ -936,7 +936,7 @@ export const COMPONENT_REGISTRY = [
     "id": "COMPONENT.VISUALIZATION.CHARTPOINT",
     "name": "ChartPoint",
     "category": "visualization",
-    "kind": "component",
+    "kind": "type",
     "importPath": "@maataa/ui/visualization/ChartPoint"
   },
   {
@@ -2574,7 +2574,7 @@ export const COMPONENT_REGISTRY = [
     "id": "COMPONENT.THEMES.MAATAATHEME",
     "name": "MaataaTheme",
     "category": "themes",
-    "kind": "component",
+    "kind": "type",
     "importPath": "@maataa/ui/themes/MaataaTheme"
   },
   {

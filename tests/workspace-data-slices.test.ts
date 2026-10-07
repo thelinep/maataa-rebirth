@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { WORKSPACE_TYPES } from "../src/registries/workspaceRegistry";
 import { createWorkspaceDataSlice, WORKSPACE_DOMAIN_BY_GROUP } from "../examples/redux-demo/workspaceDataSlices";
+import workspaceSliceDocument from "../examples/redux-demo/data/workspace-data-slices.json";
 
 describe("workspace data slices", () => {
   it("provides a distinct synthetic slice for every canonical workspace", () => {
@@ -30,5 +31,18 @@ describe("workspace data slices", () => {
     expect(tlps.sections.flatMap((section) => section.lines).join(" ")).toContain("Call-sheet");
     expect(nevo.domain).toBe("event");
     expect(nevo.sections.flatMap((section) => section.lines).join(" ")).toContain("registration fixture");
+  });
+
+  it("ships a current JSON slice for every canonical workspace", () => {
+    expect(workspaceSliceDocument.schemaVersion).toBe("maataa.workspace-data-slices.v1");
+    expect(workspaceSliceDocument.source.total).toBe(WORKSPACE_TYPES.length);
+    expect(workspaceSliceDocument.workspaces).toHaveLength(WORKSPACE_TYPES.length);
+    expect(new Set(workspaceSliceDocument.workspaces.map((entry) => entry.workspace.id)).size).toBe(WORKSPACE_TYPES.length);
+
+    for (const [index, entry] of workspaceSliceDocument.workspaces.entries()) {
+      const workspace = WORKSPACE_TYPES[index]!;
+      expect(entry.workspace).toEqual(workspace);
+      expect(entry.slice).toEqual(createWorkspaceDataSlice(workspace));
+    }
   });
 });

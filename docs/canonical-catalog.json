@@ -11,7 +11,7 @@
   "registries": {
     "components": {
       "source": "src/registries/componentRegistry.ts",
-      "sha256": "181b49e3e24c5901f052d8df14050b57d0762e318835658dc1adb650292151f6",
+      "sha256": "7ca0926654dac1c07ca8abe0a4b7a5b17f9c9832d0c1890d15c6601929139c1d",
       "records": [
         {
           "id": "COMPONENT.FOUNDATION.ASPECTRATIO",
@@ -185,14 +185,14 @@
           "id": "COMPONENT.ACTIONS.BUTTONPROPS",
           "name": "ButtonProps",
           "category": "actions",
-          "kind": "component",
+          "kind": "type",
           "importPath": "@maataa/ui/actions/ButtonProps"
         },
         {
           "id": "COMPONENT.ACTIONS.BUTTONVARIANT",
           "name": "ButtonVariant",
           "category": "actions",
-          "kind": "component",
+          "kind": "type",
           "importPath": "@maataa/ui/actions/ButtonVariant"
         },
         {
@@ -507,7 +507,7 @@
           "id": "COMPONENT.NAVIGATION.NAVITEMDATA",
           "name": "NavItemData",
           "category": "navigation",
-          "kind": "component",
+          "kind": "type",
           "importPath": "@maataa/ui/navigation/NavItemData"
         },
         {
@@ -829,7 +829,7 @@
           "id": "COMPONENT.DATA.DATACOLUMN",
           "name": "DataColumn",
           "category": "data",
-          "kind": "component",
+          "kind": "type",
           "importPath": "@maataa/ui/data/DataColumn"
         },
         {
@@ -948,7 +948,7 @@
           "id": "COMPONENT.VISUALIZATION.CHARTPOINT",
           "name": "ChartPoint",
           "category": "visualization",
-          "kind": "component",
+          "kind": "type",
           "importPath": "@maataa/ui/visualization/ChartPoint"
         },
         {
@@ -2586,7 +2586,7 @@
           "id": "COMPONENT.THEMES.MAATAATHEME",
           "name": "MaataaTheme",
           "category": "themes",
-          "kind": "component",
+          "kind": "type",
           "importPath": "@maataa/ui/themes/MaataaTheme"
         },
         {

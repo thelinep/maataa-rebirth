@@ -267,6 +267,32 @@ export const ADDITIONAL_PACKAGES = [
     ]
   },
   {
+    "id": "editor",
+    "title": "editor",
+    "group": "Package areas",
+    "packagePath": "editor",
+    "importPath": "@maataa/ui/editor",
+    "description": "A public MAATAA UI package area.",
+    "modules": [
+      {
+        "name": "EditorWorkbenchFrame.tsx",
+        "importPath": "@maataa/ui/editor/EditorWorkbenchFrame"
+      },
+      {
+        "name": "history.ts",
+        "importPath": "@maataa/ui/editor/history"
+      },
+      {
+        "name": "index.ts",
+        "importPath": "@maataa/ui/editor"
+      },
+      {
+        "name": "useEditorHistory.ts",
+        "importPath": "@maataa/ui/editor/useEditorHistory"
+      }
+    ]
+  },
+  {
     "id": "feedback",
     "title": "Feedback",
     "group": "Core interface",

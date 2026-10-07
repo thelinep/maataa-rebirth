@@ -2,6 +2,8 @@
 
 A workspace is a persistent operational environment that can host multiple pages and layouts. The package defines **58 workspace groups** and their named workspace types.
 
+The demo data layer has one synthetic JSON slice for each of the **647 canonical workspace records**. The generated inventory is [workspace-data-slices.json](../../examples/redux-demo/data/workspace-data-slices.json); regenerate it with `pnpm workspace:slices` and verify it is current with `pnpm workspace:slices:check`. These fixtures do not represent live users, integrations, bookings, approvals, or production activity.
+
 ## W01 · Personal & Home Workspaces
 
 Personal Workspace, My Work Workspace, Home Workspace, Today Workspace, My Tasks Workspace, My Calendar Workspace, My Notes Workspace, My Files Workspace, My Activity Workspace, My Notifications Workspace, My Approvals Workspace, My Drafts Workspace, Favorites Workspace, Recent Workspace, Saved Workspace

@@ -853,6 +853,7 @@ print(json.dumps(manifest['counts'],indent=2))
 
 # Additional generated structural registries from the package source.
 public_component_categories=['foundation','typography','actions','forms','navigation','surfaces','feedback','data','visualization','maps','mobile','themes','atomic','layout-atoms','layouts','page-atoms','pages','workspace-atoms','workspaces']
+type_only_components={'ButtonProps','ButtonVariant','NavItemData','DataColumn','ChartPoint','MaataaTheme'}
 component_records=[]
 for category in public_component_categories:
     d=root/'src'/category
@@ -860,7 +861,8 @@ for category in public_component_categories:
     for f in sorted(d.glob('*.tsx')):
         if f.name.startswith('_'): continue
         name=f.stem
-        if name in {'LayoutPreset','PagePreset','WorkspacePreset'}: kind='preset'
+        if name in type_only_components: kind='type'
+        elif name in {'LayoutPreset','PagePreset','WorkspacePreset'}: kind='preset'
         elif category.endswith('-atoms') or category=='atomic': kind='atom'
         elif category=='layouts': kind='layout'
         elif category=='pages': kind='page-template'
