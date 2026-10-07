@@ -167,6 +167,16 @@
 /* Generator / Tool / AI Space atomic surfaces */
 .m-generator-atom,.m-tool-atom,.m-ai-space-atom{box-sizing:border-box;min-width:0;}
 .m-generator-surface,.m-tool-surface{display:grid;gap:var(--m-space-3);padding:var(--m-space-4);background:var(--m-bg);border:1px solid var(--m-border);border-radius:var(--m-radius-lg);}
+.m-generator-workbench{display:grid;gap:var(--m-space-3);}
+.m-generator-generatorinputs{display:grid;gap:var(--m-space-3);}
+.m-generator-field{display:grid;gap:var(--m-space-2);font:inherit;}
+.m-generator-field>span{font-weight:600;}
+.m-generator-field textarea{box-sizing:border-box;width:100%;min-width:0;padding:var(--m-space-3);color:var(--m-text);font:inherit;background:var(--m-surface);border:1px solid var(--m-border);border-radius:var(--m-radius-md);resize:vertical;}
+.m-generator-field textarea:focus-visible,.m-generator-submit:focus-visible{outline:3px solid var(--m-focus);outline-offset:2px;}
+.m-generator-field small{color:var(--m-muted);font-size:.875em;}
+.m-generator-submit{justify-self:start;padding:var(--m-space-2) var(--m-space-4);color:var(--m-primary-contrast);font:inherit;font-weight:600;background:var(--m-primary);border:1px solid transparent;border-radius:var(--m-radius-md);cursor:pointer;}
+.m-generator-submit:disabled{cursor:wait;opacity:.65;}
+.m-generator-draft-output{max-width:100%;overflow:auto;padding:var(--m-space-3);white-space:pre-wrap;overflow-wrap:anywhere;background:var(--m-elevated);border-radius:var(--m-radius-sm);}
 .m-generator-generator-header,.m-tool-tool-header,.m-ai-space-ai-space-header{display:flex;align-items:center;justify-content:space-between;gap:var(--m-space-3);}
 .m-generator-generator-output,.m-tool-tool-output,.m-tool-tool-canvas,.m-ai-space-ai-space-main,.m-ai-space-ai-space-canvas{min-height:120px;background:var(--m-surface);border:1px solid var(--m-border);border-radius:var(--m-radius-md);padding:var(--m-space-3);}
 .m-generator-generator-inspector,.m-generator-generator-history,.m-generator-generator-evidence,.m-tool-tool-inspector,.m-tool-tool-trace,.m-tool-tool-evidence,.m-ai-space-ai-space-inspector,.m-ai-space-ai-space-context,.m-ai-space-ai-space-knowledge,.m-ai-space-ai-space-evaluation,.m-ai-space-ai-space-safety,.m-ai-space-ai-space-evidence,.m-ai-space-ai-space-observability{background:var(--m-elevated);border:1px solid var(--m-border);border-radius:var(--m-radius-md);padding:var(--m-space-3);}
@@ -240,3 +250,5 @@
  .m-composer-palette>small{grid-column:1/-1}
  .m-composer-palette button{overflow-wrap:anywhere}
 }
+:where(.maataa-editor-workbench) { min-width: 0; }
+:where(.maataa-editor-workbench__body) { min-width: 0; }

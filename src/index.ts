@@ -45,4 +45,5 @@ export * from "./identity";
 export * from "./icons";
 
 export * from "./composer";
+export * from "./editor";
 export * from "./runtime";

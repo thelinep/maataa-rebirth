@@ -4362,6 +4362,36 @@
       "stability": "EXPERIMENTAL"
     },
     {
+      "subpath": "./editor",
+      "source": "src/editor/index.ts",
+      "kind": "module",
+      "stability": "EXPERIMENTAL"
+    },
+    {
+      "subpath": "./editor/EditorWorkbenchFrame",
+      "source": "src/editor/EditorWorkbenchFrame.tsx",
+      "kind": "module",
+      "stability": "EXPERIMENTAL"
+    },
+    {
+      "subpath": "./editor/history",
+      "source": "src/editor/history.ts",
+      "kind": "module",
+      "stability": "EXPERIMENTAL"
+    },
+    {
+      "subpath": "./editor/index",
+      "source": "src/editor/index.ts",
+      "kind": "module",
+      "stability": "EXPERIMENTAL"
+    },
+    {
+      "subpath": "./editor/useEditorHistory",
+      "source": "src/editor/useEditorHistory.ts",
+      "kind": "module",
+      "stability": "EXPERIMENTAL"
+    },
+    {
       "subpath": "./feedback",
       "source": "src/feedback/index.tsx",
       "kind": "module",
@@ -15673,6 +15703,15 @@
       ]
     },
     {
+      "name": "createEditorHistory",
+      "subpath": ".",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/editor/history.ts"
+      ]
+    },
+    {
       "name": "CreatePage",
       "subpath": ".",
       "kind": "runtime",
@@ -16987,12 +17026,30 @@
       ]
     },
     {
+      "name": "EditorHistory",
+      "subpath": ".",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/editor/history.ts"
+      ]
+    },
+    {
       "name": "EditorialLayout",
       "subpath": ".",
       "kind": "runtime",
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/layouts/EditorialLayout.tsx"
+      ]
+    },
+    {
+      "name": "EditorWorkbenchFrame",
+      "subpath": ".",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/editor/EditorWorkbenchFrame.tsx"
       ]
     },
     {
@@ -20884,6 +20941,15 @@
       ]
     },
     {
+      "name": "parseEditorDocument",
+      "subpath": ".",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/editor/history.ts"
+      ]
+    },
+    {
       "name": "PasswordInput",
       "subpath": ".",
       "kind": "runtime",
@@ -21466,6 +21532,15 @@
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/devices/RearSeatDisplayFrame.tsx"
+      ]
+    },
+    {
+      "name": "redoEditorHistory",
+      "subpath": ".",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/editor/history.ts"
       ]
     },
     {
@@ -22294,6 +22369,15 @@
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/devices/SelfServiceKioskFrame.tsx"
+      ]
+    },
+    {
+      "name": "serializeEditorDocument",
+      "subpath": ".",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/editor/history.ts"
       ]
     },
     {
@@ -24187,12 +24271,30 @@
       ]
     },
     {
+      "name": "undoEditorHistory",
+      "subpath": ".",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/editor/history.ts"
+      ]
+    },
+    {
       "name": "updateCompositionSpec",
       "subpath": ".",
       "kind": "runtime",
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/composer/spec.ts"
+      ]
+    },
+    {
+      "name": "updateEditorHistory",
+      "subpath": ".",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/editor/history.ts"
       ]
     },
     {
@@ -24265,6 +24367,15 @@
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/hooks/index.ts"
+      ]
+    },
+    {
+      "name": "useEditorHistory",
+      "subpath": ".",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/editor/useEditorHistory.ts"
       ]
     },
     {
@@ -55012,6 +55123,249 @@
       ]
     },
     {
+      "name": "createEditorHistory",
+      "subpath": "./editor",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/editor/history.ts"
+      ]
+    },
+    {
+      "name": "EditorHistory",
+      "subpath": "./editor",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/editor/history.ts"
+      ]
+    },
+    {
+      "name": "EditorWorkbenchFrame",
+      "subpath": "./editor",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/editor/EditorWorkbenchFrame.tsx"
+      ]
+    },
+    {
+      "name": "parseEditorDocument",
+      "subpath": "./editor",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/editor/history.ts"
+      ]
+    },
+    {
+      "name": "redoEditorHistory",
+      "subpath": "./editor",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/editor/history.ts"
+      ]
+    },
+    {
+      "name": "serializeEditorDocument",
+      "subpath": "./editor",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/editor/history.ts"
+      ]
+    },
+    {
+      "name": "undoEditorHistory",
+      "subpath": "./editor",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/editor/history.ts"
+      ]
+    },
+    {
+      "name": "updateEditorHistory",
+      "subpath": "./editor",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/editor/history.ts"
+      ]
+    },
+    {
+      "name": "useEditorHistory",
+      "subpath": "./editor",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/editor/useEditorHistory.ts"
+      ]
+    },
+    {
+      "name": "EditorWorkbenchFrame",
+      "subpath": "./editor/EditorWorkbenchFrame",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/editor/EditorWorkbenchFrame.tsx"
+      ]
+    },
+    {
+      "name": "createEditorHistory",
+      "subpath": "./editor/history",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/editor/history.ts"
+      ]
+    },
+    {
+      "name": "EditorHistory",
+      "subpath": "./editor/history",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/editor/history.ts"
+      ]
+    },
+    {
+      "name": "parseEditorDocument",
+      "subpath": "./editor/history",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/editor/history.ts"
+      ]
+    },
+    {
+      "name": "redoEditorHistory",
+      "subpath": "./editor/history",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/editor/history.ts"
+      ]
+    },
+    {
+      "name": "serializeEditorDocument",
+      "subpath": "./editor/history",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/editor/history.ts"
+      ]
+    },
+    {
+      "name": "undoEditorHistory",
+      "subpath": "./editor/history",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/editor/history.ts"
+      ]
+    },
+    {
+      "name": "updateEditorHistory",
+      "subpath": "./editor/history",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/editor/history.ts"
+      ]
+    },
+    {
+      "name": "createEditorHistory",
+      "subpath": "./editor/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/editor/history.ts"
+      ]
+    },
+    {
+      "name": "EditorHistory",
+      "subpath": "./editor/index",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/editor/history.ts"
+      ]
+    },
+    {
+      "name": "EditorWorkbenchFrame",
+      "subpath": "./editor/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/editor/EditorWorkbenchFrame.tsx"
+      ]
+    },
+    {
+      "name": "parseEditorDocument",
+      "subpath": "./editor/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/editor/history.ts"
+      ]
+    },
+    {
+      "name": "redoEditorHistory",
+      "subpath": "./editor/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/editor/history.ts"
+      ]
+    },
+    {
+      "name": "serializeEditorDocument",
+      "subpath": "./editor/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/editor/history.ts"
+      ]
+    },
+    {
+      "name": "undoEditorHistory",
+      "subpath": "./editor/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/editor/history.ts"
+      ]
+    },
+    {
+      "name": "updateEditorHistory",
+      "subpath": "./editor/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/editor/history.ts"
+      ]
+    },
+    {
+      "name": "useEditorHistory",
+      "subpath": "./editor/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/editor/useEditorHistory.ts"
+      ]
+    },
+    {
+      "name": "useEditorHistory",
+      "subpath": "./editor/useEditorHistory",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/editor/useEditorHistory.ts"
+      ]
+    },
+    {
       "name": "Alert",
       "subpath": "./feedback",
       "kind": "runtime",
@@ -58801,6 +59155,15 @@
       ]
     },
     {
+      "name": "GeneratorRequest",
+      "subpath": "./generators",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/generators/GeneratorSurface.tsx"
+      ]
+    },
+    {
       "name": "GeneratorSurface",
       "subpath": "./generators",
       "kind": "runtime",
@@ -62563,6 +62926,15 @@
       ]
     },
     {
+      "name": "GeneratorRequest",
+      "subpath": "./generators/GeneratorSurface",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/generators/GeneratorSurface.tsx"
+      ]
+    },
+    {
       "name": "GeneratorSurface",
       "subpath": "./generators/GeneratorSurface",
       "kind": "runtime",
@@ -64090,6 +64462,15 @@
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/generators/FunctionSchemaGenerator.tsx"
+      ]
+    },
+    {
+      "name": "GeneratorRequest",
+      "subpath": "./generators/index",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/generators/GeneratorSurface.tsx"
       ]
     },
     {
