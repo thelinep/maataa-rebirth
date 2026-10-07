@@ -3,7 +3,12 @@ export default defineConfig({
   testDir: "./tests/e2e",
   // These suites have dedicated configs and their own preview servers. Running
   // them against the MAATAA demo preview produces misleading cross-app failures.
-  testIgnore: ["desktop-shell.spec.ts", "support-center.spec.ts", "support-center-screenshots.spec.ts"],
+  testIgnore: [
+    "desktop-shell.spec.ts",
+    "support-center-gallery.spec.ts",
+    "support-center.spec.ts",
+    "support-center-screenshots.spec.ts",
+  ],
   timeout: 30_000,
   fullyParallel: true,
   workers: 4,
