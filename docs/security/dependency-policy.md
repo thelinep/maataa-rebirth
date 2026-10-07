@@ -2,7 +2,7 @@
 
 Dependencies require a documented need, license review, maintenance assessment and measured impact. Lockfile changes are reviewed and validated with a frozen installation. The dependency audit includes development tooling; known moderate-or-higher findings block qualification until patched or explicitly assessed by the release owner.
 
-The current Electron packaging advisory and isolated v27 alpha trial are recorded in [the Electron Builder migration report](electron-builder-v27-trial.md). The trial does not change the root dependency or waive the full audit gate.
+The current Electron packaging advisory and isolated v27 alpha trial are recorded in [the Electron Builder migration report](electron-builder-advisory-resolution.md). The trial does not change the root dependency or waive the full audit gate.
 
 Vitest and its matching coverage adapter are pinned to patched 4.1.11. A narrow Storybook addon-actions override pins UUID 11.1.1 to address its buffer-bounds advisory while retaining its v4 API. Unit and Storybook qualification are required for these changes.
 

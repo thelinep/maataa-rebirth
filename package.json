@@ -425,7 +425,7 @@
     "@vitejs/plugin-react": "^4.3.0",
     "@vitest/coverage-v8": "4.1.11",
     "electron": "^44.5.1",
-    "electron-builder": "^26.15.3",
+    "electron-builder": "^26.17.0",
     "eslint": "^9.0.0",
     "jsdom": "^26.0.0",
     "prettier": "^3.5.0",
