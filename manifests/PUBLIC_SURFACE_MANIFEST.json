@@ -23,6 +23,6 @@
   "app": "examples/redux-demo/App.tsx",
   "routing": "hash",
   "supportTransport": "none-demo-local-only",
-  "appSha256": "adf302fc287a147ec8c020f6083dfdcddc9b12bcb024b414b4a44fbf367b9e89",
+  "appSha256": "e86db77a3adb1a927bf5d640040c950ce8184cf23b8c879c85222336e01d8314",
   "sourceSha256": "e1b5cf7ba7f3ba17f9c905603d00c8adfd9a75f569218ee419a4b49e6b2eccbb"
 }

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { PREVIEW_LOADERS } from "./previewLoaders.generated";
+import { loadPreviewLoader } from "./previewLoaders.generated";
 
 type PreviewItem = { id: string; name: string; meta?: string; importPath?: string };
 type RuntimeModule = Record<string, unknown>;
@@ -163,7 +163,7 @@ export function ActualComponentPreview({ item, overrides = {} }: { item: Preview
         return;
       }
 
-      const loader = PREVIEW_LOADERS.get(source);
+      const loader = await loadPreviewLoader(source);
 
       if (!loader) {
         const componentRecord =

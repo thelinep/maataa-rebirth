@@ -10,16 +10,16 @@
         "maxCssChunkBytes": 180000
       },
       "largestJs": {
-        "file": "demo-dist/assets/useTheme-CkZcfWSO.js",
-        "bytes": 429735
+        "file": "demo-dist/assets/ChartPoint-CaLL6e0h.js",
+        "bytes": 274451
       },
       "largestCss": {
         "file": "demo-dist/assets/index-CZnWcepP.css",
         "bytes": 109382
       },
-      "jsChunks": 110,
+      "jsChunks": 141,
       "cssChunks": 5,
-      "totalJsBytes": 1959610,
+      "totalJsBytes": 2058978,
       "totalCssBytes": 163304
     },
     {

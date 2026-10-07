@@ -1,7 +1,7 @@
 {
   "name": "@maataa/ui",
   "version": "1.0.0-alpha.8.4",
-  "description": "Standalone MAATAA React + TypeScript UI package \u2014 Alpha 8.4 Beta-prep with certified Alpha 8 baseline, bundle budgets/code splitting, clean packed-consumer validation, Playwright browser/a11y smoke tests, release evidence and deterministic readiness gates",
+  "description": "Standalone MAATAA React + TypeScript UI package — Alpha 8.4 Beta-prep with certified Alpha 8 baseline, bundle budgets/code splitting, clean packed-consumer validation, Playwright browser/a11y smoke tests, release evidence and deterministic readiness gates",
   "type": "module",
   "private": true,
   "sideEffects": [
@@ -461,7 +461,7 @@
     "brahmini:runtime": "node examples/redux-demo/brahmini-runtime.mjs",
     "brahmini:dev": "node scripts/start-brahmini-demo.mjs",
     "brahmini:preview": "node scripts/start-brahmini-demo.mjs --preview",
-    "demo:build": "vite build --config examples/redux-demo/vite.config.mjs",
+    "demo:build": "node scripts/generate-preview-loaders.mjs && vite build --config examples/redux-demo/vite.config.mjs",
     "demo:videos": "pnpm demo:build && node scripts/record-demo-videos.mjs",
     "demo:preview": "vite preview --config examples/redux-demo/vite.config.mjs",
     "surface:manifest": "node scripts/public-surface-manifest.mjs",

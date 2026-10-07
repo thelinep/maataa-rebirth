@@ -66,6 +66,19 @@ test("sandbox supports composer interaction", async ({ page }) => {
   ).toBeVisible();
 });
 
+test("surface explorer lazy-loads real component previews by category", async ({ page }) => {
+  await openReadySurface(page, "/surface");
+  const status = page.locator(".actual-status");
+  await expect(status).toHaveAttribute("data-status", "actual", { timeout: 10_000 });
+
+  const search = page.getByPlaceholder("Search components…");
+  await search.fill("Tooltip");
+  await page.getByRole("button", { name: /^Tooltip COMPONENT\./ }).click();
+  await expect(page.locator(".actual-preview-head h3")).toHaveText("Tooltip");
+  await expect(status).toHaveAttribute("data-status", "actual", { timeout: 10_000 });
+  await expect(page.getByRole("button", { name: "Hover or focus me" })).toBeVisible();
+});
+
 test("Redux scenarios set and clear generator, tool, and AI-space selections", async ({
   page,
 }) => {
