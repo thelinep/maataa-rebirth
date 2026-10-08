@@ -142,6 +142,16 @@ test("idea becomes a reviewed graph, canonical TypeScript snapshot and Sandbox c
   page,
 }) => {
   await mockRuntime(page);
+  let scaffoldCreatePayload: Record<string, unknown> | undefined;
+  await page.route("**/api/brahmini/scaffold/preview", async route => {
+    const input = JSON.parse(route.request().postData() || "{}");
+    expect(input.nodes.length).toBeGreaterThan(0);
+    await route.fulfill({ json: { ...input, slug: "tool-library", previewSha256: "a".repeat(64), files: [{ path: "package.json", content: '{"name":"tool-library"}' }, { path: "src/App.tsx", content: "export function App() {}" }] } });
+  });
+  await page.route("**/api/brahmini/scaffold/create", route => {
+    scaffoldCreatePayload = JSON.parse(route.request().postData() || "{}");
+    return route.fulfill({ status: 201, json: { folder: "generated-apps/tool-library", files: ["package.json", "src/App.tsx"] } });
+  });
   await page.goto("/#/brahmini");
   await completeProductIntake(page, "A tool library for local makers.");
   await page
@@ -175,6 +185,16 @@ test("idea becomes a reviewed graph, canonical TypeScript snapshot and Sandbox c
   await expect(
     page.getByRole("button", { name: "Export TypeScript snapshot" }),
   ).toBeVisible();
+  await page.getByLabel("Desktop platform").selectOption("tauri");
+  await page.getByRole("button", { name: "Preview app files" }).click();
+  await expect(page.locator(".scaffold-status")).toContainText("Preview ready");
+  await expect(page.getByLabel("Preview of package.json")).toContainText("tool-library");
+  await page.getByLabel("I reviewed this file preview and approve creating this local app folder.").check();
+  await page.getByRole("button", { name: "Create reviewed app folder" }).click();
+  await expect(page.locator(".scaffold-status")).toContainText("generated-apps/tool-library");
+  expect(scaffoldCreatePayload?.audience).toBe("Unspecified");
+  expect(scaffoldCreatePayload?.nodes).toEqual(expect.arrayContaining([expect.objectContaining({ label: "Tool" })]));
+  expect(scaffoldCreatePayload?.unknowns).toEqual(["Who can approve a loan?"]);
   await page
     .getByRole("button", { name: "Preview composition in Sandbox" })
     .click();

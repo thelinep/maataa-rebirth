@@ -3,6 +3,7 @@ import { fileURLToPath } from "node:url";
 import { resolve } from "node:path";
 import { createHash } from "node:crypto";
 import { validateChat } from "./brahmini-input.mjs";
+import { previewProductScaffold, scaffoldDigest, writeProductScaffold } from "./productScaffold.mjs";
 import { loadBrahminiEnvironment } from "./brahmini-config.mjs";
 
 loadBrahminiEnvironment({
@@ -27,6 +28,7 @@ const defaults = {
   anthropic: process.env.BRAHMINI_ANTHROPIC_MODEL || "claude-sonnet-5-5",
   gemini: process.env.BRAHMINI_GEMINI_MODEL || "gemini-2.5-flash-lite",
 };
+const generatedAppsDirectory = resolve(fileURLToPath(new URL("../../generated-apps", import.meta.url)));
 
 function json(res, status, value) {
   res.writeHead(status, {
@@ -231,6 +233,16 @@ const server = createServer(async (req, res) => {
   try {
     if (req.method === "GET" && url.pathname === "/api/brahmini/status")
       return json(res, 200, { providers: await providerStatus() });
+    if (req.method === "POST" && url.pathname === "/api/brahmini/scaffold/preview") {
+      const preview = previewProductScaffold(await bodyJson(req));
+      return json(res, 200, { ...preview, previewSha256: scaffoldDigest(preview.files) });
+    }
+    if (req.method === "POST" && url.pathname === "/api/brahmini/scaffold/create") {
+      if (!origin || !allowedOrigins.has(origin))
+        return json(res, 403, { error: "App folders can only be created from an allowed MAATAA local origin." });
+      const result = await writeProductScaffold(await bodyJson(req), generatedAppsDirectory);
+      return json(res, 201, result);
+    }
     if (req.method === "POST" && url.pathname === "/api/brahmini/chat") {
       const input = validateChat(await bodyJson(req));
       const startedAt = Date.now();

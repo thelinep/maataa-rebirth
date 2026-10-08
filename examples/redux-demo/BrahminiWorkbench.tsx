@@ -1,5 +1,6 @@
 import * as React from "react";
 import { IdentityAvatar } from "@maataa/ui/identity/IdentityAvatar";
+import type { DemoIdentityId } from "@maataa/ui/identity/types";
 import { AI_SPACE_REGISTRY } from "@maataa/ui/registries/aiSpaceRegistry";
 import { COMPONENT_REGISTRY } from "@maataa/ui/registries/componentRegistry";
 import { PAGE_TYPES } from "@maataa/ui/registries/pageRegistry";
@@ -7,6 +8,7 @@ import { TOOL_REGISTRY } from "@maataa/ui/registries/toolRegistry";
 import { useMaataaDispatch } from "@maataa/ui/redux/hooks";
 import { builderActions } from "@maataa/ui/redux/slices/builderSlice";
 import { ProductIdeaWizard } from "./ProductIdeaWizard";
+import { IndependentAppScaffold } from "./IndependentAppScaffold";
 import {
   compileProductGraph,
   parseProductGraph,
@@ -51,7 +53,7 @@ type Provider = {
 type Agent = {
   id: string;
   name: string;
-  identity: string;
+  identity: DemoIdentityId;
   role: string;
   task: string;
   prompt: string;
@@ -223,7 +225,7 @@ const DOCS = [
   },
   {
     title: "Generated product boundary",
-    text: "Brahmini generates reviewable product briefs, route plans, component plans, source drafts and acceptance checks. Generated code is a draft; it is not executed, written to the repository, deployed, or certified.",
+    text: "Brahmini generates reviewable product briefs, route plans, component plans, source drafts and acceptance checks. An explicit local approval can create a fixed Electron or Tauri starter folder from reviewed product metadata; model-written source is not executed, and app dependencies are not installed or built.",
   },
   {
     title: "Connect local providers",
@@ -1013,8 +1015,9 @@ export function BrahminiWorkbench({
               </h2>
               <p>
                 The agents turn one idea into a product brief, route map, data
-                contracts, demo plan, source draft and acceptance checklist. It
-                does not write or run code.
+                contracts, demo plan, source draft and acceptance checklist.
+                Review a generated Electron or Tauri app folder before creating
+                it locally; agents do not run model-written code.
               </p>
             </div>
             <ProductIdeaWizard
@@ -1326,6 +1329,7 @@ export function BrahminiWorkbench({
                   </p>
                 </div>
               )}
+              {productSnapshot && <IndependentAppScaffold name={productSnapshot.graph.name} idea={productSnapshot.graph.idea} audience={productSnapshot.graph.audience} nodes={productSnapshot.graph.nodes} unknowns={productSnapshot.graph.unknowns} />}
             </section>
           </section>
         )}

@@ -133,7 +133,7 @@ const LIMITS = {
 function record(value: unknown): value is Record<string, unknown> {
   return Boolean(value && typeof value === "object" && !Array.isArray(value));
 }
-function text(value: unknown, max = LIMITS.maxText): value is string {
+function text(value: unknown, max: number = LIMITS.maxText): value is string {
   return (
     typeof value === "string" && value.trim().length > 0 && value.length <= max
   );
@@ -266,7 +266,8 @@ export function validateProductGraph(
         errors.push(`edges[${index}].kind is unsupported.`);
     });
   if (errors.length) return { valid: false, errors };
-  return { valid: true, graph: input as ProductGraphV1, errors: [] };
+  // The checks above validate this untrusted JSON shape and all bounded fields.
+  return { valid: true, graph: input as unknown as ProductGraphV1, errors: [] };
 }
 
 export function parseProductGraph(
@@ -381,7 +382,9 @@ export function compileProductGraph(
     blocks,
     regions: [
       {
-        regionId: DEFAULT_COMPOSER_SCENE.regions[0]!.regionId,
+        regionId:
+          DEFAULT_COMPOSER_SCENE.regions?.[0]?.regionId ??
+          "REGION.LAYOUT.LAYOUTCONTENT",
         blockIds: blocks.map((block) => block.id),
       },
     ],
