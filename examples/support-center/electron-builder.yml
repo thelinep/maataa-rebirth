@@ -7,6 +7,11 @@ files:
   - examples/support-center/electron/**
   - demo-dist/**
   - support-center-dist/**
+  - apps/tlp-film/dist/**
+  - apps/tlps/dist/**
+extraResources:
+  - from: apps/maataa-browser/src-tauri/target/release/maataa-browser
+    to: maataa-browser/maataa-browser
 extraMetadata:
   name: maataa-desktop-electron
   main: examples/support-center/electron/main.mjs

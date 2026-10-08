@@ -1,0 +1,14 @@
+[package]
+name = "maataa-desktop-tauri"
+version = "0.1.0"
+description = "MAATAA Desktop same-window WebKit feasibility prototype"
+authors = ["MAATAA"]
+edition = "2021"
+
+[build-dependencies]
+tauri-build = { version = "2.6.3", features = [] }
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+tauri = { version = "2.11.5", features = ["unstable"] }
+url = "2"

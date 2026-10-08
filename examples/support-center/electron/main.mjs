@@ -1,5 +1,7 @@
-import { app, BrowserWindow, dialog } from "electron";
+import { app, BrowserWindow, dialog, ipcMain } from "electron";
 import path from "node:path";
+import { spawn } from "node:child_process";
+import { access } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { createDesktopServer } from "./static-server.mjs";
 
@@ -9,6 +11,54 @@ const appRoot = app.isPackaged
 const desktopServer = createDesktopServer(appRoot);
 const port = 4179;
 const ownsAppLock = app.requestSingleInstanceLock();
+let mainWindow;
+
+function windowState(window) {
+  return {
+    isFullScreen: window.isFullScreen(),
+    isMaximized: window.isMaximized(),
+    isMinimized: window.isMinimized(),
+  };
+}
+
+function trustedWindow(event) {
+  const window = BrowserWindow.fromWebContents(event.sender);
+  const senderUrl = event.senderFrame?.url ?? "";
+  return window && senderUrl.startsWith(`http://127.0.0.1:${port}/`) ? window : null;
+}
+
+function publishWindowState(window) {
+  if (!window.isDestroyed()) window.webContents.send("maataa:window-state", windowState(window));
+}
+
+ipcMain.on("maataa:minimize-window", event => trustedWindow(event)?.minimize());
+ipcMain.on("maataa:toggle-maximize", event => {
+  const window = trustedWindow(event);
+  if (!window) return;
+  if (window.isMaximized()) window.unmaximize();
+  else window.maximize();
+});
+ipcMain.on("maataa:toggle-full-screen", event => {
+  const window = trustedWindow(event);
+  if (window) window.setFullScreen(!window.isFullScreen());
+});
+ipcMain.handle("maataa:launch-browser", async event => {
+  if (!trustedWindow(event)) return { ok: false, message: "untrusted desktop request" };
+  if (process.platform !== "darwin") return { ok: false, message: "Mac first; native WebKit build not configured for this operating system" };
+  const browserBinary = app.isPackaged
+    ? path.join(process.resourcesPath, "maataa-browser/maataa-browser")
+    : path.join(appRoot, "apps/maataa-browser/src-tauri/target/debug/maataa-browser");
+  try {
+    await access(browserBinary);
+    const child = spawn(browserBinary, [], { cwd: appRoot, detached: true, stdio: "ignore" });
+    return await new Promise(resolve => {
+      child.once("spawn", () => { child.unref(); resolve({ ok: true }); });
+      child.once("error", () => resolve({ ok: false, message: "native browser process could not start" }));
+    });
+  } catch {
+    return { ok: false, message: "build the Rust browser first with cargo build --manifest-path apps/maataa-browser/src-tauri/Cargo.toml --offline" };
+  }
+});
 
 function createWindow() {
   const window = new BrowserWindow({
@@ -23,8 +73,13 @@ function createWindow() {
       contextIsolation: true,
       sandbox: true,
       nodeIntegration: false,
+      preload: path.join(path.dirname(fileURLToPath(import.meta.url)), "preload.cjs"),
     },
   });
+  mainWindow = window;
+  for (const eventName of ["enter-full-screen", "leave-full-screen", "maximize", "unmaximize", "minimize", "restore"]) {
+    window.on(eventName, () => publishWindowState(window));
+  }
 
   window.once("ready-to-show", () => window.show());
   window.webContents.setWindowOpenHandler(() => ({ action: "deny" }));
@@ -38,11 +93,11 @@ if (!ownsAppLock) {
   app.quit();
 } else {
   app.on("second-instance", () => {
-    const window = BrowserWindow.getAllWindows()[0];
-    if (window) {
-      if (window.isMinimized()) window.restore();
-      window.show();
-      window.focus();
+    const activeWindow = BrowserWindow.getAllWindows()[0];
+    if (activeWindow) {
+      if (activeWindow.isMinimized()) activeWindow.restore();
+      activeWindow.show();
+      activeWindow.focus();
     }
   });
   app.whenReady().then(async () => {
@@ -63,6 +118,7 @@ if (!ownsAppLock) {
   });
 
   app.on("window-all-closed", () => {
+    mainWindow = undefined;
     if (process.platform !== "darwin") app.quit();
   });
 

@@ -8,6 +8,8 @@ New to this repository? Start with [`docs/START-HERE.md`](docs/START-HERE.md) fo
 
 ```text
 src/                         Reusable UI package source
+apps/tlp-film/               Standalone local film-producer timeline app
+apps/tlps/                   Standalone local production planning workflow app
 archives/maataa-ui-source-snapshots/ Historical MAATAA UI generations, hash-indexed
 examples/redux-demo/         MAATAA product explorer, Theme Studio, Brahmini and pilot demos
 examples/support-center/     Standalone Support Center and Electron desktop shell
@@ -34,7 +36,6 @@ This package contains application-agnostic components only. It does **not** prov
 ## Public / demo surface
 
 `pnpm demo` launches the complete hash-routed local surface with Landing, Live Full Surface Explorer, Playground, Sandbox, Demos, Docs, Help and Support. The explorer includes a visual preview canvas and copy controls. See [the public surface guide](docs/product/PUBLIC-SURFACE.md).
-
 
 ## Icons & symbolic demo identities
 
@@ -129,6 +130,22 @@ npm run api:manifest
 npm pack
 ```
 
+### Standalone TLP and TLPS apps
+
+These are separate local applications that import the shared `@maataa/ui` package source through their Vite configs. They keep independent routes, local-storage keys, and product boundaries.
+
+```bash
+pnpm tlp:dev        # http://127.0.0.1:4195
+pnpm tlps:dev       # http://127.0.0.1:4196
+pnpm products:typecheck
+pnpm products:build
+pnpm products:e2e  # desktop and mobile Chromium flows
+```
+
+Both are browser-local prototypes. TLP policy/funding claims are flagged for verification; TLPS review is preview-only and does not connect to a tenant or production service. See [TLP Film README](apps/tlp-film/README.md) and [TLPS README](apps/tlps/README.md).
+
+For a single desktop entry point, `pnpm maataa:desktop:dev` bundles MAATAA UI, TLP Film, TLPS, the NEVO demo, and Support Center into one Electron shell. Their focused browser dev servers remain available for isolated work; the unified shell is the place to move between them. See [MAATAA Desktop details](examples/support-center/README.md#desktop-app).
+
 ## Package boundary
 
 `@maataa/ui` owns visual interaction components. Host applications own routing, data fetching, authentication, authorization and business state.
@@ -147,7 +164,6 @@ import { TableHead, TableBody, TableRow, TableCell } from "@maataa/ui/atomic";
 ```
 
 Compound components must be composed from independently addressable parts. Application/domain state remains outside the package.
-
 
 ## Layout system
 
@@ -201,7 +217,11 @@ import { HolyGrailLayout } from "@maataa/ui/layouts/HolyGrailLayout";
 import { ComponentGenerator } from "@maataa/ui/generators/ComponentGenerator";
 import { AgentBuilder } from "@maataa/ui/tools/AgentBuilder";
 import { MAATAAAIStudio } from "@maataa/ui/ai-spaces/MAATAAAIStudio";
-import { GENERATOR_REGISTRY, TOOL_REGISTRY, AI_SPACE_REGISTRY } from "@maataa/ui/registries";
+import {
+  GENERATOR_REGISTRY,
+  TOOL_REGISTRY,
+  AI_SPACE_REGISTRY,
+} from "@maataa/ui/registries";
 ```
 
 All registry metadata is descriptive UI vocabulary. It does **not** implement authentication, authorization, model execution, agent execution, external tool execution, persistence, APIs, infrastructure, migration execution or deployment authority.
@@ -214,8 +234,8 @@ Alpha 5 adds atomic visual/editor surfaces and canonical catalogs for generators
 
 Alpha 6 adds 187 canonical device types across 41 groups plus first-class viewport, input-modality, orientation, device-capability, safe-area and responsive-transformation catalogs. Every canonical device frame has a direct atomic import path under `@maataa/ui/devices/*`. See [devices](docs/product/DEVICES.md).
 
-
 ## Alpha 7 Redux + demo data
+
 Use `@maataa/ui/redux`, `@maataa/ui/types`, `@maataa/ui/static-data`, and `@maataa/ui/demo` for stateful demos. The Redux layer is optional and does not provide backend authority or persistence.
 
 ## Alpha 8 actual preview guarantee
@@ -226,7 +246,6 @@ Use `@maataa/ui/redux`, `@maataa/ui/types`, `@maataa/ui/static-data`, and `@maat
 - No shared generic Button/Input/Tabs specimen is presented as another selected component.
 - All 1,572 registered component import paths are source-resolvable in this package revision.
 
-
 ## Alpha 8 depth runtime
 
 ```tsx
@@ -236,6 +255,6 @@ import { ResponsiveDeviceRuntime } from "@maataa/ui/runtime";
 
 Run `pnpm certify` for the installed-dependency type/test/Storybook/demo certification gate. See [Alpha 8 depth](docs/release/ALPHA8-DEPTH.md) and the [release roadmap](docs/release/ROADMAP.md).
 
-
 ## Alpha 8.4 Beta-prep
+
 Alpha 8.4 adds bundle budgets/manual chunking, clean packed-consumer validation, Playwright desktop/mobile browser smoke tests, automated axe accessibility gates, and deterministic beta-prep evidence. The Alpha 8 baseline is certified; Beta still requires the full `pnpm certify:beta` gate plus manual accessibility/representative real-device acceptance.

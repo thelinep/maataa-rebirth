@@ -1,0 +1,127 @@
+:root {
+  font-family: "Avenir Next", "Helvetica Neue", sans-serif;
+  color: #f5f1e7;
+  background: #131512;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  --gold: #ddbc43;
+  --muted: #babbb2;
+  --line: #ffffff25;
+  --surface: #1d201c;
+}
+* { box-sizing: border-box; }
+html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; }
+body { min-width: 360px; background: #131512; }
+button, input { font: inherit; }
+button { color: inherit; }
+.topbar {
+  height: 64px; padding: 0 26px; display: flex; align-items: center; gap: 30px;
+  border-bottom: 1px solid #ffffff20; background: #171915; position: relative; z-index: 2;
+}
+.brand { display: flex; align-items: center; gap: 11px; min-width: 180px; }
+.brand strong { display: block; font-size: 12px; letter-spacing: .15em; }
+.brand small { display: block; color: var(--muted); font-size: 10px; letter-spacing: .15em; margin-top: 3px; }
+.mark, .dock-mark { display: grid; place-items: center; color: var(--gold); border: 1px solid #d0aa32; border-radius: 50%; font-weight: 750; }
+.mark { width: 34px; height: 34px; }
+.menubar { display: flex; align-items: center; gap: 22px; color: #d0d0c9; font-size: 12px; }
+.menubar span:first-child { color: #fff; font-weight: 700; }
+#clock { margin-left: auto; color: #d0d0c9; font-size: 12px; }
+.desktop-home {
+  height: calc(100% - 64px); position: relative; overflow: hidden; padding: 28px clamp(24px, 6vw, 96px) 100px;
+  background: radial-gradient(ellipse at 73% 35%, #393b2b 0%, #282a20 23%, transparent 54%),
+    radial-gradient(ellipse at 22% 88%, #24302a 0%, transparent 42%),
+    linear-gradient(135deg, #27291f 0%, #151814 52%, #1d211d 100%);
+}
+.desktop-home::before, .desktop-home::after { content: ""; position: absolute; border: 1px solid #e1bf4932; border-radius: 50%; pointer-events: none; }
+.desktop-home::before { width: min(74vw, 980px); aspect-ratio: 1; top: -39%; right: -10%; }
+.desktop-home::after { width: min(62vw, 820px); aspect-ratio: 1; bottom: -58%; left: 15%; border-color: #ffffff10; }
+.desktop-meta { display: flex; justify-content: space-between; color: #c6bd9b; font-size: 10px; letter-spacing: .16em; text-transform: uppercase; position: relative; z-index: 1; }
+.welcome { width: min(560px, 48vw); position: relative; z-index: 1; margin-top: clamp(52px, 11vh, 120px); }
+.eyebrow { color: var(--gold); font-size: 10px; font-weight: 750; letter-spacing: .19em; margin: 0 0 16px; }
+.welcome h1, .browser-empty h1 { margin: 0; font-size: clamp(46px, 6vw, 78px); letter-spacing: -.065em; line-height: .94; }
+.welcome h1 span, .browser-empty h1 span { color: var(--gold); }
+.welcome-copy { max-width: 43ch; margin: 22px 0 0; color: #d0d0c7; font-size: 15px; line-height: 1.7; }
+.app-grid { position: absolute; z-index: 1; top: 50%; right: clamp(34px, 12vw, 180px); transform: translateY(-42%); display: grid; grid-template-columns: repeat(2, 118px); gap: 18px 14px; }
+.app-icon { width: 118px; min-height: 132px; padding: 12px 8px; border: 1px solid transparent; border-radius: 15px; background: transparent; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; text-align: center; cursor: pointer; }
+.app-icon:not(.planned):hover, .app-icon:focus-visible { background: #ffffff13; border-color: #ffffff28; outline: none; }
+.app-icon strong { font-size: 12px; font-weight: 650; }
+.app-icon small { color: #c3c4b9; font-size: 10px; }
+.app-art { width: 68px; height: 68px; display: grid; place-items: center; border-radius: 17px; margin-bottom: 4px; box-shadow: 0 12px 25px #0006; }
+.maataa-art { border: 1px solid #e4be39; border-radius: 50%; color: #f5d256; background: radial-gradient(circle at 35% 30%, #59502b, #171813 70%); font: 800 27px Georgia, serif; }
+.browser-art { background: conic-gradient(from 15deg, #e7bf39, #c86d2a, #3e8a78, #3778b9, #e7bf39); position: relative; }
+.browser-art::before { content: ""; position: absolute; inset: 7px; border: 1px solid #ffffffa0; border-radius: 50%; }
+.browser-art span { width: 26px; height: 26px; border-radius: 50%; background: #23261e; border: 1px solid #ffffffa0; }
+.tlps-art, .film-art { color: #ecd15d; border: 1px solid #82733b; background: linear-gradient(140deg, #343326, #171814); font-size: 25px; font-weight: 800; }
+.support-art { color: #f2df95; border: 1px solid #b99d45; background: linear-gradient(145deg, #46422d, #1c1e17); font-size: 31px; font-weight: 700; }
+.planned { opacity: .62; cursor: default; }
+.desktop-note { position: absolute; z-index: 1; left: clamp(24px, 6vw, 96px); bottom: 112px; display: flex; align-items: center; gap: 10px; color: #d1d0c6; font-size: 12px; }
+.note-light { width: 7px; height: 7px; border-radius: 50%; background: #7bb484; box-shadow: 0 0 12px #7bb48480; }
+.desktop-note button { margin-left: 8px; border: 1px solid #ffffff31; border-radius: 7px; background: #ffffff0a; padding: 8px 12px; cursor: pointer; font-size: 11px; }
+.desktop-note button:hover { background: #ffffff18; }
+.dock { position: absolute; z-index: 2; bottom: 18px; left: 50%; transform: translateX(-50%); min-height: 66px; display: flex; gap: 10px; align-items: center; padding: 8px 12px; border: 1px solid #ffffff35; border-radius: 20px; background: #24261fcf; backdrop-filter: blur(22px); box-shadow: 0 16px 45px #0007; }
+.dock-app { width: 46px; height: 46px; border: 0; border-radius: 13px; background: #11130f; box-shadow: inset 0 0 0 1px #ffffff22, 0 3px 9px #0008; display: grid; place-items: center; cursor: pointer; }
+.dock-app:hover { transform: translateY(-3px); }
+.dock-mark { width: 29px; height: 29px; font: 800 17px Georgia, serif; }
+.dock-browser-icon { font-size: 34px; line-height: 1; color: #e0c044; }
+.dock-letter { color: #e4c647; font-weight: 800; font-size: 19px; }
+.dock-divider { height: 34px; width: 1px; background: #ffffff2b; margin: 0 3px; }
+.dock-label { color: #e2e0d6; padding: 0 8px 0 2px; font-size: 11px; white-space: nowrap; }
+.browser-nav { display: none; height: 64px; padding: 9px 16px; gap: 8px; align-items: center; border-bottom: 1px solid #ffffff23; background: #1b1e19; position: relative; z-index: 2; }
+.browser-nav > button { height: 40px; min-width: 40px; border: 1px solid #ffffff32; border-radius: 9px; background: #242720; font-size: 19px; cursor: pointer; }
+.browser-nav > button:hover { background: #31352c; }
+.browser-nav form { flex: 1; min-width: 0; display: flex; gap: 8px; }
+.browser-nav input { flex: 1; min-width: 0; height: 40px; border: 1px solid #ffffff30; border-radius: 11px; background: #10120f; color: #f5f1e7; padding: 0 15px; font-size: 13px; }
+.browser-nav input:focus { outline: 2px solid #ddbc4380; border-color: var(--gold); }
+.primary { border: 1px solid #d3ad31; border-radius: 9px; background: var(--gold); color: #1a180f; font-weight: 750; padding: 10px 16px; cursor: pointer; }
+.primary:hover { background: #f0d15d; }
+.browser-nav #nav-close { min-width: auto; padding: 0 12px; font-size: 11px; }
+.browser-workspace { display: none; height: calc(100% - 128px); position: relative; background: #11130f; }
+.browser-empty { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 28px; background: radial-gradient(ellipse at 50% 40%, #2a2c21 0%, #171a15 42%, #11130f 78%); }
+.browser-emblem { display: grid; place-items: center; width: 60px; height: 60px; border: 1px solid #ddbc4380; border-radius: 20px; margin-bottom: 23px; color: var(--gold); font-size: 41px; }
+.browser-empty .eyebrow { margin-bottom: 12px; }
+.browser-empty h1 { font-size: clamp(38px, 5vw, 60px); }
+.browser-empty > p:not(.eyebrow) { max-width: 48ch; margin: 18px 0 22px; color: #c9c9bd; line-height: 1.65; font-size: 14px; }
+.browser-empty small { color: #9e9f94; margin-top: 14px; font-size: 11px; }
+.browser-status { position: absolute; z-index: -1; width: 1px; height: 1px; overflow: hidden; }
+body.browser-window .desktop-home { display: none; }
+body.browser-window .browser-nav { display: flex; }
+body.browser-window .browser-workspace { display: block; }
+body.page-open .browser-empty { display: none; }
+button:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+@media (max-width: 800px) {
+  .topbar { padding: 0 16px; gap: 12px; }
+  .brand { min-width: unset; }
+  .menubar { gap: 12px; font-size: 10px; }
+  .desktop-home { padding: 22px 22px 96px; }
+  .welcome { width: min(520px, 70vw); margin-top: 8vh; }
+  .app-grid { right: 28px; grid-template-columns: repeat(2, 100px); gap: 10px 4px; }
+  .app-icon { width: 100px; }
+  .desktop-note { left: 22px; bottom: 102px; }
+  .desktop-note button { display: none; }
+}
+@media (max-width: 560px) {
+  .menubar { display: none; }
+  .desktop-home { padding: 18px 18px 100px; }
+  .desktop-meta { font-size: 9px; }
+  .welcome { width: 100%; margin-top: 54px; }
+  .welcome h1 { font-size: 49px; }
+  .welcome-copy { max-width: 40ch; font-size: 13px; margin-top: 14px; }
+  .app-grid { top: auto; bottom: 166px; left: 14px; right: 14px; transform: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2px; }
+  .app-icon { width: auto; min-width: 0; min-height: 100px; padding: 5px 2px; }
+  .app-art { width: 52px; height: 52px; border-radius: 14px; }
+  .app-icon strong { font-size: 10px; }
+  .app-icon small { font-size: 8px; }
+  .desktop-note { left: 18px; bottom: 90px; font-size: 10px; }
+  .dock { bottom: 12px; min-height: 58px; border-radius: 17px; gap: 7px; padding: 6px 9px; }
+  .dock-app { width: 42px; height: 42px; }
+  .dock-label { font-size: 10px; }
+  .dock-label { display: none; }
+  .browser-nav { padding: 7px; gap: 5px; }
+  .browser-nav > button { height: 38px; min-width: 35px; }
+  .browser-nav #nav-close { padding: 0 7px; font-size: 10px; }
+  .browser-nav .primary { padding: 9px 11px; }
+  .browser-empty { padding: 18px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .app-icon, .dock-app, .desktop-note button { transition: transform .18s ease, background-color .18s ease; }
+}

@@ -1,0 +1,7 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "main-capability",
+  "description": "Local MAATAA Desktop trial controls only.",
+  "windows": ["main", "browser-*", "product-*"],
+  "permissions": ["core:default"]
+}

@@ -34,6 +34,12 @@ function resolveRequest(appRoot, requestUrl) {
   } else if (url.pathname.startsWith("/support/")) {
     root = path.join(appRoot, "support-center-dist");
     relative = url.pathname.slice("/support/".length);
+  } else if (url.pathname.startsWith("/tlp/")) {
+    root = path.join(appRoot, "apps/tlp-film/dist");
+    relative = url.pathname.slice("/tlp/".length);
+  } else if (url.pathname.startsWith("/tlps/")) {
+    root = path.join(appRoot, "apps/tlps/dist");
+    relative = url.pathname.slice("/tlps/".length);
   } else {
     return null;
   }

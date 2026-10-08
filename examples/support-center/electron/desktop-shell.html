@@ -4,34 +4,54 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="color-scheme" content="light dark" />
-    <meta name="description" content="MAATAA UI and Support Center desktop workspace." />
+    <meta name="description" content="MAATAA Desktop app launcher and workspace." />
     <title>MAATAA Desktop</title>
     <link rel="stylesheet" href="desktop-shell.css" />
     <script>if (location.protocol === "file:") document.documentElement.classList.add("source-file-preview");</script>
   </head>
   <body>
     <header class="desktop-bar">
-      <a class="brand" href="#" aria-label="MAATAA Desktop home">
+      <button class="brand" id="desktop-home-button" type="button" aria-label="Show MAATAA Desktop home">
         <span class="brand-mark" aria-hidden="true">M</span>
         <span><strong>MAATAA</strong><small>DESKTOP</small></span>
-      </a>
-      <nav class="surface-switcher" aria-label="Applications">
-        <button type="button" data-surface="maataa" aria-pressed="true">MAATAA UI</button>
-        <button type="button" data-surface="support" aria-pressed="false">Support Center</button>
-      </nav>
-      <span class="desktop-status" id="desktop-status" role="status">Product workspace</span>
+      </button>
+      <span class="desktop-status" id="desktop-status" role="status">Choose an app</span>
     </header>
-    <main class="desktop-content">
+    <main class="desktop-content" id="desktop-content">
+      <section class="desktop-home" id="desktop-home" aria-labelledby="desktop-title">
+        <div class="desktop-welcome">
+          <span class="welcome-mark" aria-hidden="true">M</span>
+          <p class="welcome-kicker">YOUR WORKSPACE</p>
+          <h1 id="desktop-title">MAATAA Desktop</h1>
+          <p>Open MAATAA UI or continue into an application made with it.</p>
+        </div>
+        <div class="launcher-grid" role="group" aria-label="Applications">
+          <button class="launcher-app" data-launch-app="maataa" type="button"><span class="app-icon app-icon-maataa" aria-hidden="true"><b>M</b></span><span>MAATAA UI</span></button>
+          <button class="launcher-app" data-launch-app="tlps" type="button"><span class="app-icon app-icon-tlps" aria-hidden="true"><b>▰</b></span><span>TLPS</span></button>
+          <button class="launcher-app" data-launch-app="film" type="button"><span class="app-icon app-icon-film" aria-hidden="true"><b>◉</b></span><span>TLP Film</span></button>
+          <button class="launcher-app" data-launch-app="nevo" type="button"><span class="app-icon app-icon-nevo" aria-hidden="true"><b>N</b></span><span>NEVO</span></button>
+          <button class="launcher-app" data-launch-app="browser" type="button"><span class="app-icon app-icon-browser" aria-hidden="true"><b>◉</b></span><span>MAATAA Browser</span></button>
+          <button class="launcher-app" data-launch-app="support" type="button"><span class="app-icon app-icon-support" aria-hidden="true"><b>?</b></span><span>Support Center</span></button>
+        </div>
+      </section>
+      <section class="app-window-layer" id="app-window-layer" aria-label="Open application windows"></section>
+      <nav class="desktop-dock" id="desktop-dock" aria-label="Running apps" hidden></nav>
+      <div class="window-context-menu" id="window-context-menu" role="menu" aria-label="Window options" hidden></div>
+      <div id="app-frames" hidden>
+        <iframe id="maataa-frame" title="MAATAA UI" src="/maataa/index.html#/" hidden></iframe>
+        <iframe id="tlps-frame" title="TLPS" src="/tlps/index.html" hidden></iframe>
+        <iframe id="film-frame" title="TLP Film" src="/tlp/index.html" hidden></iframe>
+        <iframe id="nevo-frame" title="NEVO demo" src="/maataa/index.html#/demo/nevo" hidden></iframe>
+        <iframe id="support-frame" title="Support Center" src="/support/index.html#/home" hidden></iframe>
+      </div>
       <section class="file-preview" aria-labelledby="file-preview-title">
         <span class="brand-mark" aria-hidden="true">M</span>
         <p class="preview-kicker">MAATAA DESKTOP</p>
-        <h1 id="file-preview-title">Launch the desktop app to open both workspaces</h1>
-        <p>This page is the Electron window source. Open it through MAATAA Desktop so its local app server can load the MAATAA UI and Support Center.</p>
+        <h2 id="file-preview-title">Open MAATAA Desktop to use the app launcher</h2>
+        <p>This file is the Electron window source. Launch the desktop app to open MAATAA UI, TLPS, TLP Film, NEVO, and Support Center in app windows.</p>
         <a class="launch-link" href="http://127.0.0.1:4179/">Open MAATAA Desktop</a>
-        <p class="preview-help">To launch the packaged build, open <strong>MAATAA Desktop.app</strong>. For development, run <code>pnpm maataa:desktop:dev</code>.</p>
+        <p class="preview-help">For development, run <code>pnpm maataa:desktop:dev</code>.</p>
       </section>
-      <iframe id="maataa-frame" title="MAATAA UI" src="/maataa/index.html#/"></iframe>
-      <iframe id="support-frame" title="Support Center" src="/support/index.html#/home" hidden></iframe>
     </main>
     <script type="module" src="desktop-shell.mjs"></script>
   </body>
