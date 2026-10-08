@@ -95,8 +95,11 @@ export function ThemeStudio({ navigate }: { navigate: (path: string) => void }) 
   const mutedSurfaceRatio = contrastRatio(draft.colors.muted, draft.colors.surface);
   const primaryRatio = contrastRatio(draft.colors.primaryText, draft.colors.primary);
 
-  const edit = <K extends keyof StudioTheme>(group: K, key: keyof StudioTheme[K] & string, value: StudioTheme[K][keyof StudioTheme[K]]) => {
-    setDraft((current) => ({ ...current, [group]: { ...current[group], [key]: value } }));
+  const edit = <K extends Exclude<keyof StudioTheme, "name">>(group: K, key: keyof StudioTheme[K] & string, value: StudioTheme[K][keyof StudioTheme[K]]) => {
+    setDraft((current) => ({
+      ...current,
+      [group]: Object.assign({}, current[group], { [key]: value }),
+    }));
     setNotice("Unsaved changes");
   };
 

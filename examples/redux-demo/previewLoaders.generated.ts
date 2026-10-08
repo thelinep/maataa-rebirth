@@ -7,7 +7,7 @@ import { IdentityBadge as __previewEager4 } from "../../src/identity/IdentityBad
 
 export type PreviewLoader = () => Promise<unknown>;
 
-const eagerLoaders: ReadonlyMap<string, PreviewLoader> = new Map([
+const eagerLoaders: ReadonlyMap<string, PreviewLoader> = new Map<string, PreviewLoader>([
   ["@maataa/ui/icons/MaataaIcon", async () => ({ "MaataaIcon": __previewEager0 })],
   ["@maataa/ui/navigation/Tabs", async () => ({ "Tabs": __previewEager1 })],
   ["@maataa/ui/identity/IdentityAvatar", async () => ({ "IdentityAvatar": __previewEager2 })],

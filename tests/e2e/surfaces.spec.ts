@@ -56,6 +56,16 @@ for (const [route, text] of routes) {
   });
 }
 
+test("home shows current project and pilot status with working routes", async ({ page }) => {
+  await openReadySurface(page, "/");
+  await expect(page.getByRole("heading", { name: "Current projects and pilots" })).toBeVisible();
+  await expect(page.getByText("The real pilot has not started; test tenant and named participants are still needed.")).toBeVisible();
+  await expect(page.getByText("An accountable owner and isolated test tenant are still needed for a pilot.")).toBeVisible();
+  await page.getByRole("button", { name: "Open TLPS workflow →" }).click();
+  await expect(page).toHaveURL(/#\/tlps-workflow$/);
+  await expect(page.getByRole("heading", { name: /production/i }).first()).toBeVisible();
+});
+
 test("sandbox supports composer interaction", async ({ page }) => {
   await openReadySurface(page, "/sandbox");
   await expect(

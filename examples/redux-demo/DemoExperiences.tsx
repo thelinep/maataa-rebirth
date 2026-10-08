@@ -8,6 +8,13 @@ import {
 import { DEMO_EVALUATIONS } from "@maataa/ui/static-data/demoAI";
 import { DEMO_EVENTS } from "@maataa/ui/static-data/demoEvents";
 
+type RegistryRecord = {
+  id: string;
+  name: string;
+  category: string;
+  importPath: string;
+};
+
 type DemoId =
   | "scenario-ui"
   | "scenario-nevo"
@@ -77,12 +84,14 @@ function DemoIntro({
 function RegistryExperience() {
   const [kind, setKind] = React.useState<"components" | "atoms">("components");
   const [query, setQuery] = React.useState("");
-  const [selectedId, setSelectedId] = React.useState(
+  const [selectedId, setSelectedId] = React.useState<string>(
     COMPONENT_REGISTRY[0]?.id ?? "",
   );
   const [copied, setCopied] = React.useState(false);
-  const records =
-    kind === "components" ? COMPONENT_REGISTRY : ATOMIC_COMPONENT_REGISTRY;
+  const records: readonly RegistryRecord[] =
+    kind === "components"
+      ? COMPONENT_REGISTRY as readonly RegistryRecord[]
+      : ATOMIC_COMPONENT_REGISTRY as readonly RegistryRecord[];
   const filtered = records
     .filter((record) =>
       `${record.name} ${record.id} ${record.category} ${record.importPath}`
