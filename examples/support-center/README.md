@@ -14,7 +14,7 @@ Open `http://127.0.0.1:4178`. The app reads canonical workspace names and IDs fr
 
 ## Desktop app
 
-With the repository's Electron packaging tools installed, run `pnpm maataa:desktop:dev` to open MAATAA Desktop, or `pnpm maataa:desktop:pack` to create an unpacked macOS app and ZIP in `maataa-desktop-dist/`. One desktop shell switches between the MAATAA UI product workspace and the Support Center; `⌘1` and `⌘2` switch surfaces from the keyboard. Both apps are bundled for Apple Silicon; the package remains a local, unsigned build, not a public installer.
+With the repository's Electron packaging tools installed, run `pnpm maataa:desktop:dev` to open MAATAA Desktop, or `pnpm maataa:desktop:pack` to create an unpacked macOS app and ZIP in `maataa-desktop-dist/`. The desktop opens to a centered app-icon grid. MAATAA UI, TLP Film, TLPS, the NEVO demo, and Support Center each open in a draggable, resizable app window with Mac-style close, minimize, maximize, and full-screen controls. The MAATAA Browser icon launches a separate Rust/Tauri process using the macOS system WKWebView; its controller and development panel show top-level navigation events. Window dragging stays inside the desktop workspace so title bars remain reachable. While apps are open, click a dock icon to launch or switch apps; right-click an icon for compact, comfortable, large, centered, half-screen, full-screen, minimize, and close options. The browser executable is included in the Apple Silicon package; the package remains a local, unsigned build, not a public installer. TLP Film and TLPS keep their own product workflows while sharing the desktop launcher and shell.
 
 ## Verify, refresh screenshots, and package
 
@@ -24,7 +24,7 @@ pnpm support-center:check
 pnpm maataa:desktop:pack
 ```
 
-The screenshot command uses Playwright against the local MAATAA demo and Support Center, then writes optimized WebP captures to `public/screenshots/`. It covers 15 MAATAA routes, all 17 Full Surface catalogue tabs, seven independent demos, 18 Support Center screens, 33 responsive views, and 18 interaction states (108 captures total). Workspace slice captures include the full searchable directory, TLPS and NEVO detail views, and the guide. Re-run the command after changing those screens to refresh the gallery. The generated package index is based on the current `package.json` exports and source tree. `support-center:check` runs the Support Center flows; `maataa:desktop:check` builds both apps and verifies switching between them in the desktop shell. The desktop packaging command refreshes the unified app and ZIP with the latest gallery assets.
+The screenshot command uses Playwright against the local MAATAA demo and Support Center, then writes optimized WebP captures to `public/screenshots/`. It covers 15 MAATAA routes, all 17 Full Surface catalogue tabs, seven independent demos, 18 Support Center screens, 33 responsive views, and 18 interaction states (108 captures total). Workspace slice captures include the full searchable directory, TLPS and NEVO detail views, and the guide. Re-run the command after changing those screens to refresh the gallery. The generated package index is based on the current `package.json` exports and source tree. `support-center:check` runs the Support Center flows; `maataa:desktop:check` builds all bundled products and verifies launcher, app-window, and TLPS-to-film handoff behavior. The desktop packaging command refreshes the unified app and ZIP with the latest gallery assets.
 
 ## Support handoff boundary
 
