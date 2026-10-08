@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <title>MAATAA Browser · Development</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <header><div class="brand"><span class="mark">M</span><span><b>MAATAA</b><small>BROWSER · DEVELOPMENT</small></span></div><span id="engine" class="engine">Detecting engine…</span></header>
+    <main>
+      <section class="welcome"><p class="eyebrow" id="runtime-label">NATIVE WEBKIT · MAC FIRST</p><h1>Your browser,<br /><em>in progress.</em></h1><p id="runtime-description">Open a page in its own native WebKit window. This development panel shows browser navigation and the engine boundary beside your work.</p></section>
+      <form id="navigate"><label for="address">Website or search</label><div class="address-row"><input id="address" type="text" inputmode="url" autocomplete="url" placeholder="example.com or a search phrase" /><button type="submit">Open page ↗</button></div><p id="message" role="status">Only HTTP and HTTPS pages open. Pages run in a separate native WebKit window.</p></form>
+      <section class="tools"><h2>Browser controls</h2><div class="controls"><button data-action="back">← Back</button><button data-action="forward">Forward →</button><button data-action="reload">↻ Reload</button><button data-action="home">⌂ Home</button></div></section>
+      <section class="dev-panel"><div class="panel-title"><div><p class="eyebrow">MAATAA DEVELOPMENT TOOLS</p><h2 id="panel-heading">Browsing history</h2></div><span id="event-count">0</span></div><p class="scope">History and page-level request metadata stay in this running session. URLs omit query strings; request headers and bodies are never captured. A site's security policy can limit what appears.</p><div class="panel-toolbar"><div class="panel-tabs" role="group" aria-label="Browser development tools"><button type="button" aria-pressed="true" data-view="history">History</button><button type="button" aria-pressed="false" data-view="network">Network</button></div><button class="clear-button" id="clear-session" type="button">Clear session</button></div><div id="history-view"><div class="event-head"><span>PAGE</span><span>ADDRESS</span><span>TIME</span></div><ol id="history-events" aria-live="polite"><li class="empty">Pages you open will appear here.</li></ol></div><div id="network-view" hidden><div class="event-head"><span>TYPE · RESULT</span><span>ADDRESS</span><span>TIME</span></div><ol id="network-events" aria-live="polite"><li class="empty">Open a page to observe its requests.</li></ol><p class="scope">Fetch and XHR entries include method, response status and duration. Other resources show timing only. This is page instrumentation, not a complete packet capture or trusted security log.</p></div><button class="inspector-button" id="inspector" type="button">Open native Web Inspector ↗</button></section>
+      <details class="build-details"><summary>How this browser is built</summary><dl><dt>Desktop shell</dt><dd>Rust · Tauri 2</dd><dt>Page engine on this Mac</dt><dd>Apple WebKit · WKWebView</dd><dt>Chromium bundled</dt><dd>No</dd><dt>Page isolation</dt><dd>Separate native WebKit window; web pages receive no MAATAA commands</dd><dt>Current stage</dt><dd>Development prototype · not a release browser</dd></dl></details>
+    </main>
+    <script src="./app.js"></script>
+  </body>
+</html>

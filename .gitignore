@@ -90,3 +90,6 @@ alpha8.*-compatibility-build.log
 storybook-static/
 .certification/release-evidence/
 .certification/consumer-react18/
+
+# Rust compiler output
+**/target/

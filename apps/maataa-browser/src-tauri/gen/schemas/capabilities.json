@@ -1,0 +1,1 @@
+{"main-capability":{"identifier":"main-capability","description":"Only the local MAATAA Browser controller window can use its browser commands.","local":true,"windows":["main"],"permissions":["core:default"]}}
