@@ -275,7 +275,7 @@ function Shell({ route, navigate, children }: { route: string; navigate: (path: 
       <div className="header-actions"><button className="ghost-button" onClick={() => navigate("/playground")}><MaataaIcon name="playground"/> {copy.playground}</button><button className="gold-button" onClick={() => navigate("/demos")}><MaataaIcon name="demos"/> {copy.openDemo}</button></div>
     </header>
     <main>{children}</main>
-    {!route.startsWith("/brahmini") && <button className="brahmini-global-trigger" type="button" onClick={() => navigate(`/brahmini?from=${encodeURIComponent(route)}`)} aria-label="Open Brahmini help and product assistant"><IdentityAvatar identity="IDENTITY.BRAHMINI" size={30}/><span>Brahmini</span></button>}
+    {!route.startsWith("/brahmini") && !route.startsWith("/tlps") && <button className="brahmini-global-trigger" type="button" onClick={() => navigate(`/brahmini?from=${encodeURIComponent(route)}`)} aria-label="Open Brahmini help and product assistant"><IdentityAvatar identity="IDENTITY.BRAHMINI" size={30}/><span>Brahmini</span></button>}
     <footer className="site-footer">
       <div><strong>MAATAA UI</strong><p>{copy.footer}</p></div>
       <div className="footer-links">{PUBLIC_SURFACE_ROUTES.map((item) => <button key={item.id} onClick={() => navigate(item.path)}>{routeLabel(item.id, item.label)}</button>)}</div>
@@ -299,6 +299,35 @@ function Landing({ navigate }: { navigate: (path: string) => void }) {
           {['Registry Registry','Workspace / AI Space','Page','Layout','Region / Slot','Generator / Tool','Component','Atom'].map((label, index) => <div key={label} style={{'--depth': index} as React.CSSProperties}><span>{label}</span></div>)}
         </div>
       </div>
+    </section>
+
+    <section className="content-section current-work-section" aria-labelledby="current-work-title">
+      <div className="current-work-heading"><h2 id="current-work-title">Current projects and pilots</h2><p>See what is being built, what has only been rehearsed locally, and what still needs an owner or test environment.</p></div>
+      <div className="current-work-grid">
+        <section className="current-work-column" aria-labelledby="current-projects-title">
+          <h3 id="current-projects-title">Projects</h3>
+          <article className="current-work-row">
+            <div><div className="current-work-title-line"><h4>MAATAA UI</h4><span className="work-status work-status-active">In development</span></div><p>Shared React UI package, explorer, theme tools, composition and demo surfaces.</p></div>
+            <button className="text-link" onClick={() => navigate("/surface")}>Explore UI →</button>
+          </article>
+          <article className="current-work-row">
+            <div><div className="current-work-title-line"><h4>Brahmini Workbench</h4><span className="work-status">Planning prototype</span></div><p>Provider-backed agent discussions and product drafts. Repository edits and test execution are not connected yet.</p></div>
+            <button className="text-link" onClick={() => navigate("/brahmini")}>Open Brahmini →</button>
+          </article>
+        </section>
+        <section className="current-work-column" aria-labelledby="current-pilots-title">
+          <h3 id="current-pilots-title">Pilots</h3>
+          <article className="current-work-row">
+            <div><div className="current-work-title-line"><h4>TLPS production planning</h4><span className="work-status work-status-ready">Local rehearsal done</span></div><p>Local workflow checks passed. The real pilot has not started; test tenant and named participants are still needed.</p></div>
+            <button className="text-link" onClick={() => navigate("/tlps-workflow")}>Open TLPS workflow →</button>
+          </article>
+          <article className="current-work-row">
+            <div><div className="current-work-title-line"><h4>NEVO Events</h4><span className="work-status work-status-pending">Proposed</span></div><p>Local planning demo only. An accountable owner and isolated test tenant are still needed for a pilot.</p></div>
+            <button className="text-link" onClick={() => navigate("/demo/nevo")}>Open NEVO demo →</button>
+          </article>
+        </section>
+      </div>
+      <p className="current-work-boundary">Pilot status is based on local project records. No live TLPS or NEVO tenant was used for these demos.</p>
     </section>
 
     <section className="content-section">

@@ -15,6 +15,27 @@ export interface TlpsWorkflow {
 }
 export const TLPS_STORAGE_KEY = 'maataa.tlps.workflow.v1';
 export function newWorkflow(): TlpsWorkflow { return { schemaVersion: 1, project: { title: '', city: '', type: 'Film', date: '', ceiling: 500000 }, budget: [], crew: [], locations: [], schedule: [], status: 'draft', approval: null, tasks: { setup: false, rehearsal: false, wrap: false }, evidence: [], audit: [] }; }
+/** Fictional starter records make every planning screen legible without implying real TLPS data. */
+export function syntheticWorkflow(): TlpsWorkflow {
+  return {
+    ...newWorkflow(),
+    project: { title: 'Sample production · Mountain Light', city: 'Dehradun · sample location', type: 'Film', date: '2026-11-12', ceiling: 500000 },
+    budget: [
+      { id: 'sample-budget-camera', name: 'Camera package · estimate', quantity: 2, rate: 50000 },
+      { id: 'sample-budget-crew', name: 'Crew and transport · estimate', quantity: 1, rate: 150000 },
+      { id: 'sample-budget-art', name: 'Art and location planning · estimate', quantity: 1, rate: 50000 },
+    ],
+    crew: [
+      { id: 'sample-crew-asha', name: 'Asha Mehra · sample', role: 'Line producer · illustrative assignment' },
+      { id: 'sample-crew-rohan', name: 'Rohan Singh · sample', role: 'Camera lead · illustrative assignment' },
+    ],
+    locations: [{ id: 'sample-location', name: 'Dehradun studio · sample', note: 'Planning candidate only; access and booking are unverified.' }],
+    schedule: [
+      { id: 'sample-slot-setup', time: '09:00', scene: 'Setup and lighting rehearsal · sample' },
+      { id: 'sample-slot-interview', time: '11:00', scene: 'Interview blocking and camera rehearsal · sample' },
+    ],
+  };
+}
 export function budgetTotal(s: TlpsWorkflow) { return s.budget.reduce((sum, line) => sum + line.quantity * line.rate, 0); }
 const text = (s: unknown): s is string => typeof s === 'string' && s.trim().length > 0 && s.length <= 1000;
 const amount = (n: unknown): n is number => typeof n === 'number' && Number.isSafeInteger(n) && n > 0 && n <= 1_000_000_000;
