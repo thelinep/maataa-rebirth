@@ -1,0 +1,532 @@
+# Project-context checks 20261009T123506Z
+alpha7: 9c8d8433a86ec76da3bfb63e49a3ab423c231020 (+ local edits)
+
+### contract typecheck
+$ node node_modules/typescript/bin/tsc -p tsconfig.contracts.json
+exit=0
+
+### contract tests
+$ bash -c node --experimental-strip-types --no-warnings --test tests/contracts/*.contract-spec.ts
+TAP version 13
+# Subtest: allowlist contains only the digest-bound TLPS intake action
+ok 1 - allowlist contains only the digest-bound TLPS intake action
+  ---
+  duration_ms: 0.756959
+  type: 'test'
+  ...
+# Subtest: planning never commits and is marked non-executing
+ok 2 - planning never commits and is marked non-executing
+  ---
+  duration_ms: 10.208125
+  type: 'test'
+  ...
+# Subtest: execution requires matching approval, then commits exactly once
+ok 3 - execution requires matching approval, then commits exactly once
+  ---
+  duration_ms: 3.350708
+  type: 'test'
+  ...
+# Subtest: non-allowlisted actions are refused even with an approval
+ok 4 - non-allowlisted actions are refused even with an approval
+  ---
+  duration_ms: 0.471958
+  type: 'test'
+  ...
+# Subtest: existing TLPS project blocks execution and nothing is committed
+ok 5 - existing TLPS project blocks execution and nothing is committed
+  ---
+  duration_ms: 2.330333
+  type: 'test'
+  ...
+# Subtest: concurrent replay is refused; a failed host commit leaves the approval retryable
+ok 6 - concurrent replay is refused; a failed host commit leaves the approval retryable
+  ---
+  duration_ms: 4.801375
+  type: 'test'
+  ...
+# Subtest: store round-trips and verifies content hashes
+ok 7 - store round-trips and verifies content hashes
+  ---
+  duration_ms: 11.937916
+  type: 'test'
+  ...
+# Subtest: store fails closed on tampered content, missing content, bad events or unknown format
+ok 8 - store fails closed on tampered content, missing content, bad events or unknown format
+  ---
+  duration_ms: 3.236292
+  type: 'test'
+  ...
+# Subtest: the Brahmini script prompt is fixed, bounded and asks for screenplay format only
+ok 9 - the Brahmini script prompt is fixed, bounded and asks for screenplay format only
+  ---
+  duration_ms: 0.440084
+  type: 'test'
+  ...
+# Subtest: deterministic screenplay check: shape only, model-free
+ok 10 - deterministic screenplay check: shape only, model-free
+  ---
+  duration_ms: 1.396833
+  type: 'test'
+  ...
+# Subtest: Idea → Script end to end on one project ID: v1 idea, v2 idea + checked draft
+ok 11 - Idea → Script end to end on one project ID: v1 idea, v2 idea + checked draft
+  ---
+  duration_ms: 12.296292
+  type: 'test'
+  ...
+# Subtest: a draft failing the independent check cannot be approved
+ok 12 - a draft failing the independent check cannot be approved
+  ---
+  duration_ms: 4.320334
+  type: 'test'
+  ...
+# Subtest: forged 'passed' checks and swapped stored text are caught by re-running the check
+ok 13 - forged 'passed' checks and swapped stored text are caught by re-running the check
+  ---
+  duration_ms: 2.956375
+  type: 'test'
+  ...
+# Subtest: script drafts require an idea first and a chat/planner model role
+ok 14 - script drafts require an idea first and a chat/planner model role
+  ---
+  duration_ms: 1.549167
+  type: 'test'
+  ...
+# Subtest: Workstation mapping: seed fixtures refused, digests required, code qualification honoured only when real
+ok 15 - Workstation mapping: seed fixtures refused, digests required, code qualification honoured only when real
+  ---
+  duration_ms: 0.666042
+  type: 'test'
+  ...
+# Subtest: Workstation mapping: successful LTX job → video artifact with generator + Gemma text-encoder roles; failures refused
+ok 16 - Workstation mapping: successful LTX job → video artifact with generator + Gemma text-encoder roles; failures refused
+  ---
+  duration_ms: 0.977542
+  type: 'test'
+  ...
+# Subtest: real QEMU boot output parses into a provenance-bearing OS report with time unavailable
+ok 17 - real QEMU boot output parses into a provenance-bearing OS report with time unavailable
+  ---
+  duration_ms: 1.798167
+  type: 'test'
+  ...
+# Subtest: non-OS text, truncated reports and bad provenance fail closed
+ok 18 - non-OS text, truncated reports and bad provenance fail closed
+  ---
+  duration_ms: 0.239417
+  type: 'test'
+  ...
+# Subtest: the report never presents scheduler ticks as time
+ok 19 - the report never presents scheduler ticks as time
+  ---
+  duration_ms: 0.475083
+  type: 'test'
+  ...
+# Subtest: describes only role and accessible label, never field values or coordinates
+ok 20 - describes only role and accessible label, never field values or coordinates
+  ---
+  duration_ms: 31.956167
+  type: 'test'
+  ...
+# Subtest: cannot observe controls outside its root (other app surfaces) or another document
+ok 21 - cannot observe controls outside its root (other app surfaces) or another document
+  ---
+  duration_ms: 8.418834
+  type: 'test'
+  ...
+# Subtest: observer listens on its root only and detaches cleanly
+ok 22 - observer listens on its root only and detaches cleanly
+  ---
+  duration_ms: 4.887083
+  type: 'test'
+  ...
+# Subtest: observation is read-only: no clicks, typing, focus moves or value changes
+ok 23 - observation is read-only: no clicks, typing, focus moves or value changes
+  ---
+  duration_ms: 4.366791
+  type: 'test'
+  ...
+# Subtest: valid context carries only a prj ID and a version
+ok 24 - valid context carries only a prj ID and a version
+  ---
+  duration_ms: 8.053209
+  type: 'test'
+  ...
+# Subtest: missing, invalid ID and invalid version are distinguished
+ok 25 - missing, invalid ID and invalid version are distinguished
+  ---
+  duration_ms: 1.13625
+  type: 'test'
+  ...
+# Subtest: context is read from the query or from a hash route
+ok 26 - context is read from the query or from a hash route
+  ---
+  duration_ms: 5.743333
+  type: 'test'
+  ...
+# Subtest: reconcile against the authoritative local record
+ok 27 - reconcile against the authoritative local record
+  ---
+  duration_ms: 0.476083
+  type: 'test'
+  ...
+# Subtest: writes are refused unless the stored record is still the edited base
+ok 28 - writes are refused unless the stored record is still the edited base
+  ---
+  duration_ms: 0.270791
+  type: 'test'
+  ...
+# Subtest: append assigns per-scope sequence, unverified host time and validates
+ok 29 - append assigns per-scope sequence, unverified host time and validates
+  ---
+  duration_ms: 2.900625
+  type: 'test'
+  ...
+# Subtest: cross-scope comparison is refused rather than inferred from timestamps
+ok 30 - cross-scope comparison is refused rather than inferred from timestamps
+  ---
+  duration_ms: 0.203
+  type: 'test'
+  ...
+# Subtest: retention keeps the newest events up to the limit
+ok 31 - retention keeps the newest events up to the limit
+  ---
+  duration_ms: 9.355416
+  type: 'test'
+  ...
+# Subtest: payload refuses content fields: scripts, budgets, crew, personal data
+ok 32 - payload refuses content fields: scripts, budgets, crew, personal data
+  ---
+  duration_ms: 0.9415
+  type: 'test'
+  ...
+# Subtest: malformed and over-claiming records are rejected
+ok 33 - malformed and over-claiming records are rejected
+  ---
+  duration_ms: 0.453333
+  type: 'test'
+  ...
+# Subtest: checkOrdering detects duplicates and regressions per scope
+ok 34 - checkOrdering detects duplicates and regressions per scope
+  ---
+  duration_ms: 0.357125
+  type: 'test'
+  ...
+# Subtest: Tauri v1 index migrates to zero events; v2 events map compatibly without source mutation
+ok 35 - Tauri v1 index migrates to zero events; v2 events map compatibly without source mutation
+  ---
+  duration_ms: 1.362
+  type: 'test'
+  ...
+# Subtest: Tauri migration fails closed on unsupported, oversized, or out-of-order indexes
+ok 36 - Tauri migration fails closed on unsupported, oversized, or out-of-order indexes
+  ---
+  duration_ms: 0.679
+  type: 'test'
+  ...
+# Subtest: TLPS activity migrates as legacy-iso-unverified labels only
+ok 37 - TLPS activity migrates as legacy-iso-unverified labels only
+  ---
+  duration_ms: 0.580917
+  type: 'test'
+  ...
+# Subtest: Tauri v3 index: record-linked events keep their record version; bad versions are rejected
+ok 38 - Tauri v3 index: record-linked events keep their record version; bad versions are rejected
+  ---
+  duration_ms: 0.710292
+  type: 'test'
+  ...
+# Subtest: project ID is stable, opaque and validated
+ok 39 - project ID is stable, opaque and validated
+  ---
+  duration_ms: 33.032042
+  type: 'test'
+  ...
+# Subtest: propose → preview → approve creates v1 then v2; all apps see the same ID and current version
+ok 40 - propose → preview → approve creates v1 then v2; all apps see the same ID and current version
+  ---
+  duration_ms: 11.307375
+  type: 'test'
+  ...
+# Subtest: a proposal from a stale copy is rejected as a conflict, never merged silently
+ok 41 - a proposal from a stale copy is rejected as a conflict, never merged silently
+  ---
+  duration_ms: 3.600791
+  type: 'test'
+  ...
+# Subtest: approval must match the exact preview; record input is never mutated
+ok 42 - approval must match the exact preview; record input is never mutated
+  ---
+  duration_ms: 3.99775
+  type: 'test'
+  ...
+# Subtest: models are recorded by role; a model name is never a qualification claim
+ok 43 - models are recorded by role; a model name is never a qualification claim
+  ---
+  duration_ms: 0.642666
+  type: 'test'
+  ...
+# Subtest: record holds references only: content fields and unsafe storage keys are rejected
+ok 44 - record holds references only: content fields and unsafe storage keys are rejected
+  ---
+  duration_ms: 0.209209
+  type: 'test'
+  ...
+# Subtest: corrupted records fail validation (version gaps, wrong current version, bad time basis)
+ok 45 - corrupted records fail validation (version gaps, wrong current version, bad time basis)
+  ---
+  duration_ms: 2.335083
+  type: 'test'
+  ...
+# Subtest: no transport configured reports unavailable, never connected
+ok 46 - no transport configured reports unavailable, never connected
+  ---
+  duration_ms: 2.404334
+  type: 'test'
+  ...
+# Subtest: ALLB-shaped health connects but leaves capabilities unreported
+ok 47 - ALLB-shaped health connects but leaves capabilities unreported
+  ---
+  duration_ms: 0.741917
+  type: 'test'
+  ...
+# Subtest: reported capabilities are passed through truthfully, including unavailable NPU
+ok 48 - reported capabilities are passed through truthfully, including unavailable NPU
+  ---
+  duration_ms: 0.339334
+  type: 'test'
+  ...
+# Subtest: fails closed on wrong identity, version, unknown fields, unhealthy, malformed
+ok 49 - fails closed on wrong identity, version, unknown fields, unhealthy, malformed
+  ---
+  duration_ms: 0.558584
+  type: 'test'
+  ...
+# Subtest: transport errors and timeouts are unavailable
+ok 50 - transport errors and timeouts are unavailable
+  ---
+  duration_ms: 60.949375
+  type: 'test'
+  ...
+# Subtest: rejects malformed request IDs before contacting the transport
+ok 51 - rejects malformed request IDs before contacting the transport
+  ---
+  duration_ms: 0.152208
+  type: 'test'
+  ...
+# Subtest: schema compatibility mirrors ALLB 1.0–1.1 rule
+ok 52 - schema compatibility mirrors ALLB 1.0–1.1 rule
+  ---
+  duration_ms: 0.141708
+  type: 'test'
+  ...
+# Subtest: loopback transport refuses non-loopback or credentialed URLs
+ok 53 - loopback transport refuses non-loopback or credentialed URLs
+  ---
+  duration_ms: 0.320125
+  type: 'test'
+  ...
+# Subtest: loopback transport reads /capabilities when the worker provides it
+not ok 54 - loopback transport reads /capabilities when the worker provides it
+  ---
+  duration_ms: 6.385167
+  type: 'test'
+  location: '/Users/vesahe/Downloads/maataa-ui-full-alpha7/tests/contracts/runtime-handshake.contract-spec.ts:123:1'
+  failureType: 'uncaughtException'
+  error: 'listen EPERM: operation not permitted 127.0.0.1'
+  code: 'EPERM'
+  stack: |-
+    Server.setupListenHandle [as _listen2] (node:net:1918:21)
+    listenInCluster (node:net:1997:12)
+    node:net:2206:7
+    process.processTicksAndRejections (node:internal/process/task_queues:89:21)
+  ...
+# Subtest: capability report with a different contract version or extra fields fails closed
+not ok 55 - capability report with a different contract version or extra fields fails closed
+  ---
+  duration_ms: 1.861
+  type: 'test'
+  location: '/Users/vesahe/Downloads/maataa-ui-full-alpha7/tests/contracts/runtime-handshake.contract-spec.ts:133:1'
+  failureType: 'uncaughtException'
+  error: 'listen EPERM: operation not permitted 127.0.0.1'
+  code: 'EPERM'
+  stack: |-
+    Server.setupListenHandle [as _listen2] (node:net:1918:21)
+    listenInCluster (node:net:1997:12)
+    node:net:2206:7
+    process.processTicksAndRejections (node:internal/process/task_queues:89:21)
+  ...
+# Subtest: loopback HTTP transport performs a real request against a synthetic local server
+not ok 56 - loopback HTTP transport performs a real request against a synthetic local server
+  ---
+  duration_ms: 0.350166
+  type: 'test'
+  location: '/Users/vesahe/Downloads/maataa-ui-full-alpha7/tests/contracts/runtime-handshake.contract-spec.ts:147:1'
+  failureType: 'uncaughtException'
+  error: 'listen EPERM: operation not permitted 127.0.0.1'
+  code: 'EPERM'
+  stack: |-
+    Server.setupListenHandle [as _listen2] (node:net:1918:21)
+    listenInCluster (node:net:1997:12)
+    node:net:2206:7
+    processTicksAndRejections (node:internal/process/task_queues:89:21)
+    runNextTicks (node:internal/process/task_queues:68:3)
+    process.processImmediate (node:internal/timers:452:9)
+  ...
+# Subtest: gate fails closed with no runtime configured (current default state)
+ok 57 - gate fails closed with no runtime configured (current default state)
+  ---
+  duration_ms: 0.657083
+  type: 'test'
+  ...
+# Subtest: gate fails when health is fine but capabilities were not reported (ALLB HTTP today)
+ok 58 - gate fails when health is fine but capabilities were not reported (ALLB HTTP today)
+  ---
+  duration_ms: 0.255791
+  type: 'test'
+  ...
+# Subtest: gate fails on identity / version / health / capability mismatch
+ok 59 - gate fails on identity / version / health / capability mismatch
+  ---
+  duration_ms: 0.279875
+  type: 'test'
+  ...
+# Subtest: gate passes only for a fully matching synthetic runtime, and still lists unverifiable claims
+ok 60 - gate passes only for a fully matching synthetic runtime, and still lists unverifiable claims
+  ---
+  duration_ms: 5.980167
+  type: 'test'
+  ...
+# Subtest: LIVE: real loopback runtime answers the handshake with expected identity and contract version
+ok 61 - LIVE: real loopback runtime answers the handshake with expected identity and contract version # SKIP MAATAA_RUNTIME_URL not set: live runtime check NOT RUN
+  ---
+  duration_ms: 0.178208
+  type: 'test'
+  ...
+# Subtest: LIVE: Desktop integration acceptance gate
+ok 62 - LIVE: Desktop integration acceptance gate # SKIP MAATAA_RUNTIME_URL not set: live runtime check NOT RUN
+  ---
+  duration_ms: 0.117375
+  type: 'test'
+  ...
+# Subtest: end to end: idea → labelled synthetic proposal → preview → approve → record + ordered history
+ok 63 - end to end: idea → labelled synthetic proposal → preview → approve → record + ordered history
+  ---
+  duration_ms: 24.145458
+  type: 'test'
+  ...
+# Subtest: nothing is written without an approval for the exact previewed digest
+ok 64 - nothing is written without an approval for the exact previewed digest
+  ---
+  duration_ms: 2.503792
+  type: 'test'
+  ...
+# Subtest: existing TLPS project is preserved: approval fails closed
+ok 65 - existing TLPS project is preserved: approval fails closed
+  ---
+  duration_ms: 4.096833
+  type: 'test'
+  ...
+# Subtest: rejection records history but returns no record
+ok 66 - rejection records history but returns no record
+  ---
+  duration_ms: 9.026333
+  type: 'test'
+  ...
+# Subtest: provider drafts are labelled as drafts and bounded to TLPS vocabulary
+ok 67 - provider drafts are labelled as drafts and bounded to TLPS vocabulary
+  ---
+  duration_ms: 4.645042
+  type: 'test'
+  ...
+1..67
+# tests 67
+# suites 0
+# pass 62
+# fail 3
+# cancelled 0
+# skipped 2
+# todo 0
+# duration_ms 575.619375
+exit=1
+
+### TLPS typecheck
+$ node node_modules/typescript/bin/tsc --noEmit -p apps/tlps/tsconfig.json
+exit=0
+
+### Tauri cargo fmt --check
+$ cargo fmt --check --manifest-path apps/maataa-desktop-tauri/src-tauri/Cargo.toml
+exit=0
+
+### Tauri cargo test
+$ env CARGO_TARGET_DIR=/Users/vesahe/maataa-evidence-build/alpha7-tauri cargo test --manifest-path apps/maataa-desktop-tauri/src-tauri/Cargo.toml --locked --offline
+error: failed to open: /Users/vesahe/maataa-evidence-build/alpha7-tauri/debug/.cargo-lock
+
+Caused by:
+  Operation not permitted (os error 1)
+exit=101
+
+### Playwright: Desktop web shell (mocked Tauri bridge)
+$ node node_modules/@playwright/test/cli.js test --config playwright.desktop-tauri-trial.config.ts
+[WebServer] Traceback (most recent call last):
+[WebServer]   File "<frozen runpy>", line 198, in _run_module_as_main
+[WebServer]   File "<frozen runpy>", line 88, in _run_code
+[WebServer]   File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/http/server.py", line 1314, in <module>
+[WebServer]     test(
+[WebServer]   File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/http/server.py", line 1261, in test
+[WebServer]     with ServerClass(addr, HandlerClass) as httpd:
+[WebServer]          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[WebServer]   File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/socketserver.py", line 457, in __init__
+[WebServer]     self.server_bind()
+[WebServer]   File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/http/server.py", line 1308, in server_bind
+[WebServer]     return super().server_bind()
+[WebServer]            ^^^^^^^^^^^^^^^^^^^^^
+[WebServer]   File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/http/server.py", line 136, in server_bind
+[WebServer]     socketserver.TCPServer.server_bind(self)
+[WebServer]   File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/socketserver.py", line 473, in server_bind
+[WebServer]     self.socket.bind(self.server_address)
+[WebServer] PermissionError: [Errno 1] Operation not permitted
+Error: Process from config.webServer was not able to start. Exit code: 1
+
+exit=1
+
+### Playwright: TLPS Idea → Script (mocked Brahmini)
+$ node node_modules/@playwright/test/cli.js test --config playwright.tlps-idea-to-script.config.ts
+[WebServer] (node:95440) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] error when starting dev server:
+[WebServer] Error: listen EPERM: operation not permitted 127.0.0.1:4196
+[WebServer]     at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+[WebServer]     at listenInCluster (node:net:1997:12)
+[WebServer]     at node:net:2206:7
+[WebServer]     at process.processTicksAndRejections (node:internal/process/task_queues:89:21)
+Error: Process from config.webServer was not able to start. Exit code: 1
+
+exit=1
+MAATAA UI test server port: 4200 (first free from 4198; busy ports are left untouched)
+
+### Playwright: project context (TLPS + MAATAA UI)
+$ node node_modules/@playwright/test/cli.js test --config playwright.project-context.config.ts
+[WebServer] (node:95485) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] error when starting dev server:
+[WebServer] Error: listen EPERM: operation not permitted 127.0.0.1:4196
+[WebServer]     at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+[WebServer]     at listenInCluster (node:net:1997:12)
+[WebServer]     at node:net:2206:7
+[WebServer]     at process.processTicksAndRejections (node:internal/process/task_queues:89:21)
+Error: Process from config.webServer was not able to start. Exit code: 1
+
+exit=1
+
+## Summary
+- PASS | contract typecheck
+- FAIL(1) | contract tests
+- PASS | TLPS typecheck
+- PASS | Tauri cargo fmt --check
+- FAIL(101) | Tauri cargo test
+- FAIL(1) | Playwright: Desktop web shell (mocked Tauri bridge)
+- FAIL(1) | Playwright: TLPS Idea → Script (mocked Brahmini)
+- FAIL(1) | Playwright: project context (TLPS + MAATAA UI)
+- alpha7 working tree during run: unchanged
+Evidence log: /Users/vesahe/Downloads/maataa-ui-full-alpha7/docs/product/evidence/project-context-20261009T123506Z.log

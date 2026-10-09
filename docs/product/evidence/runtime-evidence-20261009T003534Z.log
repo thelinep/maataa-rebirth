@@ -1,0 +1,1886 @@
+# MAATAA runtime evidence 20261009T003534Z
+host: Darwin Vesahes-MacBook-Pro.local 27.0.0 Darwin Kernel Version 27.0.0: Tue Aug 11 21:06:24 PDT 2026; root:xnu-13432.1.9~1/RELEASE_ARM64_T6030 arm64
+free space on $HOME volume: 36 GB (minimum required: 15 GB)
+
+## Tool versions
+cargo: cargo 1.91.0 (ea2d97820 2025-10-10)
+rustc: rustc 1.91.0 (f8297e351 2025-10-28)
+rustup: rustup 1.29.1 (d95a37b6a 2026-08-13)
+node: v22.22.3
+pnpm: 12.6.0
+qemu-system-arm: QEMU emulator version 11.1.2
+arm-none-eabi-size: GNU size (Arm GNU Toolchain 14.3.Rel1 (Build arm-14.174)) 2.44.0.20250616
+crate fetch allowed: 1
+
+## Repository state BEFORE
+--- before: /Users/vesahe/Downloads/maataa-ui-full-alpha7
+commit: 9c8d8433a86ec76da3bfb63e49a3ab423c231020
+branch: feat/alpha8.7-composition-kernel
+status (porcelain):
+     M apps/maataa-desktop-tauri/README.md
+     M apps/maataa-desktop-tauri/src-tauri/Cargo.lock
+     M apps/maataa-desktop-tauri/src-tauri/Cargo.toml
+     M apps/maataa-desktop-tauri/src-tauri/src/main.rs
+     M apps/maataa-desktop-tauri/web/app.js
+     M apps/maataa-desktop-tauri/web/index.html
+     M apps/maataa-desktop-tauri/web/style.css
+     M apps/tlp-film/src/main.tsx
+     M apps/tlps/src/main.tsx
+     M docs/product/TAURI-DESKTOP-ROADMAP.md
+     M examples/redux-demo/App.tsx
+     M examples/redux-demo/BrahminiWorkbench.tsx
+     M examples/redux-demo/brahmini.css
+     M examples/support-center/electron/desktop-shell.css
+     M examples/support-center/electron/desktop-shell.html
+     M examples/support-center/electron/desktop-shell.mjs
+     M package.json
+     M scripts/build-tauri-desktop-products.mjs
+     M tests/desktop-tauri-trial.spec.ts
+     M tests/e2e/brahmini-workbench.spec.ts
+     M tests/e2e/desktop-shell.spec.ts
+    ?? apps/shared/contracts/
+    ?? apps/shared/maataa-workspace.ts
+    ?? docs/product/PHASE-ZERO-AUTHORITY-BASELINE.md
+    ?? docs/product/PHASES-1-5-INTEGRATION-STATUS.md
+    ?? docs/product/evidence/
+    ?? examples/redux-demo/pointerContext.ts
+    ?? scripts/collect-runtime-evidence.sh
+    ?? tests/contracts/
+    ?? tsconfig.contracts.json
+--- before: /Users/vesahe/Documents/Repos/allb.xyz
+commit: de82c3691ae3ebdf6607cbcdf79d5e7c4e2d5378
+branch: codex/phase1-reproducible
+status (porcelain):
+     M Cargo.toml
+     D docs/BRAHMI_FONT_PROTOTYPE.md
+     D package-lock.json
+    ?? docs/AGI_BRIDGE_ROADMAP.md
+    ?? pnpm-lock.yaml
+    ?? pnpm-workspace.yaml
+    ?? src/bin/maataa_shell.rs
+--- before: /Users/vesahe/revenue/live/maataa-os
+commit: 50fce492e9db0c0f88839a1cf03932709ef24b09
+branch: main
+status (porcelain):
+
+## Checks
+
+### alpha7 contracts typecheck
+$ (cd /Users/vesahe/Downloads/maataa-ui-full-alpha7 && node node_modules/typescript/bin/tsc -p tsconfig.contracts.json)
+exit=0
+
+### alpha7 contract tests
+$ (cd /Users/vesahe/Downloads/maataa-ui-full-alpha7 && bash -c node --experimental-strip-types --no-warnings --test tests/contracts/*.contract-spec.ts)
+TAP version 13
+# Subtest: allowlist contains only the digest-bound TLPS intake action
+ok 1 - allowlist contains only the digest-bound TLPS intake action
+  ---
+  duration_ms: 0.64525
+  type: 'test'
+  ...
+# Subtest: planning never commits and is marked non-executing
+ok 2 - planning never commits and is marked non-executing
+  ---
+  duration_ms: 4.350542
+  type: 'test'
+  ...
+# Subtest: execution requires matching approval, then commits exactly once
+ok 3 - execution requires matching approval, then commits exactly once
+  ---
+  duration_ms: 1.1805
+  type: 'test'
+  ...
+# Subtest: non-allowlisted actions are refused even with an approval
+ok 4 - non-allowlisted actions are refused even with an approval
+  ---
+  duration_ms: 0.3795
+  type: 'test'
+  ...
+# Subtest: existing TLPS project blocks execution and nothing is committed
+ok 5 - existing TLPS project blocks execution and nothing is committed
+  ---
+  duration_ms: 1.118125
+  type: 'test'
+  ...
+# Subtest: concurrent replay is refused; a failed host commit leaves the approval retryable
+ok 6 - concurrent replay is refused; a failed host commit leaves the approval retryable
+  ---
+  duration_ms: 0.937583
+  type: 'test'
+  ...
+# Subtest: describes only role and accessible label, never field values or coordinates
+ok 7 - describes only role and accessible label, never field values or coordinates
+  ---
+  duration_ms: 28.742083
+  type: 'test'
+  ...
+# Subtest: cannot observe controls outside its root (other app surfaces) or another document
+ok 8 - cannot observe controls outside its root (other app surfaces) or another document
+  ---
+  duration_ms: 7.287958
+  type: 'test'
+  ...
+# Subtest: observer listens on its root only and detaches cleanly
+ok 9 - observer listens on its root only and detaches cleanly
+  ---
+  duration_ms: 3.676292
+  type: 'test'
+  ...
+# Subtest: observation is read-only: no clicks, typing, focus moves or value changes
+ok 10 - observation is read-only: no clicks, typing, focus moves or value changes
+  ---
+  duration_ms: 3.545208
+  type: 'test'
+  ...
+# Subtest: append assigns per-scope sequence, unverified host time and validates
+ok 11 - append assigns per-scope sequence, unverified host time and validates
+  ---
+  duration_ms: 2.180958
+  type: 'test'
+  ...
+# Subtest: cross-scope comparison is refused rather than inferred from timestamps
+ok 12 - cross-scope comparison is refused rather than inferred from timestamps
+  ---
+  duration_ms: 0.448
+  type: 'test'
+  ...
+# Subtest: retention keeps the newest events up to the limit
+ok 13 - retention keeps the newest events up to the limit
+  ---
+  duration_ms: 4.400708
+  type: 'test'
+  ...
+# Subtest: payload refuses content fields: scripts, budgets, crew, personal data
+ok 14 - payload refuses content fields: scripts, budgets, crew, personal data
+  ---
+  duration_ms: 0.354792
+  type: 'test'
+  ...
+# Subtest: malformed and over-claiming records are rejected
+ok 15 - malformed and over-claiming records are rejected
+  ---
+  duration_ms: 0.161375
+  type: 'test'
+  ...
+# Subtest: checkOrdering detects duplicates and regressions per scope
+ok 16 - checkOrdering detects duplicates and regressions per scope
+  ---
+  duration_ms: 0.073375
+  type: 'test'
+  ...
+# Subtest: Tauri v1 index migrates to zero events; v2 events map compatibly without source mutation
+ok 17 - Tauri v1 index migrates to zero events; v2 events map compatibly without source mutation
+  ---
+  duration_ms: 0.3
+  type: 'test'
+  ...
+# Subtest: Tauri migration fails closed on unsupported, oversized, or out-of-order indexes
+ok 18 - Tauri migration fails closed on unsupported, oversized, or out-of-order indexes
+  ---
+  duration_ms: 0.160167
+  type: 'test'
+  ...
+# Subtest: TLPS activity migrates as legacy-iso-unverified labels only
+ok 19 - TLPS activity migrates as legacy-iso-unverified labels only
+  ---
+  duration_ms: 0.384125
+  type: 'test'
+  ...
+# Subtest: no transport configured reports unavailable, never connected
+ok 20 - no transport configured reports unavailable, never connected
+  ---
+  duration_ms: 0.801292
+  type: 'test'
+  ...
+# Subtest: ALLB-shaped health connects but leaves capabilities unreported
+ok 21 - ALLB-shaped health connects but leaves capabilities unreported
+  ---
+  duration_ms: 0.286917
+  type: 'test'
+  ...
+# Subtest: reported capabilities are passed through truthfully, including unavailable NPU
+ok 22 - reported capabilities are passed through truthfully, including unavailable NPU
+  ---
+  duration_ms: 0.166292
+  type: 'test'
+  ...
+# Subtest: fails closed on wrong identity, version, unknown fields, unhealthy, malformed
+ok 23 - fails closed on wrong identity, version, unknown fields, unhealthy, malformed
+  ---
+  duration_ms: 0.466542
+  type: 'test'
+  ...
+# Subtest: transport errors and timeouts are unavailable
+ok 24 - transport errors and timeouts are unavailable
+  ---
+  duration_ms: 61.692625
+  type: 'test'
+  ...
+# Subtest: rejects malformed request IDs before contacting the transport
+ok 25 - rejects malformed request IDs before contacting the transport
+  ---
+  duration_ms: 0.122625
+  type: 'test'
+  ...
+# Subtest: schema compatibility mirrors ALLB 1.0–1.1 rule
+ok 26 - schema compatibility mirrors ALLB 1.0–1.1 rule
+  ---
+  duration_ms: 0.130708
+  type: 'test'
+  ...
+# Subtest: loopback transport refuses non-loopback or credentialed URLs
+ok 27 - loopback transport refuses non-loopback or credentialed URLs
+  ---
+  duration_ms: 0.26225
+  type: 'test'
+  ...
+# Subtest: loopback HTTP transport performs a real request against a synthetic local server
+ok 28 - loopback HTTP transport performs a real request against a synthetic local server
+  ---
+  duration_ms: 12.632584
+  type: 'test'
+  ...
+# Subtest: gate fails closed with no runtime configured (current default state)
+ok 29 - gate fails closed with no runtime configured (current default state)
+  ---
+  duration_ms: 0.750084
+  type: 'test'
+  ...
+# Subtest: gate fails when health is fine but capabilities were not reported (ALLB HTTP today)
+ok 30 - gate fails when health is fine but capabilities were not reported (ALLB HTTP today)
+  ---
+  duration_ms: 0.33675
+  type: 'test'
+  ...
+# Subtest: gate fails on identity / version / health / capability mismatch
+ok 31 - gate fails on identity / version / health / capability mismatch
+  ---
+  duration_ms: 0.310833
+  type: 'test'
+  ...
+# Subtest: gate passes only for a fully matching synthetic runtime, and still lists unverifiable claims
+ok 32 - gate passes only for a fully matching synthetic runtime, and still lists unverifiable claims
+  ---
+  duration_ms: 0.429417
+  type: 'test'
+  ...
+# Subtest: LIVE: Desktop handshake against a real loopback runtime
+ok 33 - LIVE: Desktop handshake against a real loopback runtime # SKIP MAATAA_RUNTIME_URL not set: live runtime check NOT RUN
+  ---
+  duration_ms: 0.04675
+  type: 'test'
+  ...
+# Subtest: end to end: idea → labelled synthetic proposal → preview → approve → record + ordered history
+ok 34 - end to end: idea → labelled synthetic proposal → preview → approve → record + ordered history
+  ---
+  duration_ms: 4.365667
+  type: 'test'
+  ...
+# Subtest: nothing is written without an approval for the exact previewed digest
+ok 35 - nothing is written without an approval for the exact previewed digest
+  ---
+  duration_ms: 0.734709
+  type: 'test'
+  ...
+# Subtest: existing TLPS project is preserved: approval fails closed
+ok 36 - existing TLPS project is preserved: approval fails closed
+  ---
+  duration_ms: 0.29525
+  type: 'test'
+  ...
+# Subtest: rejection records history but returns no record
+ok 37 - rejection records history but returns no record
+  ---
+  duration_ms: 0.785416
+  type: 'test'
+  ...
+# Subtest: provider drafts are labelled as drafts and bounded to TLPS vocabulary
+ok 38 - provider drafts are labelled as drafts and bounded to TLPS vocabulary
+  ---
+  duration_ms: 0.441167
+  type: 'test'
+  ...
+1..38
+# tests 38
+# suites 0
+# pass 37
+# fail 0
+# cancelled 0
+# skipped 1
+# todo 0
+# duration_ms 342.716334
+exit=0
+
+### alpha7 Tauri cargo test
+$ (cd /Users/vesahe/Downloads/maataa-ui-full-alpha7/apps/maataa-desktop-tauri/src-tauri && env CARGO_TARGET_DIR=/Users/vesahe/maataa-evidence-build/alpha7-tauri cargo test --offline --locked)
+   Compiling maataa-desktop-tauri v0.1.0 (/Users/vesahe/Downloads/maataa-ui-full-alpha7/apps/maataa-desktop-tauri/src-tauri)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.06s
+     Running unittests src/main.rs (/Users/vesahe/maataa-evidence-build/alpha7-tauri/debug/deps/maataa_desktop_tauri-95b12667c84368c8)
+
+running 9 tests
+test tests::launcher_only_opens_bundled_product_entries ... ok
+test tests::browser_child_labels_only_accept_app_created_windows ... ok
+test tests::browser_windows_have_independent_native_view_regions ... ok
+test tests::shared_project_entries_accept_only_bounded_local_product_metadata ... ok
+test tests::rejects_local_and_credential_bearing_targets ... ok
+test tests::accepts_public_web_addresses_and_searches ... ok
+test tests::caps_project_activity_history_at_the_local_retention_limit ... ok
+test tests::upgrades_project_only_index_and_records_ordered_local_activity ... ok
+test tests::shared_project_index_round_trips_through_local_file_storage ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+exit=0
+
+NOTE: ALLB pins toolchain '1.91.0', which is not installed under that name.
+      Using installed 'stable-aarch64-apple-darwin' because it is the same rustc version (rustc 1.91.0 (f8297e351 2025-10-28)).
+      Pinned components/targets (clippy, rustfmt, wasm32) are not required by cargo test.
+
+### ALLB contract drift check
+$ (cd /Users/vesahe/Documents/Repos/allb.xyz && node scripts/generate-contracts.mjs --check)
+exit=0
+
+### ALLB: cargo fetch --locked (network, ~/.cargo only)
+$ (cd /Users/vesahe/Documents/Repos/allb.xyz && env CARGO_TARGET_DIR=/Users/vesahe/maataa-evidence-build/allb RUSTUP_TOOLCHAIN=stable-aarch64-apple-darwin cargo fetch --locked)
+ Downloading crates ...
+  Downloaded wasm-bindgen-shared v0.2.127
+  Downloaded wasm-bindgen v0.2.127
+  Downloaded lazy_static v1.5.0
+  Downloaded wasm-bindgen-macro v0.2.127
+  Downloaded futures-macro v0.3.34
+  Downloaded untrusted v0.9.0
+  Downloaded http-body v1.1.0
+  Downloaded sync_wrapper v1.0.2
+  Downloaded futures-io v0.3.34
+  Downloaded tower-layer v0.3.3
+  Downloaded tower-service v0.3.3
+  Downloaded futures-core v0.3.34
+  Downloaded futures-task v0.3.34
+  Downloaded matchers v0.2.0
+  Downloaded windows-targets v0.52.6
+  Downloaded lru-slab v0.1.2
+  Downloaded subtle v2.6.1
+  Downloaded wasm-bindgen-futures v0.4.77
+  Downloaded futures-sink v0.3.34
+  Downloaded openssl-probe v0.2.1
+  Downloaded tracing-log v0.2.0
+  Downloaded rustls-platform-verifier-android v0.1.1
+  Downloaded cpufeatures v0.3.0
+  Downloaded cfg_aliases v0.2.2
+  Downloaded field-offset v0.3.6
+  Downloaded zeroize v1.9.0
+  Downloaded rustversion v1.0.23
+  Downloaded serde-wasm-bindgen v0.6.5
+  Downloaded web-time v1.1.0
+  Downloaded wasi v0.11.1+wasi-snapshot-preview1
+  Downloaded valuable v0.1.1
+  Downloaded objc2-core-image v0.3.2
+  Downloaded windows-result v0.3.4
+  Downloaded cmake v0.1.58
+  Downloaded fs_extra v1.3.0
+  Downloaded windows-link v0.1.3
+  Downloaded pkg-config v0.3.34
+  Downloaded simdutf8 v0.1.5
+  Downloaded windows-strings v0.4.2
+  Downloaded wasm-streams v0.5.0
+  Downloaded rustls-pki-types v1.15.1
+  Downloaded nu-ansi-term v0.50.3
+  Downloaded getrandom v0.2.17
+  Downloaded redox_syscall v0.5.18
+  Downloaded chacha20 v0.10.1
+  Downloaded objc2-core-location v0.3.2
+  Downloaded objc2-quartz-core v0.3.2
+  Downloaded tokio-rustls v0.26.4
+  Downloaded quinn-udp v0.5.15
+  Downloaded r-efi v6.0.0
+  Downloaded windows-collections v0.2.0
+  Downloaded heck v0.4.1
+  Downloaded proc-macro-crate v2.0.2
+  Downloaded proc-macro-error-attr v1.0.4
+  Downloaded tracing-core v0.1.36
+  Downloaded windows-targets v0.42.2
+  Downloaded jni-sys v0.3.1
+  Downloaded schannel v0.1.29
+  Downloaded gdkwayland-sys v0.18.2
+  Downloaded gdkx11-sys v0.18.2
+  Downloaded gdkx11 v0.18.2
+  Downloaded cesu8 v1.1.0
+  Downloaded jni-macros v0.22.4
+  Downloaded rustls-platform-verifier v0.7.0
+  Downloaded cairo-sys-rs v0.18.2
+  Downloaded toml_datetime v0.6.3
+  Downloaded windows-core v0.61.2
+  Downloaded gobject-sys v0.18.0
+  Downloaded rustls-native-certs v0.8.4
+  Downloaded serde_spanned v0.6.9
+  Downloaded sharded-slab v0.1.7
+  Downloaded tinyvec v1.12.0
+  Downloaded smallvec v1.15.2
+  Downloaded wasm-bindgen-macro-support v0.2.127
+  Downloaded tracing-attributes v0.1.31
+  Downloaded futures-channel v0.3.34
+  Downloaded windows-numerics v0.2.0
+  Downloaded objc2-user-notifications v0.3.2
+  Downloaded libappindicator-sys v0.9.0
+  Downloaded security-framework-sys v2.17.0
+  Downloaded rand_core v0.10.1
+  Downloaded jobserver v0.1.35
+  Downloaded proc-macro-crate v1.3.1
+  Downloaded slab v0.4.12
+  Downloaded jni-sys-macros v0.4.1
+  Downloaded winapi-util v0.1.11
+  Downloaded rand_pcg v0.10.2
+  Downloaded jni-sys v0.4.1
+  Downloaded signal-hook-registry v1.4.8
+  Downloaded errno v0.3.14
+  Downloaded tokio-macros v2.7.2
+  Downloaded windows-link v0.2.1
+  Downloaded thread_local v1.1.10
+  Downloaded javascriptcore-rs v1.1.2
+  Downloaded quinn v0.11.11
+  Downloaded security-framework v3.7.0
+  Downloaded glib-sys v0.18.1
+  Downloaded gtk3-macros v0.18.2
+  Downloaded objc2-core-text v0.3.2
+  Downloaded combine v4.6.8
+  Downloaded windows-threading v0.1.0
+  Downloaded tower v0.5.3
+  Downloaded gio-sys v0.18.1
+  Downloaded rand v0.10.2
+  Downloaded proc-macro-error v1.0.4
+  Downloaded tao-macros v0.1.4
+  Downloaded pango v0.18.3
+  Downloaded javascriptcore-rs-sys v1.1.1
+  Downloaded webview2-com v0.38.2
+  Downloaded memoffset v0.9.1
+  Downloaded webpki-root-certs v1.0.9
+  Downloaded glib-macros v0.18.5
+  Downloaded webview2-com-macros v0.8.1
+  Downloaded version-compare v0.2.1
+  Downloaded tower-http v0.6.11
+  Downloaded gdk-pixbuf-sys v0.18.0
+  Downloaded tokio-util v0.7.19
+  Downloaded reqwest v0.13.4
+  Downloaded atk-sys v0.18.2
+  Downloaded futures-util v0.3.34
+  Downloaded atk v0.18.2
+  Downloaded libappindicator v0.9.0
+  Downloaded toml v0.8.2
+  Downloaded cairo-rs v0.18.5
+  Downloaded webkit2gtk v2.0.2
+  Downloaded gdk-sys v0.18.2
+  Downloaded gio v0.18.4
+  Downloaded toml_edit v0.20.2
+  Downloaded aws-lc-rs v1.18.0
+  Downloaded gtk-sys v0.18.2
+  Downloaded quinn-proto v0.11.17
+  Downloaded winnow v0.5.40
+  Downloaded simd_cesu8 v1.2.0
+  Downloaded syn v1.0.109
+  Downloaded toml_edit v0.19.15
+  Downloaded dlopen2_derive v0.4.3
+  Downloaded rustls v0.23.43
+  Downloaded glib v0.18.5
+  Downloaded jni v0.22.4
+  Downloaded x11-dl v2.21.0
+  Downloaded windows_aarch64_gnullvm v0.52.6
+  Downloaded tracing v0.1.44
+  Downloaded gtk v0.18.2
+  Downloaded fallible-streaming-iterator v0.1.9
+  Downloaded tracing-subscriber v0.3.23
+  Downloaded webkit2gtk-sys v2.0.2
+  Downloaded system-deps v6.2.2
+  Downloaded libloading v0.7.4
+  Downloaded pango-sys v0.18.0
+  Downloaded soup3 v0.5.0
+  Downloaded gdk-pixbuf v0.18.5
+  Downloaded soup3-sys v0.5.0
+  Downloaded target-lexicon v0.12.16
+  Downloaded windows-future v0.2.1
+  Downloaded js-sys v0.3.104
+  Downloaded mio v1.2.2
+  Downloaded cfg-expr v0.15.8
+  Downloaded rustls-webpki v0.103.15
+  Downloaded windows-result v0.4.1
+  Downloaded windows-strings v0.5.1
+  Downloaded windows_i686_gnullvm v0.52.6
+  Downloaded windows_x86_64_gnullvm v0.52.6
+  Downloaded bumpalo v3.20.3
+  Downloaded objc2-core-data v0.3.2
+  Downloaded proc-macro-crate v3.5.0
+  Downloaded objc2-ui-kit v0.3.2
+  Downloaded web-sys v0.3.104
+  Downloaded windows-version v0.1.7
+  Downloaded libredox v0.1.21
+  Downloaded android_system_properties v0.1.6
+  Downloaded phf_shared v0.11.3
+  Downloaded iana-time-zone-haiku v0.1.2
+  Downloaded jiff-tzdb-platform v0.1.3
+  Downloaded windows_x86_64_msvc v0.52.6
+  Downloaded curve25519-dalek-derive v0.1.1
+  Downloaded windows_i686_gnu v0.52.6
+  Downloaded jiff-static v0.2.35
+  Downloaded windows_i686_msvc v0.52.6
+  Downloaded windows-interface v0.59.3
+  Downloaded vswhom-sys v0.1.3
+  Downloaded windows_aarch64_msvc v0.52.6
+  Downloaded dlopen2 v0.8.2
+  Downloaded num_enum v0.7.6
+  Downloaded fallible-iterator v0.3.0
+  Downloaded windows_x86_64_gnu v0.52.6
+  Downloaded num_enum_derive v0.7.6
+  Downloaded vswhom v0.1.0
+  Downloaded signature v2.2.0
+  Downloaded phf_generator v0.11.3
+  Downloaded phf_codegen v0.11.3
+  Downloaded foldhash v0.1.5
+  Downloaded atomic-waker v1.1.2
+  Downloaded want v0.3.1
+  Downloaded system-configuration-sys v0.6.0
+  Downloaded windows-registry v0.6.1
+  Downloaded winapi v0.3.9
+  Downloaded ring v0.17.14
+  Downloaded try-lock v0.2.5
+  Downloaded core-foundation v0.9.4
+  Downloaded ed25519 v2.2.3
+  Downloaded spki v0.7.3
+  Downloaded rand_core v0.6.4
+  Downloaded hyper-rustls v0.27.9
+  Downloaded futures-executor v0.3.34
+  Downloaded phf_macros v0.11.3
+  Downloaded base64ct v1.8.3
+  Downloaded http-body-util v0.1.5
+  Downloaded hashlink v0.10.0
+  Downloaded winreg v0.55.0
+  Downloaded windows-implement v0.60.2
+  Downloaded redox_users v0.5.2
+  Downloaded system-configuration v0.7.0
+  Downloaded ipnet v2.12.1
+  Downloaded windows-sys v0.61.2
+  Downloaded windows-core v0.62.2
+  Downloaded const-oid v0.9.6
+  Downloaded pkcs8 v0.10.2
+  Downloaded phf v0.11.3
+  Downloaded httparse v1.10.1
+  Downloaded windows-sys v0.52.0
+  Downloaded r-efi v5.3.0
+  Downloaded winapi-i686-pc-windows-gnu v0.4.0
+  Downloaded winapi-x86_64-pc-windows-gnu v0.4.0
+  Downloaded wit-bindgen v0.57.1
+  Downloaded ndk v0.9.0
+  Downloaded bytemuck v1.25.2
+  Downloaded softbuffer v0.4.8
+  Downloaded ed25519-dalek v2.2.0
+  Downloaded x11 v2.21.0
+  Downloaded toml_edit v0.25.13+spec-1.1.0
+  Downloaded hyper-util v0.1.20
+  Downloaded der v0.7.10
+  Downloaded flate2 v1.1.9
+  Downloaded gdk v0.18.2
+  Downloaded jni v0.21.1
+  Downloaded dbus v0.9.12
+  Downloaded rand v0.8.8
+  Downloaded indexmap v2.14.0
+  Downloaded objc2-cloud-kit v0.3.2
+  Downloaded jiff-tzdb v0.1.8
+  Downloaded portable-atomic-util v0.2.7
+  Downloaded toml v1.1.4+spec-1.1.0
+  Downloaded futures v0.3.34
+  Downloaded webview2-com-sys v0.38.2
+  Downloaded wasip2 v1.0.4+wasi-0.2.12
+  Downloaded hashbrown v0.15.5
+  Downloaded hyper v1.11.0
+  Downloaded rusqlite v0.37.0
+  Downloaded h2 v0.4.19
+  Downloaded aws-lc-sys v0.44.0
+  Downloaded portable-atomic v1.15.0
+  Downloaded vcpkg v0.2.15
+  Downloaded curve25519-dalek v4.1.3
+  Downloaded ndk-sys v0.6.0+11769913
+  Downloaded windows_x86_64_gnullvm v0.42.2
+  Downloaded windows_aarch64_gnullvm v0.42.2
+  Downloaded fiat-crypto v0.2.9
+  Downloaded windows_aarch64_msvc v0.42.2
+  Downloaded windows_x86_64_gnu v0.42.2
+  Downloaded windows_x86_64_msvc v0.42.2
+  Downloaded windows_i686_msvc v0.42.2
+  Downloaded windows_i686_gnu v0.42.2
+  Downloaded libdbus-sys v0.2.7
+  Downloaded encoding_rs v0.8.35
+  Downloaded windows-sys v0.59.0
+  Downloaded windows-sys v0.45.0
+  Downloaded libsqlite3-sys v0.35.0
+  Downloaded windows v0.61.3
+exit=0
+
+### ALLB cargo test (default members: runtime + siddham-contracts)
+$ (cd /Users/vesahe/Documents/Repos/allb.xyz && env CARGO_TARGET_DIR=/Users/vesahe/maataa-evidence-build/allb RUSTUP_TOOLCHAIN=stable-aarch64-apple-darwin cargo test --offline --locked)
+   Compiling proc-macro2 v1.0.107
+   Compiling unicode-ident v1.0.24
+   Compiling quote v1.0.47
+   Compiling libc v0.2.189
+   Compiling cfg-if v1.0.4
+   Compiling pin-project-lite v0.2.17
+   Compiling smallvec v1.15.2
+   Compiling itoa v1.0.18
+   Compiling shlex v2.0.1
+   Compiling futures-core v0.3.34
+   Compiling find-msvc-tools v0.1.11
+   Compiling once_cell v1.21.4
+   Compiling stable_deref_trait v1.2.1
+   Compiling futures-sink v0.3.34
+   Compiling memchr v2.8.3
+   Compiling bytes v1.12.1
+   Compiling parking_lot_core v0.9.12
+   Compiling fs_extra v1.3.0
+   Compiling serde_core v1.0.229
+   Compiling scopeguard v1.2.0
+   Compiling dunce v1.0.5
+   Compiling pkg-config v0.3.34
+   Compiling slab v0.4.12
+   Compiling lock_api v0.4.14
+   Compiling futures-channel v0.3.34
+   Compiling zmij v1.0.23
+   Compiling core-foundation-sys v0.8.7
+   Compiling futures-task v0.3.34
+   Compiling futures-io v0.3.34
+   Compiling zeroize v1.9.0
+   Compiling serde v1.0.229
+   Compiling litemap v0.8.3
+   Compiling aws-lc-rs v1.18.0
+   Compiling writeable v0.6.4
+   Compiling version_check v0.9.5
+   Compiling serde_json v1.0.151
+   Compiling http v1.5.0
+   Compiling tracing-core v0.1.36
+   Compiling wasm-bindgen-shared v0.2.127
+   Compiling icu_properties_data v2.3.0
+   Compiling rand_core v0.6.4
+   Compiling generic-array v0.14.7
+   Compiling utf8_iter v1.0.4
+   Compiling icu_normalizer_data v2.3.0
+   Compiling siphasher v1.0.3
+   Compiling subtle v2.6.1
+   Compiling jobserver v0.1.35
+   Compiling errno v0.3.14
+   Compiling socket2 v0.6.5
+   Compiling signal-hook-registry v1.4.8
+   Compiling parking_lot v0.12.5
+   Compiling cc v1.4.4
+   Compiling mio v1.2.2
+   Compiling typenum v1.20.1
+   Compiling bitflags v2.13.1
+   Compiling rustversion v1.0.23
+   Compiling syn v3.0.4
+   Compiling syn v2.0.119
+   Compiling http-body v1.1.0
+   Compiling phf_shared v0.11.3
+   Compiling rand v0.8.8
+   Compiling rustls-pki-types v1.15.1
+   Compiling percent-encoding v2.3.2
+   Compiling hashbrown v0.17.1
+   Compiling rustls v0.23.43
+   Compiling system-configuration-sys v0.6.0
+   Compiling equivalent v1.0.2
+   Compiling httparse v1.10.1
+   Compiling untrusted v0.9.0
+   Compiling phf_generator v0.11.3
+   Compiling bumpalo v3.20.3
+   Compiling cmake v0.1.58
+   Compiling indexmap v2.14.0
+   Compiling tower-service v0.3.3
+   Compiling crc32fast v1.5.1
+   Compiling atomic-waker v1.1.2
+   Compiling semver v1.0.28
+   Compiling fnv v1.0.7
+   Compiling try-lock v0.2.5
+   Compiling want v0.3.1
+   Compiling rustc_version v0.4.1
+   Compiling wasm-bindgen v0.2.127
+   Compiling block-buffer v0.10.4
+   Compiling crypto-common v0.1.7
+   Compiling core-foundation v0.9.4
+   Compiling adler2 v2.0.1
+   Compiling simd-adler32 v0.3.10
+   Compiling log v0.4.34
+   Compiling digest v0.10.7
+   Compiling curve25519-dalek v4.1.3
+   Compiling system-configuration v0.7.0
+   Compiling miniz_oxide v0.8.9
+   Compiling form_urlencoded v1.2.2
+   Compiling security-framework-sys v2.17.0
+   Compiling aws-lc-sys v0.44.0
+   Compiling core-foundation v0.10.1
+   Compiling sync_wrapper v1.0.2
+   Compiling base64 v0.22.1
+   Compiling ipnet v2.12.1
+   Compiling tower-layer v0.3.3
+   Compiling regex-syntax v0.8.11
+   Compiling security-framework v3.7.0
+   Compiling flate2 v1.1.9
+   Compiling phf_codegen v0.11.3
+   Compiling cpufeatures v0.2.17
+   Compiling signature v2.2.0
+   Compiling lazy_static v1.5.0
+   Compiling ed25519 v2.2.3
+   Compiling sharded-slab v0.1.7
+   Compiling sha2 v0.10.9
+   Compiling tracing-log v0.2.0
+   Compiling http-body-util v0.1.5
+   Compiling encoding_rs v0.8.35
+   Compiling thread_local v1.1.10
+   Compiling nu-ansi-term v0.50.3
+   Compiling regex-automata v0.4.18
+   Compiling mime v0.3.17
+   Compiling hex v0.4.3
+   Compiling ed25519-dalek v2.2.0
+   Compiling synstructure v0.13.2
+   Compiling wasm-bindgen-macro-support v0.2.127
+   Compiling zerovec-derive v0.11.6
+   Compiling displaydoc v0.2.7
+   Compiling futures-macro v0.3.34
+   Compiling tokio-macros v2.7.2
+   Compiling serde_derive v1.0.229
+   Compiling zerofrom-derive v0.1.7
+   Compiling yoke-derive v0.8.2
+   Compiling tracing-attributes v0.1.31
+   Compiling tokio v1.53.1
+   Compiling phf_macros v0.11.3
+   Compiling futures-util v0.3.34
+   Compiling matchers v0.2.0
+   Compiling phf v0.11.3
+   Compiling zerofrom v0.1.8
+   Compiling tracing v0.1.44
+   Compiling yoke v0.8.3
+   Compiling tracing-subscriber v0.3.23
+   Compiling wasm-bindgen-macro v0.2.127
+   Compiling zerovec v0.11.8
+   Compiling zerotrie v0.2.5
+   Compiling futures-executor v0.3.34
+   Compiling futures v0.3.34
+   Compiling siddham-contracts v0.1.0 (/Users/vesahe/Documents/Repos/allb.xyz/crates/siddham-contracts)
+   Compiling tinystr v0.8.4
+   Compiling potential_utf v0.1.6
+   Compiling maataa_sovereign_runtime v0.1.0 (/Users/vesahe/Documents/Repos/allb.xyz)
+   Compiling icu_locale_core v2.3.0
+   Compiling icu_collections v2.3.0
+   Compiling js-sys v0.3.104
+   Compiling icu_provider v2.3.1
+   Compiling tokio-util v0.7.19
+   Compiling tower v0.5.3
+   Compiling icu_properties v2.3.0
+   Compiling icu_normalizer v2.3.0
+   Compiling h2 v0.4.19
+   Compiling idna_adapter v1.2.2
+   Compiling idna v1.1.0
+   Compiling url v2.5.8
+   Compiling tower-http v0.6.11
+   Compiling hyper v1.11.0
+   Compiling hyper-util v0.1.20
+   Compiling serde-wasm-bindgen v0.6.5
+   Compiling rustls-webpki v0.103.15
+   Compiling tokio-rustls v0.26.4
+   Compiling rustls-platform-verifier v0.7.0
+   Compiling hyper-rustls v0.27.9
+   Compiling reqwest v0.13.4
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 17.28s
+     Running unittests src/lib.rs (/Users/vesahe/maataa-evidence-build/allb/debug/deps/maataa_runtime-a816c333027b500e)
+
+running 5 tests
+test runtime_contract::tests::reports_truthful_capabilities ... ok
+test runtime_contract::tests::every_sutra_the_sandhi_engine_cites_exists ... ok
+test runtime_contract::tests::executes_typed_tokenization ... ok
+[MAATAA HAL] Physical /dev/mem unaccessible. Operating in HW Simulation Mode.
+test runtime_contract::tests::looks_up_real_sutras_with_attribution ... ok
+test maataa_runtime_pipeline::tests::test_full_script_pipeline_execution ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (/Users/vesahe/maataa-evidence-build/allb/debug/deps/maataa_kernel-9a716e7b31c35d8d)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/maataa_shell.rs (/Users/vesahe/maataa-evidence-build/allb/debug/deps/maataa_shell-5e1ca66cd0ab12db)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/replay_test.rs (/Users/vesahe/maataa-evidence-build/allb/debug/deps/replay_test-b69f335fe2622470)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (/Users/vesahe/maataa-evidence-build/allb/debug/deps/siddham_contracts-714aac4c81669ac0)
+
+running 3 tests
+test tests::schema_compatibility_accepts_supported_minors_and_rejects_unknown_major ... ok
+test tests::unknown_action_fails_closed ... ok
+test tests::valid_fixture_matches_contract ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests maataa_runtime
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests siddham_contracts
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+exit=0
+
+### ALLB cargo test (Siddham Authority desktop)
+$ (cd /Users/vesahe/Documents/Repos/allb.xyz && env CARGO_TARGET_DIR=/Users/vesahe/maataa-evidence-build/allb RUSTUP_TOOLCHAIN=stable-aarch64-apple-darwin cargo test --offline --locked -p siddham-authority-desktop)
+   Compiling proc-macro2 v1.0.107
+   Compiling serde_core v1.0.229
+   Compiling phf_shared v0.13.1
+   Compiling fastrand v2.5.0
+   Compiling stable_deref_trait v1.2.1
+   Compiling serde v1.0.229
+   Compiling dunce v1.0.5
+   Compiling smallvec v1.15.2
+   Compiling aho-corasick v1.1.5
+   Compiling serde_json v1.0.151
+   Compiling regex-syntax v0.8.11
+   Compiling getrandom v0.4.3
+   Compiling num-conv v0.2.2
+   Compiling phf_generator v0.13.1
+   Compiling time-core v0.1.9
+   Compiling winnow v1.0.4
+   Compiling phf_codegen v0.13.1
+   Compiling powerfmt v0.2.0
+   Compiling toml_writer v1.1.2+spec-1.1.0
+   Compiling strsim v0.11.1
+   Compiling deranged v0.5.8
+   Compiling ident_case v1.0.1
+   Compiling typeid v1.0.3
+   Compiling objc2-exception-helper v0.1.1
+   Compiling erased-serde v0.4.10
+   Compiling toml_parser v1.1.3+spec-1.1.0
+   Compiling thiserror v2.0.20
+   Compiling autocfg v1.5.1
+   Compiling byteorder v1.5.0
+   Compiling quote v1.0.47
+   Compiling thiserror v1.0.69
+   Compiling new_debug_unreachable v1.0.6
+   Compiling unic-char-range v0.9.0
+   Compiling syn v3.0.4
+   Compiling syn v2.0.119
+   Compiling unic-common v0.9.0
+   Compiling unic-ucd-version v0.9.0
+   Compiling string_cache_codegen v0.6.1
+   Compiling unic-char-property v0.9.0
+   Compiling parking_lot_core v0.9.12
+   Compiling precomputed-hash v0.1.1
+   Compiling alloc-no-stdlib v2.0.4
+   Compiling objc2 v0.6.4
+   Compiling unic-ucd-ident v0.9.0
+   Compiling alloc-stdlib v0.2.4
+   Compiling parking_lot v0.12.5
+   Compiling quick-xml v0.41.0
+   Compiling anyhow v1.0.104
+   Compiling objc2-encode v4.1.0
+   Compiling web_atoms v0.2.6
+   Compiling string_cache v0.9.0
+   Compiling brotli-decompressor v5.0.3
+   Compiling same-file v1.0.6
+   Compiling log v0.4.34
+   Compiling dtoa v1.0.11
+   Compiling simd-adler32 v0.3.10
+   Compiling percent-encoding v2.3.2
+   Compiling ctor-proc-macro v0.0.7
+   Compiling aws-lc-sys v0.44.0
+   Compiling form_urlencoded v1.2.2
+   Compiling bitflags v2.13.1
+   Compiling semver v1.0.28
+   Compiling serde_spanned v1.1.1
+   Compiling brotli v8.0.4
+   Compiling ctor v0.8.0
+   Compiling rustc_version v0.4.1
+   Compiling toml_datetime v1.1.1+spec-1.1.0
+   Compiling uuid v1.26.0
+   Compiling dtoa-short v0.3.5
+   Compiling walkdir v2.5.0
+   Compiling tendril v0.5.1
+   Compiling indexmap v1.9.3
+   Compiling selectors v0.36.1
+   Compiling glob v0.3.4
+   Compiling camino v1.2.5
+   Compiling miniz_oxide v0.8.9
+   Compiling toml v1.1.4+spec-1.1.0
+   Compiling regex-automata v0.4.18
+   Compiling servo_arc v0.4.3
+   Compiling schemars v0.8.22
+   Compiling rustc-hash v2.1.3
+   Compiling bit-vec v0.8.0
+   Compiling hashbrown v0.12.3
+   Compiling flate2 v1.1.9
+   Compiling bit-set v0.8.0
+   Compiling cfb v0.7.3
+   Compiling block2 v0.6.2
+   Compiling objc2-core-foundation v0.3.2
+   Compiling time v0.3.55
+   Compiling synstructure v0.13.2
+   Compiling darling_core v0.23.0
+   Compiling serde_derive_internals v0.29.1
+   Compiling dyn-clone v1.0.20
+   Compiling option-ext v0.2.0
+   Compiling foldhash v0.2.0
+   Compiling base64 v0.21.7
+   Compiling objc2-foundation v0.3.2
+   Compiling dirs-sys v0.5.0
+   Compiling serde-untagged v0.1.9
+   Compiling regex v1.13.1
+   Compiling infer v0.19.0
+   Compiling serde_derive v1.0.229
+   Compiling zerovec-derive v0.11.6
+   Compiling displaydoc v0.2.7
+   Compiling thiserror-impl v2.0.20
+   Compiling tokio-macros v2.7.2
+   Compiling zerofrom-derive v0.1.7
+   Compiling yoke-derive v0.8.2
+   Compiling phf_macros v0.13.1
+   Compiling thiserror-impl v1.0.69
+   Compiling cssparser-macros v0.6.1
+   Compiling derive_more-impl v2.1.1
+   Compiling tokio v1.53.1
+   Compiling phf v0.13.1
+   Compiling darling_macro v0.23.0
+   Compiling zerofrom v0.1.8
+   Compiling futures-macro v0.3.34
+   Compiling darling v0.23.0
+   Compiling derive_more v2.1.1
+   Compiling schemars_derive v0.8.22
+   Compiling cssparser v0.36.0
+   Compiling yoke v0.8.3
+   Compiling serde_with_macros v3.22.0
+   Compiling futures-util v0.3.34
+   Compiling markup5ever v0.38.0
+   Compiling zerovec v0.11.8
+   Compiling zerotrie v0.2.5
+   Compiling cargo-platform v0.1.9
+   Compiling swift-rs v1.0.8
+   Compiling jsonptr v0.6.3
+   Compiling html5ever v0.38.0
+   Compiling tinystr v0.8.4
+   Compiling icu_locale_core v2.3.0
+   Compiling potential_utf v0.1.6
+   Compiling icu_collections v2.3.0
+   Compiling json-patch v3.0.1
+   Compiling dom_query v0.27.0
+   Compiling cargo_metadata v0.19.2
+   Compiling plist v1.10.0
+   Compiling serde_with v3.22.0
+   Compiling icu_provider v2.3.1
+   Compiling icu_properties v2.3.0
+   Compiling icu_normalizer v2.3.0
+   Compiling objc2-app-kit v0.3.2
+   Compiling tracing-attributes v0.1.31
+   Compiling dirs v6.0.0
+   Compiling toml_datetime v0.7.5+spec-1.1.0
+   Compiling time-macros v0.2.32
+   Compiling winnow v0.7.15
+   Compiling embed-resource v3.0.11
+   Compiling idna_adapter v1.2.2
+   Compiling fdeflate v0.3.7
+   Compiling idna v1.1.0
+   Compiling crossbeam-utils v0.8.22
+   Compiling url v2.5.8
+   Compiling heck v0.5.0
+   Compiling tauri-winres v0.3.6
+   Compiling tracing v0.1.44
+   Compiling urlpattern v0.3.0
+   Compiling tokio-util v0.7.19
+   Compiling toml v0.9.12+spec-1.1.0
+   Compiling dpi v0.1.2
+   Compiling cookie v0.18.2
+   Compiling raw-window-handle v0.6.2
+   Compiling h2 v0.4.19
+   Compiling wasm-bindgen-macro-support v0.2.127
+   Compiling cargo_toml v0.22.3
+   Compiling tauri-utils v2.9.3
+   Compiling foreign-types-macros v0.2.4
+   Compiling foreign-types-shared v0.3.1
+   Compiling bitflags v1.3.2
+   Compiling foreign-types v0.5.0
+   Compiling png v0.17.16
+   Compiling system-configuration v0.7.0
+   Compiling crossbeam-channel v0.5.16
+   Compiling objc2-web-kit v0.3.2
+   Compiling hyper v1.11.0
+   Compiling core-graphics-types v0.2.0
+   Compiling curve25519-dalek v4.1.3
+   Compiling tauri-runtime v2.11.3
+   Compiling vcpkg v0.2.15
+   Compiling wry v0.55.1
+   Compiling tower v0.5.3
+   Compiling hyper-util v0.1.20
+   Compiling security-framework v3.7.0
+   Compiling core-graphics v0.25.0
+   Compiling wasm-bindgen-macro v0.2.127
+   Compiling ico v0.5.0
+   Compiling libsqlite3-sys v0.35.0
+   Compiling dispatch2 v0.3.1
+   Compiling wasm-bindgen v0.2.127
+   Compiling num-traits v0.2.19
+   Compiling tauri-runtime-wry v2.11.4
+   Compiling foldhash v0.1.5
+   Compiling getrandom v0.3.4
+   Compiling unicode-segmentation v1.13.3
+   Compiling hashbrown v0.15.5
+   Compiling tao v0.35.3
+   Compiling keyboard-types v0.7.0
+   Compiling maataa_sovereign_runtime v0.1.0 (/Users/vesahe/Documents/Repos/allb.xyz)
+   Compiling tower-http v0.6.11
+   Compiling phf_macros v0.11.3
+   Compiling png v0.18.1
+   Compiling js-sys v0.3.104
+   Compiling futures-executor v0.3.34
+   Compiling matchers v0.2.0
+   Compiling serialize-to-javascript-impl v0.1.2
+   Compiling tracing-subscriber v0.3.23
+   Compiling phf v0.11.3
+   Compiling serialize-to-javascript v0.1.2
+   Compiling muda v0.19.3
+   Compiling futures v0.3.34
+   Compiling ed25519-dalek v2.2.0
+   Compiling hashlink v0.10.0
+   Compiling tauri-build v2.6.3
+   Compiling tauri-codegen v2.6.3
+   Compiling window-vibrancy v0.6.0
+   Compiling siddham-contracts v0.1.0 (/Users/vesahe/Documents/Repos/allb.xyz/crates/siddham-contracts)
+   Compiling serde_repr v0.1.21
+   Compiling iana-time-zone v0.1.65
+   Compiling fallible-iterator v0.3.0
+   Compiling fallible-streaming-iterator v0.1.9
+   Compiling embed_plist v1.2.2
+   Compiling chrono v0.4.45
+   Compiling rusqlite v0.37.0
+   Compiling tauri v2.11.5
+   Compiling tauri-macros v2.6.3
+   Compiling siddham-authority-desktop v0.1.0 (/Users/vesahe/Documents/Repos/allb.xyz/apps/siddham-authority-desktop/src-tauri)
+   Compiling serde-wasm-bindgen v0.6.5
+   Compiling aws-lc-rs v1.18.0
+   Compiling rustls v0.23.43
+   Compiling rustls-webpki v0.103.15
+   Compiling tokio-rustls v0.26.4
+   Compiling rustls-platform-verifier v0.7.0
+   Compiling hyper-rustls v0.27.9
+   Compiling reqwest v0.13.4
+warning: unused import: `ProtectedAction`
+ --> apps/siddham-authority-desktop/src-tauri/src/commands.rs:4:75
+  |
+4 |         Effect, EvidenceEvent, GovernedOperationResult, OperationRequest, ProtectedAction,
+  |                                                                           ^^^^^^^^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: function `grant_delegation` is never used
+   --> apps/siddham-authority-desktop/src-tauri/src/approval.rs:166:8
+    |
+166 | pub fn grant_delegation(
+    |        ^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: function `delegation_valid` is never used
+   --> apps/siddham-authority-desktop/src-tauri/src/approval.rs:195:8
+    |
+195 | pub fn delegation_valid(
+    |        ^^^^^^^^^^^^^^^^
+
+warning: function `revoke_delegation` is never used
+   --> apps/siddham-authority-desktop/src-tauri/src/approval.rs:204:8
+    |
+204 | pub fn revoke_delegation(db: &Connection, id: &str, grantor: &str) -> Result<(), String> {
+    |        ^^^^^^^^^^^^^^^^^
+
+warning: function `request_emergency` is never used
+   --> apps/siddham-authority-desktop/src-tauri/src/approval.rs:217:8
+    |
+217 | pub fn request_emergency(
+    |        ^^^^^^^^^^^^^^^^^
+
+warning: function `review_emergency` is never used
+   --> apps/siddham-authority-desktop/src-tauri/src/approval.rs:233:8
+    |
+233 | pub fn review_emergency(
+    |        ^^^^^^^^^^^^^^^^
+
+warning: function `emergency_valid` is never used
+   --> apps/siddham-authority-desktop/src-tauri/src/approval.rs:261:8
+    |
+261 | pub fn emergency_valid(
+    |        ^^^^^^^^^^^^^^^
+
+warning: function `revoke_emergency` is never used
+   --> apps/siddham-authority-desktop/src-tauri/src/approval.rs:270:8
+    |
+270 | pub fn revoke_emergency(db: &Connection, id: &str, reviewer: &str) -> Result<(), String> {
+    |        ^^^^^^^^^^^^^^^^
+
+warning: function `execute_governed_local` is never used
+  --> apps/siddham-authority-desktop/src-tauri/src/commands.rs:37:4
+   |
+37 | fn execute_governed_local(
+   |    ^^^^^^^^^^^^^^^^^^^^^^
+
+warning: struct `PolicyRecord` is never constructed
+  --> apps/siddham-authority-desktop/src-tauri/src/policy.rs:25:12
+   |
+25 | pub struct PolicyRecord {
+   |            ^^^^^^^^^^^^
+
+warning: function `create_draft` is never used
+   --> apps/siddham-authority-desktop/src-tauri/src/policy.rs:153:8
+    |
+153 | pub fn create_draft(
+    |        ^^^^^^^^^^^^
+
+warning: function `simulate` is never used
+   --> apps/siddham-authority-desktop/src-tauri/src/policy.rs:172:8
+    |
+172 | pub fn simulate(
+    |        ^^^^^^^^
+
+warning: function `activate` is never used
+   --> apps/siddham-authority-desktop/src-tauri/src/policy.rs:207:8
+    |
+207 | pub fn activate(db: &mut Connection, policy_id: &str, actor: &str) -> Result<(), String> {
+    |        ^^^^^^^^
+
+warning: function `retire` is never used
+   --> apps/siddham-authority-desktop/src-tauri/src/policy.rs:223:8
+    |
+223 | pub fn retire(db: &mut Connection, policy_id: &str, actor: &str) -> Result<(), String> {
+    |        ^^^^^^
+
+warning: function `append_event` is never used
+   --> apps/siddham-authority-desktop/src-tauri/src/policy.rs:236:4
+    |
+236 | fn append_event(
+    |    ^^^^^^^^^^^^
+
+warning: function `get` is never used
+   --> apps/siddham-authority-desktop/src-tauri/src/policy.rs:246:4
+    |
+246 | fn get(db: &Connection, id: &str) -> rusqlite::Result<PolicyRecord> {
+    |    ^^^
+
+warning: `siddham-authority-desktop` (lib) generated 16 warnings (run `cargo fix --lib -p siddham-authority-desktop` to apply 1 suggestion)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 30.03s
+     Running unittests src/lib.rs (/Users/vesahe/maataa-evidence-build/allb/debug/deps/siddham_authority_desktop_lib-c3478c17ad336c03)
+
+running 31 tests
+test approval::tests::maker_can_cancel_only_while_pending ... ok
+test commands::tests::approval_decision_creates_a_bound_pending_inbox_item ... ok
+test commands::tests::cross_workspace_substitution_is_rejected_before_policy_or_evidence ... ok
+test approval::tests::delegation_is_scoped_expiring_and_revocable ... ok
+test commands::tests::each_permitted_execution_gets_exactly_one_operation_id ... ok
+test approval::tests::maker_checker_approval_is_bound_and_consumed_once ... ok
+test approval::tests::emergency_access_requires_independent_review ... ok
+test approval::tests::mismatched_or_expired_approval_fails_closed ... ok
+test approval::tests::maker_cannot_self_approve_and_rejection_is_terminal ... ok
+test executor::tests::every_action_has_registry_metadata ... ok
+test commands::tests::cancelled_pending_execution_cannot_resume ... ok
+test approval::tests::quorum_requires_distinct_eligible_approvers ... ok
+test commands::tests::approved_dataset_export_resumes_once_through_the_registry ... ok
+test evidence::tests::execution_outbox_failure_rolls_back_execution ... ok
+test executor::tests::dataset_export_is_real_but_manifest_only ... ok
+test commands::tests::request_cannot_choose_a_more_privileged_principal_or_assurance ... ok
+test executor::tests::unavailable_hardware_fails_before_dispatch ... ok
+test commands::tests::unavailable_action_is_recorded_but_never_executed ... ok
+test commands::tests::permitted_operation_executes_and_links_evidence ... ok
+test identity::tests::federation_is_empty_until_real_configuration_exists ... ok
+test evidence::tests::linked_authorization_and_execution_verify ... ok
+test identity::tests::device_revocation_invalidates_its_sessions ... ok
+test commands::tests::request_replay_is_rejected_without_second_execution_or_evidence ... ok
+test identity::tests::expired_and_revoked_sessions_fail_closed ... ok
+test evidence::tests::tampered_execution_breaks_verification ... ok
+test policy::tests::activation_retires_previous_policy_with_provenance ... ok
+test identity::tests::workspace_membership_is_not_substitutable ... ok
+test policy::tests::active_policy_permits_runtime ... ok
+test policy::tests::draft_simulation_does_not_activate_policy ... ok
+test policy::tests::retiring_the_active_policy_causes_default_deny ... ok
+test policy::tests::deny_overrides_and_all_actions_are_covered ... ok
+
+test result: ok. 31 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.16s
+
+     Running unittests src/main.rs (/Users/vesahe/maataa-evidence-build/allb/debug/deps/siddham_authority_desktop-d2e0ec313a68d765)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests siddham_authority_desktop_lib
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+exit=0
+
+### maataa-os: cargo fetch --locked (network, ~/.cargo only)
+$ (cd /Users/vesahe/revenue/live/maataa-os && env CARGO_TARGET_DIR=/Users/vesahe/maataa-evidence-build/maataa-os cargo fetch --locked)
+ Downloading crates ...
+  Downloaded embedded-hal v0.2.7
+  Downloaded vcell v0.1.3
+  Downloaded nb v0.1.3
+  Downloaded void v1.0.2
+  Downloaded volatile-register v0.2.2
+  Downloaded ufmt-write v0.1.0
+  Downloaded cortex-m-rt-macros v0.7.5
+  Downloaded futures-core v0.3.31
+  Downloaded pin-utils v0.1.0
+  Downloaded hash32 v0.3.1
+  Downloaded semver-parser v0.7.0
+  Downloaded nb v1.1.0
+  Downloaded panic-halt v0.2.0
+  Downloaded document-features v0.2.12
+  Downloaded embassy-time-queue-driver v0.1.0
+  Downloaded embedded-hal-async v1.0.0
+  Downloaded futures-task v0.3.31
+  Downloaded rustc_version v0.2.3
+  Downloaded bare-metal v0.2.5
+  Downloaded darling_macro v0.20.11
+  Downloaded semver v0.9.0
+  Downloaded bitfield v0.13.2
+  Downloaded quote v1.0.41
+  Downloaded critical-section v1.2.0
+  Downloaded cortex-m v0.7.7
+  Downloaded pin-project-lite v0.2.16
+  Downloaded litrs v1.0.0
+  Downloaded cortex-m-rt v0.7.5
+  Downloaded darling_core v0.20.11
+  Downloaded futures-util v0.3.31
+  Downloaded heapless v0.8.0
+  Downloaded syn v2.0.109
+  Downloaded darling v0.20.11
+  Downloaded proc-macro2 v1.0.103
+  Downloaded unicode-ident v1.0.22
+  Downloaded embedded-hal v1.0.0
+  Downloaded cortex-m-semihosting v0.5.0
+  Downloaded embassy-time-driver v0.1.0
+  Downloaded rtt-target v0.3.1
+  Downloaded embassy-time v0.3.2
+  Downloaded embassy-executor-macros v0.4.2
+  Downloaded embassy-executor v0.5.1
+exit=0
+
+### maataa-os host unit tests
+$ (cd /Users/vesahe/revenue/live/maataa-os && env CARGO_TARGET_DIR=/Users/vesahe/maataa-evidence-build/maataa-os cargo test --offline --locked --lib --target aarch64-apple-darwin)
+   Compiling proc-macro2 v1.0.103
+   Compiling quote v1.0.41
+   Compiling unicode-ident v1.0.22
+   Compiling semver-parser v0.7.0
+   Compiling cortex-m v0.7.7
+   Compiling nb v1.1.0
+   Compiling void v1.0.2
+   Compiling vcell v0.1.3
+   Compiling strsim v0.11.1
+   Compiling fnv v1.0.7
+   Compiling ident_case v1.0.1
+   Compiling embassy-time-driver v0.1.0
+   Compiling nb v0.1.3
+   Compiling embassy-time-queue-driver v0.1.0
+   Compiling volatile-register v0.2.2
+   Compiling bitfield v0.13.2
+   Compiling litrs v1.0.0
+   Compiling embedded-hal-async v1.0.0
+   Compiling embedded-hal v0.2.7
+   Compiling byteorder v1.5.0
+   Compiling semver v0.9.0
+   Compiling heapless v0.8.0
+   Compiling cortex-m-rt v0.7.5
+   Compiling hash32 v0.3.1
+   Compiling rustc_version v0.2.3
+   Compiling futures-task v0.3.31
+   Compiling pin-project-lite v0.2.16
+   Compiling stable_deref_trait v1.2.1
+   Compiling critical-section v1.2.0
+   Compiling embedded-hal v1.0.0
+   Compiling cortex-m-semihosting v0.5.0
+   Compiling bare-metal v0.2.5
+   Compiling pin-utils v0.1.0
+   Compiling embassy-executor v0.5.1
+   Compiling document-features v0.2.12
+   Compiling futures-core v0.3.31
+   Compiling futures-util v0.3.31
+   Compiling cfg-if v1.0.4
+   Compiling maataa-os v0.1.0-alpha.1 (/Users/vesahe/revenue/live/maataa-os)
+   Compiling ufmt-write v0.1.0
+   Compiling panic-halt v0.2.0
+   Compiling rtt-target v0.3.1
+   Compiling embassy-time v0.3.2
+   Compiling syn v2.0.109
+   Compiling darling_core v0.20.11
+   Compiling cortex-m-rt-macros v0.7.5
+   Compiling darling_macro v0.20.11
+   Compiling darling v0.20.11
+   Compiling embassy-executor-macros v0.4.2
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 7.03s
+     Running unittests src/lib.rs (/Users/vesahe/maataa-evidence-build/maataa-os/aarch64-apple-darwin/debug/deps/maataa_os-c84aded24e1c6dda)
+
+running 31 tests
+test capsule::tests::scheduler_cycle_increments_loaded_capsules_only ... ok
+test capsule::tests::rejects_capsules_when_table_is_full ... ok
+test capsule::tests::loads_capsules_and_tracks_memory ... ok
+test drivers::spi::tests::accepts_nonzero_factory_masks_with_armed_status ... ok
+test capsule::tests::rejects_capsules_when_memory_budget_is_exceeded ... ok
+test drivers::spi::tests::volatile_reader_uses_supplied_register_window ... ok
+test drivers::spi::tests::rejects_zero_factory_masks ... ok
+test drivers::tests::init_marks_all_virtual_drivers_ready ... ok
+test drivers::tests::poll_increments_ready_driver_counters ... ok
+test drivers::tests::starts_degraded_until_drivers_are_initialized ... ok
+test ipc::comm::tests::rejects_tampered_comm_frame ... ok
+test ipc::comm::tests::signs_and_round_trips_comm_frame ... ok
+test ipc::frame::tests::clears_small_buffer_on_failure ... ok
+test ipc::frame::tests::rejects_bad_checksum ... ok
+test ipc::frame::tests::serializes_exact_mosf_layout ... ok
+test ipc::frame::tests::serializes_exact_mosr_layout ... ok
+test ipc::frame::tests::writes_mosr_rescue_frame ... ok
+test ipc::frame::tests::writes_recovery_frame_when_snapshot_is_invalid ... ok
+test ipc::radio::tests::triggers_and_serializes_radio_slot ... ok
+test ipc::terminal::tests::clears_small_output_on_error ... ok
+test ipc::terminal::tests::writes_and_serializes_fixed_grid ... ok
+test ipc::verification::tests::embedded_reference_certifies_all_gates ... ok
+test ipc::verification::tests::rejects_governance_register_drift ... ok
+test ipc::verification::tests::rejects_invalid_magv_boundary ... ok
+test ipc::verification::tests::rejects_unremediated_gap_state ... ok
+test storage::flash::tests::model_to_database_transition_is_allowed ... ok
+test storage::flash::tests::model_to_kernel_crosstalk_is_blocked_without_wp_pin ... ok
+test storage::flash::tests::unknown_address_is_rejected ... ok
+test storage::flash::tests::write_protect_blocks_kernel_target ... ok
+test storage::tests::mount_and_manifest_update_are_recorded ... ok
+test storage::tests::starts_unmounted_with_default_manifest ... ok
+
+test result: ok. 31 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+exit=0
+
+### maataa-os cargo check (thumbv7em-none-eabihf)
+$ (cd /Users/vesahe/revenue/live/maataa-os && env CARGO_TARGET_DIR=/Users/vesahe/maataa-evidence-build/maataa-os cargo check --offline --locked --target thumbv7em-none-eabihf)
+    Checking nb v1.1.0
+    Checking void v1.0.2
+    Checking vcell v0.1.3
+   Compiling cortex-m v0.7.7
+   Compiling embassy-time-driver v0.1.0
+   Compiling embassy-time-queue-driver v0.1.0
+    Checking bitfield v0.13.2
+    Checking byteorder v1.5.0
+   Compiling cortex-m-rt v0.7.5
+   Compiling bare-metal v0.2.5
+   Compiling heapless v0.8.0
+   Compiling embedded-hal-async v1.0.0
+    Checking volatile-register v0.2.2
+    Checking embedded-hal v1.0.0
+    Checking nb v0.1.3
+    Checking futures-task v0.3.31
+    Checking embedded-hal v0.2.7
+    Checking pin-utils v0.1.0
+    Checking stable_deref_trait v1.2.1
+    Checking critical-section v1.2.0
+    Checking futures-core v0.3.31
+    Checking pin-project-lite v0.2.16
+   Compiling embassy-executor v0.5.1
+   Compiling cortex-m-semihosting v0.5.0
+    Checking ufmt-write v0.1.0
+    Checking cfg-if v1.0.4
+    Checking hash32 v0.3.1
+   Compiling maataa-os v0.1.0-alpha.1 (/Users/vesahe/revenue/live/maataa-os)
+    Checking panic-halt v0.2.0
+    Checking futures-util v0.3.31
+    Checking rtt-target v0.3.1
+    Checking embassy-time v0.3.2
+warning: enum `DriverError` is never used
+ --> src/drivers/mod.rs:8:10
+  |
+8 | pub enum DriverError {
+  |          ^^^^^^^^^^^
+  |
+  = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: trait `Driver` is never used
+  --> src/drivers/mod.rs:13:11
+   |
+13 | pub trait Driver {
+   |           ^^^^^^
+
+warning: constant `ROOT_OF_TRUST_MMIO_BASE` is never used
+ --> src/drivers/spi.rs:5:11
+  |
+5 | pub const ROOT_OF_TRUST_MMIO_BASE: usize = 0xFE00_1000;
+  |           ^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: constant `FACTORY_MASK_A_OFFSET` is never used
+ --> src/drivers/spi.rs:6:7
+  |
+6 | const FACTORY_MASK_A_OFFSET: usize = 0x00;
+  |       ^^^^^^^^^^^^^^^^^^^^^
+
+warning: constant `FACTORY_MASK_B_OFFSET` is never used
+ --> src/drivers/spi.rs:7:7
+  |
+7 | const FACTORY_MASK_B_OFFSET: usize = 0x04;
+  |       ^^^^^^^^^^^^^^^^^^^^^
+
+warning: constant `STATUS_OFFSET` is never used
+ --> src/drivers/spi.rs:8:7
+  |
+8 | const STATUS_OFFSET: usize = 0x08;
+  |       ^^^^^^^^^^^^^
+
+warning: constant `EXPECTED_STATUS_ARMED` is never used
+ --> src/drivers/spi.rs:9:7
+  |
+9 | const EXPECTED_STATUS_ARMED: u32 = 0x4D53_4152;
+  |       ^^^^^^^^^^^^^^^^^^^^^
+
+warning: struct `SpiDriver` is never constructed
+  --> src/drivers/spi.rs:11:12
+   |
+11 | pub struct SpiDriver {
+   |            ^^^^^^^^^
+
+warning: enum `SpiMode` is never used
+  --> src/drivers/spi.rs:18:10
+   |
+18 | pub enum SpiMode {
+   |          ^^^^^^^
+
+warning: struct `SiliconAttestation` is never constructed
+  --> src/drivers/spi.rs:26:12
+   |
+26 | pub struct SiliconAttestation {
+   |            ^^^^^^^^^^^^^^^^^^
+
+warning: struct `HardwareRootOfTrust` is never constructed
+  --> src/drivers/spi.rs:33:12
+   |
+33 | pub struct HardwareRootOfTrust {
+   |            ^^^^^^^^^^^^^^^^^^^
+
+warning: associated items `new`, `from_base`, `read_attestation`, and `read_register` are never used
+  --> src/drivers/spi.rs:38:18
+   |
+37 | impl HardwareRootOfTrust {
+   | ------------------------ associated items in this implementation
+38 |     pub const fn new() -> Self {
+   |                  ^^^
+...
+44 |     pub const fn from_base(base: *const u32) -> Self {
+   |                  ^^^^^^^^^
+...
+48 |     pub fn read_attestation(&self) -> Result<SiliconAttestation, DriverError> {
+   |            ^^^^^^^^^^^^^^^^
+...
+60 |     fn read_register(&self, offset: usize) -> u32 {
+   |        ^^^^^^^^^^^^^
+
+warning: associated items `new`, `transfer`, `set_frequency`, `set_mode`, and `verify_root_of_trust` are never used
+  --> src/drivers/spi.rs:67:18
+   |
+66 | impl SpiDriver {
+   | -------------- associated items in this implementation
+67 |     pub const fn new() -> Self {
+   |                  ^^^
+...
+75 |     pub fn transfer(&self, tx_data: &[u8], rx_data: &mut [u8]) -> Result<usize, DriverError> {
+   |            ^^^^^^^^
+...
+85 |     pub fn set_frequency(&mut self, frequency: u32) -> Result<(), DriverError> {
+   |            ^^^^^^^^^^^^^
+...
+94 |     pub fn set_mode(&mut self, mode: SpiMode) {
+   |            ^^^^^^^^
+...
+98 |     pub fn verify_root_of_trust(&self, root: HardwareRootOfTrust) -> Result<SiliconAttestation, DriverError> {
+   |            ^^^^^^^^^^^^^^^^^^^^
+
+warning: function `validate_attestation` is never used
+   --> src/drivers/spi.rs:122:8
+    |
+122 | pub fn validate_attestation(attestation: SiliconAttestation) -> Result<SiliconAttestation, DriverError> {
+    |        ^^^^^^^^^^^^^^^^^^^^
+
+warning: struct `SpiCell` is never constructed
+   --> src/drivers/spi.rs:130:8
+    |
+130 | struct SpiCell(UnsafeCell<SpiDriver>);
+    |        ^^^^^^^
+
+warning: static `SPI` is never used
+   --> src/drivers/spi.rs:134:8
+    |
+134 | static SPI: SpiCell = SpiCell(UnsafeCell::new(SpiDriver::new()));
+    |        ^^^
+
+warning: function `init` is never used
+   --> src/drivers/spi.rs:136:8
+    |
+136 | pub fn init() -> Result<(), DriverError> {
+    |        ^^^^
+
+warning: function `transfer` is never used
+   --> src/drivers/spi.rs:140:8
+    |
+140 | pub fn transfer(tx_data: &[u8], rx_data: &mut [u8]) -> Result<usize, DriverError> {
+    |        ^^^^^^^^
+
+warning: function `verify_hardware_root_of_trust` is never used
+   --> src/drivers/spi.rs:144:8
+    |
+144 | pub fn verify_hardware_root_of_trust() -> Result<SiliconAttestation, DriverError> {
+    |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: `maataa-os` (bin "maataa-os") generated 19 warnings
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.78s
+exit=0
+
+### maataa-os release build (thumbv7em-none-eabihf)
+$ (cd /Users/vesahe/revenue/live/maataa-os && env CARGO_TARGET_DIR=/Users/vesahe/maataa-evidence-build/maataa-os cargo build --offline --locked --release --target thumbv7em-none-eabihf)
+   Compiling proc-macro2 v1.0.103
+   Compiling quote v1.0.41
+   Compiling unicode-ident v1.0.22
+   Compiling semver-parser v0.7.0
+   Compiling cortex-m v0.7.7
+   Compiling nb v1.1.0
+   Compiling void v1.0.2
+   Compiling vcell v0.1.3
+   Compiling strsim v0.11.1
+   Compiling ident_case v1.0.1
+   Compiling fnv v1.0.7
+   Compiling embassy-time-driver v0.1.0
+   Compiling nb v0.1.3
+   Compiling embassy-time-queue-driver v0.1.0
+   Compiling volatile-register v0.2.2
+   Compiling bitfield v0.13.2
+   Compiling litrs v1.0.0
+   Compiling byteorder v1.5.0
+   Compiling embedded-hal v0.2.7
+   Compiling semver v0.9.0
+   Compiling cortex-m-rt v0.7.5
+   Compiling embedded-hal-async v1.0.0
+   Compiling heapless v0.8.0
+   Compiling rustc_version v0.2.3
+   Compiling hash32 v0.3.1
+   Compiling embassy-executor v0.5.1
+   Compiling critical-section v1.2.0
+   Compiling stable_deref_trait v1.2.1
+   Compiling bare-metal v0.2.5
+   Compiling futures-core v0.3.31
+   Compiling document-features v0.2.12
+   Compiling pin-project-lite v0.2.16
+   Compiling pin-utils v0.1.0
+   Compiling embedded-hal v1.0.0
+   Compiling cortex-m-semihosting v0.5.0
+   Compiling futures-task v0.3.31
+   Compiling futures-util v0.3.31
+   Compiling cfg-if v1.0.4
+   Compiling ufmt-write v0.1.0
+   Compiling maataa-os v0.1.0-alpha.1 (/Users/vesahe/revenue/live/maataa-os)
+   Compiling panic-halt v0.2.0
+   Compiling syn v2.0.109
+   Compiling rtt-target v0.3.1
+   Compiling embassy-time v0.3.2
+   Compiling darling_core v0.20.11
+   Compiling cortex-m-rt-macros v0.7.5
+   Compiling darling_macro v0.20.11
+   Compiling darling v0.20.11
+   Compiling embassy-executor-macros v0.4.2
+warning: enum `DriverError` is never used
+ --> src/drivers/mod.rs:8:10
+  |
+8 | pub enum DriverError {
+  |          ^^^^^^^^^^^
+  |
+  = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: trait `Driver` is never used
+  --> src/drivers/mod.rs:13:11
+   |
+13 | pub trait Driver {
+   |           ^^^^^^
+
+warning: constant `ROOT_OF_TRUST_MMIO_BASE` is never used
+ --> src/drivers/spi.rs:5:11
+  |
+5 | pub const ROOT_OF_TRUST_MMIO_BASE: usize = 0xFE00_1000;
+  |           ^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: constant `FACTORY_MASK_A_OFFSET` is never used
+ --> src/drivers/spi.rs:6:7
+  |
+6 | const FACTORY_MASK_A_OFFSET: usize = 0x00;
+  |       ^^^^^^^^^^^^^^^^^^^^^
+
+warning: constant `FACTORY_MASK_B_OFFSET` is never used
+ --> src/drivers/spi.rs:7:7
+  |
+7 | const FACTORY_MASK_B_OFFSET: usize = 0x04;
+  |       ^^^^^^^^^^^^^^^^^^^^^
+
+warning: constant `STATUS_OFFSET` is never used
+ --> src/drivers/spi.rs:8:7
+  |
+8 | const STATUS_OFFSET: usize = 0x08;
+  |       ^^^^^^^^^^^^^
+
+warning: constant `EXPECTED_STATUS_ARMED` is never used
+ --> src/drivers/spi.rs:9:7
+  |
+9 | const EXPECTED_STATUS_ARMED: u32 = 0x4D53_4152;
+  |       ^^^^^^^^^^^^^^^^^^^^^
+
+warning: struct `SpiDriver` is never constructed
+  --> src/drivers/spi.rs:11:12
+   |
+11 | pub struct SpiDriver {
+   |            ^^^^^^^^^
+
+warning: enum `SpiMode` is never used
+  --> src/drivers/spi.rs:18:10
+   |
+18 | pub enum SpiMode {
+   |          ^^^^^^^
+
+warning: struct `SiliconAttestation` is never constructed
+  --> src/drivers/spi.rs:26:12
+   |
+26 | pub struct SiliconAttestation {
+   |            ^^^^^^^^^^^^^^^^^^
+
+warning: struct `HardwareRootOfTrust` is never constructed
+  --> src/drivers/spi.rs:33:12
+   |
+33 | pub struct HardwareRootOfTrust {
+   |            ^^^^^^^^^^^^^^^^^^^
+
+warning: associated items `new`, `from_base`, `read_attestation`, and `read_register` are never used
+  --> src/drivers/spi.rs:38:18
+   |
+37 | impl HardwareRootOfTrust {
+   | ------------------------ associated items in this implementation
+38 |     pub const fn new() -> Self {
+   |                  ^^^
+...
+44 |     pub const fn from_base(base: *const u32) -> Self {
+   |                  ^^^^^^^^^
+...
+48 |     pub fn read_attestation(&self) -> Result<SiliconAttestation, DriverError> {
+   |            ^^^^^^^^^^^^^^^^
+...
+60 |     fn read_register(&self, offset: usize) -> u32 {
+   |        ^^^^^^^^^^^^^
+
+warning: associated items `new`, `transfer`, `set_frequency`, `set_mode`, and `verify_root_of_trust` are never used
+  --> src/drivers/spi.rs:67:18
+   |
+66 | impl SpiDriver {
+   | -------------- associated items in this implementation
+67 |     pub const fn new() -> Self {
+   |                  ^^^
+...
+75 |     pub fn transfer(&self, tx_data: &[u8], rx_data: &mut [u8]) -> Result<usize, DriverError> {
+   |            ^^^^^^^^
+...
+85 |     pub fn set_frequency(&mut self, frequency: u32) -> Result<(), DriverError> {
+   |            ^^^^^^^^^^^^^
+...
+94 |     pub fn set_mode(&mut self, mode: SpiMode) {
+   |            ^^^^^^^^
+...
+98 |     pub fn verify_root_of_trust(&self, root: HardwareRootOfTrust) -> Result<SiliconAttestation, DriverError> {
+   |            ^^^^^^^^^^^^^^^^^^^^
+
+warning: function `validate_attestation` is never used
+   --> src/drivers/spi.rs:122:8
+    |
+122 | pub fn validate_attestation(attestation: SiliconAttestation) -> Result<SiliconAttestation, DriverError> {
+    |        ^^^^^^^^^^^^^^^^^^^^
+
+warning: struct `SpiCell` is never constructed
+   --> src/drivers/spi.rs:130:8
+    |
+130 | struct SpiCell(UnsafeCell<SpiDriver>);
+    |        ^^^^^^^
+
+warning: static `SPI` is never used
+   --> src/drivers/spi.rs:134:8
+    |
+134 | static SPI: SpiCell = SpiCell(UnsafeCell::new(SpiDriver::new()));
+    |        ^^^
+
+warning: function `init` is never used
+   --> src/drivers/spi.rs:136:8
+    |
+136 | pub fn init() -> Result<(), DriverError> {
+    |        ^^^^
+
+warning: function `transfer` is never used
+   --> src/drivers/spi.rs:140:8
+    |
+140 | pub fn transfer(tx_data: &[u8], rx_data: &mut [u8]) -> Result<usize, DriverError> {
+    |        ^^^^^^^^
+
+warning: function `verify_hardware_root_of_trust` is never used
+   --> src/drivers/spi.rs:144:8
+    |
+144 | pub fn verify_hardware_root_of_trust() -> Result<SiliconAttestation, DriverError> {
+    |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: `maataa-os` (bin "maataa-os") generated 19 warnings
+    Finished `release` profile [optimized] target(s) in 4.90s
+exit=0
+binary sha256: 947213ed4d629abd0085fb8f488041e9c01a8988f3d2777d29cd0456b7990b85
+
+### maataa-os size check (<= 524288 bytes text+data)
+$ (cd /Users/vesahe/revenue/live/maataa-os && bash -c arm-none-eabi-size '/Users/vesahe/maataa-evidence-build/maataa-os/thumbv7em-none-eabihf/release/maataa-os' && test $(arm-none-eabi-size -B '/Users/vesahe/maataa-evidence-build/maataa-os/thumbv7em-none-eabihf/release/maataa-os' | tail -1 | awk '{print $1+$2}') -le 524288)
+   text	   data	    bss	    dec	    hex	filename
+  15752	      0	      8	  15760	   3d90	/Users/vesahe/maataa-evidence-build/maataa-os/thumbv7em-none-eabihf/release/maataa-os
+exit=0
+
+### maataa-os QEMU boot (netduinoplus2, 60s limit)
+$ (cd /Users/vesahe/revenue/live/maataa-os && perl -e alarm 60; exec @ARGV qemu-system-arm -machine netduinoplus2 -cpu cortex-m4 -kernel /Users/vesahe/maataa-evidence-build/maataa-os/thumbv7em-none-eabihf/release/maataa-os -nographic -semihosting -semihosting-config enable=on,target=native -serial mon:stdio)
+Maataa OS starting in QEMU...
+Cortex-M semihosting prototype boot
+Starting Maataa OS kernel...
+================================
+initializing driver registry...
+  driver uart ready
+  driver gpio ready
+  driver spi ready
+  driver i2c ready
+  driver power ready
+storage mounted: virtual flash
+storage manifest committed
+capsule loaded: telemetry (251 bytes)
+capsule loaded: control (23 bytes)
+
+Boot report
+-----------
+drivers: 5/5 ready
+storage mounted: true
+manifest: maataa-os 0.1.0-alpha.1
+capsules loaded: 2
+capsule memory: 274/65536 bytes
+telemetry capsule id: Ok(0)
+control capsule id: Ok(1)
+
+Native local engines
+--------------------
+terminal grid: 80x40
+comm frame signed: true
+radio channel lock: 122
+verification status: 31
+verification certified: true
+
+Scheduler simulation
+--------------------
+tick 1
+  capsule[0] telemetry cycle 1 at tick 1 (251 bytes)
+  capsule[1] control cycle 1 at tick 1 (23 bytes)
+health: nominal
+tick 2
+  capsule[0] telemetry cycle 2 at tick 2 (251 bytes)
+  capsule[1] control cycle 2 at tick 2 (23 bytes)
+health: nominal
+tick 3
+  drivers sampled virtual GPIO and power rails
+  capsule[0] telemetry cycle 3 at tick 3 (251 bytes)
+  capsule[1] control cycle 3 at tick 3 (23 bytes)
+health: nominal
+tick 4
+  capsule[0] telemetry cycle 4 at tick 4 (251 bytes)
+  capsule[1] control cycle 4 at tick 4 (23 bytes)
+health: nominal
+tick 5
+  capsule[0] telemetry cycle 5 at tick 5 (251 bytes)
+  capsule[1] control cycle 5 at tick 5 (23 bytes)
+health: nominal
+tick 6
+  capsule[0] telemetry cycle 6 at tick 6 (251 bytes)
+  capsule[1] control cycle 6 at tick 6 (23 bytes)
+health: nominal
+
+Maataa OS prototype demo complete.
+Exiting QEMU.
+exit=0
+
+## Repository state AFTER
+--- after: /Users/vesahe/Downloads/maataa-ui-full-alpha7
+commit: 9c8d8433a86ec76da3bfb63e49a3ab423c231020
+branch: feat/alpha8.7-composition-kernel
+status (porcelain):
+     M apps/maataa-desktop-tauri/README.md
+     M apps/maataa-desktop-tauri/src-tauri/Cargo.lock
+     M apps/maataa-desktop-tauri/src-tauri/Cargo.toml
+     M apps/maataa-desktop-tauri/src-tauri/src/main.rs
+     M apps/maataa-desktop-tauri/web/app.js
+     M apps/maataa-desktop-tauri/web/index.html
+     M apps/maataa-desktop-tauri/web/style.css
+     M apps/tlp-film/src/main.tsx
+     M apps/tlps/src/main.tsx
+     M docs/product/TAURI-DESKTOP-ROADMAP.md
+     M examples/redux-demo/App.tsx
+     M examples/redux-demo/BrahminiWorkbench.tsx
+     M examples/redux-demo/brahmini.css
+     M examples/support-center/electron/desktop-shell.css
+     M examples/support-center/electron/desktop-shell.html
+     M examples/support-center/electron/desktop-shell.mjs
+     M package.json
+     M scripts/build-tauri-desktop-products.mjs
+     M tests/desktop-tauri-trial.spec.ts
+     M tests/e2e/brahmini-workbench.spec.ts
+     M tests/e2e/desktop-shell.spec.ts
+    ?? apps/shared/contracts/
+    ?? apps/shared/maataa-workspace.ts
+    ?? docs/product/PHASE-ZERO-AUTHORITY-BASELINE.md
+    ?? docs/product/PHASES-1-5-INTEGRATION-STATUS.md
+    ?? docs/product/evidence/
+    ?? examples/redux-demo/pointerContext.ts
+    ?? scripts/collect-runtime-evidence.sh
+    ?? tests/contracts/
+    ?? tsconfig.contracts.json
+--- after: /Users/vesahe/Documents/Repos/allb.xyz
+commit: de82c3691ae3ebdf6607cbcdf79d5e7c4e2d5378
+branch: codex/phase1-reproducible
+status (porcelain):
+     M Cargo.toml
+     D docs/BRAHMI_FONT_PROTOTYPE.md
+     D package-lock.json
+    ?? docs/AGI_BRIDGE_ROADMAP.md
+    ?? pnpm-lock.yaml
+    ?? pnpm-workspace.yaml
+    ?? src/bin/maataa_shell.rs
+--- after: /Users/vesahe/revenue/live/maataa-os
+commit: 50fce492e9db0c0f88839a1cf03932709ef24b09
+branch: main
+status (porcelain):
+
+## Summary
+- PASS | alpha7 contracts typecheck
+- PASS | alpha7 contract tests
+- PASS | alpha7 Tauri cargo test
+- PASS | ALLB contract drift check
+- PASS | ALLB: cargo fetch --locked (network, ~/.cargo only)
+- PASS | ALLB cargo test (default members: runtime + siddham-contracts)
+- PASS | ALLB cargo test (Siddham Authority desktop)
+- PASS | maataa-os: cargo fetch --locked (network, ~/.cargo only)
+- PASS | maataa-os host unit tests
+- PASS | maataa-os cargo check (thumbv7em-none-eabihf)
+- PASS | maataa-os release build (thumbv7em-none-eabihf)
+- PASS | maataa-os size check (<= 524288 bytes text+data)
+- PASS | maataa-os QEMU boot (netduinoplus2, 60s limit)
+external repos unchanged: yes
+build outputs: /Users/vesahe/maataa-evidence-build (outside all repositories; safe to delete)
+
+Evidence log: /Users/vesahe/Downloads/maataa-ui-full-alpha7/docs/product/evidence/runtime-evidence-20261009T003534Z.log

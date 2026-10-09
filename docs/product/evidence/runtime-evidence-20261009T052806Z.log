@@ -1,0 +1,1239 @@
+# MAATAA runtime evidence 20261009T052806Z
+host: Darwin Vesahes-MacBook-Pro.local 27.0.0 Darwin Kernel Version 27.0.0: Tue Aug 11 21:06:24 PDT 2026; root:xnu-13432.1.9~1/RELEASE_ARM64_T6030 arm64
+free space on $HOME volume: 38 GB (minimum required: 15 GB)
+
+## Tool versions
+cargo: cargo 1.91.0 (ea2d97820 2025-10-10)
+rustc: rustc 1.91.0 (f8297e351 2025-10-28)
+rustup: rustup 1.29.1 (d95a37b6a 2026-08-13)
+node: v22.22.3
+pnpm: 12.6.0
+qemu-system-arm: QEMU emulator version 11.1.2
+arm-none-eabi-size: GNU size (Arm GNU Toolchain 14.3.Rel1 (Build arm-14.174)) 2.44.0.20250616
+crate fetch allowed: 0
+
+## Repository state BEFORE
+--- before: /Users/vesahe/Downloads/maataa-ui-full-alpha7
+commit: 9c8d8433a86ec76da3bfb63e49a3ab423c231020
+branch: feat/alpha8.7-composition-kernel
+status (porcelain):
+     M apps/maataa-desktop-tauri/README.md
+     M apps/maataa-desktop-tauri/src-tauri/Cargo.lock
+     M apps/maataa-desktop-tauri/src-tauri/Cargo.toml
+     M apps/maataa-desktop-tauri/src-tauri/src/main.rs
+     M apps/maataa-desktop-tauri/web/app.js
+     M apps/maataa-desktop-tauri/web/index.html
+     M apps/maataa-desktop-tauri/web/style.css
+     M apps/tlp-film/src/main.tsx
+     M apps/tlps/src/main.tsx
+     M apps/tlps/tsconfig.json
+     M apps/tlps/vite.config.mjs
+     M docs/product/TAURI-DESKTOP-ROADMAP.md
+     M examples/redux-demo/App.tsx
+     M examples/redux-demo/BrahminiWorkbench.tsx
+     M examples/redux-demo/brahmini-runtime.mjs
+     M examples/redux-demo/brahmini.css
+     M examples/support-center/electron/desktop-shell.css
+     M examples/support-center/electron/desktop-shell.html
+     M examples/support-center/electron/desktop-shell.mjs
+     M package.json
+     M scripts/build-tauri-desktop-products.mjs
+     M tests/desktop-tauri-trial.spec.ts
+     M tests/e2e/brahmini-workbench.spec.ts
+     M tests/e2e/desktop-shell.spec.ts
+    ?? apps/hemant-observatory/
+    ?? apps/maataa-desktop-tauri/src-tauri/src/project_link.rs
+    ?? apps/maataa-desktop-tauri/web/spacecraft-app.js
+    ?? apps/maataa-desktop-tauri/web/spacecraft-model.mjs
+    ?? apps/shared/contracts/
+    ?? apps/shared/maataa-workspace.ts
+    ?? apps/tlps/src/IdeaToScript.tsx
+    ?? apps/tlps/src/idea-to-script.css
+    ?? docs/product/CLAUDE-HEMANT-TO-TLPS-EXECUTION-PROMPT.md
+    ?? docs/product/MAATAA-AUTHORITY-MAP.md
+    ?? docs/product/MAATAA-ORGANIC-ROADMAP.md
+    ?? docs/product/MAATAA-ROADMAP.md
+    ?? docs/product/PHASE-ZERO-AUTHORITY-BASELINE.md
+    ?? docs/product/PHASES-1-5-INTEGRATION-STATUS.md
+    ?? docs/product/evidence/
+    ?? examples/redux-demo/pointerContext.ts
+    ?? playwright.tlps-idea-to-script.config.ts
+    ?? scripts/collect-runtime-evidence.sh
+    ?? scripts/run-allb-live-handshake.sh
+    ?? scripts/run-tlps-idea-to-script-checks.sh
+    ?? tests/contracts/
+    ?? tests/e2e/tlps-idea-to-script.spec.ts
+    ?? tests/spacecraft-model.test.mjs
+    ?? tsconfig.contracts.json
+--- before: /Users/vesahe/Documents/Repos/allb.xyz
+commit: de82c3691ae3ebdf6607cbcdf79d5e7c4e2d5378
+branch: codex/phase1-reproducible
+status (porcelain):
+     M Cargo.toml
+     D docs/BRAHMI_FONT_PROTOTYPE.md
+     M docs/CONTRACTS.md
+     D package-lock.json
+     M services/edge_worker/src/index.ts
+     M src/lib.rs
+     M src/runtime_contract.rs
+     M tests/worker.test.ts
+    ?? docs/AGI_BRIDGE_ROADMAP.md
+    ?? pnpm-lock.yaml
+    ?? pnpm-workspace.yaml
+    ?? src/bin/maataa_shell.rs
+--- before: /Users/vesahe/revenue/live/maataa-os
+commit: 50fce492e9db0c0f88839a1cf03932709ef24b09
+branch: main
+status (porcelain):
+     M crates/hemant-core/src/lib.rs
+     M crates/hemant-core/src/time/mod.rs
+
+## Checks
+
+### alpha7 contracts typecheck
+$ (cd /Users/vesahe/Downloads/maataa-ui-full-alpha7 && node node_modules/typescript/bin/tsc -p tsconfig.contracts.json)
+exit=0
+
+### alpha7 contract tests
+$ (cd /Users/vesahe/Downloads/maataa-ui-full-alpha7 && bash -c node --experimental-strip-types --no-warnings --test tests/contracts/*.contract-spec.ts)
+TAP version 13
+# Subtest: allowlist contains only the digest-bound TLPS intake action
+ok 1 - allowlist contains only the digest-bound TLPS intake action
+  ---
+  duration_ms: 2.349709
+  type: 'test'
+  ...
+# Subtest: planning never commits and is marked non-executing
+ok 2 - planning never commits and is marked non-executing
+  ---
+  duration_ms: 12.278125
+  type: 'test'
+  ...
+# Subtest: execution requires matching approval, then commits exactly once
+ok 3 - execution requires matching approval, then commits exactly once
+  ---
+  duration_ms: 3.434333
+  type: 'test'
+  ...
+# Subtest: non-allowlisted actions are refused even with an approval
+ok 4 - non-allowlisted actions are refused even with an approval
+  ---
+  duration_ms: 0.525458
+  type: 'test'
+  ...
+# Subtest: existing TLPS project blocks execution and nothing is committed
+ok 5 - existing TLPS project blocks execution and nothing is committed
+  ---
+  duration_ms: 1.162958
+  type: 'test'
+  ...
+# Subtest: concurrent replay is refused; a failed host commit leaves the approval retryable
+ok 6 - concurrent replay is refused; a failed host commit leaves the approval retryable
+  ---
+  duration_ms: 0.892625
+  type: 'test'
+  ...
+# Subtest: store round-trips and verifies content hashes
+ok 7 - store round-trips and verifies content hashes
+  ---
+  duration_ms: 12.984917
+  type: 'test'
+  ...
+# Subtest: store fails closed on tampered content, missing content, bad events or unknown format
+ok 8 - store fails closed on tampered content, missing content, bad events or unknown format
+  ---
+  duration_ms: 1.598125
+  type: 'test'
+  ...
+# Subtest: the Brahmini script prompt is fixed, bounded and asks for screenplay format only
+ok 9 - the Brahmini script prompt is fixed, bounded and asks for screenplay format only
+  ---
+  duration_ms: 0.274417
+  type: 'test'
+  ...
+# Subtest: deterministic screenplay check: shape only, model-free
+ok 10 - deterministic screenplay check: shape only, model-free
+  ---
+  duration_ms: 1.05875
+  type: 'test'
+  ...
+# Subtest: Idea → Script end to end on one project ID: v1 idea, v2 idea + checked draft
+ok 11 - Idea → Script end to end on one project ID: v1 idea, v2 idea + checked draft
+  ---
+  duration_ms: 7.986833
+  type: 'test'
+  ...
+# Subtest: a draft failing the independent check cannot be approved
+ok 12 - a draft failing the independent check cannot be approved
+  ---
+  duration_ms: 1.869208
+  type: 'test'
+  ...
+# Subtest: forged 'passed' checks and swapped stored text are caught by re-running the check
+ok 13 - forged 'passed' checks and swapped stored text are caught by re-running the check
+  ---
+  duration_ms: 0.962625
+  type: 'test'
+  ...
+# Subtest: script drafts require an idea first and a chat/planner model role
+ok 14 - script drafts require an idea first and a chat/planner model role
+  ---
+  duration_ms: 0.5955
+  type: 'test'
+  ...
+# Subtest: Workstation mapping: seed fixtures refused, digests required, code qualification honoured only when real
+ok 15 - Workstation mapping: seed fixtures refused, digests required, code qualification honoured only when real
+  ---
+  duration_ms: 0.189916
+  type: 'test'
+  ...
+# Subtest: Workstation mapping: successful LTX job → video artifact with generator + Gemma text-encoder roles; failures refused
+ok 16 - Workstation mapping: successful LTX job → video artifact with generator + Gemma text-encoder roles; failures refused
+  ---
+  duration_ms: 0.250959
+  type: 'test'
+  ...
+# Subtest: real QEMU boot output parses into a provenance-bearing OS report with time unavailable
+ok 17 - real QEMU boot output parses into a provenance-bearing OS report with time unavailable
+  ---
+  duration_ms: 7.221958
+  type: 'test'
+  ...
+# Subtest: non-OS text, truncated reports and bad provenance fail closed
+ok 18 - non-OS text, truncated reports and bad provenance fail closed
+  ---
+  duration_ms: 0.31875
+  type: 'test'
+  ...
+# Subtest: the report never presents scheduler ticks as time
+ok 19 - the report never presents scheduler ticks as time
+  ---
+  duration_ms: 0.201459
+  type: 'test'
+  ...
+# Subtest: describes only role and accessible label, never field values or coordinates
+ok 20 - describes only role and accessible label, never field values or coordinates
+  ---
+  duration_ms: 26.952833
+  type: 'test'
+  ...
+# Subtest: cannot observe controls outside its root (other app surfaces) or another document
+ok 21 - cannot observe controls outside its root (other app surfaces) or another document
+  ---
+  duration_ms: 7.170167
+  type: 'test'
+  ...
+# Subtest: observer listens on its root only and detaches cleanly
+ok 22 - observer listens on its root only and detaches cleanly
+  ---
+  duration_ms: 3.407416
+  type: 'test'
+  ...
+# Subtest: observation is read-only: no clicks, typing, focus moves or value changes
+ok 23 - observation is read-only: no clicks, typing, focus moves or value changes
+  ---
+  duration_ms: 3.585958
+  type: 'test'
+  ...
+# Subtest: append assigns per-scope sequence, unverified host time and validates
+ok 24 - append assigns per-scope sequence, unverified host time and validates
+  ---
+  duration_ms: 1.271875
+  type: 'test'
+  ...
+# Subtest: cross-scope comparison is refused rather than inferred from timestamps
+ok 25 - cross-scope comparison is refused rather than inferred from timestamps
+  ---
+  duration_ms: 0.481209
+  type: 'test'
+  ...
+# Subtest: retention keeps the newest events up to the limit
+ok 26 - retention keeps the newest events up to the limit
+  ---
+  duration_ms: 12.026125
+  type: 'test'
+  ...
+# Subtest: payload refuses content fields: scripts, budgets, crew, personal data
+ok 27 - payload refuses content fields: scripts, budgets, crew, personal data
+  ---
+  duration_ms: 0.390791
+  type: 'test'
+  ...
+# Subtest: malformed and over-claiming records are rejected
+ok 28 - malformed and over-claiming records are rejected
+  ---
+  duration_ms: 0.167375
+  type: 'test'
+  ...
+# Subtest: checkOrdering detects duplicates and regressions per scope
+ok 29 - checkOrdering detects duplicates and regressions per scope
+  ---
+  duration_ms: 0.077667
+  type: 'test'
+  ...
+# Subtest: Tauri v1 index migrates to zero events; v2 events map compatibly without source mutation
+ok 30 - Tauri v1 index migrates to zero events; v2 events map compatibly without source mutation
+  ---
+  duration_ms: 0.302667
+  type: 'test'
+  ...
+# Subtest: Tauri migration fails closed on unsupported, oversized, or out-of-order indexes
+ok 31 - Tauri migration fails closed on unsupported, oversized, or out-of-order indexes
+  ---
+  duration_ms: 0.161833
+  type: 'test'
+  ...
+# Subtest: TLPS activity migrates as legacy-iso-unverified labels only
+ok 32 - TLPS activity migrates as legacy-iso-unverified labels only
+  ---
+  duration_ms: 0.397833
+  type: 'test'
+  ...
+# Subtest: Tauri v3 index: record-linked events keep their record version; bad versions are rejected
+ok 33 - Tauri v3 index: record-linked events keep their record version; bad versions are rejected
+  ---
+  duration_ms: 1.801209
+  type: 'test'
+  ...
+# Subtest: project ID is stable, opaque and validated
+ok 34 - project ID is stable, opaque and validated
+  ---
+  duration_ms: 11.568
+  type: 'test'
+  ...
+# Subtest: propose → preview → approve creates v1 then v2; all apps see the same ID and current version
+ok 35 - propose → preview → approve creates v1 then v2; all apps see the same ID and current version
+  ---
+  duration_ms: 7.644084
+  type: 'test'
+  ...
+# Subtest: a proposal from a stale copy is rejected as a conflict, never merged silently
+ok 36 - a proposal from a stale copy is rejected as a conflict, never merged silently
+  ---
+  duration_ms: 4.227541
+  type: 'test'
+  ...
+# Subtest: approval must match the exact preview; record input is never mutated
+ok 37 - approval must match the exact preview; record input is never mutated
+  ---
+  duration_ms: 2.140167
+  type: 'test'
+  ...
+# Subtest: models are recorded by role; a model name is never a qualification claim
+ok 38 - models are recorded by role; a model name is never a qualification claim
+  ---
+  duration_ms: 0.2205
+  type: 'test'
+  ...
+# Subtest: record holds references only: content fields and unsafe storage keys are rejected
+ok 39 - record holds references only: content fields and unsafe storage keys are rejected
+  ---
+  duration_ms: 0.08475
+  type: 'test'
+  ...
+# Subtest: corrupted records fail validation (version gaps, wrong current version, bad time basis)
+ok 40 - corrupted records fail validation (version gaps, wrong current version, bad time basis)
+  ---
+  duration_ms: 0.787083
+  type: 'test'
+  ...
+# Subtest: no transport configured reports unavailable, never connected
+ok 41 - no transport configured reports unavailable, never connected
+  ---
+  duration_ms: 0.880709
+  type: 'test'
+  ...
+# Subtest: ALLB-shaped health connects but leaves capabilities unreported
+ok 42 - ALLB-shaped health connects but leaves capabilities unreported
+  ---
+  duration_ms: 0.312917
+  type: 'test'
+  ...
+# Subtest: reported capabilities are passed through truthfully, including unavailable NPU
+ok 43 - reported capabilities are passed through truthfully, including unavailable NPU
+  ---
+  duration_ms: 0.187833
+  type: 'test'
+  ...
+# Subtest: fails closed on wrong identity, version, unknown fields, unhealthy, malformed
+ok 44 - fails closed on wrong identity, version, unknown fields, unhealthy, malformed
+  ---
+  duration_ms: 0.512333
+  type: 'test'
+  ...
+# Subtest: transport errors and timeouts are unavailable
+ok 45 - transport errors and timeouts are unavailable
+  ---
+  duration_ms: 61.066291
+  type: 'test'
+  ...
+# Subtest: rejects malformed request IDs before contacting the transport
+ok 46 - rejects malformed request IDs before contacting the transport
+  ---
+  duration_ms: 0.125625
+  type: 'test'
+  ...
+# Subtest: schema compatibility mirrors ALLB 1.0–1.1 rule
+ok 47 - schema compatibility mirrors ALLB 1.0–1.1 rule
+  ---
+  duration_ms: 0.127041
+  type: 'test'
+  ...
+# Subtest: loopback transport refuses non-loopback or credentialed URLs
+ok 48 - loopback transport refuses non-loopback or credentialed URLs
+  ---
+  duration_ms: 0.258167
+  type: 'test'
+  ...
+# Subtest: loopback transport reads /capabilities when the worker provides it
+ok 49 - loopback transport reads /capabilities when the worker provides it
+  ---
+  duration_ms: 18.747583
+  type: 'test'
+  ...
+# Subtest: capability report with a different contract version or extra fields fails closed
+ok 50 - capability report with a different contract version or extra fields fails closed
+  ---
+  duration_ms: 12.873125
+  type: 'test'
+  ...
+# Subtest: loopback HTTP transport performs a real request against a synthetic local server
+ok 51 - loopback HTTP transport performs a real request against a synthetic local server
+  ---
+  duration_ms: 1.730083
+  type: 'test'
+  ...
+# Subtest: gate fails closed with no runtime configured (current default state)
+ok 52 - gate fails closed with no runtime configured (current default state)
+  ---
+  duration_ms: 6.326333
+  type: 'test'
+  ...
+# Subtest: gate fails when health is fine but capabilities were not reported (ALLB HTTP today)
+ok 53 - gate fails when health is fine but capabilities were not reported (ALLB HTTP today)
+  ---
+  duration_ms: 0.985334
+  type: 'test'
+  ...
+# Subtest: gate fails on identity / version / health / capability mismatch
+ok 54 - gate fails on identity / version / health / capability mismatch
+  ---
+  duration_ms: 0.743
+  type: 'test'
+  ...
+# Subtest: gate passes only for a fully matching synthetic runtime, and still lists unverifiable claims
+ok 55 - gate passes only for a fully matching synthetic runtime, and still lists unverifiable claims
+  ---
+  duration_ms: 0.769792
+  type: 'test'
+  ...
+# Subtest: LIVE: real loopback runtime answers the handshake with expected identity and contract version
+ok 56 - LIVE: real loopback runtime answers the handshake with expected identity and contract version # SKIP MAATAA_RUNTIME_URL not set: live runtime check NOT RUN
+  ---
+  duration_ms: 0.06275
+  type: 'test'
+  ...
+# Subtest: LIVE: Desktop integration acceptance gate
+ok 57 - LIVE: Desktop integration acceptance gate # SKIP MAATAA_RUNTIME_URL not set: live runtime check NOT RUN
+  ---
+  duration_ms: 0.040292
+  type: 'test'
+  ...
+# Subtest: end to end: idea → labelled synthetic proposal → preview → approve → record + ordered history
+ok 58 - end to end: idea → labelled synthetic proposal → preview → approve → record + ordered history
+  ---
+  duration_ms: 17.908708
+  type: 'test'
+  ...
+# Subtest: nothing is written without an approval for the exact previewed digest
+ok 59 - nothing is written without an approval for the exact previewed digest
+  ---
+  duration_ms: 2.150458
+  type: 'test'
+  ...
+# Subtest: existing TLPS project is preserved: approval fails closed
+ok 60 - existing TLPS project is preserved: approval fails closed
+  ---
+  duration_ms: 1.78725
+  type: 'test'
+  ...
+# Subtest: rejection records history but returns no record
+ok 61 - rejection records history but returns no record
+  ---
+  duration_ms: 2.030917
+  type: 'test'
+  ...
+# Subtest: provider drafts are labelled as drafts and bounded to TLPS vocabulary
+ok 62 - provider drafts are labelled as drafts and bounded to TLPS vocabulary
+  ---
+  duration_ms: 1.730708
+  type: 'test'
+  ...
+1..62
+# tests 62
+# suites 0
+# pass 60
+# fail 0
+# cancelled 0
+# skipped 2
+# todo 0
+# duration_ms 335.857167
+exit=0
+
+### alpha7 Tauri cargo fmt --check
+$ (cd /Users/vesahe/Downloads/maataa-ui-full-alpha7/apps/maataa-desktop-tauri/src-tauri && cargo fmt --check)
+exit=0
+
+### alpha7 Tauri cargo test
+$ (cd /Users/vesahe/Downloads/maataa-ui-full-alpha7/apps/maataa-desktop-tauri/src-tauri && env CARGO_TARGET_DIR=/Users/vesahe/maataa-evidence-build/alpha7-tauri cargo test --offline --locked)
+   Compiling maataa-desktop-tauri v0.1.0 (/Users/vesahe/Downloads/maataa-ui-full-alpha7/apps/maataa-desktop-tauri/src-tauri)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.41s
+     Running unittests src/main.rs (/Users/vesahe/maataa-evidence-build/alpha7-tauri/debug/deps/maataa_desktop_tauri-95b12667c84368c8)
+
+running 14 tests
+test project_link::tests::versions_only_move_forward_and_replay_is_idempotent ... ok
+test tests::launcher_only_opens_bundled_product_entries ... ok
+test tests::browser_windows_have_independent_native_view_regions ... ok
+test project_link::tests::links_are_tlps_only_schema_pinned_and_bounded ... ok
+test tests::record_linked_entries_require_a_valid_tlps_record_id ... ok
+test tests::shared_project_entries_accept_only_bounded_local_product_metadata ... ok
+test project_link::tests::record_ids_must_be_lowercase_prefixed_uuids ... ok
+test tests::browser_child_labels_only_accept_app_created_windows ... ok
+test tests::rejects_local_and_credential_bearing_targets ... ok
+test tests::caps_project_activity_history_at_the_local_retention_limit ... ok
+test tests::accepts_public_web_addresses_and_searches ... ok
+test tests::shared_project_index_round_trips_through_local_file_storage ... ok
+test tests::upgrades_project_only_index_and_records_ordered_local_activity ... ok
+test tests::v2_index_loads_and_v3_round_trips_record_links_and_event_versions ... ok
+
+test result: ok. 14 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+exit=0
+
+NOTE: ALLB pins toolchain '1.91.0', which is not installed under that name.
+      Using installed 'stable-aarch64-apple-darwin' because it is the same rustc version (rustc 1.91.0 (f8297e351 2025-10-28)).
+      Pinned components/targets (clippy, rustfmt, wasm32) are not required by cargo test.
+
+### ALLB contract drift check
+$ (cd /Users/vesahe/Documents/Repos/allb.xyz && node scripts/generate-contracts.mjs --check)
+exit=0
+
+### ALLB cargo test (default members: runtime + siddham-contracts)
+$ (cd /Users/vesahe/Documents/Repos/allb.xyz && env CARGO_TARGET_DIR=/Users/vesahe/maataa-evidence-build/allb RUSTUP_TOOLCHAIN=stable-aarch64-apple-darwin cargo test --offline --locked)
+   Compiling maataa_sovereign_runtime v0.1.0 (/Users/vesahe/Documents/Repos/allb.xyz)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.42s
+     Running unittests src/lib.rs (/Users/vesahe/maataa-evidence-build/allb/debug/deps/maataa_runtime-a816c333027b500e)
+
+running 7 tests
+test runtime_contract::tests::reports_truthful_capabilities ... ok
+[MAATAA HAL] Physical /dev/mem unaccessible. Operating in HW Simulation Mode.
+test runtime_contract::tests::native_build_reports_native_mode_and_never_claims_the_npu ... ok
+test runtime_contract::tests::capability_json_matches_the_shared_contract_shape ... ok
+test maataa_runtime_pipeline::tests::test_full_script_pipeline_execution ... ok
+test runtime_contract::tests::every_sutra_the_sandhi_engine_cites_exists ... ok
+test runtime_contract::tests::executes_typed_tokenization ... ok
+test runtime_contract::tests::looks_up_real_sutras_with_attribution ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (/Users/vesahe/maataa-evidence-build/allb/debug/deps/maataa_kernel-9a716e7b31c35d8d)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/maataa_shell.rs (/Users/vesahe/maataa-evidence-build/allb/debug/deps/maataa_shell-5e1ca66cd0ab12db)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/replay_test.rs (/Users/vesahe/maataa-evidence-build/allb/debug/deps/replay_test-b69f335fe2622470)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (/Users/vesahe/maataa-evidence-build/allb/debug/deps/siddham_contracts-714aac4c81669ac0)
+
+running 3 tests
+test tests::valid_fixture_matches_contract ... ok
+test tests::unknown_action_fails_closed ... ok
+test tests::schema_compatibility_accepts_supported_minors_and_rejects_unknown_major ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests maataa_runtime
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests siddham_contracts
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+exit=0
+
+### ALLB cargo test (Siddham Authority desktop)
+$ (cd /Users/vesahe/Documents/Repos/allb.xyz && env CARGO_TARGET_DIR=/Users/vesahe/maataa-evidence-build/allb RUSTUP_TOOLCHAIN=stable-aarch64-apple-darwin cargo test --offline --locked -p siddham-authority-desktop)
+   Compiling maataa_sovereign_runtime v0.1.0 (/Users/vesahe/Documents/Repos/allb.xyz)
+   Compiling siddham-authority-desktop v0.1.0 (/Users/vesahe/Documents/Repos/allb.xyz/apps/siddham-authority-desktop/src-tauri)
+warning: unused import: `ProtectedAction`
+ --> apps/siddham-authority-desktop/src-tauri/src/commands.rs:4:75
+  |
+4 |         Effect, EvidenceEvent, GovernedOperationResult, OperationRequest, ProtectedAction,
+  |                                                                           ^^^^^^^^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: function `grant_delegation` is never used
+   --> apps/siddham-authority-desktop/src-tauri/src/approval.rs:166:8
+    |
+166 | pub fn grant_delegation(
+    |        ^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: function `delegation_valid` is never used
+   --> apps/siddham-authority-desktop/src-tauri/src/approval.rs:195:8
+    |
+195 | pub fn delegation_valid(
+    |        ^^^^^^^^^^^^^^^^
+
+warning: function `revoke_delegation` is never used
+   --> apps/siddham-authority-desktop/src-tauri/src/approval.rs:204:8
+    |
+204 | pub fn revoke_delegation(db: &Connection, id: &str, grantor: &str) -> Result<(), String> {
+    |        ^^^^^^^^^^^^^^^^^
+
+warning: function `request_emergency` is never used
+   --> apps/siddham-authority-desktop/src-tauri/src/approval.rs:217:8
+    |
+217 | pub fn request_emergency(
+    |        ^^^^^^^^^^^^^^^^^
+
+warning: function `review_emergency` is never used
+   --> apps/siddham-authority-desktop/src-tauri/src/approval.rs:233:8
+    |
+233 | pub fn review_emergency(
+    |        ^^^^^^^^^^^^^^^^
+
+warning: function `emergency_valid` is never used
+   --> apps/siddham-authority-desktop/src-tauri/src/approval.rs:261:8
+    |
+261 | pub fn emergency_valid(
+    |        ^^^^^^^^^^^^^^^
+
+warning: function `revoke_emergency` is never used
+   --> apps/siddham-authority-desktop/src-tauri/src/approval.rs:270:8
+    |
+270 | pub fn revoke_emergency(db: &Connection, id: &str, reviewer: &str) -> Result<(), String> {
+    |        ^^^^^^^^^^^^^^^^
+
+warning: function `execute_governed_local` is never used
+  --> apps/siddham-authority-desktop/src-tauri/src/commands.rs:37:4
+   |
+37 | fn execute_governed_local(
+   |    ^^^^^^^^^^^^^^^^^^^^^^
+
+warning: struct `PolicyRecord` is never constructed
+  --> apps/siddham-authority-desktop/src-tauri/src/policy.rs:25:12
+   |
+25 | pub struct PolicyRecord {
+   |            ^^^^^^^^^^^^
+
+warning: function `create_draft` is never used
+   --> apps/siddham-authority-desktop/src-tauri/src/policy.rs:153:8
+    |
+153 | pub fn create_draft(
+    |        ^^^^^^^^^^^^
+
+warning: function `simulate` is never used
+   --> apps/siddham-authority-desktop/src-tauri/src/policy.rs:172:8
+    |
+172 | pub fn simulate(
+    |        ^^^^^^^^
+
+warning: function `activate` is never used
+   --> apps/siddham-authority-desktop/src-tauri/src/policy.rs:207:8
+    |
+207 | pub fn activate(db: &mut Connection, policy_id: &str, actor: &str) -> Result<(), String> {
+    |        ^^^^^^^^
+
+warning: function `retire` is never used
+   --> apps/siddham-authority-desktop/src-tauri/src/policy.rs:223:8
+    |
+223 | pub fn retire(db: &mut Connection, policy_id: &str, actor: &str) -> Result<(), String> {
+    |        ^^^^^^
+
+warning: function `append_event` is never used
+   --> apps/siddham-authority-desktop/src-tauri/src/policy.rs:236:4
+    |
+236 | fn append_event(
+    |    ^^^^^^^^^^^^
+
+warning: function `get` is never used
+   --> apps/siddham-authority-desktop/src-tauri/src/policy.rs:246:4
+    |
+246 | fn get(db: &Connection, id: &str) -> rusqlite::Result<PolicyRecord> {
+    |    ^^^
+
+warning: `siddham-authority-desktop` (lib) generated 16 warnings (run `cargo fix --lib -p siddham-authority-desktop` to apply 1 suggestion)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.71s
+     Running unittests src/lib.rs (/Users/vesahe/maataa-evidence-build/allb/debug/deps/siddham_authority_desktop_lib-c3478c17ad336c03)
+
+running 31 tests
+test approval::tests::emergency_access_requires_independent_review ... ok
+test approval::tests::delegation_is_scoped_expiring_and_revocable ... ok
+test commands::tests::approval_decision_creates_a_bound_pending_inbox_item ... ok
+test commands::tests::each_permitted_execution_gets_exactly_one_operation_id ... ok
+test approval::tests::maker_cannot_self_approve_and_rejection_is_terminal ... ok
+test commands::tests::cross_workspace_substitution_is_rejected_before_policy_or_evidence ... ok
+test approval::tests::maker_can_cancel_only_while_pending ... ok
+test approval::tests::quorum_requires_distinct_eligible_approvers ... ok
+test approval::tests::mismatched_or_expired_approval_fails_closed ... ok
+test executor::tests::every_action_has_registry_metadata ... ok
+test approval::tests::maker_checker_approval_is_bound_and_consumed_once ... ok
+test commands::tests::cancelled_pending_execution_cannot_resume ... ok
+test commands::tests::approved_dataset_export_resumes_once_through_the_registry ... ok
+test commands::tests::request_cannot_choose_a_more_privileged_principal_or_assurance ... ok
+test evidence::tests::linked_authorization_and_execution_verify ... ok
+test commands::tests::permitted_operation_executes_and_links_evidence ... ok
+test commands::tests::unavailable_action_is_recorded_but_never_executed ... ok
+test evidence::tests::tampered_execution_breaks_verification ... ok
+test executor::tests::dataset_export_is_real_but_manifest_only ... ok
+test executor::tests::unavailable_hardware_fails_before_dispatch ... ok
+test identity::tests::expired_and_revoked_sessions_fail_closed ... ok
+test identity::tests::federation_is_empty_until_real_configuration_exists ... ok
+test evidence::tests::execution_outbox_failure_rolls_back_execution ... ok
+test commands::tests::request_replay_is_rejected_without_second_execution_or_evidence ... ok
+test identity::tests::device_revocation_invalidates_its_sessions ... ok
+test policy::tests::active_policy_permits_runtime ... ok
+test identity::tests::workspace_membership_is_not_substitutable ... ok
+test policy::tests::draft_simulation_does_not_activate_policy ... ok
+test policy::tests::activation_retires_previous_policy_with_provenance ... ok
+test policy::tests::retiring_the_active_policy_causes_default_deny ... ok
+test policy::tests::deny_overrides_and_all_actions_are_covered ... ok
+
+test result: ok. 31 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.17s
+
+     Running unittests src/main.rs (/Users/vesahe/maataa-evidence-build/allb/debug/deps/siddham_authority_desktop-d2e0ec313a68d765)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests siddham_authority_desktop_lib
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+exit=0
+
+### maataa-os host unit tests
+$ (cd /Users/vesahe/revenue/live/maataa-os && env CARGO_TARGET_DIR=/Users/vesahe/maataa-evidence-build/maataa-os cargo test --offline --locked --lib --target aarch64-apple-darwin)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.08s
+     Running unittests src/lib.rs (/Users/vesahe/maataa-evidence-build/maataa-os/aarch64-apple-darwin/debug/deps/maataa_os-c84aded24e1c6dda)
+
+running 31 tests
+test capsule::tests::loads_capsules_and_tracks_memory ... ok
+test capsule::tests::rejects_capsules_when_table_is_full ... ok
+test capsule::tests::rejects_capsules_when_memory_budget_is_exceeded ... ok
+test drivers::tests::init_marks_all_virtual_drivers_ready ... ok
+test capsule::tests::scheduler_cycle_increments_loaded_capsules_only ... ok
+test drivers::spi::tests::rejects_zero_factory_masks ... ok
+test drivers::spi::tests::accepts_nonzero_factory_masks_with_armed_status ... ok
+test drivers::tests::starts_degraded_until_drivers_are_initialized ... ok
+test drivers::spi::tests::volatile_reader_uses_supplied_register_window ... ok
+test drivers::tests::poll_increments_ready_driver_counters ... ok
+test ipc::comm::tests::rejects_tampered_comm_frame ... ok
+test ipc::comm::tests::signs_and_round_trips_comm_frame ... ok
+test ipc::frame::tests::clears_small_buffer_on_failure ... ok
+test ipc::frame::tests::rejects_bad_checksum ... ok
+test ipc::frame::tests::serializes_exact_mosf_layout ... ok
+test ipc::frame::tests::serializes_exact_mosr_layout ... ok
+test ipc::frame::tests::writes_mosr_rescue_frame ... ok
+test ipc::frame::tests::writes_recovery_frame_when_snapshot_is_invalid ... ok
+test ipc::radio::tests::triggers_and_serializes_radio_slot ... ok
+test ipc::terminal::tests::clears_small_output_on_error ... ok
+test ipc::terminal::tests::writes_and_serializes_fixed_grid ... ok
+test ipc::verification::tests::embedded_reference_certifies_all_gates ... ok
+test ipc::verification::tests::rejects_governance_register_drift ... ok
+test ipc::verification::tests::rejects_invalid_magv_boundary ... ok
+test ipc::verification::tests::rejects_unremediated_gap_state ... ok
+test storage::flash::tests::model_to_database_transition_is_allowed ... ok
+test storage::flash::tests::model_to_kernel_crosstalk_is_blocked_without_wp_pin ... ok
+test storage::flash::tests::unknown_address_is_rejected ... ok
+test storage::flash::tests::write_protect_blocks_kernel_target ... ok
+test storage::tests::mount_and_manifest_update_are_recorded ... ok
+test storage::tests::starts_unmounted_with_default_manifest ... ok
+
+test result: ok. 31 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+exit=0
+
+### maataa-os cargo check (thumbv7em-none-eabihf)
+$ (cd /Users/vesahe/revenue/live/maataa-os && env CARGO_TARGET_DIR=/Users/vesahe/maataa-evidence-build/maataa-os cargo check --offline --locked --target thumbv7em-none-eabihf)
+warning: enum `DriverError` is never used
+ --> src/drivers/mod.rs:8:10
+  |
+8 | pub enum DriverError {
+  |          ^^^^^^^^^^^
+  |
+  = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: trait `Driver` is never used
+  --> src/drivers/mod.rs:13:11
+   |
+13 | pub trait Driver {
+   |           ^^^^^^
+
+warning: constant `ROOT_OF_TRUST_MMIO_BASE` is never used
+ --> src/drivers/spi.rs:5:11
+  |
+5 | pub const ROOT_OF_TRUST_MMIO_BASE: usize = 0xFE00_1000;
+  |           ^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: constant `FACTORY_MASK_A_OFFSET` is never used
+ --> src/drivers/spi.rs:6:7
+  |
+6 | const FACTORY_MASK_A_OFFSET: usize = 0x00;
+  |       ^^^^^^^^^^^^^^^^^^^^^
+
+warning: constant `FACTORY_MASK_B_OFFSET` is never used
+ --> src/drivers/spi.rs:7:7
+  |
+7 | const FACTORY_MASK_B_OFFSET: usize = 0x04;
+  |       ^^^^^^^^^^^^^^^^^^^^^
+
+warning: constant `STATUS_OFFSET` is never used
+ --> src/drivers/spi.rs:8:7
+  |
+8 | const STATUS_OFFSET: usize = 0x08;
+  |       ^^^^^^^^^^^^^
+
+warning: constant `EXPECTED_STATUS_ARMED` is never used
+ --> src/drivers/spi.rs:9:7
+  |
+9 | const EXPECTED_STATUS_ARMED: u32 = 0x4D53_4152;
+  |       ^^^^^^^^^^^^^^^^^^^^^
+
+warning: struct `SpiDriver` is never constructed
+  --> src/drivers/spi.rs:11:12
+   |
+11 | pub struct SpiDriver {
+   |            ^^^^^^^^^
+
+warning: enum `SpiMode` is never used
+  --> src/drivers/spi.rs:18:10
+   |
+18 | pub enum SpiMode {
+   |          ^^^^^^^
+
+warning: struct `SiliconAttestation` is never constructed
+  --> src/drivers/spi.rs:26:12
+   |
+26 | pub struct SiliconAttestation {
+   |            ^^^^^^^^^^^^^^^^^^
+
+warning: struct `HardwareRootOfTrust` is never constructed
+  --> src/drivers/spi.rs:33:12
+   |
+33 | pub struct HardwareRootOfTrust {
+   |            ^^^^^^^^^^^^^^^^^^^
+
+warning: associated items `new`, `from_base`, `read_attestation`, and `read_register` are never used
+  --> src/drivers/spi.rs:38:18
+   |
+37 | impl HardwareRootOfTrust {
+   | ------------------------ associated items in this implementation
+38 |     pub const fn new() -> Self {
+   |                  ^^^
+...
+44 |     pub const fn from_base(base: *const u32) -> Self {
+   |                  ^^^^^^^^^
+...
+48 |     pub fn read_attestation(&self) -> Result<SiliconAttestation, DriverError> {
+   |            ^^^^^^^^^^^^^^^^
+...
+60 |     fn read_register(&self, offset: usize) -> u32 {
+   |        ^^^^^^^^^^^^^
+
+warning: associated items `new`, `transfer`, `set_frequency`, `set_mode`, and `verify_root_of_trust` are never used
+  --> src/drivers/spi.rs:67:18
+   |
+66 | impl SpiDriver {
+   | -------------- associated items in this implementation
+67 |     pub const fn new() -> Self {
+   |                  ^^^
+...
+75 |     pub fn transfer(&self, tx_data: &[u8], rx_data: &mut [u8]) -> Result<usize, DriverError> {
+   |            ^^^^^^^^
+...
+85 |     pub fn set_frequency(&mut self, frequency: u32) -> Result<(), DriverError> {
+   |            ^^^^^^^^^^^^^
+...
+94 |     pub fn set_mode(&mut self, mode: SpiMode) {
+   |            ^^^^^^^^
+...
+98 |     pub fn verify_root_of_trust(&self, root: HardwareRootOfTrust) -> Result<SiliconAttestation, DriverError> {
+   |            ^^^^^^^^^^^^^^^^^^^^
+
+warning: function `validate_attestation` is never used
+   --> src/drivers/spi.rs:122:8
+    |
+122 | pub fn validate_attestation(attestation: SiliconAttestation) -> Result<SiliconAttestation, DriverError> {
+    |        ^^^^^^^^^^^^^^^^^^^^
+
+warning: struct `SpiCell` is never constructed
+   --> src/drivers/spi.rs:130:8
+    |
+130 | struct SpiCell(UnsafeCell<SpiDriver>);
+    |        ^^^^^^^
+
+warning: static `SPI` is never used
+   --> src/drivers/spi.rs:134:8
+    |
+134 | static SPI: SpiCell = SpiCell(UnsafeCell::new(SpiDriver::new()));
+    |        ^^^
+
+warning: function `init` is never used
+   --> src/drivers/spi.rs:136:8
+    |
+136 | pub fn init() -> Result<(), DriverError> {
+    |        ^^^^
+
+warning: function `transfer` is never used
+   --> src/drivers/spi.rs:140:8
+    |
+140 | pub fn transfer(tx_data: &[u8], rx_data: &mut [u8]) -> Result<usize, DriverError> {
+    |        ^^^^^^^^
+
+warning: function `verify_hardware_root_of_trust` is never used
+   --> src/drivers/spi.rs:144:8
+    |
+144 | pub fn verify_hardware_root_of_trust() -> Result<SiliconAttestation, DriverError> {
+    |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: `maataa-os` (bin "maataa-os") generated 19 warnings
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.03s
+exit=0
+
+### maataa-os release build (thumbv7em-none-eabihf)
+$ (cd /Users/vesahe/revenue/live/maataa-os && env CARGO_TARGET_DIR=/Users/vesahe/maataa-evidence-build/maataa-os cargo build --offline --locked --release --target thumbv7em-none-eabihf)
+warning: enum `DriverError` is never used
+ --> src/drivers/mod.rs:8:10
+  |
+8 | pub enum DriverError {
+  |          ^^^^^^^^^^^
+  |
+  = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: trait `Driver` is never used
+  --> src/drivers/mod.rs:13:11
+   |
+13 | pub trait Driver {
+   |           ^^^^^^
+
+warning: constant `ROOT_OF_TRUST_MMIO_BASE` is never used
+ --> src/drivers/spi.rs:5:11
+  |
+5 | pub const ROOT_OF_TRUST_MMIO_BASE: usize = 0xFE00_1000;
+  |           ^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: constant `FACTORY_MASK_A_OFFSET` is never used
+ --> src/drivers/spi.rs:6:7
+  |
+6 | const FACTORY_MASK_A_OFFSET: usize = 0x00;
+  |       ^^^^^^^^^^^^^^^^^^^^^
+
+warning: constant `FACTORY_MASK_B_OFFSET` is never used
+ --> src/drivers/spi.rs:7:7
+  |
+7 | const FACTORY_MASK_B_OFFSET: usize = 0x04;
+  |       ^^^^^^^^^^^^^^^^^^^^^
+
+warning: constant `STATUS_OFFSET` is never used
+ --> src/drivers/spi.rs:8:7
+  |
+8 | const STATUS_OFFSET: usize = 0x08;
+  |       ^^^^^^^^^^^^^
+
+warning: constant `EXPECTED_STATUS_ARMED` is never used
+ --> src/drivers/spi.rs:9:7
+  |
+9 | const EXPECTED_STATUS_ARMED: u32 = 0x4D53_4152;
+  |       ^^^^^^^^^^^^^^^^^^^^^
+
+warning: struct `SpiDriver` is never constructed
+  --> src/drivers/spi.rs:11:12
+   |
+11 | pub struct SpiDriver {
+   |            ^^^^^^^^^
+
+warning: enum `SpiMode` is never used
+  --> src/drivers/spi.rs:18:10
+   |
+18 | pub enum SpiMode {
+   |          ^^^^^^^
+
+warning: struct `SiliconAttestation` is never constructed
+  --> src/drivers/spi.rs:26:12
+   |
+26 | pub struct SiliconAttestation {
+   |            ^^^^^^^^^^^^^^^^^^
+
+warning: struct `HardwareRootOfTrust` is never constructed
+  --> src/drivers/spi.rs:33:12
+   |
+33 | pub struct HardwareRootOfTrust {
+   |            ^^^^^^^^^^^^^^^^^^^
+
+warning: associated items `new`, `from_base`, `read_attestation`, and `read_register` are never used
+  --> src/drivers/spi.rs:38:18
+   |
+37 | impl HardwareRootOfTrust {
+   | ------------------------ associated items in this implementation
+38 |     pub const fn new() -> Self {
+   |                  ^^^
+...
+44 |     pub const fn from_base(base: *const u32) -> Self {
+   |                  ^^^^^^^^^
+...
+48 |     pub fn read_attestation(&self) -> Result<SiliconAttestation, DriverError> {
+   |            ^^^^^^^^^^^^^^^^
+...
+60 |     fn read_register(&self, offset: usize) -> u32 {
+   |        ^^^^^^^^^^^^^
+
+warning: associated items `new`, `transfer`, `set_frequency`, `set_mode`, and `verify_root_of_trust` are never used
+  --> src/drivers/spi.rs:67:18
+   |
+66 | impl SpiDriver {
+   | -------------- associated items in this implementation
+67 |     pub const fn new() -> Self {
+   |                  ^^^
+...
+75 |     pub fn transfer(&self, tx_data: &[u8], rx_data: &mut [u8]) -> Result<usize, DriverError> {
+   |            ^^^^^^^^
+...
+85 |     pub fn set_frequency(&mut self, frequency: u32) -> Result<(), DriverError> {
+   |            ^^^^^^^^^^^^^
+...
+94 |     pub fn set_mode(&mut self, mode: SpiMode) {
+   |            ^^^^^^^^
+...
+98 |     pub fn verify_root_of_trust(&self, root: HardwareRootOfTrust) -> Result<SiliconAttestation, DriverError> {
+   |            ^^^^^^^^^^^^^^^^^^^^
+
+warning: function `validate_attestation` is never used
+   --> src/drivers/spi.rs:122:8
+    |
+122 | pub fn validate_attestation(attestation: SiliconAttestation) -> Result<SiliconAttestation, DriverError> {
+    |        ^^^^^^^^^^^^^^^^^^^^
+
+warning: struct `SpiCell` is never constructed
+   --> src/drivers/spi.rs:130:8
+    |
+130 | struct SpiCell(UnsafeCell<SpiDriver>);
+    |        ^^^^^^^
+
+warning: static `SPI` is never used
+   --> src/drivers/spi.rs:134:8
+    |
+134 | static SPI: SpiCell = SpiCell(UnsafeCell::new(SpiDriver::new()));
+    |        ^^^
+
+warning: function `init` is never used
+   --> src/drivers/spi.rs:136:8
+    |
+136 | pub fn init() -> Result<(), DriverError> {
+    |        ^^^^
+
+warning: function `transfer` is never used
+   --> src/drivers/spi.rs:140:8
+    |
+140 | pub fn transfer(tx_data: &[u8], rx_data: &mut [u8]) -> Result<usize, DriverError> {
+    |        ^^^^^^^^
+
+warning: function `verify_hardware_root_of_trust` is never used
+   --> src/drivers/spi.rs:144:8
+    |
+144 | pub fn verify_hardware_root_of_trust() -> Result<SiliconAttestation, DriverError> {
+    |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: `maataa-os` (bin "maataa-os") generated 19 warnings
+    Finished `release` profile [optimized] target(s) in 0.05s
+exit=0
+binary sha256: 947213ed4d629abd0085fb8f488041e9c01a8988f3d2777d29cd0456b7990b85
+
+### maataa-os size check (<= 524288 bytes text+data)
+$ (cd /Users/vesahe/revenue/live/maataa-os && bash -c arm-none-eabi-size '/Users/vesahe/maataa-evidence-build/maataa-os/thumbv7em-none-eabihf/release/maataa-os' && test $(arm-none-eabi-size -B '/Users/vesahe/maataa-evidence-build/maataa-os/thumbv7em-none-eabihf/release/maataa-os' | tail -1 | awk '{print $1+$2}') -le 524288)
+   text	   data	    bss	    dec	    hex	filename
+  15752	      0	      8	  15760	   3d90	/Users/vesahe/maataa-evidence-build/maataa-os/thumbv7em-none-eabihf/release/maataa-os
+exit=0
+
+### maataa-os QEMU boot (netduinoplus2, 60s limit)
+$ (cd /Users/vesahe/revenue/live/maataa-os && perl -e alarm 60; exec @ARGV qemu-system-arm -machine netduinoplus2 -cpu cortex-m4 -kernel /Users/vesahe/maataa-evidence-build/maataa-os/thumbv7em-none-eabihf/release/maataa-os -nographic -semihosting -semihosting-config enable=on,target=native -serial mon:stdio)
+Maataa OS starting in QEMU...
+Cortex-M semihosting prototype boot
+Starting Maataa OS kernel...
+================================
+initializing driver registry...
+  driver uart ready
+  driver gpio ready
+  driver spi ready
+  driver i2c ready
+  driver power ready
+storage mounted: virtual flash
+storage manifest committed
+capsule loaded: telemetry (251 bytes)
+capsule loaded: control (23 bytes)
+
+Boot report
+-----------
+drivers: 5/5 ready
+storage mounted: true
+manifest: maataa-os 0.1.0-alpha.1
+capsules loaded: 2
+capsule memory: 274/65536 bytes
+telemetry capsule id: Ok(0)
+control capsule id: Ok(1)
+
+Native local engines
+--------------------
+terminal grid: 80x40
+comm frame signed: true
+radio channel lock: 122
+verification status: 31
+verification certified: true
+
+Scheduler simulation
+--------------------
+tick 1
+  capsule[0] telemetry cycle 1 at tick 1 (251 bytes)
+  capsule[1] control cycle 1 at tick 1 (23 bytes)
+health: nominal
+tick 2
+  capsule[0] telemetry cycle 2 at tick 2 (251 bytes)
+  capsule[1] control cycle 2 at tick 2 (23 bytes)
+health: nominal
+tick 3
+  drivers sampled virtual GPIO and power rails
+  capsule[0] telemetry cycle 3 at tick 3 (251 bytes)
+  capsule[1] control cycle 3 at tick 3 (23 bytes)
+health: nominal
+tick 4
+  capsule[0] telemetry cycle 4 at tick 4 (251 bytes)
+  capsule[1] control cycle 4 at tick 4 (23 bytes)
+health: nominal
+tick 5
+  capsule[0] telemetry cycle 5 at tick 5 (251 bytes)
+  capsule[1] control cycle 5 at tick 5 (23 bytes)
+health: nominal
+tick 6
+  capsule[0] telemetry cycle 6 at tick 6 (251 bytes)
+  capsule[1] control cycle 6 at tick 6 (23 bytes)
+health: nominal
+
+Maataa OS prototype demo complete.
+Exiting QEMU.
+exit=0
+
+## Repository state AFTER
+--- after: /Users/vesahe/Downloads/maataa-ui-full-alpha7
+commit: 9c8d8433a86ec76da3bfb63e49a3ab423c231020
+branch: feat/alpha8.7-composition-kernel
+status (porcelain):
+     M apps/maataa-desktop-tauri/README.md
+     M apps/maataa-desktop-tauri/src-tauri/Cargo.lock
+     M apps/maataa-desktop-tauri/src-tauri/Cargo.toml
+     M apps/maataa-desktop-tauri/src-tauri/src/main.rs
+     M apps/maataa-desktop-tauri/web/app.js
+     M apps/maataa-desktop-tauri/web/index.html
+     M apps/maataa-desktop-tauri/web/style.css
+     M apps/tlp-film/src/main.tsx
+     M apps/tlps/src/main.tsx
+     M apps/tlps/tsconfig.json
+     M apps/tlps/vite.config.mjs
+     M docs/product/TAURI-DESKTOP-ROADMAP.md
+     M examples/redux-demo/App.tsx
+     M examples/redux-demo/BrahminiWorkbench.tsx
+     M examples/redux-demo/brahmini-runtime.mjs
+     M examples/redux-demo/brahmini.css
+     M examples/support-center/electron/desktop-shell.css
+     M examples/support-center/electron/desktop-shell.html
+     M examples/support-center/electron/desktop-shell.mjs
+     M package.json
+     M scripts/build-tauri-desktop-products.mjs
+     M tests/desktop-tauri-trial.spec.ts
+     M tests/e2e/brahmini-workbench.spec.ts
+     M tests/e2e/desktop-shell.spec.ts
+    ?? apps/hemant-observatory/
+    ?? apps/maataa-desktop-tauri/src-tauri/src/project_link.rs
+    ?? apps/maataa-desktop-tauri/web/spacecraft-app.js
+    ?? apps/maataa-desktop-tauri/web/spacecraft-model.mjs
+    ?? apps/shared/contracts/
+    ?? apps/shared/maataa-workspace.ts
+    ?? apps/tlps/src/IdeaToScript.tsx
+    ?? apps/tlps/src/idea-to-script.css
+    ?? docs/product/CLAUDE-HEMANT-TO-TLPS-EXECUTION-PROMPT.md
+    ?? docs/product/MAATAA-AUTHORITY-MAP.md
+    ?? docs/product/MAATAA-ORGANIC-ROADMAP.md
+    ?? docs/product/MAATAA-ROADMAP.md
+    ?? docs/product/PHASE-ZERO-AUTHORITY-BASELINE.md
+    ?? docs/product/PHASES-1-5-INTEGRATION-STATUS.md
+    ?? docs/product/evidence/
+    ?? examples/redux-demo/pointerContext.ts
+    ?? playwright.tlps-idea-to-script.config.ts
+    ?? scripts/collect-runtime-evidence.sh
+    ?? scripts/run-allb-live-handshake.sh
+    ?? scripts/run-tlps-idea-to-script-checks.sh
+    ?? tests/contracts/
+    ?? tests/e2e/tlps-idea-to-script.spec.ts
+    ?? tests/spacecraft-model.test.mjs
+    ?? tsconfig.contracts.json
+--- after: /Users/vesahe/Documents/Repos/allb.xyz
+commit: de82c3691ae3ebdf6607cbcdf79d5e7c4e2d5378
+branch: codex/phase1-reproducible
+status (porcelain):
+     M Cargo.toml
+     D docs/BRAHMI_FONT_PROTOTYPE.md
+     M docs/CONTRACTS.md
+     D package-lock.json
+     M services/edge_worker/src/index.ts
+     M src/lib.rs
+     M src/runtime_contract.rs
+     M tests/worker.test.ts
+    ?? docs/AGI_BRIDGE_ROADMAP.md
+    ?? pnpm-lock.yaml
+    ?? pnpm-workspace.yaml
+    ?? src/bin/maataa_shell.rs
+--- after: /Users/vesahe/revenue/live/maataa-os
+commit: 50fce492e9db0c0f88839a1cf03932709ef24b09
+branch: main
+status (porcelain):
+     M crates/hemant-core/src/lib.rs
+     M crates/hemant-core/src/time/mod.rs
+
+## Summary
+- PASS | alpha7 contracts typecheck
+- PASS | alpha7 contract tests
+- PASS | alpha7 Tauri cargo fmt --check
+- PASS | alpha7 Tauri cargo test
+- PASS | ALLB contract drift check
+- PASS | ALLB cargo test (default members: runtime + siddham-contracts)
+- PASS | ALLB cargo test (Siddham Authority desktop)
+- PASS | maataa-os host unit tests
+- PASS | maataa-os cargo check (thumbv7em-none-eabihf)
+- PASS | maataa-os release build (thumbv7em-none-eabihf)
+- PASS | maataa-os size check (<= 524288 bytes text+data)
+- PASS | maataa-os QEMU boot (netduinoplus2, 60s limit)
+external repos unchanged: yes
+build outputs: /Users/vesahe/maataa-evidence-build (outside all repositories; safe to delete)
+
+Evidence log: /Users/vesahe/Downloads/maataa-ui-full-alpha7/docs/product/evidence/runtime-evidence-20261009T052806Z.log

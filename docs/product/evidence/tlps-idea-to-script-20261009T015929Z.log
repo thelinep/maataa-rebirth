@@ -1,0 +1,514 @@
+# TLPS Idea → Script checks 20261009T015929Z
+alpha7: 9c8d8433 (+ local edits)
+
+### contract typecheck
+$ node node_modules/typescript/bin/tsc -p tsconfig.contracts.json
+exit=0
+
+### contract tests
+$ bash -c node --experimental-strip-types --no-warnings --test tests/contracts/*.contract-spec.ts
+TAP version 13
+# Subtest: allowlist contains only the digest-bound TLPS intake action
+ok 1 - allowlist contains only the digest-bound TLPS intake action
+  ---
+  duration_ms: 1.381083
+  type: 'test'
+  ...
+# Subtest: planning never commits and is marked non-executing
+ok 2 - planning never commits and is marked non-executing
+  ---
+  duration_ms: 22.126667
+  type: 'test'
+  ...
+# Subtest: execution requires matching approval, then commits exactly once
+ok 3 - execution requires matching approval, then commits exactly once
+  ---
+  duration_ms: 2.387334
+  type: 'test'
+  ...
+# Subtest: non-allowlisted actions are refused even with an approval
+ok 4 - non-allowlisted actions are refused even with an approval
+  ---
+  duration_ms: 1.514667
+  type: 'test'
+  ...
+# Subtest: existing TLPS project blocks execution and nothing is committed
+ok 5 - existing TLPS project blocks execution and nothing is committed
+  ---
+  duration_ms: 3.40225
+  type: 'test'
+  ...
+# Subtest: concurrent replay is refused; a failed host commit leaves the approval retryable
+ok 6 - concurrent replay is refused; a failed host commit leaves the approval retryable
+  ---
+  duration_ms: 3.366916
+  type: 'test'
+  ...
+# Subtest: store round-trips and verifies content hashes
+ok 7 - store round-trips and verifies content hashes
+  ---
+  duration_ms: 16.747959
+  type: 'test'
+  ...
+# Subtest: store fails closed on tampered content, missing content, bad events or unknown format
+ok 8 - store fails closed on tampered content, missing content, bad events or unknown format
+  ---
+  duration_ms: 2.635333
+  type: 'test'
+  ...
+# Subtest: the Brahmini script prompt is fixed, bounded and asks for screenplay format only
+ok 9 - the Brahmini script prompt is fixed, bounded and asks for screenplay format only
+  ---
+  duration_ms: 0.305458
+  type: 'test'
+  ...
+# Subtest: deterministic screenplay check: shape only, model-free
+ok 10 - deterministic screenplay check: shape only, model-free
+  ---
+  duration_ms: 2.102458
+  type: 'test'
+  ...
+# Subtest: Idea → Script end to end on one project ID: v1 idea, v2 idea + checked draft
+ok 11 - Idea → Script end to end on one project ID: v1 idea, v2 idea + checked draft
+  ---
+  duration_ms: 24.891292
+  type: 'test'
+  ...
+# Subtest: a draft failing the independent check cannot be approved
+ok 12 - a draft failing the independent check cannot be approved
+  ---
+  duration_ms: 4.170458
+  type: 'test'
+  ...
+# Subtest: forged 'passed' checks and swapped stored text are caught by re-running the check
+ok 13 - forged 'passed' checks and swapped stored text are caught by re-running the check
+  ---
+  duration_ms: 4.838166
+  type: 'test'
+  ...
+# Subtest: script drafts require an idea first and a chat/planner model role
+ok 14 - script drafts require an idea first and a chat/planner model role
+  ---
+  duration_ms: 3.664041
+  type: 'test'
+  ...
+# Subtest: Workstation mapping: seed fixtures refused, digests required, code qualification honoured only when real
+ok 15 - Workstation mapping: seed fixtures refused, digests required, code qualification honoured only when real
+  ---
+  duration_ms: 0.290833
+  type: 'test'
+  ...
+# Subtest: Workstation mapping: successful LTX job → video artifact with generator + Gemma text-encoder roles; failures refused
+ok 16 - Workstation mapping: successful LTX job → video artifact with generator + Gemma text-encoder roles; failures refused
+  ---
+  duration_ms: 0.361458
+  type: 'test'
+  ...
+# Subtest: describes only role and accessible label, never field values or coordinates
+ok 17 - describes only role and accessible label, never field values or coordinates
+  ---
+  duration_ms: 31.38025
+  type: 'test'
+  ...
+# Subtest: cannot observe controls outside its root (other app surfaces) or another document
+ok 18 - cannot observe controls outside its root (other app surfaces) or another document
+  ---
+  duration_ms: 6.8135
+  type: 'test'
+  ...
+# Subtest: observer listens on its root only and detaches cleanly
+ok 19 - observer listens on its root only and detaches cleanly
+  ---
+  duration_ms: 6.206834
+  type: 'test'
+  ...
+# Subtest: observation is read-only: no clicks, typing, focus moves or value changes
+ok 20 - observation is read-only: no clicks, typing, focus moves or value changes
+  ---
+  duration_ms: 4.974
+  type: 'test'
+  ...
+# Subtest: append assigns per-scope sequence, unverified host time and validates
+ok 21 - append assigns per-scope sequence, unverified host time and validates
+  ---
+  duration_ms: 2.227083
+  type: 'test'
+  ...
+# Subtest: cross-scope comparison is refused rather than inferred from timestamps
+ok 22 - cross-scope comparison is refused rather than inferred from timestamps
+  ---
+  duration_ms: 0.944208
+  type: 'test'
+  ...
+# Subtest: retention keeps the newest events up to the limit
+ok 23 - retention keeps the newest events up to the limit
+  ---
+  duration_ms: 6.57725
+  type: 'test'
+  ...
+# Subtest: payload refuses content fields: scripts, budgets, crew, personal data
+ok 24 - payload refuses content fields: scripts, budgets, crew, personal data
+  ---
+  duration_ms: 0.948084
+  type: 'test'
+  ...
+# Subtest: malformed and over-claiming records are rejected
+ok 25 - malformed and over-claiming records are rejected
+  ---
+  duration_ms: 0.510583
+  type: 'test'
+  ...
+# Subtest: checkOrdering detects duplicates and regressions per scope
+ok 26 - checkOrdering detects duplicates and regressions per scope
+  ---
+  duration_ms: 0.338917
+  type: 'test'
+  ...
+# Subtest: Tauri v1 index migrates to zero events; v2 events map compatibly without source mutation
+ok 27 - Tauri v1 index migrates to zero events; v2 events map compatibly without source mutation
+  ---
+  duration_ms: 0.455
+  type: 'test'
+  ...
+# Subtest: Tauri migration fails closed on unsupported, oversized, or out-of-order indexes
+ok 28 - Tauri migration fails closed on unsupported, oversized, or out-of-order indexes
+  ---
+  duration_ms: 0.208375
+  type: 'test'
+  ...
+# Subtest: TLPS activity migrates as legacy-iso-unverified labels only
+ok 29 - TLPS activity migrates as legacy-iso-unverified labels only
+  ---
+  duration_ms: 0.414667
+  type: 'test'
+  ...
+# Subtest: project ID is stable, opaque and validated
+ok 30 - project ID is stable, opaque and validated
+  ---
+  duration_ms: 5.515125
+  type: 'test'
+  ...
+# Subtest: propose → preview → approve creates v1 then v2; all apps see the same ID and current version
+ok 31 - propose → preview → approve creates v1 then v2; all apps see the same ID and current version
+  ---
+  duration_ms: 10.096458
+  type: 'test'
+  ...
+# Subtest: a proposal from a stale copy is rejected as a conflict, never merged silently
+ok 32 - a proposal from a stale copy is rejected as a conflict, never merged silently
+  ---
+  duration_ms: 4.069042
+  type: 'test'
+  ...
+# Subtest: approval must match the exact preview; record input is never mutated
+ok 33 - approval must match the exact preview; record input is never mutated
+  ---
+  duration_ms: 3.152666
+  type: 'test'
+  ...
+# Subtest: models are recorded by role; a model name is never a qualification claim
+ok 34 - models are recorded by role; a model name is never a qualification claim
+  ---
+  duration_ms: 0.492541
+  type: 'test'
+  ...
+# Subtest: record holds references only: content fields and unsafe storage keys are rejected
+ok 35 - record holds references only: content fields and unsafe storage keys are rejected
+  ---
+  duration_ms: 0.108625
+  type: 'test'
+  ...
+# Subtest: corrupted records fail validation (version gaps, wrong current version, bad time basis)
+ok 36 - corrupted records fail validation (version gaps, wrong current version, bad time basis)
+  ---
+  duration_ms: 3.59475
+  type: 'test'
+  ...
+# Subtest: no transport configured reports unavailable, never connected
+ok 37 - no transport configured reports unavailable, never connected
+  ---
+  duration_ms: 1.024708
+  type: 'test'
+  ...
+# Subtest: ALLB-shaped health connects but leaves capabilities unreported
+ok 38 - ALLB-shaped health connects but leaves capabilities unreported
+  ---
+  duration_ms: 2.561
+  type: 'test'
+  ...
+# Subtest: reported capabilities are passed through truthfully, including unavailable NPU
+ok 39 - reported capabilities are passed through truthfully, including unavailable NPU
+  ---
+  duration_ms: 0.707209
+  type: 'test'
+  ...
+# Subtest: fails closed on wrong identity, version, unknown fields, unhealthy, malformed
+ok 40 - fails closed on wrong identity, version, unknown fields, unhealthy, malformed
+  ---
+  duration_ms: 1.372
+  type: 'test'
+  ...
+# Subtest: transport errors and timeouts are unavailable
+ok 41 - transport errors and timeouts are unavailable
+  ---
+  duration_ms: 60.595459
+  type: 'test'
+  ...
+# Subtest: rejects malformed request IDs before contacting the transport
+ok 42 - rejects malformed request IDs before contacting the transport
+  ---
+  duration_ms: 0.165583
+  type: 'test'
+  ...
+# Subtest: schema compatibility mirrors ALLB 1.0–1.1 rule
+ok 43 - schema compatibility mirrors ALLB 1.0–1.1 rule
+  ---
+  duration_ms: 0.154
+  type: 'test'
+  ...
+# Subtest: loopback transport refuses non-loopback or credentialed URLs
+ok 44 - loopback transport refuses non-loopback or credentialed URLs
+  ---
+  duration_ms: 0.289292
+  type: 'test'
+  ...
+# Subtest: loopback transport reads /capabilities when the worker provides it
+ok 45 - loopback transport reads /capabilities when the worker provides it
+  ---
+  duration_ms: 18.0355
+  type: 'test'
+  ...
+# Subtest: capability report with a different contract version or extra fields fails closed
+ok 46 - capability report with a different contract version or extra fields fails closed
+  ---
+  duration_ms: 18.7715
+  type: 'test'
+  ...
+# Subtest: loopback HTTP transport performs a real request against a synthetic local server
+ok 47 - loopback HTTP transport performs a real request against a synthetic local server
+  ---
+  duration_ms: 2.552584
+  type: 'test'
+  ...
+# Subtest: gate fails closed with no runtime configured (current default state)
+ok 48 - gate fails closed with no runtime configured (current default state)
+  ---
+  duration_ms: 1.260334
+  type: 'test'
+  ...
+# Subtest: gate fails when health is fine but capabilities were not reported (ALLB HTTP today)
+ok 49 - gate fails when health is fine but capabilities were not reported (ALLB HTTP today)
+  ---
+  duration_ms: 0.276583
+  type: 'test'
+  ...
+# Subtest: gate fails on identity / version / health / capability mismatch
+ok 50 - gate fails on identity / version / health / capability mismatch
+  ---
+  duration_ms: 0.344208
+  type: 'test'
+  ...
+# Subtest: gate passes only for a fully matching synthetic runtime, and still lists unverifiable claims
+ok 51 - gate passes only for a fully matching synthetic runtime, and still lists unverifiable claims
+  ---
+  duration_ms: 4.503417
+  type: 'test'
+  ...
+# Subtest: LIVE: real loopback runtime answers the handshake with expected identity and contract version
+ok 52 - LIVE: real loopback runtime answers the handshake with expected identity and contract version # SKIP MAATAA_RUNTIME_URL not set: live runtime check NOT RUN
+  ---
+  duration_ms: 1.08125
+  type: 'test'
+  ...
+# Subtest: LIVE: Desktop integration acceptance gate
+ok 53 - LIVE: Desktop integration acceptance gate # SKIP MAATAA_RUNTIME_URL not set: live runtime check NOT RUN
+  ---
+  duration_ms: 0.12675
+  type: 'test'
+  ...
+# Subtest: end to end: idea → labelled synthetic proposal → preview → approve → record + ordered history
+ok 54 - end to end: idea → labelled synthetic proposal → preview → approve → record + ordered history
+  ---
+  duration_ms: 14.37875
+  type: 'test'
+  ...
+# Subtest: nothing is written without an approval for the exact previewed digest
+ok 55 - nothing is written without an approval for the exact previewed digest
+  ---
+  duration_ms: 2.245958
+  type: 'test'
+  ...
+# Subtest: existing TLPS project is preserved: approval fails closed
+ok 56 - existing TLPS project is preserved: approval fails closed
+  ---
+  duration_ms: 1.495458
+  type: 'test'
+  ...
+# Subtest: rejection records history but returns no record
+ok 57 - rejection records history but returns no record
+  ---
+  duration_ms: 1.902791
+  type: 'test'
+  ...
+# Subtest: provider drafts are labelled as drafts and bounded to TLPS vocabulary
+ok 58 - provider drafts are labelled as drafts and bounded to TLPS vocabulary
+  ---
+  duration_ms: 1.078458
+  type: 'test'
+  ...
+1..58
+# tests 58
+# suites 0
+# pass 56
+# fail 0
+# cancelled 0
+# skipped 2
+# todo 0
+# duration_ms 383.632166
+exit=0
+
+### TLPS typecheck
+$ node node_modules/typescript/bin/tsc --noEmit -p apps/tlps/tsconfig.json
+exit=0
+
+### TLPS production build (outside the repo)
+$ node node_modules/vite/bin/vite.js build --config apps/tlps/vite.config.mjs --outDir /Users/vesahe/maataa-evidence-build/tlps-dist --emptyOutDir
+vite v6.4.3 building for production...
+transforming...
+✓ 763 modules transformed.
+rendering chunks...
+computing gzip size...
+../../../../maataa-evidence-build/tlps-dist/index.html                   0.57 kB │ gzip:  0.35 kB
+../../../../maataa-evidence-build/tlps-dist/assets/index-CCoZ4gZ-.css   52.67 kB │ gzip: 10.70 kB
+../../../../maataa-evidence-build/tlps-dist/assets/index-CHEGw5x9.js   290.10 kB │ gzip: 88.84 kB
+✓ built in 1.28s
+exit=0
+
+### Playwright: mocked Brahmini
+$ node node_modules/@playwright/test/cli.js test --config playwright.tlps-idea-to-script.config.ts
+
+Running 5 tests using 1 worker
+
+(node:53483) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/tlps-idea-to-script.spec.ts:37:3 › mocked Brahmini › idea → preview → v1 → Brahmini draft → independent check → v2, same project ID after reload (1.6s)
+(node:53516) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 tests/e2e/tlps-idea-to-script.spec.ts:58:3 › mocked Brahmini › a draft that fails the format check cannot be approved (771ms)
+  ✓  3 tests/e2e/tlps-idea-to-script.spec.ts:67:3 › mocked Brahmini › an answer from a different model digest is refused and nothing is recorded (756ms)
+  ✓  4 tests/e2e/tlps-idea-to-script.spec.ts:75:3 › mocked Brahmini › Brahmini unreachable is reported honestly (671ms)
+  -  5 tests/e2e/tlps-idea-to-script.spec.ts:82:1 › LIVE: real Brahmini runtime + local Ollama model drafts a script
+
+
+  1) tests/e2e/tlps-idea-to-script.spec.ts:37:3 › mocked Brahmini › idea → preview → v1 → Brahmini draft → independent check → v2, same project ID after reload 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "{\"marker\":\"existing synthetic TLPS plan\"}"
+    Received: "{\"schemaVersion\":1,\"project\":{\"title\":\"\",\"city\":\"\",\"productionType\":\"Feature Film\",\"shootDate\":\"\",\"ceiling\":500000},\"budget\":[],\"crew\":[],\"locations\":[],\"schedule\":[],\"status\":\"draft\",\"approvalNote\":\"\",\"tasks\":{\"setup\":false,\"rehearsal\":false,\"wrap\":false},\"evidence\":[],\"activity\":[]}"
+
+      50 |     await expect(page.getByTestId("its-project-id")).toHaveText(projectId);
+      51 |     await expect(page.getByTestId("its-current-version")).toHaveText("v2");
+    > 52 |     expect(await page.evaluate(() => localStorage.getItem("tlps.planning.workspace.v1"))).toBe(TLPS_PLAN);
+         |                                                                                           ^
+      53 |     const record = await page.evaluate(() => localStorage.getItem("tlps.idea-to-script.v1"));
+      54 |     expect(JSON.parse(record!).record).not.toHaveProperty("contents");
+      55 |     expect(JSON.stringify(JSON.parse(record!).record)).not.toContain("LIGHTHOUSE");
+        at /Users/vesahe/Downloads/maataa-ui-full-alpha7/tests/e2e/tlps-idea-to-script.spec.ts:52:91
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/tlps-idea-to-script/tlps-idea-to-script-mocked-0befd-ame-project-ID-after-reload/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/tlps-idea-to-script/tlps-idea-to-script-mocked-0befd-ame-project-ID-after-reload/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tlps-idea-to-script/tlps-idea-to-script-mocked-0befd-ame-project-ID-after-reload/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tlps-idea-to-script/tlps-idea-to-script-mocked-0befd-ame-project-ID-after-reload/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/e2e/tlps-idea-to-script.spec.ts:37:3 › mocked Brahmini › idea → preview → v1 → Brahmini draft → independent check → v2, same project ID after reload 
+  1 skipped
+  3 passed (5.0s)
+exit=1
+
+Ollama models (name + digest prefix):
+    qwen2.5-coder:7b  dae161e27b0e
+    qwen2.5:7b  845dbda0ea48
+    llama3.2-vision:latest  6f2f9757ae97
+    llama3.2:latest  a80c4f17acd5
+    maataa:latest  7bf239f86373
+
+### Playwright LIVE: Brahmini runtime + local Ollama
+$ env BRAHMINI_LIVE=1 node node_modules/@playwright/test/cli.js test --config playwright.tlps-idea-to-script.config.ts
+[WebServer] (node:53592) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 5 tests using 1 worker
+
+(node:53593) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  -  1 tests/e2e/tlps-idea-to-script.spec.ts:37:3 › mocked Brahmini › idea → preview → v1 → Brahmini draft → independent check → v2, same project ID after reload
+  -  2 tests/e2e/tlps-idea-to-script.spec.ts:58:3 › mocked Brahmini › a draft that fails the format check cannot be approved
+  -  3 tests/e2e/tlps-idea-to-script.spec.ts:67:3 › mocked Brahmini › an answer from a different model digest is refused and nothing is recorded
+  -  4 tests/e2e/tlps-idea-to-script.spec.ts:75:3 › mocked Brahmini › Brahmini unreachable is reported honestly
+  ✘  5 tests/e2e/tlps-idea-to-script.spec.ts:82:1 › LIVE: real Brahmini runtime + local Ollama model drafts a script (15.7s)
+
+
+  1) tests/e2e/tlps-idea-to-script.spec.ts:82:1 › LIVE: real Brahmini runtime + local Ollama model drafts a script 
+
+    Error: expect(locator).toBeEnabled() failed
+
+    Locator:  getByLabel('Local model')
+    Expected: enabled
+    Received: disabled
+    Timeout:  15000ms
+
+    Call log:
+      - Expect "toBeEnabled" getByLabel('Local model') with timeout 15000ms
+      - waiting for getByLabel('Local model')
+        34 × locator resolved to <select disabled></select>
+           - unexpected value "disabled"
+
+
+      84 |   await captureIdea(page);
+      85 |   const select = page.getByLabel("Local model");
+    > 86 |   await expect(select).toBeEnabled({ timeout: 15_000 });
+         |                        ^
+      87 |   const preferred = process.env.BRAHMINI_LIVE_MODEL;
+      88 |   if (preferred) await select.selectOption(preferred);
+      89 |   console.log(`LIVE_MODEL ${await select.inputValue()}`);
+        at /Users/vesahe/Downloads/maataa-ui-full-alpha7/tests/e2e/tlps-idea-to-script.spec.ts:86:24
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/tlps-idea-to-script/tlps-idea-to-script-LIVE-r-154c6-llama-model-drafts-a-script/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/tlps-idea-to-script/tlps-idea-to-script-LIVE-r-154c6-llama-model-drafts-a-script/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/tlps-idea-to-script/tlps-idea-to-script-LIVE-r-154c6-llama-model-drafts-a-script/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/tlps-idea-to-script/tlps-idea-to-script-LIVE-r-154c6-llama-model-drafts-a-script/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/e2e/tlps-idea-to-script.spec.ts:82:1 › LIVE: real Brahmini runtime + local Ollama model drafts a script 
+  4 skipped
+exit=1
+
+## Summary
+- PASS | contract typecheck
+- PASS | contract tests
+- PASS | TLPS typecheck
+- PASS | TLPS production build (outside the repo)
+- FAIL(1) | Playwright: mocked Brahmini
+- FAIL(1) | Playwright LIVE: Brahmini runtime + local Ollama
+- alpha7 working tree during run: unchanged
+Evidence log: /Users/vesahe/Downloads/maataa-ui-full-alpha7/docs/product/evidence/tlps-idea-to-script-20261009T015929Z.log

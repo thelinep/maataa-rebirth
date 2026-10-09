@@ -1,0 +1,18 @@
+# ALLB live handshake 20261009T004255Z
+downloads allowed: 1
+ALLB commit: de82c3691ae3ebdf6607cbcdf79d5e7c4e2d5378
+ALLB status before:
+     M Cargo.toml
+     D docs/BRAHMI_FONT_PROTOTYPE.md
+     D package-lock.json
+    ?? docs/AGI_BRIDGE_ROADMAP.md
+    ?? pnpm-lock.yaml
+    ?? pnpm-workspace.yaml
+    ?? src/bin/maataa_shell.rs
+wasm-pack: 
+NOTE: using 'stable-aarch64-apple-darwin' (same rustc 1.91.0 as ALLB's pinned name).
+=> preflight: BLOCKED: port 8787 already in use
+
+## Summary
+- preflight | BLOCKED: port 8787 already in use
+Evidence log: /Users/vesahe/Downloads/maataa-ui-full-alpha7/docs/product/evidence/allb-live-handshake-20261009T004255Z.log

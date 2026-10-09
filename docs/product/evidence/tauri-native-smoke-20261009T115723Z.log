@@ -1,0 +1,12 @@
+# Native Tauri same-record smoke 20261009T115723Z
+alpha7: 9c8d8433a86ec76da3bfb63e49a3ab423c231020 on feat/alpha8.7-composition-kernel
+dirty paths before: 54
+
+### REUSE_BUILD=1: using the existing binary and bundles (no rebuild)
+binary: /Users/vesahe/maataa-evidence-build/alpha7-tauri/debug/maataa-desktop-tauri
+binary sha256: 9c0c6676445ebcfb2436a86d560e2548f6143d860692d088f348a82a9f81c900
+bundled MAATAA UI index sha256: f66a8aca8be327868dacf102c0ba9968d61f1ebed2b09fae17d6e9b657f7ab5b
+bundled TLPS idea-to-script page sha256: 526a5c177e649cfe799fa256448a16a35a8a85d76cfe02a92dfb1225dbd33982
+registry backed up (outside repo) before launch
+
+### native run (app output in /Users/vesahe/maataa-evidence-build/tauri-native-20261009T115723Z.out)

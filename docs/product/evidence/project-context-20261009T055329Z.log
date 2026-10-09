@@ -1,0 +1,765 @@
+# Project-context checks 20261009T055329Z
+alpha7: 9c8d8433a86ec76da3bfb63e49a3ab423c231020 (+ local edits)
+
+### contract typecheck
+$ node node_modules/typescript/bin/tsc -p tsconfig.contracts.json
+exit=0
+
+### contract tests
+$ bash -c node --experimental-strip-types --no-warnings --test tests/contracts/*.contract-spec.ts
+TAP version 13
+# Subtest: allowlist contains only the digest-bound TLPS intake action
+ok 1 - allowlist contains only the digest-bound TLPS intake action
+  ---
+  duration_ms: 0.692209
+  type: 'test'
+  ...
+# Subtest: planning never commits and is marked non-executing
+ok 2 - planning never commits and is marked non-executing
+  ---
+  duration_ms: 10.019958
+  type: 'test'
+  ...
+# Subtest: execution requires matching approval, then commits exactly once
+ok 3 - execution requires matching approval, then commits exactly once
+  ---
+  duration_ms: 2.021459
+  type: 'test'
+  ...
+# Subtest: non-allowlisted actions are refused even with an approval
+ok 4 - non-allowlisted actions are refused even with an approval
+  ---
+  duration_ms: 0.754875
+  type: 'test'
+  ...
+# Subtest: existing TLPS project blocks execution and nothing is committed
+ok 5 - existing TLPS project blocks execution and nothing is committed
+  ---
+  duration_ms: 1.529542
+  type: 'test'
+  ...
+# Subtest: concurrent replay is refused; a failed host commit leaves the approval retryable
+ok 6 - concurrent replay is refused; a failed host commit leaves the approval retryable
+  ---
+  duration_ms: 0.973792
+  type: 'test'
+  ...
+# Subtest: store round-trips and verifies content hashes
+ok 7 - store round-trips and verifies content hashes
+  ---
+  duration_ms: 10.676792
+  type: 'test'
+  ...
+# Subtest: store fails closed on tampered content, missing content, bad events or unknown format
+ok 8 - store fails closed on tampered content, missing content, bad events or unknown format
+  ---
+  duration_ms: 2.262792
+  type: 'test'
+  ...
+# Subtest: the Brahmini script prompt is fixed, bounded and asks for screenplay format only
+ok 9 - the Brahmini script prompt is fixed, bounded and asks for screenplay format only
+  ---
+  duration_ms: 0.293
+  type: 'test'
+  ...
+# Subtest: deterministic screenplay check: shape only, model-free
+ok 10 - deterministic screenplay check: shape only, model-free
+  ---
+  duration_ms: 1.068916
+  type: 'test'
+  ...
+# Subtest: Idea → Script end to end on one project ID: v1 idea, v2 idea + checked draft
+ok 11 - Idea → Script end to end on one project ID: v1 idea, v2 idea + checked draft
+  ---
+  duration_ms: 13.077625
+  type: 'test'
+  ...
+# Subtest: a draft failing the independent check cannot be approved
+ok 12 - a draft failing the independent check cannot be approved
+  ---
+  duration_ms: 1.405167
+  type: 'test'
+  ...
+# Subtest: forged 'passed' checks and swapped stored text are caught by re-running the check
+ok 13 - forged 'passed' checks and swapped stored text are caught by re-running the check
+  ---
+  duration_ms: 2.145334
+  type: 'test'
+  ...
+# Subtest: script drafts require an idea first and a chat/planner model role
+ok 14 - script drafts require an idea first and a chat/planner model role
+  ---
+  duration_ms: 0.964208
+  type: 'test'
+  ...
+# Subtest: Workstation mapping: seed fixtures refused, digests required, code qualification honoured only when real
+ok 15 - Workstation mapping: seed fixtures refused, digests required, code qualification honoured only when real
+  ---
+  duration_ms: 0.379958
+  type: 'test'
+  ...
+# Subtest: Workstation mapping: successful LTX job → video artifact with generator + Gemma text-encoder roles; failures refused
+ok 16 - Workstation mapping: successful LTX job → video artifact with generator + Gemma text-encoder roles; failures refused
+  ---
+  duration_ms: 0.300459
+  type: 'test'
+  ...
+# Subtest: real QEMU boot output parses into a provenance-bearing OS report with time unavailable
+ok 17 - real QEMU boot output parses into a provenance-bearing OS report with time unavailable
+  ---
+  duration_ms: 6.326875
+  type: 'test'
+  ...
+# Subtest: non-OS text, truncated reports and bad provenance fail closed
+ok 18 - non-OS text, truncated reports and bad provenance fail closed
+  ---
+  duration_ms: 0.245375
+  type: 'test'
+  ...
+# Subtest: the report never presents scheduler ticks as time
+ok 19 - the report never presents scheduler ticks as time
+  ---
+  duration_ms: 0.181375
+  type: 'test'
+  ...
+# Subtest: describes only role and accessible label, never field values or coordinates
+ok 20 - describes only role and accessible label, never field values or coordinates
+  ---
+  duration_ms: 27.648084
+  type: 'test'
+  ...
+# Subtest: cannot observe controls outside its root (other app surfaces) or another document
+ok 21 - cannot observe controls outside its root (other app surfaces) or another document
+  ---
+  duration_ms: 5.949125
+  type: 'test'
+  ...
+# Subtest: observer listens on its root only and detaches cleanly
+ok 22 - observer listens on its root only and detaches cleanly
+  ---
+  duration_ms: 4.69675
+  type: 'test'
+  ...
+# Subtest: observation is read-only: no clicks, typing, focus moves or value changes
+ok 23 - observation is read-only: no clicks, typing, focus moves or value changes
+  ---
+  duration_ms: 3.741291
+  type: 'test'
+  ...
+# Subtest: valid context carries only a prj ID and a version
+ok 24 - valid context carries only a prj ID and a version
+  ---
+  duration_ms: 2.176458
+  type: 'test'
+  ...
+# Subtest: missing, invalid ID and invalid version are distinguished
+ok 25 - missing, invalid ID and invalid version are distinguished
+  ---
+  duration_ms: 0.403625
+  type: 'test'
+  ...
+# Subtest: context is read from the query or from a hash route
+ok 26 - context is read from the query or from a hash route
+  ---
+  duration_ms: 0.540291
+  type: 'test'
+  ...
+# Subtest: reconcile against the authoritative local record
+ok 27 - reconcile against the authoritative local record
+  ---
+  duration_ms: 0.302458
+  type: 'test'
+  ...
+# Subtest: writes are refused unless the stored record is still the edited base
+ok 28 - writes are refused unless the stored record is still the edited base
+  ---
+  duration_ms: 0.124459
+  type: 'test'
+  ...
+# Subtest: append assigns per-scope sequence, unverified host time and validates
+ok 29 - append assigns per-scope sequence, unverified host time and validates
+  ---
+  duration_ms: 2.763
+  type: 'test'
+  ...
+# Subtest: cross-scope comparison is refused rather than inferred from timestamps
+ok 30 - cross-scope comparison is refused rather than inferred from timestamps
+  ---
+  duration_ms: 0.173667
+  type: 'test'
+  ...
+# Subtest: retention keeps the newest events up to the limit
+ok 31 - retention keeps the newest events up to the limit
+  ---
+  duration_ms: 9.492083
+  type: 'test'
+  ...
+# Subtest: payload refuses content fields: scripts, budgets, crew, personal data
+ok 32 - payload refuses content fields: scripts, budgets, crew, personal data
+  ---
+  duration_ms: 1.001958
+  type: 'test'
+  ...
+# Subtest: malformed and over-claiming records are rejected
+ok 33 - malformed and over-claiming records are rejected
+  ---
+  duration_ms: 0.403458
+  type: 'test'
+  ...
+# Subtest: checkOrdering detects duplicates and regressions per scope
+ok 34 - checkOrdering detects duplicates and regressions per scope
+  ---
+  duration_ms: 0.182083
+  type: 'test'
+  ...
+# Subtest: Tauri v1 index migrates to zero events; v2 events map compatibly without source mutation
+ok 35 - Tauri v1 index migrates to zero events; v2 events map compatibly without source mutation
+  ---
+  duration_ms: 0.694833
+  type: 'test'
+  ...
+# Subtest: Tauri migration fails closed on unsupported, oversized, or out-of-order indexes
+ok 36 - Tauri migration fails closed on unsupported, oversized, or out-of-order indexes
+  ---
+  duration_ms: 0.422917
+  type: 'test'
+  ...
+# Subtest: TLPS activity migrates as legacy-iso-unverified labels only
+ok 37 - TLPS activity migrates as legacy-iso-unverified labels only
+  ---
+  duration_ms: 1.150417
+  type: 'test'
+  ...
+# Subtest: Tauri v3 index: record-linked events keep their record version; bad versions are rejected
+ok 38 - Tauri v3 index: record-linked events keep their record version; bad versions are rejected
+  ---
+  duration_ms: 0.905791
+  type: 'test'
+  ...
+# Subtest: project ID is stable, opaque and validated
+ok 39 - project ID is stable, opaque and validated
+  ---
+  duration_ms: 9.729042
+  type: 'test'
+  ...
+# Subtest: propose → preview → approve creates v1 then v2; all apps see the same ID and current version
+ok 40 - propose → preview → approve creates v1 then v2; all apps see the same ID and current version
+  ---
+  duration_ms: 10.306167
+  type: 'test'
+  ...
+# Subtest: a proposal from a stale copy is rejected as a conflict, never merged silently
+ok 41 - a proposal from a stale copy is rejected as a conflict, never merged silently
+  ---
+  duration_ms: 1.291209
+  type: 'test'
+  ...
+# Subtest: approval must match the exact preview; record input is never mutated
+ok 42 - approval must match the exact preview; record input is never mutated
+  ---
+  duration_ms: 1.796792
+  type: 'test'
+  ...
+# Subtest: models are recorded by role; a model name is never a qualification claim
+ok 43 - models are recorded by role; a model name is never a qualification claim
+  ---
+  duration_ms: 0.481917
+  type: 'test'
+  ...
+# Subtest: record holds references only: content fields and unsafe storage keys are rejected
+ok 44 - record holds references only: content fields and unsafe storage keys are rejected
+  ---
+  duration_ms: 0.133209
+  type: 'test'
+  ...
+# Subtest: corrupted records fail validation (version gaps, wrong current version, bad time basis)
+ok 45 - corrupted records fail validation (version gaps, wrong current version, bad time basis)
+  ---
+  duration_ms: 0.919792
+  type: 'test'
+  ...
+# Subtest: no transport configured reports unavailable, never connected
+ok 46 - no transport configured reports unavailable, never connected
+  ---
+  duration_ms: 0.886375
+  type: 'test'
+  ...
+# Subtest: ALLB-shaped health connects but leaves capabilities unreported
+ok 47 - ALLB-shaped health connects but leaves capabilities unreported
+  ---
+  duration_ms: 0.24425
+  type: 'test'
+  ...
+# Subtest: reported capabilities are passed through truthfully, including unavailable NPU
+ok 48 - reported capabilities are passed through truthfully, including unavailable NPU
+  ---
+  duration_ms: 0.169417
+  type: 'test'
+  ...
+# Subtest: fails closed on wrong identity, version, unknown fields, unhealthy, malformed
+ok 49 - fails closed on wrong identity, version, unknown fields, unhealthy, malformed
+  ---
+  duration_ms: 0.491541
+  type: 'test'
+  ...
+# Subtest: transport errors and timeouts are unavailable
+ok 50 - transport errors and timeouts are unavailable
+  ---
+  duration_ms: 60.607792
+  type: 'test'
+  ...
+# Subtest: rejects malformed request IDs before contacting the transport
+ok 51 - rejects malformed request IDs before contacting the transport
+  ---
+  duration_ms: 0.155292
+  type: 'test'
+  ...
+# Subtest: schema compatibility mirrors ALLB 1.0–1.1 rule
+ok 52 - schema compatibility mirrors ALLB 1.0–1.1 rule
+  ---
+  duration_ms: 0.200791
+  type: 'test'
+  ...
+# Subtest: loopback transport refuses non-loopback or credentialed URLs
+ok 53 - loopback transport refuses non-loopback or credentialed URLs
+  ---
+  duration_ms: 0.288
+  type: 'test'
+  ...
+# Subtest: loopback transport reads /capabilities when the worker provides it
+ok 54 - loopback transport reads /capabilities when the worker provides it
+  ---
+  duration_ms: 20.603625
+  type: 'test'
+  ...
+# Subtest: capability report with a different contract version or extra fields fails closed
+ok 55 - capability report with a different contract version or extra fields fails closed
+  ---
+  duration_ms: 14.932833
+  type: 'test'
+  ...
+# Subtest: loopback HTTP transport performs a real request against a synthetic local server
+ok 56 - loopback HTTP transport performs a real request against a synthetic local server
+  ---
+  duration_ms: 1.995292
+  type: 'test'
+  ...
+# Subtest: gate fails closed with no runtime configured (current default state)
+ok 57 - gate fails closed with no runtime configured (current default state)
+  ---
+  duration_ms: 10.261166
+  type: 'test'
+  ...
+# Subtest: gate fails when health is fine but capabilities were not reported (ALLB HTTP today)
+ok 58 - gate fails when health is fine but capabilities were not reported (ALLB HTTP today)
+  ---
+  duration_ms: 0.626292
+  type: 'test'
+  ...
+# Subtest: gate fails on identity / version / health / capability mismatch
+ok 59 - gate fails on identity / version / health / capability mismatch
+  ---
+  duration_ms: 0.325083
+  type: 'test'
+  ...
+# Subtest: gate passes only for a fully matching synthetic runtime, and still lists unverifiable claims
+ok 60 - gate passes only for a fully matching synthetic runtime, and still lists unverifiable claims
+  ---
+  duration_ms: 0.734833
+  type: 'test'
+  ...
+# Subtest: LIVE: real loopback runtime answers the handshake with expected identity and contract version
+ok 61 - LIVE: real loopback runtime answers the handshake with expected identity and contract version # SKIP MAATAA_RUNTIME_URL not set: live runtime check NOT RUN
+  ---
+  duration_ms: 0.052916
+  type: 'test'
+  ...
+# Subtest: LIVE: Desktop integration acceptance gate
+ok 62 - LIVE: Desktop integration acceptance gate # SKIP MAATAA_RUNTIME_URL not set: live runtime check NOT RUN
+  ---
+  duration_ms: 0.041167
+  type: 'test'
+  ...
+# Subtest: end to end: idea → labelled synthetic proposal → preview → approve → record + ordered history
+ok 63 - end to end: idea → labelled synthetic proposal → preview → approve → record + ordered history
+  ---
+  duration_ms: 13.503583
+  type: 'test'
+  ...
+# Subtest: nothing is written without an approval for the exact previewed digest
+ok 64 - nothing is written without an approval for the exact previewed digest
+  ---
+  duration_ms: 1.060625
+  type: 'test'
+  ...
+# Subtest: existing TLPS project is preserved: approval fails closed
+ok 65 - existing TLPS project is preserved: approval fails closed
+  ---
+  duration_ms: 1.1045
+  type: 'test'
+  ...
+# Subtest: rejection records history but returns no record
+ok 66 - rejection records history but returns no record
+  ---
+  duration_ms: 1.552791
+  type: 'test'
+  ...
+# Subtest: provider drafts are labelled as drafts and bounded to TLPS vocabulary
+ok 67 - provider drafts are labelled as drafts and bounded to TLPS vocabulary
+  ---
+  duration_ms: 1.825
+  type: 'test'
+  ...
+1..67
+# tests 67
+# suites 0
+# pass 65
+# fail 0
+# cancelled 0
+# skipped 2
+# todo 0
+# duration_ms 363.821084
+exit=0
+
+### TLPS typecheck
+$ node node_modules/typescript/bin/tsc --noEmit -p apps/tlps/tsconfig.json
+exit=0
+
+### Tauri cargo fmt --check
+$ cargo fmt --check --manifest-path apps/maataa-desktop-tauri/src-tauri/Cargo.toml
+exit=0
+
+### Tauri cargo test
+$ env CARGO_TARGET_DIR=/Users/vesahe/maataa-evidence-build/alpha7-tauri cargo test --manifest-path apps/maataa-desktop-tauri/src-tauri/Cargo.toml --locked --offline
+   Compiling maataa-desktop-tauri v0.1.0 (/Users/vesahe/Downloads/maataa-ui-full-alpha7/apps/maataa-desktop-tauri/src-tauri)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.06s
+     Running unittests src/main.rs (/Users/vesahe/maataa-evidence-build/alpha7-tauri/debug/deps/maataa_desktop_tauri-95b12667c84368c8)
+
+running 16 tests
+test project_link::tests::record_ids_must_be_lowercase_prefixed_uuids ... ok
+test project_link::tests::versions_only_move_forward_and_replay_is_idempotent ... ok
+test tests::browser_child_labels_only_accept_app_created_windows ... ok
+test tests::browser_windows_have_independent_native_view_regions ... ok
+test project_link::tests::product_windows_open_only_the_registered_version ... ok
+test tests::launcher_only_opens_bundled_product_entries ... ok
+test tests::record_linked_entries_require_a_valid_tlps_record_id ... ok
+test project_link::tests::record_context_entries_carry_only_validated_id_and_version ... ok
+test project_link::tests::links_are_tlps_only_schema_pinned_and_bounded ... ok
+test tests::rejects_local_and_credential_bearing_targets ... ok
+test tests::accepts_public_web_addresses_and_searches ... ok
+test tests::shared_project_entries_accept_only_bounded_local_product_metadata ... ok
+test tests::caps_project_activity_history_at_the_local_retention_limit ... ok
+test tests::shared_project_index_round_trips_through_local_file_storage ... ok
+test tests::upgrades_project_only_index_and_records_ordered_local_activity ... ok
+test tests::v2_index_loads_and_v3_round_trips_record_links_and_event_versions ... ok
+
+test result: ok. 16 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+exit=0
+
+### Playwright: project context (TLPS + MAATAA UI)
+$ node node_modules/@playwright/test/cli.js test --config playwright.project-context.config.ts
+
+Running 10 tests using 1 worker
+
+  ✓   1 tests/e2e/project-context.spec.ts:39:3 › TLPS honours the project context › current context: approval creates the next version once and the context follows it (1.3s)
+  ✓   2 tests/e2e/project-context.spec.ts:56:3 › TLPS honours the project context › stale context: shows the newer version and refuses work until the user continues with it (988ms)
+  ✓   3 tests/e2e/project-context.spec.ts:67:3 › TLPS honours the project context › invalid ID or unknown record: nothing can be started or written (535ms)
+  ✓   4 tests/e2e/project-context.spec.ts:77:3 › TLPS honours the project context › a write from a window whose base went stale is refused and keeps the newer content (1.5s)
+  ✓   5 tests/e2e/project-context.spec.ts:94:3 › TLPS honours the project context › return to Desktop outside Tauri reports the boundary (900ms)
+  ✘   6 tests/e2e/project-context.spec.ts:123:3 › MAATAA UI (Brahmini Workbench) carries the same record to TLPS › valid context: same ID in Desktop list, TLPS record and Brahmini; Continue hands ID + version to TLPS (5.7s)
+  ✘   7 tests/e2e/project-context.spec.ts:143:3 › MAATAA UI (Brahmini Workbench) carries the same record to TLPS › stale context or Desktop/TLPS mismatch blocks the handoff (5.8s)
+  ✘   8 tests/e2e/project-context.spec.ts:157:3 › MAATAA UI (Brahmini Workbench) carries the same record to TLPS › Desktop refusing to open TLPS is shown, not hidden (5.7s)
+  ✘   9 tests/e2e/project-context.spec.ts:166:3 › MAATAA UI (Brahmini Workbench) carries the same record to TLPS › outside Desktop, without the TLPS record, nothing is handed over (5.2s)
+  ✘  10 tests/e2e/project-context.spec.ts:175:3 › MAATAA UI (Brahmini Workbench) carries the same record to TLPS › invalid ID is refused; Brahmini without a project shows no project panel (5.2s)
+
+
+  1) tests/e2e/project-context.spec.ts:123:3 › MAATAA UI (Brahmini Workbench) carries the same record to TLPS › valid context: same ID in Desktop list, TLPS record and Brahmini; Continue hands ID + version to TLPS 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByTestId('brahmini-workbench')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByTestId('brahmini-workbench') with timeout 5000ms
+      - waiting for getByTestId('brahmini-workbench')
+
+
+      118 |     }, { raw: opts.raw, key: STORE_KEY, registryVersion: opts.registryVersion, refuse: opts.refuse, id: hash.match(/project=([^&]+)/)?.[1] ? decodeURIComponent(hash.match(/project=([^&]+)/)![1]) : "" });
+      119 |     await page.goto(`${UI}/#${hash}`);
+    > 120 |     await expect(page.getByTestId("brahmini-workbench")).toBeVisible();
+          |                                                          ^
+      121 |   }
+      122 |
+      123 |   test("valid context: same ID in Desktop list, TLPS record and Brahmini; Continue hands ID + version to TLPS", async ({ browser }) => {
+        at openUi (/Users/vesahe/Downloads/maataa-ui-full-alpha7/tests/e2e/project-context.spec.ts:120:58)
+        at /Users/vesahe/Downloads/maataa-ui-full-alpha7/tests/e2e/project-context.spec.ts:127:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/project-context/project-context-MAATAA-UI--6db66-ue-hands-ID-version-to-TLPS/test-failed-2.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/project-context/project-context-MAATAA-UI--6db66-ue-hands-ID-version-to-TLPS/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/project-context/project-context-MAATAA-UI--6db66-ue-hands-ID-version-to-TLPS/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/project-context/project-context-MAATAA-UI--6db66-ue-hands-ID-version-to-TLPS/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/project-context/project-context-MAATAA-UI--6db66-ue-hands-ID-version-to-TLPS/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/e2e/project-context.spec.ts:143:3 › MAATAA UI (Brahmini Workbench) carries the same record to TLPS › stale context or Desktop/TLPS mismatch blocks the handoff 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByTestId('brahmini-workbench')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByTestId('brahmini-workbench') with timeout 5000ms
+      - waiting for getByTestId('brahmini-workbench')
+
+
+      118 |     }, { raw: opts.raw, key: STORE_KEY, registryVersion: opts.registryVersion, refuse: opts.refuse, id: hash.match(/project=([^&]+)/)?.[1] ? decodeURIComponent(hash.match(/project=([^&]+)/)![1]) : "" });
+      119 |     await page.goto(`${UI}/#${hash}`);
+    > 120 |     await expect(page.getByTestId("brahmini-workbench")).toBeVisible();
+          |                                                          ^
+      121 |   }
+      122 |
+      123 |   test("valid context: same ID in Desktop list, TLPS record and Brahmini; Continue hands ID + version to TLPS", async ({ browser }) => {
+        at openUi (/Users/vesahe/Downloads/maataa-ui-full-alpha7/tests/e2e/project-context.spec.ts:120:58)
+        at /Users/vesahe/Downloads/maataa-ui-full-alpha7/tests/e2e/project-context.spec.ts:147:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/project-context/project-context-MAATAA-UI--b20f9-mismatch-blocks-the-handoff/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/project-context/project-context-MAATAA-UI--b20f9-mismatch-blocks-the-handoff/test-failed-2.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/project-context/project-context-MAATAA-UI--b20f9-mismatch-blocks-the-handoff/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/project-context/project-context-MAATAA-UI--b20f9-mismatch-blocks-the-handoff/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/project-context/project-context-MAATAA-UI--b20f9-mismatch-blocks-the-handoff/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) tests/e2e/project-context.spec.ts:157:3 › MAATAA UI (Brahmini Workbench) carries the same record to TLPS › Desktop refusing to open TLPS is shown, not hidden 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByTestId('brahmini-workbench')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByTestId('brahmini-workbench') with timeout 5000ms
+      - waiting for getByTestId('brahmini-workbench')
+
+
+      118 |     }, { raw: opts.raw, key: STORE_KEY, registryVersion: opts.registryVersion, refuse: opts.refuse, id: hash.match(/project=([^&]+)/)?.[1] ? decodeURIComponent(hash.match(/project=([^&]+)/)![1]) : "" });
+      119 |     await page.goto(`${UI}/#${hash}`);
+    > 120 |     await expect(page.getByTestId("brahmini-workbench")).toBeVisible();
+          |                                                          ^
+      121 |   }
+      122 |
+      123 |   test("valid context: same ID in Desktop list, TLPS record and Brahmini; Continue hands ID + version to TLPS", async ({ browser }) => {
+        at openUi (/Users/vesahe/Downloads/maataa-ui-full-alpha7/tests/e2e/project-context.spec.ts:120:58)
+        at /Users/vesahe/Downloads/maataa-ui-full-alpha7/tests/e2e/project-context.spec.ts:161:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/project-context/project-context-MAATAA-UI--ef0b7-en-TLPS-is-shown-not-hidden/test-failed-2.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/project-context/project-context-MAATAA-UI--ef0b7-en-TLPS-is-shown-not-hidden/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/project-context/project-context-MAATAA-UI--ef0b7-en-TLPS-is-shown-not-hidden/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/project-context/project-context-MAATAA-UI--ef0b7-en-TLPS-is-shown-not-hidden/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/project-context/project-context-MAATAA-UI--ef0b7-en-TLPS-is-shown-not-hidden/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) tests/e2e/project-context.spec.ts:166:3 › MAATAA UI (Brahmini Workbench) carries the same record to TLPS › outside Desktop, without the TLPS record, nothing is handed over 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByTestId('brahmini-workbench')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByTestId('brahmini-workbench') with timeout 5000ms
+      - waiting for getByTestId('brahmini-workbench')
+
+
+      118 |     }, { raw: opts.raw, key: STORE_KEY, registryVersion: opts.registryVersion, refuse: opts.refuse, id: hash.match(/project=([^&]+)/)?.[1] ? decodeURIComponent(hash.match(/project=([^&]+)/)![1]) : "" });
+      119 |     await page.goto(`${UI}/#${hash}`);
+    > 120 |     await expect(page.getByTestId("brahmini-workbench")).toBeVisible();
+          |                                                          ^
+      121 |   }
+      122 |
+      123 |   test("valid context: same ID in Desktop list, TLPS record and Brahmini; Continue hands ID + version to TLPS", async ({ browser }) => {
+        at openUi (/Users/vesahe/Downloads/maataa-ui-full-alpha7/tests/e2e/project-context.spec.ts:120:58)
+        at /Users/vesahe/Downloads/maataa-ui-full-alpha7/tests/e2e/project-context.spec.ts:167:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/project-context/project-context-MAATAA-UI--08335-cord-nothing-is-handed-over/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/project-context/project-context-MAATAA-UI--08335-cord-nothing-is-handed-over/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/project-context/project-context-MAATAA-UI--08335-cord-nothing-is-handed-over/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/project-context/project-context-MAATAA-UI--08335-cord-nothing-is-handed-over/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) tests/e2e/project-context.spec.ts:175:3 › MAATAA UI (Brahmini Workbench) carries the same record to TLPS › invalid ID is refused; Brahmini without a project shows no project panel 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByTestId('brahmini-workbench')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByTestId('brahmini-workbench') with timeout 5000ms
+      - waiting for getByTestId('brahmini-workbench')
+
+
+      118 |     }, { raw: opts.raw, key: STORE_KEY, registryVersion: opts.registryVersion, refuse: opts.refuse, id: hash.match(/project=([^&]+)/)?.[1] ? decodeURIComponent(hash.match(/project=([^&]+)/)![1]) : "" });
+      119 |     await page.goto(`${UI}/#${hash}`);
+    > 120 |     await expect(page.getByTestId("brahmini-workbench")).toBeVisible();
+          |                                                          ^
+      121 |   }
+      122 |
+      123 |   test("valid context: same ID in Desktop list, TLPS record and Brahmini; Continue hands ID + version to TLPS", async ({ browser }) => {
+        at openUi (/Users/vesahe/Downloads/maataa-ui-full-alpha7/tests/e2e/project-context.spec.ts:120:58)
+        at /Users/vesahe/Downloads/maataa-ui-full-alpha7/tests/e2e/project-context.spec.ts:176:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/project-context/project-context-MAATAA-UI--52fd1-ject-shows-no-project-panel/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/project-context/project-context-MAATAA-UI--52fd1-ject-shows-no-project-panel/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/project-context/project-context-MAATAA-UI--52fd1-ject-shows-no-project-panel/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/project-context/project-context-MAATAA-UI--52fd1-ject-shows-no-project-panel/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5 failed
+    tests/e2e/project-context.spec.ts:123:3 › MAATAA UI (Brahmini Workbench) carries the same record to TLPS › valid context: same ID in Desktop list, TLPS record and Brahmini; Continue hands ID + version to TLPS 
+    tests/e2e/project-context.spec.ts:143:3 › MAATAA UI (Brahmini Workbench) carries the same record to TLPS › stale context or Desktop/TLPS mismatch blocks the handoff 
+    tests/e2e/project-context.spec.ts:157:3 › MAATAA UI (Brahmini Workbench) carries the same record to TLPS › Desktop refusing to open TLPS is shown, not hidden 
+    tests/e2e/project-context.spec.ts:166:3 › MAATAA UI (Brahmini Workbench) carries the same record to TLPS › outside Desktop, without the TLPS record, nothing is handed over 
+    tests/e2e/project-context.spec.ts:175:3 › MAATAA UI (Brahmini Workbench) carries the same record to TLPS › invalid ID is refused; Brahmini without a project shows no project panel 
+  5 passed (35.3s)
+exit=1
+
+### Playwright: Desktop web shell (mocked Tauri bridge)
+$ node node_modules/@playwright/test/cli.js test --config playwright.desktop-tauri-trial.config.ts
+[WebServer] ::ffff:127.0.0.1 - - [09/Oct/2026 11:24:14] "GET / HTTP/1.1" 200 -
+
+Running 7 tests using 1 worker
+
+[WebServer] ::ffff:127.0.0.1 - - [09/Oct/2026 11:24:15] "GET / HTTP/1.1" 200 -
+[WebServer] ::ffff:127.0.0.1 - - [09/Oct/2026 11:24:15] "GET /style.css HTTP/1.1" 200 -
+[WebServer] ::ffff:127.0.0.1 - - [09/Oct/2026 11:24:15] "GET /app.js HTTP/1.1" 200 -
+[WebServer] ::ffff:127.0.0.1 - - [09/Oct/2026 11:24:15] "GET /spacecraft-app.js HTTP/1.1" 200 -
+[WebServer] ::ffff:127.0.0.1 - - [09/Oct/2026 11:24:15] "GET /spacecraft-model.mjs HTTP/1.1" 200 -
+  ✓  1 tests/desktop-tauri-trial.spec.ts:3:1 › shows a desktop launcher and explains the native window boundary in preview mode (210ms)
+[WebServer] ::ffff:127.0.0.1 - - [09/Oct/2026 11:24:15] "GET / HTTP/1.1" 200 -
+[WebServer] ::ffff:127.0.0.1 - - [09/Oct/2026 11:24:15] "GET /style.css HTTP/1.1" 200 -
+[WebServer] ::ffff:127.0.0.1 - - [09/Oct/2026 11:24:15] "GET /spacecraft-app.js HTTP/1.1" 200 -
+[WebServer] ::ffff:127.0.0.1 - - [09/Oct/2026 11:24:15] "GET /app.js HTTP/1.1" 200 -
+[WebServer] ::ffff:127.0.0.1 - - [09/Oct/2026 11:24:15] "GET /spacecraft-model.mjs HTTP/1.1" 200 -
+  ✓  2 tests/desktop-tauri-trial.spec.ts:18:1 › routes product icons to separate native app windows (230ms)
+[WebServer] ::ffff:127.0.0.1 - - [09/Oct/2026 11:24:15] "GET / HTTP/1.1" 200 -
+[WebServer] ::ffff:127.0.0.1 - - [09/Oct/2026 11:24:15] "GET /style.css HTTP/1.1" 200 -
+[WebServer] ::ffff:127.0.0.1 - - [09/Oct/2026 11:24:15] "GET /app.js HTTP/1.1" 200 -
+[WebServer] ::ffff:127.0.0.1 - - [09/Oct/2026 11:24:15] "GET /spacecraft-app.js HTTP/1.1" 200 -
+[WebServer] ::ffff:127.0.0.1 - - [09/Oct/2026 11:24:15] "GET /spacecraft-model.mjs HTTP/1.1" 200 -
+  ✓  3 tests/desktop-tauri-trial.spec.ts:44:1 › shows shared local projects safely and opens the owning workspace (183ms)
+[WebServer] ::ffff:127.0.0.1 - - [09/Oct/2026 11:24:15] "GET / HTTP/1.1" 200 -
+[WebServer] ::ffff:127.0.0.1 - - [09/Oct/2026 11:24:15] "GET /style.css HTTP/1.1" 200 -
+[WebServer] ::ffff:127.0.0.1 - - [09/Oct/2026 11:24:15] "GET /app.js HTTP/1.1" 200 -
+[WebServer] ::ffff:127.0.0.1 - - [09/Oct/2026 11:24:15] "GET /spacecraft-app.js HTTP/1.1" 200 -
+[WebServer] ::ffff:127.0.0.1 - - [09/Oct/2026 11:24:15] "GET /spacecraft-model.mjs HTTP/1.1" 200 -
+  ✓  4 tests/desktop-tauri-trial.spec.ts:78:1 › shows local project activity and labels the clock boundary honestly (196ms)
+[WebServer] ::ffff:127.0.0.1 - - [09/Oct/2026 11:24:15] "GET / HTTP/1.1" 200 -
+[WebServer] ::ffff:127.0.0.1 - - [09/Oct/2026 11:24:15] "GET /style.css HTTP/1.1" 200 -
+[WebServer] ::ffff:127.0.0.1 - - [09/Oct/2026 11:24:15] "GET /app.js HTTP/1.1" 200 -
+[WebServer] ::ffff:127.0.0.1 - - [09/Oct/2026 11:24:15] "GET /spacecraft-app.js HTTP/1.1" 200 -
+[WebServer] ::ffff:127.0.0.1 - - [09/Oct/2026 11:24:15] "GET /spacecraft-model.mjs HTTP/1.1" 200 -
+  ✓  5 tests/desktop-tauri-trial.spec.ts:116:1 › provides a safe spacecraft trajectory simulator with a Hemant elapsed-time display (225ms)
+[WebServer] ::ffff:127.0.0.1 - - [09/Oct/2026 11:24:16] "GET / HTTP/1.1" 200 -
+[WebServer] ::ffff:127.0.0.1 - - [09/Oct/2026 11:24:16] "GET /style.css HTTP/1.1" 200 -
+[WebServer] ::ffff:127.0.0.1 - - [09/Oct/2026 11:24:16] "GET /app.js HTTP/1.1" 200 -
+[WebServer] ::ffff:127.0.0.1 - - [09/Oct/2026 11:24:16] "GET /spacecraft-app.js HTTP/1.1" 200 -
+[WebServer] ::ffff:127.0.0.1 - - [09/Oct/2026 11:24:16] "GET /spacecraft-model.mjs HTTP/1.1" 200 -
+  ✓  6 tests/desktop-tauri-trial.spec.ts:134:1 › keeps the desktop launcher and address controls within narrow viewports (116ms)
+[WebServer] ::ffff:127.0.0.1 - - [09/Oct/2026 11:24:16] "GET / HTTP/1.1" 200 -
+[WebServer] ::ffff:127.0.0.1 - - [09/Oct/2026 11:24:16] "GET /style.css HTTP/1.1" 200 -
+[WebServer] ::ffff:127.0.0.1 - - [09/Oct/2026 11:24:16] "GET /spacecraft-app.js HTTP/1.1" 200 -
+[WebServer] ::ffff:127.0.0.1 - - [09/Oct/2026 11:24:16] "GET /app.js HTTP/1.1" 200 -
+[WebServer] ::ffff:127.0.0.1 - - [09/Oct/2026 11:24:16] "GET /spacecraft-model.mjs HTTP/1.1" 200 -
+  ✓  7 tests/desktop-tauri-trial.spec.ts:148:1 › opens a shared project record in MAATAA UI or TLPS with only its ID and registered version (162ms)
+
+  7 passed (2.1s)
+exit=0
+
+### Playwright: TLPS Idea → Script (mocked Brahmini)
+$ node node_modules/@playwright/test/cli.js test --config playwright.tlps-idea-to-script.config.ts
+
+Running 5 tests using 1 worker
+
+  ✓  1 tests/e2e/tlps-idea-to-script.spec.ts:49:3 › mocked Brahmini › idea → preview → v1 → Brahmini draft → independent check → v2, same project ID after reload (1.1s)
+  ✓  2 tests/e2e/tlps-idea-to-script.spec.ts:70:3 › mocked Brahmini › a draft that fails the format check cannot be approved (645ms)
+  ✓  3 tests/e2e/tlps-idea-to-script.spec.ts:79:3 › mocked Brahmini › an answer from a different model digest is refused and nothing is recorded (647ms)
+  ✓  4 tests/e2e/tlps-idea-to-script.spec.ts:87:3 › mocked Brahmini › Brahmini unreachable is reported honestly (578ms)
+  -  5 tests/e2e/tlps-idea-to-script.spec.ts:94:1 › LIVE: real Brahmini runtime + local Ollama model drafts a script
+
+  1 skipped
+  4 passed (3.3s)
+exit=0
+
+## Summary
+- PASS | contract typecheck
+- PASS | contract tests
+- PASS | TLPS typecheck
+- PASS | Tauri cargo fmt --check
+- PASS | Tauri cargo test
+- FAIL(1) | Playwright: project context (TLPS + MAATAA UI)
+- PASS | Playwright: Desktop web shell (mocked Tauri bridge)
+- PASS | Playwright: TLPS Idea → Script (mocked Brahmini)
+- alpha7 working tree during run: unchanged
+Evidence log: /Users/vesahe/Downloads/maataa-ui-full-alpha7/docs/product/evidence/project-context-20261009T055329Z.log
