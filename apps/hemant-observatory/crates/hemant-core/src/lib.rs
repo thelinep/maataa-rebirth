@@ -16,7 +16,7 @@ pub mod units;
 pub use registry::{
     find_method, registry_json, EvidenceClass, MethodRecord, MethodStatus, ASTRONOMY_METHOD_ID,
     CIVIL_METHOD_ID, CLOCK_METHOD_ID, EPOCH_METHOD_ID, METHOD_REGISTRY, METHOD_REGISTRY_SCHEMA,
-    PANCHANGA_METHOD_ID, SUPPLIED_METHOD_ID, UNITS_METHOD_ID,
+    PANCHANGA_METHOD_ID, SUPPLIED_METHOD_ID, UNITS_METHOD_ID, WORKER_CLOCK_METHOD_ID,
 };
 pub use result::{time_result_json, TIME_RESULT_SCHEMA};
 pub use time::{

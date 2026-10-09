@@ -66,3 +66,24 @@ Status vocabulary: **implemented** (code + passing checks) · **verified** (chec
 - **Deliberately not built:** persistence/realtime (Phase 7) — no consumer or real producer yet.
 - **Not claimed:** verified time, scientific validation, any computed astronomy or Panchanga, deployment.
 - **Next safest slice:** review ephemeris licensing, download `de440s.bsp` + a leap-seconds kernel locally with pinned hashes, and collect Horizons reference vectors (needs network approval), or take the Panchanga decisions.
+
+### Deployment wiring increment — 2026-10-10
+- `samwat.allb.xyz` is recorded as the canonical MAATAA hostname direction in the domain authority map; it is not a live DNS or release claim.
+- Next production start now binds on `0.0.0.0`, accepts the process-provided `PORT`, and uses `NEXT_PUBLIC_SITE_URL` for canonical metadata when configured.
+- Release build already compiles Rust before Next.js; native Rust binary is explicitly included in the Next API route output traces.
+- `/api/health` checks the packaged Rust runtime and reports pending scientific method IDs separately from process liveness.
+- Validation: Rust tests, Clippy, release/debug builds, fixtures, contract tests, TypeScript and Next production build pass (see `evidence/check-20261009T190848Z.log`). Browser E2E could not be run because this checkout has no resolvable Playwright package path, and a local HTTP smoke test could not bind a loopback port in this sandbox. GitHub DNS resolution and local DNS socket access are currently blocked; the remote URL is set locally, but no remote fetch/push or DNS/TLS change occurred.
+- Remaining scientific completion: no verified clock provider, no ephemeris dataset/reference vectors, and no selected Panchanga tradition/rules. Therefore astronomy/Panchanga are still not complete.
+- Deployment direction update (superseded adapter trial): Cloudflare Workers is selected; no separate Node origin is required. The native Rust runtime remains available for local development, while the Worker adapter uses a `wasm32-unknown-unknown` build of the same Rust core. An initial Cloudflare Vite plugin + vinext trial is retained as historical evidence only; it is not the deploy adapter.
+- Wrangler install: added repository dev dependency `wrangler@4.149.0`; approved only its `workerd` postinstall after reviewing that it validates/prepares the platform runtime binary. `pnpm exec wrangler --version` and help pass (Wrangler log redirected to a writable temp file). This does not verify Cloudflare credentials or create a Worker deployment.
+- Cloudflare access: local Wrangler token authentication now verifies successfully for the account shown in the user's Cloudflare dashboard; the secret value was not displayed. No deployment, DNS edit, or custom-domain write occurred.
+- Worker preview: Rust/Wasm parity, 29 Rust tests, formatting and Clippy passed. The isolated Vite preview served `/`, `/clock`, `/observatory`, and all four Worker API endpoints. Invalid query input, extra query fields, wrong methods, and unknown routes failed closed. `DEPLOYMENT.md` records the exact verification boundary and remaining release gates.
+- Exact-release gates still open: verify the intended Git remote/ref and freeze a clean release commit; run clean install/build and repeat runtime tests on that commit; configure `samwat.allb.xyz` and verify DNS, TLS, public reachability and rollback; add operational ownership/monitoring. These are required before production is claimed.
+- Scientific completion remains open: no verified clock provider, ephemeris dataset/reference vectors, or accepted Panchanga tradition/rules. Astronomy and Panchanga remain pending.
+
+### Stable OpenNext Worker adapter — 2026-10-10
+- Replaced the rejected Vite/vinext deploy path with stable `@opennextjs/cloudflare@1.20.9`; the Vite prerelease path violated the local release-age policy and the stable Vite plugin path did not serve the App Router API routes.
+- An isolated copy built the Next.js app and Worker wrapper, then served the UI and Rust/Wasm endpoints in local workerd preview. The Worker forwards non-API requests to OpenNext and handles `/api/{health,methods,time,convert}` through Wasm.
+- Wrangler `deploy --dry-run` bundled Worker code and assets successfully without upload. App manifest, standalone lock, OpenNext config, and deploy docs now select this same adapter.
+- `wrangler.jsonc` names `samwat.allb.xyz` as the intended custom domain and disables `workers.dev`; this file has not been applied remotely. A fresh isolated install was blocked by npm registry DNS, so preview/build used already-installed dependencies matching the pinned lockfile.
+- This does not establish clean exact-tree installation, remote repository publication, scientific readiness, production deployment, DNS, TLS, or public reachability. Those gates remain open.

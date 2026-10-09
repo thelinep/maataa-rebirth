@@ -6,7 +6,7 @@ const services = [
   ["Observatory web app", "Runs locally", "This interface"],
   ["Ephemeris service", "Planned", "Blocked on ASTRONOMY-DECISION-001"],
   ["Panchanga service", "Planned", "Blocked on tradition and location decisions"],
-  ["samwat.vaigyaaniq.online · observatory.tlps.in · cosmos.tlps.in · api.vaigyaaniq.online/hemant · learn.tlps.in/astronomy", "Not deployed", "Requested targets; DNS, hosting and certificates need a separate approved task"],
+  ["samwat.allb.xyz", "Not deployed", "Canonical MAATAA hostname direction; DNS, origin, TLS and external verification remain open"],
 ] as const;
 
 export default function ServicesModule() {

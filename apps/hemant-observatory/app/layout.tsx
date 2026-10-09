@@ -6,6 +6,9 @@ export const metadata: Metadata = {
   title: "Hemant Samwat Observatory Runtime",
   description:
     "An inspectable astronomy and calendar workspace. Demonstration values are labeled with their source and limits.",
+  metadataBase: process.env.NEXT_PUBLIC_SITE_URL
+    ? new URL(process.env.NEXT_PUBLIC_SITE_URL)
+    : undefined,
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

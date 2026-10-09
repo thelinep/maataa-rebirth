@@ -24,7 +24,7 @@ All checks: `bash scripts/check.sh` (Rust fmt/test/clippy/build, fixture drift, 
 | CLI | `crates/hemant-shell` | `--json`, `--unix-nanos N`, `--methods-json`; fails closed on bad arguments. |
 | Contract (TS) | `lib/contract.ts` | Strict validators shared by routes, UI and tests. |
 | Shell bridge | `lib/shell.ts`, `lib/time-response.ts` | Fixed binary, fixed argument shapes, 2 s timeout, 64 KB output, empty environment. |
-| API | `app/api/{time,convert,methods}` | `convert` accepts only `unix_nanos` (bounded signed integer). |
+| API | `app/api/{time,convert,methods,health}` plus the Worker wrapper | `convert` accepts only `unix_nanos` (bounded signed integer); health reports liveness separately from pending science methods. |
 | UI | `components/observatory.tsx`, `components/modules/*`, `app/[section]` | 15 module pages plus the overview. |
 
 ## Module status
@@ -53,6 +53,7 @@ All checks: `bash scripts/check.sh` (Rust fmt/test/clippy/build, fixture drift, 
 - Unix time skips leap seconds; the elapsed Hemant units are a Unix-time difference.
 - The 1979 epoch is user-selected (minute precision); its Sankranti instant is not recomputed.
 - The overview sky diagram and the Observatory SVG are illustrative.
-- No database, realtime feed, telemetry, account system or network collection exists. Requested domains are not deployed.
+- No database, realtime feed, telemetry, account system or network collection exists. `samwat.allb.xyz` is the canonical MAATAA hostname direction, but DNS, origin hosting, TLS and public deployment are not verified.
+- Cloudflare Workers is the selected deployment target. The Worker build uses the stable OpenNext Cloudflare adapter and the Rust core compiled to Wasm; the native CLI remains for local Node.js development. The Worker path has passed an isolated local workerd preview and Wrangler upload-free dry run. The checked-in release tree still needs its own reproducible clean install/build and smoke evidence before deployment.
 
 Design records: `ASTRONOMY-METHODS.md`, `ASTRONOMY-DECISION-001.md`, `PANCHANGA-DECISION.md`, `DEPENDENCIES.md`. Progress: `PROGRESS.md`.

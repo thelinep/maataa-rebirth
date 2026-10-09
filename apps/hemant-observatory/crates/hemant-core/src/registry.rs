@@ -66,6 +66,7 @@ pub struct MethodRecord {
 }
 
 pub const CLOCK_METHOD_ID: &str = "host-system-wall-clock-v1";
+pub const WORKER_CLOCK_METHOD_ID: &str = "cloudflare-worker-date-now-v1";
 pub const SUPPLIED_METHOD_ID: &str = "caller-supplied-unix-nanoseconds-v1";
 pub const CIVIL_METHOD_ID: &str = "unix-nanos-to-gregorian-utc-v1";
 pub const EPOCH_METHOD_ID: &str = "user-selected-kashi-sankranti-minute-reference-v1";
@@ -92,6 +93,27 @@ pub const METHOD_REGISTRY: &[MethodRecord] = &[
             "A point snapshot; its age grows after it is read.",
             "Not verified: readable or agreeing with another clock is not verification.",
             "Supported range 0001-01-01 to 9999-12-31 UTC; values before 1970 cannot come from the host clock.",
+        ],
+    },
+    MethodRecord {
+        id: WORKER_CLOCK_METHOD_ID,
+        version: "1",
+        kind: "clock-source",
+        title: "Cloudflare Workers wall clock",
+        status: MethodStatus::Active,
+        evidence_class: EvidenceClass::HostReported,
+        verification: "unverified",
+        inputs: &["Cloudflare Workers Date.now() milliseconds"],
+        source_identity: "Date.now() supplied by the Cloudflare Workers runtime; converted to integer nanoseconds with millisecond resolution",
+        time_scale: "unix-utc-no-leap-seconds",
+        frame_or_location: "not-applicable",
+        output_units: "integer nanoseconds since 1970-01-01T00:00:00 UTC (Unix count; millisecond resolution)",
+        uncertainty: "unknown (runtime clock synchronization source, offset and drift are not measured)",
+        limitations: &[
+            "A point snapshot; its age grows after it is read.",
+            "Not verified: runtime clock may be readable without having known accuracy.",
+            "The source has millisecond resolution; lower decimal places are zero padding, not measured precision.",
+            "Leap seconds are not represented; values before 1970 are not accepted by the Worker API.",
         ],
     },
     MethodRecord {

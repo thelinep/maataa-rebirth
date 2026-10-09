@@ -8,6 +8,7 @@ use crate::json::Json;
 use crate::registry::{
     find_method, ASTRONOMY_METHOD_ID, CIVIL_METHOD_ID, CLOCK_METHOD_ID, EPOCH_METHOD_ID,
     METHOD_REGISTRY_SCHEMA, PANCHANGA_METHOD_ID, SUPPLIED_METHOD_ID, UNITS_METHOD_ID,
+    WORKER_CLOCK_METHOD_ID,
 };
 use crate::time::{format_unix_utc, ClockReadError, ClockSource, WallClockSnapshot};
 use crate::units::{
@@ -20,6 +21,7 @@ pub const TIME_RESULT_SCHEMA: &str = "hemant.time-result/2";
 pub fn reading_method_id(source: ClockSource) -> &'static str {
     match source {
         ClockSource::HostSystemWallClock => CLOCK_METHOD_ID,
+        ClockSource::WorkerWallClock => WORKER_CLOCK_METHOD_ID,
         // Fixtures are reported as supplied input; they never claim host provenance.
         ClockSource::SuppliedUnixNanoseconds | ClockSource::Fixture => SUPPLIED_METHOD_ID,
     }
@@ -146,5 +148,17 @@ mod tests {
         let json = time_result_json(&snapshot).unwrap();
         assert!(json.contains(&format!("\"unix_nanos\":\"{MAX_SUPPORTED_UNIX_NANOS}\"")));
         assert!(json.contains("9999-12-31 23:59:59.999999999 UTC"));
+    }
+
+    #[test]
+    fn worker_clock_is_explicitly_unverified_and_uses_its_own_method() {
+        let snapshot =
+            WallClockSnapshot::from_worker_wall_clock_unix_nanos(HEMANT_EPOCH_UNIX_NANOS).unwrap();
+        let json = time_result_json(&snapshot).unwrap();
+        assert!(json.contains("\"method\":\"cloudflare-worker-date-now-v1\""));
+        assert!(json.contains("\"source\":\"cloudflare-worker-date-now\""));
+        assert!(json.contains("\"verification\":\"unverified\""));
+        assert!(json.contains("\"uncertainty\":\"unknown\""));
+        assert!(json.contains("millisecond resolution"));
     }
 }

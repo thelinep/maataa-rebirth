@@ -8,6 +8,7 @@
 | Domain | Logical owner | Purpose | Exposure intent | State |
 |---|---|---|---|---|
 | `allb.xyz` | MAATAA | MAATAA root/landing | Public | Existing zone export has apex/www A records; validate target and ownership before deployment. |
+| `samwat.allb.xyz` | MAATAA / Hemant Samvat | Hemant Samvat Observatory Runtime | Public HTTPS | Canonical hostname direction; Cloudflare Workers selected, but Worker, custom-domain binding and TLS are not configured or verified. |
 | `auth.allb.xyz` | MAATA Auth | MIP issuer, passkey ceremonies, sessions | Public HTTPS | Proposed issuer; no host/service deployment verified. |
 | `api.allb.xyz` | MAATA API Runtime | Protected MAATAA API | Public HTTPS edge, authenticated requests | Proposed; no record/service deployment verified. |
 | `hkdb.allb.xyz` | DBB/HKDB | Knowledge authority | Private/restricted | Prefer private DNS and network; no public record. |

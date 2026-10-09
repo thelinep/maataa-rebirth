@@ -47,6 +47,8 @@ impl TimeScale {
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum ClockSource {
     HostSystemWallClock,
+    /// Wall-clock milliseconds supplied by the Cloudflare Workers runtime.
+    WorkerWallClock,
     SuppliedUnixNanoseconds,
     /// Deterministic source used only by tests and fixtures.
     Fixture,
@@ -56,6 +58,7 @@ impl ClockSource {
     pub const fn id(self) -> &'static str {
         match self {
             Self::HostSystemWallClock => "host-system-wall-clock",
+            Self::WorkerWallClock => "cloudflare-worker-date-now",
             Self::SuppliedUnixNanoseconds => "caller-supplied-unix-nanoseconds",
             Self::Fixture => "test-fixture",
         }
@@ -63,6 +66,7 @@ impl ClockSource {
     pub const fn label(self) -> &'static str {
         match self {
             Self::HostSystemWallClock => "host system wall clock",
+            Self::WorkerWallClock => "Cloudflare Workers Date.now() (millisecond resolution)",
             Self::SuppliedUnixNanoseconds => "caller-supplied Unix nanoseconds",
             Self::Fixture => "deterministic test fixture",
         }
@@ -181,6 +185,19 @@ impl WallClockSnapshot {
             unix_nanos,
             scale: TimeScale::UnixUtc,
             source: ClockSource::SuppliedUnixNanoseconds,
+            verification: Verification::Unverified,
+            uncertainty: Uncertainty::Unknown,
+        })
+    }
+
+    /// Construct a point reading from the Cloudflare Workers Date.now() value
+    /// supplied across the WebAssembly boundary. The clock remains unverified.
+    pub fn from_worker_wall_clock_unix_nanos(unix_nanos: i128) -> Result<Self, ClockReadError> {
+        ensure_supported(unix_nanos)?;
+        Ok(Self {
+            unix_nanos,
+            scale: TimeScale::UnixUtc,
+            source: ClockSource::WorkerWallClock,
             verification: Verification::Unverified,
             uncertainty: Uncertainty::Unknown,
         })

@@ -12,3 +12,10 @@ version = "0.1.0"
 dependencies = [
  "hemant-core",
 ]
+
+[[package]]
+name = "hemant-wasm"
+version = "0.1.0"
+dependencies = [
+ "hemant-core",
+]

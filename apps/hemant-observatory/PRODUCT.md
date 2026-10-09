@@ -28,7 +28,7 @@ The requested experience includes an interactive observatory, live clocks, calen
 
 ## Capabilities and Constraints
 
-- Requested domains: `samwat.vaigyaaniq.online`, `observatory.tlps.in`, `cosmos.tlps.in`, `api.vaigyaaniq.online/hemant`, and `learn.tlps.in/astronomy`.
+- Canonical MAATAA hostname direction: `samwat.allb.xyz`, following the MAATAA/TLPS ownership split in `docs/product/MAATAA-DOMAIN-AUTHORITY-MAP.md`. Earlier requested names (`samwat.vaigyaaniq.online`, `observatory.tlps.in`, `cosmos.tlps.in`, `api.vaigyaaniq.online/hemant`, and `learn.tlps.in/astronomy`) are not configured aliases; domain owners and routes must be resolved before using them.
 - Requested modules include live clock, observatory, Panchanga, Sankranti, Brahmi cosmology, API/developer, education, simulation timeline, services, research, mobile, widgets, modes, planetary analytics, and universal ratios.
 - Requested engines: Brahmi/transliteration, Panchanga, astronomical calculations, and Dixit-Saankhya ratios. Calendar traditions, epoch/ayanamsha, planetary ephemeris, coordinate frames, uncertainty semantics, and ratio definitions remain open until sourced and tested.
 - Realtime IST from a host clock can be displayed with its source labelled. Sidereal time, planetary motion, telemetry, ayana/Sankranti transitions, and calendar fields must not be described as verified until backed by implemented calculations and validated data.
