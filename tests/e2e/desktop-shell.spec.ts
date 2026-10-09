@@ -11,7 +11,7 @@ test("MAATAA Desktop opens app icons in Mac-style windows and continues TLPS pla
   await expect(page.getByRole("heading", { name: "MAATAA Desktop" })).toBeVisible();
   await expect(page.getByRole("button", { name: "MAATAA UI" })).toBeVisible();
   await expect(page.getByRole("button", { name: "MAATAA Browser" })).toBeVisible();
-  await expect(page.getByRole("button", { name: "TLPS" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "TLPS", exact: true })).toBeVisible();
   await expect(page.getByRole("button", { name: "TLP Film" })).toBeVisible();
 
   await page.getByRole("button", { name: "MAATAA UI" }).click();
@@ -97,7 +97,7 @@ test("MAATAA Desktop opens app icons in Mac-style windows and continues TLPS pla
   await maataaWindow.getByRole("button", { name: "Close MAATAA UI" }).click();
   await expect(maataaWindow).toHaveCount(0);
 
-  await page.getByRole("button", { name: "TLPS" }).click();
+  await page.getByRole("button", { name: "TLPS", exact: true }).click();
   const tlpsWindow = page.locator('[data-app-window="tlps"]');
   await expect(tlpsWindow).toBeVisible();
   await expect(tlps.getByRole("heading", { name: "What is your role?" })).toBeVisible();
@@ -109,11 +109,15 @@ test("MAATAA Desktop opens app icons in Mac-style windows and continues TLPS pla
   await tlps.getByRole("button", { name: "Start my plan" }).click();
   await expect(tlps.getByRole("heading", { name: "Plan", exact: true })).toBeVisible();
   await tlps.getByRole("button", { name: "Load sample" }).click();
+  const sharedTlpsProject = page.locator('.desktop-project-row[data-product="tlps"]');
+  await expect(sharedTlpsProject).toBeVisible();
+  await page.getByRole("button", { name: "Show MAATAA Desktop home" }).click();
+  await sharedTlpsProject.getByRole("button", { name: /Continue .* in TLPS/ }).click();
+  await expect(tlps.getByRole("heading", { name: "Plan", exact: true })).toBeVisible();
   await tlps.getByRole("button", { name: /Handover/ }).click();
   await tlps.getByRole("button", { name: "Continue into a film project" }).click();
   const filmWindow = page.locator('[data-app-window="film"]');
   await expect(filmWindow).toBeVisible();
-  await film.locator(".tlp-public-header").getByRole("button", { name: /Open workspace/ }).click();
   await expect(film.getByRole("heading", { name: "Continue to your workspace" })).toBeVisible();
   await film.getByRole("button", { name: "Continue to local preview" }).click();
   await film.getByLabel("Choose your role").selectOption("producer");
@@ -131,6 +135,13 @@ test("MAATAA Desktop opens app icons in Mac-style windows and continues TLPS pla
   await expect(film.getByRole("heading", { name: "Logline" })).toHaveCount(0);
   await film.getByRole("button", { name: "Restore previous film project" }).click();
   await expect(film.locator("#film-project-name")).toHaveValue("My TLPS Film");
+  const sharedFilmProject = page.locator('.desktop-project-row[data-product="tlp-film"]');
+  await expect(sharedFilmProject).toContainText("My TLPS Film");
+  await page.getByRole("button", { name: "Show MAATAA Desktop home" }).click();
+  await page.getByRole("button", { name: "MAATAA UI" }).click();
+  await expect(maataa.getByText("My TLPS Film")).toBeVisible();
+  await maataa.getByRole("button", { name: "Continue →" }).last().click();
+  await expect(film.getByRole("heading", { name: "Logline" })).toBeVisible();
   await filmWindow.getByRole("button", { name: "Close TLP Film" }).click();
 
   await page.getByRole("button", { name: "Open NEVO" }).click();

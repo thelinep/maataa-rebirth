@@ -11,7 +11,10 @@
     <header class="topbar">
       <div class="brand"><span class="mark">M</span><span><strong>MAATAA</strong><small>DESKTOP</small></span></div>
       <div class="menubar" aria-label="Desktop status"><span>Apps</span><span>Window</span><span>Local workspace</span></div>
-      <time id="clock"></time>
+      <div class="clock-stack" aria-label="Desktop clock">
+        <time id="clock"></time>
+        <span id="hemant-clock" title="Calculated from this Mac's unverified host clock; not a live MAATAA OS time service."></span>
+      </div>
     </header>
 
     <nav class="browser-nav" aria-label="Browser controls">
@@ -25,9 +28,8 @@
     </nav>
 
     <main class="desktop-home" aria-label="MAATAA Desktop home">
-      <div class="desktop-meta"><span>YOUR WORKSPACE</span><span>Native macOS · WebKit</span></div>
+      <div class="desktop-meta"><span>Workspace</span><span>Native macOS · WebKit</span></div>
       <section class="welcome">
-        <p class="eyebrow">MAATAA DESKTOP</p>
         <h1>Your apps.<br/><span>One desktop.</span></h1>
         <p class="welcome-copy">Open a workspace in its own window. Browser windows stay separate, so you can keep more than one page open at a time.</p>
       </section>
@@ -47,6 +49,132 @@
         <button class="app-icon" id="support-app" type="button" aria-label="Open Support Center in a new window">
           <span class="app-art support-art">?</span><strong>Help & Docs</strong><small>Support Center</small>
         </button>
+        <button class="app-icon" id="hemant-app" type="button" aria-label="Open Hemant Samvat Panchang and space timeline">
+          <span class="app-art hemant-art"><span></span></span><strong>Hemant Panchang</strong><small>Calendar & space log</small>
+        </button>
+        <button class="app-icon" id="spacecraft-app" type="button" aria-label="Open spacecraft navigation simulator">
+          <span class="app-art spacecraft-art">⌁</span><strong>Spacecraft Nav</strong><small>Safe simulation</small>
+        </button>
+      </section>
+      <section class="workspace-hub" aria-labelledby="workspace-hub-title">
+        <header class="workspace-heading">
+          <div>
+            <h2 id="workspace-hub-title">Your work, together</h2>
+            <p>Projects from TLPS and TLP Film, with pilot status in one place.</p>
+          </div>
+          <button class="subtle-button" id="refresh-workspace" type="button">Refresh</button>
+        </header>
+        <div class="workspace-columns">
+          <section class="workspace-panel" aria-labelledby="workspace-projects-title">
+            <h3 id="workspace-projects-title">Projects</h3>
+            <div id="workspace-projects" class="workspace-projects" aria-live="polite">
+              <p class="workspace-empty">Loading projects saved on this Mac…</p>
+            </div>
+            <p class="workspace-local-note">Only project name, type, and example status are shared here. Planning details stay in each app.</p>
+          </section>
+          <section class="workspace-panel" aria-labelledby="workspace-pilots-title">
+            <h3 id="workspace-pilots-title">Pilot status</h3>
+            <div class="pilot-list">
+              <article class="pilot-row">
+                <div class="pilot-title"><strong>TLPS production planning</strong><span class="state-tag state-waiting">Not started</span></div>
+                <p>Local rehearsal is complete. A real pilot still needs an approved test tenant and named participants.</p>
+                <button class="text-action" type="button" data-launch-product="tlps">Open TLPS →</button>
+              </article>
+              <article class="pilot-row">
+                <div class="pilot-title"><strong>NEVO Events</strong><span class="state-tag">Proposed</span></div>
+                <p>No NEVO app is connected to this Desktop yet. Its pilot still needs an owner and an isolated test tenant.</p>
+              </article>
+            </div>
+          </section>
+        </div>
+        <section class="workspace-activity" aria-labelledby="workspace-activity-title">
+          <div class="activity-heading"><h3 id="workspace-activity-title">Recent project activity</h3><span>Saved on this Mac</span></div>
+          <ol id="workspace-events" aria-live="polite"><li class="workspace-empty">Activity appears when a project is created, updated, or removed.</li></ol>
+          <p>Times use this Mac's clock and are not yet verified against Hemant Samwat or a shared MAATAA OS clock.</p>
+        </section>
+      </section>
+      <section class="hemant-workspace" id="hemant-workspace" aria-labelledby="hemant-title" hidden>
+        <header class="hemant-heading">
+          <button class="subtle-button" id="hemant-back" type="button">← Desktop</button>
+          <div>
+            <h1 id="hemant-title">Hemant Samvat</h1>
+            <p>Panchang and space-event observatory</p>
+          </div>
+          <span class="state-tag state-waiting">Preview · time unverified</span>
+        </header>
+        <div class="hemant-controls" aria-label="Calendar settings">
+          <label>Calendar date <input type="date" id="hemant-date" /></label>
+          <label>Location <select id="hemant-location"><option value="varanasi">Varanasi / Kashi</option><option value="delhi">Delhi</option></select></label>
+          <span id="hemant-method-state">Calculation method: awaiting confirmation</span>
+        </div>
+        <p class="hemant-boundary" role="status">The chosen epoch is a reference instant, not a complete Panchang engine. Tithi, Nakshatra, Yoga, Karana and local Sun/Moon times will appear after the astronomical method is confirmed and implemented.</p>
+        <div class="hemant-sections">
+          <section class="hemant-panel" aria-labelledby="panchang-fields-title">
+            <h2 id="panchang-fields-title">Panchang for selected date</h2>
+            <dl class="panchang-fields">
+              <div><dt>Vara · weekday</dt><dd id="panchang-vara">Pending calculation</dd></div>
+              <div><dt>Tithi · lunar day</dt><dd>Pending calculation</dd></div>
+              <div><dt>Paksha · lunar half</dt><dd>Pending calculation</dd></div>
+              <div><dt>Nakshatra</dt><dd>Pending calculation</dd></div>
+              <div><dt>Yoga</dt><dd>Pending calculation</dd></div>
+              <div><dt>Karana</dt><dd>Pending calculation</dd></div>
+              <div><dt>Sunrise / sunset</dt><dd>Location-based calculation pending</dd></div>
+              <div><dt>Moonrise / moonset</dt><dd>Location-based calculation pending</dd></div>
+            </dl>
+            <p class="hemant-footnote">Hemant elapsed units use a fixed 24-hour ahoratra convention from the selected 1979 reference epoch. They are not a traditional Vikram or lunisolar year conversion.</p>
+          </section>
+          <section class="hemant-panel space-log" aria-labelledby="space-events-title">
+            <div class="space-log-heading"><div><h2 id="space-events-title">Space events on the timeline</h2><p>Historical events and published mission plans. Future dates can change. Dates remain Gregorian until Hemant calendar conversion is verified.</p></div><span class="state-tag">NASA sources</span></div>
+            <ol class="space-events">
+              <li><time datetime="1957-10-04">4 Oct 1957</time><div><strong>Sputnik 1 launched</strong><span>Historical · first artificial satellite</span></div><a href="https://www.nasa.gov/history/65-years-ago-sputnik-ushers-in-the-space-age/" target="_blank" rel="noopener noreferrer">NASA source ↗</a></li>
+              <li><time datetime="1969-07-20">20 Jul 1969</time><div><strong>Apollo 11 lunar landing</strong><span>Historical · first crewed Moon landing</span></div><a href="https://www.nasa.gov/history/apollo-11-mission-overview/" target="_blank" rel="noopener noreferrer">NASA source ↗</a></li>
+              <li><time datetime="2022-09-26">26 Sep 2022</time><div><strong>DART impact at Dimorphos</strong><span>Historical · planetary-defence test</span></div><a href="https://www.nasa.gov/news-release/nasas-dart-mission-hits-asteroid-in-first-ever-planetary-defense-test/" target="_blank" rel="noopener noreferrer">NASA source ↗</a></li>
+              <li><time datetime="2026-12-03">3 Dec 2026</time><div><strong>Europa Clipper Earth flyby</strong><span>Planned · gravity assist; schedule may change</span></div><a href="https://science.nasa.gov/mission/europa-clipper/mission-timeline/" target="_blank" rel="noopener noreferrer">NASA source ↗</a></li>
+              <li><time datetime="2027">2027</time><div><strong>Artemis III</strong><span>Planned year · mission objectives may change</span></div><a href="https://www.nasa.gov/mission/artemis-iii/" target="_blank" rel="noopener noreferrer">NASA source ↗</a></li>
+              <li><time datetime="2028-07">NET Jul 2028</time><div><strong>Dragonfly launch window</strong><span>Planned · not an exact launch date</span></div><a href="https://science.nasa.gov/mission/dragonfly/" target="_blank" rel="noopener noreferrer">NASA source ↗</a></li>
+              <li><time datetime="2030-04">Apr 2030</time><div><strong>Europa Clipper Jupiter orbit insertion</strong><span>Planned month · arrival milestone</span></div><a href="https://science.nasa.gov/mission/europa-clipper/mission-timeline/" target="_blank" rel="noopener noreferrer">NASA source ↗</a></li>
+            </ol>
+          </section>
+        </div>
+      </section>
+      <section class="spacecraft-workspace" id="spacecraft-workspace" aria-labelledby="spacecraft-title" hidden>
+        <header class="hemant-heading">
+          <button class="subtle-button" id="spacecraft-back" type="button">← Desktop</button>
+          <div><h1 id="spacecraft-title">Spacecraft Navigation Utility</h1><p>Offline heliocentric trajectory simulator · Hemant time display</p></div>
+          <span class="state-tag state-waiting">SIMULATION · NO FLIGHT CONTROL</span>
+        </header>
+        <p class="hemant-boundary" role="status">This is a software simulation using a Sun-only gravity model and a synthetic starting state. It does not read spacecraft sensors, determine a real vehicle's position, or send commands. Flight use requires mission data, qualified hardware, independent validation, and mission approval.</p>
+        <div class="spacecraft-grid">
+          <section class="hemant-panel" aria-labelledby="spacecraft-input-title">
+            <h2 id="spacecraft-input-title">Scenario inputs</h2>
+            <p class="spacecraft-help">Heliocentric inertial position in kilometres and velocity in kilometres per second.</p>
+            <div class="state-input-grid">
+              <label>X <input id="nav-x" type="number" step="any" value="149597870.7" /></label>
+              <label>Y <input id="nav-y" type="number" step="any" value="0" /></label>
+              <label>Z <input id="nav-z" type="number" step="any" value="0" /></label>
+              <label>Vx <input id="nav-vx" type="number" step="any" value="0" /></label>
+              <label>Vy <input id="nav-vy" type="number" step="any" value="42.5" /></label>
+              <label>Vz <input id="nav-vz" type="number" step="any" value="0" /></label>
+            </div>
+            <label class="scenario-field">Start time (UTC) <input id="nav-epoch" type="datetime-local" value="2030-01-01T00:00" /></label>
+            <label class="scenario-field">Propagate for (hours) <input id="nav-duration" type="number" min="0" max="87600" step="1" value="24" /></label>
+            <div class="scenario-actions"><button class="primary" id="nav-calculate" type="button">Calculate trajectory</button><button class="subtle-button" id="nav-reset" type="button">Load sample</button></div>
+            <p class="spacecraft-help">Integrator: fixed-step RK4, two-body Newtonian gravity, Sun as the sole central body. No perturbations, relativistic corrections, sensor fusion, or uncertainty propagation.</p>
+          </section>
+          <section class="hemant-panel" aria-labelledby="nav-solution-title" aria-live="polite">
+            <div class="space-log-heading"><div><h2 id="nav-solution-title">Navigation solution</h2><p id="nav-solution-state">Sample inputs loaded; calculate to propagate.</p></div><span class="state-tag">SIMULATED</span></div>
+            <dl class="nav-results">
+              <div><dt>Simulated UTC</dt><dd id="nav-result-time">—</dd></div>
+              <div><dt>Hemant elapsed display</dt><dd id="nav-result-hemant">—</dd></div>
+              <div><dt>Position · heliocentric inertial (km)</dt><dd id="nav-result-position">—</dd></div>
+              <div><dt>Velocity (km/s)</dt><dd id="nav-result-velocity">—</dd></div>
+              <div><dt>Sun range</dt><dd id="nav-result-range">—</dd></div>
+              <div><dt>Speed</dt><dd id="nav-result-speed">—</dd></div>
+              <div><dt>Radial velocity · outward +</dt><dd id="nav-result-radial">—</dd></div>
+            </dl>
+            <p class="hemant-footnote">Hemant elapsed display is provisional arithmetic from the selected 1979 reference epoch using fixed 24-hour days. It is not a mission clock or a verified traditional calendar date.</p>
+          </section>
+        </div>
       </section>
       <div class="desktop-note"><span class="note-light"></span><span id="desktop-status" role="status">Choose an icon to open an app window</span><button type="button" id="new-browser">＋ New browser window</button></div>
       <footer class="dock" aria-label="Desktop dock">
@@ -64,7 +192,6 @@
     <section class="browser-workspace" aria-label="Browser window">
       <div id="browser-empty" class="browser-empty">
         <span class="browser-emblem">◎</span>
-        <p class="eyebrow">MAATAA BROWSER</p>
         <h1>A fresh window,<br/><span>ready to browse.</span></h1>
         <p>Enter a public website or a search phrase above. Each Browser launch has its own window and page.</p>
         <button class="primary" id="browser-open-sample" type="button">Open example.com</button>
@@ -73,5 +200,6 @@
       <div class="browser-status" id="status" role="status">Independent browser window · no page open</div>
     </section>
     <script src="./app.js"></script>
+    <script type="module" src="./spacecraft-app.js"></script>
   </body>
 </html>

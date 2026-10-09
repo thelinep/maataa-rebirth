@@ -24,6 +24,10 @@ import {
   TLPS_FILM_PREVIOUS_PROJECT_KEY,
   type TlpsFilmHandoff,
 } from "../../shared/tlps-film-handoff";
+import {
+  publishWorkspaceProject,
+  removeWorkspaceProject,
+} from "../../shared/maataa-workspace";
 import "./style.css";
 
 const localSessionKey = "tlp.local-preview-session.v1";
@@ -103,6 +107,33 @@ function App() {
     localStorage.setItem(filmStorageKey, JSON.stringify(project));
     setProjectDraft(project.projectName);
   }, [project]);
+
+  useEffect(() => {
+    const title = project.projectName.trim();
+    const isSample = !activeTlpsHandoff
+      && title === "30 Trillion India"
+      && !project.createdByRole
+      && !project.projectIdea;
+    const timer = window.setTimeout(() => {
+      if (!title) {
+        void removeWorkspaceProject("tlp-film").catch(() =>
+          setNotice("Project saved here, but MAATAA Desktop could not refresh its project list."),
+        );
+        return;
+      }
+      void publishWorkspaceProject({
+        id: "tlp-film:workspace",
+        product: "tlp-film",
+        title,
+        projectType: project.productionType || "Feature Film",
+        status: isSample ? "example" : "draft",
+        sample: isSample,
+      }).catch(() =>
+        setNotice("Project saved here, but MAATAA Desktop could not refresh its project list."),
+      );
+    }, 250);
+    return () => window.clearTimeout(timer);
+  }, [activeTlpsHandoff, project]);
 
   useEffect(() => {
     const syncSurface = () => setPublicSurface(readPublicSurface());

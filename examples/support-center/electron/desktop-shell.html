@@ -33,6 +33,17 @@
           <button class="launcher-app" data-launch-app="browser" type="button"><span class="app-icon app-icon-browser" aria-hidden="true"><b>◉</b></span><span>MAATAA Browser</span></button>
           <button class="launcher-app" data-launch-app="support" type="button"><span class="app-icon app-icon-support" aria-hidden="true"><b>?</b></span><span>Support Center</span></button>
         </div>
+        <section class="desktop-work-hub" aria-labelledby="desktop-work-title">
+          <header class="desktop-work-heading"><div><h2 id="desktop-work-title">Projects and pilots</h2><p>One place to continue your work across MAATAA apps.</p></div><button id="desktop-work-refresh" type="button">Refresh</button></header>
+          <div class="desktop-work-columns">
+            <section class="desktop-work-panel" aria-labelledby="desktop-projects-title"><h3 id="desktop-projects-title">Projects</h3><div id="desktop-project-list" aria-live="polite"><p class="desktop-work-empty">Projects appear here when you name them in TLPS or TLP Film.</p></div></section>
+            <section class="desktop-work-panel" aria-labelledby="desktop-pilots-title"><h3 id="desktop-pilots-title">Pilot status</h3>
+              <article class="desktop-pilot"><div><strong>TLPS production planning</strong><span>Not started</span></div><p>Local rehearsal is complete. A real pilot still needs an approved test tenant and participants.</p><button type="button" data-launch-product="tlps">Open TLPS</button></article>
+              <article class="desktop-pilot"><div><strong>NEVO Events</strong><span>Proposed</span></div><p>NEVO is not connected to this Desktop yet; a pilot owner and isolated test tenant are needed.</p></article>
+            </section>
+          </div>
+          <p class="desktop-work-boundary">Only project name, type, and example/draft status are shared here. Full planning details stay in each app.</p>
+        </section>
       </section>
       <section class="app-window-layer" id="app-window-layer" aria-label="Open application windows"></section>
       <nav class="desktop-dock" id="desktop-dock" aria-label="Running apps" hidden></nav>

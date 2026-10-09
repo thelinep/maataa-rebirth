@@ -87,7 +87,7 @@ async function completeProductIntake(page: Page, idea: string) {
 test("Brahmini is reachable from Help and answers with provider and local-source attribution", async ({
   page,
 }) => {
-  await mockRuntime(page);
+  const calls = await mockRuntime(page);
   await page.goto("/#/help");
   await page
     .getByRole("button", { name: "Open Brahmini help and product assistant" })
@@ -106,6 +106,36 @@ test("Brahmini is reachable from Help and answers with provider and local-source
   await expect(
     page.getByText("Connected to the local Ollama service."),
   ).toHaveCount(0);
+  const sentMessage = String(
+    (calls[0].messages as Array<{ content?: string }>)[0]?.content,
+  );
+  expect(sentMessage).not.toContain("User explicitly enabled app-only pointer context.");
+});
+
+test("pointer context is opt-in, workbench-scoped and sends only a control description", async ({
+  page,
+}) => {
+  const calls = await mockRuntime(page);
+  await page.goto("/#/brahmini");
+  await page.getByRole("checkbox", { name: /Use what I point to/ }).check();
+  await page
+    .getByRole("textbox", { name: "Ask Brahmini" })
+    .fill("Help with this control; private value stays in this prompt only.");
+  const submit = page.getByRole("button", { name: "Ask Brahmini" });
+  await submit.hover();
+  await submit.click();
+  await expect(page.getByText("A reviewable answer from ollama.")).toBeVisible();
+  const sentMessage = String(
+    (calls[0].messages as Array<{ content?: string }>)[0]?.content,
+  );
+  expect(sentMessage).toContain('accessible label "Ask Brahmini"');
+  expect(sentMessage).toContain("No coordinates or field values were captured");
+  const observedContext = sentMessage.split(
+    "User explicitly enabled app-only pointer context.",
+  )[1];
+  expect(observedContext).toBeTruthy();
+  expect(observedContext).not.toContain("private value stays in this prompt only");
+  await expect(page.getByText(/Nothing is saved/)).toBeVisible();
 });
 
 test("Product Forge conducts a multi-agent handoff and synthesizes downloadable work", async ({

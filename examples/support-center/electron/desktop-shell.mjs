@@ -11,6 +11,8 @@ const dock = document.querySelector("#desktop-dock");
 const frameParking = document.querySelector("#app-frames");
 const status = document.querySelector("#desktop-status");
 const windowMenu = document.querySelector("#window-context-menu");
+const workspaceList = document.querySelector("#desktop-project-list");
+const workspaceStorageKey = "maataa.desktop.workspace-projects.v1";
 const windows = new Map();
 let frontOrder = 10;
 let nativeWindowState = { isFullScreen: false, isMaximized: false };
@@ -325,7 +327,7 @@ function makeWindow(id) {
   return record;
 }
 
-function openApp(id, { handoff = false } = {}) {
+function openApp(id, { handoff = false, workspace = false } = {}) {
   if (id === "browser") {
     status.textContent = "Opening MAATAA Browser · native WebKit";
     window.maataaDesktop?.launchBrowser?.().then(result => {
@@ -336,6 +338,8 @@ function openApp(id, { handoff = false } = {}) {
   if (!apps[id]) return;
   const existing = windows.get(id);
   if (handoff && id === "film") apps.film.frame.src = "/tlp/index.html?from=tlps";
+  if (workspace && id === "tlps") apps.tlps.frame.src = "/tlps/index.html?surface=workspace";
+  if (workspace && id === "film") apps.film.frame.src = "/tlp/index.html?surface=workspace";
   if (existing) {
     if (handoff && id === "film") existing.frame.src = "/tlp/index.html?from=tlps";
     focusWindow(existing);
@@ -343,6 +347,68 @@ function openApp(id, { handoff = false } = {}) {
   }
   makeWindow(id);
 }
+
+function readWorkspaceProjects() {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(workspaceStorageKey) ?? "[]");
+    if (!Array.isArray(parsed)) return [];
+    return parsed.filter(project => project && ["tlps", "tlp-film"].includes(project.product)
+      && project.id === `${project.product}:workspace`
+      && typeof project.title === "string" && project.title.length > 0 && project.title.length <= 120
+      && typeof project.projectType === "string" && project.projectType.length <= 80
+      && ["draft", "example"].includes(project.status) && typeof project.sample === "boolean");
+  } catch { return []; }
+}
+
+function renderWorkspaceProjects() {
+  if (!workspaceList) return;
+  workspaceList.replaceChildren();
+  const projects = readWorkspaceProjects();
+  if (!projects.length) {
+    const empty = document.createElement("p");
+    empty.className = "desktop-work-empty";
+    empty.textContent = "Projects appear here when you name them in TLPS or TLP Film.";
+    workspaceList.append(empty);
+    return;
+  }
+  for (const project of projects) {
+    const row = document.createElement("article");
+    row.className = "desktop-project-row";
+    row.dataset.product = project.product;
+    const copy = document.createElement("div");
+    copy.className = "desktop-project-copy";
+    const title = document.createElement("strong");
+    title.textContent = project.title;
+    const detail = document.createElement("span");
+    detail.textContent = `${project.product === "tlps" ? "TLPS" : "TLP Film"} · ${project.projectType || "Project"} · ${project.sample ? "Example" : project.status === "draft" ? "Draft" : "Saved"}`;
+    copy.append(title, detail);
+    const open = document.createElement("button");
+    open.type = "button";
+    open.textContent = "Continue →";
+    open.setAttribute("aria-label", `Continue ${project.title} in ${project.product === "tlps" ? "TLPS" : "TLP Film"}`);
+    open.addEventListener("click", () => openApp(project.product === "tlps" ? "tlps" : "film", { workspace: true }));
+    row.append(copy, open);
+    workspaceList.append(row);
+  }
+}
+
+function updateWorkspaceProject(project, remove = false) {
+  const product = typeof project === "string" ? project : project?.product;
+  const projects = readWorkspaceProjects().filter(item => item.product !== product);
+  if (!remove && project && typeof project === "object" && ["tlps", "tlp-film"].includes(project.product)
+    && project.id === `${project.product}:workspace`
+    && typeof project.title === "string" && project.title.trim().length > 0 && project.title.length <= 120
+    && typeof project.projectType === "string" && project.projectType.length <= 80
+    && ["draft", "example"].includes(project.status) && typeof project.sample === "boolean") {
+    projects.push({ ...project, title: project.title.trim(), updatedAt: new Date().toISOString() });
+  }
+  localStorage.setItem(workspaceStorageKey, JSON.stringify(projects));
+  renderWorkspaceProjects();
+}
+
+document.querySelector("#desktop-work-refresh")?.addEventListener("click", renderWorkspaceProjects);
+window.addEventListener("storage", event => { if (event.key === workspaceStorageKey) renderWorkspaceProjects(); });
+renderWorkspaceProjects();
 
 for (const button of document.querySelectorAll("[data-launch-app]")) {
   button.addEventListener("click", () => openApp(button.dataset.launchApp));
@@ -353,9 +419,23 @@ document.querySelector("#desktop-home-button").addEventListener("click", () => {
 });
 window.addEventListener("message", event => {
   if (event.origin !== window.location.origin) return;
-  if (event.source !== apps.tlps.frame.contentWindow) return;
-  if (event.data?.type !== "maataa:desktop:open-tlps-film") return;
-  openApp("film", { handoff: true });
+  const sourceProduct = Object.entries(apps).find(([, app]) => app.frame?.contentWindow === event.source)?.[0];
+  if (event.data?.type === "maataa:desktop:workspace-project") {
+    if ((sourceProduct === "tlps" && event.data.project?.product === "tlps")
+      || (sourceProduct === "film" && event.data.project?.product === "tlp-film")) updateWorkspaceProject(event.data.project);
+    return;
+  }
+  if (event.data?.type === "maataa:desktop:remove-workspace-project") {
+    if ((sourceProduct === "tlps" && event.data.product === "tlps")
+      || (sourceProduct === "film" && event.data.product === "tlp-film")) updateWorkspaceProject(event.data.product, true);
+    return;
+  }
+  if (sourceProduct === "maataa" && event.data?.type === "maataa:desktop:open-product-workspace"
+    && ["tlps", "tlp-film"].includes(event.data.product)) {
+    openApp(event.data.product === "tlps" ? "tlps" : "film", { workspace: true });
+    return;
+  }
+  if (sourceProduct === "tlps" && event.data?.type === "maataa:desktop:open-tlps-film") openApp("film", { handoff: true });
 });
 window.maataaDesktop?.onWindowState?.(updateNativeFullScreen);
 windowMenu.addEventListener("click", event => {

@@ -1,0 +1,19 @@
+// Typecheck for the framework-free contract modules and their node:test specs.
+// @types/node is resolved from the existing pnpm store (no new dependency).
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "erasableSyntaxOnly": true,
+    "skipLibCheck": true,
+    "types": ["node"],
+    "typeRoots": ["node_modules/.pnpm/@types+node@24.19.1/node_modules/@types"],
+    "lib": ["ES2022", "DOM", "DOM.Iterable"]
+  },
+  "include": ["apps/shared/contracts/**/*.ts", "examples/redux-demo/pointerContext.ts", "tests/contracts/**/*.ts"]
+}

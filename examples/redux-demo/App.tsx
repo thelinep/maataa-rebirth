@@ -1,4 +1,5 @@
 import * as React from "react";
+import { MAATAA_WORKSPACE_PROJECTS_KEY, readLocalWorkspaceProjects, type MaataaWorkspaceProject } from "../../apps/shared/maataa-workspace";
 const TlpsWorkflow = React.lazy(() => import("./TlpsWorkflow").then(module => ({ default: module.TlpsWorkflow })));
 const TlpsSurfaces = React.lazy(() => import("./TlpsSurfaces").then(module => ({ default: module.TlpsSurfaces })));
 const ThemeStudio = React.lazy(() => import("./ThemeStudio").then(module => ({ default: module.ThemeStudio })));
@@ -285,6 +286,16 @@ function Shell({ route, navigate, children }: { route: string; navigate: (path: 
 }
 
 function Landing({ navigate }: { navigate: (path: string) => void }) {
+  const [sharedProjects, setSharedProjects] = React.useState<MaataaWorkspaceProject[]>(readLocalWorkspaceProjects);
+  React.useEffect(() => {
+    const refresh = () => setSharedProjects(readLocalWorkspaceProjects());
+    window.addEventListener("storage", refresh);
+    return () => window.removeEventListener("storage", refresh);
+  }, []);
+  const continueProject = (project: MaataaWorkspaceProject) => {
+    if (window.parent === window) return;
+    window.parent.postMessage({ type: "maataa:desktop:open-product-workspace", product: project.product }, window.location.origin);
+  };
   return <>
     <section className="hero-section">
       <div className="hero-copy">
@@ -314,6 +325,10 @@ function Landing({ navigate }: { navigate: (path: string) => void }) {
             <div><div className="current-work-title-line"><h4>Brahmini Workbench</h4><span className="work-status">Planning prototype</span></div><p>Provider-backed agent discussions and product drafts. Repository edits and test execution are not connected yet.</p></div>
             <button className="text-link" onClick={() => navigate("/brahmini")}>Open Brahmini →</button>
           </article>
+          {sharedProjects.map(project => <article className="current-work-row" key={project.id}>
+            <div><div className="current-work-title-line"><h4>{project.title}</h4><span className="work-status">{project.sample ? "Example" : "Saved locally"}</span></div><p>{project.product === "tlps" ? "TLPS" : "TLP Film"} · {project.projectType || "Project"} · shared from this Desktop.</p></div>
+            {window.parent !== window && <button className="text-link" onClick={() => continueProject(project)}>Continue →</button>}
+          </article>)}
         </section>
         <section className="current-work-column" aria-labelledby="current-pilots-title">
           <h3 id="current-pilots-title">Pilots</h3>

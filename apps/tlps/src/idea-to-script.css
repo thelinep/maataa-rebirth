@@ -1,0 +1,25 @@
+.its { max-width: 920px; margin: 0 auto; padding: 32px 20px 64px; display: grid; gap: 20px; }
+.its-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
+.its-head h1 { margin: 4px 0 8px; font-size: 28px; }
+.its-sub, .its-hint { color: var(--tlps-muted); margin: 0; }
+.its-card { background: var(--tlps-panel); border: 1px solid var(--tlps-line); border-radius: 12px; padding: 20px; display: grid; gap: 14px; }
+.its-card h2 { margin: 0; font-size: 18px; }
+.its-fields { display: grid; gap: 12px; }
+.its-fields label, .its-script { display: grid; gap: 6px; font-size: 14px; }
+.its-inline { grid-template-columns: minmax(200px, 1fr) auto; align-items: end; }
+.its textarea, .its select { width: 100%; background: var(--tlps-bg); color: inherit; border: 1px solid var(--tlps-line); border-radius: 8px; padding: 10px; font: inherit; }
+.its-script textarea { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 13px; }
+.its-preview { border: 1px dashed var(--tlps-gold); border-radius: 10px; padding: 16px; display: grid; gap: 12px; }
+.its dl { display: grid; grid-template-columns: max-content 1fr; gap: 6px 16px; margin: 0; }
+.its dt { color: var(--tlps-muted); }
+.its dd { margin: 0; overflow-wrap: anywhere; }
+.its-actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.its-label { margin: 0; color: var(--tlps-gold); font-weight: 600; }
+.its-pass { color: #8fd18f; }
+.its-fail { color: #f08a7e; }
+.its-message { margin: 0; padding: 10px 14px; border-left: 3px solid var(--tlps-gold); background: var(--tlps-panel); }
+.its-error { margin: 0; padding: 10px 14px; border-left: 3px solid #f08a7e; background: var(--tlps-panel); }
+.its-versions, .its-events { margin: 0; padding-left: 20px; display: grid; gap: 8px; }
+.its-versions small { display: block; color: var(--tlps-muted); }
+.its-events time { margin-left: 8px; color: var(--tlps-muted); font-size: 13px; }
+@media (max-width: 600px) { .its-inline { grid-template-columns: 1fr; } .its dl { grid-template-columns: 1fr; } }

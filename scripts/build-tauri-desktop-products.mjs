@@ -23,6 +23,25 @@ for (const [name, relativeBuildPath] of productBuilds) {
   process.stdout.write(`Bundled ${name} from ${relativeBuildPath}\n`);
 }
 
+const tlpsIndexPath = path.join(productsRoot, "tlps", "index.html");
+const tlpsIndex = await readFile(tlpsIndexPath, "utf8");
+await writeFile(
+  path.join(productsRoot, "tlps", "workspace.html"),
+  tlpsIndex.replace("<title>TLPS · Planning Workspace</title>", "<title>TLPS · Saved Project</title>"),
+);
+
+// Opens TLPS directly in the Idea → Script panel (used for shared project records).
+await writeFile(
+  path.join(productsRoot, "tlps", "idea-to-script.html"),
+  tlpsIndex.replace("<title>TLPS · Planning Workspace</title>", "<title>TLPS · Idea to Script</title>"),
+);
+
+const filmWorkspaceWrapper = `<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>TLP Film project</title></head>
+<body><p>Opening your local TLP Film project…</p><script>location.replace('./index.html?surface=workspace');</script></body></html>
+`;
+await writeFile(path.join(productsRoot, "tlp-film", "workspace.html"), filmWorkspaceWrapper);
+
 const filmWrapper = `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>TLP Film handoff</title></head>
 <body><p>Opening the local TLPS handoff…</p><script>location.replace('./index.html?from=tlps');</script></body></html>

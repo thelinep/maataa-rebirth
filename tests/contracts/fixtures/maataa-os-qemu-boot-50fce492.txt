@@ -1,0 +1,63 @@
+Maataa OS starting in QEMU...
+Cortex-M semihosting prototype boot
+Starting Maataa OS kernel...
+================================
+initializing driver registry...
+  driver uart ready
+  driver gpio ready
+  driver spi ready
+  driver i2c ready
+  driver power ready
+storage mounted: virtual flash
+storage manifest committed
+capsule loaded: telemetry (251 bytes)
+capsule loaded: control (23 bytes)
+
+Boot report
+-----------
+drivers: 5/5 ready
+storage mounted: true
+manifest: maataa-os 0.1.0-alpha.1
+capsules loaded: 2
+capsule memory: 274/65536 bytes
+telemetry capsule id: Ok(0)
+control capsule id: Ok(1)
+
+Native local engines
+--------------------
+terminal grid: 80x40
+comm frame signed: true
+radio channel lock: 122
+verification status: 31
+verification certified: true
+
+Scheduler simulation
+--------------------
+tick 1
+  capsule[0] telemetry cycle 1 at tick 1 (251 bytes)
+  capsule[1] control cycle 1 at tick 1 (23 bytes)
+health: nominal
+tick 2
+  capsule[0] telemetry cycle 2 at tick 2 (251 bytes)
+  capsule[1] control cycle 2 at tick 2 (23 bytes)
+health: nominal
+tick 3
+  drivers sampled virtual GPIO and power rails
+  capsule[0] telemetry cycle 3 at tick 3 (251 bytes)
+  capsule[1] control cycle 3 at tick 3 (23 bytes)
+health: nominal
+tick 4
+  capsule[0] telemetry cycle 4 at tick 4 (251 bytes)
+  capsule[1] control cycle 4 at tick 4 (23 bytes)
+health: nominal
+tick 5
+  capsule[0] telemetry cycle 5 at tick 5 (251 bytes)
+  capsule[1] control cycle 5 at tick 5 (23 bytes)
+health: nominal
+tick 6
+  capsule[0] telemetry cycle 6 at tick 6 (251 bytes)
+  capsule[1] control cycle 6 at tick 6 (23 bytes)
+health: nominal
+
+Maataa OS prototype demo complete.
+Exiting QEMU.

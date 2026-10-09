@@ -9,6 +9,8 @@ import { useMaataaDispatch } from "@maataa/ui/redux/hooks";
 import { builderActions } from "@maataa/ui/redux/slices/builderSlice";
 import { ProductIdeaWizard } from "./ProductIdeaWizard";
 import { IndependentAppScaffold } from "./IndependentAppScaffold";
+import { attachAppLocalPointerObserver } from "./pointerContext";
+import { ProjectContextPanel } from "./ProjectContextPanel";
 import {
   compileProductGraph,
   parseProductGraph,
@@ -360,6 +362,13 @@ export function BrahminiWorkbench({
   const [model, setModel] = React.useState("qwen2.5:7b");
   const [messages, setMessages] = React.useState<ChatMessage[]>([]);
   const [question, setQuestion] = React.useState("");
+  const [observeWorkbench, setObserveWorkbench] = React.useState(false);
+  const [pointedControl, setPointedControl] = React.useState<{
+    role: string;
+    label: string;
+  } | null>(null);
+  const workbenchRef = React.useRef<HTMLElement | null>(null);
+  const pointedControlRef = React.useRef<typeof pointedControl>(null);
   const [busy, setBusy] = React.useState(false);
   const [error, setError] = React.useState("");
   const [knowledge, setKnowledge] = React.useState(() =>
@@ -395,6 +404,22 @@ export function BrahminiWorkbench({
   const [councilResults, setCouncilResults] = React.useState<ChatMessage[]>([]);
   const [runProgress, setRunProgress] = React.useState("");
   const [knowledgeSaved, setKnowledgeSaved] = React.useState(false);
+
+  React.useEffect(() => {
+    const root = workbenchRef.current;
+    if (!root || !observeWorkbench) return;
+
+    return attachAppLocalPointerObserver(root, (next) => {
+      pointedControlRef.current = next;
+      setPointedControl(next);
+    });
+  }, [observeWorkbench]);
+
+  React.useEffect(() => {
+    if (observeWorkbench) return;
+    pointedControlRef.current = null;
+    setPointedControl(null);
+  }, [observeWorkbench]);
 
   const refreshProviders = () => {
     setStatusLoading(true);
@@ -460,6 +485,9 @@ export function BrahminiWorkbench({
     setError("");
     setBusy(true);
     const references = localDocs(submitted);
+    const pointerContext = observeWorkbench && pointedControlRef.current
+      ? `\nUser explicitly enabled app-only pointer context. The last focused or pointed control in this MAATAA Workbench is role "${pointedControlRef.current.role}" with accessible label "${pointedControlRef.current.label}". No coordinates or field values were captured.`
+      : "";
     try {
       if (!selectedProvider?.configured)
         throw new Error(
@@ -474,7 +502,7 @@ export function BrahminiWorkbench({
         provider,
         currentModel,
         `${AGENTS[0].prompt}\nAnswer the user's MAATAA UI support question using supplied local documentation. If sources do not establish a fact, say so and ask what is missing. Do not invent file changes, tests, release claims, or integrations.\nCurrent surface: ${from}\nUser-maintained working context:\n${knowledge}\nLocal documentation excerpts:\n${sourceText || "No matching local documentation excerpts were found."}`,
-        [{ role: "user", content: submitted }],
+        [{ role: "user", content: `${submitted}${pointerContext}` }],
       );
       setMessages((items) => [
         ...items,
@@ -792,9 +820,11 @@ export function BrahminiWorkbench({
   ];
   return (
     <section
+      ref={workbenchRef}
       className="page-section brahmini-page"
       data-testid="brahmini-workbench"
     >
+      <ProjectContextPanel route={window.location.hash.replace(/^#/, "") || sourceRoute} />
       <div className="brahmini-heading">
         <div>
           <button
@@ -951,6 +981,29 @@ export function BrahminiWorkbench({
                   void ask(question);
                 }}
               >
+                <label className="brahmini-observe-toggle">
+                  <input
+                    type="checkbox"
+                    checked={observeWorkbench}
+                    onChange={(event) =>
+                      setObserveWorkbench(event.target.checked)
+                    }
+                  />
+                  <span>
+                    <strong>Use what I point to</strong>
+                    <small>
+                      Optional: only this workbench. The next question may
+                      include the control name and role shown below; no field
+                      values or pointer coordinates are collected. Nothing is
+                      saved.
+                      {observeWorkbench
+                        ? pointedControl
+                          ? ` Current control: ${pointedControl.label} (${pointedControl.role}).`
+                          : " Point to a control or move keyboard focus to one."
+                        : ""}
+                    </small>
+                  </span>
+                </label>
                 <label className="sr-only" htmlFor="brahmini-question">
                   Ask Brahmini
                 </label>

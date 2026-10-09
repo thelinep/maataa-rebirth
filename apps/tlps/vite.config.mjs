@@ -19,7 +19,8 @@ export default defineConfig({
       { find: /^@maataa\/ui\/(.+)$/, replacement: `${srcRoot}/$1` },
     ],
   },
-  server: { host: "127.0.0.1", port: 4196, strictPort: true },
-  preview: { host: "127.0.0.1", port: 4196, strictPort: true },
+  // Brahmini local runtime (pnpm brahmini:runtime) for Idea → Script drafts.
+  server: { host: "127.0.0.1", port: 4196, strictPort: true, proxy: { "/api/brahmini": "http://127.0.0.1:4175" } },
+  preview: { host: "127.0.0.1", port: 4196, strictPort: true, proxy: { "/api/brahmini": "http://127.0.0.1:4175" } },
   build: { outDir: "dist", emptyOutDir: true },
 });

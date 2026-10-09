@@ -93,3 +93,8 @@ storybook-static/
 
 # Rust compiler output
 **/target/
+
+# Hemant Observatory framework output and local dependency symlink
+**/.next/
+**/node_modules
+**/*.tsbuildinfo

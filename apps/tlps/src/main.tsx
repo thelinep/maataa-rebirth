@@ -7,6 +7,10 @@ import {
   TLPS_FILM_HANDOFF_KEY,
 } from "../../shared/tlps-film-handoff";
 import {
+  publishWorkspaceProject,
+  removeWorkspaceProject,
+} from "../../shared/maataa-workspace";
+import {
   closeIssues,
   emptyTlpsDraft,
   planIssues,
@@ -34,6 +38,7 @@ import type {
   TlpsView,
 } from "./types";
 import "./style.css";
+import { IdeaToScriptPanel } from "./IdeaToScript";
 
 const views: { id: TlpsView; label: string; description: string }[] = [
   {
@@ -66,12 +71,20 @@ function App() {
   const [draft, setDraft] = useState<TlpsDraft>(() =>
     readTlpsDraft(localStorage.getItem(tlpsStorageKey)),
   );
-  const [view, setView] = useState<TlpsView | "start">("start");
+  const isSavedWorkspaceEntry = window.location.pathname.endsWith("/workspace.html")
+    || new URLSearchParams(window.location.search).get("surface") === "workspace";
+  const [view, setView] = useState<TlpsView | "start">(
+    isSavedWorkspaceEntry ? "plan" : "start",
+  );
   const [intakeStep, setIntakeStep] = useState<"role" | "systems" | "project">("role");
   const [intakeRole, setIntakeRole] = useState<TlpsRole | "">("");
   const [selectedOs, setSelectedOs] = useState<TlpsOsId | "">("");
   const [intakeIdea, setIntakeIdea] = useState(draft.project.idea ?? "");
   const [notice, setNotice] = useState("");
+  const [ideaToScript, setIdeaToScript] = useState(
+    () => new URLSearchParams(window.location.search).get("surface") === "idea-to-script"
+      || window.location.pathname.endsWith("/idea-to-script.html"),
+  );
   const [budgetItem, setBudgetItem] = useState("");
   const [budgetRate, setBudgetRate] = useState("25000");
   const [crewName, setCrewName] = useState("");
@@ -89,6 +102,29 @@ function App() {
   useEffect(() => {
     localStorage.setItem(tlpsStorageKey, JSON.stringify(draft));
   }, [draft]);
+
+  useEffect(() => {
+    const title = draft.project.title.trim();
+    const timer = window.setTimeout(() => {
+      if (!title) {
+        void removeWorkspaceProject("tlps").catch(() =>
+          setNotice("Plan saved here, but MAATAA Desktop could not refresh its project list."),
+        );
+        return;
+      }
+      void publishWorkspaceProject({
+        id: "tlps:workspace",
+        product: "tlps",
+        title,
+        projectType: draft.project.productionType,
+        status: "draft",
+        sample: false,
+      }).catch(() =>
+        setNotice("Plan saved here, but MAATAA Desktop could not refresh its project list."),
+      );
+    }, 250);
+    return () => window.clearTimeout(timer);
+  }, [draft.project.title, draft.project.productionType]);
   const setProject = (patch: Partial<TlpsDraft["project"]>) =>
     setDraft((current) => ({
       ...current,
@@ -403,10 +439,13 @@ function App() {
             <span className="local-pill-label">Local demo · no account</span>
           </span>
           {view !== "start" && <Button variant="secondary" onClick={() => { setIntakeStep("role"); setView("start"); }}>Start screen</Button>}
+          {!ideaToScript && <Button variant="secondary" onClick={() => setIdeaToScript(true)}>Idea → Script</Button>}
           <Button variant="secondary" onClick={loadSample}>Load sample</Button>
         </div>
       </header>
-      {view === "start" ? (
+      {ideaToScript ? (
+        <IdeaToScriptPanel onClose={() => setIdeaToScript(false)} />
+      ) : view === "start" ? (
         <main className="tlps-start" aria-labelledby="tlps-start-title">
           <div className="tlps-start-copy">
             <p className="tlps-overline">START WITH YOUR WORK · {intakeStep === "role" ? "STEP 1 OF 3" : intakeStep === "systems" ? "STEP 2 OF 3" : "STEP 3 OF 3"}</p>

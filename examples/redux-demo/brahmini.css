@@ -33,6 +33,11 @@
 .brahmini-empty>div{display:flex;flex-wrap:wrap;gap:8px;margin-top:7px}
 .brahmini-empty>div button{max-width:100%;text-align:left;background:#151519;color:#d8d4ca;border:1px solid #39373a;border-radius:9px;padding:9px 11px;cursor:pointer}
 .brahmini-composer{padding:15px 18px 17px;border-top:1px solid #28272b;background:#0d0d10}
+.brahmini-observe-toggle{display:flex;align-items:flex-start;gap:10px;padding:12px 13px;margin:0 0 12px;border:1px solid #3a3830;border-radius:10px;background:#17160f;color:#eee9d8;cursor:pointer}
+.brahmini-observe-toggle input{flex:none;margin:3px 0 0;accent-color:#d4af37}
+.brahmini-observe-toggle>span{display:grid;gap:4px}
+.brahmini-observe-toggle strong{font-size:.78rem}
+.brahmini-observe-toggle small{color:#b7b2a5;font-size:.7rem;line-height:1.5}
 .brahmini-composer>div{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-top:10px}
 .brahmini-composer>div>span{max-width:60ch;color:#aaa7a0;font-size:.71rem;line-height:1.45}
 .brahmini-composer button,.brahmini-form-panel>.gold-button,.brahmini-council-controls button,.brahmini-knowledge-actions button{flex:none}
@@ -118,6 +123,8 @@
 .site-shell[data-demo-theme="light"] .brahmini-message pre,.site-shell[data-demo-theme="light"] .brahmini-empty,.site-shell[data-demo-theme="light"] .brahmini-empty>strong,.site-shell[data-demo-theme="light"] .brahmini-agent-picker>label,.site-shell[data-demo-theme="light"] .brahmini-agent-settings>label{color:#2b2924}
 .site-shell[data-demo-theme="light"] .brahmini-page select,.site-shell[data-demo-theme="light"] .brahmini-page textarea{background:#fff;color:#24211b;border-color:#cbc4b7}
 .site-shell[data-demo-theme="light"] .brahmini-empty>span,.site-shell[data-demo-theme="light"] .brahmini-composer>div>span,.site-shell[data-demo-theme="light"] .brahmini-message small{color:#5b574f}
+.site-shell[data-demo-theme="light"] .brahmini-observe-toggle{background:#f8f4e8;border-color:#ddd3b4;color:#29261d}
+.site-shell[data-demo-theme="light"] .brahmini-observe-toggle small{color:#575248}
 .site-shell[data-demo-theme="light"] .brahmini-empty>div button{background:#f4f1e9;color:#38352d;border-color:#d6d0c3}
 .product-intake{margin:0 0 20px;padding:22px;border:1px solid var(--line,#333239);border-radius:15px;background:#101013;min-width:0}
 .product-intake-header{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding-bottom:16px;border-bottom:1px solid #302f34}
@@ -200,3 +207,15 @@
 @media(max-width:600px){.product-intake-step-hint{display:block;margin:7px 0 0;color:#aaa79e;font-size:.7rem}}
 @media(max-width:480px){.product-intake{padding:15px}.product-intake-header{flex-direction:column}.product-intake-review-summary{grid-template-columns:1fr}.product-intake-actions>*{flex:1}}
 @media(max-width:680px){.independent-scaffold{padding:15px}.scaffold-review{grid-template-columns:1fr}.scaffold-file-content{max-height:360px}.scaffold-controls{grid-template-columns:1fr}.scaffold-controls .gold-button{width:100%}}
+
+/* Shared project record handed over from MAATAA Desktop (ID + version only). */
+.brahmini-project-context { margin: 0 0 20px; padding: 16px 18px; border: 1px solid rgba(212, 175, 55, 0.35); border-radius: 12px; background: rgba(212, 175, 55, 0.06); }
+.brahmini-project-context h2 { margin: 0 0 10px; font-size: 1rem; }
+.brahmini-project-context dl { display: grid; grid-template-columns: max-content 1fr; gap: 4px 14px; margin: 0 0 10px; }
+.brahmini-project-context dt { opacity: 0.75; }
+.brahmini-project-context dd { margin: 0; overflow-wrap: anywhere; }
+.brahmini-context-problem { margin: 0 0 8px; padding: 8px 12px; border-left: 3px solid #f08a7e; }
+.brahmini-context-ok { margin: 0 0 8px; }
+.brahmini-context-note { margin: 0 0 10px; font-size: 0.85rem; opacity: 0.8; }
+.brahmini-context-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.brahmini-context-actions button:disabled { opacity: 0.5; cursor: not-allowed; }
