@@ -1,0 +1,3 @@
+[workspace]
+members = ["crates/hemant-core", "crates/hemant-shell"]
+resolver = "2"
