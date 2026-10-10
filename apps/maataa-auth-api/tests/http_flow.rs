@@ -248,6 +248,99 @@ fn local_auth_and_project_api_round_trip_enforces_scope_version_and_revocation()
     );
     assert_eq!(status, 200);
     assert_eq!(events["events"].as_array().unwrap().len(), 2);
+
+    // Exercise authorization at the HTTP boundary, not only through Store unit
+    // tests. A read-only credential may inspect its own project/knowledge, but
+    // must not write or cross the project boundary.
+    let (status, read_only) = request(
+        port,
+        "POST",
+        "/v1/admin/tokens",
+        Some(root),
+        None,
+        Some(
+            &json!({"principalId":"tester","projectId":project,"scopes":["project:read","knowledge:read"],"ttlSeconds":3600}),
+        ),
+    );
+    assert_eq!(status, 201);
+    let read_only_access = read_only["access_token"].as_str().unwrap();
+    let (status, _) = request(
+        port,
+        "GET",
+        &format!("/v1/projects/{project}"),
+        Some(read_only_access),
+        None,
+        None,
+    );
+    assert_eq!(status, 200);
+    let (status, _) = request(
+        port,
+        "GET",
+        &format!("/v1/projects/prj:{}", uuid::Uuid::new_v4()),
+        Some(read_only_access),
+        None,
+        None,
+    );
+    assert_eq!(status, 403);
+    let (status, _) = request(
+        port,
+        "PUT",
+        &format!("/v1/projects/{project}"),
+        Some(read_only_access),
+        Some(("If-Match", "1")),
+        Some(&next),
+    );
+    assert_eq!(status, 403);
+    let (status, _) = request(
+        port,
+        "POST",
+        "/v1/knowledge/objects",
+        Some(read_only_access),
+        None,
+        Some(
+            &json!({"objectId":"entity:read-only-write-attempt","objectType":"entity","label":"Denied","summary":"Must not persist.","properties":{},"provenance":provenance}),
+        ),
+    );
+    assert_eq!(status, 403);
+
+    // A write-only knowledge credential must not gain read access by reaching
+    // the list route with a valid project-scoped bearer token.
+    let (status, write_only) = request(
+        port,
+        "POST",
+        "/v1/admin/tokens",
+        Some(root),
+        None,
+        Some(
+            &json!({"principalId":"tester","projectId":project,"scopes":["knowledge:write"],"ttlSeconds":3600}),
+        ),
+    );
+    assert_eq!(status, 201);
+    let write_only_access = write_only["access_token"].as_str().unwrap();
+    let (status, _) = request(
+        port,
+        "POST",
+        "/v1/knowledge/objects",
+        Some(write_only_access),
+        None,
+        Some(
+            &json!({"objectId":"entity:write-only","objectType":"entity","label":"Write-only fixture","summary":"Synthetic test fixture.","properties":{},"provenance":provenance}),
+        ),
+    );
+    assert_eq!(status, 201);
+    let (status, _) = request(
+        port,
+        "GET",
+        "/v1/knowledge/objects",
+        Some(write_only_access),
+        None,
+        None,
+    );
+    assert_eq!(status, 403);
+
+    let (status, _) = request(port, "GET", "/v1/auth/whoami", None, None, None);
+    assert_eq!(status, 401);
+
     let (status, _) = request(
         port,
         "POST",
