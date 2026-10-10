@@ -9,6 +9,10 @@
     "start": "next start --hostname 0.0.0.0",
     "typecheck": "tsc --noEmit",
     "workers:wasm:check": "bash scripts/check-workers-wasm.sh",
+    "test:science-fixture": "node tests/jpl-fixture-smoke.mjs",
+    "test:science-live": "bash scripts/build-wasm.sh && node tests/jpl-rust-live-smoke.mjs",
+    "test:workers-preview": "node tests/workers-preview-smoke.mjs",
+    "test:workers-jpl-live": "node tests/horizons-live-smoke.mjs",
     "preview": "HEMANT_WORKERS_BUILD=1 opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "deploy": "HEMANT_WORKERS_BUILD=1 opennextjs-cloudflare build && opennextjs-cloudflare deploy",
     "upload": "HEMANT_WORKERS_BUILD=1 opennextjs-cloudflare build && opennextjs-cloudflare upload",
@@ -16,6 +20,7 @@
   },
   "dependencies": {
     "@opennextjs/cloudflare": "1.20.9",
+    "h5wasm": "0.10.3",
     "next": "16.3.8",
     "react": "19.3.0",
     "react-dom": "19.3.0"

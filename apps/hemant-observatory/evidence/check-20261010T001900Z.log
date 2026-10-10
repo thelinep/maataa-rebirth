@@ -1,0 +1,696 @@
+# Hemant Observatory checks 20261010T001900Z
+Darwin Vesahes-MacBook-Pro.local 27.0.0 Darwin Kernel Version 27.0.0: Tue Aug 11 21:06:24 PDT 2026; root:xnu-13432.1.9~1/RELEASE_ARM64_T6030 arm64
+cargo 1.98.1 (797e8a9bc 2026-08-05) (Homebrew)
+rustc 1.98.1 (48a229cea 2026-09-01) (Homebrew)
+v22.22.3
+
+### rustfmt --check
+$ cargo fmt --all --check
+exit=0
+
+### cargo test
+$ cargo test --workspace --offline
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.12s
+     Running unittests src/lib.rs (target/debug/deps/hemant_core-998807cd9e225f1a)
+
+running 29 tests
+test panchanga::tests::tropical_crossing_interpolates_wrap_and_rejects_missing_crossing ... ok
+test registry::tests::pending_methods_are_marked_pending_and_produce_nothing ... ok
+test panchanga::tests::wraps_moon_sun_elongation_and_classifies_amavasya_bin ... ok
+test astronomy::tests::the_default_provider_never_fabricates_a_position ... ok
+test registry::tests::clock_epoch_and_units_keep_distinct_evidence ... ok
+test panchanga::tests::sidereal_crossing_applies_only_the_explicit_offset ... ok
+test panchanga::tests::sidereal_segments_require_explicit_ayanamsha_input ... ok
+test registry::tests::every_method_has_complete_provenance_fields_and_unique_id ... ok
+test panchanga::tests::tithi_and_karana_boundaries_are_half_open ... ok
+test json::tests::escapes_quotes_backslashes_and_control_characters ... ok
+test json::tests::integers_beyond_javascript_safe_range_become_strings ... ok
+test astronomy::tests::body_codes_match_naif_integer_ids ... ok
+test result::tests::fixture_result_is_versioned_and_names_methods_for_every_section ... ok
+test result::tests::maximum_supported_value_produces_a_result_with_string_nanos ... ok
+test time::tests::host_clock_snapshot_is_unverified_with_unknown_uncertainty ... ok
+test result::tests::worker_clock_is_explicitly_unverified_and_uses_its_own_method ... ok
+test time::tests::injected_wall_clock_is_labelled_by_its_source_and_never_verified ... ok
+test time::tests::host_monotonic_clock_never_goes_backwards ... ok
+test time::tests::leap_second_instants_are_not_representable ... ok
+test time::tests::monotonic_intervals_order_readings_and_reject_reversal ... ok
+test time::tests::negative_and_subsecond_timestamps_format_exactly ... ok
+test registry::tests::registry_json_names_its_schema_and_every_method ... ok
+test time::tests::range_boundaries_are_inclusive_and_outside_values_are_rejected ... ok
+test units::tests::a_pre_epoch_instant_has_signed_day_and_normal_subday_units ... ok
+test units::tests::epoch_is_the_selected_kashi_reference ... ok
+test units::tests::one_day_breaks_down_to_thirty_muhurta ... ok
+test units::tests::one_muhurta_is_forty_eight_minutes_under_the_named_convention ... ok
+test units::tests::subsecond_input_is_floored_to_whole_nimesha_with_residual ... ok
+test units::tests::whole_supported_range_converts_and_extremes_report_overflow ... ok
+
+test result: ok. 29 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (target/debug/deps/hemant_shell-f15b3950fa076657)
+
+running 5 tests
+test tests::help_is_available_without_reading_the_clock ... ok
+test tests::text_output_names_methods_and_limits ... ok
+test tests::invalid_arguments_fail_closed ... ok
+test tests::supplied_epoch_json_is_unverified_caller_input ... ok
+test tests::methods_json_is_the_registry ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (target/debug/deps/hemant_wasm-903fcceca0cfb439)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests hemant_core
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+exit=0
+
+### clippy -D warnings
+$ cargo clippy --workspace --all-targets --offline -- -D warnings
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.08s
+exit=0
+
+### cargo build (debug, used by API/e2e)
+$ cargo build --workspace --offline
+   Compiling hemant-wasm v0.1.0 (/Users/vesahe/Downloads/maataa-ui-full-alpha7/apps/hemant-observatory/crates/hemant-wasm)
+   Compiling hemant-shell v0.1.0 (/Users/vesahe/Downloads/maataa-ui-full-alpha7/apps/hemant-observatory/crates/hemant-shell)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.78s
+exit=0
+
+### cargo build --release
+$ cargo build --release --workspace --offline
+    Finished `release` profile [optimized] target(s) in 0.00s
+exit=0
+
+### fixture drift: method registry
+$ bash -c diff <(target/debug/hemant-shell --methods-json) fixtures/method-registry.json
+1c1
+< {"schema":"hemant.method-registry/1","methods":[{"id":"host-system-wall-clock-v1","version":"1","kind":"clock-source","title":"Host system wall clock","status":"active","evidence":"host-reported","verification":"unverified","inputs":["operating-system wall clock"],"source":"Rust std::time::SystemTime on the host running hemant-shell","time_scale":"unix-utc-no-leap-seconds","frame_or_location":"not-applicable","output_units":"integer nanoseconds since 1970-01-01T00:00:00 UTC (Unix count)","uncertainty":"unknown (synchronization source, offset and drift are not measured)","limitations":["A point snapshot; its age grows after it is read.","Not verified: readable or agreeing with another clock is not verification.","Supported range 0001-01-01 to 9999-12-31 UTC; values before 1970 cannot come from the host clock."]},{"id":"cloudflare-worker-date-now-v1","version":"1","kind":"clock-source","title":"Cloudflare Workers wall clock","status":"active","evidence":"host-reported","verification":"unverified","inputs":["Cloudflare Workers Date.now() milliseconds"],"source":"Date.now() supplied by the Cloudflare Workers runtime; converted to integer nanoseconds with millisecond resolution","time_scale":"unix-utc-no-leap-seconds","frame_or_location":"not-applicable","output_units":"integer nanoseconds since 1970-01-01T00:00:00 UTC (Unix count; millisecond resolution)","uncertainty":"unknown (runtime clock synchronization source, offset and drift are not measured)","limitations":["A point snapshot; its age grows after it is read.","Not verified: runtime clock may be readable without having known accuracy.","The source has millisecond resolution; lower decimal places are zero padding, not measured precision.","Leap seconds are not represented; values before 1970 are not accepted by the Worker API."]},{"id":"caller-supplied-unix-nanoseconds-v1","version":"1","kind":"clock-source","title":"Caller-supplied Unix nanoseconds","status":"active","evidence":"user-supplied-input","verification":"unverified","inputs":["signed integer nanoseconds from the caller"],"source":"hemant-shell --unix-nanos argument","time_scale":"unix-utc-no-leap-seconds","frame_or_location":"not-applicable","output_units":"integer nanoseconds since 1970-01-01T00:00:00 UTC (Unix count)","uncertainty":"unknown (as supplied by the caller)","limitations":["Accepted only within 0001-01-01 to 9999-12-31 UTC."]},{"id":"unix-nanos-to-gregorian-utc-v1","version":"1","kind":"civil-representation","title":"Unix nanoseconds to proleptic Gregorian UTC","status":"active","evidence":"derived-representation","verification":"not-applicable","inputs":["unix_nanos"],"source":"civil-from-days integer algorithm (proleptic Gregorian), std only","time_scale":"unix-utc-no-leap-seconds","frame_or_location":"not-applicable","output_units":"YYYY-MM-DD hh:mm:ss.nnnnnnnnn UTC","uncertainty":"exact representation of the input; inherits the input's uncertainty","limitations":["Leap seconds are not representable (no 23:59:60).","Years 0001 to 9999 only.","Not TAI, TT or TDB."]},{"id":"user-selected-kashi-sankranti-minute-reference-v1","version":"reference-minute-precision","kind":"reference-epoch","title":"Selected Hemant reference epoch","status":"active","evidence":"user-selected-reference","verification":"unverified","inputs":["1979-01-14 13:29 IST (07:59 UTC), Kashi Makar Sankranti, as selected by the user"],"source":"user selection recorded in hemant-core; no independent citation yet","time_scale":"unix-utc-no-leap-seconds","frame_or_location":"Kashi (Varanasi), as described; no coordinates recorded","output_units":"Unix nanoseconds (285148740000000000)","uncertainty":"minute precision; exact astronomical Sankranti instant not established","limitations":["Not an astronomical calculation of the Sankranti instant.","A calendar reference, not a clock source."]},{"id":"hemant-traditional-units-v1","version":"v1","kind":"unit-convention","title":"Hemant traditional time units","status":"active","evidence":"derived-under-named-convention","verification":"unverified","inputs":["unix_nanos","selected reference epoch"],"source":"named convention: 30 muhurta/ahoratra, 30 kala/muhurta, 30 kastha/kala, 15 nimesha/kastha","time_scale":"unix-utc-no-leap-seconds (difference)","frame_or_location":"not-applicable","output_units":"signed ahoratra + muhurta, kala, kastha, nimesha; residual in nanoseconds","uncertainty":"arithmetic is exact under the convention; whole-nimesha flooring residual is reported","limitations":["Elapsed duration is a Unix-time difference: leap seconds since the epoch are not counted.","One convention among several traditions; not asserted as universal."]},{"id":"jpl-geocentric-apparent-sun-moon-longitude-v1","version":"1","kind":"astronomy-observer-ephemeris","title":"JPL Horizons geocentric apparent Sun and Moon angles","status":"active","evidence":"derived-under-named-convention","verification":"unverified","inputs":["UTC instant","target body","geocenter","observer ephemeris quantity 31"],"source":"NASA/JPL Horizons API; runtime response includes provider metadata and ephemeris identity","time_scale":"UTC request; Horizons observer ephemeris time handling","frame_or_location":"Earth geocenter; apparent ecliptic and equinox of date","output_units":"degrees longitude and latitude","uncertainty":"not independently quantified; displayed decimal precision is not an uncertainty bound","limitations":["Only Sun and Moon angles are returned.","Single provider; no independent ephemeris comparison.","Not spacecraft navigation or an onboard clock."]},{"id":"instantaneous-tithi-karana-from-apparent-longitudes-v1","version":"1","kind":"instantaneous-calendar-angle-classification","title":"Instantaneous tithi, paksha and karana angle bins","status":"active","evidence":"derived-under-named-convention","verification":"not-applicable","inputs":["apparent geocentric ecliptic Sun longitude","apparent geocentric ecliptic Moon longitude"],"source":"integer-microdegree angle arithmetic in hemant-core; 12-degree tithi and 6-degree karana bins","time_scale":"input instant supplied in UTC to Horizons","frame_or_location":"geocentric apparent ecliptic/equinox of date; no local sunrise assignment","output_units":"elongation degrees, ordinal tithi, paksha, karana index and name","uncertainty":"inherited from ephemeris and input time; not quantified by this method","limitations":["Instant classification only; no civil-day assignment.","Tradition-specific named labels require independent Panchanga test vectors.","Nakshatra and yoga require a selected ayanamsha and are not emitted."]},{"id":"astronomy-solar-system-positions","version":"pending","kind":"astronomy","title":"Solar-system positions (ephemeris)","status":"pending","evidence":"pending-method","verification":"not-applicable","inputs":["target","observer","time (TDB)","frame"],"source":"none selected; see ASTRONOMY-DECISION-001.md","time_scale":"pending (TDB for ephemeris arguments)","frame_or_location":"pending (ICRF-aligned)","output_units":"pending","uncertainty":"not available","limitations":["No ephemeris dataset or library is bundled locally.","A separate JPL Horizons adapter supplies only geocentric apparent Sun/Moon angles.","No wider planetary state vectors are produced by this method."]},{"id":"panchanga-ruleset","version":"pending","kind":"calendar-tradition","title":"Panchanga ruleset","status":"pending","evidence":"pending-method","verification":"not-applicable","inputs":["tradition","location","ayanamsha","sunrise rule","astronomical inputs"],"source":"none selected; product-owner decision required","time_scale":"pending","frame_or_location":"pending (observer location policy)","output_units":"pending","uncertainty":"not available","limitations":["Instant tithi/paksha/karana angle bins are exposed by a separate narrow method.","No complete sunrise-assigned Panchanga ruleset is selected.","Nakshatra and yoga need an explicit ayanamsha; other fields need location and calendar rules."]}]}
+---
+> {"schema":"hemant.method-registry/1","methods":[{"id":"host-system-wall-clock-v1","version":"1","kind":"clock-source","title":"Host system wall clock","status":"active","evidence":"host-reported","verification":"unverified","inputs":["operating-system wall clock"],"source":"Rust std::time::SystemTime on the host running hemant-shell","time_scale":"unix-utc-no-leap-seconds","frame_or_location":"not-applicable","output_units":"integer nanoseconds since 1970-01-01T00:00:00 UTC (Unix count)","uncertainty":"unknown (synchronization source, offset and drift are not measured)","limitations":["A point snapshot; its age grows after it is read.","Not verified: readable or agreeing with another clock is not verification.","Supported range 0001-01-01 to 9999-12-31 UTC; values before 1970 cannot come from the host clock."]},{"id":"caller-supplied-unix-nanoseconds-v1","version":"1","kind":"clock-source","title":"Caller-supplied Unix nanoseconds","status":"active","evidence":"user-supplied-input","verification":"unverified","inputs":["signed integer nanoseconds from the caller"],"source":"hemant-shell --unix-nanos argument","time_scale":"unix-utc-no-leap-seconds","frame_or_location":"not-applicable","output_units":"integer nanoseconds since 1970-01-01T00:00:00 UTC (Unix count)","uncertainty":"unknown (as supplied by the caller)","limitations":["Accepted only within 0001-01-01 to 9999-12-31 UTC."]},{"id":"unix-nanos-to-gregorian-utc-v1","version":"1","kind":"civil-representation","title":"Unix nanoseconds to proleptic Gregorian UTC","status":"active","evidence":"derived-representation","verification":"not-applicable","inputs":["unix_nanos"],"source":"civil-from-days integer algorithm (proleptic Gregorian), std only","time_scale":"unix-utc-no-leap-seconds","frame_or_location":"not-applicable","output_units":"YYYY-MM-DD hh:mm:ss.nnnnnnnnn UTC","uncertainty":"exact representation of the input; inherits the input's uncertainty","limitations":["Leap seconds are not representable (no 23:59:60).","Years 0001 to 9999 only.","Not TAI, TT or TDB."]},{"id":"user-selected-kashi-sankranti-minute-reference-v1","version":"reference-minute-precision","kind":"reference-epoch","title":"Selected Hemant reference epoch","status":"active","evidence":"user-selected-reference","verification":"unverified","inputs":["1979-01-14 13:29 IST (07:59 UTC), Kashi Makar Sankranti, as selected by the user"],"source":"user selection recorded in hemant-core; no independent citation yet","time_scale":"unix-utc-no-leap-seconds","frame_or_location":"Kashi (Varanasi), as described; no coordinates recorded","output_units":"Unix nanoseconds (285148740000000000)","uncertainty":"minute precision; exact astronomical Sankranti instant not established","limitations":["Not an astronomical calculation of the Sankranti instant.","A calendar reference, not a clock source."]},{"id":"hemant-traditional-units-v1","version":"v1","kind":"unit-convention","title":"Hemant traditional time units","status":"active","evidence":"derived-under-named-convention","verification":"unverified","inputs":["unix_nanos","selected reference epoch"],"source":"named convention: 30 muhurta/ahoratra, 30 kala/muhurta, 30 kastha/kala, 15 nimesha/kastha","time_scale":"unix-utc-no-leap-seconds (difference)","frame_or_location":"not-applicable","output_units":"signed ahoratra + muhurta, kala, kastha, nimesha; residual in nanoseconds","uncertainty":"arithmetic is exact under the convention; whole-nimesha flooring residual is reported","limitations":["Elapsed duration is a Unix-time difference: leap seconds since the epoch are not counted.","One convention among several traditions; not asserted as universal."]},{"id":"astronomy-solar-system-positions","version":"pending","kind":"astronomy","title":"Solar-system positions (ephemeris)","status":"pending","evidence":"pending-method","verification":"not-applicable","inputs":["target","observer","time (TDB)","frame"],"source":"none selected; see ASTRONOMY-DECISION-001.md","time_scale":"pending (TDB for ephemeris arguments)","frame_or_location":"pending (ICRF-aligned)","output_units":"pending","uncertainty":"not available","limitations":["No ephemeris dataset or library is bundled; no positions are produced."]},{"id":"panchanga-ruleset","version":"pending","kind":"calendar-tradition","title":"Panchanga ruleset","status":"pending","evidence":"pending-method","verification":"not-applicable","inputs":["tradition","location","ayanamsha","sunrise rule","astronomical inputs"],"source":"none selected; product-owner decision required","time_scale":"pending","frame_or_location":"pending (observer location policy)","output_units":"pending","uncertainty":"not available","limitations":["No tithi, nakshatra, yoga, karana, vara or other field is calculated."]}]}
+exit=1
+
+### fixture drift: epoch time result
+$ bash -c diff <(target/debug/hemant-shell --unix-nanos 285148740000000000 --json) fixtures/time-result.epoch.json
+exit=0
+
+### contract + shell tests (node)
+$ bash -c node --experimental-strip-types --no-warnings --test tests/*.test.ts
+TAP version 13
+# Subtest: registry fixture satisfies the provenance contract; pending methods stay pending
+ok 1 - registry fixture satisfies the provenance contract; pending methods stay pending
+  ---
+  duration_ms: 1.652292
+  type: 'test'
+  ...
+# Subtest: registry rejects over-claims, missing fields and duplicates
+ok 2 - registry rejects over-claims, missing fields and duplicates
+  ---
+  duration_ms: 0.249042
+  type: 'test'
+  ...
+# Subtest: time-result fixture is valid and every section names an active registry method
+ok 3 - time-result fixture is valid and every section names an active registry method
+  ---
+  duration_ms: 0.385709
+  type: 'test'
+  ...
+# Subtest: time-result rejects verification claims, bad ranges and unknown methods
+ok 4 - time-result rejects verification claims, bad ranges and unknown methods
+  ---
+  duration_ms: 1.2965
+  type: 'test'
+  ...
+# Subtest: caller input validation accepts only bounded signed integers
+ok 5 - caller input validation accepts only bounded signed integers
+  ---
+  duration_ms: 0.135
+  type: 'test'
+  ...
+# Subtest: snapshot age uses the client monotonic clock and never goes negative
+ok 6 - snapshot age uses the client monotonic clock and never goes negative
+  ---
+  duration_ms: 0.048542
+  type: 'test'
+  ...
+# Subtest: missing binary is 503, a failing binary is 422, garbage output is 502
+ok 7 - missing binary is 503, a failing binary is 422, garbage output is 502
+  ---
+  duration_ms: 7.100875
+  type: 'test'
+  ...
+# Subtest: real hemant-shell output matches the contract and the committed fixtures
+not ok 8 - real hemant-shell output matches the contract and the committed fixtures
+  ---
+  duration_ms: 7.147042
+  type: 'test'
+  location: '/Users/vesahe/Downloads/maataa-ui-full-alpha7/apps/hemant-observatory/tests/shell.test.ts:22:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    fixtures/method-registry.json is stale; regenerate it
+    + actual - expected
+    ... Skipped lines
+    
+      {
+        methods: [
+          {
+            evidence: 'host-reported',
+            frame_or_location: 'not-applicable',
+    ...
+          {
+    +       evidence: 'host-reported',
+    +       frame_or_location: 'not-applicable',
+    +       id: 'cloudflare-worker-date-now-v1',
+    +       inputs: [
+    +         'Cloudflare Workers Date.now() milliseconds'
+    +       ],
+    +       kind: 'clock-source',
+    +       limitations: [
+    +         'A point snapshot; its age grows after it is read.',
+    +         'Not verified: runtime clock may be readable without having known accuracy.',
+    +         'The source has millisecond resolution; lower decimal places are zero padding, not measured precision.',
+    +         'Leap seconds are not represented; values before 1970 are not accepted by the Worker API.'
+    +       ],
+    +       output_units: 'integer nanoseconds since 1970-01-01T00:00:00 UTC (Unix count; millisecond resolution)',
+    +       source: 'Date.now() supplied by the Cloudflare Workers runtime; converted to integer nanoseconds with millisecond resolution',
+    +       status: 'active',
+    +       time_scale: 'unix-utc-no-leap-seconds',
+    +       title: 'Cloudflare Workers wall clock',
+    +       uncertainty: 'unknown (runtime clock synchronization source, offset and drift are not measured)',
+    +       verification: 'unverified',
+    +       version: '1'
+    +     },
+    +     {
+            evidence: 'user-supplied-input',
+            frame_or_location: 'not-applicable',
+            id: 'caller-supplied-unix-nanoseconds-v1',
+            inputs: [
+              'signed integer nanoseconds from the caller'
+    ...
+          {
+    +       evidence: 'derived-under-named-convention',
+    +       frame_or_location: 'Earth geocenter; apparent ecliptic and equinox of date',
+    +       id: 'jpl-geocentric-apparent-sun-moon-longitude-v1',
+    +       inputs: [
+    +         'UTC instant',
+    +         'target body',
+    +         'geocenter',
+    +         'observer ephemeris quantity 31'
+    +       ],
+    +       kind: 'astronomy-observer-ephemeris',
+    +       limitations: [
+    +         'Only Sun and Moon angles are returned.',
+    +         'Single provider; no independent ephemeris comparison.',
+    +         'Not spacecraft navigation or an onboard clock.'
+    +       ],
+    +       output_units: 'degrees longitude and latitude',
+    +       source: 'NASA/JPL Horizons API; runtime response includes provider metadata and ephemeris identity',
+    +       status: 'active',
+    +       time_scale: 'UTC request; Horizons observer ephemeris time handling',
+    +       title: 'JPL Horizons geocentric apparent Sun and Moon angles',
+    +       uncertainty: 'not independently quantified; displayed decimal precision is not an uncertainty bound',
+    +       verification: 'unverified',
+    +       version: '1'
+    +     },
+    +     {
+    +       evidence: 'derived-under-named-convention',
+    +       frame_or_location: 'geocentric apparent ecliptic/equinox of date; no local sunrise assignment',
+    +       id: 'instantaneous-tithi-karana-from-apparent-longitudes-v1',
+    +       inputs: [
+    +         'apparent geocentric ecliptic Sun longitude',
+    +         'apparent geocentric ecliptic Moon longitude'
+    +       ],
+    +       kind: 'instantaneous-calendar-angle-classification',
+    +       limitations: [
+    +         'Instant classification only; no civil-day assignment.',
+    +         'Tradition-specific named labels require independent Panchanga test vectors.',
+    +         'Nakshatra and yoga require a selected ayanamsha and are not emitted.'
+    +       ],
+    +       output_units: 'elongation degrees, ordinal tithi, paksha, karana index and name',
+    +       source: 'integer-microdegree angle arithmetic in hemant-core; 12-degree tithi and 6-degree karana bins',
+    +       status: 'active',
+    +       time_scale: 'input instant supplied in UTC to Horizons',
+    +       title: 'Instantaneous tithi, paksha and karana angle bins',
+    +       uncertainty: 'inherited from ephemeris and input time; not quantified by this method',
+    +       verification: 'not-applicable',
+    +       version: '1'
+    +     },
+    +     {
+            evidence: 'pending-method',
+            frame_or_location: 'pending (ICRF-aligned)',
+            id: 'astronomy-solar-system-positions',
+            inputs: [
+              'target',
+    ...
+            limitations: [
+    +         'No ephemeris dataset or library is bundled locally.',
+    +         'A separate JPL Horizons adapter supplies only geocentric apparent Sun/Moon angles.',
+    +         'No wider planetary state vectors are produced by this method.'
+    -         'No ephemeris dataset or library is bundled; no positions are produced.'
+            ],
+            output_units: 'pending',
+            source: 'none selected; see ASTRONOMY-DECISION-001.md',
+            status: 'pending',
+            time_scale: 'pending (TDB for ephemeris arguments)',
+    ...
+            limitations: [
+    +         'Instant tithi/paksha/karana angle bins are exposed by a separate narrow method.',
+    +         'No complete sunrise-assigned Panchanga ruleset is selected.',
+    +         'Nakshatra and yoga need an explicit ayanamsha; other fields need location and calendar rules.'
+    -         'No tithi, nakshatra, yoga, karana, vara or other field is calculated.'
+            ],
+            output_units: 'pending',
+            source: 'none selected; product-owner decision required',
+            status: 'pending',
+            time_scale: 'pending',
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    schema: 'hemant.method-registry/1'
+    methods:
+      0:
+        id: 'host-system-wall-clock-v1'
+        version: '1'
+        kind: 'clock-source'
+        title: 'Host system wall clock'
+        status: 'active'
+        evidence: 'host-reported'
+        verification: 'unverified'
+        inputs:
+          0: 'operating-system wall clock'
+        source: 'Rust std::time::SystemTime on the host running hemant-shell'
+        time_scale: 'unix-utc-no-leap-seconds'
+        frame_or_location: 'not-applicable'
+        output_units: 'integer nanoseconds since 1970-01-01T00:00:00 UTC (Unix count)'
+        uncertainty: 'unknown (synchronization source, offset and drift are not measured)'
+        limitations:
+          0: 'A point snapshot; its age grows after it is read.'
+          1: 'Not verified: readable or agreeing with another clock is not verification.'
+          2: 'Supported range 0001-01-01 to 9999-12-31 UTC; values before 1970 cannot come from the host clock.'
+      1:
+        id: 'caller-supplied-unix-nanoseconds-v1'
+        version: '1'
+        kind: 'clock-source'
+        title: 'Caller-supplied Unix nanoseconds'
+        status: 'active'
+        evidence: 'user-supplied-input'
+        verification: 'unverified'
+        inputs:
+          0: 'signed integer nanoseconds from the caller'
+        source: 'hemant-shell --unix-nanos argument'
+        time_scale: 'unix-utc-no-leap-seconds'
+        frame_or_location: 'not-applicable'
+        output_units: 'integer nanoseconds since 1970-01-01T00:00:00 UTC (Unix count)'
+        uncertainty: 'unknown (as supplied by the caller)'
+        limitations:
+          0: 'Accepted only within 0001-01-01 to 9999-12-31 UTC.'
+      2:
+        id: 'unix-nanos-to-gregorian-utc-v1'
+        version: '1'
+        kind: 'civil-representation'
+        title: 'Unix nanoseconds to proleptic Gregorian UTC'
+        status: 'active'
+        evidence: 'derived-representation'
+        verification: 'not-applicable'
+        inputs:
+          0: 'unix_nanos'
+        source: 'civil-from-days integer algorithm (proleptic Gregorian), std only'
+        time_scale: 'unix-utc-no-leap-seconds'
+        frame_or_location: 'not-applicable'
+        output_units: 'YYYY-MM-DD hh:mm:ss.nnnnnnnnn UTC'
+        uncertainty: "exact representation of the input; inherits the input's uncertainty"
+        limitations:
+          0: 'Leap seconds are not representable (no 23:59:60).'
+          1: 'Years 0001 to 9999 only.'
+          2: 'Not TAI, TT or TDB.'
+      3:
+        id: 'user-selected-kashi-sankranti-minute-reference-v1'
+        version: 'reference-minute-precision'
+        kind: 'reference-epoch'
+        title: 'Selected Hemant reference epoch'
+        status: 'active'
+        evidence: 'user-selected-reference'
+        verification: 'unverified'
+        inputs:
+          0: '1979-01-14 13:29 IST (07:59 UTC), Kashi Makar Sankranti, as selected by the user'
+        source: 'user selection recorded in hemant-core; no independent citation yet'
+        time_scale: 'unix-utc-no-leap-seconds'
+        frame_or_location: 'Kashi (Varanasi), as described; no coordinates recorded'
+        output_units: 'Unix nanoseconds (285148740000000000)'
+        uncertainty: 'minute precision; exact astronomical Sankranti instant not established'
+        limitations:
+          0: 'Not an astronomical calculation of the Sankranti instant.'
+          1: 'A calendar reference, not a clock source.'
+      4:
+        id: 'hemant-traditional-units-v1'
+        version: 'v1'
+        kind: 'unit-convention'
+        title: 'Hemant traditional time units'
+        status: 'active'
+        evidence: 'derived-under-named-convention'
+        verification: 'unverified'
+        inputs:
+          0: 'unix_nanos'
+          1: 'selected reference epoch'
+        source: 'named convention: 30 muhurta/ahoratra, 30 kala/muhurta, 30 kastha/kala, 15 nimesha/kastha'
+        time_scale: 'unix-utc-no-leap-seconds (difference)'
+        frame_or_location: 'not-applicable'
+        output_units: 'signed ahoratra + muhurta, kala, kastha, nimesha; residual in nanoseconds'
+        uncertainty: 'arithmetic is exact under the convention; whole-nimesha flooring residual is reported'
+        limitations:
+          0: 'Elapsed duration is a Unix-time difference: leap seconds since the epoch are not counted.'
+          1: 'One convention among several traditions; not asserted as universal.'
+      5:
+        id: 'astronomy-solar-system-positions'
+        version: 'pending'
+        kind: 'astronomy'
+        title: 'Solar-system positions (ephemeris)'
+        status: 'pending'
+        evidence: 'pending-method'
+        verification: 'not-applicable'
+        inputs:
+          0: 'target'
+          1: 'observer'
+          2: 'time (TDB)'
+          3: 'frame'
+        source: 'none selected; see ASTRONOMY-DECISION-001.md'
+        time_scale: 'pending (TDB for ephemeris arguments)'
+        frame_or_location: 'pending (ICRF-aligned)'
+        output_units: 'pending'
+        uncertainty: 'not available'
+        limitations:
+          0: 'No ephemeris dataset or library is bundled; no positions are produced.'
+      6:
+        id: 'panchanga-ruleset'
+        version: 'pending'
+        kind: 'calendar-tradition'
+        title: 'Panchanga ruleset'
+        status: 'pending'
+        evidence: 'pending-method'
+        verification: 'not-applicable'
+        inputs:
+          0: 'tradition'
+          1: 'location'
+          2: 'ayanamsha'
+          3: 'sunrise rule'
+          4: 'astronomical inputs'
+        source: 'none selected; product-owner decision required'
+        time_scale: 'pending'
+        frame_or_location: 'pending (observer location policy)'
+        output_units: 'pending'
+        uncertainty: 'not available'
+        limitations:
+          0: 'No tithi, nakshatra, yoga, karana, vara or other field is calculated.'
+  actual:
+    schema: 'hemant.method-registry/1'
+    methods:
+      0:
+        id: 'host-system-wall-clock-v1'
+        version: '1'
+        kind: 'clock-source'
+        title: 'Host system wall clock'
+        status: 'active'
+        evidence: 'host-reported'
+        verification: 'unverified'
+        inputs:
+          0: 'operating-system wall clock'
+        source: 'Rust std::time::SystemTime on the host running hemant-shell'
+        time_scale: 'unix-utc-no-leap-seconds'
+        frame_or_location: 'not-applicable'
+        output_units: 'integer nanoseconds since 1970-01-01T00:00:00 UTC (Unix count)'
+        uncertainty: 'unknown (synchronization source, offset and drift are not measured)'
+        limitations:
+          0: 'A point snapshot; its age grows after it is read.'
+          1: 'Not verified: readable or agreeing with another clock is not verification.'
+          2: 'Supported range 0001-01-01 to 9999-12-31 UTC; values before 1970 cannot come from the host clock.'
+      1:
+        id: 'cloudflare-worker-date-now-v1'
+        version: '1'
+        kind: 'clock-source'
+        title: 'Cloudflare Workers wall clock'
+        status: 'active'
+        evidence: 'host-reported'
+        verification: 'unverified'
+        inputs:
+          0: 'Cloudflare Workers Date.now() milliseconds'
+        source: 'Date.now() supplied by the Cloudflare Workers runtime; converted to integer nanoseconds with millisecond resolution'
+        time_scale: 'unix-utc-no-leap-seconds'
+        frame_or_location: 'not-applicable'
+        output_units: 'integer nanoseconds since 1970-01-01T00:00:00 UTC (Unix count; millisecond resolution)'
+        uncertainty: 'unknown (runtime clock synchronization source, offset and drift are not measured)'
+        limitations:
+          0: 'A point snapshot; its age grows after it is read.'
+          1: 'Not verified: runtime clock may be readable without having known accuracy.'
+          2: 'The source has millisecond resolution; lower decimal places are zero padding, not measured precision.'
+          3: 'Leap seconds are not represented; values before 1970 are not accepted by the Worker API.'
+      2:
+        id: 'caller-supplied-unix-nanoseconds-v1'
+        version: '1'
+        kind: 'clock-source'
+        title: 'Caller-supplied Unix nanoseconds'
+        status: 'active'
+        evidence: 'user-supplied-input'
+        verification: 'unverified'
+        inputs:
+          0: 'signed integer nanoseconds from the caller'
+        source: 'hemant-shell --unix-nanos argument'
+        time_scale: 'unix-utc-no-leap-seconds'
+        frame_or_location: 'not-applicable'
+        output_units: 'integer nanoseconds since 1970-01-01T00:00:00 UTC (Unix count)'
+        uncertainty: 'unknown (as supplied by the caller)'
+        limitations:
+          0: 'Accepted only within 0001-01-01 to 9999-12-31 UTC.'
+      3:
+        id: 'unix-nanos-to-gregorian-utc-v1'
+        version: '1'
+        kind: 'civil-representation'
+        title: 'Unix nanoseconds to proleptic Gregorian UTC'
+        status: 'active'
+        evidence: 'derived-representation'
+        verification: 'not-applicable'
+        inputs:
+          0: 'unix_nanos'
+        source: 'civil-from-days integer algorithm (proleptic Gregorian), std only'
+        time_scale: 'unix-utc-no-leap-seconds'
+        frame_or_location: 'not-applicable'
+        output_units: 'YYYY-MM-DD hh:mm:ss.nnnnnnnnn UTC'
+        uncertainty: "exact representation of the input; inherits the input's uncertainty"
+        limitations:
+          0: 'Leap seconds are not representable (no 23:59:60).'
+          1: 'Years 0001 to 9999 only.'
+          2: 'Not TAI, TT or TDB.'
+      4:
+        id: 'user-selected-kashi-sankranti-minute-reference-v1'
+        version: 'reference-minute-precision'
+        kind: 'reference-epoch'
+        title: 'Selected Hemant reference epoch'
+        status: 'active'
+        evidence: 'user-selected-reference'
+        verification: 'unverified'
+        inputs:
+          0: '1979-01-14 13:29 IST (07:59 UTC), Kashi Makar Sankranti, as selected by the user'
+        source: 'user selection recorded in hemant-core; no independent citation yet'
+        time_scale: 'unix-utc-no-leap-seconds'
+        frame_or_location: 'Kashi (Varanasi), as described; no coordinates recorded'
+        output_units: 'Unix nanoseconds (285148740000000000)'
+        uncertainty: 'minute precision; exact astronomical Sankranti instant not established'
+        limitations:
+          0: 'Not an astronomical calculation of the Sankranti instant.'
+          1: 'A calendar reference, not a clock source.'
+      5:
+        id: 'hemant-traditional-units-v1'
+        version: 'v1'
+        kind: 'unit-convention'
+        title: 'Hemant traditional time units'
+        status: 'active'
+        evidence: 'derived-under-named-convention'
+        verification: 'unverified'
+        inputs:
+          0: 'unix_nanos'
+          1: 'selected reference epoch'
+        source: 'named convention: 30 muhurta/ahoratra, 30 kala/muhurta, 30 kastha/kala, 15 nimesha/kastha'
+        time_scale: 'unix-utc-no-leap-seconds (difference)'
+        frame_or_location: 'not-applicable'
+        output_units: 'signed ahoratra + muhurta, kala, kastha, nimesha; residual in nanoseconds'
+        uncertainty: 'arithmetic is exact under the convention; whole-nimesha flooring residual is reported'
+        limitations:
+          0: 'Elapsed duration is a Unix-time difference: leap seconds since the epoch are not counted.'
+          1: 'One convention among several traditions; not asserted as universal.'
+      6:
+        id: 'jpl-geocentric-apparent-sun-moon-longitude-v1'
+        version: '1'
+        kind: 'astronomy-observer-ephemeris'
+        title: 'JPL Horizons geocentric apparent Sun and Moon angles'
+        status: 'active'
+        evidence: 'derived-under-named-convention'
+        verification: 'unverified'
+        inputs:
+          0: 'UTC instant'
+          1: 'target body'
+          2: 'geocenter'
+          3: 'observer ephemeris quantity 31'
+        source: 'NASA/JPL Horizons API; runtime response includes provider metadata and ephemeris identity'
+        time_scale: 'UTC request; Horizons observer ephemeris time handling'
+        frame_or_location: 'Earth geocenter; apparent ecliptic and equinox of date'
+        output_units: 'degrees longitude and latitude'
+        uncertainty: 'not independently quantified; displayed decimal precision is not an uncertainty bound'
+        limitations:
+          0: 'Only Sun and Moon angles are returned.'
+          1: 'Single provider; no independent ephemeris comparison.'
+          2: 'Not spacecraft navigation or an onboard clock.'
+      7:
+        id: 'instantaneous-tithi-karana-from-apparent-longitudes-v1'
+        version: '1'
+        kind: 'instantaneous-calendar-angle-classification'
+        title: 'Instantaneous tithi, paksha and karana angle bins'
+        status: 'active'
+        evidence: 'derived-under-named-convention'
+        verification: 'not-applicable'
+        inputs:
+          0: 'apparent geocentric ecliptic Sun longitude'
+          1: 'apparent geocentric ecliptic Moon longitude'
+        source: 'integer-microdegree angle arithmetic in hemant-core; 12-degree tithi and 6-degree karana bins'
+        time_scale: 'input instant supplied in UTC to Horizons'
+        frame_or_location: 'geocentric apparent ecliptic/equinox of date; no local sunrise assignment'
+        output_units: 'elongation degrees, ordinal tithi, paksha, karana index and name'
+        uncertainty: 'inherited from ephemeris and input time; not quantified by this method'
+        limitations:
+          0: 'Instant classification only; no civil-day assignment.'
+          1: 'Tradition-specific named labels require independent Panchanga test vectors.'
+          2: 'Nakshatra and yoga require a selected ayanamsha and are not emitted.'
+      8:
+        id: 'astronomy-solar-system-positions'
+        version: 'pending'
+        kind: 'astronomy'
+        title: 'Solar-system positions (ephemeris)'
+        status: 'pending'
+        evidence: 'pending-method'
+        verification: 'not-applicable'
+        inputs:
+          0: 'target'
+          1: 'observer'
+          2: 'time (TDB)'
+          3: 'frame'
+        source: 'none selected; see ASTRONOMY-DECISION-001.md'
+        time_scale: 'pending (TDB for ephemeris arguments)'
+        frame_or_location: 'pending (ICRF-aligned)'
+        output_units: 'pending'
+        uncertainty: 'not available'
+        limitations:
+          0: 'No ephemeris dataset or library is bundled locally.'
+          1: 'A separate JPL Horizons adapter supplies only geocentric apparent Sun/Moon angles.'
+          2: 'No wider planetary state vectors are produced by this method.'
+      9:
+        id: 'panchanga-ruleset'
+        version: 'pending'
+        kind: 'calendar-tradition'
+        title: 'Panchanga ruleset'
+        status: 'pending'
+        evidence: 'pending-method'
+        verification: 'not-applicable'
+        inputs:
+          0: 'tradition'
+          1: 'location'
+          2: 'ayanamsha'
+          3: 'sunrise rule'
+          4: 'astronomical inputs'
+        source: 'none selected; product-owner decision required'
+        time_scale: 'pending'
+        frame_or_location: 'pending (observer location policy)'
+        output_units: 'pending'
+        uncertainty: 'not available'
+        limitations:
+          0: 'Instant tithi/paksha/karana angle bins are exposed by a separate narrow method.'
+          1: 'No complete sunrise-assigned Panchanga ruleset is selected.'
+          2: 'Nakshatra and yoga need an explicit ayanamsha; other fields need location and calendar rules.'
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///Users/vesahe/Downloads/maataa-ui-full-alpha7/apps/hemant-observatory/tests/shell.test.ts:28:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 7
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 456.491042
+exit=1
+
+### tsc --noEmit
+$ node node_modules/typescript/bin/tsc --noEmit -p tsconfig.json
+exit=0
+
+### next build
+$ node node_modules/next/dist/bin/next build
+▲ Next.js 16.3.8 (Turbopack)
+✓ Running next.config.ts took 58ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 380ms
+  Running TypeScript ...
+  Finished TypeScript in 977ms ...
+  Collecting page data using 11 workers ...
+  Generating static pages using 11 workers (0/55) ...
+  Generating static pages using 11 workers (13/55) 
+  Generating static pages using 11 workers (27/55) 
+  Generating static pages using 11 workers (41/55) 
+✓ Generating static pages using 11 workers (55/55) in 518ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├   /[section]
+│ ├ ● /clock
+│ ├ ● /observatory
+│ ├ ● /panchanga
+│ └ ● [+12 more paths]
+├ ○ /allb
+├   /allb/[slug]
+│ ├ ● /allb/allb
+│ ├ ● /allb/siddham
+│ ├ ● /allb/kharoshti
+│ └ ● [+33 more paths]
+├ ƒ /api/convert
+├ ƒ /api/health
+├ ƒ /api/methods
+└ ƒ /api/time
+
+
+○  (Static)   prerendered as static content
+●  (SSG)      prerendered as static HTML (uses generateStaticParams)
+ƒ  (Dynamic)  server-rendered on demand
+
+exit=0
+
+### record repo status outside this app
+$ bash -c git -C ../.. --no-optional-locks status --porcelain -- apps/hemant-observatory >/dev/null && git -C ../.. --no-optional-locks status --porcelain | grep -v "apps/hemant-observatory" > "$0" ; true /Users/vesahe/Downloads/maataa-ui-full-alpha7/apps/hemant-observatory/evidence/outside-status-20261010T001900Z.txt
+exit=0
+
+## Summary
+- PASS | rustfmt --check
+- PASS | cargo test
+- PASS | clippy -D warnings
+- PASS | cargo build (debug, used by API/e2e)
+- PASS | cargo build --release
+- FAIL(1) | fixture drift: method registry
+- PASS | fixture drift: epoch time result
+- FAIL(1) | contract + shell tests (node)
+- PASS | tsc --noEmit
+- PASS | next build
+- PASS | record repo status outside this app

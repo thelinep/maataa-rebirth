@@ -24,6 +24,9 @@
       }
     ],
     "paths": {
+      "@maataa/ui/actions": ["../../src/actions/index.tsx"],
+      "@maataa/ui/forms": ["../../src/forms/index.tsx"],
+      "@maataa/ui/surfaces": ["../../src/surfaces/index.tsx"],
       "@/*": [
         "./*"
       ]

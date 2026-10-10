@@ -21,6 +21,9 @@ step "cargo build --release" cargo build --release --workspace --offline
 step "fixture drift: method registry" bash -c 'diff <(target/debug/hemant-shell --methods-json) fixtures/method-registry.json'
 step "fixture drift: epoch time result" bash -c 'diff <(target/debug/hemant-shell --unix-nanos 285148740000000000 --json) fixtures/time-result.epoch.json'
 step "contract + shell tests (node)" bash -c 'node --experimental-strip-types --no-warnings --test tests/*.test.ts'
+step "Mars 2020 SCLK source fixture" node tests/sclk-fixture-smoke.mjs
+step "Rust Wasm build" bash scripts/build-wasm.sh
+step "Worker Wasm parity" node tests/wasm-smoke.mjs
 step "tsc --noEmit" node node_modules/typescript/bin/tsc --noEmit -p tsconfig.json
 step "next build" node node_modules/next/dist/bin/next build
 if [ "${1:-}" != "--no-e2e" ]; then
