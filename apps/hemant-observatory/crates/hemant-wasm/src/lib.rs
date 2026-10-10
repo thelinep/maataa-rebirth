@@ -97,6 +97,100 @@ pub unsafe extern "C" fn hemant_method_registry_json(output: u32, capacity: u32)
     write_output(registry_json().as_bytes(), output, capacity)
 }
 
+/// Classify apparent geocentric ecliptic Sun/Moon longitudes, supplied as
+/// integer microdegrees. The result is explicitly instantaneous and does not
+/// assign a local sunrise-day Panchanga.
+///
+/// # Safety
+/// Output must be an allocated writable linear-memory range.
+#[no_mangle]
+pub unsafe extern "C" fn hemant_panchanga_angles_json(
+    sun_microdegrees: i64,
+    moon_microdegrees: i64,
+    output: u32,
+    capacity: u32,
+) -> i32 {
+    if !within_memory(output, capacity) {
+        return -3;
+    }
+    let Ok(classification) =
+        hemant_core::panchanga::classify_apparent_longitudes(sun_microdegrees, moon_microdegrees)
+    else {
+        return -1;
+    };
+    let json = format!(
+        "{{\"schema\":\"hemant.panchanga-instant/1\",\"method\":\"geocentric-apparent-longitude-angle-bins-v1\",\"elongation_microdegrees\":{},\"elongation_degrees\":{:.6},\"tithi_ordinal\":{},\"paksha\":\"{}\",\"karana_index\":{},\"karana_name\":\"{}\",\"day_assignment\":null,\"nakshatra\":null,\"yoga\":null,\"verification\":\"method-derived-from-supplied-angles\"}}",
+        classification.elongation_microdegrees,
+        classification.elongation_microdegrees as f64 / 1_000_000.0,
+        classification.tithi,
+        classification.paksha,
+        classification.karana_index,
+        classification.karana_name,
+    );
+    write_output(json.as_bytes(), output, capacity)
+}
+
+/// Interpolate a sign ingress from two adjacent apparent solar longitudes.
+/// The ayanamsha is an explicit input in integer microdegrees; zero denotes
+/// tropical longitude and must not be labelled a traditional Sankranti.
+///
+/// # Safety
+/// Output must be an allocated writable linear-memory range.
+#[no_mangle]
+pub unsafe extern "C" fn hemant_sankranti_bracket_json(
+    t0_unix_ms: i64,
+    lon0_microdegrees: i64,
+    t1_unix_ms: i64,
+    lon1_microdegrees: i64,
+    ayanamsha_microdegrees: i64,
+    output: u32,
+    capacity: u32,
+) -> i32 {
+    if !within_memory(output, capacity) {
+        return -3;
+    }
+    let Ok((unix_ms, sign_index)) = hemant_core::panchanga::interpolate_sidereal_ingress(
+        t0_unix_ms,
+        lon0_microdegrees,
+        t1_unix_ms,
+        lon1_microdegrees,
+        ayanamsha_microdegrees,
+    ) else {
+        return -1;
+    };
+    let json = format!(
+        "{{\"schema\":\"hemant.sankranti-bracket/1\",\"unix_millis\":{},\"sign_index\":{},\"method\":\"linear-interpolation-apparent-solar-longitude-v1\"}}",
+        unix_ms, sign_index,
+    );
+    write_output(json.as_bytes(), output, capacity)
+}
+
+/// Demonstration conversion for the embedded first interval of the archival
+/// Mars 2020 SCLK refit V19. This returns TDT nanoseconds past J2000 only; it
+/// does not claim UTC/TDB conversion or flight qualification.
+///
+/// # Safety
+/// Output must be an allocated writable linear-memory range.
+#[no_mangle]
+pub unsafe extern "C" fn hemant_m2020_sclk_tdt_json(
+    seconds: u32,
+    fraction: u32,
+    output: u32,
+    capacity: u32,
+) -> i32 {
+    if !within_memory(output, capacity) {
+        return -3;
+    }
+    if fraction >= 65_536 {
+        return -1;
+    }
+    let input = format!("{seconds:010}-{fraction:05}");
+    let Ok(json) = hemant_core::sclk::mars2020_v19_demo_json(&input) else {
+        return -1;
+    };
+    write_output(json.as_bytes(), output, capacity)
+}
+
 unsafe fn write_output(bytes: &[u8], output: u32, capacity: u32) -> i32 {
     let Ok(length) = i32::try_from(bytes.len()) else {
         return -4;

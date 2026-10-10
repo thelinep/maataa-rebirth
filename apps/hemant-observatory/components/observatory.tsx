@@ -14,6 +14,8 @@ const nav = [
   ["◫", "Events", "/timeline"],
   ["⌘", "Methods & sources", "/research"],
   ["⌕", "Learn", "/learn"],
+  ["✧", "ALLB concepts", "/allb"],
+  ["☷", "Enterprise roadmap", "/roadmap"],
 ];
 
 export default function Observatory() {

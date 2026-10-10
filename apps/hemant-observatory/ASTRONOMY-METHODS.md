@@ -1,6 +1,6 @@
 # Astronomy method baseline
 
-This note chooses an evidence model for the next engineering phase. It does not claim that an ephemeris or Panchanga calculation is implemented.
+This note records the delivered narrow astronomy slice and the wider work that remains. A complete ephemeris or Panchanga ruleset is not implemented.
 
 ## Separate time and position foundations
 
@@ -28,7 +28,7 @@ Panchanga calculations need a named calendar tradition and explicit rules for ay
 
 ## Current implementation
 
-The current Rust core only reads the host clock, formats a Unix-nanosecond input as Gregorian UTC, and converts elapsed duration under a named traditional-unit convention from a user-selected epoch. No SPICE kernel, JPL ephemeris, IERS Earth-orientation data, observation feed, or Panchanga ruleset is bundled or queried. This is therefore an engineering baseline, not an operational observatory.
+The local Rust ephemeris boundary still has no bundled kernel. Separately, a Cloudflare Worker now requests geocentric apparent Sun and Moon angles from the public JPL Horizons API and sends them to Rust angle-bin calculations. The endpoints do not make this an onboard or bundled ephemeris and do not independently verify JPL's values. Planetary state vectors, spacecraft navigation and the complete Panchanga ruleset remain pending. See `SCIENTIFIC-VALIDATION.md` for the precise contract, sample, sources and gates.
 
 ## Primary references
 

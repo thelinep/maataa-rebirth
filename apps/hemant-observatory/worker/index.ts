@@ -1,5 +1,6 @@
 import wasmModule from "../target/wasm32-unknown-unknown/release/hemant_wasm.wasm";
 import { validateUnixNanosInput } from "../lib/contract";
+import { fetchHorizonsLongitude, fetchHorizonsLongitudeSeries, parseUtcInstant } from "../lib/jpl";
 // @ts-expect-error OpenNext generates the server entry during its build.
 import openNextWorker from "../.open-next/worker.js";
 
@@ -47,6 +48,24 @@ function timeJson(unixNanos: bigint, source: 0 | 1): unknown {
   return wasmJson("hemant_time_result_json", [source, high, low]);
 }
 
+function findIngressBracket(samples: { timeUtc: string; longitudeDegrees: number }[], ayanamshaMicrodegrees: number) {
+  for (let index = 1; index < samples.length; index += 1) {
+    const left = samples[index - 1];
+    const right = samples[index];
+    const lon0 = Math.round(left.longitudeDegrees * 1_000_000);
+    const lon1 = Math.round(right.longitudeDegrees * 1_000_000);
+    const a = ((lon0 - ayanamshaMicrodegrees) % 360_000_000 + 360_000_000) % 360_000_000;
+    const b = ((lon1 - ayanamshaMicrodegrees) % 360_000_000 + 360_000_000) % 360_000_000;
+    const delta = (b - a + 360_000_000) % 360_000_000;
+    const boundary = ((Math.floor(a / 30_000_000) + 1) * 30_000_000) % 360_000_000;
+    const distance = (boundary - a + 360_000_000) % 360_000_000;
+    if (delta > 0 && delta < 2_000_000 && distance <= delta) return { left, right };
+  }
+  return null;
+}
+
+const signNames = ["Mesha", "Vrishabha", "Mithuna", "Karka", "Simha", "Kanya", "Tula", "Vrishchika", "Dhanu", "Makara", "Kumbha", "Meena"];
+
 function json(body: unknown, status = 200): Response {
   return Response.json(body, { status, headers: noStore });
 }
@@ -81,6 +100,74 @@ export default {
         if (!input.ok) return json({ error: input.error }, 400);
         return json(timeJson(BigInt(input.value), 1));
       }
+      if (url.pathname === "/api/spacecraft/sclk/mars2020-demo") {
+        if ([...url.searchParams.keys()].some((key) => key !== "sclk")) return json({ error: "only the sclk parameter is accepted" }, 400);
+        const clockText = url.searchParams.get("sclk");
+        const match = clockText?.match(/^(\d{10})-(\d{5})$/);
+        if (!match) return json({ error: "sclk must use the Mars 2020 SSSSSSSSSS-FFFFF format" }, 400);
+        const seconds = Number(match[1]);
+        const fraction = Number(match[2]);
+        if (!Number.isSafeInteger(seconds) || seconds > 4_294_967_295 || fraction >= 65_536) return json({ error: "SCLK field is outside the Mars 2020 format range" }, 400);
+        const encodedTicks = BigInt(seconds) * 65_536n + BigInt(fraction);
+        if (encodedTicks >= 18_614_849_830_912n) return json({ error: "SCLK is outside the embedded archival correlation interval" }, 422);
+        return json(wasmJson("hemant_m2020_sclk_tdt_json", [seconds, fraction]));
+      }
+      if (url.pathname === "/api/astronomy/angles" || url.pathname === "/api/panchanga/instant") {
+        if ([...url.searchParams.keys()].some((key) => key !== "utc")) return json({ error: "only the utc parameter is accepted" }, 400);
+        const atUtc = parseUtcInstant(url.searchParams.get("utc"));
+        if (!atUtc) return json({ error: "utc must be an exact ISO-8601 UTC instant with seconds" }, 400);
+        const [sun, moon] = await Promise.all([
+          fetchHorizonsLongitude("10", atUtc, AbortSignal.timeout(15_000)),
+          fetchHorizonsLongitude("301", atUtc, AbortSignal.timeout(15_000)),
+        ]);
+        const sunMicrodegrees = Math.round(sun.longitudeDegrees * 1_000_000);
+        const moonMicrodegrees = Math.round(moon.longitudeDegrees * 1_000_000);
+        const panchanga = wasmJson("hemant_panchanga_angles_json", [BigInt(sunMicrodegrees), BigInt(moonMicrodegrees)]);
+        const evidence = {
+          source: "NASA/JPL Horizons API",
+          sourceUrl: "https://ssd.jpl.nasa.gov/api/horizons.api",
+          ephemeris: { sun: sun.ephemerisIdentity, moon: moon.ephemerisIdentity },
+          observer: "geocenter (399)",
+          frame: "IAU 1976/80 apparent ecliptic and equinox of date",
+          timescale: "Horizons UT output; after 1962 this maps to UTC; earlier historical dates use UT1",
+          corrections: "Horizons observer ephemeris conventions, including light-time and apparent-place corrections",
+          instantUtc: atUtc,
+          angularResolutionDegrees: 0.000001,
+          uncertainty: "not independently quantified by this service; provider output precision is not uncertainty",
+          fetchedAtUtc: new Date().toISOString(),
+          earthOrientation: { sun: sun.earthOrientation, moon: moon.earthOrientation },
+        };
+        if (url.pathname === "/api/astronomy/angles") return json({ schema: "hemant.astronomy-observer-angles/1", sun, moon, evidence });
+        return json({ schema: "hemant.panchanga-observed-instant/1", sun, moon, calculation: panchanga, evidence,
+          limitations: ["instantaneous angle bins; not assigned to a local sunrise day", "nakshatra and yoga require an explicitly selected ayanamsha", "maasa, vara, ritu and full traditional Panchanga rules remain unimplemented", "single ephemeris provider; no independent model cross-check"] });
+      }
+      if (url.pathname === "/api/sankranti/next") {
+        if ([...url.searchParams.keys()].some((key) => key !== "after_utc" && key !== "ayanamsha_microdegrees")) return json({ error: "only after_utc and ayanamsha_microdegrees are accepted" }, 400);
+        const afterUtc = parseUtcInstant(url.searchParams.get("after_utc"));
+        const offsetText = url.searchParams.get("ayanamsha_microdegrees");
+        if (!afterUtc || !offsetText || !/^\d{1,8}$/.test(offsetText)) return json({ error: "provide an exact after_utc instant and an explicit ayanamsha_microdegrees value" }, 400);
+        const ayanamsha = Number(offsetText);
+        if (!Number.isSafeInteger(ayanamsha) || ayanamsha < 0 || ayanamsha >= 60_000_000) return json({ error: "ayanamsha_microdegrees must be from 0 up to 60 degrees" }, 400);
+        const start = Date.parse(afterUtc);
+        const stop = new Date(start + 370 * 86_400_000).toISOString().slice(0, 19).replace("T", " ");
+        const daySeries = await fetchHorizonsLongitudeSeries(afterUtc.slice(0, 19).replace("T", " "), stop, "1 d", AbortSignal.timeout(20_000));
+        const dailyBracket = findIngressBracket(daySeries.samples, ayanamsha);
+        if (!dailyBracket) return json({ error: "no ingress found in the next 370 days; provider coverage may be unavailable" }, 404);
+        const fineSeries = await fetchHorizonsLongitudeSeries(dailyBracket.left.timeUtc.replace("T", " ").slice(0, 16), dailyBracket.right.timeUtc.replace("T", " ").slice(0, 16), "1 m", AbortSignal.timeout(20_000));
+        const minuteBracket = findIngressBracket(fineSeries.samples, ayanamsha);
+        if (!minuteBracket) return json({ error: "daily crossing could not be refined with one-minute samples" }, 502);
+        const t0 = Date.parse(minuteBracket.left.timeUtc);
+        const t1 = Date.parse(minuteBracket.right.timeUtc);
+        const crossing = wasmJson("hemant_sankranti_bracket_json", [
+          BigInt(t0), BigInt(Math.round(minuteBracket.left.longitudeDegrees * 1_000_000)),
+          BigInt(t1), BigInt(Math.round(minuteBracket.right.longitudeDegrees * 1_000_000)), BigInt(ayanamsha),
+        ]) as { unix_millis: number; sign_index: number; method: string };
+        const ingressUtc = new Date(crossing.unix_millis).toISOString();
+        return json({ schema: "hemant.sankranti-event/1", event: "sidereal solar sign ingress under user-supplied ayanamsha", sign: signNames[crossing.sign_index], signIndex: crossing.sign_index,
+          instantUtc: ingressUtc, ayanamshaMicrodegrees: ayanamsha, computation: "JPL Horizons daily search followed by one-minute samples and Rust linear interpolation",
+          method: crossing.method, source: "NASA/JPL Horizons", providerMetadata: { daily: daySeries.rawHeader, refinement: fineSeries.rawHeader },
+          uncertainty: "not quantified; one-minute input bracket and interpolated time are resolution evidence, not a full error budget", locationNote: "astronomical geocentric event instant; local observance date/time is location and tradition dependent" });
+      }
       if (url.pathname === "/api/methods") return json(wasmJson("hemant_method_registry_json"));
       if (url.pathname === "/api/health") {
         const registry = wasmJson("hemant_method_registry_json") as { methods?: { id: string; status: string }[] };
@@ -97,7 +184,14 @@ export default {
         });
       }
       return json({ error: "not found" }, 404);
-    } catch {
+    } catch (error) {
+      console.error("Hemant API request failed", {
+        route: url.pathname,
+        reason: error instanceof Error ? error.message.slice(0, 160) : "unknown runtime error",
+      });
+      if (url.pathname === "/api/astronomy/angles" || url.pathname === "/api/panchanga/instant" || url.pathname === "/api/sankranti/next") {
+        return json({ error: "JPL Horizons is unavailable or returned an invalid response; no astronomy or calendar value was returned", status: "upstream-unavailable" }, 503);
+      }
       return json({ error: "Hemant Worker runtime failed closed" }, 503);
     }
   },

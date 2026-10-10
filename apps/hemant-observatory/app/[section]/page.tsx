@@ -17,6 +17,7 @@ import WidgetsModule from "@/components/modules/widgets";
 import ModesModule from "@/components/modules/modes";
 import PlanetaryModule from "@/components/modules/planetary";
 import RatiosModule from "@/components/modules/ratios";
+import SpacecraftModule from "@/components/modules/spacecraft";
 
 const modules: Record<string, ComponentType> = {
   clock: ClockModule,
@@ -34,6 +35,7 @@ const modules: Record<string, ComponentType> = {
   modes: ModesModule,
   planetary: PlanetaryModule,
   ratios: RatiosModule,
+  spacecraft: SpacecraftModule,
 };
 
 export function generateStaticParams() {
@@ -50,10 +52,11 @@ export default async function SectionPage({ params }: { params: Promise<{ sectio
     <div className="m-page">
       <a className="skip-link" href="#module-content">Skip to module content</a>
       <header className="m-header">
-        <Link className="back-link" href="/">← Observatory overview</Link>
-        <nav aria-label="Modules" className="m-nav">
-          {sections.map((s) => <Link key={s.slug} href={`/${s.slug}`} aria-current={s.slug === slug ? "page" : undefined}>{s.title}</Link>)}
-        </nav>
+          <Link className="back-link" href="/">← Observatory overview</Link>
+          <nav aria-label="Modules" className="m-nav">
+            {sections.map((s) => <Link key={s.slug} href={`/${s.slug}`} aria-current={s.slug === slug ? "page" : undefined}>{s.title}</Link>)}
+            <Link href="/roadmap">Enterprise roadmap</Link>
+          </nav>
       </header>
       <main id="module-content" className="m-main">
         <div className="m-hero">

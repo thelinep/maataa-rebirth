@@ -1,11 +1,15 @@
 import { panchangaDecisions, panchangaFields } from "@/lib/panchanga";
 import { Panel, Pending } from "./shared";
+import { LiveAngleCalculation } from "./live-angle-calculation";
+import { PanchangaComparison } from "./panchanga-comparison";
 
 export default function PanchangaModule() {
   return (
     <div className="m-grid">
-      <Panel eyebrow="FIELDS · NOT COMPUTED" title="What each field measures">
-        <p className="m-note">Commonly described astronomical definitions. Exact boundaries, conventions and source editions depend on the tradition, which has not been selected. No value is calculated.</p>
+      <LiveAngleCalculation />
+      <PanchangaComparison />
+      <Panel eyebrow="FIELD COVERAGE" title="What this method computes">
+        <p className="m-note">Tithi, paksha and karana are now calculated for one explicit JPL apparent-longitude instant. The remaining fields stay pending until location and tradition rules are selected.</p>
         <div className="m-table-wrap">
           <table className="m-table">
             <caption className="sr-only">Panchanga fields, their measured quantity, inputs and convention dependence</caption>
@@ -17,7 +21,7 @@ export default function PanchangaModule() {
                   <td>{f.measures}</td>
                   <td>{f.inputs.join(", ")}</td>
                   <td>{f.conventionDependent}</td>
-                  <td><span className="state-pill planned">pending</span></td>
+                  <td><span className={`state-pill ${["tithi", "paksha", "karana"].includes(f.key) ? "cap-partial" : "planned"}`}>{["tithi", "paksha", "karana"].includes(f.key) ? "instant only" : "pending"}</span></td>
                 </tr>
               ))}
             </tbody>
@@ -28,7 +32,7 @@ export default function PanchangaModule() {
         <ol className="m-list">
           {panchangaDecisions.map((d) => <li key={d.key}><strong>{d.key}</strong> — {d.question} <span className="state-pill planned">{d.status}</span></li>)}
         </ol>
-        <Pending>Every field also needs Sun and Moon longitudes from an ephemeris (ASTRONOMY-DECISION-001). Fields are added one at a time, each with independent test cases.</Pending>
+        <Pending>Full Panchanga still needs sunrise-based day assignment, a named tradition and edition, ayanamsha, location, month rules, and published comparison cases. Instant calculations are not used as substitutes for those choices.</Pending>
       </Panel>
     </div>
   );

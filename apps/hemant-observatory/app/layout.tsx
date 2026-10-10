@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
+import "../../../src/styles.css";
 import "./styles.css";
 import "./modules.css";
+import "./allb.css";
+import "./roadmap.css";
+import "./aditya-workbench.css";
 
 export const metadata: Metadata = {
   title: "Hemant Samwat Observatory Runtime",

@@ -8,8 +8,10 @@
 
 pub mod astronomy;
 pub mod json;
+pub mod panchanga;
 pub mod registry;
 pub mod result;
+pub mod sclk;
 pub mod time;
 pub mod units;
 

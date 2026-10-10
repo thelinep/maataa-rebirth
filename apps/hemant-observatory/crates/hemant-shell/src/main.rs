@@ -26,17 +26,31 @@ enum Mode {
     Text,
     Json,
     Methods,
+    Mars2020Sclk,
 }
 
-fn parse(args: &[String]) -> Result<(Mode, Option<i128>), String> {
+fn parse(args: &[String]) -> Result<(Mode, Option<i128>, Option<String>), String> {
     let mut supplied = None;
+    let mut sclk = None;
     let mut mode = Mode::Text;
     let mut i = 0;
     while i < args.len() {
         match args[i].as_str() {
-            "--help" | "-h" => return Ok((Mode::Help, None)),
+            "--help" | "-h" => return Ok((Mode::Help, None, None)),
             "--json" => mode = Mode::Json,
             "--methods-json" => mode = Mode::Methods,
+            "--mars2020-sclk" => {
+                if sclk.is_some() {
+                    return Err("--mars2020-sclk may be given only once".into());
+                }
+                i += 1;
+                sclk = Some(
+                    args.get(i)
+                        .ok_or("--mars2020-sclk requires a clock string")?
+                        .clone(),
+                );
+                mode = Mode::Mars2020Sclk;
+            }
             "--unix-nanos" => {
                 if supplied.is_some() {
                     return Err("--unix-nanos may be given only once".into());
@@ -58,16 +72,30 @@ fn parse(args: &[String]) -> Result<(Mode, Option<i128>), String> {
     if mode == Mode::Methods && supplied.is_some() {
         return Err("--methods-json does not take a time value".into());
     }
-    Ok((mode, supplied))
+    if sclk.is_some()
+        && (supplied.is_some()
+            || args
+                .iter()
+                .any(|arg| arg == "--json" || arg == "--methods-json"))
+    {
+        return Err("--mars2020-sclk cannot be combined with another output mode".into());
+    }
+    Ok((mode, supplied, sclk))
 }
 
 fn run(args: Vec<String>) -> Result<String, String> {
-    let (mode, supplied) = parse(&args)?;
+    let (mode, supplied, sclk) = parse(&args)?;
     if mode == Mode::Help {
         return Ok(help());
     }
     if mode == Mode::Methods {
         return Ok(registry_json());
+    }
+    if mode == Mode::Mars2020Sclk {
+        return hemant_core::sclk::mars2020_v19_demo_json(
+            sclk.as_deref().ok_or("missing Mars 2020 SCLK")?,
+        )
+        .map_err(|error| format!("Mars 2020 SCLK conversion failed: {error}"));
     }
     let snapshot = match supplied {
         Some(value) => WallClockSnapshot::from_supplied_unix_nanos(value),
@@ -116,7 +144,7 @@ fn text(snapshot: &WallClockSnapshot) -> Result<String, ClockReadError> {
 }
 
 fn help() -> String {
-    "Hemant Samwat Observatory time shell\n\nUSAGE:\n  hemant-shell [--unix-nanos <signed-integer>] [--json]\n  hemant-shell --methods-json\n\nWithout --unix-nanos, reads the host wall clock and labels it unverified.\n--json prints hemant.time-result/2; --methods-json prints hemant.method-registry/1.\nSupported range: 0001-01-01 to 9999-12-31 UTC (Unix nanoseconds; leap seconds not counted).".into()
+    "Hemant Samwat Observatory time shell\n\nUSAGE:\n  hemant-shell [--unix-nanos <signed-integer>] [--json]\n  hemant-shell --methods-json\n  hemant-shell --mars2020-sclk <SSSSSSSSSS-FFFFF>\n\nWithout --unix-nanos, reads the host wall clock and labels it unverified.\n--json prints hemant.time-result/2; --methods-json prints hemant.method-registry/1.\n--mars2020-sclk returns a bounded archival TDT demonstration, not a flight conversion.\nSupported range: 0001-01-01 to 9999-12-31 UTC (Unix nanoseconds; leap seconds not counted).".into()
 }
 
 #[cfg(test)]
@@ -129,7 +157,9 @@ mod tests {
 
     #[test]
     fn help_is_available_without_reading_the_clock() {
-        assert!(run(args(&["--help"])).unwrap().contains("--methods-json"));
+        let output = run(args(&["--help"])).unwrap();
+        assert!(output.contains("--methods-json"));
+        assert!(output.contains("--mars2020-sclk"));
     }
 
     #[test]
@@ -146,6 +176,15 @@ mod tests {
             .unwrap()
             .starts_with("{\"schema\":\"hemant.method-registry/1\""));
         assert!(run(args(&["--methods-json", "--unix-nanos", "1"])).is_err());
+    }
+
+    #[test]
+    fn spacecraft_clock_cli_uses_the_shared_rust_result_contract() {
+        let output = run(args(&["--mars2020-sclk", "0189345666-00000"])).unwrap();
+        assert!(output.contains("\"parallel_scale\":\"TDT\""));
+        assert!(output.contains("\"tdt_nanoseconds_past_j2000\":\"189345666000000000\""));
+        assert!(run(args(&["--mars2020-sclk", "1/0690471234.12345"])).is_err());
+        assert!(run(args(&["--mars2020-sclk", "0189345666-00000", "--json"])).is_err());
     }
 
     #[test]

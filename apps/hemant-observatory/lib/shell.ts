@@ -4,7 +4,7 @@ import { existsSync } from "node:fs";
 import { join } from "node:path";
 import { spawnSync } from "node:child_process";
 
-export type ShellArgs = ["--json"] | ["--methods-json"] | ["--unix-nanos", string, "--json"];
+export type ShellArgs = ["--json"] | ["--methods-json"] | ["--unix-nanos", string, "--json"] | ["--mars2020-sclk", string];
 export type ShellOutcome = { ok: true; json: unknown } | { ok: false; status: number; error: string };
 
 export function shellBinary(root = process.cwd()): string | null {

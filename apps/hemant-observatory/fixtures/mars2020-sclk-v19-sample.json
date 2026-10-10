@@ -1,0 +1,46 @@
+{
+  "schema": "hemant.spacecraft-clock-reference/1",
+  "source_url": "https://naif.jpl.nasa.gov/pub/naif/pds/pds4/mars2020/mars2020_spice/spice_kernels/sclk/m2020_168_sclkscet_refit_v19.tsc",
+  "source_product": "m2020_168_sclkscet_refit_v19.tsc",
+  "source_product_version": 19,
+  "source_product_kind": "archival surface refit; not used during operations",
+  "source_checksum": {
+    "algorithm": "SHA-256",
+    "value": null,
+    "verification": "pending: upstream artifact could not be fetched in this environment"
+  },
+  "independent_implementation_check": {
+    "implementation": "NAIF CSPICE",
+    "verification": "pending: toolkit and full source kernel unavailable in this environment"
+  },
+  "naif_spacecraft_id": -168,
+  "clock_format": "SSSSSSSSSS-FFFFF",
+  "clock_input": "0189345666-00000",
+  "source_scet_pair": {
+    "onboard_seconds": 189345666,
+    "utc": "2006-001T00:00:00.816Z"
+  },
+  "source_type1_row": {
+    "encoded_ticks": "12408957566976",
+    "parallel_seconds_past_j2000": "189345666.0000000000",
+    "rate_seconds_per_most_significant_field": "1.0000000000000",
+    "parallel_scale": "TDT"
+  },
+  "expected_output": {
+    "scale": "TDT",
+    "nanoseconds_past_j2000": "189345666000000000",
+    "verification": "unverified-reference-demonstration"
+  },
+  "coverage": {
+    "start_ticks_inclusive": "0",
+    "stop_ticks_exclusive": "18614849830912",
+    "note": "Only the first two coefficient intervals are implemented. The full kernel is not embedded."
+  },
+  "limitations": [
+    "The upstream kernel checksum has not been captured or verified",
+    "Not an independent CSPICE comparison",
+    "Not an operational clock product",
+    "UTC is retained only as a source-table cross-check, not emitted by the runtime converter",
+    "TDB conversion, leap-second kernel handling and mission hardware validation are not implemented"
+  ]
+}

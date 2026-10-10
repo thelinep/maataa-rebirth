@@ -13,7 +13,7 @@ export type MethodRecord = {
   kind: string;
   title: string;
   status: "active" | "pending";
-  evidence: string;
+  evidence: "host-reported" | "user-supplied-input" | "derived-representation" | "user-selected-reference" | "derived-under-named-convention" | "pending-method";
   verification: "unverified" | "not-applicable";
   inputs: string[];
   source: string;
@@ -67,6 +67,17 @@ const exactKeys = (o: Record<string, unknown>, keys: string[]) =>
   Object.keys(o).length === keys.length && keys.every((k) => k in o);
 
 const METHOD_KEYS = ["id", "version", "kind", "title", "status", "evidence", "verification", "inputs", "source", "time_scale", "frame_or_location", "output_units", "uncertainty", "limitations"];
+const EVIDENCE_FOR_KIND: Record<string, readonly MethodRecord["evidence"][]> = {
+  "clock-source": ["host-reported", "user-supplied-input"],
+  "civil-representation": ["derived-representation"],
+  "reference-epoch": ["user-selected-reference"],
+  "unit-convention": ["derived-under-named-convention"],
+  "astronomy-observer-ephemeris": ["derived-under-named-convention"],
+  "instantaneous-calendar-angle-classification": ["derived-under-named-convention"],
+  "spacecraft-clock-correlation": ["derived-under-named-convention"],
+  astronomy: ["pending-method"],
+  "calendar-tradition": ["pending-method"],
+};
 
 export function parseMethodRegistry(raw: unknown): Parsed<MethodRegistry> {
   if (!isObj(raw) || raw.schema !== METHOD_REGISTRY_SCHEMA || !Array.isArray(raw.methods)) return { ok: false, error: "not a hemant.method-registry/1 document" };
@@ -77,6 +88,8 @@ export function parseMethodRegistry(raw: unknown): Parsed<MethodRegistry> {
       if (!isStr(m[k])) return { ok: false, error: `method field ${k} is empty` };
     }
     if (m.status !== "active" && m.status !== "pending") return { ok: false, error: "unknown method status" };
+    const allowedEvidence = EVIDENCE_FOR_KIND[String(m.kind)];
+    if (!allowedEvidence || !allowedEvidence.includes(m.evidence as MethodRecord["evidence"])) return { ok: false, error: `method ${String(m.id)} has evidence incompatible with its kind` };
     if (m.verification !== "unverified" && m.verification !== "not-applicable") return { ok: false, error: `method ${String(m.id)} claims verification ${String(m.verification)}` };
     if (!isStrArr(m.inputs) || !m.inputs.length || !isStrArr(m.limitations) || !m.limitations.length) return { ok: false, error: "method inputs/limitations missing" };
     if (m.status === "pending" && m.evidence !== "pending-method") return { ok: false, error: "pending method with non-pending evidence" };

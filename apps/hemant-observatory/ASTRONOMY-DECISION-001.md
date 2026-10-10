@@ -1,6 +1,6 @@
 # ASTRONOMY-DECISION-001 — first ephemeris increment
 
-**Status:** proposed design; **not implemented**. Astronomical positions stay `pending` in the method registry (`astronomy-solar-system-positions`).
+**Status:** local/bundled ephemeris design remains pending. A narrow live JPL Horizons adapter now computes geocentric apparent Sun/Moon angles; wider solar-system positions remain `pending` in the method registry (`astronomy-solar-system-positions`). See `SCIENTIFIC-VALIDATION.md` for the delivered method and evidence.
 **Date:** 2026-10-09. Sources were consulted on that date (see the References section).
 
 ## Use case and boundary

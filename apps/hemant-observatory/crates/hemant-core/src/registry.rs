@@ -73,6 +73,10 @@ pub const EPOCH_METHOD_ID: &str = "user-selected-kashi-sankranti-minute-referenc
 pub const UNITS_METHOD_ID: &str = "hemant-traditional-units-v1";
 pub const ASTRONOMY_METHOD_ID: &str = "astronomy-solar-system-positions";
 pub const PANCHANGA_METHOD_ID: &str = "panchanga-ruleset";
+pub const JPL_ANGLES_METHOD_ID: &str = "jpl-geocentric-apparent-sun-moon-longitude-v1";
+pub const INSTANT_PANCHANGA_METHOD_ID: &str =
+    "instantaneous-tithi-karana-from-apparent-longitudes-v1";
+pub const M2020_SCLK_METHOD_ID: &str = "mars2020-sclk-v19-bounded-to-tdt-demo-v1";
 
 pub const METHOD_REGISTRY: &[MethodRecord] = &[
     MethodRecord {
@@ -191,6 +195,59 @@ pub const METHOD_REGISTRY: &[MethodRecord] = &[
         ],
     },
     MethodRecord {
+        id: JPL_ANGLES_METHOD_ID,
+        version: "1",
+        kind: "astronomy-observer-ephemeris",
+        title: "JPL Horizons geocentric apparent Sun and Moon angles",
+        status: MethodStatus::Active,
+        evidence_class: EvidenceClass::ConventionDerived,
+        verification: "unverified",
+        inputs: &["UTC instant", "target body", "geocenter", "observer ephemeris quantity 31"],
+        source_identity: "NASA/JPL Horizons API; runtime response includes provider metadata and ephemeris identity",
+        time_scale: "UTC request; Horizons observer ephemeris time handling",
+        frame_or_location: "Earth geocenter; apparent ecliptic and equinox of date",
+        output_units: "degrees longitude and latitude",
+        uncertainty: "not independently quantified; displayed decimal precision is not an uncertainty bound",
+        limitations: &["Only Sun and Moon angles are returned.", "Single provider; no independent ephemeris comparison.", "Not spacecraft navigation or an onboard clock."],
+    },
+    MethodRecord {
+        id: INSTANT_PANCHANGA_METHOD_ID,
+        version: "1",
+        kind: "instantaneous-calendar-angle-classification",
+        title: "Instantaneous tithi, paksha and karana angle bins",
+        status: MethodStatus::Active,
+        evidence_class: EvidenceClass::ConventionDerived,
+        verification: "not-applicable",
+        inputs: &["apparent geocentric ecliptic Sun longitude", "apparent geocentric ecliptic Moon longitude"],
+        source_identity: "integer-microdegree angle arithmetic in hemant-core; 12-degree tithi and 6-degree karana bins",
+        time_scale: "input instant supplied in UTC to Horizons",
+        frame_or_location: "geocentric apparent ecliptic/equinox of date; no local sunrise assignment",
+        output_units: "elongation degrees, ordinal tithi, paksha, karana index and name",
+        uncertainty: "inherited from ephemeris and input time; not quantified by this method",
+        limitations: &["Instant classification only; no civil-day assignment.", "Tradition-specific named labels require independent Panchanga test vectors.", "Nakshatra and yoga require a selected ayanamsha and are not emitted."],
+    },
+    MethodRecord {
+        id: M2020_SCLK_METHOD_ID,
+        version: "1",
+        kind: "spacecraft-clock-correlation",
+        title: "Mars 2020 SCLK refit V19 first two intervals demonstration",
+        status: MethodStatus::Active,
+        evidence_class: EvidenceClass::ConventionDerived,
+        verification: "unverified",
+        inputs: &["Mars 2020 seconds-fraction SCLK string", "decoded first two Type 1 correlation intervals"],
+        source_identity: "NAIF PDS m2020_168_sclkscet_refit_v19.tsc; pinned two-row subset only",
+        time_scale: "TDT seconds past J2000; no UTC or TDB conversion emitted",
+        frame_or_location: "Mars 2020 spacecraft clock ID -168",
+        output_units: "integer nanoseconds past J2000 in TDT",
+        uncertainty: "inherited from archival clock correlation; not quantified by this subset",
+        limitations: &[
+            "Archival refit explicitly says it was not used during operations.",
+            "Only the first two correlation intervals are embedded; all other readings fail closed.",
+            "Not a complete NAIF SPICE implementation or a flight-qualified adapter.",
+            "UTC conversion needs a leap-seconds kernel; TDT is retained to avoid an unstated conversion.",
+        ],
+    },
+    MethodRecord {
         id: ASTRONOMY_METHOD_ID,
         version: "pending",
         kind: "astronomy",
@@ -204,7 +261,7 @@ pub const METHOD_REGISTRY: &[MethodRecord] = &[
         frame_or_location: "pending (ICRF-aligned)",
         output_units: "pending",
         uncertainty: "not available",
-        limitations: &["No ephemeris dataset or library is bundled; no positions are produced."],
+        limitations: &["No ephemeris dataset or library is bundled locally.", "A separate JPL Horizons adapter supplies only geocentric apparent Sun/Moon angles.", "No wider planetary state vectors are produced by this method."],
     },
     MethodRecord {
         id: PANCHANGA_METHOD_ID,
@@ -220,7 +277,7 @@ pub const METHOD_REGISTRY: &[MethodRecord] = &[
         frame_or_location: "pending (observer location policy)",
         output_units: "pending",
         uncertainty: "not available",
-        limitations: &["No tithi, nakshatra, yoga, karana, vara or other field is calculated."],
+        limitations: &["Instant tithi/paksha/karana angle bins are exposed by a separate narrow method.", "No complete sunrise-assigned Panchanga ruleset is selected.", "Nakshatra and yoga need an explicit ayanamsha; other fields need location and calendar rules."],
     },
 ];
 
