@@ -213,6 +213,27 @@ The package is `private: true` and no registry, publisher identity or provenance
 | `DEFAULT_COMPOSER_SCENE` | A valid `ComposerScene` value | Freeze its presence and validity, not its exact contents. |
 | `ComposerScene` (type) | `id`, `name`, `workspaceTypeId`, `pageTypeId`, `layoutTypeId`, `deviceId`, `theme`, `density`, `stateMode`, `blocks[]` (`id`, `kind`, `props: Record<string, unknown>`, optional `hidden`, `locked`, `componentId`), `updatedAt`, optional `schemaVersion: "1"`, optional `regions[]` | Block `props` are untyped per kind, so their contents are not contracted. The ID fields are literal unions generated from the registries (see appendix B). |
 
+### Appendix A review (2026-10-12, read from source at `27ff005a`)
+
+Verdict per export: **Freeze** = acceptable as is; **Fix first** = change before freezing, because changing it after the freeze would be a breaking change; **Narrow** = freeze only part of it.
+
+| Export | Verdict | Finding |
+| --- | --- | --- |
+| `Input` | Freeze | Thin wrapper over `<input>` with ref forwarding. No error/size props; labels come from the consumer. |
+| `Button` | Fix first (decision) | `loading` sets native `disabled`, so a focused button loses keyboard focus while loading. Decide now whether loading should use `aria-disabled` instead; switching later changes behaviour. A consumer-supplied `aria-busy` overrides the built-in one. |
+| `Card` | Fix first (small) | Props typed as `<div>` attributes but renders `<article>`; retype to `HTMLAttributes<HTMLElement>`. Unlike `Button`/`Input` it does not forward `ref` (adding it later is compatible). |
+| `UiProvider` | Fix first (decision) | `theme` is passed as the provider's *initial* theme: changing the prop after mount does nothing. There is no controlled mode or change callback. It also writes `data-maataa-theme` on `<html>` (two providers overwrite each other) and reads the OS colour scheme once per render without listening for changes. Freezing the prop name `theme` with initial-only behaviour would lock in a misleading contract. |
+| `ThemeToggle` | Fix first (accessibility) | The visible text is the current theme name (for example "dark") but `aria-label` replaces it with "Toggle theme", so the accessible name does not contain the visible label (WCAG 2.5.3 Label in Name). It throws outside `UiProvider`, and the five-step cycle order is hard-coded. |
+| `VisualComposer` | Narrow | Freeze the props only. Its UI text is English-only, and on every edit it stamps `updatedAt` and upgrades the scene to v1; editor layout, palette and behaviour must be stated as not covered. |
+| `CompositionRuntime` | Narrow | The `validation` prop lets the host pass `compatibility.status: "verified"`, which the runtime then displays to users as "Composition: verified" without the package having checked it. Keep `validation` out of the stable contract (experimental or removed). The runtime also always shows a status line and the raw page ID in the default header, and its invalid-scene message is fixed English text. |
+| `CanonicalCompositionRuntime` | Narrow | Computes validation itself (the honest path). `context` uses `CompositionContext`, whose fields are loose strings; keep `context` experimental. |
+| `generateComposerJsx` | Narrow | The generated code imports the layout component and the typography/data components for each block kind (`@maataa/ui/layout-atoms/…`, `@maataa/ui/typography/…`, etc.), which are **not** on the stable list, and embeds sample table rows. Freeze the signature and "valid JSX for a valid scene", not the generated imports or text — or widen the stable list to every component the generator emits. |
+| `validateCompositionSpec` | Freeze (shape only) | Freeze `accepted`, `errors[]` and `spec` on success; the nested `validation` object and message wording stay unfrozen. |
+| `DEFAULT_COMPOSER_SCENE` | Narrow | Presence and validity only. |
+| `ComposerScene` | Narrow | The saved format is `CompositionSpecV1` (where `schemaVersion` and `regions` are required), not `ComposerScene` (where they are optional); say so explicitly. Block `props` are untyped. ID fields are literal unions, consistent with option C. |
+
+Coverage gap: only `tests/smoke.test.tsx` touches `UiProvider`, `Button` and `ThemeToggle` directly; there are no dedicated contract tests for the props of these exports. Add one contract test per stable export before applying the freeze.
+
 ## Appendix B — freezing IDs versus freezing the format
 
 A saved v1 composition refers to six kinds of canonical ID: workspace (647), page (500), layout (100), device (187), component (1,577) and region (85) — about 3,100 IDs in all. In TypeScript the ID fields of `ComposerScene` are literal unions built from the registries, so removing an ID is already a type-breaking change for anyone using the type. [`versioning-policy.md`](../versioning-policy.md) already says IDs in saved scenes must not be silently renamed or reused, a replacement needs an explicit alias, a versioned migration helper and tests, and no alias is invented before a real migration exists. No alias or migration helper exists in code today.
