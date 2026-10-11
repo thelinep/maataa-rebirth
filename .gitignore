@@ -98,3 +98,5 @@ storybook-static/
 **/.next/
 **/node_modules
 **/*.tsbuildinfo
+# Generated full-repository status captures are local diagnostics, not release evidence.
+apps/hemant-observatory/evidence/outside-status-*.txt
