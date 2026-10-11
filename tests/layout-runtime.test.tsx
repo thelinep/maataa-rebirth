@@ -6,6 +6,7 @@ import { CANONICAL_LAYOUT_LOADERS } from "../src/runtime/layoutLoaders.generated
 import { CanonicalCompositionRuntime } from "../src/runtime/CanonicalCompositionRuntime";
 import { DEFAULT_COMPOSER_SCENE } from "../src/composer/defaults";
 import { generateComposerJsx } from "../src/composer/codegen";
+import { DEPRECATED_LAYOUT_ALIASES } from "../src/composer/layoutAliases";
 afterEach(cleanup);
 describe("canonical layout execution",()=>{
   it.each(LAYOUT_TYPES)("loads and renders $id",async record=>{
@@ -14,7 +15,9 @@ describe("canonical layout execution",()=>{
     expect(container.querySelector('[data-layout-name]')).toHaveAttribute("data-layout-name",record.name.replace(/Layout$/,""));
     expect(container.querySelector('[data-layout-region="main"]')).toHaveTextContent("Selected layout content");
     expect(container.querySelector('[data-layout-region="header"]')).toHaveTextContent("Header");
-    expect(generateComposerJsx({...DEFAULT_COMPOSER_SCENE,layoutTypeId:record.id})).toContain(`import { ${record.name} } from "${record.importPath}"`);
+    // Deprecated aliases generate their same-template replacement (decision 2026-10-12).
+    const emitted=LAYOUT_TYPES.find(item=>item.name===(DEPRECATED_LAYOUT_ALIASES[record.name]??record.name))!;
+    expect(generateComposerJsx({...DEFAULT_COMPOSER_SCENE,layoutTypeId:record.id})).toContain(`import { ${emitted.name} } from "${emitted.importPath}"`);
   });
   it("executes selection and changes the actual layout implementation",async()=>{
     const {container,rerender}=render(<CanonicalCompositionRuntime scene={DEFAULT_COMPOSER_SCENE}/>);
