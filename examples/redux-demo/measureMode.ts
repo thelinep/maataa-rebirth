@@ -8,6 +8,8 @@
 type Metrics = {
   readyMs: number | null;
   verifiedInteractionMs: number | null;
+  dialogTapMs: number | null;
+  dialogResponseMs: number | null;
   lcpMs: number | null;
   inpMs: number | null;
   interactions: number;
@@ -49,7 +51,7 @@ function fmtBytes(value: number | null, supported = true): string {
 }
 
 export function startMeasureMode(): void {
-  const m: Metrics = { readyMs: null, verifiedInteractionMs: null, lcpMs: null, inpMs: null, interactions: 0, longTaskCount: 0, longTaskTotalMs: 0, heapBytes: null, jsBytes: 0 };
+  const m: Metrics = { readyMs: null, verifiedInteractionMs: null, dialogTapMs: null, dialogResponseMs: null, lcpMs: null, inpMs: null, interactions: 0, longTaskCount: 0, longTaskTotalMs: 0, heapBytes: null, jsBytes: 0 };
   const interactionMax = new Map<number, number>();
 
   const lcpSupported = observe("largest-contentful-paint", (entries) => {
@@ -79,6 +81,19 @@ export function startMeasureMode(): void {
   const memory = (performance as unknown as { memory?: { usedJSHeapSize: number } }).memory;
   const heapSupported = !!memory;
 
+  // Record when "Open dialog" is tapped, so human reaction/scroll time can be
+  // separated from the app's own response time.
+  document.addEventListener(
+    "click",
+    (event) => {
+      const button = (event.target as Element | null)?.closest?.("button");
+      if (button && button.textContent?.trim() === "Open dialog" && m.verifiedInteractionMs === null) {
+        m.dialogTapMs = event.timeStamp;
+      }
+    },
+    { capture: true },
+  );
+
   // Same milestones as scripts/measure-runtime-performance.mjs:
   // demo ready marker, then the "Keyboard dialog" opened from /#/playground.
   const domObserver = new MutationObserver(() => {
@@ -87,6 +102,7 @@ export function startMeasureMode(): void {
       const dialogs = Array.from(document.querySelectorAll('[role="dialog"]'));
       if (dialogs.some((d) => (d.getAttribute("aria-label") ?? d.textContent ?? "").includes("Keyboard dialog"))) {
         m.verifiedInteractionMs = performance.now();
+        if (m.dialogTapMs !== null) m.dialogResponseMs = m.verifiedInteractionMs - m.dialogTapMs;
       }
     }
   });
@@ -127,7 +143,9 @@ export function startMeasureMode(): void {
       `UA: ${navigator.userAgent}`,
       "",
       `Ready (demo mounted): ${fmtMs(m.readyMs)}`,
-      `Verified interaction (dialog open): ${fmtMs(m.verifiedInteractionMs)}`,
+      `Dialog response (tap to open): ${fmtMs(m.dialogResponseMs)}`,
+      `Comparable to automated check (ready + response): ${m.readyMs !== null && m.dialogResponseMs !== null ? fmtMs(m.readyMs + m.dialogResponseMs) : "—"}`,
+      `Raw: tap at ${fmtMs(m.dialogTapMs)}, dialog at ${fmtMs(m.verifiedInteractionMs)} (includes your own delay)`,
       `LCP: ${fmtMs(m.lcpMs, lcpSupported)}`,
       `INP (worst of ${m.interactions}): ${fmtMs(m.inpMs, inpSupported)}`,
       `Long tasks: ${longTaskSupported ? `${m.longTaskCount}, total ${Math.round(m.longTaskTotalMs)} ms` : UNSUPPORTED}`,
