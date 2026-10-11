@@ -16,4 +16,6 @@ The package version stays `1.0.0-alpha.8.4` (deliberate release debt per [govern
 
 The named MAATAA release approval/private-security-reporting owner is Hemant Kumar Dixit. This designation does not constitute approval or configure the private reporting route. Application pilot owners and acceptance remain separate.
 
+For each outstanding manual/external gate, its decider and the record to fill, use the [acceptance packet](ACCEPTANCE-PACKET.md).
+
 For product maturity, pilot status, implementation scope, saved passes, release steps, and the sequenced closure plan, use the [completion matrix](COMPLETION-MATRIX.md). Follow [`ROADMAP.md`](ROADMAP.md) for steps 01–39 and [`EVIDENCE.md`](EVIDENCE.md) for exact-candidate evidence rules.
