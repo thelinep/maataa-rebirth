@@ -2,6 +2,10 @@
 
 **Status:** no complete Panchanga ruleset is selected. The runtime calculates instantaneous tithi/paksha/karana angle bins from JPL apparent Sun/Moon longitudes; it does not assign a sunrise-based civil day or produce a complete named calendar. `panchanga-ruleset` remains pending.
 
+## Provisional sunrise-comparison locations
+
+The product owner selected this comparison cohort for the first sunrise/day-assignment validation plan: Delhi, Chennai, Kolkata, Mumbai, and Guwahati. Leh is a separate elevation/terrain stress case, not a 60°N high-latitude case. These are test locations only; none is the canonical Hemant or Panchanga location. No sunrise values should be emitted until each test site has exact WGS84 coordinates, elevation, coordinate provenance, timezone policy, and a named sunrise/refraction convention. The city names alone do not identify a calculation site.
+
 The Panchanga page now includes a comparison workbench for alternative authority families, ayanamsha modes, observer locations, day boundaries, month/calendar systems and ayana definitions. It can retain up to four assumption profiles in page state. This is a comparison of declarations only: it does not calculate outputs, persist a profile, select a canonical default, or validate any tradition. Candidate source links and limits are shown beside the options.
 
 The project records name a **Kashi (Varanasi)** reference for the Hemant epoch, but they do not name a calculation tradition, source edition, ayanamsha, sunrise rule or month system. These cannot be inferred safely, so they are product-owner decisions. The IMD Rashtriya Panchang is listed as a potential independent reference, not selected as the product default:

@@ -23,6 +23,10 @@ Status: candidates remain side-by-side options. There is no selected canonical t
 
 Every selectable track must carry: authority/publisher; title, edition/year and source URL; algorithm and version; ephemeris and time-scale/kernel identity; location coordinates/elevation and source; timezone database version; ayanamsha definition/epoch if applicable; sunrise/day and month rules; raw computed instants; uncertainty or explicit unknown; reference case and tolerance; test result; software revision. A profile with any required value absent remains `not calculated` or `not qualified`.
 
+## Initial location cohort (provisional test plan)
+
+The selected first comparison cohort is Delhi, Chennai, Kolkata, Mumbai, and Guwahati. Leh is included separately as an elevation/terrain stress case; it must not be labelled a 60°N high-latitude case. This selection does not set the canonical observer location. Before creating numeric sunrise vectors, resolve an exact site per city, WGS84 latitude/longitude, elevation and coordinate source, timezone handling, and the authority-specific horizon/refraction convention. Until those inputs and independent expected sunrise cases are recorded, all six locations remain `not calculated`.
+
 ## Order of work
 
 1. Preserve the current instantaneous angle slice and validate it with independently sourced longitudes and boundary vectors.

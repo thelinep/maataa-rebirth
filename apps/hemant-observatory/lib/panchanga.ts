@@ -65,6 +65,11 @@ export const comparisonAxes = [
     options: [
       { id: "kashi", label: "Kashi / Varanasi", detail: "Historical epoch reference chosen earlier; it does not automatically set the daily observer location." },
       { id: "delhi", label: "Delhi", detail: "Candidate local-observance location; exact site coordinates remain to be supplied or sourced." },
+      { id: "chennai", label: "Chennai", detail: "User-selected provisional sunrise-comparison site; exact coordinates, elevation and source are unresolved." },
+      { id: "kolkata", label: "Kolkata", detail: "User-selected provisional sunrise-comparison site; exact coordinates, elevation and source are unresolved." },
+      { id: "mumbai", label: "Mumbai", detail: "User-selected provisional sunrise-comparison site; exact coordinates, elevation and source are unresolved." },
+      { id: "guwahati", label: "Guwahati", detail: "User-selected provisional sunrise-comparison site; exact coordinates, elevation and source are unresolved." },
+      { id: "leh", label: "Leh (elevation/terrain stress case)", detail: "User-selected stress case for elevation and terrain; not a high-latitude test. Exact site coordinates and elevation remain unresolved." },
       { id: "prayagraj", label: "Prayagraj", detail: "Candidate local-observance location; exact site coordinates remain to be supplied or sourced." },
       { id: "ujjain", label: "Ujjain", detail: "Candidate city location. Keep it distinct from IMD's adopted central station coordinates." },
       { id: "haridwar", label: "Haridwar", detail: "Candidate local-observance location; exact site coordinates remain to be supplied or sourced." },

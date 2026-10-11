@@ -128,6 +128,10 @@ test("Panchanga comparison keeps alternatives selectable and compares assumption
   await page.goto("/panchanga");
   await expect(page.getByRole("heading", { name: "Compare Panchanga rule profiles" })).toBeVisible();
   await expect(page.getByText("none is preselected as the authority")).toBeVisible();
+  const locationSelect = page.locator(".m-compare-fields").getByLabel("Observer location");
+  for (const city of ["Delhi", "Chennai", "Kolkata", "Mumbai", "Guwahati", "Leh (elevation/terrain stress case)"]) {
+    await expect(locationSelect.locator("option").filter({ hasText: city })).toHaveCount(1);
+  }
   const selects = [
     ["Calendar authority / calculation school", "IMD Rashtriya Panchang"],
     ["Zodiac / ayanamsha", "Lahiri / Chitrapaksha"],
