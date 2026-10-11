@@ -20,6 +20,9 @@ const manifest = JSON.parse(fs.readFileSync("manifests/PUBLIC_API.json", "utf8")
 const inManifest = (importPath: string, name: string) =>
   manifest.exports.some((e) => e.subpath === importPath.replace("@maataa/ui", ".") && e.name === name);
 
+// A scene without region assignments; the generator assigns blocks to the layout's primary region.
+const { regions: _regions, ...BASE_SCENE } = DEFAULT_COMPOSER_SCENE;
+
 const layoutModules = import.meta.glob("../src/layouts/*Layout.tsx", { eager: true }) as Record<string, Record<string, React.ComponentType<Record<string, unknown>>>>;
 
 describe("generator emits only stable import paths", () => {
@@ -33,7 +36,7 @@ describe("generator emits only stable import paths", () => {
   it("a scene with every block kind generates imports only from those paths", () => {
     const kinds = Object.keys(COMPOSER_COMPONENT_BINDINGS) as ComposerBlockKind[];
     const blocks = kinds.map((kind, i) => createComposerBlock(kind, `block-${i + 1}`));
-    const source = generateComposerJsx({ ...DEFAULT_COMPOSER_SCENE, regions: undefined, blocks });
+    const source = generateComposerJsx({ ...BASE_SCENE, blocks });
     const allowed = new Set([...Object.values(COMPOSER_COMPONENT_BINDINGS).map((b) => b.path), ...LAYOUT_TYPES.filter((l) => !(l.name in DEPRECATED_LAYOUT_ALIASES)).map((l) => l.importPath)]);
     const imported = [...source.matchAll(/from "([^"]+)"/g)].map((m) => m[1]);
     expect(imported.length).toBe(kinds.length + 1);
@@ -52,7 +55,7 @@ describe("deprecated layout aliases", () => {
   });
   it.each(Object.entries(DEPRECATED_LAYOUT_ALIASES))("the generator emits %s's replacement %s", (deprecated, stable) => {
     const layout = LAYOUT_TYPES.find((l) => l.name === deprecated)!;
-    const source = generateComposerJsx({ ...DEFAULT_COMPOSER_SCENE, regions: undefined, layoutTypeId: layout.id } as ComposerScene);
+    const source = generateComposerJsx({ ...BASE_SCENE, layoutTypeId: layout.id } as ComposerScene);
     expect(source).toContain(`from "@maataa/ui/layouts/${stable}"`);
     expect(source).not.toContain(deprecated);
   });

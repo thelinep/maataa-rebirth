@@ -14,7 +14,7 @@ describe("packed Next App Router consumer surface", () => {
     expect(screen.getByText("Consumer content")).toBeTruthy();
     await waitFor(() => expect(document.documentElement.dataset.maataaTheme).toBe("light"));
 
-    fireEvent.click(screen.getByRole("button", { name: "Toggle MAATAA theme" }));
+    fireEvent.click(screen.getByRole("button", { name: /^Toggle MAATAA theme/ }));
     await waitFor(() => expect(document.documentElement.dataset.maataaTheme).toBe("dark"));
   });
 
