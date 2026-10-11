@@ -14,7 +14,7 @@ Scope reminder: these gates cover the `@maataa/ui` package only. `apps/hemant-ob
 | 4 | `realDeviceAcceptance` | Device reviewer | Device matrix | NOT_RUN |
 | 5 | `runtimePerformanceTargets` | Release owner | Measured values; limits classified | NOT_RUN — targets deferred until reference devices are chosen (2026-10-11) |
 | 6 | `enterprisePilots` | TLPS owner + second application owner | Existing charters | NOT_RUN |
-| 7 | `apiSchemaFreeze` | Release owner | Pointers to frozen inputs | NOT_RUN |
+| 7 | `apiSchemaFreeze` | Release owner | Owner direction recorded; proposed Beta-stable list | NOT_RUN — list awaiting owner acceptance |
 | 8 | `privateSecurityReporting` | Release/security owner (Hemant Kumar Dixit) | Channel options | BLOCKED |
 | 9 | `releaseOwnership` | Release owner (Hemant Kumar Dixit) | Approval record | BLOCKED |
 | 10 | `remoteTagProtection` | Repository admin | Commands | NOT_RUN |
@@ -115,11 +115,40 @@ Charters and rehearsal: [`2026-10-08-charters-and-rehearsal.md`](../pilots/2026-
 
 ## 7. API and schema freeze
 
-Inputs to review: `manifests/PUBLIC_API*.json` (`public-api.json` in the pack), `docs/canonical-catalog.json` (`registries.json`), [versioning policy](../versioning-policy.md) and [composition spec](../composition-spec.md). Freeze means the decider accepts these exports, canonical IDs, schemas and migration commitments as the Beta contract.
+Inputs: `manifests/PUBLIC_API.json` (`public-api.json` in the pack), `docs/canonical-catalog.json` (`registries.json`), [versioning policy](../versioning-policy.md) and [composition spec](../composition-spec.md). Today every one of the 2,196 entry points and 12,684 exports in `PUBLIC_API.json` is classified `EXPERIMENTAL` ("Pre-GA public APIs remain EXPERIMENTAL until a reviewed freeze").
+
+**Owner direction (recorded 2026-10-11).** For Beta, freeze only the paths that are actually verified and the saved-composition format. Do not treat every current export as a permanent promise; the rest stays `EXPERIMENTAL`. The release owner must accept the concrete list below before the freeze is recorded.
+
+**Proposed Beta-stable list (awaiting owner acceptance).** "Verified" means imported, type-checked, built and rendered by the packed-consumer gate (`package:consumer`) on `9a18d8f5`: Vite + React 19, Vite + React 18.2 (minimum peer), Next App Router, and plain Node 20 SSR import of the packed tarball.
+
+| Import path | Named exports proposed as stable | Verified by |
+| --- | --- | --- |
+| `@maataa/ui/styles.css` | stylesheet | Vite and Next fixtures |
+| `@maataa/ui/actions/Button` | `Button` | Vite and Next fixtures |
+| `@maataa/ui/forms/Input` | `Input` | Next fixture |
+| `@maataa/ui/surfaces/Card` | `Card` | Next fixture |
+| `@maataa/ui/surfaces` | `Card` (only) | Vite fixture |
+| `@maataa/ui/foundation` | `UiProvider` (only) | Next fixture |
+| `@maataa/ui/themes` | `ThemeToggle` (only) | Next fixture, theme-control render check |
+| `@maataa/ui/composer` | `VisualComposer`, `DEFAULT_COMPOSER_SCENE`, `generateComposerJsx`, `validateCompositionSpec`, type `ComposerScene` | Vite fixture, generated-scene build, Node SSR import |
+| `@maataa/ui/runtime` | `CompositionRuntime`, `CanonicalCompositionRuntime` | Vite fixture, Node SSR import |
+| `@maataa/ui` (root) | module loads without error; **no named exports frozen** | Node 20 and React 18 SSR import |
+
+**Saved-composition format.** `CompositionSpecV1` with `schemaVersion: "1"` as specified in [`composition-spec.md`](../composition-spec.md). The parser already rejects other versions (`src/composer/sceneData.ts`) and `validateCompositionSpec` checks v1 documents.
+
+Everything else, including the other members of the subpaths above, stays `EXPERIMENTAL` for Beta.
+
+Questions for the owner before accepting:
+1. **Props:** freezing a component means its current props stay compatible. Accept the props as they are today for these components, or list them first?
+2. **Canonical IDs inside saved compositions:** a v1 composition refers to workspace, page, layout and device IDs. Freezing the format only helps if those referenced IDs stay valid. Freeze the IDs too, or freeze the format and promise a migration when an ID changes?
+3. **Subpath vs. barrel:** `Card` is verified from both `@maataa/ui/surfaces` and `@maataa/ui/surfaces/Card`. Keep both as stable, or only one?
 
 ```
-Decision: FREEZE / DEFER    Decider:        Date:        Exceptions:
+Decision: ACCEPT LIST / AMEND    Answers to 1–3:
+Decider:        Date:
 ```
+
+After acceptance, the freeze is applied by marking exactly these exports `STABLE` in the API manifest generator and adding a check that a stable export cannot be removed or changed incompatibly without a recorded decision.
 
 ## 8. Private security reporting
 
