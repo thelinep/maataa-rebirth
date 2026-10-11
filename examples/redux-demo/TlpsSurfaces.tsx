@@ -1209,9 +1209,10 @@ function Catalog({
       <div className="tlps-catalog-heading">
         <div>
           <p className="tlps-overline">TLPS TOOLS</p>
-          <h1>What TLPS can help with</h1>
+          <h1>TLPS product catalogue</h1>
           <p className="tlps-lede">
-            Open a tool to see what works in this demo and what is planned.
+            What TLPS can help with. Open a tool to see what works in this demo
+            and what is planned.
           </p>
         </div>
         <label>

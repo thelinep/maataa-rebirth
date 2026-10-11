@@ -124,7 +124,7 @@ test("TLPS keeps Finance and Evidence separate and marks tools plainly", async (
 }) => {
   await page.goto("/#/tlps/catalog");
   await expect(
-    page.getByRole("heading", { name: "What TLPS can help with" }),
+    page.getByRole("heading", { name: "TLPS product catalogue" }),
   ).toBeVisible();
   await expect(
     page.getByRole("heading", { name: "Finance", exact: true }),

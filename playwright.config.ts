@@ -9,6 +9,10 @@ export default defineConfig({
     "support-center.spec.ts",
     "support-center-screenshots.spec.ts",
     "branding-studio-live-ai.spec.ts",
+    "desktop-shell-file.spec.ts",
+    "fresh-products.spec.ts",
+    "project-context.spec.ts",
+    "tlps-idea-to-script.spec.ts",
   ],
   timeout: 30_000,
   fullyParallel: true,
@@ -25,5 +29,6 @@ export default defineConfig({
     { name: "webkit-desktop", use: { ...devices["Desktop Safari"] } },
     { name: "webkit-mobile", use: { ...devices["iPhone 13"] } },
   ],
-  webServer: { command: "node node_modules/vite/bin/vite.js preview --config examples/redux-demo/vite.config.mjs", url: "http://127.0.0.1:4173", reuseExistingServer: true, timeout: 60_000 },
+  // Certification (MAATAA_CERTIFY=1) must test the freshly built preview, never a server already on the port.
+  webServer: { command: "node node_modules/vite/bin/vite.js preview --config examples/redux-demo/vite.config.mjs", url: "http://127.0.0.1:4173", reuseExistingServer: !process.env.MAATAA_CERTIFY, timeout: 60_000 },
 });

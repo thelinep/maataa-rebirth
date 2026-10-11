@@ -23,7 +23,7 @@ const appScreens = [
   ["app-branding-studio", "/branding-studio", "Branding Studio"],
   ["app-tlps-overview", "/tlps", "TLPS"],
   ["app-tlps-marketing", "/tlps/marketing", "One clear path"],
-  ["app-tlps-catalog", "/tlps/catalog", "What TLPS can help with"],
+  ["app-tlps-catalog", "/tlps/catalog", "TLPS product catalogue"],
   ["app-tlps-catalog-production", "/tlps/catalog/production-film", "Film plan"],
   [
     "app-tlps-catalog-campaign",

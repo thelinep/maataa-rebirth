@@ -53,19 +53,21 @@ test('synthetic starter scenario is editable and persists locally',async({page})
 
 test('TLPS product catalogue search and detail pages distinguish scope from demo behavior',async({page})=>{
  await page.goto('/#/tlps/catalog');
- await expect(page.getByRole('heading',{name:'TLPS product catalogue'})).toBeVisible();
+ await expect(page.getByRole('heading',{name:'TLPS product catalogue',level:1})).toBeVisible();
  await expect(page.getByRole('button',{name:'Open Brahmini help and product assistant'})).toHaveCount(0);
  if(process.env.TLPS_CAPTURE_REVIEW==='1')await page.screenshot({path:`.impeccable/review/tlps-catalog-${test.info().project.name.includes('mobile')?'mobile':'desktop'}.png`,fullPage:true});
- await expect(page.getByRole('navigation',{name:'TLPS site'})).toContainText('Product catalogue');
- const search=page.getByRole('searchbox',{name:'Search product areas'});
+ const siteNav=page.getByRole('navigation',{name:'TLPS site'});
+ await expect(siteNav.getByRole('button',{name:'TLPS tools'})).toHaveAttribute('aria-current','page');
+ const search=page.getByRole('searchbox',{name:'Find a tool'});
  await search.fill('finance');
- await expect(page.getByRole('button',{name:'View Evidence & Finance'})).toBeVisible();
- await expect(page.getByRole('button',{name:'View Campaign & Event'})).toHaveCount(0);
- await page.getByRole('button',{name:'View Evidence & Finance'}).click();
- await expect(page.getByRole('heading',{name:'Evidence & Finance'})).toBeVisible();
- await expect(page.getByText(/does not process payments/)).toBeVisible();
- await page.getByRole('navigation',{name:'TLPS site'}).getByRole('button',{name:'Product catalogue'}).click();
+ await expect(page.getByRole('button',{name:'View Finance'})).toBeVisible();
+ await expect(page.getByRole('button',{name:'View Evidence'})).toHaveCount(0);
+ await page.getByRole('button',{name:'View Finance'}).click();
+ await expect(page.getByRole('heading',{name:'Finance',level:1,exact:true})).toBeVisible();
+ await expect(page.getByText(/No payments, bank details/)).toBeVisible();
+ await siteNav.getByRole('button',{name:'TLPS tools'}).click();
+ await expect(page.getByRole('heading',{name:'TLPS product catalogue',level:1})).toBeVisible();
  await search.fill('no such category');
- await expect(page.getByRole('status')).toContainText('No product families match');
+ await expect(page.getByLabel('TLPS tools').getByRole('status')).toContainText('No tools match');
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
 });

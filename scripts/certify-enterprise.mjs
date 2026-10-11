@@ -38,7 +38,7 @@ const manual={enterprisePilots:"NOT_RUN",licenseApproval:"NOT_RUN",screenReaderR
 let failed=false;
 for(const [name,command,args] of steps){
  console.log(`Executing ${name}`);const start=new Date().toISOString();
- const result=run(command,args,{PLAYWRIGHT_JSON_OUTPUT_FILE:path.join(directory,"browser.raw.json")});
+ const result=run(command,args,{PLAYWRIGHT_JSON_OUTPUT_FILE:path.join(directory,"browser.raw.json"),MAATAA_CERTIFY:"1"});
  fs.writeFileSync(path.join(directory,`${name}.log`),result.stdout+result.stderr);
  gates[name]={status:result.status===0?"PASS":"FAIL",command,args,startedAt:start,endedAt:new Date().toISOString(),exitCode:result.status,log:`${name}.log`};
  write("execution.json",{gates});if(result.status!==0){failed=true;console.error(`${name} failed; inspect ${path.join(directory,`${name}.log`)}`);break;}
