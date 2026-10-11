@@ -1,7 +1,6 @@
 // Contract tests for the exports proposed as Beta-stable (acceptance packet, gate 7).
 // Each test pins only what the packet says is frozen. Behaviour still awaiting an
-// owner decision (Button loading mechanism, UiProvider theme updates after mount,
-// CompositionRuntime `validation`, CanonicalCompositionRuntime `context`, generated
+// owner decision (CompositionRuntime `validation`, CanonicalCompositionRuntime `context`, generated
 // code text) is deliberately not asserted here.
 import React from "react";
 import fs from "node:fs";
@@ -78,6 +77,8 @@ describe("Button", () => {
     const button = screen.getByRole("button", { name: "Saving" });
     expect(button).toHaveAttribute("aria-busy", "true");
     expect(screen.queryByText("Save")).toBeNull();
+    // Owner decision 2026-10-12: loading uses native disabled.
+    expect(button).toBeDisabled();
     fireEvent.click(button);
     expect(onClick).not.toHaveBeenCalled();
   });
@@ -132,26 +133,39 @@ describe("UiProvider", () => {
     render(<UiProvider><span>child</span></UiProvider>);
     expect(screen.getByText("child").closest(".maataa-root")).toHaveAttribute("dir", "ltr");
   });
-  it("applies the initial theme", () => {
-    render(<UiProvider theme="dark"><span>child</span></UiProvider>);
+  it("applies defaultTheme when uncontrolled", () => {
+    render(<UiProvider defaultTheme="dark"><span>child</span></UiProvider>);
     expect(document.documentElement.dataset.maataaTheme).toBe("dark");
+  });
+  it("is controlled by theme: later prop changes apply", () => {
+    const { rerender } = render(<UiProvider theme="light"><span>child</span></UiProvider>);
+    expect(document.documentElement.dataset.maataaTheme).toBe("light");
+    rerender(<UiProvider theme="dark"><span>child</span></UiProvider>);
+    expect(document.documentElement.dataset.maataaTheme).toBe("dark");
+  });
+  it("reports requested changes through onThemeChange and leaves a controlled theme to the host", () => {
+    const onThemeChange = vi.fn();
+    render(<UiProvider theme="light" onThemeChange={onThemeChange}><ThemeToggle label="Theme" /></UiProvider>);
+    fireEvent.click(screen.getByRole("button", { name: "Theme: light" }));
+    expect(onThemeChange).toHaveBeenCalledWith("dark");
+    expect(screen.getByRole("button")).toHaveTextContent("Theme: light");
   });
 });
 
 describe("ThemeToggle", () => {
   it("accessible name contains the visible text (WCAG 2.5.3)", () => {
-    render(<UiProvider theme="light"><ThemeToggle /></UiProvider>);
+    render(<UiProvider defaultTheme="light"><ThemeToggle /></UiProvider>);
     const button = screen.getByRole("button");
     expect(button).not.toHaveAttribute("aria-label");
     expect(button).toHaveAccessibleName(button.textContent ?? "");
     expect(button).toHaveTextContent("Toggle theme: light");
   });
   it("uses a custom label", () => {
-    render(<UiProvider theme="light"><ThemeToggle label="Theme" /></UiProvider>);
+    render(<UiProvider defaultTheme="light"><ThemeToggle label="Theme" /></UiProvider>);
     expect(screen.getByRole("button", { name: "Theme: light" })).toBeInTheDocument();
   });
   it("cycles light, dark, high-contrast, oled, system, light", () => {
-    render(<UiProvider theme="light"><ThemeToggle label="Theme" /></UiProvider>);
+    render(<UiProvider defaultTheme="light"><ThemeToggle label="Theme" /></UiProvider>);
     const button = screen.getByRole("button");
     for (const expected of ["dark", "high-contrast", "oled", "system", "light"]) {
       fireEvent.click(button);

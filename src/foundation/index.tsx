@@ -2,7 +2,18 @@ import React from "react";
 import { createPortal } from "react-dom";
 import { cx } from "../utils";
 import { ThemeProvider, type MaataaTheme } from "../themes";
-export function UiProvider({ children, theme = "system", dir = "ltr", className }: { children: React.ReactNode; theme?: MaataaTheme; dir?: "ltr" | "rtl"; className?: string }) { return <ThemeProvider defaultTheme={theme}><div className={cx("maataa-root", className)} dir={dir}>{children}</div></ThemeProvider>; }
+export type UiProviderProps = {
+  children: React.ReactNode;
+  /** Controlled theme. When set, it is the source of truth and later changes apply; pair it with `onThemeChange`. */
+  theme?: MaataaTheme;
+  /** Initial theme when `theme` is not set (uncontrolled). */
+  defaultTheme?: MaataaTheme;
+  /** Called with the requested theme, e.g. when a ThemeToggle is pressed. */
+  onThemeChange?: (theme: MaataaTheme) => void;
+  dir?: "ltr" | "rtl";
+  className?: string;
+};
+export function UiProvider({ children, theme, defaultTheme = "system", onThemeChange, dir = "ltr", className }: UiProviderProps) { return <ThemeProvider theme={theme} defaultTheme={defaultTheme} onThemeChange={onThemeChange}><div className={cx("maataa-root", className)} dir={dir}>{children}</div></ThemeProvider>; }
 type DivProps = React.HTMLAttributes<HTMLDivElement>;
 export const Box = React.forwardRef<HTMLDivElement, DivProps>(({ className, ...p }, ref) => <div ref={ref} className={cx("m-ui", className)} {...p} />); Box.displayName="Box";
 export const Stack = React.forwardRef<HTMLDivElement, DivProps & { gap?: number | string; align?: React.CSSProperties["alignItems"] }>(({ className, gap=12, align, style, ...p }, ref) => <div ref={ref} className={cx("m-ui m-stack", className)} style={{ gap, alignItems: align, ...style }} {...p}/>); Stack.displayName="Stack";

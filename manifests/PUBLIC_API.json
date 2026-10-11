@@ -24235,6 +24235,15 @@
       ]
     },
     {
+      "name": "UiProviderProps",
+      "subpath": ".",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/foundation/index.tsx"
+      ]
+    },
+    {
       "name": "UIState",
       "subpath": ".",
       "kind": "type",
@@ -56779,6 +56788,15 @@
       ]
     },
     {
+      "name": "UiProviderProps",
+      "subpath": "./foundation",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/foundation/index.tsx"
+      ]
+    },
+    {
       "name": "VisuallyHidden",
       "subpath": "./foundation",
       "kind": "runtime",
@@ -56944,6 +56962,15 @@
       "name": "UiProvider",
       "subpath": "./foundation/index",
       "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/foundation/index.tsx"
+      ]
+    },
+    {
+      "name": "UiProviderProps",
+      "subpath": "./foundation/index",
+      "kind": "type",
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/foundation/index.tsx"
