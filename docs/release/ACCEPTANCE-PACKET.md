@@ -96,7 +96,23 @@ The current numbers are machine-checked **regression limits**, not approved targ
 
 Not yet measured: time-to-interactive and memory on representative hardware (`performance.json` marks them `NOT_RUN`). Proposal for decision: adopt the current limits as Beta targets on named reference hardware, and add a low-end Android measurement before RC.
 
-**On-device measurement.** The demo preview has a measure mode for reference devices: run `pnpm demo:build`, then `vite preview --config examples/redux-demo/vite.config.mjs --host 0.0.0.0`, and open `http://<mac-ip>:4173/?measure=1#/playground` on the device (a QR code from `qrencode -t ansiutf8 "http://$(ipconfig getifaddr en0):4173/?measure=1#/playground"` works). Tap **Open dialog**, then **Copy results**. The panel reports demo-ready time, dialog response time (from the tap on Open dialog to the dialog appearing, so the reviewer's own delay is excluded), their sum as the figure comparable to the automated runtime check, LCP, worst interaction (INP), long tasks, JS heap (Chromium only) and JS loaded; unsupported metrics are labelled. Take 5 cold loads (site data cleared) and 5 warm loads per device and record median and worst. Measure mode only runs with `?measure=1` and sends nothing anywhere.
+**On-device measurement.** The demo preview has a measure mode for reference devices: run `pnpm demo:build`, then `vite preview --config examples/redux-demo/vite.config.mjs --host 0.0.0.0`, and open `http://<mac-ip>:4173/?measure=1#/playground` on the device (a QR code from `qrencode -t ansiutf8 "http://$(ipconfig getifaddr en0):4173/?measure=1#/playground"` works). Tap **Open dialog**, then **Copy results**. The panel reports demo-ready time, dialog response time (from the tap on Open dialog to the dialog appearing, so the reviewer's own delay is excluded), their sum as the figure comparable to the automated runtime check, LCP, worst interaction (INP), long tasks, JS heap (Chromium only) and JS loaded; unsupported metrics are labelled. Take 5 cold loads (site data cleared) and 5 warm loads per device and record median and worst.
+
+**Device log (preliminary).**
+
+| Class | Device | Chip / RAM | OS / browser | Status |
+| --- | --- | --- | --- | --- |
+| #2 mid-range Android | Xiaomi model `23090RA98I` | MediaTek Dimensity 7200-Ultra, 8 GB (+4 GB virtual) | Android 15 / HyperOS 2.0.208, Chrome 154 | 2 valid cold samples (below); 3 cold + 5 warm still needed |
+| #1 low-capability Android | not yet chosen | — | — | required before targets are set |
+
+Valid cold samples on `#/playground`, Wi-Fi, 2026-10-11 (demo build of `2a5163f3`/`f014a7a5`):
+
+| Time | Ready | LCP | INP | Long tasks | Dialog response | Ready + response |
+| --- | --- | --- | --- | --- | --- | --- |
+| 10:27 | 1092 ms | 1076 ms | 88 ms | 0 | not captured (earlier build) | — |
+| 10:51 | 882 ms | 700 ms | 72 ms | 1 / 53 ms | 15 ms | 897 ms |
+
+Excluded: one 10:49 load with ready 65,513 ms and LCP 65,292 ms (page most likely loaded while hidden or while the server restarted). In that session a later interaction reached INP 232 ms with 4 long tasks totalling 223 ms; the interaction was not identified and should be re-checked. Measure mode only runs with `?measure=1` and sends nothing anywhere.
 
 **Owner decision (recorded 2026-10-11).** The current limits are classified as **technical regression/warning limits** only: passing them shows a change has not made the package slower than before, not that it is fast on every phone and computer. They are not runtime performance targets. Targets will be set only after reference devices are chosen — including a low-capability Android phone — and measured on those devices. The proposal above to adopt the current limits as Beta targets is therefore not accepted.
 
@@ -211,7 +227,9 @@ A saved v1 composition refers to six kinds of canonical ID: workspace (647), pag
 
 **Recommendation:** C. It matches the policy already written, keeps saved compositions safe from silent breakage, and does not turn ~3,100 mostly unverified IDs into a permanent promise.
 
+**Owner decision on IDs (recorded 2026-10-12, chat): C** — freeze the v1 format; canonical IDs are governed by rules, not frozen as a list. IDs are never reused or silently renamed; a rename or removal requires an explicit alias, a versioned migration helper, tests against saved compositions and release notes; removal is a major change. Before the freeze is applied, add a check that fails when an ID is removed or reused without a recorded migration.
+
 ```
-ID decision: A / B / C        Props list (appendix A): ACCEPT / AMEND
-Decider:        Date:
+ID decision: C        Decider: Hemant Kumar Dixit, release owner        Date: 2026-10-12 (chat statement, not a signed record)
+Props list (appendix A): PENDING — owner to accept or amend, including the four open points
 ```
