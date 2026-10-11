@@ -5,6 +5,13 @@ import { Button } from "@maataa/ui/actions";
 import { Input, NativeSelect } from "@maataa/ui/forms";
 import { Card } from "@maataa/ui/surfaces";
 import { parseAdityaMagL2, type AdityaMagL2Preview } from "@/lib/aditya-mag-l2";
+import { assertAdityaMagCommercialRegistrationAllowed } from "@/lib/restricted-assets";
+
+// This importer remains unregistered until a verifiable written-permission
+// token format and trusted signing key are configured. A boolean environment
+// flag alone is never authorization. A commercial bundle that accidentally
+// registers this component must fail during module evaluation.
+assertAdityaMagCommercialRegistrationAllowed(process.env.MAATAA_COMMERCIAL_RELEASE);
 
 const STORAGE_KEY = "hemant.aditya-l1.dataset-register.v1";
 

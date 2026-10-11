@@ -5,7 +5,6 @@ import type { FormEvent } from "react";
 import { useTimeResult } from "@/components/use-observatory-data";
 import { emptyTelemetryTemplate, instruments, parseSpacecraftTelemetryText, type SpacecraftTelemetry } from "@/lib/spacecraft-telemetry";
 import { ErrorNote, Facts, Panel, Pending } from "./shared";
-import AdityaL1Workbench from "./aditya-l1-workbench";
 
 export default function SpacecraftModule() {
   const [payload, setPayload] = useState(emptyTelemetryTemplate);
@@ -45,7 +44,9 @@ export default function SpacecraftModule() {
 
   return (
     <div className="m-grid">
-      <AdityaL1Workbench />
+      <Panel title="Aditya-L1 MAG access quarantined" label="Restricted Aditya-L1 data quarantine">
+        <p className="m-note">The MAG importer is not registered in this workspace. No verified written-permission token verifier or trusted signing key is configured, so setting an environment flag alone cannot authorize access or commercial use.</p>
+      </Panel>
       <Panel title="Instrument catalog" label="Spacecraft instrument catalog">
         <p className="m-note">These are interfaces a flight computer may receive. Hardware depends on mission and environment; this app has no sensor connection.</p>
         <div className="m-table-wrap">
