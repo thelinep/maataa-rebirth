@@ -2,6 +2,8 @@
 
 **Snapshot reviewed:** 7 October 2026 · **HEAD:** `eef053ffb9b1df3d332a4ed3f125391790f2a613` · **Working tree:** dirty (123 tracked paths plus untracked files). This matrix reconciles the current product snapshot, pilot records, and latest saved release pack. It is a status report, not a fresh product-wide qualification.
 
+**Addendum, 11 October 2026:** the release branch `feat/alpha8.7-composition-kernel` is clean at `cc11c3a7` plus the documentation commit recording this addendum; the uncommitted Hemant work was moved to branch `hemant/planetarium-wip`. Rows below still describe the 7 October snapshot unless stated. `apps/hemant-observatory` and the MAATAA Desktop Hemant clock display are outside `@maataa/ui` release claims and certification; see the scope boundary in [release readiness](RELEASE-READINESS.md).
+
 ## Status vocabulary
 
 | Status | Meaning |
@@ -33,6 +35,7 @@ The first nine rows summarize the working-tree snapshot in [the product roadmap]
 | Brahmini provider/runtime behavior | **Implemented locally; fresh provider state unverified** | Local demo-host runtime has Ollama and optional server-configured cloud adapters. Historical local Qwen runs are recorded below; do not treat them as model qualification or current provider connectivity. |
 | Seven independent demo experiences | **Implemented locally** | Demo source and Support Center capture instructions are present. Route existence and generated screenshots alone do not certify every experience's product acceptance or production integration. |
 | Support Center and Electron shell | **Implemented locally; distribution limited** | Searchable guides/FAQs, package/workspace details, screenshots and local handoff are documented in [Support Center README](../../examples/support-center/README.md). Electron package is a local unsigned build; it is not a signed public installer or connected support queue. |
+| Hemant Observatory and MAATAA Desktop Hemant clock | **Out of release scope** | Present in repository history but not covered by `certify:enterprise` (typecheck `src`, root unit tests, `tests/e2e`). Not certified by any `@maataa/ui` pack. |
 | MAATAA Workstation repository validation | **BLOCKED** | The recorded bounded scan stopped at 5,000 files and Workstation refused the project copy. The staged proposal was not Workstation-validated and contributes no test evidence. |
 
 ## TLPS and NEVO pilot matrix
@@ -41,7 +44,7 @@ The [pilot structures](../pilots/tlps-nevo-enterprise-pilot-structures.md) defin
 
 | Pilot item | TLPS | NEVO Events |
 | --- | --- | --- |
-| Relationship to MAATAA | **User-selected first enterprise pilot** | **Structurally different candidate pilot** |
+| Relationship to MAATAA | **User-selected first enterprise pilot** | **Structurally different candidate pilot; unselected** — not a release commitment until an owner is named and approves |
 | Local illustrative workflow/data | Present; browser-local production planning and handover | Synthetic event/commercial fixtures plus verified local Next consumer slice: event brief → operator-plan review; no authenticated handoff or host mutation |
 | Local Qwen Product Forge run | 8/8 calls returned in the 7 Oct record; generated kit **review required** | 8/8 calls returned in the 7 Oct record; generated kit **review required** |
 | Real application integration | **NOT_RUN** | **NOT_RUN** |
@@ -65,7 +68,7 @@ The latest saved pack is [`release.json`](../../.certification/release-evidence/
 | Release ownership evidence, private security channel, remote tag protection, controlled publisher | **BLOCKED** | Still open; designation alone does not create a reporting channel or release approval record. |
 | Overall release | **BLOCKED** (`releaseCertified: false`) | **BLOCKED**; no RC/GA claim. |
 
-The saved automation record is useful evidence for that commit only. It does not certify uncommitted files, owner decisions, or manual/external release requirements. The package remains private and no remote is configured in the current checkout.
+The saved automation record is useful evidence for that commit only. It does not certify uncommitted files, owner decisions, or manual/external release requirements. The package remains private. Remote `origin` (`thelinep/maataa-rebirth`) is configured and was verified by fetch on 2026-10-11; it has no tags, and remote tag protection and controlled publishing remain unverified.
 
 ## Enterprise roadmap step matrix
 
@@ -95,7 +98,7 @@ Implementation status is taken from [the enterprise roadmap](ROADMAP.md); releas
 1. Name the MAATAA product-scope owner and approve the supported-family/environment matrix.
 2. Close remaining preview gaps only for the approved scope; keep fixtures visibly synthetic.
 3. Finish packed consumer round-trip and compatibility/upgrade guarantees for compositions.
-4. Obtain TLPS and NEVO application owners, signed charters, host contracts, participants, data review, and predeclared measures.
+4. Obtain TLPS and a structurally different application's owners (NEVO only if its owner names and approves it), signed charters, host contracts, participants, data review, and predeclared measures.
 5. Run both pilots against integrated exact commits; keep unrun measures NOT_RUN and generated kits in review.
 6. Configure release/security reporting ownership and channel, legal/license acceptance, remote protection, and controlled publisher.
 7. Freeze API/schema with owner approval, clean the release candidate, run fresh certification, then record Beta/RC/GA disposition.
