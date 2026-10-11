@@ -74,6 +74,7 @@ const EVIDENCE_FOR_KIND: Record<string, readonly MethodRecord["evidence"][]> = {
   "unit-convention": ["derived-under-named-convention"],
   "astronomy-observer-ephemeris": ["derived-under-named-convention"],
   "instantaneous-calendar-angle-classification": ["derived-under-named-convention"],
+  "instantaneous-sidereal-angle-classification": ["derived-under-named-convention"],
   "spacecraft-clock-correlation": ["derived-under-named-convention"],
   astronomy: ["pending-method"],
   "calendar-tradition": ["pending-method"],
