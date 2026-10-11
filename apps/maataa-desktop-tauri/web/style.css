@@ -141,7 +141,9 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
   overflow: auto;
   display: grid;
   grid-template-columns: minmax(280px, 1fr) minmax(290px, 440px);
-  grid-template-rows: auto minmax(320px, 1fr) auto auto;
+  /* Three launcher rows need their intrinsic height plus breathing room.
+     A smaller fixed minimum lets the centered grid overflow upward toward the title bar. */
+  grid-template-rows: auto minmax(408px, 1fr) auto auto;
   column-gap: clamp(24px, 7vw, 100px);
   align-content: start;
   padding-bottom: 122px;

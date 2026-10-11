@@ -22,6 +22,45 @@ compile_error!("This feasibility prototype targets native macOS WebKit only.");
 struct EmbeddedBrowsers(Mutex<HashMap<String, Webview<tauri::Wry>>>);
 struct WorkspaceRegistry(Mutex<()>);
 
+/// A raw host wall-clock observation. It is deliberately not a verified time
+/// service: this process has no independently trusted reference or RTC API.
+#[derive(Clone, Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct HostClockSnapshot {
+    schema: &'static str,
+    unix_nanos: String,
+    source: &'static str,
+    time_scale: &'static str,
+    trust: &'static str,
+    rtc_binding: Option<&'static str>,
+    trusted_reference: Option<&'static str>,
+    drift_millis: Option<i64>,
+    drift_tolerance_millis: u32,
+}
+
+fn host_clock_snapshot(now: SystemTime) -> Result<HostClockSnapshot, String> {
+    let unix_nanos = now
+        .duration_since(UNIX_EPOCH)
+        .map_err(|_| "Host wall clock is before the Unix epoch; time is unavailable.".to_string())?
+        .as_nanos();
+    Ok(HostClockSnapshot {
+        schema: "maataa.clock-source/1",
+        unix_nanos: unix_nanos.to_string(),
+        source: "host-system-wall-clock",
+        time_scale: "unix-utc-no-leap-seconds",
+        trust: "unverified",
+        rtc_binding: None,
+        trusted_reference: None,
+        drift_millis: None,
+        drift_tolerance_millis: 2_000,
+    })
+}
+
+#[tauri::command]
+fn read_host_clock_snapshot() -> Result<HostClockSnapshot, String> {
+    host_clock_snapshot(SystemTime::now())
+}
+
 const WORKSPACE_INDEX_VERSION: u8 = 3;
 const WORKSPACE_INDEX_FILE: &str = "workspace-index.json";
 const WORKSPACE_PROJECTS_UPDATED: &str = "workspace-projects-updated";
@@ -387,7 +426,7 @@ fn list_workspace_projects(
     let mut index = load_workspace_index(&path)?;
     index
         .projects
-        .sort_by(|left, right| right.updated_at.cmp(&left.updated_at));
+        .sort_by_key(|project| std::cmp::Reverse(project.updated_at));
     Ok(index.projects)
 }
 
@@ -582,7 +621,8 @@ fn main() {
             open_embedded_page,
             close_embedded_page,
             browser_control,
-            validate_address
+            validate_address,
+            read_host_clock_snapshot
         ])
         .on_window_event(|window, event| {
             if !window.label().starts_with("browser-") {
@@ -620,16 +660,41 @@ fn main() {
 #[cfg(test)]
 mod tests {
     use super::{
-        append_workspace_event, browser_child_label, browser_window_label, load_workspace_index,
-        parse_public_url, product_entry, save_workspace_index, validate_workspace_project,
-        RecordLink, WorkspaceIndex, WorkspaceProjectInput, APP_HEADER_HEIGHT, BROWSER_NAV_HEIGHT,
-        BROWSER_VIEW_TOP, MACOS_TITLEBAR_HEIGHT, WORKSPACE_INDEX_VERSION,
+        append_workspace_event, browser_child_label, browser_window_label, host_clock_snapshot,
+        load_workspace_index, parse_public_url, product_entry, save_workspace_index,
+        validate_workspace_project, RecordLink, WorkspaceIndex, WorkspaceProjectInput,
+        APP_HEADER_HEIGHT, BROWSER_NAV_HEIGHT, BROWSER_VIEW_TOP, MACOS_TITLEBAR_HEIGHT,
+        WORKSPACE_INDEX_VERSION,
     };
     use std::{
         fs,
         path::PathBuf,
-        time::{SystemTime, UNIX_EPOCH},
+        time::{Duration, SystemTime, UNIX_EPOCH},
     };
+
+    #[test]
+    fn host_clock_snapshot_is_explicitly_unverified_and_has_no_claimed_drift() {
+        let captured = UNIX_EPOCH + Duration::from_nanos(1_234_567_890);
+        let snapshot = host_clock_snapshot(captured).unwrap();
+        assert_eq!(snapshot.schema, "maataa.clock-source/1");
+        assert_eq!(snapshot.unix_nanos, "1234567890");
+        assert_eq!(snapshot.trust, "unverified");
+        assert_eq!(snapshot.rtc_binding, None);
+        assert_eq!(snapshot.trusted_reference, None);
+        assert_eq!(snapshot.drift_millis, None);
+        assert_eq!(snapshot.drift_tolerance_millis, 2_000);
+        let ipc_value = serde_json::to_value(snapshot).unwrap();
+        assert_eq!(ipc_value["unixNanos"], "1234567890");
+        assert_eq!(ipc_value["rtcBinding"], serde_json::Value::Null);
+        assert_eq!(ipc_value["trustedReference"], serde_json::Value::Null);
+        assert_eq!(ipc_value["driftMillis"], serde_json::Value::Null);
+    }
+
+    #[test]
+    fn host_clock_snapshot_fails_closed_before_unix_epoch() {
+        let before_epoch = UNIX_EPOCH - Duration::from_nanos(1);
+        assert!(host_clock_snapshot(before_epoch).is_err());
+    }
 
     #[test]
     fn browser_windows_have_independent_native_view_regions() {

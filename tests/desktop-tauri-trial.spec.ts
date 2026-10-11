@@ -145,6 +145,19 @@ test("keeps the desktop launcher and address controls within narrow viewports", 
   expect(overflows).toBe(false);
 });
 
+test("keeps the desktop app grid visibly below the title bar", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/");
+  const spacing = await page.evaluate(() => {
+    const titlebar = document.querySelector(".topbar")?.getBoundingClientRect();
+    const firstIcon = document.querySelector(".app-grid .app-icon")?.getBoundingClientRect();
+    if (!titlebar || !firstIcon) return null;
+    return firstIcon.top - titlebar.bottom;
+  });
+  expect(spacing).not.toBeNull();
+  expect(spacing).toBeGreaterThanOrEqual(12);
+});
+
 test("opens a shared project record in MAATAA UI or TLPS with only its ID and registered version", async ({ page }) => {
   const recordId = "prj:0f0e0d0c-0b0a-4908-8706-050403020100";
   await page.addInitScript((id) => {

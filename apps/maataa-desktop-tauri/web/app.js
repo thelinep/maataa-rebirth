@@ -10,32 +10,42 @@ const navForm = document.querySelector('#nav-form');
 document.body.classList.toggle('browser-window', isBrowserWindow);
 const clock = document.querySelector('#clock');
 const hemantClock = document.querySelector('#hemant-clock');
-function updateClock() {
+let clockRequestSequence = 0;
+async function updateClock() {
   if (!clock) return;
-  const now = new Date();
-  clock.textContent = new Intl.DateTimeFormat(undefined, { weekday: 'short', hour: 'numeric', minute: '2-digit' }).format(now);
-  if (hemantClock) {
-    // Kashi 1979 Makara Sankranti epoch (minute precision), converted from
-    // the current host wall clock. This is a display conversion, not a sync.
-    const epochNanos = 285_148_740_000_000_000n;
-    const dayNanos = 86_400_000_000_000n;
-    const nimeshaPerAhoratra = 405_000n;
-    const elapsedNanos = BigInt(now.getTime()) * 1_000_000n - epochNanos;
-    if (elapsedNanos < 0n) {
-      hemantClock.textContent = 'Hemant · before reference epoch';
-    } else {
-      const totalNimesha = elapsedNanos * nimeshaPerAhoratra / dayNanos;
-      const ahoratra = totalNimesha / nimeshaPerAhoratra;
-      let withinDay = totalNimesha % nimeshaPerAhoratra;
-      const nimesha = withinDay % 15n;
-      withinDay /= 15n;
-      const kastha = withinDay % 30n;
-      withinDay /= 30n;
-      const kala = withinDay % 30n;
-      withinDay /= 30n;
-      const muhurta = withinDay % 30n;
-      hemantClock.textContent = `Hemant · ${ahoratra.toLocaleString()} ahoratra · ${muhurta} muhurta ${kala} kala ${kastha} kastha ${nimesha} nimesha`;
+  const requestSequence = ++clockRequestSequence;
+  let now;
+  let unixNanos;
+  if (invoke) {
+    try {
+      const snapshot = await invoke('read_host_clock_snapshot');
+      if (requestSequence !== clockRequestSequence) return;
+      if (
+        snapshot?.schema !== 'maataa.clock-source/1'
+        || snapshot?.trust !== 'unverified'
+        || typeof snapshot?.unixNanos !== 'string'
+        || !/^\d+$/.test(snapshot.unixNanos)
+      ) {
+        throw new Error('Host clock response did not match the unverified clock-source contract.');
+      }
+      unixNanos = BigInt(snapshot.unixNanos);
+      now = new Date(Number(unixNanos / 1_000_000n));
+      if (!Number.isFinite(now.getTime())) throw new Error('Host clock value is outside the display range.');
+    } catch (error) {
+      if (requestSequence !== clockRequestSequence) return;
+      clock.textContent = 'Clock unavailable';
+      clock.title = `Unverified host time unavailable: ${String(error)}`;
+      if (hemantClock) hemantClock.textContent = 'Hemant · time unavailable';
+      return;
     }
+  } else {
+    now = new Date();
+    unixNanos = BigInt(now.getTime()) * 1_000_000n;
+  }
+  clock.textContent = new Intl.DateTimeFormat(undefined, { weekday: 'short', hour: 'numeric', minute: '2-digit' }).format(now);
+  clock.title = 'Host wall-clock observation · unverified · RTC and trusted-reference drift unavailable';
+  if (hemantClock) {
+    hemantClock.textContent = 'Hemant · withheld · source unverified';
   }
 }
 updateClock();
