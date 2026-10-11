@@ -147,6 +147,11 @@ Inputs: `manifests/PUBLIC_API.json` (`public-api.json` in the pack), `docs/canon
 | `@maataa/ui/themes` | `ThemeToggle` (only) | Next fixture, theme-control render check |
 | `@maataa/ui/composer` | `VisualComposer`, `DEFAULT_COMPOSER_SCENE`, `generateComposerJsx`, `validateCompositionSpec`, type `ComposerScene` | Vite fixture, generated-scene build, Node SSR import |
 | `@maataa/ui/runtime` | `CompositionRuntime`, `CanonicalCompositionRuntime` | Vite fixture, Node SSR import |
+| `@maataa/ui/typography/Heading`, `…/Text` | `Heading`, `Text` | Owner decision 2026-10-12 (generator components); contract tests only |
+| `@maataa/ui/data/DataTable`, `…/Metric` | `DataTable` (with type `DataColumn`), `Metric` | Owner decision 2026-10-12; contract tests only |
+| `@maataa/ui/feedback/Badge` | `Badge` | Owner decision 2026-10-12; contract tests only |
+| `@maataa/ui/foundation/Divider` | `Divider` | Owner decision 2026-10-12; contract tests only |
+| `@maataa/ui/layouts/<Name>` (100) and `@maataa/ui/layouts/LayoutPreset` | every layout in `LAYOUT_TYPES`; type `LayoutPresetProps` | Owner decision 2026-10-12 (all 100 confirmed); contract tests only |
 | `@maataa/ui` (root) | module loads without error; **no named exports frozen** | Node 20 and React 18 SSR import |
 
 **Saved-composition format.** `CompositionSpecV1` with `schemaVersion: "1"` as specified in [`composition-spec.md`](../composition-spec.md). The parser already rejects other versions (`src/composer/sceneData.ts`) and `validateCompositionSpec` checks v1 documents.
@@ -241,7 +246,17 @@ Coverage: `tests/stable-api.contract.test.tsx` (added 2026-10-12) has contract t
 - **Block components (6 new, 3 already listed):** `Heading` and `Text` (`@maataa/ui/typography/…`), `DataTable` and `Metric` (`@maataa/ui/data/…`), `Badge` (`@maataa/ui/feedback/Badge`), `Divider` (`@maataa/ui/foundation/Divider`); `Button`, `Input` and `Card` are already listed.
 - **Layouts (100):** every layout in `LAYOUT_TYPES`, each imported from `@maataa/ui/layouts/<Name>`, because a valid scene may select any of them.
 
-None of these 106 exports is exercised by the packed-consumer gate today. Before they are marked stable, each needs a props review and a contract test, and the owner should confirm the 100 layouts are intended (alternative: restrict the generator to a smaller set of layouts).
+None of these 106 exports is exercised by the packed-consumer gate today. **The owner confirmed all 100 layouts on 2026-10-12.** Props review below; contract tests are in `tests/stable-generator.contract.test.tsx`, which also checks that every path the generator can emit is a public export.
+
+| Export | Verdict | Finding |
+| --- | --- | --- |
+| `Heading` | Freeze | `level` 1–6 (default 2) plus native heading attributes. |
+| `Text` | Freeze | `as` = `p` (default), `span` or `div`, plus native attributes. |
+| `Badge` | Freeze | `tone` = neutral (default), success, warning, danger, info, plus native `<span>` attributes. |
+| `Divider` | Freeze | Native `<hr>` attributes. |
+| `Metric` | Narrow | Alias of `Stat` (also exported as `KPI`); only `label`, `value`, `helper`; no `className`, no native attributes, inline styles, no semantic structure. Freeze the three props; `Stat`/`KPI` stay experimental. |
+| `DataTable` | Fix first | No way to give the table an accessible name (no `aria-label`/caption prop and no native-attribute pass-through); sort state is shown visually but not exposed (`aria-sort` missing); non-sortable column headers render as disabled buttons, so screen readers announce every header as a dimmed button; the row checkbox label "Select row N" is fixed English. Props: `data`, `columns` (`id`, `header`, optional `accessor`, `sortable`), `empty`, `selectedIds`, `onSelectionChange`, `sort`, `onSort`. |
+| 100 layouts | Freeze (shared contract) | All 100 are thin wrappers over `LayoutPreset` with the same props: native `<div>` attributes plus 23 named slots (`header`, `nav`, `sidebar`, `secondarySidebar`, `rail`, `toolbar`, `main`, `inspector`, `footer`, `hero`, `canvas`, `dock`, `palette`, `stage`, `preview`, `timeline`, `actions`, `properties`, `statusBar`, `bottomNav`, `filters`, `list`, `details`); `main` takes precedence over `children`. Freezing them means freezing `LayoutPresetProps`. Visual arrangement and CSS are not part of the contract. |
 
 ## Appendix B — freezing IDs versus freezing the format
 
