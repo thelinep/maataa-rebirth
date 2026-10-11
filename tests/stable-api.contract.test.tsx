@@ -201,10 +201,11 @@ describe("VisualComposer", () => {
 });
 
 describe("CompositionRuntime", () => {
-  it("renders a valid scene with host-supplied slots", () => {
+  it("renders a valid scene with host-supplied slots", async () => {
     render(<CompositionRuntime scene={DEFAULT_COMPOSER_SCENE} header={<span>Host header</span>} />);
     expect(screen.queryByRole("alert")).toBeNull();
-    expect(screen.getByText("Host header")).toBeInTheDocument();
+    // The selected layout is lazy-loaded, so wait for the host slot to appear.
+    expect(await screen.findByText("Host header")).toBeInTheDocument();
   });
   it("refuses to render an invalid scene", () => {
     render(<CompositionRuntime scene={{ ...DEFAULT_COMPOSER_SCENE, pageTypeId: "PAGE.INVENTED" } as unknown as ComposerScene} />);
@@ -213,10 +214,11 @@ describe("CompositionRuntime", () => {
 });
 
 describe("CanonicalCompositionRuntime", () => {
-  it("renders a valid scene without a context", () => {
+  it("renders a valid scene without a context", async () => {
     render(<CanonicalCompositionRuntime scene={DEFAULT_COMPOSER_SCENE} header={<span>Host header</span>} />);
     expect(screen.queryByRole("alert")).toBeNull();
-    expect(screen.getByText("Host header")).toBeInTheDocument();
+    // The selected layout is lazy-loaded, so wait for the host slot to appear.
+    expect(await screen.findByText("Host header")).toBeInTheDocument();
   });
   it("refuses to render an invalid scene", () => {
     render(<CanonicalCompositionRuntime scene={{ ...DEFAULT_COMPOSER_SCENE, pageTypeId: "PAGE.INVENTED" } as unknown as ComposerScene} />);
