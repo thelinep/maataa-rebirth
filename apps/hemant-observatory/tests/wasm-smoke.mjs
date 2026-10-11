@@ -7,7 +7,7 @@ const nativePath = "target/release/hemant-shell";
 const OUTPUT_CAPACITY = 64 * 1024;
 const bytes = readFileSync(wasmPath);
 const { instance } = await WebAssembly.instantiate(bytes);
-const { memory, hemant_alloc, hemant_free, hemant_time_result_json, hemant_method_registry_json, hemant_m2020_sclk_tdt_json } = instance.exports;
+const { memory, hemant_alloc, hemant_free, hemant_time_result_json, hemant_method_registry_json, hemant_m2020_sclk_tdt_json, hemant_panchanga_sidereal_json } = instance.exports;
 assert.ok(memory instanceof WebAssembly.Memory, "Wasm must export its linear memory");
 
 function outputFrom(write) {
@@ -33,6 +33,7 @@ const registry = outputFrom((ptr, capacity) => hemant_method_registry_json(ptr, 
 assert.equal(registry.schema, "hemant.method-registry/1");
 assert.ok(registry.methods.some((method) => method.id === "cloudflare-worker-date-now-v1"));
 assert.ok(registry.methods.some((method) => method.id === "mars2020-sclk-v19-bounded-to-tdt-demo-v1"));
+assert.ok(registry.methods.some((method) => method.id === "explicit-ayanamsha-tithi-nakshatra-yoga-angle-bins-v1"));
 
 const m2020Clock = outputFrom((ptr, capacity) => hemant_m2020_sclk_tdt_json(189345666, 0, ptr, capacity));
 assert.equal(m2020Clock.schema, "hemant.spacecraft-clock/1");
@@ -47,6 +48,16 @@ assert.equal(angleResult.tithi_ordinal, 30);
 assert.equal(angleResult.paksha, "krishna");
 assert.equal(angleResult.karana_name, "Chatushpada");
 assert.equal(angleResult.nakshatra, null, "sidereal fields must stay absent without selected ayanamsha");
+
+const siderealResult = outputFrom((ptr, capacity) => hemant_panchanga_sidereal_json(
+  10_000_000n, 23_333_333n, 0n, ptr, capacity,
+));
+assert.equal(siderealResult.schema, "hemant.panchanga-sidereal-instant/1");
+assert.equal(siderealResult.tithi_ordinal, 2);
+assert.equal(siderealResult.nakshatra_ordinal, 2);
+assert.equal(siderealResult.yoga_ordinal, 3);
+assert.equal(siderealResult.ayanamsha_microdegrees, 0);
+assert.equal(siderealResult.day_assignment, null);
 
 const ingress = outputFrom((ptr, capacity) => instance.exports.hemant_sankranti_bracket_json(
   0n, 309500000n, 86400000n, 310500000n, 10000000n, ptr, capacity,

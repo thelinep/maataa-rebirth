@@ -4,6 +4,26 @@
 pub const MICRODEGREES_PER_CIRCLE: i64 = 360_000_000;
 const TITHI_WIDTH: i64 = 12_000_000;
 const KARANA_WIDTH: i64 = 6_000_000;
+const PANCHANGA_DIVISIONS: i128 = 27;
+
+/// Instantaneous angular indices calculated from caller/provider-supplied
+/// apparent longitudes and an explicit, source-backed ayanamsha value.
+/// This is arithmetic classification only; it does not establish an
+/// ephemeris, civil-day assignment, tradition, or scientific validation.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct SiderealPanchangaIndices {
+    /// One-based ordinal in 1..=30. The relative longitude is independent of
+    /// a common ayanamsha subtraction, but the input longitudes must share a
+    /// compatible frame and instant.
+    pub tithi: u8,
+    /// One-based ordinal in 1..=27.
+    pub nakshatra: u8,
+    /// One-based ordinal in 1..=27.
+    pub yoga: u8,
+    pub sidereal_sun_microdegrees: i64,
+    pub sidereal_moon_microdegrees: i64,
+    pub yoga_sum_microdegrees: i64,
+}
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct InstantPanchanga {
@@ -42,6 +62,40 @@ pub fn classify_apparent_longitudes(
         },
         karana_index,
         karana_name: karana_name(karana_index),
+    })
+}
+
+/// Classify exact rational 27-part boundaries using integer microdegrees.
+/// The ayanamsha is an explicit input, never a hidden default. Its method ID,
+/// source, epoch and version must be retained by the caller as provenance.
+pub fn classify_sidereal_panchanga(
+    sun: i64,
+    moon: i64,
+    ayanamsha: i64,
+) -> Result<SiderealPanchangaIndices, PanchangaError> {
+    if !(0..MICRODEGREES_PER_CIRCLE).contains(&sun)
+        || !(0..MICRODEGREES_PER_CIRCLE).contains(&moon)
+        || !(0..MICRODEGREES_PER_CIRCLE).contains(&ayanamsha)
+    {
+        return Err(PanchangaError::InvalidLongitude);
+    }
+
+    let sidereal_sun = (sun - ayanamsha).rem_euclid(MICRODEGREES_PER_CIRCLE);
+    let sidereal_moon = (moon - ayanamsha).rem_euclid(MICRODEGREES_PER_CIRCLE);
+    let elongation = (moon - sun).rem_euclid(MICRODEGREES_PER_CIRCLE);
+    let yoga_sum = (sidereal_sun + sidereal_moon).rem_euclid(MICRODEGREES_PER_CIRCLE);
+    let nakshatra =
+        ((sidereal_moon as i128 * PANCHANGA_DIVISIONS) / MICRODEGREES_PER_CIRCLE as i128) as u8 + 1;
+    let yoga =
+        ((yoga_sum as i128 * PANCHANGA_DIVISIONS) / MICRODEGREES_PER_CIRCLE as i128) as u8 + 1;
+
+    Ok(SiderealPanchangaIndices {
+        tithi: (elongation / TITHI_WIDTH + 1) as u8,
+        nakshatra,
+        yoga,
+        sidereal_sun_microdegrees: sidereal_sun,
+        sidereal_moon_microdegrees: sidereal_moon,
+        yoga_sum_microdegrees: yoga_sum,
     })
 }
 
@@ -155,6 +209,50 @@ mod tests {
     fn sidereal_segments_require_explicit_ayanamsha_input() {
         assert_eq!(sidereal_segment(20_000_000, 10_000_000).unwrap(), 0);
         assert!(sidereal_segment(360_000_000, 0).is_err());
+    }
+
+    #[test]
+    fn sidereal_tithi_nakshatra_and_yoga_use_explicit_offset_and_exact_bins() {
+        let result = classify_sidereal_panchanga(10_000_000, 23_333_333, 0).unwrap();
+        assert_eq!(result.tithi, 2);
+        assert_eq!(result.nakshatra, 2);
+        assert_eq!(result.yoga, 3);
+
+        // The rational 13°20′ boundary lies between integer microdegrees.
+        assert_eq!(
+            classify_sidereal_panchanga(0, 13_333_333, 0)
+                .unwrap()
+                .nakshatra,
+            1
+        );
+        assert_eq!(
+            classify_sidereal_panchanga(0, 13_333_334, 0)
+                .unwrap()
+                .nakshatra,
+            2
+        );
+        assert_eq!(
+            classify_sidereal_panchanga(0, 12_000_000, 0).unwrap().tithi,
+            2
+        );
+    }
+
+    #[test]
+    fn common_ayanamsha_shifts_sidereal_bins_but_not_tithi_elongation() {
+        let tropical = classify_sidereal_panchanga(100_000_000, 120_000_000, 0).unwrap();
+        let offset = classify_sidereal_panchanga(100_000_000, 120_000_000, 10_000_000).unwrap();
+        assert_eq!(tropical.tithi, offset.tithi);
+        assert_ne!(tropical.nakshatra, offset.nakshatra);
+        assert_ne!(tropical.yoga, offset.yoga);
+        assert_eq!(offset.sidereal_sun_microdegrees, 90_000_000);
+        assert_eq!(offset.sidereal_moon_microdegrees, 110_000_000);
+    }
+
+    #[test]
+    fn sidereal_classification_rejects_invalid_inputs() {
+        assert!(classify_sidereal_panchanga(-1, 0, 0).is_err());
+        assert!(classify_sidereal_panchanga(0, 360_000_000, 0).is_err());
+        assert!(classify_sidereal_panchanga(0, 0, 360_000_000).is_err());
     }
 
     #[test]

@@ -77,6 +77,8 @@ pub const JPL_ANGLES_METHOD_ID: &str = "jpl-geocentric-apparent-sun-moon-longitu
 pub const INSTANT_PANCHANGA_METHOD_ID: &str =
     "instantaneous-tithi-karana-from-apparent-longitudes-v1";
 pub const M2020_SCLK_METHOD_ID: &str = "mars2020-sclk-v19-bounded-to-tdt-demo-v1";
+pub const SIDEREAL_PANCHANGA_METHOD_ID: &str =
+    "explicit-ayanamsha-tithi-nakshatra-yoga-angle-bins-v1";
 
 pub const METHOD_REGISTRY: &[MethodRecord] = &[
     MethodRecord {
@@ -225,6 +227,22 @@ pub const METHOD_REGISTRY: &[MethodRecord] = &[
         output_units: "elongation degrees, ordinal tithi, paksha, karana index and name",
         uncertainty: "inherited from ephemeris and input time; not quantified by this method",
         limitations: &["Instant classification only; no civil-day assignment.", "Tradition-specific named labels require independent Panchanga test vectors.", "Nakshatra and yoga require a selected ayanamsha and are not emitted."],
+    },
+    MethodRecord {
+        id: SIDEREAL_PANCHANGA_METHOD_ID,
+        version: "1",
+        kind: "instantaneous-sidereal-angle-classification",
+        title: "Explicit-ayanamsha tithi, nakshatra and yoga angle bins",
+        status: MethodStatus::Active,
+        evidence_class: EvidenceClass::ConventionDerived,
+        verification: "not-applicable",
+        inputs: &["same-frame apparent ecliptic Sun/Moon longitudes in microdegrees", "explicit ayanamsha in microdegrees", "caller-maintained method and source provenance"],
+        source_identity: "integer angle-bin arithmetic in hemant-core; 12-degree tithi and exact rational 27-part nakshatra/yoga bins",
+        time_scale: "inherited from caller-supplied instant",
+        frame_or_location: "caller-supplied apparent ecliptic longitudes; no local sunrise assignment",
+        output_units: "one-based tithi, nakshatra and yoga ordinals; integer microdegrees",
+        uncertainty: "not calculated; inherited from angle provider, timestamp and selected ayanamsha",
+        limitations: &["Ayanamsha is required input and has no default.", "Arithmetic classifies supplied angles; it does not compute ephemerides.", "No tradition-specific names, day assignment, independent comparison, or scientific qualification."],
     },
     MethodRecord {
         id: M2020_SCLK_METHOD_ID,

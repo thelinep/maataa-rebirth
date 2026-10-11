@@ -130,6 +130,44 @@ pub unsafe extern "C" fn hemant_panchanga_angles_json(
     write_output(json.as_bytes(), output, capacity)
 }
 
+/// Classify tithi, nakshatra and yoga from same-frame apparent longitudes and
+/// an explicit ayanamsha in integer microdegrees. The caller must retain the
+/// ayanamsha identity, source, epoch and version as provenance. No default is
+/// supplied, and this function does not produce the astronomical inputs.
+///
+/// # Safety
+/// Output must be an allocated writable linear-memory range.
+#[no_mangle]
+pub unsafe extern "C" fn hemant_panchanga_sidereal_json(
+    sun_microdegrees: i64,
+    moon_microdegrees: i64,
+    ayanamsha_microdegrees: i64,
+    output: u32,
+    capacity: u32,
+) -> i32 {
+    if !within_memory(output, capacity) {
+        return -3;
+    }
+    let Ok(result) = hemant_core::panchanga::classify_sidereal_panchanga(
+        sun_microdegrees,
+        moon_microdegrees,
+        ayanamsha_microdegrees,
+    ) else {
+        return -1;
+    };
+    let json = format!(
+        "{{\"schema\":\"hemant.panchanga-sidereal-instant/1\",\"method\":\"explicit-ayanamsha-integer-angle-bins-v1\",\"sun_sidereal_microdegrees\":{},\"moon_sidereal_microdegrees\":{},\"yoga_sum_microdegrees\":{},\"ayanamsha_microdegrees\":{},\"tithi_ordinal\":{},\"nakshatra_ordinal\":{},\"yoga_ordinal\":{},\"day_assignment\":null,\"verification\":\"arithmetic-from-caller-supplied-angles-and-ayanamsha\"}}",
+        result.sidereal_sun_microdegrees,
+        result.sidereal_moon_microdegrees,
+        result.yoga_sum_microdegrees,
+        ayanamsha_microdegrees,
+        result.tithi,
+        result.nakshatra,
+        result.yoga,
+    );
+    write_output(json.as_bytes(), output, capacity)
+}
+
 /// Interpolate a sign ingress from two adjacent apparent solar longitudes.
 /// The ayanamsha is an explicit input in integer microdegrees; zero denotes
 /// tropical longitude and must not be labelled a traditional Sankranti.
