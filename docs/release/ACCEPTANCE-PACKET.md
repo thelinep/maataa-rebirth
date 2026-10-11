@@ -127,7 +127,6 @@ Inputs: `manifests/PUBLIC_API.json` (`public-api.json` in the pack), `docs/canon
 | `@maataa/ui/actions/Button` | `Button` | Vite and Next fixtures |
 | `@maataa/ui/forms/Input` | `Input` | Next fixture |
 | `@maataa/ui/surfaces/Card` | `Card` | Next fixture |
-| `@maataa/ui/surfaces` | `Card` (only) | Vite fixture |
 | `@maataa/ui/foundation` | `UiProvider` (only) | Next fixture |
 | `@maataa/ui/themes` | `ThemeToggle` (only) | Next fixture, theme-control render check |
 | `@maataa/ui/composer` | `VisualComposer`, `DEFAULT_COMPOSER_SCENE`, `generateComposerJsx`, `validateCompositionSpec`, type `ComposerScene` | Vite fixture, generated-scene build, Node SSR import |
@@ -141,7 +140,9 @@ Everything else, including the other members of the subpaths above, stays `EXPER
 Questions for the owner before accepting:
 1. **Props:** freezing a component means its current props stay compatible. Accept the props as they are today for these components, or list them first?
 2. **Canonical IDs inside saved compositions:** a v1 composition refers to workspace, page, layout and device IDs. Freezing the format only helps if those referenced IDs stay valid. Freeze the IDs too, or freeze the format and promise a migration when an ID changes?
-3. **Subpath vs. barrel:** `Card` is verified from both `@maataa/ui/surfaces` and `@maataa/ui/surfaces/Card`. Keep both as stable, or only one?
+3. **Subpath vs. barrel:** answered 2026-10-11 by the release owner — keep only `@maataa/ui/surfaces/Card`. `Card` from the `@maataa/ui/surfaces` barrel stays `EXPERIMENTAL` (the Vite fixture should move to the subpath import before the freeze).
+
+Owner responses recorded 2026-10-11 (chat): (1) review the props list before accepting — see appendix A; (2) asked for a comparison of freezing IDs versus freezing the format with a migration promise — see appendix B; (3) as above.
 
 ```
 Decision: ACCEPT LIST / AMEND    Answers to 1–3:
@@ -178,3 +179,39 @@ gh api repos/thelinep/maataa-rebirth/rulesets   # record the active tag ruleset
 ## 11. Controlled publisher
 
 The package is `private: true` and no registry, publisher identity or provenance attestation is configured. Prerequisites: gates 1–10 accepted; a dedicated release step that decides the version and tag; a publisher with provenance (for example CI with npm provenance) — recorded with the run that publishes.
+
+## Appendix A — props and signatures of the proposed stable exports (as of `9a18d8f5`)
+
+| Export | Contract that would be frozen | Notes for the owner |
+| --- | --- | --- |
+| `Button` | All native `<button>` attributes, plus `variant?: "primary" \| "secondary" \| "ghost" \| "destructive"` (default `primary`), `loading?: boolean` (disables and shows `loadingLabel`), `loadingLabel?: string` (default `"Loading"`); `ref` to the button; `type` defaults to `"button"` | Extending native attributes means every native attribute is part of the contract. |
+| `Input` | All native `<input>` attributes; `ref` to the input | No extra props. |
+| `Card` (`surfaces/Card`) | All native `<div>` attributes, plus `header?: ReactNode`, `footer?: ReactNode` | Typed as `<div>` attributes but renders `<article>`; decide whether to fix the type or the element before freezing. |
+| `UiProvider` | `children`, `theme?: "light" \| "dark" \| "system" \| "high-contrast" \| "oled"` (default `system`), `dir?: "ltr" \| "rtl"` (default `ltr`), `className?` | Other attributes are not passed through. |
+| `ThemeToggle` | `label?: string` (accessible name, default `"Toggle theme"`); cycles light → dark → high-contrast → oled → system | Must be inside `UiProvider`; the visible text is the current theme name. |
+| `VisualComposer` | `scene: ComposerScene`, `onSceneChange(scene)` required; optional `selectedBlockId`, `canUndo`, `canRedo`, `onSelectBlock(id)`, `onUndo()`, `onRedo()` | Editing behaviour and palette contents are not part of the prop contract. |
+| `CompositionRuntime` | `scene: ComposerScene`; optional `header`, `sidebar`, `nav`, `inspector` (ReactNode); optional `validation` override | |
+| `CanonicalCompositionRuntime` | Same slots as `CompositionRuntime` (without `validation`), plus `context?: CompositionContext` | `CompositionContext` is not on the list; either add the type or keep `context` experimental. |
+| `generateComposerJsx(scene)` | Returns generated JSX source for a scene; throws if the scene fails v1 validation | The exact generated text should not be frozen, only that it is valid JSX for the scene. |
+| `validateCompositionSpec(input: unknown)` | Returns `{ accepted: true, spec, validation, errors: [] }` or `{ accepted: false, errors: string[], validation? }` | Error message wording should not be frozen. |
+| `DEFAULT_COMPOSER_SCENE` | A valid `ComposerScene` value | Freeze its presence and validity, not its exact contents. |
+| `ComposerScene` (type) | `id`, `name`, `workspaceTypeId`, `pageTypeId`, `layoutTypeId`, `deviceId`, `theme`, `density`, `stateMode`, `blocks[]` (`id`, `kind`, `props: Record<string, unknown>`, optional `hidden`, `locked`, `componentId`), `updatedAt`, optional `schemaVersion: "1"`, optional `regions[]` | Block `props` are untyped per kind, so their contents are not contracted. The ID fields are literal unions generated from the registries (see appendix B). |
+
+## Appendix B — freezing IDs versus freezing the format
+
+A saved v1 composition refers to six kinds of canonical ID: workspace (647), page (500), layout (100), device (187), component (1,577) and region (85) — about 3,100 IDs in all. In TypeScript the ID fields of `ComposerScene` are literal unions built from the registries, so removing an ID is already a type-breaking change for anyone using the type. [`versioning-policy.md`](../versioning-policy.md) already says IDs in saved scenes must not be silently renamed or reused, a replacement needs an explicit alias, a versioned migration helper and tests, and no alias is invented before a real migration exists. No alias or migration helper exists in code today.
+
+| | A. Freeze all IDs | B. Freeze the format; migrate when an ID changes | C. Freeze the format; ID rules, not an ID list |
+| --- | --- | --- | --- |
+| What is promised | Every current ID stays valid for all 1.x | v1 shape is fixed; any ID change ships with an alias + migration | v1 shape is fixed; IDs are never reused or silently renamed; removal or rename only with alias + migration + tests; removal is a major change |
+| Safety for saved compositions | Highest | Depends on each migration being written | High for the rules; same as B for actual changes |
+| Freedom to clean up registries | None without a major release | Full, at the cost of writing migrations | Additions free; renames and removals cost a migration |
+| Fits "freeze only verified things"? | No — locks ~3,100 IDs, almost none exercised by consumers | Yes | Yes |
+| Work needed before Beta | Mark all IDs stable; add a removal check | Build the alias/migration helper and its tests | Add a check that no ID is removed or reused without a recorded migration; build the helper only when the first change is needed |
+
+**Recommendation:** C. It matches the policy already written, keeps saved compositions safe from silent breakage, and does not turn ~3,100 mostly unverified IDs into a permanent promise.
+
+```
+ID decision: A / B / C        Props list (appendix A): ACCEPT / AMEND
+Decider:        Date:
+```
