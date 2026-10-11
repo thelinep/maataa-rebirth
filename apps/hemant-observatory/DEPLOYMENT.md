@@ -24,3 +24,9 @@
 - Before release: verify the remote/ref and clean exact commit; run clean dependency install, build, and preview smoke on that commit; review the deployment diff and exact Worker/account/zone target; then attach `samwat.allb.xyz`, verify DNS/TLS/public health and rollback, and add operational ownership and monitoring.
 
 The Cloudflare deployment and public hostname remain untouched. Production publication still needs an explicit final go-ahead after the exact release plan is reviewed.
+
+## Fresh checkout qualification — 2026-10-11
+
+On parent revision `d7f3e7a243f50fba2d0c0197108e33765b102c3a`, `bash scripts/check.sh --no-e2e` passed the local Rust, contract, Wasm, TypeScript and Next.js production-build gates. Playwright was not run because the known loopback `EPERM` blocker was intentionally not retried.
+
+The exact checkout's OpenNext packaging gate is currently blocked: pnpm 12.6.0 rejects the app's `node_modules` symlink as a non-real workspace-hoist directory, and invoking the installed OpenNext CLI directly then fails to resolve its `esbuild` dependency. Thus this checkout has no fresh Worker bundle, workerd preview, or Wrangler dry-run evidence. See [`evidence/release-local-qualification-20261011.md`](./evidence/release-local-qualification-20261011.md) for commands and exact errors. This supersedes neither the earlier isolated-copy Worker evidence nor the requirement to qualify the exact frozen release tree.
