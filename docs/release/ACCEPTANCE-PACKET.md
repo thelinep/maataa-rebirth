@@ -256,7 +256,38 @@ None of these 106 exports is exercised by the packed-consumer gate today. **The 
 | `Divider` | Freeze | Native `<hr>` attributes. |
 | `Metric` | Narrow | Alias of `Stat` (also exported as `KPI`); only `label`, `value`, `helper`; no `className`, no native attributes, inline styles, no semantic structure. Freeze the three props; `Stat`/`KPI` stay experimental. |
 | `DataTable` | Fix first | No way to give the table an accessible name (no `aria-label`/caption prop and no native-attribute pass-through); sort state is shown visually but not exposed (`aria-sort` missing); non-sortable column headers render as disabled buttons, so screen readers announce every header as a dimmed button; the row checkbox label "Select row N" is fixed English. Props: `data`, `columns` (`id`, `header`, optional `accessor`, `sortable`), `empty`, `selectedIds`, `onSelectionChange`, `sort`, `onSort`. |
-| 100 layouts | Freeze (shared contract) | All 100 are thin wrappers over `LayoutPreset` with the same props: native `<div>` attributes plus 23 named slots (`header`, `nav`, `sidebar`, `secondarySidebar`, `rail`, `toolbar`, `main`, `inspector`, `footer`, `hero`, `canvas`, `dock`, `palette`, `stage`, `preview`, `timeline`, `actions`, `properties`, `statusBar`, `bottomNav`, `filters`, `list`, `details`); `main` takes precedence over `children`. Freezing them means freezing `LayoutPresetProps`. Visual arrangement and CSS are not part of the contract. |
+| 100 layouts | See layout scrutiny below (was: Freeze, shared contract) | All 100 are thin wrappers over `LayoutPreset` with the same props: native `<div>` attributes plus 23 named slots (`header`, `nav`, `sidebar`, `secondarySidebar`, `rail`, `toolbar`, `main`, `inspector`, `footer`, `hero`, `canvas`, `dock`, `palette`, `stage`, `preview`, `timeline`, `actions`, `properties`, `statusBar`, `bottomNav`, `filters`, `list`, `details`); `main` takes precedence over `children`. Freezing them means freezing `LayoutPresetProps`. Visual arrangement and CSS are not part of the contract. |
+
+### Layout scrutiny (2026-10-12, source at `8cd75b20`)
+
+Sources: `src/layouts/*`, `src/internal/layoutPreset.tsx`, `src/layout-atoms/*` and `src/registries/layoutExecutionMetadata.generated.ts` (grid areas derived from the CSS by `generate-layout-loaders.mjs`).
+
+**What is uniform.** All 100 layouts are one-line wrappers over `LayoutPreset`, each with a unique `preset` name, and every template has CSS. Each renders a root `<div>` and one element per slot that is passed, in a fixed DOM order (header, nav, hero, toolbar, sidebar, secondarySidebar, rail, palette, filters, list, stage, canvas, preview, details, **main (always)**, inspector, properties, timeline, dock, actions, statusBar, footer, bottomNav).
+
+**Findings**
+
+1. **The props type promises more than the layouts place.** Every layout accepts all 23 slots, but on average a layout's CSS places only 5.3 of them (maximum 9). A slot outside a layout's grid areas is still rendered, just not positioned by the template.
+2. **16 layouts place no slots at all** (`placementStatus: "fallback-main"`): Dashboard Grid, Card Grid, Bento Grid, Masonry, Analytics, Kanban, Board, Social Feed, Gallery, Magazine, Newspaper, Command Center, Cockpit, Control Room, Operations Wallboard and Profile. They behave as generic containers; the arrangement their names suggest is left to the content.
+3. **Three slots are placed by no layout:** `secondarySidebar`, `stage` and `properties`.
+4. **Seven pairs are the same layout under two names** (same template): BeforeAfter = Comparison, Builder = PageBuilder, CenteredContainer = SingleColumn, CollapsibleSidebar = SidebarShell, Documentation = KnowledgeBase, ResponsiveThreePane = ThreeColumn, StepperForm = Wizard. Some names promise behaviour that does not exist (`CollapsibleSidebarLayout` does not collapse; `CenteredContainerLayout` is the single-column template).
+5. **Landmarks.** Each layout always renders a `<main>`, so a layout nested inside an app shell or another layout produces two `main` landmarks. `header`, `footer` and `statusBar` become page-level banner/contentinfo landmarks; up to seven slots render unlabeled `<aside>` elements and two render unlabeled `<nav>` elements. Slots take only content, so the host cannot label these landmarks.
+6. **Reading order.** DOM order is fixed while each template places regions by CSS grid areas, so for some templates the visual order may differ from keyboard and screen-reader order. This must be checked in the screen-reader review (gate 3).
+7. `LayoutRoot`'s `inset`, `scroll` and `sticky` flags reach the root at runtime but are not in `LayoutPresetProps`.
+
+**Options before the layouts are frozen**
+
+| | A. Freeze as is | B. Freeze names, narrow the promise | C. Fix first, then freeze |
+| --- | --- | --- | --- |
+| Promise | All 23 slots on all 100 layouts | Each layout's stable slots = its declared grid areas (published per layout); other slots render but placement is not promised; visual arrangement is not promised; the 16 fallback layouts are documented as containers | As B, plus landmark fixes: optional per-slot labels, a way to render the main slot without `<main>` when nested, and aliases documented as aliases |
+| Breaking later? | Any fix to landmarks or slot types is breaking | Landmark changes still breaking | Additive afterwards |
+| Work now | None | Generate a per-layout supported-slot table and test it | B plus landmark changes and tests |
+
+**Recommendation:** C. The landmark behaviour (always `<main>`, unlabeled `<aside>`/`<nav>`) is the part that becomes a breaking change once frozen; per-slot labels are additive and can follow.
+
+```
+Layout option: A / B / C        Aliases: KEEP BOTH NAMES / DEPRECATE ONE OF EACH PAIR
+Decider:        Date:
+```
 
 ## Appendix B — freezing IDs versus freezing the format
 
