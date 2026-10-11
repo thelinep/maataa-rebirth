@@ -2,7 +2,7 @@
 
 **Snapshot reviewed:** 7 October 2026 · **HEAD:** `eef053ffb9b1df3d332a4ed3f125391790f2a613` · **Working tree:** dirty (123 tracked paths plus untracked files). This matrix reconciles the current product snapshot, pilot records, and latest saved release pack. It is a status report, not a fresh product-wide qualification.
 
-**Addendum, 11 October 2026:** the release branch `feat/alpha8.7-composition-kernel` is clean at `cc11c3a7` plus the documentation commit recording this addendum; the uncommitted Hemant work was moved to branch `hemant/planetarium-wip`. Rows below still describe the 7 October snapshot unless stated. `apps/hemant-observatory` and the MAATAA Desktop Hemant clock display are outside `@maataa/ui` release claims and certification; see the scope boundary in [release readiness](RELEASE-READINESS.md).
+**Addendum, 11 October 2026:** the release branch `feat/alpha8.7-composition-kernel` was qualified by automation at `9a18d8f5` (see below); the uncommitted Hemant work was moved to branch `hemant/planetarium-wip`. Rows below still describe the 7 October snapshot unless stated. `apps/hemant-observatory` and the MAATAA Desktop Hemant clock display are outside `@maataa/ui` release claims and certification; see the scope boundary in [release readiness](RELEASE-READINESS.md).
 
 ## Status vocabulary
 
@@ -57,13 +57,13 @@ The pilot measures remain NOT_RUN until each application's owner approves a char
 
 ## Saved release evidence and current qualification
 
-The latest saved pack is [`release.json`](../../.certification/release-evidence/eef053ffb9b1df3d332a4ed3f125391790f2a613/1791317304445/release.json) with [`dashboard.json`](../../.certification/release-evidence/eef053ffb9b1df3d332a4ed3f125391790f2a613/1791317304445/dashboard.json). It records commit `eef053ffb9b1df3d332a4ed3f125391790f2a613`, package `1.0.0-alpha.8.4`, finished `2026-10-06T20:13:16Z`.
+The latest saved pack is [`release.json`](../../.certification/release-evidence/9a18d8f5806cc1661b3619e8371948f775c2f808/1791720393081/release.json) with [`dashboard.json`](../../.certification/release-evidence/9a18d8f5806cc1661b3619e8371948f775c2f808/1791720393081/dashboard.json). It records commit `9a18d8f5806cc1661b3619e8371948f775c2f808`, package `1.0.0-alpha.8.4`, darwin arm64, finished `2026-10-11T12:11:59Z`, clean tree at start and finish. It supersedes the `eef053ff` pack of 2026-10-06.
 
-| Gate group | Saved status for `eef053f` | Current working-tree qualification |
+| Gate group | Saved status for `9a18d8f` | Notes |
 | --- | --- | --- |
-| Typecheck, tests, API, docs, composition/layout contracts, Storybook, package/demo builds | **PASS** | **Must rerun** after current changes; working tree is dirty. |
-| Browser, device, surface, AI catalogue, packed consumer, performance, security, source integrity | **PASS** | **Must rerun** for current tree; check scope in the release pack logs. |
-| Automation summary | **PASS** | Historical commit-scoped result; not a new current-tree pass. |
+| Typecheck, tests, API, docs, composition/layout contracts, Storybook, package/demo builds | **PASS** | Unit tests 323/323. |
+| Browser, device, surface, AI catalogue, packed consumer, performance, security, source integrity | **PASS** | Browser 450/450 across six projects with `MAATAA_CERTIFY=1` (no server reuse); suites with dedicated configs are excluded from this gate and are not certified by it. |
+| Automation summary | **PASS** | Commit-scoped; later commits need a fresh run. |
 | Pilot acceptance, legal/license approval, screen-reader review, real-device acceptance, runtime target approval, API/schema freeze | **NOT_RUN** | Still open. |
 | Release ownership evidence, private security channel, remote tag protection, controlled publisher | **BLOCKED** | Still open; designation alone does not create a reporting channel or release approval record. |
 | Overall release | **BLOCKED** (`releaseCertified: false`) | **BLOCKED**; no RC/GA claim. |
