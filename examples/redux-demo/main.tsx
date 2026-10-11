@@ -4,6 +4,11 @@ import { createRoot } from "react-dom/client";
 import "../../src/styles.css";
 import "./demo.css";
 
+import { isMeasureMode, startMeasureMode } from "./measureMode";
+
+// On-device performance measurement, only with ?measure=1 (see measureMode.ts).
+if (isMeasureMode()) startMeasureMode();
+
 const element = document.getElementById("root");
 if (!element) throw new Error("Missing #root element");
 
