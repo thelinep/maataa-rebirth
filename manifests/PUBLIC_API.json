@@ -14713,6 +14713,15 @@
       ]
     },
     {
+      "name": "CardProps",
+      "subpath": ".",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/surfaces/index.tsx"
+      ]
+    },
+    {
       "name": "CardTerminalFrame",
       "subpath": ".",
       "kind": "runtime",
@@ -92248,6 +92257,15 @@
       ]
     },
     {
+      "name": "CardProps",
+      "subpath": "./surfaces",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/surfaces/index.tsx"
+      ]
+    },
+    {
       "name": "Collapsible",
       "subpath": "./surfaces",
       "kind": "runtime",
@@ -92458,6 +92476,15 @@
       "name": "Card",
       "subpath": "./surfaces/index",
       "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/surfaces/index.tsx"
+      ]
+    },
+    {
+      "name": "CardProps",
+      "subpath": "./surfaces/index",
+      "kind": "type",
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/surfaces/index.tsx"

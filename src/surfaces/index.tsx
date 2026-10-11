@@ -4,7 +4,9 @@ import { cx } from "../utils";
 import { useDialogBehavior } from "../internal/dialogBehavior";
 import { Button } from "../actions";
 export function Surface(p:React.HTMLAttributes<HTMLDivElement>){return <div {...p} className={cx("m-surface m-ui",p.className)}/>}
-export function Card({header,footer,children,className,...p}:React.HTMLAttributes<HTMLDivElement>&{header?:React.ReactNode;footer?:React.ReactNode}){return <article {...p} className={cx("m-card m-ui",className)}>{header&&<header style={{marginBlockEnd:12}}>{header}</header>}{children}{footer&&<footer style={{marginBlockStart:12}}>{footer}</footer>}</article>}
+export type CardProps=React.HTMLAttributes<HTMLElement>&{header?:React.ReactNode;footer?:React.ReactNode};
+// Renders an <article>; props are typed for that element and the ref points to it.
+export const Card=React.forwardRef<HTMLElement,CardProps>(function Card({header,footer,children,className,...p},ref){return <article ref={ref} {...p} className={cx("m-card m-ui",className)}>{header&&<header style={{marginBlockEnd:12}}>{header}</header>}{children}{footer&&<footer style={{marginBlockStart:12}}>{footer}</footer>}</article>});
 export function Panel(p:React.HTMLAttributes<HTMLDivElement>){return <div {...p} className={cx("m-panel m-ui",p.className)} style={{padding:16,...p.style}}/>}
 export function Modal({open,isOpen,onClose,title,description,children,footer,returnFocusRef,closeLabel="Close"}:{open?:boolean;isOpen?:boolean;onClose:()=>void;title?:React.ReactNode;description?:React.ReactNode;children?:React.ReactNode;footer?:React.ReactNode;closeLabel?:string;returnFocusRef?:React.RefObject<HTMLElement|null>}) {
  const visible=open??isOpen??false,titleId=useId(),descId=useId(),dialog=useRef<HTMLDivElement>(null);
