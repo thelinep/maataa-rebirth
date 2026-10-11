@@ -151,7 +151,7 @@ Inputs: `manifests/PUBLIC_API.json` (`public-api.json` in the pack), `docs/canon
 | `@maataa/ui/data/DataTable`, `…/Metric` | `DataTable` (with type `DataColumn`), `Metric` | Owner decision 2026-10-12; contract tests only |
 | `@maataa/ui/feedback/Badge` | `Badge` | Owner decision 2026-10-12; contract tests only |
 | `@maataa/ui/foundation/Divider` | `Divider` | Owner decision 2026-10-12; contract tests only |
-| `@maataa/ui/layouts/<Name>` (100) and `@maataa/ui/layouts/LayoutPreset` | every layout in `LAYOUT_TYPES`; type `LayoutPresetProps` | Owner decision 2026-10-12 (all 100 confirmed); contract tests only |
+| `@maataa/ui/layouts/<Name>` (93 stable + 7 deprecated aliases) and `@maataa/ui/layouts/LayoutPreset` | every non-deprecated layout in `LAYOUT_TYPES`; types `LayoutPresetProps`, `LayoutSlot` | Owner decision 2026-10-12 (all 100 confirmed); contract tests only |
 | `@maataa/ui` (root) | module loads without error; **no named exports frozen** | Node 20 and React 18 SSR import |
 
 **Saved-composition format.** `CompositionSpecV1` with `schemaVersion: "1"` as specified in [`composition-spec.md`](../composition-spec.md). The parser already rejects other versions (`src/composer/sceneData.ts`) and `validateCompositionSpec` checks v1 documents.
@@ -255,7 +255,7 @@ None of these 106 exports is exercised by the packed-consumer gate today. **The 
 | `Badge` | Freeze | `tone` = neutral (default), success, warning, danger, info, plus native `<span>` attributes. |
 | `Divider` | Freeze | Native `<hr>` attributes. |
 | `Metric` | Narrow | Alias of `Stat` (also exported as `KPI`); only `label`, `value`, `helper`; no `className`, no native attributes, inline styles, no semantic structure. Freeze the three props; `Stat`/`KPI` stay experimental. |
-| `DataTable` | Fix first | No way to give the table an accessible name (no `aria-label`/caption prop and no native-attribute pass-through); sort state is shown visually but not exposed (`aria-sort` missing); non-sortable column headers render as disabled buttons, so screen readers announce every header as a dimmed button; the row checkbox label "Select row N" is fixed English. Props: `data`, `columns` (`id`, `header`, optional `accessor`, `sortable`), `empty`, `selectedIds`, `onSelectionChange`, `sort`, `onSort`. |
+| `DataTable` | **Fixed** (2026-10-12): `caption`, `aria-label`/`aria-labelledby`; `aria-sort` on sortable headers; non-sortable headers are plain text and sort buttons appear only with `onSort`; `selectionLabel` and `selectionHeader`; `DataTableProps` exported. Was: Fix first | No way to give the table an accessible name (no `aria-label`/caption prop and no native-attribute pass-through); sort state is shown visually but not exposed (`aria-sort` missing); non-sortable column headers render as disabled buttons, so screen readers announce every header as a dimmed button; the row checkbox label "Select row N" is fixed English. Props: `data`, `columns` (`id`, `header`, optional `accessor`, `sortable`), `empty`, `selectedIds`, `onSelectionChange`, `sort`, `onSort`. |
 | 100 layouts | See layout scrutiny below (was: Freeze, shared contract) | All 100 are thin wrappers over `LayoutPreset` with the same props: native `<div>` attributes plus 23 named slots (`header`, `nav`, `sidebar`, `secondarySidebar`, `rail`, `toolbar`, `main`, `inspector`, `footer`, `hero`, `canvas`, `dock`, `palette`, `stage`, `preview`, `timeline`, `actions`, `properties`, `statusBar`, `bottomNav`, `filters`, `list`, `details`); `main` takes precedence over `children`. Freezing them means freezing `LayoutPresetProps`. Visual arrangement and CSS are not part of the contract. |
 
 ### Layout scrutiny (2026-10-12, source at `8cd75b20`)
@@ -284,10 +284,13 @@ Sources: `src/layouts/*`, `src/internal/layoutPreset.tsx`, `src/layout-atoms/*` 
 
 **Recommendation:** C. The landmark behaviour (always `<main>`, unlabeled `<aside>`/`<nav>`) is the part that becomes a breaking change once frozen; per-slot labels are additive and can follow.
 
-```
-Layout option: A / B / C        Aliases: KEEP BOTH NAMES / DEPRECATE ONE OF EACH PAIR
-Decider:        Date:
-```
+**Owner decisions (recorded 2026-10-12, chat):** layout option **C**; deprecate one name of each alias pair; fix the four `DataTable` issues. Implemented in the same change:
+
+- **Supported slots per layout** are the declared grid areas in `docs/engineering/layout-audit.json` / `LAYOUT_RUNTIME_CONTRACTS` (`gridRegions`); these are the slots whose placement is promised. Other slots render but their placement is not promised; the 16 `fallback-main` layouts are containers. Visual arrangement and CSS are not part of the contract.
+- **Landmarks:** a layout nested inside another layout renders its main slot as a `<div>` instead of a second `<main>`; `mainElement="div"` opts out when the host already has a `<main>`; `slotLabels` gives any slot landmark an accessible name. `inset`, `scroll` and `sticky` are now typed. `LayoutSlot` is exported.
+- **Aliases deprecated** (JSDoc `@deprecated`, `DEPRECATED` in `PUBLIC_API.json`), keeping the name that matches the template: `BeforeAfterLayout` → `ComparisonLayout`, `PageBuilderLayout` → `BuilderLayout`, `CenteredContainerLayout` → `SingleColumnLayout`, `CollapsibleSidebarLayout` → `SidebarShellLayout`, `KnowledgeBaseLayout` → `DocumentationLayout`, `ResponsiveThreePaneLayout` → `ThreeColumnLayout`, `StepperFormLayout` → `WizardLayout`. Their canonical layout IDs remain valid (option C rules); `generateComposerJsx` emits the replacement name for them, so generated code never imports a deprecated export. Stable layouts: 93; deprecated: 7.
+- Reading order (finding 6) remains for the screen-reader review.
+
 
 ## Appendix B — freezing IDs versus freezing the format
 

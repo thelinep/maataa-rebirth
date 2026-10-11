@@ -13,7 +13,8 @@ import { Badge } from "../src/feedback/Badge";
 import { Divider } from "../src/foundation/Divider";
 import { LAYOUT_TYPES } from "../src/registries/layoutRegistry";
 import { COMPOSER_COMPONENT_BINDINGS } from "../src/composer/componentBindings.generated";
-import { DEFAULT_COMPOSER_SCENE, createComposerBlock, generateComposerJsx, type ComposerBlockKind } from "../src/composer";
+import { DEFAULT_COMPOSER_SCENE, createComposerBlock, generateComposerJsx, type ComposerBlockKind, type ComposerScene } from "../src/composer";
+import { DEPRECATED_LAYOUT_ALIASES } from "../src/composer/layoutAliases";
 
 const manifest = JSON.parse(fs.readFileSync("manifests/PUBLIC_API.json", "utf8")) as { exports: { subpath: string; name: string }[] };
 const inManifest = (importPath: string, name: string) =>
@@ -33,10 +34,27 @@ describe("generator emits only stable import paths", () => {
     const kinds = Object.keys(COMPOSER_COMPONENT_BINDINGS) as ComposerBlockKind[];
     const blocks = kinds.map((kind, i) => createComposerBlock(kind, `block-${i + 1}`));
     const source = generateComposerJsx({ ...DEFAULT_COMPOSER_SCENE, regions: undefined, blocks });
-    const allowed = new Set([...Object.values(COMPOSER_COMPONENT_BINDINGS).map((b) => b.path), ...LAYOUT_TYPES.map((l) => l.importPath)]);
+    const allowed = new Set([...Object.values(COMPOSER_COMPONENT_BINDINGS).map((b) => b.path), ...LAYOUT_TYPES.filter((l) => !(l.name in DEPRECATED_LAYOUT_ALIASES)).map((l) => l.importPath)]);
     const imported = [...source.matchAll(/from "([^"]+)"/g)].map((m) => m[1]);
     expect(imported.length).toBe(kinds.length + 1);
     for (const path of imported) expect(allowed.has(path), path).toBe(true);
+  });
+});
+
+describe("deprecated layout aliases", () => {
+  it("has exactly the seven aliases, each pointing at a non-deprecated layout with a public export", () => {
+    expect(Object.keys(DEPRECATED_LAYOUT_ALIASES).sort()).toEqual(["BeforeAfterLayout", "CenteredContainerLayout", "CollapsibleSidebarLayout", "KnowledgeBaseLayout", "PageBuilderLayout", "ResponsiveThreePaneLayout", "StepperFormLayout"]);
+    for (const [deprecated, stable] of Object.entries(DEPRECATED_LAYOUT_ALIASES)) {
+      expect(stable in DEPRECATED_LAYOUT_ALIASES).toBe(false);
+      expect(manifest.exports.some((e) => e.subpath === `./layouts/${deprecated}` && e.name === deprecated && (e as { stability?: string }).stability === "DEPRECATED")).toBe(true);
+      expect(inManifest(`@maataa/ui/layouts/${stable}`, stable)).toBe(true);
+    }
+  });
+  it.each(Object.entries(DEPRECATED_LAYOUT_ALIASES))("the generator emits %s's replacement %s", (deprecated, stable) => {
+    const layout = LAYOUT_TYPES.find((l) => l.name === deprecated)!;
+    const source = generateComposerJsx({ ...DEFAULT_COMPOSER_SCENE, regions: undefined, layoutTypeId: layout.id } as ComposerScene);
+    expect(source).toContain(`from "@maataa/ui/layouts/${stable}"`);
+    expect(source).not.toContain(deprecated);
   });
 });
 
@@ -84,6 +102,35 @@ describe("DataTable", () => {
   });
 });
 
+describe("DataTable accessibility", () => {
+  const rows = [{ id: 1, name: "Alpha" }, { id: 2, name: "Beta" }];
+  it("takes its accessible name from caption or aria-label", () => {
+    const { unmount } = render(<DataTable data={rows} columns={[{ id: "name", header: "Name" }]} caption="Projects" />);
+    expect(screen.getByRole("table", { name: "Projects" })).toBeInTheDocument();
+    unmount();
+    render(<DataTable data={rows} columns={[{ id: "name", header: "Name" }]} aria-label="Project list" />);
+    expect(screen.getByRole("table", { name: "Project list" })).toBeInTheDocument();
+  });
+  it("exposes sort state with aria-sort and renders non-sortable headers as plain text", () => {
+    render(<DataTable data={rows} columns={[{ id: "name", header: "Name", sortable: true }, { id: "id", header: "Number", sortable: true }, { id: "plain", header: "Plain" }]} sort={{ id: "name", direction: "asc" }} onSort={() => {}} />);
+    const headers = screen.getAllByRole("columnheader");
+    expect(headers[0]).toHaveAttribute("aria-sort", "ascending");
+    expect(headers[1]).toHaveAttribute("aria-sort", "none");
+    expect(headers[2]).not.toHaveAttribute("aria-sort");
+    expect(within(headers[2]).queryByRole("button")).toBeNull();
+    expect(headers[2]).toHaveTextContent("Plain");
+  });
+  it("does not render sort buttons when onSort is not given", () => {
+    render(<DataTable data={rows} columns={[{ id: "name", header: "Name", sortable: true }]} />);
+    expect(screen.queryByRole("button")).toBeNull();
+  });
+  it("uses selectionLabel and selectionHeader for the selection column", () => {
+    render(<DataTable data={rows} columns={[{ id: "name", header: "Name" }]} selectedIds={[]} onSelectionChange={() => {}} selectionLabel={(row) => `Choose ${row.name}`} selectionHeader="Choose" />);
+    expect(screen.getByRole("checkbox", { name: "Choose Alpha" })).toBeInTheDocument();
+    expect(screen.getAllByRole("columnheader")[0]).toHaveTextContent("Choose");
+  });
+});
+
 describe("Metric", () => {
   it("shows label, value and optional helper", () => {
     render(<Metric label="Users" value="42" helper="this week" />);
@@ -111,6 +158,31 @@ describe("Divider", () => {
   it("renders a separator with native attributes", () => {
     render(<Divider className="extra" />);
     expect(screen.getByRole("separator").className).toContain("extra");
+  });
+});
+
+describe("layout landmarks", () => {
+  const Single = layoutModules["../src/layouts/SingleColumnLayout.tsx"].SingleColumnLayout;
+  const Sidebar = layoutModules["../src/layouts/SidebarShellLayout.tsx"].SidebarShellLayout;
+  it("a top-level layout renders one main landmark", () => {
+    render(<Single>Body</Single>);
+    expect(screen.getAllByRole("main")).toHaveLength(1);
+  });
+  it("a nested layout does not add a second main landmark", () => {
+    render(<Single main={<Sidebar data-testid="inner">Inner</Sidebar>} />);
+    expect(screen.getAllByRole("main")).toHaveLength(1);
+    expect(screen.getByTestId("inner")).toHaveTextContent("Inner");
+  });
+  it("mainElement=div opts out when the host already has a main", () => {
+    render(<Single mainElement="div">Body</Single>);
+    expect(screen.queryByRole("main")).toBeNull();
+    expect(screen.getByText("Body")).toBeInTheDocument();
+  });
+  it("slotLabels name slot landmarks", () => {
+    render(<Sidebar sidebar={<span>s</span>} nav={<span>n</span>} slotLabels={{ sidebar: "Filters", nav: "Sections", main: "Results" }}>Body</Sidebar>);
+    expect(screen.getByRole("complementary", { name: "Filters" })).toBeInTheDocument();
+    expect(screen.getByRole("navigation", { name: "Sections" })).toBeInTheDocument();
+    expect(screen.getByRole("main", { name: "Results" })).toBeInTheDocument();
   });
 });
 

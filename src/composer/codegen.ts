@@ -4,6 +4,7 @@ import { LAYOUT_TYPES } from "../registries/layoutRegistry";
 import type { ComposerBlock, ComposerScene } from "./types";
 
 import { COMPOSER_COMPONENT_BINDINGS } from "./componentBindings.generated";
+import { DEPRECATED_LAYOUT_ALIASES } from "./layoutAliases";
 const imports = COMPOSER_COMPONENT_BINDINGS;
 
 /** Serialize data for a JavaScript expression, including script-embedding boundaries. */
@@ -63,7 +64,11 @@ function blockJsx(block: ComposerBlock) {
 function selectedLayout(scene:ComposerScene) {
   const layout=LAYOUT_TYPES.find(item=>item.id===scene.layoutTypeId);
   if(!layout)throw new Error(`Unknown canonical layout: ${scene.layoutTypeId}`);
-  return layout;
+  const stableName=DEPRECATED_LAYOUT_ALIASES[layout.name];
+  if(!stableName)return layout;
+  const stable=LAYOUT_TYPES.find(item=>item.name===stableName);
+  if(!stable)throw new Error(`Missing stable layout ${stableName} for ${layout.name}`);
+  return stable;
 }
 export function generateComposerImports(scene: ComposerScene) {
   const result=validateCompositionSpec(toCompositionSpec(scene));

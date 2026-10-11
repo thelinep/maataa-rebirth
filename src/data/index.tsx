@@ -7,7 +7,45 @@ export const Table=(p:React.TableHTMLAttributes<HTMLTableElement>)=><div classNa
 export function ColumnHeader({label,direction,onSort}:{label:React.ReactNode;direction?:"asc"|"desc";onSort?:()=>void}){return <button type="button" onClick={onSort} disabled={!onSort} style={{border:0,background:"transparent",font:"inherit",fontWeight:"inherit",color:"inherit"}}>{label} {direction&&<SortIndicator direction={direction}/>}</button>}
 export function SortIndicator({direction}:{direction:"asc"|"desc"}){return <span aria-label={direction==="asc"?"sorted ascending":"sorted descending"}>{direction==="asc"?"↑":"↓"}</span>}
 export type DataColumn<T>={id:string;header:React.ReactNode;accessor?:(row:T)=>React.ReactNode;sortable?:boolean};
-export function DataTable<T extends {id?:string|number}>({data,columns,empty="No data",selectedIds=[],onSelectionChange,sort,onSort}:{data:T[];columns:DataColumn<T>[];empty?:React.ReactNode;selectedIds?:Array<string|number>;onSelectionChange?:(ids:Array<string|number>)=>void;sort?:{id:string;direction:"asc"|"desc"};onSort?:(id:string)=>void}){if(data.length===0)return <EmptyState title={empty}/>;return <Table><thead><tr>{onSelectionChange&&<th><span className="m-sr-only">Select</span></th>}{columns.map(c=><th key={c.id}><ColumnHeader label={c.header} direction={sort?.id===c.id?sort.direction:undefined} onSort={c.sortable?()=>onSort?.(c.id):undefined}/></th>)}</tr></thead><tbody>{data.map((row,ri)=>{const id=row.id??ri;return <tr key={String(id)}>{onSelectionChange&&<td><input type="checkbox" aria-label={`Select row ${ri+1}`} checked={selectedIds.includes(id)} onChange={()=>onSelectionChange(selectedIds.includes(id)?selectedIds.filter(x=>x!==id):[...selectedIds,id])}/></td>}{columns.map(c=><td key={c.id}>{c.accessor?c.accessor(row):(row as Record<string,unknown>)[c.id] as React.ReactNode}</td>)}</tr>})}</tbody></Table>}
+export type DataTableProps<T>={
+  data:T[];
+  columns:DataColumn<T>[];
+  empty?:React.ReactNode;
+  selectedIds?:Array<string|number>;
+  onSelectionChange?:(ids:Array<string|number>)=>void;
+  sort?:{id:string;direction:"asc"|"desc"};
+  onSort?:(id:string)=>void;
+  /** Visible table caption; also gives the table its accessible name. */
+  caption?:React.ReactNode;
+  /** Accessible name when there is no visible caption. */
+  "aria-label"?:string;
+  "aria-labelledby"?:string;
+  /** Accessible name of each row checkbox; default "Select row <n>". */
+  selectionLabel?:(row:T,index:number)=>string;
+  /** Screen-reader label of the selection column header; default "Select". */
+  selectionHeader?:React.ReactNode;
+};
+// Sortable columns expose their state with aria-sort; non-sortable headers are plain text.
+export function DataTable<T extends {id?:string|number}>({data,columns,empty="No data",selectedIds=[],onSelectionChange,sort,onSort,caption,"aria-label":ariaLabel,"aria-labelledby":ariaLabelledBy,selectionLabel=(_row,index)=>`Select row ${index+1}`,selectionHeader="Select"}:DataTableProps<T>){
+  if(data.length===0)return <EmptyState title={empty}/>;
+  return <Table aria-label={ariaLabel} aria-labelledby={ariaLabelledBy}>
+    {caption!==undefined&&<caption>{caption}</caption>}
+    <thead><tr>
+      {onSelectionChange&&<th scope="col"><span className="m-sr-only">{selectionHeader}</span></th>}
+      {columns.map(c=>{
+        const sortable=!!(c.sortable&&onSort);
+        const direction=sort?.id===c.id?sort.direction:undefined;
+        return <th key={c.id} scope="col" aria-sort={sortable?(direction==="asc"?"ascending":direction==="desc"?"descending":"none"):undefined}>
+          {sortable?<ColumnHeader label={c.header} direction={direction} onSort={()=>onSort?.(c.id)}/>:c.header}
+        </th>;
+      })}
+    </tr></thead>
+    <tbody>{data.map((row,ri)=>{const id=row.id??ri;return <tr key={String(id)}>
+      {onSelectionChange&&<td><input type="checkbox" aria-label={selectionLabel(row,ri)} checked={selectedIds.includes(id)} onChange={()=>onSelectionChange(selectedIds.includes(id)?selectedIds.filter(x=>x!==id):[...selectedIds,id])}/></td>}
+      {columns.map(c=><td key={c.id}>{c.accessor?c.accessor(row):(row as Record<string,unknown>)[c.id] as React.ReactNode}</td>)}
+    </tr>})}</tbody>
+  </Table>;
+}
 export function TableToolbar({search,onSearchChange,actions,placeholder="Search"}:{search?:string;onSearchChange?:(v:string)=>void;actions?:React.ReactNode;placeholder?:string}){return <div style={{display:"flex",gap:8,justifyContent:"space-between",alignItems:"center",marginBlockEnd:8}}>{onSearchChange&&<Input type="search" aria-label={placeholder} placeholder={placeholder} value={search??""} onChange={e=>onSearchChange(e.target.value)} style={{maxWidth:320}}/>}<div style={{display:"flex",gap:8}}>{actions}</div></div>}
 export const FilterBar=TableToolbar;
 export function List({items,renderItem,label="List"}:{items:unknown[];renderItem:(item:any,index:number)=>React.ReactNode;label?:string}){return <ul aria-label={label} style={{margin:0,paddingInlineStart:20}}>{items.map((i,n)=><li key={n}>{renderItem(i,n)}</li>)}</ul>}

@@ -2856,6 +2856,12 @@
       "stability": "EXPERIMENTAL"
     },
     {
+      "subpath": "./composer/layoutAliases",
+      "source": "src/composer/layoutAliases.ts",
+      "kind": "module",
+      "stability": "EXPERIMENTAL"
+    },
+    {
       "subpath": "./composer/planner",
       "source": "src/composer/planner.ts",
       "kind": "module",
@@ -14257,7 +14263,7 @@
       "name": "BeforeAfterLayout",
       "subpath": ".",
       "kind": "runtime",
-      "stability": "EXPERIMENTAL",
+      "stability": "DEPRECATED",
       "sources": [
         "src/layouts/BeforeAfterLayout.tsx"
       ]
@@ -14761,7 +14767,7 @@
       "name": "CenteredContainerLayout",
       "subpath": ".",
       "kind": "runtime",
-      "stability": "EXPERIMENTAL",
+      "stability": "DEPRECATED",
       "sources": [
         "src/layouts/CenteredContainerLayout.tsx"
       ]
@@ -14986,7 +14992,7 @@
       "name": "CollapsibleSidebarLayout",
       "subpath": ".",
       "kind": "runtime",
-      "stability": "EXPERIMENTAL",
+      "stability": "DEPRECATED",
       "sources": [
         "src/layouts/CollapsibleSidebarLayout.tsx"
       ]
@@ -15913,6 +15919,15 @@
       "name": "DataTable",
       "subpath": ".",
       "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/data/index.tsx"
+      ]
+    },
+    {
+      "name": "DataTableProps",
+      "subpath": ".",
+      "kind": "type",
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/data/index.tsx"
@@ -18766,7 +18781,7 @@
       "name": "KnowledgeBaseLayout",
       "subpath": ".",
       "kind": "runtime",
-      "stability": "EXPERIMENTAL",
+      "stability": "DEPRECATED",
       "sources": [
         "src/layouts/KnowledgeBaseLayout.tsx"
       ]
@@ -19192,6 +19207,15 @@
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/layout-atoms/LayoutSidebar.tsx"
+      ]
+    },
+    {
+      "name": "LayoutSlot",
+      "subpath": ".",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/internal/layoutPreset.tsx"
       ]
     },
     {
@@ -20440,7 +20464,7 @@
       "name": "PageBuilderLayout",
       "subpath": ".",
       "kind": "runtime",
-      "stability": "EXPERIMENTAL",
+      "stability": "DEPRECATED",
       "sources": [
         "src/layouts/PageBuilderLayout.tsx"
       ]
@@ -21952,7 +21976,7 @@
       "name": "ResponsiveThreePaneLayout",
       "subpath": ".",
       "kind": "runtime",
-      "stability": "EXPERIMENTAL",
+      "stability": "DEPRECATED",
       "sources": [
         "src/layouts/ResponsiveThreePaneLayout.tsx"
       ]
@@ -22915,7 +22939,7 @@
       "name": "StepperFormLayout",
       "subpath": ".",
       "kind": "runtime",
-      "stability": "EXPERIMENTAL",
+      "stability": "DEPRECATED",
       "sources": [
         "src/layouts/StepperFormLayout.tsx"
       ]
@@ -42874,6 +42898,15 @@
       ]
     },
     {
+      "name": "DEPRECATED_LAYOUT_ALIASES",
+      "subpath": "./composer/layoutAliases",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/composer/layoutAliases.ts"
+      ]
+    },
+    {
       "name": "CanonicalCompositionPlanner",
       "subpath": "./composer/planner",
       "kind": "type",
@@ -43171,6 +43204,15 @@
       ]
     },
     {
+      "name": "DataTableProps",
+      "subpath": "./data",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/data/index.tsx"
+      ]
+    },
+    {
       "name": "DescriptionList",
       "subpath": "./data",
       "kind": "runtime",
@@ -43390,6 +43432,15 @@
       "name": "DataTable",
       "subpath": "./data/index",
       "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/data/index.tsx"
+      ]
+    },
+    {
+      "name": "DataTableProps",
+      "subpath": "./data/index",
+      "kind": "type",
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/data/index.tsx"
@@ -70822,7 +70873,7 @@
       "name": "BeforeAfterLayout",
       "subpath": "./layout-groups",
       "kind": "runtime",
-      "stability": "EXPERIMENTAL",
+      "stability": "DEPRECATED",
       "sources": [
         "src/layouts/BeforeAfterLayout.tsx"
       ]
@@ -70912,7 +70963,7 @@
       "name": "CenteredContainerLayout",
       "subpath": "./layout-groups",
       "kind": "runtime",
-      "stability": "EXPERIMENTAL",
+      "stability": "DEPRECATED",
       "sources": [
         "src/layouts/CenteredContainerLayout.tsx"
       ]
@@ -70948,7 +70999,7 @@
       "name": "CollapsibleSidebarLayout",
       "subpath": "./layout-groups",
       "kind": "runtime",
-      "stability": "EXPERIMENTAL",
+      "stability": "DEPRECATED",
       "sources": [
         "src/layouts/CollapsibleSidebarLayout.tsx"
       ]
@@ -71227,7 +71278,7 @@
       "name": "KnowledgeBaseLayout",
       "subpath": "./layout-groups",
       "kind": "runtime",
-      "stability": "EXPERIMENTAL",
+      "stability": "DEPRECATED",
       "sources": [
         "src/layouts/KnowledgeBaseLayout.tsx"
       ]
@@ -71371,7 +71422,7 @@
       "name": "PageBuilderLayout",
       "subpath": "./layout-groups",
       "kind": "runtime",
-      "stability": "EXPERIMENTAL",
+      "stability": "DEPRECATED",
       "sources": [
         "src/layouts/PageBuilderLayout.tsx"
       ]
@@ -71434,7 +71485,7 @@
       "name": "ResponsiveThreePaneLayout",
       "subpath": "./layout-groups",
       "kind": "runtime",
-      "stability": "EXPERIMENTAL",
+      "stability": "DEPRECATED",
       "sources": [
         "src/layouts/ResponsiveThreePaneLayout.tsx"
       ]
@@ -71542,7 +71593,7 @@
       "name": "StepperFormLayout",
       "subpath": "./layout-groups",
       "kind": "runtime",
-      "stability": "EXPERIMENTAL",
+      "stability": "DEPRECATED",
       "sources": [
         "src/layouts/StepperFormLayout.tsx"
       ]
@@ -71695,7 +71746,7 @@
       "name": "CollapsibleSidebarLayout",
       "subpath": "./layout-groups/app_shells",
       "kind": "runtime",
-      "stability": "EXPERIMENTAL",
+      "stability": "DEPRECATED",
       "sources": [
         "src/layouts/CollapsibleSidebarLayout.tsx"
       ]
@@ -71749,7 +71800,7 @@
       "name": "CenteredContainerLayout",
       "subpath": "./layout-groups/basic_content",
       "kind": "runtime",
-      "stability": "EXPERIMENTAL",
+      "stability": "DEPRECATED",
       "sources": [
         "src/layouts/CenteredContainerLayout.tsx"
       ]
@@ -71848,7 +71899,7 @@
       "name": "ResponsiveThreePaneLayout",
       "subpath": "./layout-groups/column_systems",
       "kind": "runtime",
-      "stability": "EXPERIMENTAL",
+      "stability": "DEPRECATED",
       "sources": [
         "src/layouts/ResponsiveThreePaneLayout.tsx"
       ]
@@ -71974,7 +72025,7 @@
       "name": "BeforeAfterLayout",
       "subpath": "./layout-groups/data_analytics",
       "kind": "runtime",
-      "stability": "EXPERIMENTAL",
+      "stability": "DEPRECATED",
       "sources": [
         "src/layouts/BeforeAfterLayout.tsx"
       ]
@@ -72028,7 +72079,7 @@
       "name": "KnowledgeBaseLayout",
       "subpath": "./layout-groups/documentation",
       "kind": "runtime",
-      "stability": "EXPERIMENTAL",
+      "stability": "DEPRECATED",
       "sources": [
         "src/layouts/KnowledgeBaseLayout.tsx"
       ]
@@ -72073,7 +72124,7 @@
       "name": "StepperFormLayout",
       "subpath": "./layout-groups/forms_process",
       "kind": "runtime",
-      "stability": "EXPERIMENTAL",
+      "stability": "DEPRECATED",
       "sources": [
         "src/layouts/StepperFormLayout.tsx"
       ]
@@ -72172,7 +72223,7 @@
       "name": "BeforeAfterLayout",
       "subpath": "./layout-groups/index",
       "kind": "runtime",
-      "stability": "EXPERIMENTAL",
+      "stability": "DEPRECATED",
       "sources": [
         "src/layouts/BeforeAfterLayout.tsx"
       ]
@@ -72262,7 +72313,7 @@
       "name": "CenteredContainerLayout",
       "subpath": "./layout-groups/index",
       "kind": "runtime",
-      "stability": "EXPERIMENTAL",
+      "stability": "DEPRECATED",
       "sources": [
         "src/layouts/CenteredContainerLayout.tsx"
       ]
@@ -72298,7 +72349,7 @@
       "name": "CollapsibleSidebarLayout",
       "subpath": "./layout-groups/index",
       "kind": "runtime",
-      "stability": "EXPERIMENTAL",
+      "stability": "DEPRECATED",
       "sources": [
         "src/layouts/CollapsibleSidebarLayout.tsx"
       ]
@@ -72577,7 +72628,7 @@
       "name": "KnowledgeBaseLayout",
       "subpath": "./layout-groups/index",
       "kind": "runtime",
-      "stability": "EXPERIMENTAL",
+      "stability": "DEPRECATED",
       "sources": [
         "src/layouts/KnowledgeBaseLayout.tsx"
       ]
@@ -72721,7 +72772,7 @@
       "name": "PageBuilderLayout",
       "subpath": "./layout-groups/index",
       "kind": "runtime",
-      "stability": "EXPERIMENTAL",
+      "stability": "DEPRECATED",
       "sources": [
         "src/layouts/PageBuilderLayout.tsx"
       ]
@@ -72784,7 +72835,7 @@
       "name": "ResponsiveThreePaneLayout",
       "subpath": "./layout-groups/index",
       "kind": "runtime",
-      "stability": "EXPERIMENTAL",
+      "stability": "DEPRECATED",
       "sources": [
         "src/layouts/ResponsiveThreePaneLayout.tsx"
       ]
@@ -72892,7 +72943,7 @@
       "name": "StepperFormLayout",
       "subpath": "./layout-groups/index",
       "kind": "runtime",
-      "stability": "EXPERIMENTAL",
+      "stability": "DEPRECATED",
       "sources": [
         "src/layouts/StepperFormLayout.tsx"
       ]
@@ -73450,7 +73501,7 @@
       "name": "PageBuilderLayout",
       "subpath": "./layout-groups/workspace",
       "kind": "runtime",
-      "stability": "EXPERIMENTAL",
+      "stability": "DEPRECATED",
       "sources": [
         "src/layouts/PageBuilderLayout.tsx"
       ]
@@ -73522,7 +73573,7 @@
       "name": "BeforeAfterLayout",
       "subpath": "./layouts",
       "kind": "runtime",
-      "stability": "EXPERIMENTAL",
+      "stability": "DEPRECATED",
       "sources": [
         "src/layouts/BeforeAfterLayout.tsx"
       ]
@@ -73612,7 +73663,7 @@
       "name": "CenteredContainerLayout",
       "subpath": "./layouts",
       "kind": "runtime",
-      "stability": "EXPERIMENTAL",
+      "stability": "DEPRECATED",
       "sources": [
         "src/layouts/CenteredContainerLayout.tsx"
       ]
@@ -73648,7 +73699,7 @@
       "name": "CollapsibleSidebarLayout",
       "subpath": "./layouts",
       "kind": "runtime",
-      "stability": "EXPERIMENTAL",
+      "stability": "DEPRECATED",
       "sources": [
         "src/layouts/CollapsibleSidebarLayout.tsx"
       ]
@@ -73927,7 +73978,7 @@
       "name": "KnowledgeBaseLayout",
       "subpath": "./layouts",
       "kind": "runtime",
-      "stability": "EXPERIMENTAL",
+      "stability": "DEPRECATED",
       "sources": [
         "src/layouts/KnowledgeBaseLayout.tsx"
       ]
@@ -73952,6 +74003,15 @@
     },
     {
       "name": "LayoutPresetProps",
+      "subpath": "./layouts",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/internal/layoutPreset.tsx"
+      ]
+    },
+    {
+      "name": "LayoutSlot",
       "subpath": "./layouts",
       "kind": "type",
       "stability": "EXPERIMENTAL",
@@ -74089,7 +74149,7 @@
       "name": "PageBuilderLayout",
       "subpath": "./layouts",
       "kind": "runtime",
-      "stability": "EXPERIMENTAL",
+      "stability": "DEPRECATED",
       "sources": [
         "src/layouts/PageBuilderLayout.tsx"
       ]
@@ -74152,7 +74212,7 @@
       "name": "ResponsiveThreePaneLayout",
       "subpath": "./layouts",
       "kind": "runtime",
-      "stability": "EXPERIMENTAL",
+      "stability": "DEPRECATED",
       "sources": [
         "src/layouts/ResponsiveThreePaneLayout.tsx"
       ]
@@ -74260,7 +74320,7 @@
       "name": "StepperFormLayout",
       "subpath": "./layouts",
       "kind": "runtime",
-      "stability": "EXPERIMENTAL",
+      "stability": "DEPRECATED",
       "sources": [
         "src/layouts/StepperFormLayout.tsx"
       ]
@@ -74440,7 +74500,7 @@
       "name": "BeforeAfterLayout",
       "subpath": "./layouts/BeforeAfterLayout",
       "kind": "runtime",
-      "stability": "EXPERIMENTAL",
+      "stability": "DEPRECATED",
       "sources": [
         "src/layouts/BeforeAfterLayout.tsx"
       ]
@@ -74530,7 +74590,7 @@
       "name": "CenteredContainerLayout",
       "subpath": "./layouts/CenteredContainerLayout",
       "kind": "runtime",
-      "stability": "EXPERIMENTAL",
+      "stability": "DEPRECATED",
       "sources": [
         "src/layouts/CenteredContainerLayout.tsx"
       ]
@@ -74566,7 +74626,7 @@
       "name": "CollapsibleSidebarLayout",
       "subpath": "./layouts/CollapsibleSidebarLayout",
       "kind": "runtime",
-      "stability": "EXPERIMENTAL",
+      "stability": "DEPRECATED",
       "sources": [
         "src/layouts/CollapsibleSidebarLayout.tsx"
       ]
@@ -74836,7 +74896,7 @@
       "name": "BeforeAfterLayout",
       "subpath": "./layouts/index",
       "kind": "runtime",
-      "stability": "EXPERIMENTAL",
+      "stability": "DEPRECATED",
       "sources": [
         "src/layouts/BeforeAfterLayout.tsx"
       ]
@@ -74926,7 +74986,7 @@
       "name": "CenteredContainerLayout",
       "subpath": "./layouts/index",
       "kind": "runtime",
-      "stability": "EXPERIMENTAL",
+      "stability": "DEPRECATED",
       "sources": [
         "src/layouts/CenteredContainerLayout.tsx"
       ]
@@ -74962,7 +75022,7 @@
       "name": "CollapsibleSidebarLayout",
       "subpath": "./layouts/index",
       "kind": "runtime",
-      "stability": "EXPERIMENTAL",
+      "stability": "DEPRECATED",
       "sources": [
         "src/layouts/CollapsibleSidebarLayout.tsx"
       ]
@@ -75241,7 +75301,7 @@
       "name": "KnowledgeBaseLayout",
       "subpath": "./layouts/index",
       "kind": "runtime",
-      "stability": "EXPERIMENTAL",
+      "stability": "DEPRECATED",
       "sources": [
         "src/layouts/KnowledgeBaseLayout.tsx"
       ]
@@ -75266,6 +75326,15 @@
     },
     {
       "name": "LayoutPresetProps",
+      "subpath": "./layouts/index",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/internal/layoutPreset.tsx"
+      ]
+    },
+    {
+      "name": "LayoutSlot",
       "subpath": "./layouts/index",
       "kind": "type",
       "stability": "EXPERIMENTAL",
@@ -75403,7 +75472,7 @@
       "name": "PageBuilderLayout",
       "subpath": "./layouts/index",
       "kind": "runtime",
-      "stability": "EXPERIMENTAL",
+      "stability": "DEPRECATED",
       "sources": [
         "src/layouts/PageBuilderLayout.tsx"
       ]
@@ -75466,7 +75535,7 @@
       "name": "ResponsiveThreePaneLayout",
       "subpath": "./layouts/index",
       "kind": "runtime",
-      "stability": "EXPERIMENTAL",
+      "stability": "DEPRECATED",
       "sources": [
         "src/layouts/ResponsiveThreePaneLayout.tsx"
       ]
@@ -75574,7 +75643,7 @@
       "name": "StepperFormLayout",
       "subpath": "./layouts/index",
       "kind": "runtime",
-      "stability": "EXPERIMENTAL",
+      "stability": "DEPRECATED",
       "sources": [
         "src/layouts/StepperFormLayout.tsx"
       ]
@@ -75763,7 +75832,7 @@
       "name": "KnowledgeBaseLayout",
       "subpath": "./layouts/KnowledgeBaseLayout",
       "kind": "runtime",
-      "stability": "EXPERIMENTAL",
+      "stability": "DEPRECATED",
       "sources": [
         "src/layouts/KnowledgeBaseLayout.tsx"
       ]
@@ -75788,6 +75857,15 @@
     },
     {
       "name": "LayoutPresetProps",
+      "subpath": "./layouts/LayoutPreset",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/internal/layoutPreset.tsx"
+      ]
+    },
+    {
+      "name": "LayoutSlot",
       "subpath": "./layouts/LayoutPreset",
       "kind": "type",
       "stability": "EXPERIMENTAL",
@@ -75925,7 +76003,7 @@
       "name": "PageBuilderLayout",
       "subpath": "./layouts/PageBuilderLayout",
       "kind": "runtime",
-      "stability": "EXPERIMENTAL",
+      "stability": "DEPRECATED",
       "sources": [
         "src/layouts/PageBuilderLayout.tsx"
       ]
@@ -75988,7 +76066,7 @@
       "name": "ResponsiveThreePaneLayout",
       "subpath": "./layouts/ResponsiveThreePaneLayout",
       "kind": "runtime",
-      "stability": "EXPERIMENTAL",
+      "stability": "DEPRECATED",
       "sources": [
         "src/layouts/ResponsiveThreePaneLayout.tsx"
       ]
@@ -76096,7 +76174,7 @@
       "name": "StepperFormLayout",
       "subpath": "./layouts/StepperFormLayout",
       "kind": "runtime",
-      "stability": "EXPERIMENTAL",
+      "stability": "DEPRECATED",
       "sources": [
         "src/layouts/StepperFormLayout.tsx"
       ]

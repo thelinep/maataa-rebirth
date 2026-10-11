@@ -28,7 +28,7 @@
     },
     {
       "path": "src/composer/codegen.ts",
-      "sha256": "3bd2e8addffd18c753b5371856b1a706f97cf41c762da5ff8b3b9152a7c68ac1"
+      "sha256": "4607d5460744c2fd6202f00bf3ee0610f72365ea9524af1692e933bcd502a163"
     },
     {
       "path": "src/composer/compatibility.ts",
@@ -53,6 +53,10 @@
     {
       "path": "src/composer/index.ts",
       "sha256": "4239376ac685b04e98fbe68008a437b6ce5974abfb72ae0f56c3ca94f9f1c565"
+    },
+    {
+      "path": "src/composer/layoutAliases.ts",
+      "sha256": "1bb4e803488b412bd02de5900f3be9e5ed9ceba691892b0cecddfd25fa9ccafb"
     },
     {
       "path": "src/composer/planner.ts",
