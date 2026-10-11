@@ -12,7 +12,7 @@ Scope reminder: these gates cover the `@maataa/ui` package only. `apps/hemant-ob
 | 2 | `licenseApproval` | Legal / release owner | Dependency licence summary | NOT_RUN |
 | 3 | `screenReaderReview` | Accessibility reviewer | Test matrix and script | NOT_RUN |
 | 4 | `realDeviceAcceptance` | Device reviewer | Device matrix | NOT_RUN |
-| 5 | `runtimePerformanceTargets` | Release owner | Measured values and proposed targets | NOT_RUN |
+| 5 | `runtimePerformanceTargets` | Release owner | Measured values; limits classified | NOT_RUN — targets deferred until reference devices are chosen (2026-10-11) |
 | 6 | `enterprisePilots` | TLPS owner + second application owner | Existing charters | NOT_RUN |
 | 7 | `apiSchemaFreeze` | Release owner | Pointers to frozen inputs | NOT_RUN |
 | 8 | `privateSecurityReporting` | Release/security owner (Hemant Kumar Dixit) | Channel options | BLOCKED |
@@ -96,8 +96,15 @@ The current numbers are machine-checked **regression limits**, not approved targ
 
 Not yet measured: time-to-interactive and memory on representative hardware (`performance.json` marks them `NOT_RUN`). Proposal for decision: adopt the current limits as Beta targets on named reference hardware, and add a low-end Android measurement before RC.
 
+**Owner decision (recorded 2026-10-11).** The current limits are classified as **technical regression/warning limits** only: passing them shows a change has not made the package slower than before, not that it is fast on every phone and computer. They are not runtime performance targets. Targets will be set only after reference devices are chosen — including a low-capability Android phone — and measured on those devices. The proposal above to adopt the current limits as Beta targets is therefore not accepted.
+
 ```
-Decision: ADOPT / AMEND    Reference hardware and browsers:        Decider:        Date:
+Decision: DEFER targets; keep current limits as regression/warning limits
+Decider: Hemant Kumar Dixit, release owner
+Date: 2026-10-11
+Record: stated in the working chat session; chat statement, not a signed record
+Next: choose reference devices (at least one low-capability Android phone), measure on them, then record targets here
+Gate status: runtimePerformanceTargets remains NOT_RUN
 ```
 
 ## 6. Enterprise pilots
