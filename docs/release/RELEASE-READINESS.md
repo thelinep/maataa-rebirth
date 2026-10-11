@@ -8,13 +8,15 @@ Outstanding acceptance includes real TLPS and structurally different application
 
 **Certification scope boundary.** `pnpm certify:enterprise` qualifies the `@maataa/ui` package only: typecheck covers `src` (`tsconfig.json`), unit tests cover root `tests/**/*.test.ts(x)` (`vitest.config.ts`), and browser tests cover `tests/e2e` (`playwright.config.ts`). `apps/hemant-observatory` and the Hemant clock display in MAATAA Desktop (`apps/maataa-desktop-tauri`) are present in the repository and candidate history but are **outside the `@maataa/ui` release claims and certification scope**. An enterprise PASS or BLOCKED pack for a candidate does not certify, validate, or release either Hemant surface. Uncommitted Hemant planetarium work is preserved on branch `hemant/planetarium-wip` and is not part of the candidate.
 
-**Repository remote (verified 2026-10-11 by `git fetch`).** `origin` is `https://github.com/thelinep/maataa-rebirth.git`. It exposes one branch, `feat/alpha8.7-composition-kernel` at `d7f3e7a2`; the local branch was 0 behind and 5 ahead before this documentation commit. The remote has **no tags**: `maataa-ui-alpha8.5.3` and `maataa-ui-alpha8.6` exist locally only. Remote tag protection and controlled publishing remain **unverified**; Git access alone cannot read repository-host protection settings.
+**Repository remote (verified 2026-10-11 by `git fetch`).** `origin` is `https://github.com/thelinep/maataa-rebirth.git`. At that fetch it exposed one branch, `feat/alpha8.7-composition-kernel` at `d7f3e7a2`; the branch was later pushed to `3e6120c2` (2026-10-11). The remote has **no tags**: `maataa-ui-alpha8.5.3` and `maataa-ui-alpha8.6` exist locally only. Remote tag protection and controlled publishing remain **unverified**; Git access alone cannot read repository-host protection settings.
 
 NEVO Events remains an **unselected** structurally different pilot candidate. It is not a recorded release commitment until an application owner is named and approves a charter.
 
 The package version stays `1.0.0-alpha.8.4` (deliberate release debt per [governance](../governance.md)); existing tags are immutable and are not moved.
 
 The named MAATAA release approval/private-security-reporting owner is Hemant Kumar Dixit. This designation does not constitute approval or configure the private reporting route. Application pilot owners and acceptance remain separate.
+
+**Release scope (owner-accepted 2026-10-11):** this release counts only the `@maataa/ui` package. Hemant and all other applications in the repository are not part of it and are not described as released or certified. See gate 1 of the [acceptance packet](ACCEPTANCE-PACKET.md).
 
 For each outstanding manual/external gate, its decider and the record to fill, use the [acceptance packet](ACCEPTANCE-PACKET.md).
 

@@ -8,7 +8,7 @@ Scope reminder: these gates cover the `@maataa/ui` package only. `apps/hemant-ob
 
 | # | Gate (release.json key) | Decider | Prepared here | Status |
 | --- | --- | --- | --- | --- |
-| 1 | Product scope (supported families, environments, compatibility) | Product-scope owner (unnamed) | Proposed scope below | NOT_RUN |
+| 1 | Product scope (supported families, environments, compatibility) | Release owner (Hemant Kumar Dixit) | Scope decision recorded below | **ACCEPTED** (2026-10-11, chat); support matrix still open |
 | 2 | `licenseApproval` | Legal / release owner | Dependency licence summary | NOT_RUN |
 | 3 | `screenReaderReview` | Accessibility reviewer | Test matrix and script | NOT_RUN |
 | 4 | `realDeviceAcceptance` | Device reviewer | Device matrix | NOT_RUN |
@@ -24,9 +24,15 @@ Scope reminder: these gates cover the `@maataa/ui` package only. `apps/hemant-ob
 
 Proposed for decision (not approved): the private `@maataa/ui` package; React `>=18.2.0 <20`, React-DOM same, react-redux `>=9.1.0 <10`; browsers as exercised by the browser gate (Chromium, Firefox, WebKit; desktop and mobile viewports); ESM consumers qualified by the packed Vite/React and Next fixtures. Excluded: Hemant surfaces, Electron/Tauri shells, Support Center, Brahmini provider behaviour, MAATAA Workstation (validation BLOCKED).
 
+**Release-scope decision (recorded 2026-10-11).** Only the `@maataa/ui` package counts toward this release. Hemant Observatory, the MAATAA Desktop Hemant clock and every other application in this repository (MAATAA Desktop Tauri/Electron shells, Support Center, Brahmini, TLPS and TLP Film demo apps, MAATAA Workstation, ALLB, the local Auth/API prototype, and the demo/example surfaces) are not part of this release and must not be described as released or certified by it. TLPS remains the selected *pilot consumer* of the package (gate 6); that does not bring the TLPS application into release scope.
+
 ```
-Decision: ACCEPT / AMEND / REJECT    Decider:            Date:
-Amendments:
+Decision: ACCEPT
+Scope: @maataa/ui package only; all applications excluded from release and certification claims
+Decider: Hemant Kumar Dixit, release owner
+Date: 2026-10-11
+Record: stated and confirmed as owner acceptance in the working chat session; this is a chat statement, not a signed record
+Not decided by this record: the proposed React/browser/consumer support matrix above; it needs its own owner decision
 ```
 
 ## 2. Licence approval
