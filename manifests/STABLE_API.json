@@ -1,0 +1,652 @@
+{
+  "schemaVersion": 1,
+  "decision": {
+    "gate": "apiSchemaFreeze (gate 7)",
+    "decider": "Hemant Kumar Dixit, release owner",
+    "date": "2026-10-12",
+    "record": "Accepted in the working chat session (chat statement, not a signed record); see docs/release/ACCEPTANCE-PACKET.md gate 7.",
+    "notFrozen": [
+      "CompositionRuntime `validation` prop (EXPERIMENTAL)",
+      "CanonicalCompositionRuntime `context` prop (EXPERIMENTAL)",
+      "generated code text and error message wording",
+      "editor UI and behaviour of VisualComposer",
+      "visual arrangement and CSS of layouts; placement of slots outside a layout's declared grid areas"
+    ],
+    "also": "Saved-composition format CompositionSpecV1 (schemaVersion \"1\") and the stylesheet entry ./styles.css; canonical IDs follow manifests/CANONICAL_IDS.json rules."
+  },
+  "changePolicy": "A STABLE export may be removed or changed only with a recorded owner decision. Update the entry here, run `node scripts/api-stability.mjs` to refresh signatures, and reference the decision in the commit.",
+  "exports": [
+    {
+      "subpath": "./actions/Button",
+      "name": "Button"
+    },
+    {
+      "subpath": "./actions",
+      "name": "ButtonProps"
+    },
+    {
+      "subpath": "./actions",
+      "name": "ButtonVariant"
+    },
+    {
+      "subpath": "./forms/Input",
+      "name": "Input"
+    },
+    {
+      "subpath": "./surfaces/Card",
+      "name": "Card"
+    },
+    {
+      "subpath": "./surfaces",
+      "name": "CardProps"
+    },
+    {
+      "subpath": "./foundation",
+      "name": "UiProvider"
+    },
+    {
+      "subpath": "./foundation",
+      "name": "UiProviderProps"
+    },
+    {
+      "subpath": "./themes",
+      "name": "ThemeToggle"
+    },
+    {
+      "subpath": "./themes",
+      "name": "MaataaTheme"
+    },
+    {
+      "subpath": "./composer",
+      "name": "VisualComposer"
+    },
+    {
+      "subpath": "./composer",
+      "name": "VisualComposerProps"
+    },
+    {
+      "subpath": "./composer",
+      "name": "DEFAULT_COMPOSER_SCENE"
+    },
+    {
+      "subpath": "./composer",
+      "name": "generateComposerJsx"
+    },
+    {
+      "subpath": "./composer",
+      "name": "validateCompositionSpec"
+    },
+    {
+      "subpath": "./composer",
+      "name": "ComposerScene"
+    },
+    {
+      "subpath": "./composer",
+      "name": "CompositionSpecV1"
+    },
+    {
+      "subpath": "./composer",
+      "name": "ComposerBlock"
+    },
+    {
+      "subpath": "./composer",
+      "name": "ComposerBlockKind"
+    },
+    {
+      "subpath": "./composer",
+      "name": "ComposerStateMode"
+    },
+    {
+      "subpath": "./composer",
+      "name": "CompositionRegionAssignment"
+    },
+    {
+      "subpath": "./runtime",
+      "name": "CompositionRuntime"
+    },
+    {
+      "subpath": "./runtime",
+      "name": "CanonicalCompositionRuntime"
+    },
+    {
+      "subpath": "./typography/Heading",
+      "name": "Heading"
+    },
+    {
+      "subpath": "./typography/Text",
+      "name": "Text"
+    },
+    {
+      "subpath": "./data/DataTable",
+      "name": "DataTable"
+    },
+    {
+      "subpath": "./data",
+      "name": "DataTableProps"
+    },
+    {
+      "subpath": "./data",
+      "name": "DataColumn"
+    },
+    {
+      "subpath": "./data/Metric",
+      "name": "Metric"
+    },
+    {
+      "subpath": "./feedback/Badge",
+      "name": "Badge"
+    },
+    {
+      "subpath": "./foundation/Divider",
+      "name": "Divider"
+    },
+    {
+      "subpath": "./layouts/LayoutPreset",
+      "name": "LayoutPresetProps"
+    },
+    {
+      "subpath": "./layouts/LayoutPreset",
+      "name": "LayoutSlot"
+    },
+    {
+      "subpath": "./layouts/SingleColumnLayout",
+      "name": "SingleColumnLayout"
+    },
+    {
+      "subpath": "./layouts/FluidLayout",
+      "name": "FluidLayout"
+    },
+    {
+      "subpath": "./layouts/FixedLayout",
+      "name": "FixedLayout"
+    },
+    {
+      "subpath": "./layouts/FullBleedLayout",
+      "name": "FullBleedLayout"
+    },
+    {
+      "subpath": "./layouts/HeroContentLayout",
+      "name": "HeroContentLayout"
+    },
+    {
+      "subpath": "./layouts/EditorialLayout",
+      "name": "EditorialLayout"
+    },
+    {
+      "subpath": "./layouts/TwoColumnLayout",
+      "name": "TwoColumnLayout"
+    },
+    {
+      "subpath": "./layouts/ThreeColumnLayout",
+      "name": "ThreeColumnLayout"
+    },
+    {
+      "subpath": "./layouts/HolyGrailLayout",
+      "name": "HolyGrailLayout"
+    },
+    {
+      "subpath": "./layouts/SidebarShellLayout",
+      "name": "SidebarShellLayout"
+    },
+    {
+      "subpath": "./layouts/TopNavigationLayout",
+      "name": "TopNavigationLayout"
+    },
+    {
+      "subpath": "./layouts/TopNavSidebarLayout",
+      "name": "TopNavSidebarLayout"
+    },
+    {
+      "subpath": "./layouts/DoubleSidebarLayout",
+      "name": "DoubleSidebarLayout"
+    },
+    {
+      "subpath": "./layouts/FixedAppShellLayout",
+      "name": "FixedAppShellLayout"
+    },
+    {
+      "subpath": "./layouts/SplitScreenLayout",
+      "name": "SplitScreenLayout"
+    },
+    {
+      "subpath": "./layouts/MasterDetailLayout",
+      "name": "MasterDetailLayout"
+    },
+    {
+      "subpath": "./layouts/ListDetailInspectorLayout",
+      "name": "ListDetailInspectorLayout"
+    },
+    {
+      "subpath": "./layouts/ResizableSplitPaneLayout",
+      "name": "ResizableSplitPaneLayout"
+    },
+    {
+      "subpath": "./layouts/ScrollablePaneLayout",
+      "name": "ScrollablePaneLayout"
+    },
+    {
+      "subpath": "./layouts/DashboardGridLayout",
+      "name": "DashboardGridLayout"
+    },
+    {
+      "subpath": "./layouts/CardGridLayout",
+      "name": "CardGridLayout"
+    },
+    {
+      "subpath": "./layouts/BentoGridLayout",
+      "name": "BentoGridLayout"
+    },
+    {
+      "subpath": "./layouts/MasonryLayout",
+      "name": "MasonryLayout"
+    },
+    {
+      "subpath": "./layouts/ResponsiveAdaptiveLayout",
+      "name": "ResponsiveAdaptiveLayout"
+    },
+    {
+      "subpath": "./layouts/IntrinsicLayout",
+      "name": "IntrinsicLayout"
+    },
+    {
+      "subpath": "./layouts/WorkbenchLayout",
+      "name": "WorkbenchLayout"
+    },
+    {
+      "subpath": "./layouts/IDELayout",
+      "name": "IDELayout"
+    },
+    {
+      "subpath": "./layouts/StudioLayout",
+      "name": "StudioLayout"
+    },
+    {
+      "subpath": "./layouts/TabbedWorkspaceLayout",
+      "name": "TabbedWorkspaceLayout"
+    },
+    {
+      "subpath": "./layouts/DockablePanelLayout",
+      "name": "DockablePanelLayout"
+    },
+    {
+      "subpath": "./layouts/BuilderLayout",
+      "name": "BuilderLayout"
+    },
+    {
+      "subpath": "./layouts/WorkflowBuilderLayout",
+      "name": "WorkflowBuilderLayout"
+    },
+    {
+      "subpath": "./layouts/CanvasLayout",
+      "name": "CanvasLayout"
+    },
+    {
+      "subpath": "./layouts/SpatialCADLayout",
+      "name": "SpatialCADLayout"
+    },
+    {
+      "subpath": "./layouts/MapWorkspaceLayout",
+      "name": "MapWorkspaceLayout"
+    },
+    {
+      "subpath": "./layouts/DataExplorerLayout",
+      "name": "DataExplorerLayout"
+    },
+    {
+      "subpath": "./layouts/TableWorkspaceLayout",
+      "name": "TableWorkspaceLayout"
+    },
+    {
+      "subpath": "./layouts/AnalyticsLayout",
+      "name": "AnalyticsLayout"
+    },
+    {
+      "subpath": "./layouts/ComparisonLayout",
+      "name": "ComparisonLayout"
+    },
+    {
+      "subpath": "./layouts/KanbanLayout",
+      "name": "KanbanLayout"
+    },
+    {
+      "subpath": "./layouts/BoardLayout",
+      "name": "BoardLayout"
+    },
+    {
+      "subpath": "./layouts/TimelineLayout",
+      "name": "TimelineLayout"
+    },
+    {
+      "subpath": "./layouts/GanttLayout",
+      "name": "GanttLayout"
+    },
+    {
+      "subpath": "./layouts/CalendarLayout",
+      "name": "CalendarLayout"
+    },
+    {
+      "subpath": "./layouts/SchedulerLayout",
+      "name": "SchedulerLayout"
+    },
+    {
+      "subpath": "./layouts/InboxLayout",
+      "name": "InboxLayout"
+    },
+    {
+      "subpath": "./layouts/ChatLayout",
+      "name": "ChatLayout"
+    },
+    {
+      "subpath": "./layouts/SocialFeedLayout",
+      "name": "SocialFeedLayout"
+    },
+    {
+      "subpath": "./layouts/CRMLayout",
+      "name": "CRMLayout"
+    },
+    {
+      "subpath": "./layouts/GalleryLayout",
+      "name": "GalleryLayout"
+    },
+    {
+      "subpath": "./layouts/LightboxLayout",
+      "name": "LightboxLayout"
+    },
+    {
+      "subpath": "./layouts/MediaEditingLayout",
+      "name": "MediaEditingLayout"
+    },
+    {
+      "subpath": "./layouts/VideoEditingLayout",
+      "name": "VideoEditingLayout"
+    },
+    {
+      "subpath": "./layouts/PresentationLayout",
+      "name": "PresentationLayout"
+    },
+    {
+      "subpath": "./layouts/WizardLayout",
+      "name": "WizardLayout"
+    },
+    {
+      "subpath": "./layouts/FormPreviewLayout",
+      "name": "FormPreviewLayout"
+    },
+    {
+      "subpath": "./layouts/ApprovalWorkspaceLayout",
+      "name": "ApprovalWorkspaceLayout"
+    },
+    {
+      "subpath": "./layouts/ReviewLayout",
+      "name": "ReviewLayout"
+    },
+    {
+      "subpath": "./layouts/FacetedCommerceLayout",
+      "name": "FacetedCommerceLayout"
+    },
+    {
+      "subpath": "./layouts/ProductDetailLayout",
+      "name": "ProductDetailLayout"
+    },
+    {
+      "subpath": "./layouts/MarketplaceLayout",
+      "name": "MarketplaceLayout"
+    },
+    {
+      "subpath": "./layouts/BookingLayout",
+      "name": "BookingLayout"
+    },
+    {
+      "subpath": "./layouts/CheckoutLayout",
+      "name": "CheckoutLayout"
+    },
+    {
+      "subpath": "./layouts/PricingLayout",
+      "name": "PricingLayout"
+    },
+    {
+      "subpath": "./layouts/DocumentEditorLayout",
+      "name": "DocumentEditorLayout"
+    },
+    {
+      "subpath": "./layouts/DocumentationLayout",
+      "name": "DocumentationLayout"
+    },
+    {
+      "subpath": "./layouts/SearchResultsLayout",
+      "name": "SearchResultsLayout"
+    },
+    {
+      "subpath": "./layouts/LandingPageLayout",
+      "name": "LandingPageLayout"
+    },
+    {
+      "subpath": "./layouts/MagazineLayout",
+      "name": "MagazineLayout"
+    },
+    {
+      "subpath": "./layouts/NewspaperLayout",
+      "name": "NewspaperLayout"
+    },
+    {
+      "subpath": "./layouts/MobileStackLayout",
+      "name": "MobileStackLayout"
+    },
+    {
+      "subpath": "./layouts/MobileTabLayout",
+      "name": "MobileTabLayout"
+    },
+    {
+      "subpath": "./layouts/BottomNavigationAppLayout",
+      "name": "BottomNavigationAppLayout"
+    },
+    {
+      "subpath": "./layouts/MobileMasterDetailLayout",
+      "name": "MobileMasterDetailLayout"
+    },
+    {
+      "subpath": "./layouts/SidebarToDrawerLayout",
+      "name": "SidebarToDrawerLayout"
+    },
+    {
+      "subpath": "./layouts/InspectorToSheetLayout",
+      "name": "InspectorToSheetLayout"
+    },
+    {
+      "subpath": "./layouts/AccordionLayout",
+      "name": "AccordionLayout"
+    },
+    {
+      "subpath": "./layouts/DisclosureLayout",
+      "name": "DisclosureLayout"
+    },
+    {
+      "subpath": "./layouts/DrawerLayout",
+      "name": "DrawerLayout"
+    },
+    {
+      "subpath": "./layouts/ModalWorkspaceLayout",
+      "name": "ModalWorkspaceLayout"
+    },
+    {
+      "subpath": "./layouts/BottomSheetLayout",
+      "name": "BottomSheetLayout"
+    },
+    {
+      "subpath": "./layouts/CommandCenterLayout",
+      "name": "CommandCenterLayout"
+    },
+    {
+      "subpath": "./layouts/CockpitLayout",
+      "name": "CockpitLayout"
+    },
+    {
+      "subpath": "./layouts/ControlRoomLayout",
+      "name": "ControlRoomLayout"
+    },
+    {
+      "subpath": "./layouts/OperationsWallboardLayout",
+      "name": "OperationsWallboardLayout"
+    },
+    {
+      "subpath": "./layouts/HUDLayout",
+      "name": "HUDLayout"
+    },
+    {
+      "subpath": "./layouts/KioskLayout",
+      "name": "KioskLayout"
+    },
+    {
+      "subpath": "./layouts/TVLargeScreenLayout",
+      "name": "TVLargeScreenLayout"
+    },
+    {
+      "subpath": "./layouts/StickyHeaderLayout",
+      "name": "StickyHeaderLayout"
+    },
+    {
+      "subpath": "./layouts/StickySidebarLayout",
+      "name": "StickySidebarLayout"
+    },
+    {
+      "subpath": "./layouts/StickyActionFooterLayout",
+      "name": "StickyActionFooterLayout"
+    },
+    {
+      "subpath": "./layouts/SettingsLayout",
+      "name": "SettingsLayout"
+    },
+    {
+      "subpath": "./layouts/ProfileLayout",
+      "name": "ProfileLayout"
+    }
+  ],
+  "signatures": {
+    "./actions/Button Button": "ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>",
+    "./actions ButtonProps": "export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> { variant?: ButtonVariant; loading?: boolean; loadingLabel?: string; }",
+    "./actions ButtonVariant": "export type ButtonVariant = \"primary\" | \"secondary\" | \"ghost\" | \"destructive\";",
+    "./forms/Input Input": "ForwardRefExoticComponent<InputHTMLAttributes<HTMLInputElement> & RefAttributes<HTMLInputElement>>",
+    "./surfaces/Card Card": "ForwardRefExoticComponent<HTMLAttributes<HTMLElement> & { header?: ReactNode; footer?: ReactNode; } & RefAttributes<HTMLElement>>",
+    "./surfaces CardProps": "export type CardProps = React.HTMLAttributes<HTMLElement> & { header?: React.ReactNode; footer?: React.ReactNode; };",
+    "./foundation UiProvider": "({ children, theme, defaultTheme, onThemeChange, dir, className }: UiProviderProps) => Element",
+    "./foundation UiProviderProps": "export type UiProviderProps = { children: React.ReactNode; theme?: MaataaTheme; defaultTheme?: MaataaTheme; onThemeChange?: (theme: MaataaTheme) => void; dir?: \"ltr\" | \"rtl\"; className?: string; };",
+    "./themes ThemeToggle": "({ label }: { label?: string | undefined; }) => Element",
+    "./themes MaataaTheme": "export type MaataaTheme = \"light\" | \"dark\" | \"system\" | \"high-contrast\" | \"oled\";",
+    "./composer VisualComposer": "({ scene, selectedBlockId, canUndo, canRedo, onSceneChange, onSelectBlock, onUndo, onRedo }: VisualComposerProps) => Element",
+    "./composer VisualComposerProps": "export interface VisualComposerProps { scene: ComposerScene; selectedBlockId?: string | null; canUndo?: boolean; canRedo?: boolean; onSceneChange: (scene: ComposerScene) => void; onSelectBlock?: (id: string | null) => void; onUndo?: () => void; onRedo?: () => void; }",
+    "./composer DEFAULT_COMPOSER_SCENE": "ComposerScene",
+    "./composer generateComposerJsx": "(scene: ComposerScene) => string",
+    "./composer validateCompositionSpec": "(input: unknown) => { accepted: false; errors: string[]; validation?: undefined; spec?: undefined; } | { accepted: false; errors: string[]; validation: CompositionKernelValidation; spec?: undefined; } | { accepted: true; spec: CompositionSpecV1; validation: CompositionKernelValidation; errors: never[]; }",
+    "./composer ComposerScene": "export interface ComposerScene { schemaVersion?: \"1\"; regions?: CompositionRegionAssignment[]; id: string; name: string; workspaceTypeId: WorkspaceTypeId; pageTypeId: PageTypeId; layoutTypeId: LayoutTypeId; deviceId: DeviceTypeId; theme: ThemeMode | \"high-contrast\" | \"oled\"; density: Density; stateMode: ComposerStateMode; blocks: ComposerBlock[]; updatedAt: string; }",
+    "./composer CompositionSpecV1": "export interface CompositionSpecV1 extends ComposerScene { schemaVersion: \"1\"; regions: CompositionRegionAssignment[]; blocks: (ComposerBlock & { componentId: string; })[]; }",
+    "./composer ComposerBlock": "export interface ComposerBlock { id: string; kind: ComposerBlockKind; props: Record<string, unknown>; hidden?: boolean; locked?: boolean; componentId?: string; }",
+    "./composer ComposerBlockKind": "export type ComposerBlockKind = \"heading\" | \"text\" | \"button\" | \"input\" | \"card\" | \"table\" | \"metric\" | \"badge\" | \"divider\";",
+    "./composer ComposerStateMode": "export type ComposerStateMode = \"default\" | \"loading\" | \"empty\" | \"error\" | \"disabled\" | \"offline\" | \"success\";",
+    "./composer CompositionRegionAssignment": "export interface CompositionRegionAssignment { regionId: string; blockIds: string[]; }",
+    "./runtime CompositionRuntime": "({ scene, header, sidebar, nav, inspector, validation: validationOverride, }: CompositionRuntimeProps) => Element",
+    "./runtime CanonicalCompositionRuntime": "({ scene, context, ...props }: CanonicalCompositionRuntimeProps) => Element",
+    "./typography/Heading Heading": "({ level, className, ...props }: { level?: 1 | 2 | 3 | 4 | 5 | 6 | undefined; } & HTMLAttributes<HTMLHeadingElement>) => Element",
+    "./typography/Text Text": "({ as: Tag, className, ...props }: { as?: \"p\" | \"span\" | \"div\" | undefined; } & HTMLAttributes<HTMLElement>) => Element",
+    "./data/DataTable DataTable": "<T extends { id?: string | number; }>({ data, columns, empty, selectedIds, onSelectionChange, sort, onSort, caption, \"aria-label\": ariaLabel, \"aria-labelledby\": ariaLabelledBy, selectionLabel, selectionHeader }: DataTableProps<T>) => Element",
+    "./data DataTableProps": "export type DataTableProps<T> = { data: T[]; columns: DataColumn<T>[]; empty?: React.ReactNode; selectedIds?: Array<string | number>; onSelectionChange?: (ids: Array<string | number>) => void; sort?: { id: string; direction: \"asc\" | \"desc\"; }; onSort?: (id: string) => void; caption?: React.ReactNode; \"aria-label\"?: string; \"aria-labelledby\"?: string; selectionLabel?: (row: T, index: number) => string; selectionHeader?: React.ReactNode; };",
+    "./data DataColumn": "export type DataColumn<T> = { id: string; header: React.ReactNode; accessor?: (row: T) => React.ReactNode; sortable?: boolean; };",
+    "./data/Metric Metric": "({ label, value, helper }: { label: ReactNode; value: ReactNode; helper?: ReactNode; }) => Element",
+    "./feedback/Badge Badge": "({ tone, className, ...p }: HTMLAttributes<HTMLSpanElement> & { tone?: \"neutral\" | \"success\" | \"warning\" | \"danger\" | \"info\" | undefined; }) => Element",
+    "./foundation/Divider Divider": "({ className, ...p }: HTMLAttributes<HTMLHRElement>) => Element",
+    "./layouts/LayoutPreset LayoutPresetProps": "export type LayoutPresetProps = React.HTMLAttributes<HTMLDivElement> & { header?: React.ReactNode; nav?: React.ReactNode; sidebar?: React.ReactNode; secondarySidebar?: React.ReactNode; rail?: React.ReactNode; toolbar?: React.ReactNode; main?: React.ReactNode; inspector?: React.ReactNode; footer?: React.ReactNode; hero?: React.ReactNode; canvas?: React.ReactNode; dock?: React.ReactNode; palette?: React.ReactNode; stage?: React.ReactNode; preview?: React.ReactNode; timeline?: React.ReactNode; actions?: React.ReactNode; properties?: React.ReactNode; statusBar?: React.ReactNode; bottomNav?: React.ReactNode; filters?: React.ReactNode; list?: React.ReactNode; details?: React.ReactNode; slotLabels?: Partial<Record<LayoutSlot, string>>; mainElement?: \"main\" | \"div\"; inset?: boolean; scroll?: boolean; sticky?: boolean; };",
+    "./layouts/LayoutPreset LayoutSlot": "export type LayoutSlot = \"header\" | \"nav\" | \"sidebar\" | \"secondarySidebar\" | \"rail\" | \"toolbar\" | \"main\" | \"inspector\" | \"footer\" | \"hero\" | \"canvas\" | \"dock\" | \"palette\" | \"stage\" | \"preview\" | \"timeline\" | \"actions\" | \"properties\" | \"statusBar\" | \"bottomNav\" | \"filters\" | \"list\" | \"details\";",
+    "./layouts/SingleColumnLayout SingleColumnLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/FluidLayout FluidLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/FixedLayout FixedLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/FullBleedLayout FullBleedLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/HeroContentLayout HeroContentLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/EditorialLayout EditorialLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/TwoColumnLayout TwoColumnLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/ThreeColumnLayout ThreeColumnLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/HolyGrailLayout HolyGrailLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/SidebarShellLayout SidebarShellLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/TopNavigationLayout TopNavigationLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/TopNavSidebarLayout TopNavSidebarLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/DoubleSidebarLayout DoubleSidebarLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/FixedAppShellLayout FixedAppShellLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/SplitScreenLayout SplitScreenLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/MasterDetailLayout MasterDetailLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/ListDetailInspectorLayout ListDetailInspectorLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/ResizableSplitPaneLayout ResizableSplitPaneLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/ScrollablePaneLayout ScrollablePaneLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/DashboardGridLayout DashboardGridLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/CardGridLayout CardGridLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/BentoGridLayout BentoGridLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/MasonryLayout MasonryLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/ResponsiveAdaptiveLayout ResponsiveAdaptiveLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/IntrinsicLayout IntrinsicLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/WorkbenchLayout WorkbenchLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/IDELayout IDELayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/StudioLayout StudioLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/TabbedWorkspaceLayout TabbedWorkspaceLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/DockablePanelLayout DockablePanelLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/BuilderLayout BuilderLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/WorkflowBuilderLayout WorkflowBuilderLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/CanvasLayout CanvasLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/SpatialCADLayout SpatialCADLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/MapWorkspaceLayout MapWorkspaceLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/DataExplorerLayout DataExplorerLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/TableWorkspaceLayout TableWorkspaceLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/AnalyticsLayout AnalyticsLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/ComparisonLayout ComparisonLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/KanbanLayout KanbanLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/BoardLayout BoardLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/TimelineLayout TimelineLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/GanttLayout GanttLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/CalendarLayout CalendarLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/SchedulerLayout SchedulerLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/InboxLayout InboxLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/ChatLayout ChatLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/SocialFeedLayout SocialFeedLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/CRMLayout CRMLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/GalleryLayout GalleryLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/LightboxLayout LightboxLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/MediaEditingLayout MediaEditingLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/VideoEditingLayout VideoEditingLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/PresentationLayout PresentationLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/WizardLayout WizardLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/FormPreviewLayout FormPreviewLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/ApprovalWorkspaceLayout ApprovalWorkspaceLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/ReviewLayout ReviewLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/FacetedCommerceLayout FacetedCommerceLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/ProductDetailLayout ProductDetailLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/MarketplaceLayout MarketplaceLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/BookingLayout BookingLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/CheckoutLayout CheckoutLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/PricingLayout PricingLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/DocumentEditorLayout DocumentEditorLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/DocumentationLayout DocumentationLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/SearchResultsLayout SearchResultsLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/LandingPageLayout LandingPageLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/MagazineLayout MagazineLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/NewspaperLayout NewspaperLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/MobileStackLayout MobileStackLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/MobileTabLayout MobileTabLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/BottomNavigationAppLayout BottomNavigationAppLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/MobileMasterDetailLayout MobileMasterDetailLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/SidebarToDrawerLayout SidebarToDrawerLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/InspectorToSheetLayout InspectorToSheetLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/AccordionLayout AccordionLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/DisclosureLayout DisclosureLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/DrawerLayout DrawerLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/ModalWorkspaceLayout ModalWorkspaceLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/BottomSheetLayout BottomSheetLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/CommandCenterLayout CommandCenterLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/CockpitLayout CockpitLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/ControlRoomLayout ControlRoomLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/OperationsWallboardLayout OperationsWallboardLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/HUDLayout HUDLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/KioskLayout KioskLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/TVLargeScreenLayout TVLargeScreenLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/StickyHeaderLayout StickyHeaderLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/StickySidebarLayout StickySidebarLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/StickyActionFooterLayout StickyActionFooterLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/SettingsLayout SettingsLayout": "(props: LayoutPresetProps) => Element",
+    "./layouts/ProfileLayout ProfileLayout": "(props: LayoutPresetProps) => Element"
+  }
+}

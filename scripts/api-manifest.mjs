@@ -12,6 +12,8 @@ const diagnostics=ts.getPreEmitDiagnostics(program);
 if(diagnostics.length)throw new Error(ts.formatDiagnosticsWithColorAndContext(diagnostics,{getCurrentDirectory:()=>root,getCanonicalFileName:x=>x,getNewLine:()=>"\n"}));
 const checker=program.getTypeChecker();
 const pkg=JSON.parse(fs.readFileSync("package.json","utf8"));
+// Exports frozen by the recorded API decision (gate 7) are STABLE; see manifests/STABLE_API.json.
+const stableKeys=new Set(JSON.parse(fs.readFileSync(path.join(root,"manifests/STABLE_API.json"),"utf8")).exports.map(e=>`${e.subpath} ${e.name}`));
 const exportsList=[];
 const entryPoints=[];
 for(const [subpath,target] of Object.entries(pkg.exports)){
@@ -32,13 +34,13 @@ for(const [subpath,target] of Object.entries(pkg.exports)){
    const declarations=resolved.getDeclarations()??[];
    const typeOnly=(symbol.getDeclarations()??[]).some(declaration=>ts.isExportSpecifier(declaration)&&(declaration.isTypeOnly||declaration.parent.parent.isTypeOnly));
    const deprecated=resolved.getJsDocTags().some(tag=>tag.name==="deprecated");
-   exportsList.push({name:symbol.name,subpath:concrete,kind:!typeOnly&&(resolved.flags&ts.SymbolFlags.Value)?"runtime":"type",stability:deprecated?"DEPRECATED":"EXPERIMENTAL",sources:[...new Set(declarations.map(declaration=>path.relative(root,declaration.getSourceFile().fileName).split(path.sep).join("/")))].sort()});
+   exportsList.push({name:symbol.name,subpath:concrete,kind:!typeOnly&&(resolved.flags&ts.SymbolFlags.Value)?"runtime":"type",stability:deprecated?"DEPRECATED":stableKeys.has(`${concrete} ${symbol.name}`)?"STABLE":"EXPERIMENTAL",sources:[...new Set(declarations.map(declaration=>path.relative(root,declaration.getSourceFile().fileName).split(path.sep).join("/")))].sort()});
   }
  }
 }
 exportsList.sort((a,b)=>a.subpath.localeCompare(b.subpath)||a.name.localeCompare(b.name));
 entryPoints.sort((a,b)=>a.subpath.localeCompare(b.subpath));
-const manifest={schemaVersion:"2.0.0",package:pkg.name,version:pkg.version,generatedFrom:"TypeScript resolved symbols and package export map",classificationPolicy:"Pre-GA public APIs remain EXPERIMENTAL until a reviewed freeze; non-exported implementation modules are INTERNAL.",entryPoints,exports:exportsList};
+const manifest={schemaVersion:"2.0.0",package:pkg.name,version:pkg.version,generatedFrom:"TypeScript resolved symbols and package export map",classificationPolicy:"Exports listed in manifests/STABLE_API.json are STABLE by the recorded gate-7 decision (2026-10-12); JSDoc-deprecated exports are DEPRECATED; all other public exports remain EXPERIMENTAL; non-exported implementation modules are INTERNAL.",entryPoints,exports:exportsList};
 const pretty=JSON.stringify(manifest,null,2)+"\n";
 const output=path.join(root,"manifests");fs.mkdirSync(output,{recursive:true});
 const hash=createHash("sha256").update(pretty).digest("hex");

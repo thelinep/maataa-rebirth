@@ -15,7 +15,7 @@ const steps=[
  ["lockfile","pnpm",["install","--frozen-lockfile","--ignore-scripts","--offline"]],
  ["typecheck","pnpm",["typecheck"]],
  ["tests",process.execPath,["node_modules/vitest/vitest.mjs","run","--reporter=json",`--outputFile=${path.join(directory,"tests.raw.json")}`]],
- ["api","pnpm",["api:manifest","--check"]],
+ ["api","pnpm",["api:check"]],
  ["docs","pnpm",["docs:check"]],
  ["layout-contracts",process.execPath,["scripts/generate-layout-loaders.mjs","--check"]],
  ["composition-contracts",process.execPath,["scripts/generate-composition-contracts.mjs","--check"]],

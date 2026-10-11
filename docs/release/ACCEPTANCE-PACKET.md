@@ -14,7 +14,7 @@ Scope reminder: these gates cover the `@maataa/ui` package only. `apps/hemant-ob
 | 4 | `realDeviceAcceptance` | Device reviewer | Device matrix | NOT_RUN |
 | 5 | `runtimePerformanceTargets` | Release owner | Measured values; limits classified | NOT_RUN — targets deferred until reference devices are chosen (2026-10-11) |
 | 6 | `enterprisePilots` | TLPS owner + second application owner | Existing charters | NOT_RUN |
-| 7 | `apiSchemaFreeze` | Release owner | Owner direction recorded; proposed Beta-stable list | NOT_RUN — list awaiting owner acceptance |
+| 7 | `apiSchemaFreeze` | Release owner | Stable list accepted and freeze applied (2026-10-12) | **ACCEPTED (chat, unsigned)**; certification dashboard still reports NOT_RUN until a signed record exists |
 | 8 | `privateSecurityReporting` | Release/security owner (Hemant Kumar Dixit) | Channel options | BLOCKED |
 | 9 | `releaseOwnership` | Release owner (Hemant Kumar Dixit) | Approval record | BLOCKED |
 | 10 | `remoteTagProtection` | Repository admin | Commands | NOT_RUN |
@@ -171,6 +171,12 @@ Decider:        Date:
 ```
 
 After acceptance, the freeze is applied by marking exactly these exports `STABLE` in the API manifest generator and adding a check that a stable export cannot be removed or changed incompatibly without a recorded decision.
+
+**Freeze applied (2026-10-12).** The release owner accepted the stable list in chat. It is recorded in [`manifests/STABLE_API.json`](../../manifests/STABLE_API.json): 126 exports (33 components, functions and types plus 93 layouts), with a signature snapshot of each, and `PUBLIC_API.json` marks exactly these as `STABLE` (7 layout aliases are `DEPRECATED`; everything else stays `EXPERIMENTAL`). Canonical IDs follow option C through [`manifests/CANONICAL_IDS.json`](../../manifests/CANONICAL_IDS.json) (3,096 IDs across workspaces, pages, layouts, devices, components and regions; no migrations or retirements yet). The certification `api` gate now runs `pnpm api:check`, which fails if a stable export is removed, deprecated or changes signature, or if a canonical ID disappears without a migration or retirement record, or a retired ID is reused. Changes require a recorded owner decision, an update of the relevant file, and a reference in the commit.
+
+```
+Decision: ACCEPT LIST (freeze applied)        Decider: Hemant Kumar Dixit, release owner        Date: 2026-10-12 (chat statement, not a signed record)
+```
 
 ## 8. Private security reporting
 

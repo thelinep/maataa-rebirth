@@ -11,3 +11,7 @@ Canonical IDs used in persisted scenes must not be silently renamed or reused. P
 CompositionSpec's schemaVersion changes only for a reviewed schema migration. Legacy scenes enter through explicit migration and canonical validation. Theme names, runtime props, registry record types and layout-region contracts are reviewed as public contracts, even when generated.
 
 After GA, deprecations remain available for at least two minor releases and six months before removal in a major release, except a documented urgent security fix. Breaking-change approval, release ownership and supported-version commitments must be recorded by the release owner before GA. This policy does not establish an approved API freeze or support commitment by itself.
+
+## Beta API freeze (recorded 2026-10-12)
+
+The exports listed in [`manifests/STABLE_API.json`](../manifests/STABLE_API.json) are **STABLE** by the release owner's gate-7 decision; `PUBLIC_API.json` marks them so. `pnpm api:check` (the certification `api` gate) fails when a stable export is removed, deprecated or its signature changes without the list being updated, and when a canonical ID in [`manifests/CANONICAL_IDS.json`](../manifests/CANONICAL_IDS.json) disappears without a migration or retirement record or a retired ID is reused. Updating either file requires a recorded owner decision referenced in the commit. All other exports remain EXPERIMENTAL; the root `@maataa/ui` entry has no stable named exports.
