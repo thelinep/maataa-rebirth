@@ -54,7 +54,7 @@ Evidence: `licenses.json` lists 591 resolved packages (`reviewStatus: NOT_RUN`).
 Packages for reviewer attention — all development/build tooling, none in the runtime dependency set:
 
 - `axe-core` 4.13.0 and `@axe-core/playwright` 4.13.0 — MPL-2.0 (accessibility test tooling).
-- `@img/sharp-libvips-darwin-arm64` 1.3.4 — LGPL-3.0-or-later (native image library, transitive build tooling).
+- ~~`@img/sharp-libvips-darwin-arm64` 1.3.4 — LGPL-3.0-or-later~~ — removed 2026-10-12 with `wrangler` (owner decision).
 - `caniuse-lite` 1.0.30001814 — CC-BY-4.0 (browser-support data used at build time).
 
 ```

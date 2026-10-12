@@ -433,8 +433,7 @@
     "storybook": "8.6.18",
     "typescript": "^5.8.0",
     "vite": "^6.0.0",
-    "vitest": "4.1.11",
-    "wrangler": "^4.149.0"
+    "vitest": "4.1.11"
   },
   "scripts": {
     "build": "tsc -p tsconfig.json && node scripts/finalize-esm.mjs && node scripts/copy-css.mjs",
