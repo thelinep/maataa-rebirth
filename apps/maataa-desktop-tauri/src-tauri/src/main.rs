@@ -23,15 +23,39 @@ compile_error!("This feasibility prototype targets native macOS WebKit only.");
 struct EmbeddedBrowsers(Mutex<HashMap<String, Webview<tauri::Wry>>>);
 struct WorkspaceRegistry(Mutex<()>);
 
-/// The API session lives here, in the Desktop process. Product windows send
-/// requests through `api_request` and never receive the token.
+/// API credentials stay in the Desktop process and are isolated by the
+/// invoking Tauri window. Product windows never receive the token.
 #[derive(Default)]
-struct ApiSession(Mutex<Option<ApiSessionState>>);
+struct ApiSession(Mutex<HashMap<String, ApiSessionState>>);
 
 #[derive(Clone)]
 struct ApiSessionState {
     token: String,
     project_id: String,
+}
+
+impl ApiSession {
+    fn set(&self, window_label: &str, session: Option<ApiSessionState>) -> Result<(), String> {
+        let mut sessions = self
+            .0
+            .lock()
+            .map_err(|_| "unavailable: The API session is busy.".to_string())?;
+        if let Some(session) = session {
+            sessions.insert(window_label.to_string(), session);
+        } else {
+            sessions.remove(window_label);
+        }
+        Ok(())
+    }
+
+    fn get(&self, window_label: &str) -> Result<ApiSessionState, String> {
+        self.0
+            .lock()
+            .map_err(|_| "unavailable: The API session is busy.".to_string())?
+            .get(window_label)
+            .cloned()
+            .ok_or_else(|| "not-connected: Connect with a project token first.".to_string())
+    }
 }
 
 /// A raw host wall-clock observation. It is deliberately not a verified time
@@ -693,7 +717,11 @@ fn validate_address(address: String) -> Result<String, String> {
 }
 
 #[tauri::command]
-async fn api_connect(app: tauri::AppHandle, token: String) -> Result<api_bridge::ApiReply, String> {
+async fn api_connect(
+    app: tauri::AppHandle,
+    window: tauri::WebviewWindow,
+    token: String,
+) -> Result<api_bridge::ApiReply, String> {
     let token = token.trim().to_string();
     api_bridge::validate_token(&token)?;
     let port = api_bridge::configured_port();
@@ -705,38 +733,29 @@ async fn api_connect(app: tauri::AppHandle, token: String) -> Result<api_bridge:
     .map_err(|_| "unavailable: The request was interrupted.".to_string())??;
     let session =
         api_bridge::whoami_project(&reply).map(|project_id| ApiSessionState { token, project_id });
-    *app.state::<ApiSession>()
-        .0
-        .lock()
-        .map_err(|_| "unavailable: The API session is busy.".to_string())? = session;
+    app.state::<ApiSession>().set(window.label(), session)?;
     Ok(reply)
 }
 
 #[tauri::command]
-fn api_disconnect(session: tauri::State<'_, ApiSession>) -> Result<(), String> {
-    *session
-        .0
-        .lock()
-        .map_err(|_| "unavailable: The API session is busy.".to_string())? = None;
-    Ok(())
+fn api_disconnect(
+    window: tauri::WebviewWindow,
+    session: tauri::State<'_, ApiSession>,
+) -> Result<(), String> {
+    session.set(window.label(), None)
 }
 
 #[tauri::command]
 async fn api_request(
     app: tauri::AppHandle,
+    window: tauri::WebviewWindow,
     method: String,
     path: String,
     body: Option<String>,
     if_match: Option<u32>,
 ) -> Result<api_bridge::ApiReply, String> {
     api_bridge::validate_route(&method, &path, body.as_deref(), if_match)?;
-    let session = app
-        .state::<ApiSession>()
-        .0
-        .lock()
-        .map_err(|_| "unavailable: The API session is busy.".to_string())?
-        .clone()
-        .ok_or_else(|| "not-connected: Connect with a project token first.".to_string())?;
+    let session = app.state::<ApiSession>().get(window.label())?;
     let port = api_bridge::configured_port();
     let (send_method, send_path, send_body) = (method.clone(), path.clone(), body.clone());
     let token = session.token.clone();
@@ -806,6 +825,11 @@ fn main() {
             api_request
         ])
         .on_window_event(|window, event| {
+            if matches!(event, tauri::WindowEvent::Destroyed) {
+                if let Some(sessions) = window.try_state::<ApiSession>() {
+                    let _ = sessions.set(window.label(), None);
+                }
+            }
             if !window.label().starts_with("browser-") {
                 return;
             }
@@ -843,9 +867,10 @@ mod tests {
     use super::{
         api_bridge, append_workspace_event, apply_api_link, browser_child_label,
         browser_window_label, host_clock_snapshot, load_workspace_index, parse_public_url,
-        product_entry, save_workspace_index, validate_workspace_project, RecordLink,
-        WorkspaceIndex, WorkspaceProjectInput, APP_HEADER_HEIGHT, BROWSER_NAV_HEIGHT,
-        BROWSER_VIEW_TOP, MACOS_TITLEBAR_HEIGHT, TLPS_PLAN_ENTRY, WORKSPACE_INDEX_VERSION,
+        product_entry, save_workspace_index, validate_workspace_project, ApiSession,
+        ApiSessionState, RecordLink, WorkspaceIndex, WorkspaceProjectInput, APP_HEADER_HEIGHT,
+        BROWSER_NAV_HEIGHT, BROWSER_VIEW_TOP, MACOS_TITLEBAR_HEIGHT, TLPS_PLAN_ENTRY,
+        WORKSPACE_INDEX_VERSION,
     };
     use std::{
         fs,
@@ -875,6 +900,35 @@ mod tests {
     fn host_clock_snapshot_fails_closed_before_unix_epoch() {
         let before_epoch = UNIX_EPOCH - Duration::from_nanos(1);
         assert!(host_clock_snapshot(before_epoch).is_err());
+    }
+
+    #[test]
+    fn api_credentials_are_isolated_per_invoking_window() {
+        let sessions = ApiSession::default();
+        sessions
+            .set(
+                "product-tlps-1",
+                Some(ApiSessionState {
+                    token: "token-one".into(),
+                    project_id: "prj:one".into(),
+                }),
+            )
+            .unwrap();
+        sessions
+            .set(
+                "product-tlps-2",
+                Some(ApiSessionState {
+                    token: "token-two".into(),
+                    project_id: "prj:two".into(),
+                }),
+            )
+            .unwrap();
+
+        assert_eq!(sessions.get("product-tlps-1").unwrap().token, "token-one");
+        assert_eq!(sessions.get("product-tlps-2").unwrap().token, "token-two");
+        sessions.set("product-tlps-1", None).unwrap();
+        assert!(sessions.get("product-tlps-1").is_err());
+        assert_eq!(sessions.get("product-tlps-2").unwrap().token, "token-two");
     }
 
     #[test]

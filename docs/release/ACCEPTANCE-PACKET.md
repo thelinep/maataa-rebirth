@@ -2,7 +2,7 @@
 
 **Prepared:** 2026-10-11 · **Candidate:** `255854d577870fbc25b8c20ca2e515a9fa700566` (`1.0.0-alpha.8.4`; first prepared against `9a18d8f5`) · **Automation:** PASS, release BLOCKED (exit 2) — see [release readiness](RELEASE-READINESS.md).
 
-This packet prepares each manual/external gate for the person who must decide it. **Nothing here is an approval.** Every gate below stays `NOT_RUN` or `BLOCKED` until its record block is filled by the named decider and committed. Prepared facts are drawn from the candidate's evidence pack under `.certification/release-evidence/9a18d8f5…/1791720393081/`.
+This packet prepares each manual/external gate for the person who must decide it. **Nothing here is an approval.** Every gate below stays `NOT_RUN` or `BLOCKED` until its record block is filled by the named decider and committed. Prepared facts are drawn from the exact `255854d577870fbc25b8c20ca2e515a9fa700566` evidence pack under `.certification/release-evidence/255854d577870fbc25b8c20ca2e515a9fa700566/1791765099930/`.
 
 Scope reminder: these gates cover the `@maataa/ui` package only. `apps/hemant-observatory` and the MAATAA Desktop Hemant clock are outside release claims and certification.
 
@@ -39,23 +39,24 @@ Not decided by this record: the proposed React/browser/consumer support matrix a
 
 ## 2. Licence approval
 
-Evidence: `licenses.json` lists 591 resolved packages (`reviewStatus: NOT_RUN`). The package itself is MIT and `private: true`. Its only runtime dependency is `@reduxjs/toolkit` (MIT); React, React-DOM and react-redux are peers supplied by the consumer.
+Evidence: the `255854d5` pack's `licenses.json` lists 560 resolved packages (`reviewStatus: NOT_RUN`): 557 permissive, two MPL-2.0, and one CC-BY-4.0. The package itself is MIT and `private: true`. Its only runtime dependency is `@reduxjs/toolkit` (MIT); React, React-DOM and react-redux are peers supplied by the consumer. This inventory is for that frozen candidate only; React Flow was added later and is not covered by this pack. The current branch needs a fresh certification inventory before release review.
 
 | Licence | Count |
 | --- | --- |
-| MIT | 463 |
+| MIT | 442 |
 | ISC | 45 |
-| Apache-2.0 | 33 |
+| Apache-2.0 | 28 |
 | BSD-2/BSD-3-Clause | 25 |
 | BlueOak-1.0.0 | 11 |
-| Other permissive (0BSD, MIT-0, CC0, Python-2.0, WTFPL, dual MIT/Apache) | 10 |
-| Needs reviewer attention | 4 |
+| Other permissive (MIT-0, Python-2.0, WTFPL variants, 0BSD) | 6 |
+| Needs reviewer attention | 3 |
 
 Packages for reviewer attention — all development/build tooling, none in the runtime dependency set:
 
 - `axe-core` 4.13.0 and `@axe-core/playwright` 4.13.0 — MPL-2.0 (accessibility test tooling).
-- ~~`@img/sharp-libvips-darwin-arm64` 1.3.4 — LGPL-3.0-or-later~~ — removed 2026-10-12 with `wrangler` (owner decision).
 - `caniuse-lite` 1.0.30001814 — CC-BY-4.0 (browser-support data used at build time).
+
+The candidate pack contains 560 packages; its source inventory does not include the later React Flow lockfile additions. Do not use this count for a later commit.
 
 ```
 Decision: APPROVE / APPROVE WITH CONDITIONS / REJECT    Reviewer:            Date:

@@ -75,6 +75,8 @@ export function createHttpTransport(fetchImpl: FetchLike = (i, init) => fetch(i,
   return {
     route: "dev-proxy",
     async connect(token) {
+      // A failed reconnect must not leave an earlier credential usable.
+      secret = null;
       const response = await send(token, "GET", "/v1/auth/whoami");
       if (response.status === 200) secret = token;
       return response;
@@ -139,6 +141,10 @@ export function createMaataaAuth(source?: FetchLike | MaataaApiTransport, base?:
     mode: "maataa-auth-api",
     transport,
     async connect(credential) {
+      // Re-authentication starts a new session boundary. If validation, transport,
+      // or decoding fails, neither the old identity nor its token remains active.
+      session = null;
+      await transport.disconnect();
       const token = credential.trim();
       if (!token) throw new ServiceError("invalid", "Paste the project token an administrator issued for you.");
       const who = decode<{ principal_id: string; project_id: string; scopes: string[]; expires_at: number }>(await transport.connect(token));

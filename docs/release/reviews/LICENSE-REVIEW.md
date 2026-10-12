@@ -9,7 +9,7 @@ This brief collects facts for the reviewer. It is not legal advice and not an ap
 - The package is MIT (`LICENSE`) and currently `private: true`; no registry publication happens until gate 11.
 - The packed tarball (`.certification/package/maataa-ui-1.0.0-alpha.8.4.tgz`, 8,755 files) contains `dist/`, `docs/`, `manifests/`, `examples/redux-demo/`, `README.md`, `LICENSE` and `package.json` (the `files` field).
 - Runtime dependency: `@reduxjs/toolkit` (MIT) only. React, React-DOM and react-redux are peer dependencies supplied by the consumer.
-- The resolved dependency inventory for the candidate (`licenses.json` in the evidence pack) has 591 packages: 587 permissive (MIT 463, ISC 45, Apache-2.0 33, BSD 25, BlueOak 11, other permissive 10).
+- The exact `255854d5` candidate evidence pack (`licenses.json`) has 560 packages: 557 permissive (MIT 442, ISC 45, Apache-2.0 28, BSD-2/BSD-3-Clause 25, BlueOak 11, other permissive 6), plus two MPL-2.0 packages and one CC-BY-4.0 package. This count applies only to that frozen candidate.
 
 ## Packages for review
 
@@ -24,7 +24,7 @@ None of them is in the runtime dependency set, and a search of the tarball file 
 | ~~`@img/sharp-libvips-darwin-arm64` 1.3.4~~ | ~~LGPL-3.0-or-later~~ | Removed with `wrangler` (2026-10-12) | — |
 | `caniuse-lite` 1.0.30001814 | CC-BY-4.0 | Browser-support data via `browserslist` (Babel/Vite build tooling) | No |
 
-**Update 2026-10-12 (flow designers):** the owner chose React Flow for the node-based workflow and scene designers. `@xyflow/react` 12.12.0 is an **optional peer dependency** of `@maataa/ui` (needed only by consumers who import `@maataa/ui/flow`) and a devDependency for build and tests. It is not bundled into `dist/`; `dist/flow/*.js` imports it. The lockfile gains 19 packages, all permissive:
+**Update 2026-10-12 (flow designers, after the 255854d5 evidence pack):** the owner chose React Flow for the node-based workflow and scene designers. `@xyflow/react` 12.12.0 is an **optional peer dependency** of `@maataa/ui` (needed only by consumers who import `@maataa/ui/flow`) and a devDependency for build and tests. It is not bundled into `dist/`; `dist/flow/*.js` imports it. The lockfile gains 19 packages, all permissive; these additions are not included in the 560-package candidate inventory above and require a fresh current-commit inventory:
 
 | Package | Licence |
 | --- | --- |

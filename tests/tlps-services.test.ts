@@ -62,6 +62,20 @@ describe("TLPS services · MAATAA Auth API adapters", () => {
     const services = createMaataaServices(async () => { throw new TypeError("fetch failed"); }, "http://api");
     expect(await code(services.auth.connect("good-token"))).toBe("unavailable");
   });
+
+  it("clears the previous identity and credential before a failed reconnect", async () => {
+    const server = fakeServer();
+    const services = createMaataaServices(server.fetchImpl, "http://api");
+    await services.auth.connect("good-token");
+    expect(services.auth.current()).not.toBeNull();
+
+    expect(await code(services.auth.connect("bad-token"))).toBe("unauthorized");
+    expect(services.auth.current()).toBeNull();
+    const callsAfterRejectedReconnect = server.calls.length;
+    expect(await code(services.projects.read())).toBe("not-connected");
+    expect(server.calls).toHaveLength(callsAfterRejectedReconnect);
+    expect(server.calls.at(-1)?.headers.authorization).toBe("Bearer bad-token");
+  });
 });
 
 /** Stand-in for the Desktop commands: the token stays inside this closure, like the Rust ApiSession. */
