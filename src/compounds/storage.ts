@@ -27,9 +27,9 @@ export function readStoredValue<T>(key: string, parse: StoredParser<T>, fallback
   }
 }
 
-/** Reads a stored string as-is (no JSON). */
-export function readStoredText(key: string, fallback = "", area: Area = "local"): string {
-  try { return storage(area)?.getItem(key) ?? fallback; } catch { return fallback; }
+/** Reads a stored string as-is (no JSON). Null when missing or when storage is unavailable, like getItem. */
+export function readStoredText(key: string, area: Area = "local"): string | null {
+  try { return storage(area)?.getItem(key) ?? null; } catch { return null; }
 }
 
 /** Writes JSON; returns false when the browser refuses (private mode, quota, blocked storage). */

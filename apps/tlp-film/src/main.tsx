@@ -29,6 +29,7 @@ import {
   removeWorkspaceProject,
 } from "../../shared/maataa-workspace";
 import "./style.css";
+import { readStoredText, removeStoredValue, writeStoredValue } from "@maataa/ui/compounds";
 
 const localSessionKey = "tlp.local-preview-session.v1";
 const workspaceProfileKey = "tlp.workspace-profile.v1";
@@ -38,11 +39,11 @@ function readPublicSurface(): AppRoute {
   const params = new URLSearchParams(window.location.search);
   const surface = params.get("surface");
   const fromTlps = params.get("from") === "tlps"
-    && parseTlpsFilmHandoff(localStorage.getItem(TLPS_FILM_HANDOFF_KEY)) !== null;
+    && parseTlpsFilmHandoff(readStoredText(TLPS_FILM_HANDOFF_KEY)) !== null;
   if (surface === "tlp") return "product";
   if (surface === "film" || surface === "public") return "film";
-  const hasSession = localStorage.getItem(localSessionKey) === "active";
-  const hasProfile = localStorage.getItem(workspaceProfileKey) !== null;
+  const hasSession = readStoredText(localSessionKey) === "active";
+  const hasProfile = readStoredText(workspaceProfileKey) !== null;
   if (fromTlps) return hasSession ? "workspace" : "signin";
   if (surface === "signin") return hasSession ? "onboarding" : "signin";
   if (surface === "onboarding") return hasSession ? "onboarding" : "signin";
@@ -54,7 +55,7 @@ function App() {
   const [publicSurface, setPublicSurface] = useState<AppRoute>(readPublicSurface);
   const [project, setProject] = useState<FilmProjectState>(() =>
     (() => {
-      const stored = localStorage.getItem(filmStorageKey);
+      const stored = readStoredText(filmStorageKey);
       if (stored === null) return thirtyTrillionIndiaProject;
       const existing = parseFilmProject(stored);
       return existing.projectName === "The Quiet Frame · sample"
@@ -64,14 +65,14 @@ function App() {
   );
   const [pendingTlpsHandoff, setPendingTlpsHandoff] = useState<TlpsFilmHandoff | null>(() =>
     new URLSearchParams(window.location.search).get("from") === "tlps"
-      ? parseTlpsFilmHandoff(localStorage.getItem(TLPS_FILM_HANDOFF_KEY))
+      ? parseTlpsFilmHandoff(readStoredText(TLPS_FILM_HANDOFF_KEY))
       : null,
   );
   const [activeTlpsHandoff, setActiveTlpsHandoff] = useState<TlpsFilmHandoff | null>(() =>
-    parseTlpsFilmHandoff(localStorage.getItem("maataa.tlps-film.active-handoff.v1")),
+    parseTlpsFilmHandoff(readStoredText("maataa.tlps-film.active-handoff.v1")),
   );
   const [hasPreviousProject, setHasPreviousProject] = useState(() =>
-    localStorage.getItem(TLPS_FILM_PREVIOUS_PROJECT_KEY) !== null,
+    readStoredText(TLPS_FILM_PREVIOUS_PROJECT_KEY) !== null,
   );
   const [projectDraft, setProjectDraft] = useState(project.projectName);
   const [notice, setNotice] = useState("");
@@ -104,7 +105,7 @@ function App() {
   );
 
   useEffect(() => {
-    localStorage.setItem(filmStorageKey, JSON.stringify(project));
+    writeStoredValue(filmStorageKey, project);
     setProjectDraft(project.projectName);
   }, [project]);
 
@@ -167,22 +168,22 @@ function App() {
   const loadSample = () => {
     setProject(thirtyTrillionIndiaProject);
     setActiveTlpsHandoff(null);
-    localStorage.removeItem("maataa.tlps-film.active-handoff.v1");
+    removeStoredValue("maataa.tlps-film.active-handoff.v1");
     setNotice(
       "Loaded the 30 Trillion India fictional feature-film simulation in this browser.",
     );
   };
   const acceptTlpsHandoff = () => {
     if (!pendingTlpsHandoff) return;
-    const current = localStorage.getItem(filmStorageKey);
-    if (current) localStorage.setItem(TLPS_FILM_PREVIOUS_PROJECT_KEY, current);
+    const current = readStoredText(filmStorageKey);
+    if (current) writeStoredValue(TLPS_FILM_PREVIOUS_PROJECT_KEY, current);
     const nextProject: FilmProjectState = {
       ...blankFilmProject,
       projectName: pendingTlpsHandoff.project.title,
     };
-    localStorage.setItem(filmStorageKey, JSON.stringify(nextProject));
-    localStorage.setItem("maataa.tlps-film.active-handoff.v1", JSON.stringify(pendingTlpsHandoff));
-    localStorage.removeItem(TLPS_FILM_HANDOFF_KEY);
+    writeStoredValue(filmStorageKey, nextProject);
+    writeStoredValue("maataa.tlps-film.active-handoff.v1", pendingTlpsHandoff);
+    removeStoredValue(TLPS_FILM_HANDOFF_KEY);
     setProject(nextProject);
     setActiveTlpsHandoff(pendingTlpsHandoff);
     setPendingTlpsHandoff(null);
@@ -191,12 +192,12 @@ function App() {
     setNotice("Film project created from the TLPS plan. Review the imported planning summary before using it.");
   };
   const restorePreviousProject = () => {
-    const previous = parseFilmProject(localStorage.getItem(TLPS_FILM_PREVIOUS_PROJECT_KEY));
+    const previous = parseFilmProject(readStoredText(TLPS_FILM_PREVIOUS_PROJECT_KEY));
     if (!previous.projectName) return;
     setProject(previous);
-    localStorage.setItem(filmStorageKey, JSON.stringify(previous));
-    localStorage.removeItem(TLPS_FILM_PREVIOUS_PROJECT_KEY);
-    localStorage.removeItem("maataa.tlps-film.active-handoff.v1");
+    writeStoredValue(filmStorageKey, previous);
+    removeStoredValue(TLPS_FILM_PREVIOUS_PROJECT_KEY);
+    removeStoredValue("maataa.tlps-film.active-handoff.v1");
     setActiveTlpsHandoff(null);
     setHasPreviousProject(false);
     setNotice("Previous film project restored from this browser.");
@@ -214,7 +215,7 @@ function App() {
     );
   };
   const resetProject = () => {
-    localStorage.removeItem(filmStorageKey);
+    removeStoredValue(filmStorageKey);
     setProject(blankFilmProject);
     setNotice("Local project cleared.");
   };
@@ -255,18 +256,18 @@ function App() {
   };
 
   const openWorkspace = () => {
-    if (localStorage.getItem(localSessionKey) === "active" && localStorage.getItem(workspaceProfileKey)) goTo("workspace");
+    if (readStoredText(localSessionKey) === "active" && readStoredText(workspaceProfileKey)) goTo("workspace");
     else goTo("signin");
   };
   const enterLocalPreview = () => {
-    localStorage.setItem(localSessionKey, "active");
+    writeStoredValue(localSessionKey, "active");
     const isTlpsHandoff = new URLSearchParams(window.location.search).get("from") === "tlps"
-      && parseTlpsFilmHandoff(localStorage.getItem(TLPS_FILM_HANDOFF_KEY)) !== null;
+      && parseTlpsFilmHandoff(readStoredText(TLPS_FILM_HANDOFF_KEY)) !== null;
     goTo(isTlpsHandoff ? "workspace" : "onboarding");
   };
   const createLocalProject = (intake: TlpProjectIntake) => {
-    const current = localStorage.getItem(filmStorageKey);
-    if (current) localStorage.setItem(TLPS_FILM_PREVIOUS_PROJECT_KEY, current);
+    const current = readStoredText(filmStorageKey);
+    if (current) writeStoredValue(TLPS_FILM_PREVIOUS_PROJECT_KEY, current);
     const nextProject: FilmProjectState = {
       ...blankFilmProject,
       projectName: intake.title,
@@ -275,8 +276,8 @@ function App() {
       productionType: intake.productionType,
       projectIdea: intake.idea,
     };
-    localStorage.setItem(workspaceProfileKey, JSON.stringify({ role: intake.role, roleLabel: intake.roleLabel, operatingSystem: intake.operatingSystem }));
-    localStorage.removeItem("maataa.tlps-film.active-handoff.v1");
+    writeStoredValue(workspaceProfileKey, { role: intake.role, roleLabel: intake.roleLabel, operatingSystem: intake.operatingSystem });
+    removeStoredValue("maataa.tlps-film.active-handoff.v1");
     setActiveTlpsHandoff(null);
     setHasPreviousProject(Boolean(current));
     setProject(nextProject);
@@ -324,7 +325,7 @@ function App() {
           <Button variant="secondary" onClick={loadSample}>
             Reload 30 Trillion India
           </Button>
-          <Button variant="ghost" onClick={() => { localStorage.removeItem(localSessionKey); localStorage.removeItem(workspaceProfileKey); goTo("product"); }}>Exit preview</Button>
+          <Button variant="ghost" onClick={() => { removeStoredValue(localSessionKey); removeStoredValue(workspaceProfileKey); goTo("product"); }}>Exit preview</Button>
         </div>
       </header>
       {(project.createdByRole || project.projectIdea) && <section className="film-project-origin" aria-label="Project setup details">
@@ -337,7 +338,7 @@ function App() {
           <p>{pendingTlpsHandoff.project.type} · {pendingTlpsHandoff.project.city || "Location not set"} · {pendingTlpsHandoff.project.shootDate || "Shoot date not set"}</p>
           <p>{pendingTlpsHandoff.budgetLines} estimate lines · {pendingTlpsHandoff.crewResponsibilities} crew responsibilities · ₹{pendingTlpsHandoff.estimatedBudget.toLocaleString("en-IN")} estimated</p>
           <small>Local planning details only. They do not confirm budget, bookings, permissions, or production readiness.</small></div>
-        <div className="film-tlps-handoff-actions"><Button onClick={acceptTlpsHandoff}>Create film project</Button><Button variant="secondary" onClick={() => { setPendingTlpsHandoff(null); localStorage.removeItem(TLPS_FILM_HANDOFF_KEY); window.history.replaceState(null, "", window.location.pathname); }}>Keep current project</Button></div>
+        <div className="film-tlps-handoff-actions"><Button onClick={acceptTlpsHandoff}>Create film project</Button><Button variant="secondary" onClick={() => { setPendingTlpsHandoff(null); removeStoredValue(TLPS_FILM_HANDOFF_KEY); window.history.replaceState(null, "", window.location.pathname); }}>Keep current project</Button></div>
       </section>}
       {activeTlpsHandoff && <section className="film-tlps-handoff film-tlps-handoff-active" aria-label="TLPS plan used to start this film project">
         <div><p className="film-overline">FILM PROJECT STARTED FROM TLPS</p><strong>{activeTlpsHandoff.project.type} · {activeTlpsHandoff.project.city || "Location not set"}</strong><p>{activeTlpsHandoff.budgetLines} estimates · {activeTlpsHandoff.crewResponsibilities} crew responsibilities · planning data remains a local demo.</p></div>

@@ -8,7 +8,7 @@ import { ServiceError, type ProjectEvent, type ServiceMode, type SessionIdentity
 import { createMaataaServices } from "./maataaAuthApi";
 import { createMockServices } from "./mocks";
 
-const readPlan = () => readStoredText(tlpsStorageKey);
+const readPlan = () => readStoredText(tlpsStorageKey) ?? "";
 
 export function ServicesPanel({ createServices }: { createServices?: (mode: ServiceMode) => TlpsServices }) {
   const [mode, setMode] = useState<ServiceMode>("mock");

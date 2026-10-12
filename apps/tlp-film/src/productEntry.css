@@ -39,3 +39,5 @@
 .tlp-setup-os.is-catalogue small { color:#817c70; }
 .tlp-entry-boundary { display:block; margin-top:18px; color:#777265; font-size:10px; line-height:1.6; }
 @media(max-width:600px) { .tlp-setup-progress { gap:6px; font-size:8px; } .tlp-setup-progress i { width:12px; } .tlp-setup-os-grid { grid-template-columns:1fr; } .tlp-entry-actions { align-items:stretch; flex-direction:column; } .tlp-entry-actions .m-button { width:100%; } }
+.tlp-setup-field .m-field { gap:8px; }
+.tlp-setup-field .m-field-label { font-size:inherit; font-weight:inherit; color:inherit; }
