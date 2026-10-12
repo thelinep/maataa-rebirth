@@ -2,7 +2,7 @@
 
 **Snapshot reviewed:** 7 October 2026 · **HEAD:** `eef053ffb9b1df3d332a4ed3f125391790f2a613` · **Working tree:** dirty (123 tracked paths plus untracked files). This matrix reconciles the current product snapshot, pilot records, and latest saved release pack. It is a status report, not a fresh product-wide qualification.
 
-**Addendum, 11 October 2026:** the release branch `feat/alpha8.7-composition-kernel` was last qualified by automation at `d54d726e` (see below); the uncommitted Hemant work was moved to branch `hemant/planetarium-wip`. Rows below still describe the 7 October snapshot unless stated. `apps/hemant-observatory` and the MAATAA Desktop Hemant clock display are outside `@maataa/ui` release claims and certification; see the scope boundary in [release readiness](RELEASE-READINESS.md).
+**Addendum, 11 October 2026:** the release branch `feat/alpha8.7-composition-kernel` was last qualified by automation at `5bc8c7b8` (see below); the uncommitted Hemant work was moved to branch `hemant/planetarium-wip`. Rows below still describe the 7 October snapshot unless stated. `apps/hemant-observatory` and the MAATAA Desktop Hemant clock display are outside `@maataa/ui` release claims and certification; see the scope boundary in [release readiness](RELEASE-READINESS.md).
 
 ## Status vocabulary
 
@@ -57,12 +57,12 @@ The pilot measures remain NOT_RUN until each application's owner approves a char
 
 ## Saved release evidence and current qualification
 
-The latest saved pack is [`release.json`](../../.certification/release-evidence/d54d726e550d61c13fcfff8d0344febd4ea97f3a/1791762507840/release.json) with [`dashboard.json`](../../.certification/release-evidence/d54d726e550d61c13fcfff8d0344febd4ea97f3a/1791762507840/dashboard.json). It records commit `d54d726e550d61c13fcfff8d0344febd4ea97f3a`, package `1.0.0-alpha.8.4`, darwin arm64, finished `2026-10-11T23:53:38Z`, clean tree at start and finish. It supersedes the `19211321` pack.
+The latest saved pack is [`release.json`](../../.certification/release-evidence/5bc8c7b8e0fff851ec2922709461b1ba488f449a/1791763205337/release.json) with [`dashboard.json`](../../.certification/release-evidence/5bc8c7b8e0fff851ec2922709461b1ba488f449a/1791763205337/dashboard.json). It records commit `5bc8c7b8e0fff851ec2922709461b1ba488f449a`, package `1.0.0-alpha.8.4`, darwin arm64, finished `2026-10-12T00:05:42Z`, clean tree at start and finish. It supersedes the `d54d726e` pack.
 
-| Gate group | Saved status for `d54d726` | Notes |
+| Gate group | Saved status for `5bc8c7b` | Notes |
 | --- | --- | --- |
-| Typecheck, tests, API, docs, composition/layout contracts, Storybook, package/demo builds | **PASS** | Unit tests 504/504, including the stable-API and generator contract tests. |
-| Browser, device, surface, AI catalogue, packed consumer, performance, security, source integrity | **PASS** | Browser 462/462 across six projects with `MAATAA_CERTIFY=1`, including the measure-mode spec; suites with dedicated configs are excluded from this gate and are not certified by it. Runtime regression limits: worst verified interaction 344 ms, route JS 1,423,948 bytes. |
+| Typecheck, tests, API, docs, composition/layout contracts, Storybook, package/demo builds | **PASS** | Unit tests 504/504, including the stable-API and generator contract tests; `api` gate verifies 126 frozen stable exports and 3,096 canonical IDs. |
+| Browser, device, surface, AI catalogue, packed consumer, performance, security, source integrity | **PASS** | Browser 462/462 across six projects with `MAATAA_CERTIFY=1`, including the measure-mode spec; suites with dedicated configs are excluded from this gate and are not certified by it. Runtime regression limits: worst verified interaction 314 ms, route JS 1,423,948 bytes. |
 | Automation summary | **PASS** | Commit-scoped; later commits need a fresh run. |
 | Pilot acceptance, legal/license approval, screen-reader review, real-device acceptance, runtime target approval, API/schema freeze | **NOT_RUN** | Still open. |
 | Release ownership evidence, private security channel, remote tag protection, controlled publisher | **BLOCKED** | Still open; designation alone does not create a reporting channel or release approval record. |
