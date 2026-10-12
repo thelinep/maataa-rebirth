@@ -49,7 +49,7 @@ Project payloads are bounded to 1 MiB and validated for the current MAATA projec
 
 ## Deliberate limits
 
-This is not yet production Auth or public API hosting: there is no interactive password/passkey/OIDC login, MFA, TLS listener, cross-device deployment, CORS policy, rate limiting, organization/tenant administration, key rotation workflow, or backup automation. The SQLite knowledge slice is not the canonical DBB/HKDB service, and there is no DB Studio migration-authoring UI or product-client integration. It is a local bearer-token and knowledge-contract foundation for synthetic data and integration work. Do not use real customer or production data until these gates are implemented and independently reviewed.
+This is not yet production Auth or public API hosting: there is no interactive password/passkey/OIDC login, MFA, TLS listener, cross-device deployment, CORS policy, rate limiting, organization/tenant administration, key rotation workflow, or backup automation. The SQLite knowledge slice is not the canonical DBB/HKDB service, and there is no DB Studio migration-authoring UI. The first product client is TLPS (`apps/tlps/src/services/maataaAuthApi.ts`), which uses project-scoped tokens for whoami and versioned project records. It is a local bearer-token and knowledge-contract foundation for synthetic data and integration work. Do not use real customer or production data until these gates are implemented and independently reviewed.
 
 ## Verify
 

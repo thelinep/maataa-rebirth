@@ -1,6 +1,8 @@
 import React from "react";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
+import { ServicesPanel } from "../apps/tlps/src/services/ServicesPanel";
+import { sampleTlpsDraft, tlpsStorageKey } from "../apps/tlps/src/workflow";
 import { TLPS_OS_CATALOG } from "../apps/tlps/src/operatingSystems";
 import {
   AREA_DEFINITIONS,
@@ -118,4 +120,22 @@ describe("TLPS area screen", () => {
     expect(onOpenView).toHaveBeenCalledWith("plan");
     expect(screen.queryByRole("table")).toBeNull();
   });
+
+  it("signs in with the mock service, opens the plan and saves a version", async () => {
+    localStorage.setItem(tlpsStorageKey, JSON.stringify(sampleTlpsDraft()));
+    render(<ServicesPanel />);
+    fireEvent.change(screen.getByLabelText("Your name"), { target: { value: "Asha" } });
+    fireEvent.click(screen.getByRole("button", { name: "Connect" }));
+    await screen.findByRole("button", { name: "Open project from my plan" });
+    fireEvent.click(screen.getByRole("button", { name: "Open project from my plan" }));
+    await screen.findByLabelText("What changed in this version?");
+    fireEvent.change(screen.getByLabelText("What changed in this version?"), { target: { value: "First plan" } });
+    fireEvent.click(screen.getByRole("button", { name: "Save current plan as version 1" }));
+    await waitFor(() => expect(screen.getByRole("status")).toHaveTextContent("Saved version 1."));
+    expect(screen.getByRole("table")).toHaveTextContent("First plan");
+    fireEvent.click(screen.getByRole("button", { name: "Try a payment request" }));
+    await screen.findByText(/draft-not-sent/);
+    localStorage.removeItem(tlpsStorageKey);
+  });
 });
+

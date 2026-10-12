@@ -4,6 +4,7 @@ import * as Workspaces from "@maataa/ui/workspaces";
 import * as TlpsAiSpaces from "../ai-spaces";
 import { TLPS_OS_CATALOG, type TlpsOsId } from "../operatingSystems";
 import type { TlpsView } from "../types";
+import { ServicesPanel } from "../services/ServicesPanel";
 import {
   AREA_DEFINITIONS,
   aiSpacesForArea,
@@ -179,6 +180,8 @@ export function AreaScreen({ areaId, store, onStoreChange, onOpenView, onBack }:
           </div>
         )}
       </section>
+
+      {areaId === "core-platform" && <ServicesPanel />}
 
       {aiSpaces.length > 0 && (
         <section className="tlps-area-panel" aria-labelledby="tlps-area-ai">
