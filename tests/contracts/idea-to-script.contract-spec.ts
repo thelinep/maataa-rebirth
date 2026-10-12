@@ -34,7 +34,7 @@ The sea is quiet.
 
 async function v1() {
   const { record, preview } = await startFromIdea("Synthetic Lighthouse", "A keeper records monsoon sounds", PID);
-  return approveVersion(record, preview, { proposalDigest: preview.digest, decidedBy: "local-user" }, [], "tlps:idea-to-script", () => 1);
+  return approveVersion(record, preview, { proposalDigest: preview.digest, decidedBy: "local-user" }, [], "tlps:idea-to-script", () => 1_791_000_000_001);
 }
 
 test("deterministic screenplay check: shape only, model-free", () => {
@@ -54,7 +54,7 @@ test("Idea → Script end to end on one project ID: v1 idea, v2 idea + checked d
   assert.equal(label, SCRIPT_DRAFT_LABEL);
   assert.equal(format.passed, true);
   assert.match(preview.proposal.summary, /model unqualified for scripts/);
-  const second = await approveScriptStep(first.record, preview, { proposalDigest: preview.digest, decidedBy: "local-user" }, { "script-draft": goodScript }, first.events, () => 2);
+  const second = await approveScriptStep(first.record, preview, { proposalDigest: preview.digest, decidedBy: "local-user" }, { "script-draft": goodScript }, first.events, () => 1_791_000_000_002);
   assert.equal(second.record.projectId, PID);
   assert.equal(second.record.currentVersion, 2);
   assert.deepEqual(validateProjectRecord(second.record), []);

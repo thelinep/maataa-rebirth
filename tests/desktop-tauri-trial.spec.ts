@@ -192,3 +192,36 @@ test("opens a shared project record in MAATAA UI or TLPS with only its ID and re
     { command: "open_product_window", args: { product: "tlps", recordId, recordVersion: 2 } },
   ]);
 });
+
+test("shows the MAATAA Auth API project and version linked to the TLPS plan entry", async ({ page }) => {
+  await page.addInitScript(() => {
+    (window as Window & { __TAURI__?: unknown }).__TAURI__ = {
+      core: { invoke: async (command: string) => {
+        if (command === "list_workspace_projects") return [{
+          id: "tlps:workspace",
+          product: "tlps",
+          title: "River Festival",
+          projectType: "Production plan",
+          status: "draft",
+          sample: false,
+          updatedAt: 1_791_000_000_000,
+          apiLink: {
+            projectId: "prj:c969a38a-cb19-44df-8618-6d2993ae9307",
+            currentVersion: 3,
+            observedAtUnixMs: 1_791_000_000_000,
+            timeBasis: "host-unix-clock-unverified",
+          },
+        }];
+        return command === "list_workspace_events" ? [] : undefined;
+      } },
+      event: { listen: async () => () => undefined },
+      webviewWindow: { getCurrentWebviewWindow: () => ({ label: "main" }) },
+    };
+  });
+  await page.goto("/");
+  const row = page.locator('[data-api-project-id="prj:c969a38a-cb19-44df-8618-6d2993ae9307"]');
+  await expect(row).toBeVisible();
+  await expect(row.getByText("API · v3", { exact: true })).toBeVisible();
+  await expect(row.getByText("MAATAA Auth API · v3")).toBeVisible();
+  await expect(row.getByText("The API is the authority.", { exact: false })).toBeVisible();
+});

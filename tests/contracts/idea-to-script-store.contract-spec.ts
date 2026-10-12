@@ -12,7 +12,7 @@ import {
 async function stored(): Promise<IdeaToScriptStore> {
   const idea = "  A keeper   records monsoon sounds ";
   const { record, preview } = await startFromIdea("Synthetic", idea, "prj:aaaaaaaa-bbbb-4ccc-8ddd-eeeeeeeeeeee");
-  const approved = await approveVersion(record, preview, { proposalDigest: preview.digest, decidedBy: "local-user" }, [], "tlps:idea-to-script", () => 5);
+  const approved = await approveVersion(record, preview, { proposalDigest: preview.digest, decidedBy: "local-user" }, [], "tlps:idea-to-script", () => 1_791_000_000_005);
   return { schema: IDEA_TO_SCRIPT_STORE_SCHEMA, record: approved.record, events: approved.events, contents: { [approved.record.versions[0].artifacts[0].sha256]: normalizeIdea(idea) } };
 }
 

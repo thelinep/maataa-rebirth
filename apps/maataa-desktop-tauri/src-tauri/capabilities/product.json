@@ -1,0 +1,16 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "desktop-product",
+  "description": "Bundled MAATAA apps (TLPS, TLP Film, MAATAA UI, Support Center): publish their own project entry, open another app, return home, and reach the MAATAA Auth API through Desktop. No browser or registry-listing commands.",
+  "webviews": ["product-*"],
+  "permissions": [
+    "core:default",
+    "allow-upsert-workspace-project",
+    "allow-remove-workspace-project",
+    "allow-open-product-window",
+    "allow-focus-desktop-window",
+    "allow-api-connect",
+    "allow-api-disconnect",
+    "allow-api-request"
+  ]
+}

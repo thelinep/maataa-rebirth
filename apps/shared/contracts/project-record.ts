@@ -21,6 +21,18 @@ import { appendProjectEvent, type ProjectEventEnvelope, type ProjectProduct } fr
 
 export const PROJECT_RECORD_SCHEMA = "maataa.project-record/1.0.0" as const;
 export const MAX_VERSIONS = 200;
+/**
+ * Every time tagged "host-unix-clock-unverified" is Unix **milliseconds** —
+ * in TS contracts, Tauri and maataa-auth-api (schema v3). Before v3 the API
+ * stored seconds under the same label; a value below this bound (1973-03-03 in
+ * ms) can only be such a legacy second value.
+ */
+export const HOST_TIME_UNIT = "unix-ms" as const;
+export const LEGACY_SECONDS_BELOW = 100_000_000_000;
+/** Normalise a stored host time to Unix milliseconds (legacy seconds × 1000). */
+export function hostUnixMs(value: number): number {
+  return value < LEGACY_SECONDS_BELOW ? value * 1000 : value;
+}
 export const MAX_ARTIFACTS_PER_VERSION = 50;
 
 export const ARTIFACT_KINDS = ["idea", "script-draft", "budget", "schedule", "cast-list", "location-list", "video", "image", "audio", "document"] as const;
@@ -70,6 +82,7 @@ export interface ProjectVersion {
   artifacts: ArtifactRef[];
   checks: CheckResult[];
   approval: { decidedBy: "local-user"; proposalDigest: string };
+  /** Unix milliseconds (see HOST_TIME_UNIT). Read stored values through hostUnixMs(). */
   recordedAt: number;
   timeBasis: "host-unix-clock-unverified";
 }
@@ -243,6 +256,7 @@ export async function approveVersion(
   if (fresh.conflict) throw new Error(`Conflict: ${fresh.conflict}. Reload the current version and propose again.`);
   if (record.versions.length >= MAX_VERSIONS) throw new Error("Version history limit reached.");
   const recordedAt = now();
+  if (!Number.isSafeInteger(recordedAt) || recordedAt < LEGACY_SECONDS_BELOW) throw new Error("The clock must return Unix milliseconds.");
   const version: ProjectVersion = {
     version: record.currentVersion + 1,
     baseVersion: record.currentVersion === 0 ? null : record.currentVersion,

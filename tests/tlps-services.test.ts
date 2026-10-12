@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { ServiceError } from "../apps/tlps/src/services/contracts";
-import { createMaataaServices } from "../apps/tlps/src/services/maataaAuthApi";
+import { createDesktopTransport, createMaataaServices } from "../apps/tlps/src/services/maataaAuthApi";
 import { createMockServices } from "../apps/tlps/src/services/mocks";
 
 const PROJECT = "prj:c969a38a-cb19-44df-8618-6d2993ae9307";
@@ -61,6 +61,62 @@ describe("TLPS services · MAATAA Auth API adapters", () => {
   it("reports an unreachable server as unavailable", async () => {
     const services = createMaataaServices(async () => { throw new TypeError("fetch failed"); }, "http://api");
     expect(await code(services.auth.connect("good-token"))).toBe("unavailable");
+  });
+});
+
+/** Stand-in for the Desktop commands: the token stays inside this closure, like the Rust ApiSession. */
+function fakeDesktop(server: ReturnType<typeof fakeServer>) {
+  let held: string | null = null;
+  const seen: { command: string; args?: Record<string, unknown> }[] = [];
+  const reply = async (response: Response) => ({ status: response.status, body: await response.text() });
+  const invoke = async (command: string, args?: Record<string, unknown>) => {
+    seen.push({ command, args });
+    if (command === "api_connect") {
+      const response = await server.fetchImpl("http://api/v1/auth/whoami", { headers: { authorization: `Bearer ${String(args?.token)}` } });
+      held = response.status === 200 ? String(args?.token) : null;
+      return reply(response);
+    }
+    if (command === "api_disconnect") { held = null; return null; }
+    if (command === "api_request") {
+      if (!held) throw "not-connected: Connect with a project token first.";
+      const headers: Record<string, string> = { authorization: `Bearer ${held}` };
+      if (args?.ifMatch !== null && args?.ifMatch !== undefined) headers["if-match"] = String(args.ifMatch);
+      return reply(await server.fetchImpl(`http://api${String(args?.path)}`, { method: String(args?.method), headers, ...(args?.body ? { body: String(args.body) } : {}) }));
+    }
+    throw "invalid: unknown command";
+  };
+  return { invoke, seen };
+}
+
+describe("TLPS services · through MAATAA Desktop", () => {
+  it("keeps the token in Desktop and uses Unix milliseconds", async () => {
+    const server = fakeServer();
+    const desktop = fakeDesktop(server);
+    const services = createMaataaServices(createDesktopTransport(desktop.invoke));
+    expect((services.auth as { transport?: { route: string } }).transport?.route).toBe("desktop");
+    expect(await code(services.projects.read())).toBe("not-connected");
+    expect(await code(services.auth.connect("bad-token"))).toBe("unauthorized");
+    const session = await services.auth.connect("good-token");
+    // The fake server answers in legacy seconds; the adapter reports milliseconds.
+    expect(session.expiresAt).toBe(2_000_000_000_000);
+    await services.projects.open("River Festival");
+    const before = Date.now();
+    const saved = await services.projects.saveVersion({ baseVersion: 0, summary: "First plan", planJson: "{}" });
+    expect(saved.currentVersion).toBe(1);
+    expect(saved.versions[0].recordedAt).toBeGreaterThanOrEqual(before);
+    const requests = desktop.seen.filter((call) => call.command === "api_request");
+    expect(requests.find((call) => call.args?.method === "PUT")?.args?.ifMatch).toBe(0);
+    expect(JSON.stringify(requests)).not.toContain("good-token");
+    services.auth.disconnect();
+    await Promise.resolve();
+    expect(await code(services.projects.events())).toBe("not-connected");
+  });
+
+  it("reports a refused route and an unreachable service distinctly", async () => {
+    const refused = createMaataaServices(createDesktopTransport(async () => { throw "invalid: MAATAA Desktop does not forward this request."; }));
+    expect(await code(refused.auth.connect("good-token"))).toBe("invalid");
+    const down = createMaataaServices(createDesktopTransport(async () => { throw "unavailable: The MAATAA Auth API is not running on this computer."; }));
+    expect(await code(down.auth.connect("good-token"))).toBe("unavailable");
   });
 });
 

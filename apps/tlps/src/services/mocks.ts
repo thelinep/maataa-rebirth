@@ -38,7 +38,7 @@ export function createMockAuth(): AuthService {
   };
 }
 
-export function createMockProjectStore(auth: AuthService, now: () => number = () => Math.floor(Date.now() / 1000)): ProjectStore {
+export function createMockProjectStore(auth: AuthService, now: () => number = Date.now): ProjectStore {
   let project: StoredProject | null = null;
   const log: ProjectEvent[] = [];
   const requireSession = () => {

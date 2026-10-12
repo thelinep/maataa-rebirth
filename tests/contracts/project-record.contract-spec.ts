@@ -50,10 +50,10 @@ test("propose → preview → approve creates v1 then v2; all apps see the same 
   let r = createProjectRecord({ title: "Synthetic Monsoon", domain: "film-production", ownerApp: "tlps", projectId: fixedId() });
   const p1 = await previewVersion(r, propose(0, [idea], r.projectId));
   assert.equal(p1.conflict, null);
-  const a1 = await approveVersion(r, p1, { proposalDigest: p1.digest, decidedBy: "local-user" }, [], "maataa-desktop:project-record", () => 10);
+  const a1 = await approveVersion(r, p1, { proposalDigest: p1.digest, decidedBy: "local-user" }, [], "maataa-desktop:project-record", () => 1_791_000_000_010);
   r = a1.record;
   const p2 = await previewVersion(r, propose(1, [idea, scriptDraft], r.projectId, "Add script draft"));
-  const a2 = await approveVersion(r, p2, { proposalDigest: p2.digest, decidedBy: "local-user" }, a1.events, "maataa-desktop:project-record", () => 11);
+  const a2 = await approveVersion(r, p2, { proposalDigest: p2.digest, decidedBy: "local-user" }, a1.events, "maataa-desktop:project-record", () => 1_791_000_000_011);
   r = a2.record;
   assert.equal(r.currentVersion, 2);
   assert.deepEqual(validateProjectRecord(r), []);

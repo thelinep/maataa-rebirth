@@ -1,6 +1,7 @@
 import { cp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
+import { BUILD_SCHEMA, buildStampPath, productSourceFingerprint } from "./desktop-products-fingerprint.mjs";
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const webRoot = path.join(repoRoot, "apps/maataa-desktop-tauri/web");
@@ -19,7 +20,8 @@ for (const [name, relativeBuildPath] of productBuilds) {
   const source = path.join(repoRoot, relativeBuildPath);
   await readFile(path.join(source, "index.html"));
   const destination = path.join(productsRoot, name);
-  await cp(source, destination, { recursive: true });
+  // Skip dotfiles (.DS_Store and the like): they are not part of a product.
+  await cp(source, destination, { recursive: true, filter: (file) => !path.basename(file).startsWith(".") });
   process.stdout.write(`Bundled ${name} from ${relativeBuildPath}\n`);
 }
 
@@ -47,3 +49,11 @@ const filmWrapper = `<!doctype html>
 <body><p>Opening the local TLPS handoff…</p><script>location.replace('./index.html?from=tlps');</script></body></html>
 `;
 await writeFile(path.join(productsRoot, "tlp-film", "handoff.html"), filmWrapper);
+
+// Stamp what these bundles were built from; the desktop e2e suite checks it.
+const fingerprint = await productSourceFingerprint();
+await writeFile(
+  buildStampPath,
+  `${JSON.stringify({ schema: BUILD_SCHEMA, ...fingerprint, products: productBuilds.map(([name]) => name), builtAtUnixMs: Date.now(), timeBasis: "host-unix-clock-unverified" }, null, 2)}\n`,
+);
+process.stdout.write(`Stamped products/BUILD.json (${fingerprint.sourceDigest.slice(0, 19)}…)\n`);

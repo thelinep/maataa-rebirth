@@ -212,6 +212,32 @@ Fix: keep one. MAATAA Browser has the tighter capability.
 - Navigation is guarded (`main.mjs:73-86`).
 - IPC checks the sending window (`trustedWindow`).
 
+## Fix status (2026-10-12)
+
+The release owner chose the Tauri app as the desktop and asked for items 1–3 of the recommended order (chat statement, not a signed record).
+
+| Finding | Status | What changed |
+| --- | --- | --- |
+| **D-1** | Fixed | `pnpm maataa:desktop:dev` starts the Tauri Desktop. The Electron shell is frozen legacy (`maataa:desktop:electron:dev`); its browser-local list is not migrated. |
+| **H-1** | Fixed | One unit: `host-unix-clock-unverified` means Unix milliseconds everywhere. auth-api schema v3 converts stored second columns, token `expires_at` is ms, and the server stamps each new version's `recordedAt` (client value ignored; accepted versions must not change). `approveVersion` refuses a clock that returns seconds. `hostUnixMs()` reads legacy values (below 1e11 = seconds). The TLPS adapter and mock now use ms. |
+| **H-2** | Fixed in Desktop | TLPS in a Desktop window calls `api_connect` / `api_request` / `api_disconnect`. Desktop keeps the token in Rust and forwards only the project routes to 127.0.0.1. The CSP is unchanged. A static web build still has no route, by design. |
+| **D-2** | Fixed for the API project | Desktop records `apiLink` (API project ID + current version) on the `tlps:workspace` entry from every successful project response it forwards. The API is the authority; products cannot set the link. Local Idea → Script records remain registry-versioned and are not in the API. |
+| **D-3 / M-5** | Fixed | `build.rs` declares all 15 commands. Three capabilities, by webview label: home, browser, product. The external page matches none. Unknown permissions fail the Tauri build; `tests/desktop-capabilities.test.ts` keeps build.rs, the handler, the grants and each page's calls in agreement. |
+| **D-4** | Fixed | `maataa:tauri:check` rebuilds the products before Playwright. `web/products/BUILD.json` stamps a content fingerprint of the sources; the desktop Playwright suite refuses a stale bundle. Dotfiles are no longer copied. |
+| **L-4** | Fixed | Authority map updated. |
+
+Verification of this change:
+
+- auth-api: 16 unit + 3 binary + HTTP flow tests, fmt and Clippy, in the cloud workspace.
+- Desktop bridge against the real auth-api: connect, refused admin route, create, save, stale save refused, server-stamped ms time, link at v1.
+- Tauri crate: `cargo check`, Clippy and 27/27 tests on Linux, with only the macOS `compile_error!` guard removed in a scratch copy.
+- Repository: vitest 52 files, 642/642. Contract specs 65 pass, 2 skipped. `tsc` for the root, TLPS and TLP Film.
+- Desktop Playwright, run in Chromium on Linux: 7 of 9 pass, including the new API-link test. Two failures exist before this change too:
+  - The clock test expects "ahoratra", but the page shows "time unavailable".
+  - The title-bar spacing is 6.5 px against a 12 px minimum.
+
+Still needs a native macOS run: a product window calling `api_*` through IPC, and the external page being refused.
+
 ## Recommended order
 
 1. **D-1:** choose one desktop shell. Then **H-1:** the time unit split.

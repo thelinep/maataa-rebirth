@@ -18,7 +18,7 @@ export interface SessionIdentity {
   principalId: string;
   projectId: string;
   scopes: string[];
-  /** Unix seconds; null for mock sessions. */
+  /** Unix milliseconds; null for mock sessions. */
   expiresAt: number | null;
   mode: ServiceMode;
 }
@@ -34,6 +34,7 @@ export interface AuthService {
 export interface StoredVersion {
   version: number;
   summary: string;
+  /** Unix milliseconds (host clock, unverified). */
   recordedAt: number;
   /** SHA-256 of the plan snapshot; the plan body itself stays in this browser. */
   planDigest: string;

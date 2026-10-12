@@ -106,9 +106,15 @@ function renderWorkspaceProjects(projects) {
         <p class="workspace-project-note">Local prototype · saved on this Mac only · no sign-in or shared database.</p>
       </article>`;
       }
-      return `<article class="workspace-project-row">
-        <div class="workspace-project-heading"><strong>${projectText(project.title)}</strong><span class="state-tag">${state}</span></div>
+      const api = project.apiLink && typeof project.apiLink.projectId === 'string' ? project.apiLink : null;
+      const apiMeta = api
+        ? `<div class="workspace-project-meta"><span>MAATAA Auth API · v${Number(api.currentVersion)}</span><code>${projectText(api.projectId)}</code></div>
+        <p class="workspace-project-note">Version from the API on this computer, as last seen by Desktop. The API is the authority.</p>`
+        : '';
+      return `<article class="workspace-project-row"${api ? ` data-api-project-id="${projectText(api.projectId)}"` : ''}>
+        <div class="workspace-project-heading"><strong>${projectText(project.title)}</strong><span class="state-tag">${api ? `API · v${Number(api.currentVersion)}` : state}</span></div>
         <div class="workspace-project-meta"><span>${label}</span><span>${projectText(project.projectType || 'Project')}</span></div>
+        ${apiMeta}
         <button type="button" data-open-project="${product}">Open in ${label} →</button>
       </article>`;
     }).join('');

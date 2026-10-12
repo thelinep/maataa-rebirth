@@ -113,7 +113,7 @@ fn local_auth_and_project_api_round_trip_enforces_scope_version_and_revocation()
     }
     let (status, readiness) = request(port, "GET", "/readyz", None, None, None);
     assert_eq!(status, 200);
-    assert_eq!(readiness["schemaVersion"], 2);
+    assert_eq!(readiness["schemaVersion"], 3);
     let (status, _) = request(
         port,
         "POST",
@@ -238,6 +238,17 @@ fn local_auth_and_project_api_round_trip_enforces_scope_version_and_revocation()
         Some(&next),
     );
     assert_eq!(status, 409);
+    // The server stamps version times itself, in Unix milliseconds.
+    let (status, stored) = request(
+        port,
+        "GET",
+        &format!("/v1/projects/{project}"),
+        Some(access),
+        None,
+        None,
+    );
+    assert_eq!(status, 200);
+    assert!(stored["versions"][0]["recordedAt"].as_i64().unwrap() >= 100_000_000_000);
     let (status, events) = request(
         port,
         "GET",

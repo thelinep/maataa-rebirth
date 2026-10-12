@@ -1,0 +1,17 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "desktop-browser",
+  "description": "The local controls of a MAATAA Browser window. Scoped by webview label, so the external page (webview external-page-browser-N) matches nothing here; remote origins also get no IPC because no capability lists remote URLs.",
+  "webviews": ["browser-*"],
+  "permissions": [
+    "core:default",
+    "allow-open-browser-window",
+    "allow-open-product-window",
+    "allow-focus-desktop-window",
+    "allow-read-host-clock-snapshot",
+    "allow-open-embedded-page",
+    "allow-close-embedded-page",
+    "allow-browser-control",
+    "allow-validate-address"
+  ]
+}

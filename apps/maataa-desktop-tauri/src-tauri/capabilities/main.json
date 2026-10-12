@@ -1,0 +1,15 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "desktop-home",
+  "description": "MAATAA Desktop home window: launch apps and browser windows, read the shared project list and the unverified host clock.",
+  "webviews": ["main"],
+  "permissions": [
+    "core:default",
+    "allow-open-browser-window",
+    "allow-open-product-window",
+    "allow-list-workspace-projects",
+    "allow-list-workspace-events",
+    "allow-focus-desktop-window",
+    "allow-read-host-clock-snapshot"
+  ]
+}

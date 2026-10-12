@@ -22,6 +22,12 @@ pub const DEFAULT_TOKEN_TTL: i64 = 3_600;
 pub const MAX_TOKEN_TTL: i64 = 7_776_000; // 90 days
 const MIGRATION_V1_CHECKSUM: &str = "maataa-auth-api-schema-v1-baseline-2026-10";
 const MIGRATION_V2_CHECKSUM: &str = "maataa-auth-api-schema-v2-hkdb-metadata-2026-10";
+const MIGRATION_V3_CHECKSUM: &str = "maataa-auth-api-schema-v3-unix-ms-2026-10";
+/// Stored times below this are legacy Unix seconds (before schema v3); in
+/// milliseconds this bound is 1973-03-03, earlier than any MAATAA record.
+/// Highest schema migration this build applies and accepts.
+pub const SCHEMA_VERSION: i64 = 3;
+pub const LEGACY_SECONDS_BELOW: i64 = 100_000_000_000;
 const MAX_KNOWLEDGE_FIELD_BYTES: usize = 2_048;
 
 #[derive(Clone, Debug, Serialize)]
@@ -151,12 +157,13 @@ impl Store {
                 |r| r.get(0),
             )
             .map_err(|_| StoreError::Database)?;
-        if current > 2 {
+        if current > SCHEMA_VERSION {
             return Err(StoreError::Invalid);
         }
         for (version, checksum) in [
             (1_i64, MIGRATION_V1_CHECKSUM),
             (2_i64, MIGRATION_V2_CHECKSUM),
+            (3_i64, MIGRATION_V3_CHECKSUM),
         ] {
             let applied: Option<String> = tx
                 .query_row(
@@ -233,9 +240,23 @@ impl Store {
           CREATE INDEX IF NOT EXISTS knowledge_assertions_subject_idx
             ON knowledge_assertions(project_id, subject_id, recorded_at);"
                 ).map_err(|_| StoreError::Database)?,
+                // v3: one unit for every host time. Earlier rows stored Unix
+                // seconds under the same basis label; convert them to ms.
+                3 => tx.execute_batch(
+            "UPDATE schema_migrations SET applied_at = applied_at * 1000 WHERE applied_at < 100000000000;
+          UPDATE principals SET created_at = created_at * 1000 WHERE created_at < 100000000000;
+          UPDATE access_tokens SET created_at = created_at * 1000 WHERE created_at < 100000000000;
+          UPDATE access_tokens SET expires_at = expires_at * 1000 WHERE expires_at < 100000000000;
+          UPDATE access_tokens SET revoked_at = revoked_at * 1000 WHERE revoked_at IS NOT NULL AND revoked_at < 100000000000;
+          UPDATE projects SET updated_at = updated_at * 1000 WHERE updated_at < 100000000000;
+          UPDATE project_events SET recorded_at = recorded_at * 1000 WHERE recorded_at < 100000000000;
+          UPDATE knowledge_objects SET recorded_at = recorded_at * 1000 WHERE recorded_at < 100000000000;
+          UPDATE knowledge_relations SET recorded_at = recorded_at * 1000 WHERE recorded_at < 100000000000;
+          UPDATE knowledge_assertions SET recorded_at = recorded_at * 1000 WHERE recorded_at < 100000000000;"
+                ).map_err(|_| StoreError::Database)?,
                 _ => unreachable!(),
             }
-            tx.execute("INSERT INTO schema_migrations(version,checksum,applied_at,time_basis) VALUES (?1,?2,?3,'host-unix-clock-unverified')", params![version, checksum, now_unix()]).map_err(|_| StoreError::Database)?;
+            tx.execute("INSERT INTO schema_migrations(version,checksum,applied_at,time_basis) VALUES (?1,?2,?3,'host-unix-clock-unverified')", params![version, checksum, now_unix_ms()]).map_err(|_| StoreError::Database)?;
         }
         tx.commit().map_err(|_| StoreError::Database)?;
         Ok(Self(Arc::new(Mutex::new(conn))))
@@ -288,7 +309,7 @@ impl Store {
                         |r| r.get(0),
                     )
                     .map_err(|_| StoreError::Database)?;
-                if integrity != "ok" || version != 2 {
+                if integrity != "ok" || version != SCHEMA_VERSION {
                     return Err(StoreError::Invalid);
                 }
                 check.close().map_err(|_| StoreError::Database)?;
@@ -325,7 +346,7 @@ impl Store {
             serde_json::to_string(&body["provenance"]).map_err(|_| StoreError::Invalid)?;
         let properties =
             serde_json::to_string(&body["properties"]).map_err(|_| StoreError::Invalid)?;
-        let now = now_unix();
+        let now = now_unix_ms();
         let conn = self.0.lock().map_err(|_| StoreError::Database)?;
         conn.execute("INSERT INTO knowledge_objects(project_id,object_id,object_type,label,summary,properties_json,provenance_json,created_by,recorded_at,time_basis) VALUES (?1,?2,?3,?4,?5,?6,?7,?8,?9,'host-unix-clock-unverified')", params![identity.project_id, object_id, body["objectType"].as_str(), body["label"].as_str(), body["summary"].as_str(), properties, provenance, identity.principal_id, now]).map_err(map_sqlite_constraint)?;
         Ok(
@@ -355,7 +376,7 @@ impl Store {
         if !valid_knowledge_relation(body) {
             return Err(StoreError::Invalid);
         }
-        let now = now_unix();
+        let now = now_unix_ms();
         let provenance =
             serde_json::to_string(&body["provenance"]).map_err(|_| StoreError::Invalid)?;
         let conn = self.0.lock().map_err(|_| StoreError::Database)?;
@@ -376,7 +397,7 @@ impl Store {
         if !valid_knowledge_assertion(body) {
             return Err(StoreError::Invalid);
         }
-        let now = now_unix();
+        let now = now_unix_ms();
         let provenance =
             serde_json::to_string(&body["provenance"]).map_err(|_| StoreError::Invalid)?;
         let value = serde_json::to_string(&body["value"]).map_err(|_| StoreError::Invalid)?;
@@ -410,7 +431,7 @@ impl Store {
         {
             return Err(StoreError::Invalid);
         }
-        let now = now_unix();
+        let now = now_unix_ms();
         let conn = self.0.lock().map_err(|_| StoreError::Database)?;
         match conn.execute(
             "INSERT INTO principals (principal_id, display_name, created_at) VALUES (?1, ?2, ?3)",
@@ -451,8 +472,8 @@ impl Store {
         bytes.fill(0);
         let token_hash = hex(&Sha256::digest(access_token.as_bytes()));
         let token_id = Uuid::new_v4().to_string();
-        let now = now_unix();
-        let expires_at = now.saturating_add(ttl_seconds);
+        let now = now_unix_ms();
+        let expires_at = now.saturating_add(ttl_seconds.saturating_mul(1_000));
         let scopes_json = serde_json::to_string(&scopes).map_err(|_| StoreError::Database)?;
         let conn = self.0.lock().map_err(|_| StoreError::Database)?;
         conn.execute("INSERT INTO access_tokens (token_id, token_hash, principal_id, project_id, scopes_json, created_at, expires_at) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7)", params![token_id, token_hash, principal_id, project_id, scopes_json, now, expires_at]).map_err(|e| match e { rusqlite::Error::SqliteFailure(ref err, _) if err.code == rusqlite::ErrorCode::ConstraintViolation => StoreError::Missing, _ => StoreError::Database })?;
@@ -479,7 +500,7 @@ impl Store {
             [&hash], |r| Ok((r.get(0)?, r.get(1)?, r.get(2)?, r.get(3)?, r.get(4)?))).optional().map_err(|_| StoreError::Database)?;
         let (principal_id, project_id, scopes_json, expires_at, revoked_at) =
             row.ok_or(StoreError::Denied)?;
-        if revoked_at.is_some() || expires_at <= now_unix() {
+        if revoked_at.is_some() || expires_at <= now_unix_ms() {
             return Err(StoreError::Denied);
         }
         let scopes: Vec<Scope> =
@@ -497,7 +518,7 @@ impl Store {
         let changed = conn
             .execute(
                 "UPDATE access_tokens SET revoked_at=?1 WHERE token_id=?2 AND revoked_at IS NULL",
-                params![now_unix(), token_id],
+                params![now_unix_ms(), token_id],
             )
             .map_err(|_| StoreError::Database)?;
         if changed == 0 {
@@ -513,9 +534,11 @@ impl Store {
         if !valid_project_record(record, &identity.project_id) {
             return Err(StoreError::Invalid);
         }
-        let digest = digest_json(record)?;
-        let json = serde_json::to_string(record).map_err(|_| StoreError::Invalid)?;
-        let now = now_unix();
+        let now = now_unix_ms();
+        let mut record = record.clone();
+        stamp_versions(&mut record, None, now)?;
+        let digest = digest_json(&record)?;
+        let json = serde_json::to_string(&record).map_err(|_| StoreError::Invalid)?;
         let conn = self.0.lock().map_err(|_| StoreError::Database)?;
         let tx = conn
             .unchecked_transaction()
@@ -561,27 +584,32 @@ impl Store {
         if expected_version.checked_add(1) != Some(new_version) {
             return Err(StoreError::Invalid);
         }
-        let digest = digest_json(record)?;
-        let json = serde_json::to_string(record).map_err(|_| StoreError::Invalid)?;
-        let now = now_unix();
+        let now = now_unix_ms();
         let conn = self.0.lock().map_err(|_| StoreError::Database)?;
         let tx = conn
             .unchecked_transaction()
             .map_err(|_| StoreError::Database)?;
+        let stored: Option<(i64, String)> = tx
+            .query_row(
+                "SELECT current_version, record_json FROM projects WHERE project_id=?1",
+                [project_id],
+                |r| Ok((r.get(0)?, r.get(1)?)),
+            )
+            .optional()
+            .map_err(|_| StoreError::Database)?;
+        let (stored_version, stored_json) = stored.ok_or(StoreError::Missing)?;
+        if stored_version != expected_version {
+            return Err(StoreError::Conflict);
+        }
+        let stored_record: Value =
+            serde_json::from_str(&stored_json).map_err(|_| StoreError::Database)?;
+        let mut record = record.clone();
+        stamp_versions(&mut record, Some(&stored_record), now)?;
+        let digest = digest_json(&record)?;
+        let json = serde_json::to_string(&record).map_err(|_| StoreError::Invalid)?;
         let changed = tx.execute("UPDATE projects SET current_version=?1,record_json=?2,updated_at=?3 WHERE project_id=?4 AND current_version=?5", params![new_version, json, now, project_id, expected_version]).map_err(|_| StoreError::Database)?;
         if changed == 0 {
-            let exists: bool = tx
-                .query_row(
-                    "SELECT EXISTS(SELECT 1 FROM projects WHERE project_id=?1)",
-                    [project_id],
-                    |r| r.get(0),
-                )
-                .map_err(|_| StoreError::Database)?;
-            return Err(if exists {
-                StoreError::Conflict
-            } else {
-                StoreError::Missing
-            });
+            return Err(StoreError::Conflict);
         }
         tx.execute("INSERT INTO project_events (event_id,project_id,project_version,actor,action,record_digest,recorded_at,time_basis) VALUES (?1,?2,?3,?4,'project.updated',?5,?6,'host-unix-clock-unverified')", params![Uuid::new_v4().to_string(), project_id, new_version, identity.principal_id, digest, now]).map_err(|_| StoreError::Database)?;
         tx.commit().map_err(|_| StoreError::Database)?;
@@ -662,7 +690,7 @@ async fn route(
     }
     if method == Method::GET && path == "/readyz" {
         let version = state.store.schema_version().map_err(map_store_error)?;
-        return if version == 2 {
+        return if version == SCHEMA_VERSION {
             Ok(json_response(
                 StatusCode::OK,
                 json!({"status":"ready","service":"maataa-auth-api","schemaVersion":version}),
@@ -1340,10 +1368,51 @@ fn hex(bytes: &[u8]) -> String {
     }
     s
 }
-fn now_unix() -> i64 {
+/// The server, not the client, records when a version was accepted: versions
+/// already stored must be unchanged (their stored time is kept) and every new
+/// version gets `now` in Unix milliseconds. Client-sent `recordedAt` is ignored.
+fn stamp_versions(record: &mut Value, stored: Option<&Value>, now: i64) -> Result<(), StoreError> {
+    let stored_versions: &[Value] = stored
+        .and_then(|value| value.get("versions"))
+        .and_then(Value::as_array)
+        .map_or(&[], Vec::as_slice);
+    let versions = record
+        .get_mut("versions")
+        .and_then(Value::as_array_mut)
+        .ok_or(StoreError::Invalid)?;
+    if versions.len() < stored_versions.len() {
+        return Err(StoreError::Invalid);
+    }
+    for (index, version) in versions.iter_mut().enumerate() {
+        let recorded_at = match stored_versions.get(index) {
+            Some(previous) => {
+                let without_time = |value: &Value| {
+                    let mut copy = value.clone();
+                    if let Some(object) = copy.as_object_mut() {
+                        object.remove("recordedAt");
+                    }
+                    copy
+                };
+                if without_time(previous) != without_time(version) {
+                    return Err(StoreError::Invalid);
+                }
+                previous.get("recordedAt").cloned().unwrap_or(Value::Null)
+            }
+            None => json!(now),
+        };
+        version
+            .as_object_mut()
+            .ok_or(StoreError::Invalid)?
+            .insert("recordedAt".into(), recorded_at);
+    }
+    Ok(())
+}
+/// Host wall clock in Unix **milliseconds**. Every stored time tagged
+/// `host-unix-clock-unverified` uses this unit (schema v3 onward).
+fn now_unix_ms() -> i64 {
     SystemTime::now()
         .duration_since(UNIX_EPOCH)
-        .map(|d| i64::try_from(d.as_secs()).unwrap_or(i64::MAX))
+        .map(|d| i64::try_from(d.as_millis()).unwrap_or(i64::MAX))
         .unwrap_or(0)
 }
 
@@ -1469,6 +1538,93 @@ mod tests {
         assert_eq!(events[1]["timeBasis"], "host-unix-clock-unverified");
     }
     #[test]
+    fn server_records_version_time_in_ms_and_keeps_history_immutable() {
+        let (s, i) = setup(vec![Scope::ProjectRead, Scope::ProjectWrite]);
+        let p = i.project_id.clone();
+        s.create_project(&i, &record(&p, 0)).unwrap();
+        let before = now_unix_ms();
+        s.update_project(&i, &p, 0, &record(&p, 1)).unwrap();
+        let stored = s.read_project(&i, &p).unwrap();
+        let v1_time = stored["versions"][0]["recordedAt"].as_i64().unwrap();
+        // The client sent recordedAt: 1; the server stamped its own ms time.
+        assert!(v1_time >= before && v1_time >= LEGACY_SECONDS_BELOW);
+        // v2 keeps v1's stored time even though the client re-sent 1.
+        s.update_project(&i, &p, 1, &record(&p, 2)).unwrap();
+        let stored = s.read_project(&i, &p).unwrap();
+        assert_eq!(
+            stored["versions"][0]["recordedAt"].as_i64().unwrap(),
+            v1_time
+        );
+        assert!(stored["versions"][1]["recordedAt"].as_i64().unwrap() >= v1_time);
+        // Rewriting an accepted version is refused.
+        let mut rewritten = record(&p, 3);
+        rewritten["versions"][0]["summary"] = json!("Changed history");
+        assert!(matches!(
+            s.update_project(&i, &p, 2, &rewritten),
+            Err(StoreError::Invalid)
+        ));
+        let events = s.list_events(&i, &p).unwrap();
+        assert!(events
+            .iter()
+            .all(|e| e["recordedAt"].as_i64().unwrap() >= LEGACY_SECONDS_BELOW));
+    }
+    #[test]
+    fn token_expiry_is_stored_in_ms() {
+        let s = Store::in_memory().unwrap();
+        s.create_principal("person-1", "Person").unwrap();
+        let before = now_unix_ms();
+        let t = s
+            .issue_token("person-1", &id(), vec![Scope::ProjectRead], 3600)
+            .unwrap();
+        assert!(t.expires_at >= before + 3_600_000);
+        assert!(t.expires_at <= now_unix_ms() + 3_600_000);
+        assert!(s.authenticate(&t.access_token).is_ok());
+    }
+    #[test]
+    fn migration_v3_converts_legacy_second_times_to_ms() {
+        let temp = tempfile::NamedTempFile::new().unwrap();
+        let conn = Connection::open(temp.path()).unwrap();
+        // A v2 database written by the seconds-based build.
+        conn.execute_batch("CREATE TABLE schema_migrations (version INTEGER PRIMARY KEY, checksum TEXT NOT NULL, applied_at INTEGER NOT NULL, time_basis TEXT NOT NULL);").unwrap();
+        drop(conn);
+        {
+            let conn = Connection::open(temp.path()).unwrap();
+            // Apply v1+v2 with the real migration bodies, then mark them as seconds.
+            let store = Store::initialize(conn).unwrap();
+            let c = store.0.lock().unwrap();
+            c.execute("DELETE FROM schema_migrations WHERE version=3", [])
+                .unwrap();
+            c.execute("UPDATE schema_migrations SET applied_at=1791000000", [])
+                .unwrap();
+            c.execute(
+                "INSERT INTO principals VALUES('person-1','Person',1791000000)",
+                [],
+            )
+            .unwrap();
+            c.execute("INSERT INTO access_tokens VALUES('t1','h1','person-1','prj:00000000-0000-4000-8000-000000000000','[]',1791000000,1791003600,NULL)", []).unwrap();
+            c.execute("INSERT INTO projects VALUES('prj:00000000-0000-4000-8000-000000000000',0,'{}','person-1',1791000000)", []).unwrap();
+            c.execute("INSERT INTO project_events VALUES('e1','prj:00000000-0000-4000-8000-000000000000',0,'person-1','project.created','d',1791000000,'host-unix-clock-unverified')", []).unwrap();
+        }
+        let migrated = Store::initialize(Connection::open(temp.path()).unwrap()).unwrap();
+        assert_eq!(migrated.schema_version().unwrap(), 3);
+        let c = migrated.0.lock().unwrap();
+        let get = |sql: &str| -> i64 { c.query_row(sql, [], |r| r.get(0)).unwrap() };
+        assert_eq!(get("SELECT created_at FROM principals"), 1_791_000_000_000);
+        assert_eq!(
+            get("SELECT expires_at FROM access_tokens"),
+            1_791_003_600_000
+        );
+        assert_eq!(get("SELECT updated_at FROM projects"), 1_791_000_000_000);
+        assert_eq!(
+            get("SELECT recorded_at FROM project_events"),
+            1_791_000_000_000
+        );
+        assert_eq!(
+            get("SELECT MIN(applied_at) FROM schema_migrations"),
+            1_791_000_000_000
+        );
+    }
+    #[test]
     fn record_id_and_schema_are_checked() {
         let (s, i) = setup(vec![Scope::ProjectWrite]);
         assert!(matches!(
@@ -1495,12 +1651,12 @@ mod tests {
     #[test]
     fn migrations_are_versioned_and_checksum_verified() {
         let s = Store::in_memory().unwrap();
-        assert_eq!(s.schema_version().unwrap(), 2);
+        assert_eq!(s.schema_version().unwrap(), 3);
         let conn = s.0.lock().unwrap();
         let count: i64 = conn
             .query_row("SELECT COUNT(*) FROM schema_migrations", [], |r| r.get(0))
             .unwrap();
-        assert_eq!(count, 2);
+        assert_eq!(count, 3);
         drop(conn);
         // A changed migration fingerprint is a closed failure on reopen.
         let temp = tempfile::NamedTempFile::new().unwrap();
@@ -1529,7 +1685,7 @@ mod tests {
         )
         .unwrap();
         let migrated = Store::initialize(conn).unwrap();
-        assert_eq!(migrated.schema_version().unwrap(), 2);
+        assert_eq!(migrated.schema_version().unwrap(), 3);
         let conn = migrated.0.lock().unwrap();
         let owner: String = conn
             .query_row(

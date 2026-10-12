@@ -14,6 +14,7 @@ use std::{
 use tauri::{webview::WebviewBuilder, Emitter, Manager, Webview, WebviewUrl, Window};
 use url::Url;
 
+mod api_bridge;
 mod project_link;
 
 #[cfg(not(target_os = "macos"))]
@@ -21,6 +22,17 @@ compile_error!("This feasibility prototype targets native macOS WebKit only.");
 
 struct EmbeddedBrowsers(Mutex<HashMap<String, Webview<tauri::Wry>>>);
 struct WorkspaceRegistry(Mutex<()>);
+
+/// The API session lives here, in the Desktop process. Product windows send
+/// requests through `api_request` and never receive the token.
+#[derive(Default)]
+struct ApiSession(Mutex<Option<ApiSessionState>>);
+
+#[derive(Clone)]
+struct ApiSessionState {
+    token: String,
+    project_id: String,
+}
 
 /// A raw host wall-clock observation. It is deliberately not a verified time
 /// service: this process has no independently trusted reference or RTC API.
@@ -79,7 +91,15 @@ struct WorkspaceProject {
     /// v3: link to a shared project record (ID + current version only).
     #[serde(default, skip_serializing_if = "Option::is_none")]
     record: Option<RecordLink>,
+    /// Link to the MAATAA Auth API project behind this entry. Written only by
+    /// Desktop from API responses it forwarded; products cannot set it. The
+    /// API's version is the authority, this is Desktop's cache of it.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    api_link: Option<api_bridge::ApiLink>,
 }
+
+/// The entry that stands for the TLPS plan, which is what TLPS saves to the API.
+const TLPS_PLAN_ENTRY: &str = "tlps:workspace";
 
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
@@ -252,6 +272,7 @@ fn validate_workspace_project(input: WorkspaceProjectInput) -> Result<WorkspaceP
         updated_at,
         sample: input.sample,
         record: input.record,
+        api_link: None,
     })
 }
 
@@ -277,6 +298,66 @@ fn load_workspace_index(path: &Path) -> Result<WorkspaceIndex, String> {
     // the next successful write upgrades the index and starts the event log.
     index.version = WORKSPACE_INDEX_VERSION;
     Ok(index)
+}
+
+fn now_unix_ms() -> Result<u64, String> {
+    SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .map_err(|_| "The system clock is before the Unix epoch.".to_string())
+        .map(|elapsed| elapsed.as_millis().min(u64::MAX as u128) as u64)
+}
+
+/// Records what the API reported for the session's project on the TLPS plan
+/// entry (created if Desktop has none yet). Returns true when the index changed.
+fn apply_api_link(
+    index: &mut WorkspaceIndex,
+    project_id: &str,
+    version: u32,
+    title: Option<&str>,
+    now_ms: u64,
+) -> Result<bool, String> {
+    let existing = index
+        .projects
+        .iter()
+        .find(|item| item.id == TLPS_PLAN_ENTRY)
+        .and_then(|item| item.api_link.as_ref());
+    let (link, action) = match api_bridge::next_link(existing, project_id, version, now_ms) {
+        api_bridge::LinkChange::Unchanged => return Ok(false),
+        api_bridge::LinkChange::Linked(link) => (link, "api-project-linked"),
+        api_bridge::LinkChange::VersionObserved(link) => (link, "api-version-observed"),
+    };
+    if let Some(entry) = index
+        .projects
+        .iter_mut()
+        .find(|item| item.id == TLPS_PLAN_ENTRY)
+    {
+        entry.api_link = Some(link);
+        entry.updated_at = now_ms;
+    } else {
+        if index.projects.len() >= 100 {
+            return Err("The shared project list has reached its local limit.".into());
+        }
+        let title = title
+            .map(str::trim)
+            .filter(|text| !text.is_empty() && text.len() <= 120)
+            .unwrap_or("TLPS project");
+        index.projects.push(WorkspaceProject {
+            id: TLPS_PLAN_ENTRY.into(),
+            product: "tlps".into(),
+            title: title.into(),
+            project_type: "Production plan".into(),
+            status: "draft".into(),
+            updated_at: now_ms,
+            sample: false,
+            record: None,
+            api_link: Some(link),
+        });
+    }
+    append_workspace_event(index, TLPS_PLAN_ENTRY, "tlps", action)?;
+    if let Some(event) = index.events.last_mut() {
+        event.record_version = Some(version);
+    }
+    Ok(true)
 }
 
 fn append_workspace_event(
@@ -482,7 +563,12 @@ fn upsert_workspace_project(
         event.record_version = Some(link.record_version);
     }
     if let Some(existing) = index.projects.iter_mut().find(|item| item.id == project.id) {
-        *existing = project;
+        // Product input never carries the API link; keep the one Desktop holds.
+        let api_link = existing.api_link.take();
+        *existing = WorkspaceProject {
+            api_link,
+            ..project
+        };
     } else {
         if index.projects.len() >= 100 {
             return Err("The shared project list has reached its local limit.".into());
@@ -606,10 +692,102 @@ fn validate_address(address: String) -> Result<String, String> {
     parse_public_url(&address).map(|url| url.to_string())
 }
 
+#[tauri::command]
+async fn api_connect(app: tauri::AppHandle, token: String) -> Result<api_bridge::ApiReply, String> {
+    let token = token.trim().to_string();
+    api_bridge::validate_token(&token)?;
+    let port = api_bridge::configured_port();
+    let probe = token.clone();
+    let reply = tauri::async_runtime::spawn_blocking(move || {
+        api_bridge::send(port, "GET", "/v1/auth/whoami", &probe, None, None)
+    })
+    .await
+    .map_err(|_| "unavailable: The request was interrupted.".to_string())??;
+    let session =
+        api_bridge::whoami_project(&reply).map(|project_id| ApiSessionState { token, project_id });
+    *app.state::<ApiSession>()
+        .0
+        .lock()
+        .map_err(|_| "unavailable: The API session is busy.".to_string())? = session;
+    Ok(reply)
+}
+
+#[tauri::command]
+fn api_disconnect(session: tauri::State<'_, ApiSession>) -> Result<(), String> {
+    *session
+        .0
+        .lock()
+        .map_err(|_| "unavailable: The API session is busy.".to_string())? = None;
+    Ok(())
+}
+
+#[tauri::command]
+async fn api_request(
+    app: tauri::AppHandle,
+    method: String,
+    path: String,
+    body: Option<String>,
+    if_match: Option<u32>,
+) -> Result<api_bridge::ApiReply, String> {
+    api_bridge::validate_route(&method, &path, body.as_deref(), if_match)?;
+    let session = app
+        .state::<ApiSession>()
+        .0
+        .lock()
+        .map_err(|_| "unavailable: The API session is busy.".to_string())?
+        .clone()
+        .ok_or_else(|| "not-connected: Connect with a project token first.".to_string())?;
+    let port = api_bridge::configured_port();
+    let (send_method, send_path, send_body) = (method.clone(), path.clone(), body.clone());
+    let token = session.token.clone();
+    let reply = tauri::async_runtime::spawn_blocking(move || {
+        api_bridge::send(
+            port,
+            &send_method,
+            &send_path,
+            &token,
+            send_body.as_deref(),
+            if_match,
+        )
+    })
+    .await
+    .map_err(|_| "unavailable: The request was interrupted.".to_string())??;
+    if let Some((project_id, version)) = api_bridge::observed_project(&method, &path, &reply) {
+        if project_id == session.project_id {
+            let title = serde_json::from_str::<serde_json::Value>(&reply.body)
+                .ok()
+                .and_then(|value| {
+                    value
+                        .get("title")
+                        .and_then(|t| t.as_str().map(str::to_string))
+                });
+            let registry = app.state::<WorkspaceRegistry>();
+            let _guard = registry
+                .0
+                .lock()
+                .map_err(|_| "The shared project list is busy.".to_string())?;
+            let path = workspace_index_path(&app)?;
+            let mut index = load_workspace_index(&path)?;
+            if apply_api_link(
+                &mut index,
+                &project_id,
+                version,
+                title.as_deref(),
+                now_unix_ms()?,
+            )? {
+                save_workspace_index(&path, &index)?;
+                let _ = app.emit(WORKSPACE_PROJECTS_UPDATED, true);
+            }
+        }
+    }
+    Ok(reply)
+}
+
 fn main() {
     tauri::Builder::default()
         .manage(EmbeddedBrowsers(Mutex::new(HashMap::new())))
         .manage(WorkspaceRegistry(Mutex::new(())))
+        .manage(ApiSession::default())
         .invoke_handler(tauri::generate_handler![
             open_browser_window,
             open_product_window,
@@ -622,7 +800,10 @@ fn main() {
             close_embedded_page,
             browser_control,
             validate_address,
-            read_host_clock_snapshot
+            read_host_clock_snapshot,
+            api_connect,
+            api_disconnect,
+            api_request
         ])
         .on_window_event(|window, event| {
             if !window.label().starts_with("browser-") {
@@ -660,11 +841,11 @@ fn main() {
 #[cfg(test)]
 mod tests {
     use super::{
-        append_workspace_event, browser_child_label, browser_window_label, host_clock_snapshot,
-        load_workspace_index, parse_public_url, product_entry, save_workspace_index,
-        validate_workspace_project, RecordLink, WorkspaceIndex, WorkspaceProjectInput,
-        APP_HEADER_HEIGHT, BROWSER_NAV_HEIGHT, BROWSER_VIEW_TOP, MACOS_TITLEBAR_HEIGHT,
-        WORKSPACE_INDEX_VERSION,
+        api_bridge, append_workspace_event, apply_api_link, browser_child_label,
+        browser_window_label, host_clock_snapshot, load_workspace_index, parse_public_url,
+        product_entry, save_workspace_index, validate_workspace_project, RecordLink,
+        WorkspaceIndex, WorkspaceProjectInput, APP_HEADER_HEIGHT, BROWSER_NAV_HEIGHT,
+        BROWSER_VIEW_TOP, MACOS_TITLEBAR_HEIGHT, TLPS_PLAN_ENTRY, WORKSPACE_INDEX_VERSION,
     };
     use std::{
         fs,
@@ -942,5 +1123,74 @@ mod tests {
         assert_eq!(reloaded.events[1].sequence, 2);
         assert_eq!(reloaded.events[0].record_version, None);
         fs::remove_dir_all(directory).unwrap();
+    }
+
+    const API_PROJECT: &str = "prj:aaaaaaaa-2222-4333-8444-555555555555";
+
+    fn empty_index() -> WorkspaceIndex {
+        WorkspaceIndex {
+            version: WORKSPACE_INDEX_VERSION,
+            projects: Vec::new(),
+            events: Vec::new(),
+        }
+    }
+
+    #[test]
+    fn api_link_is_created_on_the_plan_entry_and_follows_the_api_version() {
+        let mut index = empty_index();
+        assert!(apply_api_link(&mut index, API_PROJECT, 0, Some("Mountain Light"), 100).unwrap());
+        let entry = &index.projects[0];
+        assert_eq!(entry.id, TLPS_PLAN_ENTRY);
+        assert_eq!(entry.title, "Mountain Light");
+        let link = entry.api_link.as_ref().unwrap();
+        assert_eq!(
+            (link.project_id.as_str(), link.current_version),
+            (API_PROJECT, 0)
+        );
+        assert_eq!(index.events.last().unwrap().action, "api-project-linked");
+        // Same answer again: nothing to write.
+        assert!(!apply_api_link(&mut index, API_PROJECT, 0, None, 200).unwrap());
+        assert!(apply_api_link(&mut index, API_PROJECT, 3, None, 300).unwrap());
+        assert_eq!(
+            index.projects[0].api_link.as_ref().unwrap().current_version,
+            3
+        );
+        assert_eq!(index.events.last().unwrap().action, "api-version-observed");
+        assert_eq!(index.events.last().unwrap().record_version, Some(3));
+    }
+
+    #[test]
+    fn product_upserts_cannot_set_or_erase_the_api_link() {
+        let mut index = empty_index();
+        let local = validate_workspace_project(WorkspaceProjectInput {
+            id: TLPS_PLAN_ENTRY.into(),
+            product: "tlps".into(),
+            title: "Plan".into(),
+            project_type: "Feature Film".into(),
+            status: "draft".into(),
+            sample: false,
+            record: None,
+        })
+        .unwrap();
+        assert!(local.api_link.is_none());
+        index.projects.push(local.clone());
+        apply_api_link(&mut index, API_PROJECT, 2, None, 100).unwrap();
+        // What upsert_workspace_project does with a product's replacement entry.
+        let existing = index.projects.iter_mut().next().unwrap();
+        let api_link = existing.api_link.take();
+        *existing = super::WorkspaceProject { api_link, ..local };
+        assert_eq!(
+            index.projects[0].api_link.as_ref().unwrap().current_version,
+            2
+        );
+        // An index written before this field existed still loads.
+        let json = serde_json::to_string(&index.projects[0]).unwrap();
+        assert!(json.contains("\"apiLink\""));
+        let legacy: super::WorkspaceProject = serde_json::from_str(
+            r#"{"id":"tlps:workspace","product":"tlps","title":"Plan","projectType":"Film","status":"draft","updatedAt":5,"sample":false}"#,
+        )
+        .unwrap();
+        assert!(legacy.api_link.is_none());
+        let _ = api_bridge::DEFAULT_PORT;
     }
 }

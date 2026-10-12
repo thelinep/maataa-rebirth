@@ -13,6 +13,7 @@ const readPlan = () => readStoredText(tlpsStorageKey) ?? "";
 export function ServicesPanel({ createServices }: { createServices?: (mode: ServiceMode) => TlpsServices }) {
   const [mode, setMode] = useState<ServiceMode>("mock");
   const services = useMemo(() => (createServices ?? ((m: ServiceMode) => m === "mock" ? createMockServices() : createMaataaServices()))(mode), [mode, createServices]);
+  const viaDesktop = (services.auth as { transport?: { route?: string } }).transport?.route === "desktop";
   const [credential, setCredential] = useState("");
   const [session, setSession] = useState<SessionIdentity | null>(null);
   const [project, setProject] = useState<StoredProject | null>(null);
@@ -65,7 +66,9 @@ export function ServicesPanel({ createServices }: { createServices?: (mode: Serv
       <p className="tlps-muted">
         {mode === "mock"
           ? "The mock keeps everything in memory and forgets it on reload."
-          : "Start apps/maataa-auth-api, then paste a project token issued by an administrator. The token stays in memory only. The server keeps version summaries and plan digests; the plan itself stays in this browser."}
+          : viaDesktop
+            ? "Start apps/maataa-auth-api, then paste a project token issued by an administrator. Requests go through MAATAA Desktop, which keeps the token; this window does not. Desktop links its project entry to this API project. The server keeps version summaries and plan digests; the plan itself stays in this app."
+            : "Start apps/maataa-auth-api, then paste a project token issued by an administrator. The token stays in memory only. The server keeps version summaries and plan digests; the plan itself stays in this browser."}
       </p>
       {!session ? (
         <div className="tlps-area-form">
@@ -74,7 +77,7 @@ export function ServicesPanel({ createServices }: { createServices?: (mode: Serv
         </div>
       ) : (
         <div className="tlps-services-session">
-          <p><strong>{session.principalId}</strong> · {session.projectId} · {session.scopes.join(", ")}{session.expiresAt ? ` · expires ${new Date(session.expiresAt * 1000).toLocaleString()}` : ""}</p>
+          <p><strong>{session.principalId}</strong> · {session.projectId} · {session.scopes.join(", ")}{session.expiresAt ? ` · expires ${new Date(session.expiresAt).toLocaleString()}` : ""}</p>
           <div className="tlps-area-actions">
             {!project && <Button variant="primary" disabled={busy} onClick={openProject}>Open project from my plan</Button>}
             <Button variant="secondary" onClick={() => switchMode(mode)}>Disconnect</Button>

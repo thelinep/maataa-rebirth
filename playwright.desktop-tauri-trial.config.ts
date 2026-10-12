@@ -3,6 +3,8 @@ import { defineConfig, devices } from "@playwright/test";
 export default defineConfig({
   testDir: "./tests",
   testMatch: "desktop-tauri-trial.spec.ts",
+  // Refuse to test an old bundle: products/BUILD.json must match the current sources.
+  globalSetup: "./scripts/desktop-products-fresh.global-setup.mjs",
   timeout: 30_000,
   workers: 1,
   reporter: "list",
