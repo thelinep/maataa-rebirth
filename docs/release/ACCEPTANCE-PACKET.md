@@ -1,6 +1,6 @@
 # Manual and external acceptance packet
 
-**Prepared:** 2026-10-11 · **Candidate:** `5bc8c7b8e0fff851ec2922709461b1ba488f449a` (`1.0.0-alpha.8.4`; first prepared against `9a18d8f5`) · **Automation:** PASS, release BLOCKED (exit 2) — see [release readiness](RELEASE-READINESS.md).
+**Prepared:** 2026-10-11 · **Candidate:** `255854d577870fbc25b8c20ca2e515a9fa700566` (`1.0.0-alpha.8.4`; first prepared against `9a18d8f5`) · **Automation:** PASS, release BLOCKED (exit 2) — see [release readiness](RELEASE-READINESS.md).
 
 This packet prepares each manual/external gate for the person who must decide it. **Nothing here is an approval.** Every gate below stays `NOT_RUN` or `BLOCKED` until its record block is filled by the named decider and committed. Prepared facts are drawn from the candidate's evidence pack under `.certification/release-evidence/9a18d8f5…/1791720393081/`.
 

@@ -1,6 +1,6 @@
 # Licence review brief (gate 2)
 
-**Prepared:** 2026-10-12 for the legal/licence reviewer · **Candidate:** `5bc8c7b8` (`@maataa/ui` `1.0.0-alpha.8.4`) · **Status:** NOT_RUN — awaiting reviewer.
+**Prepared:** 2026-10-12 for the legal/licence reviewer · **Candidate:** `255854d5` (`@maataa/ui` `1.0.0-alpha.8.4`) · **Status:** NOT_RUN — awaiting reviewer.
 
 This brief collects facts for the reviewer. It is not legal advice and not an approval.
 
@@ -13,7 +13,7 @@ This brief collects facts for the reviewer. It is not legal advice and not an ap
 
 ## Packages for review
 
-**Update 2026-10-12:** by owner decision `wrangler` was removed from the root `devDependencies` (it remains in `apps/hemant-observatory/package.json`, outside release scope). The lockfile no longer contains `wrangler`, `miniflare`, `sharp` or `@img/sharp-libvips-darwin-arm64`, so the LGPL item is gone from the `@maataa/ui` dependency graph. The inventory in the next certification pack will confirm the new counts. Three packages remain for review.
+**Update 2026-10-12:** by owner decision `wrangler` was removed from the root `devDependencies` (it remains in `apps/hemant-observatory/package.json`, outside release scope). The lockfile no longer contains `wrangler`, `miniflare`, `sharp` or `@img/sharp-libvips-darwin-arm64`, so the LGPL item is gone from the `@maataa/ui` dependency graph. Confirmed by the `255854d5` evidence pack: the resolved inventory is now 560 packages — 557 permissive plus the three below; no GPL or LGPL licence remains. Three packages remain for review.
 
 None of them is in the runtime dependency set, and a search of the tarball file list finds no file from any of them.
 
