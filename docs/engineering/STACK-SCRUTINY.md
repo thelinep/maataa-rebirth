@@ -1,4 +1,4 @@
-# Stack scrutiny: OS → Time → UI → DB → API → App
+# Stack scrutiny: OS → Time → UI → DB → API → App (+ Desktop)
 
 Reviewed 2026-10-12 on `feat/alpha8.7-composition-kernel` at `0d5d2f2c`. This review read the code in this checkout only.
 
@@ -23,6 +23,7 @@ Severity scale:
 | DB → API | Sound. Optimistic concurrency, migrations with checksums, hashed tokens, a body cap. | — |
 | API → App | Works only through the Vite dev/preview proxy. A static build and the Tauri app cannot reach it. | **H-2** |
 | App | The Tauri command allow-list is implicit, so external-page webviews are covered by default rules only. | M-5 |
+| **Desktop** (hosts every app) | Two shells with two project registries. Desktop and API version the same project independently. Bundled products are stale. | **D-1, D-2** |
 
 The last proven hop is unchanged: Tauri registry v3 ⇄ TLPS record, browser-tested. Since this branch there is one more proven hop: TLPS → auth-api through the dev proxy, run end to end against the real Rust service.
 
@@ -144,13 +145,80 @@ Fix: one key-naming rule and one record envelope (schema id, version, time basis
 
 **Known, unchanged.** The Electron shell keeps one slot per product and cannot hold record links.
 
+## Desktop
+
+Desktop is the host every App runs in, so it sits across the chain rather than at one point. Today it is a launcher plus a project registry. It does not host the OS, a time source, the runtime or the API.
+
+There are two shells:
+
+- **Electron shell:** started by `pnpm maataa:desktop:dev`. Source is `examples/support-center/electron`.
+- **Tauri trial:** `in.maataa.desktop.tauri-trial` 0.1.0, started by `pnpm maataa:desktop:tauri:dev`. Source is `apps/maataa-desktop-tauri`.
+
+A separate Tauri app, **MAATAA Browser** (`apps/maataa-browser`), is launched by the Electron shell.
+
+**D-1 (High): two desktop shells, two project registries.**
+
+- The Electron shell keeps its workspace list in `localStorage`, with one slot per product (`desktop-shell.mjs:353,405`).
+- The Tauri trial keeps registry v3 as a JSON file with record links, written atomically (`main.rs:122,324`).
+- They are the same concept stored in different shapes in different places. A project registered in one is invisible to the other.
+- The default dev command is the Electron one, so the proven hop (Tauri registry v3 ⇄ TLPS record) is not the path a developer gets by default.
+- Fix: choose one shell as the authority. Tauri is the closer fit: it has record links, an on-disk store and `project_link.rs` checks. Retire or freeze the other, and update the `maataa:desktop:dev` script to match.
+
+**D-2 (High): Desktop and the API version the same project independently.**
+
+- The Tauri registry stores `recordId` + `recordVersion` and rechecks it before opening a product window (`main.rs:88,372-390`).
+- auth-api stores `projectId` (`prj:…`) + `current_version` with `If-Match` (`lib.rs:544-586`).
+- Nothing links the two IDs or reconciles the versions. TLPS can save v3 to the API while the Desktop registry still opens the record at v1. Both checks pass, each against its own store.
+- Fix: the registry entry carries the API `projectId`. When the API is reachable, its version is the authority and Desktop only caches it. This lands with H-2 (route API calls through Tauri commands).
+
+**D-3 (Medium): product windows get every Desktop command.**
+
+- The capability grants `core:default` to `product-*`, and there is no app manifest. So a TLPS or TLP Film window can call all 12 commands.
+- That includes `browser_control`, `open_embedded_page` and `remove_workspace_project`. Products need only `upsert_workspace_project`, `remove_workspace_project`, `open_product_window` and `focus_desktop_window` (`apps/shared/maataa-workspace.ts:56-107`).
+- MAATAA Browser already does this correctly: its capability is `windows: ["main"]`, and external pages get no commands.
+- Fix: apply the same least-privilege rule in the Tauri trial. This is the concrete form of M-5.
+
+**D-4 (Medium): bundled products are stale, and the tests don't notice.**
+
+- `apps/maataa-desktop-tauri/web/products/*` (git-ignored) was built 2026-10-09 12:37. None of the nine commits since are in it: work areas, services, flow designers, compounds and the storage refactor.
+- `maataa:tauri:build` and `maataa:tauri:dev` rebuild it.
+- `playwright.desktop-tauri-trial.config.ts:11` serves `web/` as it is, and `maataa:tauri:check` does not rebuild first, so the desktop e2e tests can pass on an old bundle.
+- The copy step also carries `.DS_Store` into `products/support-center/`.
+- Fix:
+  1. Run `scripts/build-tauri-desktop-products.mjs` inside `maataa:tauri:check`.
+  2. Write the source commit into `web/products/BUILD.json` and fail the tests on a mismatch.
+  3. Skip dotfiles when copying.
+
+**D-5 (Medium): Desktop hosts none of the lower layers.**
+
+- No boot report is shown (M-1).
+- No ALLB handshake runs from Desktop: `runtime-handshake.ts` and the integration gate are used only by tests.
+- No auth-api sidecar exists (no `externalBin`), so the API must be started by hand.
+- The only time Desktop has is the unverified host-clock snapshot, which it correctly withholds as Hemant time.
+- Fix: decide whether Desktop is the OS/runtime host or only a launcher. If it is the host, add the API as a sidecar and show the boot report and handshake as evidence panels.
+
+**D-6 (Low): three browsers.**
+
+- MAATAA Browser, a separate Tauri app.
+- The embedded browser inside the Tauri trial (`browser-*` windows with `external-page-browser-N` child webviews).
+- The Electron shell's launch of MAATAA Browser.
+
+Fix: keep one. MAATAA Browser has the tighter capability.
+
+**Fine as is.** The Electron shell is hardened:
+
+- `contextIsolation`, `sandbox` and no `nodeIntegration`.
+- `window.open` is denied.
+- Navigation is guarded (`main.mjs:73-86`).
+- IPC checks the sending window (`trustedWindow`).
+
 ## Recommended order
 
-1. **H-1:** time unit split. This is small and contract-level, and it stops bad data now.
-2. **H-2:** route API calls through Tauri commands.
-3. **M-5:** explicit command manifest and per-window grants.
+1. **D-1:** choose one desktop shell. Then **H-1:** the time unit split.
+2. **H-2 and D-2:** route API calls through Tauri commands, and link the registry entry to the API project ID.
+3. **D-3 / M-5:** explicit command manifest and per-window grants. **D-4:** rebuild the bundles inside the check.
 4. **M-3 and M-4:** register-snapshot artifact and the shared store envelope.
-5. **M-1 and M-2:** wire the boot report as evidence, and write the ordering rule.
+5. **D-5, M-1 and M-2:** decide the Desktop host role, wire the boot report as evidence, and write the ordering rule.
 6. The **L** items.
 
 ## Checks this review did not run
