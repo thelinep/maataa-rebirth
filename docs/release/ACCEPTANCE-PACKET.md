@@ -6,6 +6,8 @@ This packet prepares each manual/external gate for the person who must decide it
 
 Scope reminder: these gates cover the `@maataa/ui` package only. `apps/hemant-observatory` and the MAATAA Desktop Hemant clock are outside release claims and certification.
 
+**Review kits (2026-10-12):** [licence review brief](reviews/LICENSE-REVIEW.md) (gate 2), [screen-reader protocol](reviews/SCREEN-READER-REVIEW.md) (gate 3), [real-device protocol](reviews/REAL-DEVICE-REVIEW.md) (gate 4), [pilot readiness](reviews/PILOT-READINESS.md) (gate 6), [release operations](reviews/RELEASE-OPERATIONS.md) (gates 8–11).
+
 | # | Gate (release.json key) | Decider | Prepared here | Status |
 | --- | --- | --- | --- | --- |
 | 1 | Product scope (supported families, environments, compatibility) | Release owner (Hemant Kumar Dixit) | Scope decision recorded below | **ACCEPTED** (2026-10-11, chat); support matrix still open |

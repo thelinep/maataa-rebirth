@@ -1,0 +1,25 @@
+# DRAFT publish workflow for @maataa/ui (gate 11). Not active: move to .github/workflows/
+# only after the registry, version and tag decisions are recorded.
+name: publish-maataa-ui
+on:
+  push:
+    tags: ["maataa-ui-v*"]
+permissions:
+  contents: read
+  id-token: write   # provenance
+jobs:
+  publish:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org   # or the chosen private registry
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps
+      - run: pnpm certify:enterprise || test $? -eq 2   # exit 2 = automated PASS, manual gates recorded separately
+      - run: npm publish --provenance --access public  # adjust access/registry to the decision
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
