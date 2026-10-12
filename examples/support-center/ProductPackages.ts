@@ -387,6 +387,28 @@ export const ADDITIONAL_PACKAGES = [
     ]
   },
   {
+    "id": "flow",
+    "title": "flow",
+    "group": "Package areas",
+    "packagePath": "flow",
+    "importPath": "@maataa/ui/flow",
+    "description": "A public MAATAA UI package area.",
+    "modules": [
+      {
+        "name": "FlowDesigner.tsx",
+        "importPath": "@maataa/ui/flow/FlowDesigner"
+      },
+      {
+        "name": "index.ts",
+        "importPath": "@maataa/ui/flow"
+      },
+      {
+        "name": "schema.ts",
+        "importPath": "@maataa/ui/flow/schema"
+      }
+    ]
+  },
+  {
     "id": "forms",
     "title": "Forms",
     "group": "Core interface",

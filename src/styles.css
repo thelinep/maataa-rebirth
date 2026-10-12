@@ -252,3 +252,25 @@
 }
 :where(.maataa-editor-workbench) { min-width: 0; }
 :where(.maataa-editor-workbench__body) { min-width: 0; }
+/* Flow designers (@maataa/ui/flow). The canvas also needs the React Flow stylesheet: import "@xyflow/react/dist/style.css". */
+.m-flow-designer{display:grid;grid-template-columns:minmax(150px,190px) minmax(0,1fr) minmax(220px,280px);gap:var(--m-space-3);align-items:start;color:var(--m-fg);}
+.m-flow-palette,.m-flow-inspector{display:flex;flex-direction:column;gap:var(--m-space-2);min-width:0;}
+.m-flow-heading{margin:var(--m-space-2) 0 0;font-size:12px;font-weight:600;color:var(--m-fg-muted);text-transform:uppercase;letter-spacing:.04em;}
+.m-flow-palette-item{display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:var(--m-space-2);border:1px solid var(--m-border);border-radius:var(--m-radius-md);background:var(--m-surface);color:inherit;font:inherit;text-align:left;cursor:grab;}
+.m-flow-palette-item small{color:var(--m-fg-muted);font-size:11px;line-height:1.35;}
+.m-flow-palette-item:focus-visible,.m-flow-list button:focus-visible{outline:2px solid var(--m-primary);outline-offset:2px;}
+.m-flow-canvas{min-width:0;border:1px solid var(--m-border);border-radius:var(--m-radius-md);overflow:hidden;background:var(--m-surface);}
+.m-flow-inspector label{font-size:12px;color:var(--m-fg-muted);}
+.m-flow-row{display:flex;flex-wrap:wrap;gap:var(--m-space-2);}
+.m-flow-row>span{display:flex;flex-direction:column;gap:2px;flex:1 1 80px;min-width:0;}
+.m-flow-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px;font-size:12px;}
+.m-flow-list li{display:flex;justify-content:space-between;align-items:center;gap:6px;min-width:0;overflow-wrap:anywhere;}
+.m-flow-list button{display:flex;justify-content:space-between;gap:6px;width:100%;padding:4px 6px;border:1px solid transparent;border-radius:6px;background:transparent;color:inherit;font:inherit;text-align:left;cursor:pointer;}
+.m-flow-list button[aria-pressed="true"]{border-color:var(--m-primary);}
+.m-flow-list li>button:only-child small{color:var(--m-fg-muted);}
+.m-flow-muted,.m-flow-status{margin:0;font-size:12px;color:var(--m-fg-muted);overflow-wrap:anywhere;}
+.m-flow-issues{margin:0;padding-left:16px;font-size:12px;color:#b42318;}
+.m-flow-node-start,.m-flow-node-end{border-radius:999px!important;}
+.m-flow-node-approval{border-style:double!important;}
+.m-flow-node-decision{border-style:dashed!important;}
+@media (max-width:900px){.m-flow-designer{grid-template-columns:1fr;}.m-flow-palette{flex-direction:row;flex-wrap:wrap;}.m-flow-palette .m-flow-heading{flex-basis:100%;}.m-flow-palette-item{flex:1 1 140px;}}

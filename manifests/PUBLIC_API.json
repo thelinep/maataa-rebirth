@@ -4482,6 +4482,12 @@
       "stability": "EXPERIMENTAL"
     },
     {
+      "subpath": "./flow",
+      "source": "src/flow/index.ts",
+      "kind": "module",
+      "stability": "EXPERIMENTAL"
+    },
+    {
       "subpath": "./forms",
       "source": "src/forms/index.tsx",
       "kind": "module",
@@ -55543,6 +55549,240 @@
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/feedback/index.tsx"
+      ]
+    },
+    {
+      "name": "addNode",
+      "subpath": "./flow",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/flow/schema.ts"
+      ]
+    },
+    {
+      "name": "connect",
+      "subpath": "./flow",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/flow/schema.ts"
+      ]
+    },
+    {
+      "name": "createFlow",
+      "subpath": "./flow",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/flow/schema.ts"
+      ]
+    },
+    {
+      "name": "disconnect",
+      "subpath": "./flow",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/flow/schema.ts"
+      ]
+    },
+    {
+      "name": "executionOrder",
+      "subpath": "./flow",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/flow/schema.ts"
+      ]
+    },
+    {
+      "name": "FLOW_LIMITS",
+      "subpath": "./flow",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/flow/schema.ts"
+      ]
+    },
+    {
+      "name": "FLOW_SCHEMA_VERSION",
+      "subpath": "./flow",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/flow/schema.ts"
+      ]
+    },
+    {
+      "name": "FlowDesigner",
+      "subpath": "./flow",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/flow/FlowDesigner.tsx"
+      ]
+    },
+    {
+      "name": "FlowDesignerProps",
+      "subpath": "./flow",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/flow/FlowDesigner.tsx"
+      ]
+    },
+    {
+      "name": "FlowEdgeSpec",
+      "subpath": "./flow",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/flow/schema.ts"
+      ]
+    },
+    {
+      "name": "FlowKind",
+      "subpath": "./flow",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/flow/schema.ts"
+      ]
+    },
+    {
+      "name": "FlowNodeSpec",
+      "subpath": "./flow",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/flow/schema.ts"
+      ]
+    },
+    {
+      "name": "FlowNodeType",
+      "subpath": "./flow",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/flow/schema.ts"
+      ]
+    },
+    {
+      "name": "FlowResult",
+      "subpath": "./flow",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/flow/schema.ts"
+      ]
+    },
+    {
+      "name": "FlowSpecV1",
+      "subpath": "./flow",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/flow/schema.ts"
+      ]
+    },
+    {
+      "name": "nodeTypesFor",
+      "subpath": "./flow",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/flow/schema.ts"
+      ]
+    },
+    {
+      "name": "parseFlowSpec",
+      "subpath": "./flow",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/flow/schema.ts"
+      ]
+    },
+    {
+      "name": "removeNode",
+      "subpath": "./flow",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/flow/schema.ts"
+      ]
+    },
+    {
+      "name": "SCENE_NODE_TYPES",
+      "subpath": "./flow",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/flow/schema.ts"
+      ]
+    },
+    {
+      "name": "SceneDesigner",
+      "subpath": "./flow",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/flow/FlowDesigner.tsx"
+      ]
+    },
+    {
+      "name": "SceneDesignerProps",
+      "subpath": "./flow",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/flow/FlowDesigner.tsx"
+      ]
+    },
+    {
+      "name": "updateNode",
+      "subpath": "./flow",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/flow/schema.ts"
+      ]
+    },
+    {
+      "name": "validateFlowSpec",
+      "subpath": "./flow",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/flow/schema.ts"
+      ]
+    },
+    {
+      "name": "WORKFLOW_NODE_TYPES",
+      "subpath": "./flow",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/flow/schema.ts"
+      ]
+    },
+    {
+      "name": "WorkflowDesigner",
+      "subpath": "./flow",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/flow/FlowDesigner.tsx"
+      ]
+    },
+    {
+      "name": "WorkflowDesignerProps",
+      "subpath": "./flow",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/flow/FlowDesigner.tsx"
       ]
     },
     {

@@ -24,6 +24,18 @@ None of them is in the runtime dependency set, and a search of the tarball file 
 | ~~`@img/sharp-libvips-darwin-arm64` 1.3.4~~ | ~~LGPL-3.0-or-later~~ | Removed with `wrangler` (2026-10-12) | — |
 | `caniuse-lite` 1.0.30001814 | CC-BY-4.0 | Browser-support data via `browserslist` (Babel/Vite build tooling) | No |
 
+**Update 2026-10-12 (flow designers):** the owner chose React Flow for the node-based workflow and scene designers. `@xyflow/react` 12.12.0 is an **optional peer dependency** of `@maataa/ui` (needed only by consumers who import `@maataa/ui/flow`) and a devDependency for build and tests. It is not bundled into `dist/`; `dist/flow/*.js` imports it. The lockfile gains 19 packages, all permissive:
+
+| Package | Licence |
+| --- | --- |
+| `@xyflow/react` 12.12.0, `@xyflow/system` 0.0.83 | MIT |
+| `zustand` 4.5.7, `classcat` 5.0.5 | MIT |
+| `d3-color`, `d3-dispatch`, `d3-drag`, `d3-interpolate`, `d3-selection`, `d3-timer`, `d3-transition`, `d3-zoom` | ISC |
+| `d3-ease` 3.0.1 | BSD-3-Clause |
+| `@types/d3-color`, `@types/d3-drag`, `@types/d3-interpolate`, `@types/d3-selection`, `@types/d3-transition`, `@types/d3-zoom` | MIT |
+
+Question 5 below asks whether an optional peer dependency changes any notice obligation.
+
 ## Owner decision (2026-10-12)
 
 `wrangler` was added to the root `devDependencies` by `404ac820` ("prepare Cloudflare Workers runtime") for Hemant Observatory, which is outside this release's scope. It is also declared in `apps/hemant-observatory/package.json`. Removing it from the root `devDependencies` (then `pnpm install` to update the lockfile and a fresh certification run) would remove the LGPL item from the `@maataa/ui` dependency graph entirely. The owner decided to remove it; done in the commit that records this update.
@@ -34,6 +46,7 @@ None of them is in the runtime dependency set, and a search of the tarball file 
 2. Does any notice or attribution obligation arise for `caniuse-lite` (CC-BY-4.0) when its data only influences build output and is not shipped?
 3. Is the MIT licence of `@maataa/ui` and its single runtime dependency acceptable for the intended distribution (private first, registry later)?
 4. Should the 587 permissive licences be accepted as a class, or listed individually?
+5. `@xyflow/react` (MIT) is an optional peer dependency used only by `@maataa/ui/flow`. Does the package need to carry its notice, or is that the consumer's obligation when they install it?
 
 ```
 Decision: APPROVE / APPROVE WITH CONDITIONS / REJECT

@@ -23,6 +23,8 @@ type AnyComponent = React.ComponentType<Record<string, unknown>>;
 const workspaceComponents = Workspaces as unknown as Record<string, AnyComponent>;
 const aiComponents = TlpsAiSpaces as unknown as Record<string, AnyComponent>;
 export const pluralLabel = (label: string) => /[^aeiou]y$/i.test(label) ? `${label.slice(0, -1)}ies` : `${label}s`;
+// The designers pull in the canvas library; load them only when Film OS opens.
+const FlowStudio = React.lazy(() => import("./FlowStudio").then((module) => ({ default: module.FlowStudio })));
 const money = new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
 
 export interface AreaScreenProps {
@@ -182,6 +184,7 @@ export function AreaScreen({ areaId, store, onStoreChange, onOpenView, onBack }:
       </section>
 
       {areaId === "core-platform" && <ServicesPanel />}
+      {areaId === "film-os" && <React.Suspense fallback={<p className="tlps-muted">Loading the designers…</p>}><FlowStudio /></React.Suspense>}
 
       {aiSpaces.length > 0 && (
         <section className="tlps-area-panel" aria-labelledby="tlps-area-ai">
