@@ -15,6 +15,7 @@ import { LAYOUT_TYPES } from "../src/registries/layoutRegistry";
 import { COMPOSER_COMPONENT_BINDINGS } from "../src/composer/componentBindings.generated";
 import { DEFAULT_COMPOSER_SCENE, createComposerBlock, generateComposerJsx, type ComposerBlockKind, type ComposerScene } from "../src/composer";
 import { DEPRECATED_LAYOUT_ALIASES } from "../src/composer/layoutAliases";
+import { LAYOUT_READING_ORDER } from "../src/internal/layoutReadingOrder.generated";
 
 const manifest = JSON.parse(fs.readFileSync("manifests/PUBLIC_API.json", "utf8")) as { exports: { subpath: string; name: string }[] };
 const inManifest = (importPath: string, name: string) =>
@@ -186,6 +187,21 @@ describe("layout landmarks", () => {
     expect(screen.getByRole("complementary", { name: "Filters" })).toBeInTheDocument();
     expect(screen.getByRole("navigation", { name: "Sections" })).toBeInTheDocument();
     expect(screen.getByRole("main", { name: "Results" })).toBeInTheDocument();
+  });
+});
+
+describe("layout reading order", () => {
+  const SLOTS = ["header", "nav", "hero", "toolbar", "sidebar", "secondarySidebar", "rail", "palette", "filters", "list", "stage", "canvas", "preview", "details", "main", "inspector", "properties", "timeline", "dock", "actions", "statusBar", "footer", "bottomNav"];
+  const REGION_ATTR: Record<string, string> = { secondarysidebar: "secondary-sidebar", bottomnav: "bottom-nav" };
+  it.each(LAYOUT_TYPES.map((l) => [l.name, l] as const))("%s renders declared regions in grid order", (name, layout) => {
+    const Layout = layoutModules[`../src/layouts/${layout.importPath.split("/").pop()}.tsx`][name];
+    const slotProps = Object.fromEntries(SLOTS.map((slot) => [slot, <span>{slot}</span>]));
+    const { container } = render(<Layout {...slotProps} />);
+    const root = container.querySelector("[data-layout-template]")!;
+    const expected = (LAYOUT_READING_ORDER[root.getAttribute("data-layout-template")!] ?? []).map((area) => REGION_ATTR[area] ?? area);
+    const rendered = [...root.children].map((child) => child.getAttribute("data-layout-region")!);
+    expect(rendered).toHaveLength(SLOTS.length);
+    expect(rendered.filter((region) => expected.includes(region))).toEqual(expected);
   });
 });
 
