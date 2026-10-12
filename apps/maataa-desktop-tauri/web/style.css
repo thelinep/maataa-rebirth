@@ -141,9 +141,10 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
   overflow: auto;
   display: grid;
   grid-template-columns: minmax(280px, 1fr) minmax(290px, 440px);
-  /* Three launcher rows need their intrinsic height plus breathing room.
-     A smaller fixed minimum lets the centered grid overflow upward toward the title bar. */
-  grid-template-rows: auto minmax(408px, 1fr) auto auto;
+  /* The launcher row is at least as tall as the launcher itself (its margins
+     give the breathing room), so the grid never overflows up under the title
+     bar or down over the project hub, however many app rows there are. */
+  grid-template-rows: auto minmax(auto, 1fr) auto auto;
   column-gap: clamp(24px, 7vw, 100px);
   align-content: start;
   padding-bottom: 122px;
@@ -163,7 +164,10 @@ button:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
   right: auto;
   grid-column: 2;
   grid-row: 2;
-  align-self: center;
+  /* "safe": when the launcher is taller than its row it starts at the row top
+     instead of overflowing upward under the header and title bar. */
+  align-self: safe center;
+  margin-block: 16px;
   justify-self: center;
   transform: none;
   grid-template-columns: repeat(3, 100px);

@@ -89,6 +89,17 @@ test("shows local project activity and labels the clock boundary honestly", asyn
           recordedAtUnixMs: Date.now(),
           timeBasis: "host-unix-clock-unverified",
         }];
+        if (command === "read_host_clock_snapshot") return {
+          schema: "maataa.clock-source/1",
+          unixNanos: `${Date.now()}000000`,
+          source: "host-system-wall-clock",
+          timeScale: "unix-utc-no-leap-seconds",
+          trust: "unverified",
+          rtcBinding: null,
+          trustedReference: null,
+          driftMillis: null,
+          driftToleranceMillis: 2000,
+        };
         return undefined;
       } },
       webviewWindow: { getCurrentWebviewWindow: () => ({ label: "main" }) },
@@ -96,9 +107,10 @@ test("shows local project activity and labels the clock boundary honestly", asyn
   });
   await page.goto("/");
   await expect(page.locator("#clock")).not.toBeEmpty();
-  await expect(page.locator("#hemant-clock")).toContainText("Hemant ·");
-  await expect(page.locator("#hemant-clock")).toContainText("ahoratra");
-  await expect(page.locator("#hemant-clock")).toHaveAttribute("title", /unverified host clock/);
+  await expect(page.locator("#clock")).toHaveAttribute("title", /unverified/);
+  // Hemant time is withheld until the host clock is correlated with a trusted reference.
+  await expect(page.locator("#hemant-clock")).toHaveText("Hemant · withheld · source unverified");
+  await expect(page.locator("#hemant-clock")).toHaveAttribute("title", /trusted reference/);
   await expect(page.getByRole("heading", { name: "Recent project activity" })).toBeVisible();
   await expect(page.locator("#workspace-events")).toContainText("Project updated");
   await expect(page.locator("#workspace-events")).toContainText("TLPS");
