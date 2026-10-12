@@ -121,13 +121,13 @@ test("TLPS plan can be reviewed, rehearsed, and exported locally", async ({
   await expect(page.getByRole("heading", { name: "Work areas for your role" })).toHaveCount(0);
   await page.getByRole("button", { name: "Show my work areas" }).click();
   await expect(page.getByRole("heading", { name: "Work areas for Agency / campaign team" })).toBeVisible();
-  await expect(page.getByRole("article").filter({ hasText: "Campaign OS" })).toContainText("Catalogue");
+  await expect(page.getByRole("button", { name: /Campaign OS/ })).toContainText("Local screen");
   await expect(page.getByRole("button", { name: /Production OS/ })).toHaveCount(0);
   await page.getByRole("button", { name: "Back" }).click();
   await page.locator('select[aria-label="What is your role?"]').selectOption("producer");
   await page.getByRole("button", { name: "Show my work areas" }).click();
   await expect(page.getByRole("button", { name: /Finance OS/ })).toBeVisible();
-  await expect(page.getByRole("article").filter({ hasText: "Casting OS" })).toContainText("Catalogue");
+  await expect(page.getByRole("button", { name: /Casting OS/ })).toContainText("Local screen");
   await page.getByRole("button", { name: /Production OS/ }).click();
   await page.getByRole("button", { name: "Continue with selected area" }).click();
   await expect(page.getByLabel("What are you making?")).toBeVisible();
@@ -209,5 +209,22 @@ test("TLPS plan can be reviewed, rehearsed, and exported locally", async ({
   const hasOverflow = await page.evaluate(
     () => document.documentElement.scrollWidth > window.innerWidth,
   );
+  expect(hasOverflow).toBe(false);
+});
+
+test("TLPS work areas keep local registers with related workspaces", async ({ page }) => {
+  await page.goto("http://127.0.0.1:4196/");
+  await page.evaluate(() => localStorage.clear());
+  await page.goto("http://127.0.0.1:4196/?area=index");
+  await expect(page.getByRole("heading", { name: "Work areas", level: 1 })).toBeVisible();
+  await page.getByRole("button", { name: /Casting OS/ }).click();
+  await expect(page.getByRole("heading", { name: "Casting OS", level: 1 })).toBeVisible();
+  await page.getByRole("button", { name: "Add sample records" }).click();
+  await expect(page.getByRole("table")).toContainText("Sample candidate A");
+  await page.getByRole("button", { name: /Casting Board/ }).click();
+  await expect(page.getByTestId("tlps-workspace-preview")).toContainText("WORKSPACE.CASTING.CASTING_BOARD");
+  await page.reload();
+  await expect(page.getByRole("table")).toContainText("Sample candidate A");
+  const hasOverflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
   expect(hasOverflow).toBe(false);
 });

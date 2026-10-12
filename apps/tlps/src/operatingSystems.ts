@@ -23,30 +23,30 @@ export const TLPS_ROLE_CHOICES: readonly TlpsRoleChoice[] = [
   { id: "tlps-admin", label: "TLPS administrator" },
 ];
 
-/** Product areas and related workspaces. Only items marked demo have an action in this local app. */
-type TlpsOperatingSystem = { id: string; name: string; plain: string; detail: string; availability: "demo" | "catalogue"; target?: TlpsView };
+/** Product areas. "demo" opens a step of the planning workflow; "local" opens a browser-local work area register. */
+type TlpsOperatingSystem = { id: string; name: string; plain: string; detail: string; availability: "demo" | "local" | "catalogue"; target?: TlpsView };
 
 export const TLPS_OS_CATALOG: readonly TlpsOperatingSystem[] = [
   { id: "production-os", name: "Production OS", plain: "Production plan", detail: "Plan people, places, dates and estimates.", availability: "demo", target: "plan" },
-  { id: "film-os", name: "Film OS", plain: "Film projects", detail: "Film creation and lifecycle workspace.", availability: "catalogue" },
-  { id: "campaign-os", name: "Campaign OS", plain: "Campaigns", detail: "Plan campaign work and delivery.", availability: "catalogue" },
-  { id: "atl", name: "ATL OS", plain: "Ads", detail: "Above-the-line campaign planning.", availability: "catalogue" },
-  { id: "btl", name: "BTL OS", plain: "Local campaigns", detail: "On-ground campaign planning.", availability: "catalogue" },
-  { id: "ooh-dooh", name: "OOH / DOOH OS", plain: "Outdoor ads", detail: "Outdoor and digital-outdoor planning.", availability: "catalogue" },
-  { id: "marketplace", name: "Marketplace OS", plain: "Marketplace", detail: "Explore listed services and resources.", availability: "catalogue" },
+  { id: "film-os", name: "Film OS", plain: "Film projects", detail: "Film creation and lifecycle workspace.", availability: "local" },
+  { id: "campaign-os", name: "Campaign OS", plain: "Campaigns", detail: "Plan campaign work and delivery.", availability: "local" },
+  { id: "atl", name: "ATL OS", plain: "Ads", detail: "Above-the-line campaign planning.", availability: "local" },
+  { id: "btl", name: "BTL OS", plain: "Local campaigns", detail: "On-ground campaign planning.", availability: "local" },
+  { id: "ooh-dooh", name: "OOH / DOOH OS", plain: "Outdoor ads", detail: "Outdoor and digital-outdoor planning.", availability: "local" },
+  { id: "marketplace", name: "Marketplace OS", plain: "Marketplace", detail: "Explore listed services and resources.", availability: "local" },
   { id: "evidence-os", name: "Evidence OS", plain: "Files & checks", detail: "Record evidence details and readiness.", availability: "demo", target: "rehearsal" },
   { id: "finance-os", name: "Finance OS", plain: "Finance", detail: "Add budget estimates; no money moves.", availability: "demo", target: "plan" },
-  { id: "investor-hub", name: "Investor Hub OS", plain: "Find funding", detail: "Investor and funding workspace.", availability: "catalogue" },
-  { id: "event-os", name: "Event OS", plain: "Events", detail: "Plan event production.", availability: "catalogue" },
-  { id: "wedding-os", name: "Wedding OS", plain: "Weddings", detail: "Plan wedding production.", availability: "catalogue" },
-  { id: "exhibition-spatial", name: "Exhibition & Spatial OS", plain: "Places & spaces", detail: "Plan exhibitions and physical spaces.", availability: "catalogue" },
-  { id: "maataa-ai", name: "MAATAA AI", plain: "AI help", detail: "Assistance and generation tools.", availability: "catalogue" },
-  { id: "analytics", name: "Analytics OS", plain: "Reports", detail: "Project and performance reporting.", availability: "catalogue" },
-  { id: "core-platform", name: "Core Platform OS", plain: "Core tools", detail: "Shared identity and platform services.", availability: "catalogue" },
-  { id: "casting", name: "Casting OS", plain: "Casting", detail: "Plan casting roles and selection.", availability: "catalogue" },
+  { id: "investor-hub", name: "Investor Hub OS", plain: "Find funding", detail: "Investor and funding workspace.", availability: "local" },
+  { id: "event-os", name: "Event OS", plain: "Events", detail: "Plan event production.", availability: "local" },
+  { id: "wedding-os", name: "Wedding OS", plain: "Weddings", detail: "Plan wedding production.", availability: "local" },
+  { id: "exhibition-spatial", name: "Exhibition & Spatial OS", plain: "Places & spaces", detail: "Plan exhibitions and physical spaces.", availability: "local" },
+  { id: "maataa-ai", name: "MAATAA AI", plain: "AI help", detail: "Assistance and generation tools.", availability: "local" },
+  { id: "analytics", name: "Analytics OS", plain: "Reports", detail: "Project and performance reporting.", availability: "local" },
+  { id: "core-platform", name: "Core Platform OS", plain: "Core tools", detail: "Shared identity and platform services.", availability: "local" },
+  { id: "casting", name: "Casting OS", plain: "Casting", detail: "Plan casting roles and selection.", availability: "local" },
   { id: "crew", name: "Crew OS", plain: "Crew", detail: "Plan crew responsibilities.", availability: "demo", target: "plan" },
   { id: "location", name: "Location OS", plain: "Locations", detail: "Record location planning notes.", availability: "demo", target: "plan" },
-  { id: "equipment-logistics", name: "Equipment & Logistics OS", plain: "Equipment & travel", detail: "Plan equipment and travel needs.", availability: "catalogue" },
+  { id: "equipment-logistics", name: "Equipment & Logistics OS", plain: "Equipment & travel", detail: "Plan equipment and travel needs.", availability: "local" },
 ] as const satisfies readonly TlpsOperatingSystem[];
 
 export type TlpsOsId = (typeof TLPS_OS_CATALOG)[number]["id"];

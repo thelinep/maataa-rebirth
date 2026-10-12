@@ -27,7 +27,7 @@ import {
   TLPS_OPENING_PAYMENT_TYPES,
   TLPS_PROJECT_TYPES,
 } from "./types";
-import { operatingSystemsForRole, TLPS_ROLE_CHOICES, type TlpsOsId } from "./operatingSystems";
+import { operatingSystemsForRole, TLPS_OS_CATALOG, TLPS_ROLE_CHOICES, type TlpsOsId } from "./operatingSystems";
 import type {
   EvidenceKind,
   TlpsCrewRole,
@@ -39,6 +39,9 @@ import type {
 } from "./types";
 import "./style.css";
 import { IdeaToScriptPanel } from "./IdeaToScript";
+import { AreaIndex } from "./areas/AreaIndex";
+import { AreaScreen } from "./areas/AreaScreen";
+import { readAreaStore, TLPS_AREA_STORE_KEY, type AreaStore } from "./areas/areaModel";
 
 const views: { id: TlpsView; label: string; description: string }[] = [
   {
@@ -62,6 +65,7 @@ const views: { id: TlpsView; label: string; description: string }[] = [
     description: "Review activity and export this browser-local draft.",
   },
 ];
+const TLPS_OS_IDS = new Set<string>(TLPS_OS_CATALOG.map((system) => system.id));
 const assignableCrewRoles: readonly (
   | TlpsCrewRole
   | TlpsHeadOfDepartmentRole
@@ -79,6 +83,13 @@ function App() {
   const [intakeStep, setIntakeStep] = useState<"role" | "systems" | "project">("role");
   const [intakeRole, setIntakeRole] = useState<TlpsRole | "">("");
   const [selectedOs, setSelectedOs] = useState<TlpsOsId | "">("");
+  const [area, setArea] = useState<TlpsOsId | "index" | "">(() => {
+    const requested = new URLSearchParams(window.location.search).get("area");
+    return requested === "index" ? "index" : requested && TLPS_OS_IDS.has(requested) ? (requested as TlpsOsId) : "";
+  });
+  const [areaStore, setAreaStore] = useState<AreaStore>(() => {
+    try { return readAreaStore(localStorage.getItem(TLPS_AREA_STORE_KEY)); } catch { return readAreaStore(null); }
+  });
   const [intakeIdea, setIntakeIdea] = useState(draft.project.idea ?? "");
   const [notice, setNotice] = useState("");
   const [ideaToScript, setIdeaToScript] = useState(
@@ -102,6 +113,16 @@ function App() {
   useEffect(() => {
     localStorage.setItem(tlpsStorageKey, JSON.stringify(draft));
   }, [draft]);
+
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    if (area) url.searchParams.set("area", area); else url.searchParams.delete("area");
+    if (url.href !== window.location.href) window.history.replaceState(null, "", url);
+  }, [area]);
+
+  useEffect(() => {
+    try { localStorage.setItem(TLPS_AREA_STORE_KEY, JSON.stringify(areaStore)); } catch { setNotice("Work area records could not be saved in this browser."); }
+  }, [areaStore]);
 
   useEffect(() => {
     const title = draft.project.title.trim();
@@ -438,13 +459,24 @@ function App() {
             <span aria-hidden="true" />
             <span className="local-pill-label">Local demo · no account</span>
           </span>
-          {view !== "start" && <Button variant="secondary" onClick={() => { setIntakeStep("role"); setView("start"); }}>Start screen</Button>}
+          {(view !== "start" || area) && <Button variant="secondary" onClick={() => { setArea(""); setIntakeStep("role"); setView("start"); }}>Start screen</Button>}
+          {area !== "index" && <Button variant="secondary" onClick={() => { setIdeaToScript(false); setArea("index"); }}>Work areas</Button>}
           {!ideaToScript && <Button variant="secondary" onClick={() => setIdeaToScript(true)}>Idea → Script</Button>}
           <Button variant="secondary" onClick={loadSample}>Load sample</Button>
         </div>
       </header>
       {ideaToScript ? (
         <IdeaToScriptPanel onClose={() => setIdeaToScript(false)} />
+      ) : area === "index" ? (
+        <AreaIndex store={areaStore} onOpen={setArea} />
+      ) : area ? (
+        <AreaScreen
+          areaId={area}
+          store={areaStore}
+          onStoreChange={setAreaStore}
+          onOpenView={(target) => { setArea(""); setView(target); }}
+          onBack={() => setArea("index")}
+        />
       ) : view === "start" ? (
         <main className="tlps-start" aria-labelledby="tlps-start-title">
           <div className="tlps-start-copy">
@@ -460,8 +492,8 @@ function App() {
                 </select>
               </label>}
               {intakeStep === "systems" && <section className="tlps-role-os" aria-label="Work areas for your role">
-                <div className="tlps-role-os-heading"><div><h2>Work areas for {TLPS_ROLE_CHOICES.find((role) => role.id === intakeRole)?.label}</h2><p>Select one area. “Catalogue” items are listed for guidance and are not active in this demo.</p></div><span>{recommendedSystems.length} areas</span></div>
-                <div className="tlps-os-grid">{recommendedSystems.map((system) => system.availability === "demo" ? <button type="button" aria-pressed={selectedOs === system.id} className={`tlps-os-card is-available ${selectedOs === system.id ? "is-selected" : ""}`} key={system.id} onClick={() => setSelectedOs(system.id)}><span className="tlps-os-card-top"><strong>{system.name}</strong><small>Available in demo</small></span><span>{system.detail}</span><b>{selectedOs === system.id ? "Selected ✓" : "Choose this area"}</b></button> : <article className="tlps-os-card" key={system.id}><span className="tlps-os-card-top"><strong>{system.name}</strong><small>Catalogue</small></span><span>{system.detail}</span></article>)}</div>
+                <div className="tlps-role-os-heading"><div><h2>Work areas for {TLPS_ROLE_CHOICES.find((role) => role.id === intakeRole)?.label}</h2><p>Select one area. Planning areas continue to your plan; “Local screen” areas open a list that stays in this browser.</p></div><span>{recommendedSystems.length} areas</span></div>
+                <div className="tlps-os-grid">{recommendedSystems.map((system) => system.availability !== "catalogue" ? <button type="button" aria-pressed={selectedOs === system.id} className={`tlps-os-card is-available ${selectedOs === system.id ? "is-selected" : ""}`} key={system.id} onClick={() => setSelectedOs(system.id)}><span className="tlps-os-card-top"><strong>{system.name}</strong><small>{system.availability === "demo" ? "Available in demo" : "Local screen"}</small></span><span>{system.detail}</span><b>{selectedOs === system.id ? "Selected ✓" : "Choose this area"}</b></button> : <article className="tlps-os-card" key={system.id}><span className="tlps-os-card-top"><strong>{system.name}</strong><small>Catalogue</small></span><span>{system.detail}</span></article>)}</div>
               </section>}
               {intakeStep === "project" && <>
               <label>
@@ -481,10 +513,10 @@ function App() {
               </div>
               </>}
               {intakeStep === "role" && <div className="tlps-start-actions"><Button variant="primary" disabled={!intakeRole} onClick={() => setIntakeStep("systems")}>Show my work areas →</Button></div>}
-              {intakeStep === "systems" && <div className="tlps-start-actions"><Button variant="ghost" onClick={() => setIntakeStep("role")}>Back</Button><Button variant="primary" disabled={!selectedOs} onClick={() => setIntakeStep("project")}>Continue with selected area →</Button></div>}
+              {intakeStep === "systems" && <div className="tlps-start-actions"><Button variant="ghost" onClick={() => setIntakeStep("role")}>Back</Button><Button variant="primary" disabled={!selectedOs} onClick={() => { const chosen = TLPS_OS_CATALOG.find((system) => system.id === selectedOs); if (chosen?.availability === "local") setArea(chosen.id); else setIntakeStep("project"); }}>Continue with selected area →</Button></div>}
               {intakeStep === "project" && <Button variant="ghost" onClick={() => setIntakeStep("systems")}>Back to work areas</Button>}
             </div>
-            <p className="tlps-start-boundary">This is a local demo. OS entries marked “Catalogue” are not live services; your idea stays in this browser.</p>
+            <p className="tlps-start-boundary">This is a local demo. No work area is a live service; your idea and records stay in this browser.</p>
           </div>
           <aside className="tlps-start-steps" aria-label="What happens next">
             <p className="side-label">YOUR SIMPLE PATH</p>
