@@ -11,6 +11,7 @@ import {
   productOperatingSystems,
 } from "./tlpsLifecycle";
 import "./tlps-surfaces.css";
+import { readStoredText, writeStoredValue } from "@maataa/ui/compounds";
 
 type Props = { route: string; navigate: (path: string) => void };
 type Audience =
@@ -240,7 +241,7 @@ const contentTypes = [
 function restoreSetup(): Setup {
   try {
     const raw = JSON.parse(
-      localStorage.getItem("maataa.tlps.onboarding.v1") || "{}",
+      readStoredText("maataa.tlps.onboarding.v1") || "{}",
     ) as Partial<Setup>;
     return {
       audience: audiences.includes(raw.audience as Audience)
@@ -430,12 +431,7 @@ function PublicHome({ navigate }: { navigate: Props["navigate"] }) {
   const [audience, setAudience] = React.useState<Audience | "">(""),
     [content, setContent] = React.useState("");
   const begin = () => {
-    try {
-      localStorage.setItem(
-        "maataa.tlps.onboarding.v1",
-        JSON.stringify({ ...initial, audience, content }),
-      );
-    } catch {}
+    writeStoredValue("maataa.tlps.onboarding.v1", { ...initial, audience, content });
     navigate("/tlps/onboarding");
   };
   return (
@@ -472,7 +468,7 @@ function PublicHome({ navigate }: { navigate: Props["navigate"] }) {
             <Select
               aria-label="What do you do?"
               value={audience}
-              onChange={(event) => setAudience(event.target.value)}
+              onChange={(event) => setAudience(event.target.value as Audience | "")}
             >
               <option value="">Choose one</option>
               {audiences.map((role) => (
@@ -670,19 +666,10 @@ function Onboarding({ navigate }: { navigate: Props["navigate"] }) {
       );
       return;
     }
-    try {
-      localStorage.setItem(
-        "maataa.tlps.onboarding.v1",
-        JSON.stringify({
-          ...setup,
-          journey,
-          schemaVersion: 2,
-          savedAt: new Date().toISOString(),
-        }),
-      );
+    if (writeStoredValue("maataa.tlps.onboarding.v1", { ...setup, journey, schemaVersion: 2, savedAt: new Date().toISOString() })) {
       setSaved(true);
       setError("");
-    } catch {
+    } else {
       setError(
         "This browser could not save the setup. You can still review your suggested path.",
       );
@@ -938,7 +925,7 @@ function Onboarding({ navigate }: { navigate: Props["navigate"] }) {
               <p className="tlps-overline">YOUR NEXT STEPS</p>
               <h2>{journeyLabels[journey]}</h2>
               <p>
-                {setup.content} · {audienceLabels[setup.audience]}
+                {setup.content} · {setup.audience ? audienceLabels[setup.audience] : ""}
               </p>
             </div>
             <Badge tone="info">Guide · no finished work is made yet</Badge>

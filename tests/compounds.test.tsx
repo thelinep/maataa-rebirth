@@ -11,6 +11,7 @@ import {
   readStoredValue,
   RecordForm,
   RecordRegister,
+  SearchField,
   SelectField,
   StatSummary,
   StatusStep,
@@ -106,6 +107,13 @@ describe("small compounds", () => {
     expect(within(list).getByRole("button", { name: /Alpha/ })).toHaveAttribute("aria-pressed", "true");
     fireEvent.click(within(list).getByRole("button", { name: /Alpha/ }));
     expect(screen.getByText("none")).toBeInTheDocument();
+  });
+  it("SearchField names the search box and hides the icon", () => {
+    function Harness() { const [q, setQ] = useState(""); return <><SearchField label="Search workspaces" icon={<svg data-testid="icon" />} value={q} onValueChange={setQ} /><output>{q}</output></>; }
+    render(<Harness />);
+    fireEvent.change(screen.getByRole("searchbox", { name: "Search workspaces" }), { target: { value: "casting" } });
+    expect(screen.getByText("casting")).toBeInTheDocument();
+    expect(screen.getByTestId("icon").parentElement).toHaveAttribute("aria-hidden", "true");
   });
   it("StatSummary and LiveStatus", () => {
     function Harness() { const [m, announce] = useAnnouncer(); return <><StatSummary label="Totals" items={[{ label: "Records", value: 2 }]} /><button onClick={() => announce("Saved.")}>save</button><LiveStatus message={m} /></>; }

@@ -24,6 +24,7 @@ import {
   PUBLIC_SURFACE_HELP_TOPICS,
 } from "@maataa/ui/demo/publicSurface";
 import "./brahmini.css";
+import { readStoredText, removeStoredValue, writeStoredValue } from "@maataa/ui/compounds";
 
 type ProviderId = "ollama" | "anthropic" | "gemini";
 type Mode = "assistant" | "forge" | "council" | "knowledge" | "providers";
@@ -275,11 +276,7 @@ function boundedHandoffs(outputs: ChatMessage[]) {
 }
 
 function getLocal(key: string, fallback: string) {
-  try {
-    return window.localStorage.getItem(key) ?? fallback;
-  } catch {
-    return fallback;
-  }
+  return readStoredText(key) ?? fallback;
 }
 function localDocs(query: string) {
   const words = query
@@ -772,11 +769,10 @@ export function BrahminiWorkbench({
       items.includes(id) ? items.filter((item) => item !== id) : [...items, id],
     );
   const saveKnowledge = () => {
-    try {
-      window.localStorage.setItem(KNOWLEDGE_KEY, knowledge);
+    if (writeStoredValue(KNOWLEDGE_KEY, knowledge)) {
       setKnowledgeSaved(true);
       window.setTimeout(() => setKnowledgeSaved(false), 1800);
-    } catch {
+    } else {
       setError(
         "Browser storage is unavailable; copy your notes before leaving this page.",
       );
@@ -785,11 +781,8 @@ export function BrahminiWorkbench({
   const saveAssignment = (agentId: string, value: ProviderId) =>
     setAssignments((items) => {
       const next = { ...items, [agentId]: value };
-      try {
-        window.localStorage.setItem(ASSIGNMENT_KEY, JSON.stringify(next));
-      } catch {
-        /* Provider assignment remains active in this page session. */
-      }
+      // Provider assignment stays active in this page session even if storage is blocked.
+      writeStoredValue(ASSIGNMENT_KEY, next);
       return next;
     });
   const exportResults = () => {
@@ -1543,11 +1536,7 @@ export function BrahminiWorkbench({
                 className="ghost-button"
                 onClick={() => {
                   setKnowledge("");
-                  try {
-                    window.localStorage.removeItem(KNOWLEDGE_KEY);
-                  } catch {
-                    /* Empty the in-memory editor even when storage is blocked. */
-                  }
+                  removeStoredValue(KNOWLEDGE_KEY);
                 }}
               >
                 Clear context

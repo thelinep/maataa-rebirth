@@ -9,7 +9,7 @@
 - Generator group `G16_PRODUCTION_TLPS` is now labelled "Production" (ID unchanged).
 - `storybook-static/` is no longer tracked in git; the Storybook bundle budget now reads `.certification/storybook/assets`.
 - New `@maataa/ui/flow` (EXPERIMENTAL): `FlowDesigner`, `WorkflowDesigner`, `SceneDesigner` on React Flow, with our own saved format `FlowSpecV1` (`validateFlowSpec`, `parseFlowSpec`, and pure operations to add, move, rename, connect and remove). Every drag action also works from the inspector panel and keyboard. `@xyflow/react` is an optional peer dependency; import `@xyflow/react/dist/style.css` once.
-- New `@maataa/ui/compounds` (EXPERIMENTAL): labelled fields, `RecordForm`, `StatSummary`, `StatusStep`, `ChipPicker`, `LiveStatus`, `RecordRegister` and validated storage helpers, built only from existing atoms (see `docs/compounds.md`). 11 component IDs added to the registry.
+- New `@maataa/ui/compounds` (EXPERIMENTAL): labelled fields, `RecordForm`, `StatSummary`, `StatusStep`, `ChipPicker`, `SearchField`, `LiveStatus`, `RecordRegister` and validated storage helpers, built only from existing atoms (see `docs/compounds.md`). 12 component IDs added to the registry. TLPS, TLP Film, the redux demo and Support Center use them for fields, search boxes and browser storage.
 - TLPS: local work areas for all 20 OS entries, the moved workspaces and AI spaces wired into them, a service boundary with mocks and a MAATAA Auth API client, and a scene board and approval workflow in Film OS.
 
 ## 1.0.0-alpha.8.4 — Beta-prep

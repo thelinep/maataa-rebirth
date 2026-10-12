@@ -37,6 +37,7 @@ import * as ToolAtoms from "@maataa/ui/tool-atoms";
 import * as AISpaceAtoms from "@maataa/ui/ai-space-atoms";
 import * as DeviceAtoms from "@maataa/ui/device-atoms";
 import { ADDITIONAL_PACKAGES } from "./ProductPackages";
+import { readStoredValue, removeStoredValue, SearchField, SelectField, TextAreaField, TextField, writeStoredValue } from "@maataa/ui/compounds";
 
 type Article = {
   id: string;
@@ -1339,20 +1340,15 @@ const DRAFT_KEY = "maataa-support-center-draft-v1";
 const REQUESTS_KEY = "maataa-support-center-requests-v1";
 const pageSize = 30;
 
+/** Stored JSON must have the fallback's shape (array, object or primitive type); anything else is ignored. */
 function readJson<T>(key: string, fallback: T): T {
-  try {
-    const value = window.localStorage.getItem(key);
-    return value ? (JSON.parse(value) as T) : fallback;
-  } catch {
-    return fallback;
-  }
+  return readStoredValue<T>(key, (raw) => {
+    if (Array.isArray(fallback)) return Array.isArray(raw) ? (raw as T) : null;
+    return raw !== null && typeof raw === typeof fallback && !Array.isArray(raw) ? (raw as T) : null;
+  }, fallback);
 }
 function writeJson(key: string, value: unknown) {
-  try {
-    window.localStorage.setItem(key, JSON.stringify(value));
-  } catch {
-    /* Private mode may disable storage. */
-  }
+  writeStoredValue(key, value); // Private mode may refuse; the in-memory state still updates.
 }
 function Icon({ name, size = 18 }: { name: string; size?: number }) {
   const paths: Record<string, React.ReactNode> = {
@@ -1527,11 +1523,7 @@ export function SupportCenter() {
       createdAt: new Date().toISOString(),
     };
     setRequests((current) => [request, ...current]);
-    try {
-      window.localStorage.removeItem(DRAFT_KEY);
-    } catch {
-      /* Storage unavailable. */
-    }
+    removeStoredValue(DRAFT_KEY);
     setDraft({
       category: SUPPORT_CATEGORIES[0],
       subject: "",
@@ -2219,16 +2211,7 @@ export function SupportCenter() {
             </p>
           </div>
           <div className="sc-product-controls">
-            <label className="sc-filter-search">
-              <Icon name="search" />
-              <input
-                type="search"
-                aria-label="Search product areas"
-                value={productQuery}
-                onChange={(event) => setProductQuery(event.target.value)}
-                placeholder="Search components, hooks, state, themes…"
-              />
-            </label>
+            <SearchField className="sc-filter-search" icon={<Icon name="search" />} label="Search product areas" value={productQuery} onValueChange={setProductQuery} placeholder="Search components, hooks, state, themes…" />
             <a className="sc-primary" href="#/screenshots?group=Catalogues">
               See catalogue screenshots <Icon name="arrow" size={16} />
             </a>
@@ -2372,16 +2355,7 @@ export function SupportCenter() {
                 Back to product map <Icon name="arrow" size={15} />
               </a>
             </div>
-            <label className="sc-filter-search">
-              <Icon name="search" />
-              <input
-                type="search"
-                aria-label="Search package modules"
-                value={packageQuery}
-                onChange={(event) => setPackageQuery(event.target.value)}
-                placeholder="Search module names or import paths"
-              />
-            </label>
+            <SearchField className="sc-filter-search" icon={<Icon name="search" />} label="Search package modules" value={packageQuery} onValueChange={setPackageQuery} placeholder="Search module names or import paths" />
             <p className="sc-package-result-count" role="status">
               {matchingPackageModules.length} of {productPackage.modules.length}{" "}
               modules
@@ -2440,16 +2414,7 @@ export function SupportCenter() {
             </span>
           </section>
           <div className="sc-gallery-controls">
-            <label className="sc-filter-search">
-              <Icon name="search" />
-              <input
-                type="search"
-                aria-label="Search screenshots"
-                value={galleryQuery}
-                onChange={(event) => setGalleryQuery(event.target.value)}
-                placeholder="Search screens, catalogues, demos…"
-              />
-            </label>
+            <SearchField className="sc-filter-search" icon={<Icon name="search" />} label="Search screenshots" value={galleryQuery} onValueChange={setGalleryQuery} placeholder="Search screens, catalogues, demos…" />
             <label className="sc-gallery-filter">
               <span>Show</span>
               <select
@@ -2552,16 +2517,7 @@ export function SupportCenter() {
                   <option key={item}>{item}</option>
                 ))}
               </select>
-              <label className="sc-filter-search">
-                <Icon name="search" />
-                <input
-                  type="search"
-                  aria-label="Filter guides"
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Filter guides"
-                />
-              </label>
+              <SearchField className="sc-filter-search" icon={<Icon name="search" />} label="Filter guides" value={query} onValueChange={setQuery} placeholder="Filter guides" />
             </div>
           </section>
           <div className="sc-article-list">
@@ -2813,16 +2769,7 @@ export function SupportCenter() {
                 handoffs.
               </p>
             </div>
-            <label className="sc-filter-search">
-              <Icon name="search" />
-              <input
-                type="search"
-                aria-label="Search FAQs"
-                placeholder="Search questions"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-              />
-            </label>
+            <SearchField className="sc-filter-search" icon={<Icon name="search" />} label="Search FAQs" value={query} onValueChange={setQuery} placeholder="Search questions" />
           </section>
           <div className="sc-faq-layout">
             <aside className="sc-faq-aside">
@@ -2925,16 +2872,7 @@ export function SupportCenter() {
             </a>
           </div>
           <div className="sc-directory-controls">
-            <label className="sc-filter-search">
-              <Icon name="search" />
-              <input
-                type="search"
-                aria-label="Search workspaces"
-                placeholder="Name, family, or canonical ID"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-              />
-            </label>
+            <SearchField className="sc-filter-search" icon={<Icon name="search" />} label="Search workspaces" value={query} onValueChange={setQuery} placeholder="Name, family, or canonical ID" />
             <span>{groups.length} families</span>
           </div>
           <section className="sc-directory-list" aria-label="Workspace records">
@@ -3052,19 +2990,7 @@ export function SupportCenter() {
             </a>
           </section>
           <div className="sc-directory-controls">
-            <label className="sc-filter-search">
-              <Icon name="search" />
-              <input
-                type="search"
-                aria-label="Search workspace data slices"
-                placeholder="Search name, ID, family, domain, sample content"
-                value={sliceQuery}
-                onChange={(e) => {
-                  setSliceQuery(e.target.value);
-                  setPage(0);
-                }}
-              />
-            </label>
+            <SearchField className="sc-filter-search" icon={<Icon name="search" />} label="Search workspace data slices" value={sliceQuery} onValueChange={(next) => { setSliceQuery(next); setPage(0); }} placeholder="Search name, ID, family, domain, sample content" />
             <span>Sorted by canonical registry order</span>
           </div>
           <section
@@ -3334,84 +3260,59 @@ export function SupportCenter() {
               navigate("request/review");
             }}
           >
-            <label>
-              Topic
-              <select
-                required
-                value={draft.category}
-                onChange={(e) => updateDraft("category", e.target.value)}
-              >
-                {SUPPORT_CATEGORIES.map((item) => (
-                  <option key={item}>{item}</option>
-                ))}
-              </select>
-            </label>
-            <label>
-              Subject
-              <input
-                required
-                minLength={4}
-                maxLength={120}
-                value={draft.subject}
-                onChange={(e) => updateDraft("subject", e.target.value)}
-                placeholder="A short summary of the issue"
-              />
-              <small>4–120 characters</small>
-            </label>
-            <label>
-              What were you trying to do, and what happened?
-              <textarea
-                required
-                minLength={20}
-                maxLength={3000}
-                rows={7}
-                value={draft.details}
-                onChange={(e) => updateDraft("details", e.target.value)}
-                placeholder="Steps to reproduce · expected result · actual result · browser and viewport"
-              />
-              <small>
-                {draft.details.length} / 3,000 · Include only information safe
-                to share.
-              </small>
-            </label>
-            <label>
-              Related workspace or canonical ID{" "}
-              <span className="sc-optional">Optional</span>
-              <input
-                list="workspace-options"
-                value={draft.workspace}
-                onChange={(e) => updateDraft("workspace", e.target.value)}
-                placeholder="Search or enter a workspace ID"
-              />
-              <datalist id="workspace-options">
-                {WORKSPACE_TYPES.slice(0, 100).map((item) => (
-                  <option key={item.id} value={item.id}>
-                    {item.name}
-                  </option>
-                ))}
-              </datalist>
-              <small>
-                Browse{" "}
-                <a href="#/workspaces">
-                  all {WORKSPACE_TYPES.length} registry entries
-                </a>{" "}
-                to find the exact ID.
-              </small>
-            </label>
-            <label>
-              Contact email <span className="sc-optional">Optional</span>
-              <input
-                type="email"
-                autoComplete="email"
-                maxLength={254}
-                value={draft.email}
-                onChange={(e) => updateDraft("email", e.target.value)}
-                placeholder="name@example.com"
-              />
-              <small>
-                Stored locally in this browser. It is not sent anywhere.
-              </small>
-            </label>
+            <SelectField
+              label="Topic"
+              required
+              value={draft.category}
+              onValueChange={(value) => updateDraft("category", value)}
+              options={SUPPORT_CATEGORIES}
+            />
+            <TextField
+              label="Subject"
+              required
+              minLength={4}
+              maxLength={120}
+              value={draft.subject}
+              onValueChange={(value) => updateDraft("subject", value)}
+              placeholder="A short summary of the issue"
+              description="4–120 characters"
+            />
+            <TextAreaField
+              label="What were you trying to do, and what happened?"
+              required
+              minLength={20}
+              maxLength={3000}
+              rows={7}
+              value={draft.details}
+              onValueChange={(value) => updateDraft("details", value)}
+              placeholder="Steps to reproduce · expected result · actual result · browser and viewport"
+              description={<>{draft.details.length} / 3,000 · Include only information safe to share.</>}
+            />
+            <TextField
+              label={<>Related workspace or canonical ID <span className="sc-optional">Optional</span></>}
+              list="workspace-options"
+              value={draft.workspace}
+              onValueChange={(value) => updateDraft("workspace", value)}
+              placeholder="Search or enter a workspace ID"
+              description={<>Browse <a href="#/workspaces">all {WORKSPACE_TYPES.length} registry entries</a> to find the exact ID.</>}
+            />
+            <datalist id="workspace-options">
+              {WORKSPACE_TYPES.slice(0, 100).map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.name}
+                </option>
+              ))}
+            </datalist>
+            <TextField
+              label={<>Contact email <span className="sc-optional">Optional</span></>}
+              type="email"
+              autoComplete="email"
+              maxLength={254}
+              value={draft.email}
+              onValueChange={(value) => updateDraft("email", value)}
+              placeholder="name@example.com"
+              description="Stored locally in this browser. It is not sent anywhere."
+            />
             <div className="sc-privacy-note">
               <strong>Before continuing</strong>
               <span>

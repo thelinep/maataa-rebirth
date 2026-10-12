@@ -961,6 +961,13 @@ export const COMPONENT_REGISTRY = [
     "importPath": "@maataa/ui/compounds/RecordRegister"
   },
   {
+    "id": "COMPONENT.COMPOUNDS.SEARCHFIELD",
+    "name": "SearchField",
+    "category": "compounds",
+    "kind": "component",
+    "importPath": "@maataa/ui/compounds/SearchField"
+  },
+  {
     "id": "COMPONENT.COMPOUNDS.SELECTFIELD",
     "name": "SelectField",
     "category": "compounds",

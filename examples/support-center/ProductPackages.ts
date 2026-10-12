@@ -199,6 +199,10 @@ export const ADDITIONAL_PACKAGES = [
         "importPath": "@maataa/ui/compounds/RecordRegister"
       },
       {
+        "name": "SearchField.tsx",
+        "importPath": "@maataa/ui/compounds/SearchField"
+      },
+      {
         "name": "SelectField.tsx",
         "importPath": "@maataa/ui/compounds/SelectField"
       },

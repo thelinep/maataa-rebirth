@@ -30,6 +30,7 @@ import {
   type ProjectContext,
 } from "../../shared/contracts/project-context.ts";
 import "./idea-to-script.css";
+import { readStoredText, removeStoredValue, writeStoredValue } from "@maataa/ui/compounds";
 
 type Preview = { proposal: VersionProposal; digest: string; conflict: string | null; errors: string[] };
 type OllamaModel = { id: string; label: string; digest?: string };
@@ -55,12 +56,12 @@ const short = (digest: string) => digest.replace("sha256:", "").slice(0, 12);
  * case nothing is written and the caller reloads the stored record.
  */
 async function guardedSave(base: IdeaToScriptStore["record"] | null, next: IdeaToScriptStore): Promise<{ ok: true } | { ok: false; reason: string }> {
-  const raw = localStorage.getItem(IDEA_TO_SCRIPT_STORE_KEY);
+  const raw = readStoredText(IDEA_TO_SCRIPT_STORE_KEY);
   const { store: stored, error } = await parseIdeaToScriptStore(raw);
   if (raw && !stored) return { ok: false, reason: `${error ?? "The saved project could not be read."} Nothing was written.` };
   const verdict = checkWriteBase(base, stored?.record ?? null);
   if (!verdict.ok) return verdict;
-  localStorage.setItem(IDEA_TO_SCRIPT_STORE_KEY, serializeIdeaToScriptStore(next));
+  if (!writeStoredValue(IDEA_TO_SCRIPT_STORE_KEY, serializeIdeaToScriptStore(next))) return { ok: false, reason: "This browser could not save the project. Nothing was written." };
   return { ok: true };
 }
 
@@ -114,7 +115,7 @@ export function IdeaToScriptPanel({ onClose }: { onClose: () => void }) {
   };
 
   const reloadStore = async () => {
-    const { store: saved, error } = await parseIdeaToScriptStore(localStorage.getItem(IDEA_TO_SCRIPT_STORE_KEY));
+    const { store: saved, error } = await parseIdeaToScriptStore(readStoredText(IDEA_TO_SCRIPT_STORE_KEY));
     setStore(saved);
     setLoadError(error);
     setDraft(null);
@@ -122,7 +123,7 @@ export function IdeaToScriptPanel({ onClose }: { onClose: () => void }) {
   };
 
   useEffect(() => {
-    void parseIdeaToScriptStore(localStorage.getItem(IDEA_TO_SCRIPT_STORE_KEY)).then(({ store: saved, error }) => {
+    void parseIdeaToScriptStore(readStoredText(IDEA_TO_SCRIPT_STORE_KEY)).then(({ store: saved, error }) => {
       setStore(saved);
       setLoadError(error);
       setLoaded(true);
@@ -256,7 +257,7 @@ export function IdeaToScriptPanel({ onClose }: { onClose: () => void }) {
   };
 
   const reset = () => {
-    localStorage.removeItem(IDEA_TO_SCRIPT_STORE_KEY);
+    removeStoredValue(IDEA_TO_SCRIPT_STORE_KEY);
     setStore(null);
     setDraft(null);
     setIdeaPreview(null);

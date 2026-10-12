@@ -6,5 +6,6 @@ export * from "./LiveStatus";
 export * from "./StatSummary";
 export * from "./StatusStep";
 export * from "./ChipPicker";
+export * from "./SearchField";
 export * from "./RecordForm";
 export * from "./RecordRegister";

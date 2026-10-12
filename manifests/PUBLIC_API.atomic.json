@@ -690,6 +690,11 @@
     },
     {
       "category": "compounds",
+      "import": "@maataa/ui/compounds/SearchField",
+      "name": "SearchField"
+    },
+    {
+      "category": "compounds",
       "import": "@maataa/ui/compounds/SelectField",
       "name": "SelectField"
     },

@@ -10,6 +10,7 @@ import {
   type ProductIdeaDraft,
   type ProductDomain,
 } from "./productIdeaWizardModel";
+import { readStoredText, writeStoredValue } from "@maataa/ui/compounds";
 
 type FieldKey = Exclude<keyof ProductIdeaDraft, "domain">;
 type FieldDefinition = {
@@ -192,7 +193,7 @@ function loadSession() {
     };
   try {
     const session = parseProductIdeaWizardSession(
-      window.localStorage.getItem(PRODUCT_IDEA_WIZARD_STORAGE_KEY),
+      readStoredText(PRODUCT_IDEA_WIZARD_STORAGE_KEY),
     );
     return (
       session ?? {
@@ -229,15 +230,7 @@ export function ProductIdeaWizard({
   const [announcement, setAnnouncement] = React.useState("");
 
   React.useEffect(() => {
-    try {
-      window.localStorage.setItem(
-        PRODUCT_IDEA_WIZARD_STORAGE_KEY,
-        JSON.stringify({ version: 1, draft, currentStep, reviewedBrief }),
-      );
-      setSaveStatus("Saved in this browser");
-    } catch {
-      setSaveStatus("This browser could not save the draft");
-    }
+    setSaveStatus(writeStoredValue(PRODUCT_IDEA_WIZARD_STORAGE_KEY, { version: 1, draft, currentStep, reviewedBrief }) ? "Saved in this browser" : "This browser could not save the draft");
   }, [draft, currentStep, reviewedBrief]);
 
   const setField = (key: FieldKey, value: string) => {

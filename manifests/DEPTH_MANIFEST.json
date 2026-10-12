@@ -15,8 +15,8 @@
     "depth-tests",
     "certification-script"
   ],
-  "generatedStories": 1581,
-  "directImports": 1581,
+  "generatedStories": 1582,
+  "directImports": 1582,
   "certification": {
     "structural": "PASS",
     "installedDependencyGate": "RUN_ON_CONSUMER"

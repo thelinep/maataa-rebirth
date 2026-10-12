@@ -20,6 +20,7 @@ import {
   type StudioTheme,
 } from "./themeStudioModel";
 import "./theme-studio.css";
+import { readStoredText, removeStoredValue, writeStoredValue } from "@maataa/ui/compounds";
 
 type StudioPanel = "overview" | "typography" | "colors" | "surfaces" | "motion";
 const PANELS: Array<{ id: StudioPanel; label: string; description: string }> = [
@@ -36,8 +37,7 @@ const WARM_LIGHT_COLORS: StudioTheme["colors"] = {
 const BRAND_THEME_HANDOFF_KEY = "maataa.branding-studio.theme-handoff.v1";
 
 function readStorage(key: string): string | null {
-  try { return typeof window === "undefined" ? null : window.localStorage.getItem(key); }
-  catch { return null; }
+  return readStoredText(key);
 }
 
 function readActiveTheme(): StudioTheme {
@@ -89,7 +89,7 @@ export function ThemeStudio({ navigate }: { navigate: (path: string) => void }) 
         setNotice("Brand candidate loaded for component preview. It remains unapproved.");
       }
     } catch { setNotice("Could not read the Branding Studio handoff; the current local theme is open."); }
-    try { window.localStorage.removeItem(BRAND_THEME_HANDOFF_KEY); } catch { /* Keep the editor usable without browser storage. */ }
+    removeStoredValue(BRAND_THEME_HANDOFF_KEY);
   }, []);
   const textCanvasRatio = contrastRatio(draft.colors.text, draft.colors.canvas);
   const mutedSurfaceRatio = contrastRatio(draft.colors.muted, draft.colors.surface);
@@ -105,8 +105,7 @@ export function ThemeStudio({ navigate }: { navigate: (path: string) => void }) 
 
   const savePresets = (next: StudioTheme[]) => {
     setPresets(next);
-    try { window.localStorage.setItem(STUDIO_STORAGE_KEY, JSON.stringify(next)); setNotice("Preset saved on this device"); }
-    catch { setNotice("Browser storage is unavailable; export the theme to keep a copy"); }
+    setNotice(writeStoredValue(STUDIO_STORAGE_KEY, next) ? "Preset saved on this device" : "Browser storage is unavailable; export the theme to keep a copy");
   };
 
   const savePreset = () => {
@@ -119,13 +118,12 @@ export function ThemeStudio({ navigate }: { navigate: (path: string) => void }) 
   const applyGlobally = () => {
     const active = { ...draft, name: draft.name.trim() || "Untitled theme" };
     applyThemeTokens(document.documentElement, active);
-    try { window.localStorage.setItem(STUDIO_ACTIVE_KEY, JSON.stringify(active)); setNotice("Theme applied across MAATAA package components"); }
-    catch { setNotice("Theme applied for this session; browser storage is unavailable"); }
+    setNotice(writeStoredValue(STUDIO_ACTIVE_KEY, active) ? "Theme applied across MAATAA package components" : "Theme applied for this session; browser storage is unavailable");
   };
 
   const resetGlobal = () => {
     clearThemeTokens(document.documentElement);
-    try { window.localStorage.removeItem(STUDIO_ACTIVE_KEY); } catch { /* Reset is still applied to this session. */ }
+    removeStoredValue(STUDIO_ACTIVE_KEY);
     setDraft(DEFAULT_STUDIO_THEME);
     setNotice("Built-in MAATAA tokens restored");
   };

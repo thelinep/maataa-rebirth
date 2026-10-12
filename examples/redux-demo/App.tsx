@@ -88,6 +88,7 @@ import { createAISpaceDataSlice, createDeviceDataSlice, createGeneratorDataSlice
 import { createRecordCatalogDataSlice, type RecordCatalogKind } from "./recordCatalogDataSlices";
 import { DemoExperience } from "./DemoExperiences";
 import { deleteComposition, duplicateComposition, emptyCompositionLibrary, loadCompositionLibrary, restoreCompositionRevision, saveComposition, writeCompositionLibrary, type CompositionLibraryV1 } from "./compositionLibrary";
+import { readStoredText } from "@maataa/ui/compounds";
 
 const money = new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
 
@@ -782,7 +783,7 @@ function AppBody() {
   const [route, navigate] = useHashRoute();
   React.useEffect(() => {
     try {
-      const active = parseActiveTheme(window.localStorage.getItem(STUDIO_ACTIVE_KEY));
+      const active = parseActiveTheme(readStoredText(STUDIO_ACTIVE_KEY));
       if (active) applyThemeTokens(document.documentElement, active);
     } catch { /* Keep the built-in theme when browser storage is unavailable. */ }
   }, []);

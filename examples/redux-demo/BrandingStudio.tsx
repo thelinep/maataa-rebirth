@@ -19,6 +19,7 @@ import {
 } from "./brandingStudioModel";
 import { DEFAULT_STUDIO_THEME, themeToCssVariables, type StudioTheme } from "./themeStudioModel";
 import "./branding-studio.css";
+import { readStoredValue, writeStoredValue } from "@maataa/ui/compounds";
 
 type Stage = "board" | "kit" | "theme" | "review";
 type ProviderId = "ollama" | "anthropic" | "gemini";
@@ -36,13 +37,9 @@ const clamp = (number: number, min: number, max: number) => Math.min(max, Math.m
 const makeId = (prefix: string) => `${prefix}-${globalThis.crypto?.randomUUID?.() ?? Math.random().toString(36).slice(2)}`;
 
 function readDocument(): BrandingDocumentV1 {
-  try {
-    const raw = window.localStorage.getItem(BRANDING_STORAGE_KEY);
-    if (raw) {
-      const parsed: unknown = JSON.parse(raw);
-      if (validateBrandDocument(parsed)) return parsed;
-    }
-  } catch { /* Storage may be blocked or contain an older invalid draft. */ }
+  // Storage may be blocked or hold an older invalid draft; both fall through to the default.
+  const stored = readStoredValue<BrandingDocumentV1 | null>(BRANDING_STORAGE_KEY, (raw) => (validateBrandDocument(raw) ? raw : null), null);
+  if (stored) return stored;
   return createInitialBrandingDocument();
 }
 
@@ -112,8 +109,7 @@ export function BrandingStudio({ navigate }: { navigate: (path: string) => void 
   }, [history.update]);
 
   React.useEffect(() => {
-    try { window.localStorage.setItem(BRANDING_STORAGE_KEY, serializeEditorDocument(document)); }
-    catch { setNotice("Browser storage is unavailable. Export the JSON draft to keep a copy."); }
+    if (!writeStoredValue(BRANDING_STORAGE_KEY, serializeEditorDocument(document))) setNotice("Browser storage is unavailable. Export the JSON draft to keep a copy.");
   }, [document]);
 
   const refreshProviders = React.useCallback(async () => {
@@ -183,10 +179,8 @@ export function BrandingStudio({ navigate }: { navigate: (path: string) => void 
     setNotice(`Created local assignment drafts for ${assignmentSelection.length} product(s). Nothing was published.`);
   };
   const openThemeStudio = () => {
-    try {
-      window.localStorage.setItem("maataa.branding-studio.theme-handoff.v1", JSON.stringify({ schemaVersion: "maataa.brand-theme-handoff.v1", theme: cardTheme(document), sourceDocumentId: document.id, sourceUpdatedAt: document.updatedAt }));
-      navigate("/theme-studio");
-    } catch { setNotice("Could not prepare the Theme Studio handoff. Export the board and try again."); }
+    if (writeStoredValue("maataa.branding-studio.theme-handoff.v1", { schemaVersion: "maataa.brand-theme-handoff.v1", theme: cardTheme(document), sourceDocumentId: document.id, sourceUpdatedAt: document.updatedAt })) navigate("/theme-studio");
+    else setNotice("Could not prepare the Theme Studio handoff. Export the board and try again.");
   };
   const importDocument = async (file?: File) => {
     if (!file) return;

@@ -11,7 +11,7 @@
   "registries": {
     "components": {
       "source": "src/registries/componentRegistry.ts",
-      "sha256": "473daba507cdc24dfb1547a200ec719231ddc4686ed8e009e9da191572a2038d",
+      "sha256": "f57724e512532b1165ed649c9d33bff18316171481907deda6416b774cd220cf",
       "records": [
         {
           "id": "COMPONENT.FOUNDATION.ASPECTRATIO",
@@ -971,6 +971,13 @@
           "category": "compounds",
           "kind": "component",
           "importPath": "@maataa/ui/compounds/RecordRegister"
+        },
+        {
+          "id": "COMPONENT.COMPOUNDS.SEARCHFIELD",
+          "name": "SearchField",
+          "category": "compounds",
+          "kind": "component",
+          "importPath": "@maataa/ui/compounds/SearchField"
         },
         {
           "id": "COMPONENT.COMPOUNDS.SELECTFIELD",

@@ -8,6 +8,7 @@ export const PREVIEW_LOADERS: ReadonlyMap<string, PreviewLoader> = new Map<strin
   ["@maataa/ui/compounds/NumberField", () => import("../../../src/compounds/NumberField.tsx")],
   ["@maataa/ui/compounds/RecordForm", () => import("../../../src/compounds/RecordForm.tsx")],
   ["@maataa/ui/compounds/RecordRegister", () => import("../../../src/compounds/RecordRegister.tsx")],
+  ["@maataa/ui/compounds/SearchField", () => import("../../../src/compounds/SearchField.tsx")],
   ["@maataa/ui/compounds/SelectField", () => import("../../../src/compounds/SelectField.tsx")],
   ["@maataa/ui/compounds/StatSummary", () => import("../../../src/compounds/StatSummary.tsx")],
   ["@maataa/ui/compounds/StatusStep", () => import("../../../src/compounds/StatusStep.tsx")],

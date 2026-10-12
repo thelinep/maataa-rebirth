@@ -43,6 +43,7 @@ import { AreaIndex } from "./areas/AreaIndex";
 import { AreaScreen } from "./areas/AreaScreen";
 import { emptyAreaStore, parseAreaStore, TLPS_AREA_STORE_KEY } from "./areas/areaModel";
 import { useStoredValue } from "@maataa/ui/compounds";
+import { readStoredText, removeStoredValue, writeStoredValue } from "@maataa/ui/compounds";
 
 const views: { id: TlpsView; label: string; description: string }[] = [
   {
@@ -74,7 +75,7 @@ const assignableCrewRoles: readonly (
 
 function App() {
   const [draft, setDraft] = useState<TlpsDraft>(() =>
-    readTlpsDraft(localStorage.getItem(tlpsStorageKey)),
+    readTlpsDraft(readStoredText(tlpsStorageKey)),
   );
   const isSavedWorkspaceEntry = window.location.pathname.endsWith("/workspace.html")
     || new URLSearchParams(window.location.search).get("surface") === "workspace";
@@ -110,7 +111,7 @@ function App() {
   const recommendedSystems = intakeRole ? operatingSystemsForRole(intakeRole) : [];
 
   useEffect(() => {
-    localStorage.setItem(tlpsStorageKey, JSON.stringify(draft));
+    if (!writeStoredValue(tlpsStorageKey, draft)) setNotice("This browser could not save the plan. Export it to keep a copy.");
   }, [draft]);
 
   useEffect(() => {
@@ -266,7 +267,7 @@ function App() {
     setView("plan");
   };
   const clearDraft = () => {
-    localStorage.removeItem(tlpsStorageKey);
+    removeStoredValue(tlpsStorageKey);
     setDraft(emptyTlpsDraft);
     setView("plan");
     setNotice("Local draft cleared.");
@@ -424,10 +425,7 @@ function App() {
       return;
     }
     try {
-      localStorage.setItem(
-        TLPS_FILM_HANDOFF_KEY,
-        JSON.stringify(createTlpsFilmHandoff(draft)),
-      );
+      if (!writeStoredValue(TLPS_FILM_HANDOFF_KEY, createTlpsFilmHandoff(draft))) throw new Error("storage unavailable");
       if (invoke) {
         void invoke("open_product_window", { product: "tlp-film", handoffFromTlps: true })
           .then(() => setNotice("TLP Film opened in a new MAATAA Desktop window. Review and confirm the local plan there."))

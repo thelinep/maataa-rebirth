@@ -52,6 +52,7 @@ function ActualSpecimen({ Component, item, overrides = {} }: { Component: Runtim
     case "TextAreaField": return <Component label="Logline" value={text} onValueChange={setText} />;
     case "SelectField": return <Component label="Format" value={selected} onValueChange={setSelected} options={[{ value: "one", label: "Feature film" }, { value: "two", label: "Documentary" }]} />;
     case "LiveStatus": return <Component visible message="Saved in this browser." />;
+    case "SearchField": return <Component label="Search workspaces" value={text} onValueChange={setText} placeholder="Name or canonical ID" />;
     case "StatSummary": return <Component label="Sample summary" items={[{ label: "Entries", value: 2 }, { label: "Total estimate", value: "₹8,60,000" }]} />;
     case "StatusStep": return <Component status="Open" statuses={["Open", "Shortlisted", "Selected"]} itemLabel="Sample candidate" onAdvance={() => {}} />;
     case "ChipPicker": return <Component label="Sample workspaces" items={[{ value: "one", label: "Casting Board", meta: "TLPS" }, { value: "two", label: "Talent" }]} value={selected} onValueChange={setSelected} />;

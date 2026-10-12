@@ -11,6 +11,7 @@ Compounds are built only from existing atoms. They add layout and wiring, never 
 | `StatSummary` | `Stat` | A labelled row of figures. |
 | `StatusStep` | `Badge` + `Button` | A status that moves forward one step at a time. |
 | `ChipPicker` | toggle buttons (`aria-pressed`) | Choosing one item from a short set. |
+| `SearchField` | `Input` (`type="search"`) | A search box with an accessible name and an optional decorative icon. |
 | `LiveStatus`, `useAnnouncer` | a polite live region | Confirmations such as "Saved". One per screen. |
 | `RecordRegister` | `StatSummary`, `RecordForm`, `DataTable`, `StatusStep`, `LiveStatus` | A complete local list: summary, add form, table with status and remove, samples. |
 

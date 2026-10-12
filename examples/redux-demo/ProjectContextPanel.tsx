@@ -8,6 +8,7 @@ import {
 } from "../../apps/shared/contracts/project-context.ts";
 import { IDEA_TO_SCRIPT_STORE_KEY, parseIdeaToScriptStore } from "../../apps/shared/contracts/idea-to-script-store.ts";
 import { openProductWithRecord, returnToDesktop } from "../../apps/shared/maataa-workspace";
+import { readStoredText } from "@maataa/ui/compounds";
 
 type TauriWindow = Window & {
   __TAURI__?: { core?: { invoke?: (command: string, args?: Record<string, unknown>) => Promise<unknown> } };
@@ -46,7 +47,7 @@ export function ProjectContextPanel({ route }: { route: string }) {
 
   const refresh = React.useCallback(async () => {
     if (!context) return;
-    const { store, error } = await parseIdeaToScriptStore(localStorage.getItem(IDEA_TO_SCRIPT_STORE_KEY));
+    const { store, error } = await parseIdeaToScriptStore(readStoredText(IDEA_TO_SCRIPT_STORE_KEY));
     setStatus(reconcileContext(
       context,
       store ? { projectId: store.record.projectId, currentVersion: store.record.currentVersion } : null,

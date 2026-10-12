@@ -2934,6 +2934,12 @@
       "stability": "EXPERIMENTAL"
     },
     {
+      "subpath": "./compounds/SearchField",
+      "source": "src/compounds/SearchField.tsx",
+      "kind": "module",
+      "stability": "EXPERIMENTAL"
+    },
+    {
       "subpath": "./compounds/SelectField",
       "source": "src/compounds/SelectField.tsx",
       "kind": "module",
@@ -43129,6 +43135,24 @@
       ]
     },
     {
+      "name": "SearchField",
+      "subpath": "./compounds",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/SearchField.tsx"
+      ]
+    },
+    {
+      "name": "SearchFieldProps",
+      "subpath": "./compounds",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/SearchField.tsx"
+      ]
+    },
+    {
       "name": "SelectField",
       "subpath": "./compounds",
       "kind": "runtime",
@@ -43696,6 +43720,24 @@
       ]
     },
     {
+      "name": "SearchField",
+      "subpath": "./compounds/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/SearchField.tsx"
+      ]
+    },
+    {
+      "name": "SearchFieldProps",
+      "subpath": "./compounds/index",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/SearchField.tsx"
+      ]
+    },
+    {
       "name": "SelectField",
       "subpath": "./compounds/index",
       "kind": "runtime",
@@ -44080,6 +44122,24 @@
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/compounds/schema.ts"
+      ]
+    },
+    {
+      "name": "SearchField",
+      "subpath": "./compounds/SearchField",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/SearchField.tsx"
+      ]
+    },
+    {
+      "name": "SearchFieldProps",
+      "subpath": "./compounds/SearchField",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/SearchField.tsx"
       ]
     },
     {
