@@ -84,6 +84,7 @@
 .m-table { width:100%; border-collapse:collapse; background:var(--m-surface); }
 .m-table th,.m-table td { padding:10px 12px; border-block-end:1px solid var(--m-border); text-align:start; }
 .m-table th { font-size:.82rem; color:var(--m-muted); font-weight:700; }
+.m-table caption { caption-side:top; text-align:start; padding:10px 12px; font-weight:700; color:var(--m-text); background:var(--m-surface); }
 .m-shell { min-height:100dvh; display:grid; grid-template-rows:auto 1fr auto; background:var(--m-bg); }
 .m-shell-body { min-width:0; display:grid; grid-template-columns:auto minmax(0,1fr); }
 .m-sidebar { width:260px; background:var(--m-surface); border-inline-end:1px solid var(--m-border); padding:12px; }
@@ -274,3 +275,18 @@
 .m-flow-node-approval{border-style:double!important;}
 .m-flow-node-decision{border-style:dashed!important;}
 @media (max-width:900px){.m-flow-designer{grid-template-columns:1fr;}.m-flow-palette{flex-direction:row;flex-wrap:wrap;}.m-flow-palette .m-flow-heading{flex-basis:100%;}.m-flow-palette-item{flex:1 1 140px;}}
+/* Compounds (@maataa/ui/compounds): layout only; every control keeps its atom styling. */
+.m-stat-summary{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:var(--m-space-3);}
+.m-stat-summary>li{border:var(--m-border-width) solid var(--m-border);border-radius:var(--m-radius-md);padding:var(--m-space-3);min-width:0;overflow-wrap:break-word;font-variant-numeric:tabular-nums;}
+.m-record-form{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:var(--m-space-3);align-items:start;}
+.m-record-form-actions{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:var(--m-space-2);}
+.m-record-form>.m-field-error{grid-column:1/-1;margin:0;}
+.m-record-register{display:flex;flex-direction:column;gap:var(--m-space-4);min-width:0;}
+.m-register-table{overflow-x:auto;position:relative;}
+.m-register-status,.m-status-step{display:inline-flex;flex-wrap:wrap;align-items:center;gap:var(--m-space-2);}
+.m-chip-picker{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:var(--m-space-2);}
+.m-chip-picker-item{display:inline-flex;align-items:center;gap:var(--m-space-2);min-height:36px;padding:4px 12px;border:var(--m-border-width) solid var(--m-border);border-radius:999px;background:var(--m-surface);color:var(--m-text);font:inherit;font-size:.85rem;cursor:pointer;}
+.m-chip-picker-item small{color:var(--m-muted);font-size:.72rem;}
+.m-chip-picker-item[aria-pressed="true"]{border-color:var(--m-primary);box-shadow:inset 0 0 0 1px var(--m-primary);}
+.m-chip-picker-item:focus-visible{outline:2px solid var(--m-primary);outline-offset:2px;}
+.m-live-status{margin:0;color:var(--m-muted);font-size:.85rem;}

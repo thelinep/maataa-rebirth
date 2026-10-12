@@ -11,7 +11,7 @@
   "registries": {
     "components": {
       "source": "src/registries/componentRegistry.ts",
-      "sha256": "fabcdf4e6fd493ffc4064fe6225cfdb3f4d6a7935ac778a9d41b35503322cd69",
+      "sha256": "473daba507cdc24dfb1547a200ec719231ddc4686ed8e009e9da191572a2038d",
       "records": [
         {
           "id": "COMPONENT.FOUNDATION.ASPECTRATIO",
@@ -929,6 +929,83 @@
           "category": "data",
           "kind": "component",
           "importPath": "@maataa/ui/data/useFilteredData"
+        },
+        {
+          "id": "COMPONENT.COMPOUNDS.CHIPPICKER",
+          "name": "ChipPicker",
+          "category": "compounds",
+          "kind": "component",
+          "importPath": "@maataa/ui/compounds/ChipPicker"
+        },
+        {
+          "id": "COMPONENT.COMPOUNDS.DATEFIELD",
+          "name": "DateField",
+          "category": "compounds",
+          "kind": "component",
+          "importPath": "@maataa/ui/compounds/DateField"
+        },
+        {
+          "id": "COMPONENT.COMPOUNDS.LIVESTATUS",
+          "name": "LiveStatus",
+          "category": "compounds",
+          "kind": "component",
+          "importPath": "@maataa/ui/compounds/LiveStatus"
+        },
+        {
+          "id": "COMPONENT.COMPOUNDS.NUMBERFIELD",
+          "name": "NumberField",
+          "category": "compounds",
+          "kind": "component",
+          "importPath": "@maataa/ui/compounds/NumberField"
+        },
+        {
+          "id": "COMPONENT.COMPOUNDS.RECORDFORM",
+          "name": "RecordForm",
+          "category": "compounds",
+          "kind": "component",
+          "importPath": "@maataa/ui/compounds/RecordForm"
+        },
+        {
+          "id": "COMPONENT.COMPOUNDS.RECORDREGISTER",
+          "name": "RecordRegister",
+          "category": "compounds",
+          "kind": "component",
+          "importPath": "@maataa/ui/compounds/RecordRegister"
+        },
+        {
+          "id": "COMPONENT.COMPOUNDS.SELECTFIELD",
+          "name": "SelectField",
+          "category": "compounds",
+          "kind": "component",
+          "importPath": "@maataa/ui/compounds/SelectField"
+        },
+        {
+          "id": "COMPONENT.COMPOUNDS.STATSUMMARY",
+          "name": "StatSummary",
+          "category": "compounds",
+          "kind": "component",
+          "importPath": "@maataa/ui/compounds/StatSummary"
+        },
+        {
+          "id": "COMPONENT.COMPOUNDS.STATUSSTEP",
+          "name": "StatusStep",
+          "category": "compounds",
+          "kind": "component",
+          "importPath": "@maataa/ui/compounds/StatusStep"
+        },
+        {
+          "id": "COMPONENT.COMPOUNDS.TEXTAREAFIELD",
+          "name": "TextAreaField",
+          "category": "compounds",
+          "kind": "component",
+          "importPath": "@maataa/ui/compounds/TextAreaField"
+        },
+        {
+          "id": "COMPONENT.COMPOUNDS.TEXTFIELD",
+          "name": "TextField",
+          "category": "compounds",
+          "kind": "component",
+          "importPath": "@maataa/ui/compounds/TextField"
         },
         {
           "id": "COMPONENT.VISUALIZATION.AREACHART",

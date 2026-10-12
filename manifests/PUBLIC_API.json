@@ -2874,6 +2874,102 @@
       "stability": "EXPERIMENTAL"
     },
     {
+      "subpath": "./compounds",
+      "source": "src/compounds/index.ts",
+      "kind": "module",
+      "stability": "EXPERIMENTAL"
+    },
+    {
+      "subpath": "./compounds/ChipPicker",
+      "source": "src/compounds/ChipPicker.tsx",
+      "kind": "module",
+      "stability": "EXPERIMENTAL"
+    },
+    {
+      "subpath": "./compounds/DateField",
+      "source": "src/compounds/DateField.tsx",
+      "kind": "module",
+      "stability": "EXPERIMENTAL"
+    },
+    {
+      "subpath": "./compounds/fields",
+      "source": "src/compounds/fields.tsx",
+      "kind": "module",
+      "stability": "EXPERIMENTAL"
+    },
+    {
+      "subpath": "./compounds/index",
+      "source": "src/compounds/index.ts",
+      "kind": "module",
+      "stability": "EXPERIMENTAL"
+    },
+    {
+      "subpath": "./compounds/LiveStatus",
+      "source": "src/compounds/LiveStatus.tsx",
+      "kind": "module",
+      "stability": "EXPERIMENTAL"
+    },
+    {
+      "subpath": "./compounds/NumberField",
+      "source": "src/compounds/NumberField.tsx",
+      "kind": "module",
+      "stability": "EXPERIMENTAL"
+    },
+    {
+      "subpath": "./compounds/RecordForm",
+      "source": "src/compounds/RecordForm.tsx",
+      "kind": "module",
+      "stability": "EXPERIMENTAL"
+    },
+    {
+      "subpath": "./compounds/RecordRegister",
+      "source": "src/compounds/RecordRegister.tsx",
+      "kind": "module",
+      "stability": "EXPERIMENTAL"
+    },
+    {
+      "subpath": "./compounds/schema",
+      "source": "src/compounds/schema.ts",
+      "kind": "module",
+      "stability": "EXPERIMENTAL"
+    },
+    {
+      "subpath": "./compounds/SelectField",
+      "source": "src/compounds/SelectField.tsx",
+      "kind": "module",
+      "stability": "EXPERIMENTAL"
+    },
+    {
+      "subpath": "./compounds/StatSummary",
+      "source": "src/compounds/StatSummary.tsx",
+      "kind": "module",
+      "stability": "EXPERIMENTAL"
+    },
+    {
+      "subpath": "./compounds/StatusStep",
+      "source": "src/compounds/StatusStep.tsx",
+      "kind": "module",
+      "stability": "EXPERIMENTAL"
+    },
+    {
+      "subpath": "./compounds/storage",
+      "source": "src/compounds/storage.ts",
+      "kind": "module",
+      "stability": "EXPERIMENTAL"
+    },
+    {
+      "subpath": "./compounds/TextAreaField",
+      "source": "src/compounds/TextAreaField.tsx",
+      "kind": "module",
+      "stability": "EXPERIMENTAL"
+    },
+    {
+      "subpath": "./compounds/TextField",
+      "source": "src/compounds/TextField.tsx",
+      "kind": "module",
+      "stability": "EXPERIMENTAL"
+    },
+    {
       "subpath": "./data",
       "source": "src/data/index.tsx",
       "kind": "module",
@@ -42760,6 +42856,1392 @@
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/composer/VisualComposer.tsx"
+      ]
+    },
+    {
+      "name": "ChipPicker",
+      "subpath": "./compounds",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/ChipPicker.tsx"
+      ]
+    },
+    {
+      "name": "ChipPickerItem",
+      "subpath": "./compounds",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/ChipPicker.tsx"
+      ]
+    },
+    {
+      "name": "ChipPickerProps",
+      "subpath": "./compounds",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/ChipPicker.tsx"
+      ]
+    },
+    {
+      "name": "cleanRecord",
+      "subpath": "./compounds",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/schema.ts"
+      ]
+    },
+    {
+      "name": "createRegisterRecord",
+      "subpath": "./compounds",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/RecordRegister.tsx"
+      ]
+    },
+    {
+      "name": "DateField",
+      "subpath": "./compounds",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/fields.tsx"
+      ]
+    },
+    {
+      "name": "DateFieldProps",
+      "subpath": "./compounds",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/fields.tsx"
+      ]
+    },
+    {
+      "name": "formatMoney",
+      "subpath": "./compounds",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/schema.ts"
+      ]
+    },
+    {
+      "name": "LiveStatus",
+      "subpath": "./compounds",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/LiveStatus.tsx"
+      ]
+    },
+    {
+      "name": "LiveStatusProps",
+      "subpath": "./compounds",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/LiveStatus.tsx"
+      ]
+    },
+    {
+      "name": "nextStatus",
+      "subpath": "./compounds",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/schema.ts"
+      ]
+    },
+    {
+      "name": "NumberField",
+      "subpath": "./compounds",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/fields.tsx"
+      ]
+    },
+    {
+      "name": "NumberFieldProps",
+      "subpath": "./compounds",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/fields.tsx"
+      ]
+    },
+    {
+      "name": "optionLabel",
+      "subpath": "./compounds",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/schema.ts"
+      ]
+    },
+    {
+      "name": "optionValue",
+      "subpath": "./compounds",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/schema.ts"
+      ]
+    },
+    {
+      "name": "parseRegisterRecords",
+      "subpath": "./compounds",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/RecordRegister.tsx"
+      ]
+    },
+    {
+      "name": "pluralLabel",
+      "subpath": "./compounds",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/schema.ts"
+      ]
+    },
+    {
+      "name": "readStoredText",
+      "subpath": "./compounds",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/storage.ts"
+      ]
+    },
+    {
+      "name": "readStoredValue",
+      "subpath": "./compounds",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/storage.ts"
+      ]
+    },
+    {
+      "name": "RecordErrors",
+      "subpath": "./compounds",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/schema.ts"
+      ]
+    },
+    {
+      "name": "RecordField",
+      "subpath": "./compounds",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/schema.ts"
+      ]
+    },
+    {
+      "name": "RecordFieldKind",
+      "subpath": "./compounds",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/schema.ts"
+      ]
+    },
+    {
+      "name": "RecordFieldOption",
+      "subpath": "./compounds",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/schema.ts"
+      ]
+    },
+    {
+      "name": "RecordForm",
+      "subpath": "./compounds",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/RecordForm.tsx"
+      ]
+    },
+    {
+      "name": "RecordFormProps",
+      "subpath": "./compounds",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/RecordForm.tsx"
+      ]
+    },
+    {
+      "name": "RecordRegister",
+      "subpath": "./compounds",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/RecordRegister.tsx"
+      ]
+    },
+    {
+      "name": "RecordRegisterProps",
+      "subpath": "./compounds",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/RecordRegister.tsx"
+      ]
+    },
+    {
+      "name": "RecordValues",
+      "subpath": "./compounds",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/schema.ts"
+      ]
+    },
+    {
+      "name": "RegisterRecord",
+      "subpath": "./compounds",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/RecordRegister.tsx"
+      ]
+    },
+    {
+      "name": "removeStoredValue",
+      "subpath": "./compounds",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/storage.ts"
+      ]
+    },
+    {
+      "name": "SelectField",
+      "subpath": "./compounds",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/fields.tsx"
+      ]
+    },
+    {
+      "name": "SelectFieldProps",
+      "subpath": "./compounds",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/fields.tsx"
+      ]
+    },
+    {
+      "name": "StatSummary",
+      "subpath": "./compounds",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/StatSummary.tsx"
+      ]
+    },
+    {
+      "name": "StatSummaryItem",
+      "subpath": "./compounds",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/StatSummary.tsx"
+      ]
+    },
+    {
+      "name": "StatSummaryProps",
+      "subpath": "./compounds",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/StatSummary.tsx"
+      ]
+    },
+    {
+      "name": "StatusStep",
+      "subpath": "./compounds",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/StatusStep.tsx"
+      ]
+    },
+    {
+      "name": "StatusStepProps",
+      "subpath": "./compounds",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/StatusStep.tsx"
+      ]
+    },
+    {
+      "name": "StoredParser",
+      "subpath": "./compounds",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/storage.ts"
+      ]
+    },
+    {
+      "name": "StoredValue",
+      "subpath": "./compounds",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/storage.ts"
+      ]
+    },
+    {
+      "name": "sumMoney",
+      "subpath": "./compounds",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/schema.ts"
+      ]
+    },
+    {
+      "name": "TextAreaField",
+      "subpath": "./compounds",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/fields.tsx"
+      ]
+    },
+    {
+      "name": "TextAreaFieldProps",
+      "subpath": "./compounds",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/fields.tsx"
+      ]
+    },
+    {
+      "name": "TextField",
+      "subpath": "./compounds",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/fields.tsx"
+      ]
+    },
+    {
+      "name": "TextFieldProps",
+      "subpath": "./compounds",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/fields.tsx"
+      ]
+    },
+    {
+      "name": "useAnnouncer",
+      "subpath": "./compounds",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/LiveStatus.tsx"
+      ]
+    },
+    {
+      "name": "useStoredValue",
+      "subpath": "./compounds",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/storage.ts"
+      ]
+    },
+    {
+      "name": "validateRecord",
+      "subpath": "./compounds",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/schema.ts"
+      ]
+    },
+    {
+      "name": "writeStoredValue",
+      "subpath": "./compounds",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/storage.ts"
+      ]
+    },
+    {
+      "name": "ChipPicker",
+      "subpath": "./compounds/ChipPicker",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/ChipPicker.tsx"
+      ]
+    },
+    {
+      "name": "ChipPickerItem",
+      "subpath": "./compounds/ChipPicker",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/ChipPicker.tsx"
+      ]
+    },
+    {
+      "name": "ChipPickerProps",
+      "subpath": "./compounds/ChipPicker",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/ChipPicker.tsx"
+      ]
+    },
+    {
+      "name": "DateField",
+      "subpath": "./compounds/DateField",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/fields.tsx"
+      ]
+    },
+    {
+      "name": "DateFieldProps",
+      "subpath": "./compounds/DateField",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/fields.tsx"
+      ]
+    },
+    {
+      "name": "DateField",
+      "subpath": "./compounds/fields",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/fields.tsx"
+      ]
+    },
+    {
+      "name": "DateFieldProps",
+      "subpath": "./compounds/fields",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/fields.tsx"
+      ]
+    },
+    {
+      "name": "NumberField",
+      "subpath": "./compounds/fields",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/fields.tsx"
+      ]
+    },
+    {
+      "name": "NumberFieldProps",
+      "subpath": "./compounds/fields",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/fields.tsx"
+      ]
+    },
+    {
+      "name": "SelectField",
+      "subpath": "./compounds/fields",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/fields.tsx"
+      ]
+    },
+    {
+      "name": "SelectFieldProps",
+      "subpath": "./compounds/fields",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/fields.tsx"
+      ]
+    },
+    {
+      "name": "TextAreaField",
+      "subpath": "./compounds/fields",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/fields.tsx"
+      ]
+    },
+    {
+      "name": "TextAreaFieldProps",
+      "subpath": "./compounds/fields",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/fields.tsx"
+      ]
+    },
+    {
+      "name": "TextField",
+      "subpath": "./compounds/fields",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/fields.tsx"
+      ]
+    },
+    {
+      "name": "TextFieldProps",
+      "subpath": "./compounds/fields",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/fields.tsx"
+      ]
+    },
+    {
+      "name": "ChipPicker",
+      "subpath": "./compounds/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/ChipPicker.tsx"
+      ]
+    },
+    {
+      "name": "ChipPickerItem",
+      "subpath": "./compounds/index",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/ChipPicker.tsx"
+      ]
+    },
+    {
+      "name": "ChipPickerProps",
+      "subpath": "./compounds/index",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/ChipPicker.tsx"
+      ]
+    },
+    {
+      "name": "cleanRecord",
+      "subpath": "./compounds/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/schema.ts"
+      ]
+    },
+    {
+      "name": "createRegisterRecord",
+      "subpath": "./compounds/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/RecordRegister.tsx"
+      ]
+    },
+    {
+      "name": "DateField",
+      "subpath": "./compounds/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/fields.tsx"
+      ]
+    },
+    {
+      "name": "DateFieldProps",
+      "subpath": "./compounds/index",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/fields.tsx"
+      ]
+    },
+    {
+      "name": "formatMoney",
+      "subpath": "./compounds/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/schema.ts"
+      ]
+    },
+    {
+      "name": "LiveStatus",
+      "subpath": "./compounds/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/LiveStatus.tsx"
+      ]
+    },
+    {
+      "name": "LiveStatusProps",
+      "subpath": "./compounds/index",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/LiveStatus.tsx"
+      ]
+    },
+    {
+      "name": "nextStatus",
+      "subpath": "./compounds/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/schema.ts"
+      ]
+    },
+    {
+      "name": "NumberField",
+      "subpath": "./compounds/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/fields.tsx"
+      ]
+    },
+    {
+      "name": "NumberFieldProps",
+      "subpath": "./compounds/index",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/fields.tsx"
+      ]
+    },
+    {
+      "name": "optionLabel",
+      "subpath": "./compounds/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/schema.ts"
+      ]
+    },
+    {
+      "name": "optionValue",
+      "subpath": "./compounds/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/schema.ts"
+      ]
+    },
+    {
+      "name": "parseRegisterRecords",
+      "subpath": "./compounds/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/RecordRegister.tsx"
+      ]
+    },
+    {
+      "name": "pluralLabel",
+      "subpath": "./compounds/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/schema.ts"
+      ]
+    },
+    {
+      "name": "readStoredText",
+      "subpath": "./compounds/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/storage.ts"
+      ]
+    },
+    {
+      "name": "readStoredValue",
+      "subpath": "./compounds/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/storage.ts"
+      ]
+    },
+    {
+      "name": "RecordErrors",
+      "subpath": "./compounds/index",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/schema.ts"
+      ]
+    },
+    {
+      "name": "RecordField",
+      "subpath": "./compounds/index",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/schema.ts"
+      ]
+    },
+    {
+      "name": "RecordFieldKind",
+      "subpath": "./compounds/index",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/schema.ts"
+      ]
+    },
+    {
+      "name": "RecordFieldOption",
+      "subpath": "./compounds/index",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/schema.ts"
+      ]
+    },
+    {
+      "name": "RecordForm",
+      "subpath": "./compounds/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/RecordForm.tsx"
+      ]
+    },
+    {
+      "name": "RecordFormProps",
+      "subpath": "./compounds/index",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/RecordForm.tsx"
+      ]
+    },
+    {
+      "name": "RecordRegister",
+      "subpath": "./compounds/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/RecordRegister.tsx"
+      ]
+    },
+    {
+      "name": "RecordRegisterProps",
+      "subpath": "./compounds/index",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/RecordRegister.tsx"
+      ]
+    },
+    {
+      "name": "RecordValues",
+      "subpath": "./compounds/index",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/schema.ts"
+      ]
+    },
+    {
+      "name": "RegisterRecord",
+      "subpath": "./compounds/index",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/RecordRegister.tsx"
+      ]
+    },
+    {
+      "name": "removeStoredValue",
+      "subpath": "./compounds/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/storage.ts"
+      ]
+    },
+    {
+      "name": "SelectField",
+      "subpath": "./compounds/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/fields.tsx"
+      ]
+    },
+    {
+      "name": "SelectFieldProps",
+      "subpath": "./compounds/index",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/fields.tsx"
+      ]
+    },
+    {
+      "name": "StatSummary",
+      "subpath": "./compounds/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/StatSummary.tsx"
+      ]
+    },
+    {
+      "name": "StatSummaryItem",
+      "subpath": "./compounds/index",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/StatSummary.tsx"
+      ]
+    },
+    {
+      "name": "StatSummaryProps",
+      "subpath": "./compounds/index",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/StatSummary.tsx"
+      ]
+    },
+    {
+      "name": "StatusStep",
+      "subpath": "./compounds/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/StatusStep.tsx"
+      ]
+    },
+    {
+      "name": "StatusStepProps",
+      "subpath": "./compounds/index",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/StatusStep.tsx"
+      ]
+    },
+    {
+      "name": "StoredParser",
+      "subpath": "./compounds/index",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/storage.ts"
+      ]
+    },
+    {
+      "name": "StoredValue",
+      "subpath": "./compounds/index",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/storage.ts"
+      ]
+    },
+    {
+      "name": "sumMoney",
+      "subpath": "./compounds/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/schema.ts"
+      ]
+    },
+    {
+      "name": "TextAreaField",
+      "subpath": "./compounds/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/fields.tsx"
+      ]
+    },
+    {
+      "name": "TextAreaFieldProps",
+      "subpath": "./compounds/index",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/fields.tsx"
+      ]
+    },
+    {
+      "name": "TextField",
+      "subpath": "./compounds/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/fields.tsx"
+      ]
+    },
+    {
+      "name": "TextFieldProps",
+      "subpath": "./compounds/index",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/fields.tsx"
+      ]
+    },
+    {
+      "name": "useAnnouncer",
+      "subpath": "./compounds/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/LiveStatus.tsx"
+      ]
+    },
+    {
+      "name": "useStoredValue",
+      "subpath": "./compounds/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/storage.ts"
+      ]
+    },
+    {
+      "name": "validateRecord",
+      "subpath": "./compounds/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/schema.ts"
+      ]
+    },
+    {
+      "name": "writeStoredValue",
+      "subpath": "./compounds/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/storage.ts"
+      ]
+    },
+    {
+      "name": "LiveStatus",
+      "subpath": "./compounds/LiveStatus",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/LiveStatus.tsx"
+      ]
+    },
+    {
+      "name": "LiveStatusProps",
+      "subpath": "./compounds/LiveStatus",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/LiveStatus.tsx"
+      ]
+    },
+    {
+      "name": "useAnnouncer",
+      "subpath": "./compounds/LiveStatus",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/LiveStatus.tsx"
+      ]
+    },
+    {
+      "name": "NumberField",
+      "subpath": "./compounds/NumberField",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/fields.tsx"
+      ]
+    },
+    {
+      "name": "NumberFieldProps",
+      "subpath": "./compounds/NumberField",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/fields.tsx"
+      ]
+    },
+    {
+      "name": "RecordForm",
+      "subpath": "./compounds/RecordForm",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/RecordForm.tsx"
+      ]
+    },
+    {
+      "name": "RecordFormProps",
+      "subpath": "./compounds/RecordForm",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/RecordForm.tsx"
+      ]
+    },
+    {
+      "name": "createRegisterRecord",
+      "subpath": "./compounds/RecordRegister",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/RecordRegister.tsx"
+      ]
+    },
+    {
+      "name": "parseRegisterRecords",
+      "subpath": "./compounds/RecordRegister",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/RecordRegister.tsx"
+      ]
+    },
+    {
+      "name": "RecordRegister",
+      "subpath": "./compounds/RecordRegister",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/RecordRegister.tsx"
+      ]
+    },
+    {
+      "name": "RecordRegisterProps",
+      "subpath": "./compounds/RecordRegister",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/RecordRegister.tsx"
+      ]
+    },
+    {
+      "name": "RegisterRecord",
+      "subpath": "./compounds/RecordRegister",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/RecordRegister.tsx"
+      ]
+    },
+    {
+      "name": "cleanRecord",
+      "subpath": "./compounds/schema",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/schema.ts"
+      ]
+    },
+    {
+      "name": "formatMoney",
+      "subpath": "./compounds/schema",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/schema.ts"
+      ]
+    },
+    {
+      "name": "nextStatus",
+      "subpath": "./compounds/schema",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/schema.ts"
+      ]
+    },
+    {
+      "name": "optionLabel",
+      "subpath": "./compounds/schema",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/schema.ts"
+      ]
+    },
+    {
+      "name": "optionValue",
+      "subpath": "./compounds/schema",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/schema.ts"
+      ]
+    },
+    {
+      "name": "pluralLabel",
+      "subpath": "./compounds/schema",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/schema.ts"
+      ]
+    },
+    {
+      "name": "RecordErrors",
+      "subpath": "./compounds/schema",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/schema.ts"
+      ]
+    },
+    {
+      "name": "RecordField",
+      "subpath": "./compounds/schema",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/schema.ts"
+      ]
+    },
+    {
+      "name": "RecordFieldKind",
+      "subpath": "./compounds/schema",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/schema.ts"
+      ]
+    },
+    {
+      "name": "RecordFieldOption",
+      "subpath": "./compounds/schema",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/schema.ts"
+      ]
+    },
+    {
+      "name": "RecordValues",
+      "subpath": "./compounds/schema",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/schema.ts"
+      ]
+    },
+    {
+      "name": "sumMoney",
+      "subpath": "./compounds/schema",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/schema.ts"
+      ]
+    },
+    {
+      "name": "validateRecord",
+      "subpath": "./compounds/schema",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/schema.ts"
+      ]
+    },
+    {
+      "name": "SelectField",
+      "subpath": "./compounds/SelectField",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/fields.tsx"
+      ]
+    },
+    {
+      "name": "SelectFieldProps",
+      "subpath": "./compounds/SelectField",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/fields.tsx"
+      ]
+    },
+    {
+      "name": "StatSummary",
+      "subpath": "./compounds/StatSummary",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/StatSummary.tsx"
+      ]
+    },
+    {
+      "name": "StatSummaryItem",
+      "subpath": "./compounds/StatSummary",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/StatSummary.tsx"
+      ]
+    },
+    {
+      "name": "StatSummaryProps",
+      "subpath": "./compounds/StatSummary",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/StatSummary.tsx"
+      ]
+    },
+    {
+      "name": "StatusStep",
+      "subpath": "./compounds/StatusStep",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/StatusStep.tsx"
+      ]
+    },
+    {
+      "name": "StatusStepProps",
+      "subpath": "./compounds/StatusStep",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/StatusStep.tsx"
+      ]
+    },
+    {
+      "name": "readStoredText",
+      "subpath": "./compounds/storage",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/storage.ts"
+      ]
+    },
+    {
+      "name": "readStoredValue",
+      "subpath": "./compounds/storage",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/storage.ts"
+      ]
+    },
+    {
+      "name": "removeStoredValue",
+      "subpath": "./compounds/storage",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/storage.ts"
+      ]
+    },
+    {
+      "name": "StoredParser",
+      "subpath": "./compounds/storage",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/storage.ts"
+      ]
+    },
+    {
+      "name": "StoredValue",
+      "subpath": "./compounds/storage",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/storage.ts"
+      ]
+    },
+    {
+      "name": "useStoredValue",
+      "subpath": "./compounds/storage",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/storage.ts"
+      ]
+    },
+    {
+      "name": "writeStoredValue",
+      "subpath": "./compounds/storage",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/storage.ts"
+      ]
+    },
+    {
+      "name": "TextAreaField",
+      "subpath": "./compounds/TextAreaField",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/fields.tsx"
+      ]
+    },
+    {
+      "name": "TextAreaFieldProps",
+      "subpath": "./compounds/TextAreaField",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/fields.tsx"
+      ]
+    },
+    {
+      "name": "TextField",
+      "subpath": "./compounds/TextField",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/fields.tsx"
+      ]
+    },
+    {
+      "name": "TextFieldProps",
+      "subpath": "./compounds/TextField",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/compounds/fields.tsx"
       ]
     },
     {

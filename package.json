@@ -388,6 +388,14 @@
       "types": "./dist/flow/index.d.ts",
       "default": "./dist/flow/index.js"
     },
+    "./compounds": {
+      "types": "./dist/compounds/index.d.ts",
+      "default": "./dist/compounds/index.js"
+    },
+    "./compounds/*": {
+      "types": "./dist/compounds/*.d.ts",
+      "default": "./dist/compounds/*.js"
+    },
     "./composer/*": {
       "types": "./dist/composer/*.d.ts",
       "default": "./dist/composer/*.js"

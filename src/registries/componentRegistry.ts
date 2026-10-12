@@ -919,6 +919,83 @@ export const COMPONENT_REGISTRY = [
     "importPath": "@maataa/ui/data/useFilteredData"
   },
   {
+    "id": "COMPONENT.COMPOUNDS.CHIPPICKER",
+    "name": "ChipPicker",
+    "category": "compounds",
+    "kind": "component",
+    "importPath": "@maataa/ui/compounds/ChipPicker"
+  },
+  {
+    "id": "COMPONENT.COMPOUNDS.DATEFIELD",
+    "name": "DateField",
+    "category": "compounds",
+    "kind": "component",
+    "importPath": "@maataa/ui/compounds/DateField"
+  },
+  {
+    "id": "COMPONENT.COMPOUNDS.LIVESTATUS",
+    "name": "LiveStatus",
+    "category": "compounds",
+    "kind": "component",
+    "importPath": "@maataa/ui/compounds/LiveStatus"
+  },
+  {
+    "id": "COMPONENT.COMPOUNDS.NUMBERFIELD",
+    "name": "NumberField",
+    "category": "compounds",
+    "kind": "component",
+    "importPath": "@maataa/ui/compounds/NumberField"
+  },
+  {
+    "id": "COMPONENT.COMPOUNDS.RECORDFORM",
+    "name": "RecordForm",
+    "category": "compounds",
+    "kind": "component",
+    "importPath": "@maataa/ui/compounds/RecordForm"
+  },
+  {
+    "id": "COMPONENT.COMPOUNDS.RECORDREGISTER",
+    "name": "RecordRegister",
+    "category": "compounds",
+    "kind": "component",
+    "importPath": "@maataa/ui/compounds/RecordRegister"
+  },
+  {
+    "id": "COMPONENT.COMPOUNDS.SELECTFIELD",
+    "name": "SelectField",
+    "category": "compounds",
+    "kind": "component",
+    "importPath": "@maataa/ui/compounds/SelectField"
+  },
+  {
+    "id": "COMPONENT.COMPOUNDS.STATSUMMARY",
+    "name": "StatSummary",
+    "category": "compounds",
+    "kind": "component",
+    "importPath": "@maataa/ui/compounds/StatSummary"
+  },
+  {
+    "id": "COMPONENT.COMPOUNDS.STATUSSTEP",
+    "name": "StatusStep",
+    "category": "compounds",
+    "kind": "component",
+    "importPath": "@maataa/ui/compounds/StatusStep"
+  },
+  {
+    "id": "COMPONENT.COMPOUNDS.TEXTAREAFIELD",
+    "name": "TextAreaField",
+    "category": "compounds",
+    "kind": "component",
+    "importPath": "@maataa/ui/compounds/TextAreaField"
+  },
+  {
+    "id": "COMPONENT.COMPOUNDS.TEXTFIELD",
+    "name": "TextField",
+    "category": "compounds",
+    "kind": "component",
+    "importPath": "@maataa/ui/compounds/TextField"
+  },
+  {
     "id": "COMPONENT.VISUALIZATION.AREACHART",
     "name": "AreaChart",
     "category": "visualization",

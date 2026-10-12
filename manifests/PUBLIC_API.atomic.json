@@ -659,6 +659,61 @@
       "name": "useFilteredData"
     },
     {
+      "category": "compounds",
+      "import": "@maataa/ui/compounds/ChipPicker",
+      "name": "ChipPicker"
+    },
+    {
+      "category": "compounds",
+      "import": "@maataa/ui/compounds/DateField",
+      "name": "DateField"
+    },
+    {
+      "category": "compounds",
+      "import": "@maataa/ui/compounds/LiveStatus",
+      "name": "LiveStatus"
+    },
+    {
+      "category": "compounds",
+      "import": "@maataa/ui/compounds/NumberField",
+      "name": "NumberField"
+    },
+    {
+      "category": "compounds",
+      "import": "@maataa/ui/compounds/RecordForm",
+      "name": "RecordForm"
+    },
+    {
+      "category": "compounds",
+      "import": "@maataa/ui/compounds/RecordRegister",
+      "name": "RecordRegister"
+    },
+    {
+      "category": "compounds",
+      "import": "@maataa/ui/compounds/SelectField",
+      "name": "SelectField"
+    },
+    {
+      "category": "compounds",
+      "import": "@maataa/ui/compounds/StatSummary",
+      "name": "StatSummary"
+    },
+    {
+      "category": "compounds",
+      "import": "@maataa/ui/compounds/StatusStep",
+      "name": "StatusStep"
+    },
+    {
+      "category": "compounds",
+      "import": "@maataa/ui/compounds/TextAreaField",
+      "name": "TextAreaField"
+    },
+    {
+      "category": "compounds",
+      "import": "@maataa/ui/compounds/TextField",
+      "name": "TextField"
+    },
+    {
       "category": "visualization",
       "import": "@maataa/ui/visualization/AreaChart",
       "name": "AreaChart"

@@ -167,6 +167,76 @@ export const ADDITIONAL_PACKAGES = [
     ]
   },
   {
+    "id": "compounds",
+    "title": "compounds",
+    "group": "Package areas",
+    "packagePath": "compounds",
+    "importPath": "@maataa/ui/compounds",
+    "description": "A public MAATAA UI package area.",
+    "modules": [
+      {
+        "name": "ChipPicker.tsx",
+        "importPath": "@maataa/ui/compounds/ChipPicker"
+      },
+      {
+        "name": "DateField.tsx",
+        "importPath": "@maataa/ui/compounds/DateField"
+      },
+      {
+        "name": "LiveStatus.tsx",
+        "importPath": "@maataa/ui/compounds/LiveStatus"
+      },
+      {
+        "name": "NumberField.tsx",
+        "importPath": "@maataa/ui/compounds/NumberField"
+      },
+      {
+        "name": "RecordForm.tsx",
+        "importPath": "@maataa/ui/compounds/RecordForm"
+      },
+      {
+        "name": "RecordRegister.tsx",
+        "importPath": "@maataa/ui/compounds/RecordRegister"
+      },
+      {
+        "name": "SelectField.tsx",
+        "importPath": "@maataa/ui/compounds/SelectField"
+      },
+      {
+        "name": "StatSummary.tsx",
+        "importPath": "@maataa/ui/compounds/StatSummary"
+      },
+      {
+        "name": "StatusStep.tsx",
+        "importPath": "@maataa/ui/compounds/StatusStep"
+      },
+      {
+        "name": "TextAreaField.tsx",
+        "importPath": "@maataa/ui/compounds/TextAreaField"
+      },
+      {
+        "name": "TextField.tsx",
+        "importPath": "@maataa/ui/compounds/TextField"
+      },
+      {
+        "name": "fields.tsx",
+        "importPath": "@maataa/ui/compounds/fields"
+      },
+      {
+        "name": "index.ts",
+        "importPath": "@maataa/ui/compounds"
+      },
+      {
+        "name": "schema.ts",
+        "importPath": "@maataa/ui/compounds/schema"
+      },
+      {
+        "name": "storage.ts",
+        "importPath": "@maataa/ui/compounds/storage"
+      }
+    ]
+  },
+  {
     "id": "data",
     "title": "Data display",
     "group": "Core interface",

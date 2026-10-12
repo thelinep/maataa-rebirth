@@ -21,6 +21,7 @@ const previewGroups: Readonly<Record<string, () => Promise<{ PREVIEW_LOADERS: Re
   "ai-spaces": () => import("./preview-loaders/ai-spaces.generated"),
   "atomic": () => import("./preview-loaders/atomic.generated"),
   "composer": () => import("./preview-loaders/composer.generated"),
+  "compounds": () => import("./preview-loaders/compounds.generated"),
   "data": () => import("./preview-loaders/data.generated"),
   "device-atoms": () => import("./preview-loaders/device-atoms.generated"),
   "devices": () => import("./preview-loaders/devices.generated"),

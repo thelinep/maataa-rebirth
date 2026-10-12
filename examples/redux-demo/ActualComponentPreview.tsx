@@ -21,6 +21,11 @@ class PreviewBoundary extends React.Component<{ children: React.ReactNode; name:
   }
 }
 
+function CompoundRegisterSpecimen({ Component, fields }: { Component: RuntimeComponent; fields: unknown[] }) {
+  const [records, setRecords] = React.useState<unknown[]>([]);
+  return <Component recordLabel="Casting entry" fields={fields} statuses={["Open", "Shortlisted", "Selected"]} records={records} onRecordsChange={setRecords} samples={[{ name: "Sample A", role: "Lead", fee: "800000" }]} />;
+}
+
 function PreviewTile({ children, label }: { children?: React.ReactNode; label: string }) {
   return <div className="actual-preview-tile"><span>{label}</span>{children}</div>;
 }
@@ -34,6 +39,26 @@ function ActualSpecimen({ Component, item, overrides = {} }: { Component: Runtim
   const commonStyle: React.CSSProperties = { border: "1px solid rgba(196,153,48,.38)", borderRadius: 12, padding: 16, background: "rgba(196,153,48,.06)" };
   const tiles = <><PreviewTile label="A"/><PreviewTile label="B"/><PreviewTile label="C"/></>;
 
+  // Compound specimens (@maataa/ui/compounds): real props, synthetic data.
+  const compoundFields = [
+    { key: "name", label: "Candidate", kind: "text", required: true },
+    { key: "role", label: "Role", kind: "select", options: ["Lead", "Support"], required: true },
+    { key: "fee", label: "Fee estimate", kind: "number", money: true },
+  ];
+  switch (name) {
+    case "TextField": return <Component label="Project name" value={text} onValueChange={setText} description="Shown on call sheets" />;
+    case "NumberField": return <Component label="Crew size" value="12" onValueChange={() => {}} />;
+    case "DateField": return <Component label="Shoot date" value="2027-02-03" onValueChange={() => {}} />;
+    case "TextAreaField": return <Component label="Logline" value={text} onValueChange={setText} />;
+    case "SelectField": return <Component label="Format" value={selected} onValueChange={setSelected} options={[{ value: "one", label: "Feature film" }, { value: "two", label: "Documentary" }]} />;
+    case "LiveStatus": return <Component visible message="Saved in this browser." />;
+    case "StatSummary": return <Component label="Sample summary" items={[{ label: "Entries", value: 2 }, { label: "Total estimate", value: "₹8,60,000" }]} />;
+    case "StatusStep": return <Component status="Open" statuses={["Open", "Shortlisted", "Selected"]} itemLabel="Sample candidate" onAdvance={() => {}} />;
+    case "ChipPicker": return <Component label="Sample workspaces" items={[{ value: "one", label: "Casting Board", meta: "TLPS" }, { value: "two", label: "Talent" }]} value={selected} onValueChange={setSelected} />;
+    case "RecordForm": return <Component fields={compoundFields} onSubmit={() => {}} submitLabel="Add sample" />;
+    case "RecordRegister": return <CompoundRegisterSpecimen Component={Component} fields={compoundFields} />;
+    default: break;
+  }
   switch (name) {
     case "AspectRatio":
       return <Component ratio={Number(overrides.ratio ?? 16/9)} style={{...commonStyle, width:"min(100%,560px)", padding:0, overflow:"hidden"}}><div className="aspect-demo"><strong>16:9 actual AspectRatio</strong><span>Resize the browser: this rectangle keeps its ratio.</span></div></Component>;
