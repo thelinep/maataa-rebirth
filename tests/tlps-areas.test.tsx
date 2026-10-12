@@ -96,13 +96,13 @@ describe("TLPS area screen", () => {
 
   it("adds, advances and removes a casting entry and renders a moved workspace and AI space", () => {
     const { getStore } = renderArea("casting");
-    fireEvent.click(screen.getByRole("button", { name: "Add" }));
-    expect(screen.getByRole("alert")).toHaveTextContent("Role is required.");
-    fireEvent.change(screen.getByLabelText("Role (required)"), { target: { value: "Female Lead Actor" } });
-    fireEvent.change(screen.getByLabelText("Candidate (required)"), { target: { value: "Test candidate" } });
-    fireEvent.click(screen.getByRole("button", { name: "Add" }));
+    fireEvent.click(screen.getByRole("button", { name: "Add casting entry" }));
+    expect(screen.getByLabelText(/^Role/)).toHaveAccessibleDescription("Role is required.");
+    fireEvent.change(screen.getByLabelText(/^Role/), { target: { value: "Female Lead Actor" } });
+    fireEvent.change(screen.getByLabelText(/^Candidate/), { target: { value: "Test candidate" } });
+    fireEvent.click(screen.getByRole("button", { name: "Add casting entry" }));
     expect(getStore().areas.casting).toHaveLength(1);
-    const table = screen.getByRole("table");
+    const table = screen.getByRole("table", { name: "Casting entries" });
     expect(within(table).getByText("Test candidate")).toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: "Move Female Lead Actor to Shortlisted" }));
     expect(getStore().areas.casting?.[0].status).toBe("Shortlisted");

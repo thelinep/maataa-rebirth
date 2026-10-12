@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "@xyflow/react/dist/style.css";
 import { createFlow, parseFlowSpec, SceneDesigner, WorkflowDesigner, type FlowSpecV1 } from "@maataa/ui/flow";
+import { useStoredValue } from "@maataa/ui/compounds";
 
 export const TLPS_FLOW_STORE_KEY = "tlps.flows.v1";
 type FlowStore = { scene: FlowSpecV1; workflow: FlowSpecV1 };
@@ -37,22 +38,20 @@ function sampleStore(): FlowStore {
   return { scene, workflow };
 }
 
-function readStore(): FlowStore {
+function parseStore(raw: unknown): FlowStore | null {
+  if (typeof raw !== "object" || raw === null) return null;
+  const { scene, workflow } = raw as { scene?: unknown; workflow?: unknown };
   try {
-    const raw = localStorage.getItem(TLPS_FLOW_STORE_KEY);
-    if (!raw) return sampleStore();
-    const parsed = JSON.parse(raw) as { scene?: unknown; workflow?: unknown };
-    return { scene: parseFlowSpec(JSON.stringify(parsed.scene)), workflow: parseFlowSpec(JSON.stringify(parsed.workflow)) };
+    return { scene: parseFlowSpec(JSON.stringify(scene)), workflow: parseFlowSpec(JSON.stringify(workflow)) };
   } catch {
-    return sampleStore();
+    return null;
   }
 }
 
 /** Scene board and approval workflow for Film OS, saved in this browser. */
 export function FlowStudio() {
-  const [store, setStore] = useState<FlowStore>(readStore);
+  const { value: store, setValue: setStore } = useStoredValue<FlowStore>(TLPS_FLOW_STORE_KEY, parseStore, sampleStore);
   const [tab, setTab] = useState<"scene" | "workflow">("scene");
-  useEffect(() => { try { localStorage.setItem(TLPS_FLOW_STORE_KEY, JSON.stringify(store)); } catch { /* storage unavailable: keep working in memory */ } }, [store]);
   return (
     <section className="tlps-area-panel" aria-labelledby="tlps-flow-title">
       <h2 id="tlps-flow-title">Scene board and approval workflow</h2>

@@ -41,7 +41,8 @@ import "./style.css";
 import { IdeaToScriptPanel } from "./IdeaToScript";
 import { AreaIndex } from "./areas/AreaIndex";
 import { AreaScreen } from "./areas/AreaScreen";
-import { readAreaStore, TLPS_AREA_STORE_KEY, type AreaStore } from "./areas/areaModel";
+import { emptyAreaStore, parseAreaStore, TLPS_AREA_STORE_KEY } from "./areas/areaModel";
+import { useStoredValue } from "@maataa/ui/compounds";
 
 const views: { id: TlpsView; label: string; description: string }[] = [
   {
@@ -87,9 +88,7 @@ function App() {
     const requested = new URLSearchParams(window.location.search).get("area");
     return requested === "index" ? "index" : requested && TLPS_OS_IDS.has(requested) ? (requested as TlpsOsId) : "";
   });
-  const [areaStore, setAreaStore] = useState<AreaStore>(() => {
-    try { return readAreaStore(localStorage.getItem(TLPS_AREA_STORE_KEY)); } catch { return readAreaStore(null); }
-  });
+  const { value: areaStore, setValue: setAreaStore, saved: areaStoreSaved } = useStoredValue(TLPS_AREA_STORE_KEY, parseAreaStore, emptyAreaStore);
   const [intakeIdea, setIntakeIdea] = useState(draft.project.idea ?? "");
   const [notice, setNotice] = useState("");
   const [ideaToScript, setIdeaToScript] = useState(
@@ -121,8 +120,8 @@ function App() {
   }, [area]);
 
   useEffect(() => {
-    try { localStorage.setItem(TLPS_AREA_STORE_KEY, JSON.stringify(areaStore)); } catch { setNotice("Work area records could not be saved in this browser."); }
-  }, [areaStore]);
+    if (!areaStoreSaved) setNotice("Work area records could not be saved in this browser.");
+  }, [areaStoreSaved]);
 
   useEffect(() => {
     const title = draft.project.title.trim();
@@ -445,7 +444,7 @@ function App() {
   };
 
   return (
-    <div className="tlps-app">
+    <div className="tlps-app" data-maataa-theme="oled">
       <header className="tlps-header">
         <a className="tlps-brand" href="#home">
           <span className="tlps-brand-mark">T</span>

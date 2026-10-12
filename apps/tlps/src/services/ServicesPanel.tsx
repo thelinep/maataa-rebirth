@@ -1,13 +1,14 @@
 import React, { useMemo, useState } from "react";
-import { Button, Input } from "@maataa/ui";
+import { Button } from "@maataa/ui";
+import { RadioGroup } from "@maataa/ui/forms";
+import { DataTable } from "@maataa/ui/data";
+import { LiveStatus, readStoredText, TextField } from "@maataa/ui/compounds";
 import { readTlpsDraft, tlpsStorageKey } from "../workflow";
 import { ServiceError, type ProjectEvent, type ServiceMode, type SessionIdentity, type StoredProject, type TlpsServices } from "./contracts";
 import { createMaataaServices } from "./maataaAuthApi";
 import { createMockServices } from "./mocks";
 
-const readPlan = () => {
-  try { return localStorage.getItem(tlpsStorageKey) ?? ""; } catch { return ""; }
-};
+const readPlan = () => readStoredText(tlpsStorageKey);
 
 export function ServicesPanel({ createServices }: { createServices?: (mode: ServiceMode) => TlpsServices }) {
   const [mode, setMode] = useState<ServiceMode>("mock");
@@ -55,11 +56,12 @@ export function ServicesPanel({ createServices }: { createServices?: (mode: Serv
   return (
     <section className="tlps-area-panel" aria-labelledby="tlps-services-title">
       <h2 id="tlps-services-title">Sign-in and server storage</h2>
-      <fieldset className="tlps-services-mode">
-        <legend>Connection</legend>
-        <label><input type="radio" name="tlps-service-mode" checked={mode === "mock"} onChange={() => switchMode("mock")} /> Local mock (in memory, for trying the flow)</label>
-        <label><input type="radio" name="tlps-service-mode" checked={mode === "maataa-auth-api"} onChange={() => switchMode("maataa-auth-api")} /> MAATAA Auth API on this computer</label>
-      </fieldset>
+      <div className="tlps-services-mode">
+        <RadioGroup label="Connection" name="tlps-service-mode" value={mode} onValueChange={(next) => switchMode(next as ServiceMode)} options={[
+          { value: "mock", label: "Local mock (in memory, for trying the flow)" },
+          { value: "maataa-auth-api", label: "MAATAA Auth API on this computer" },
+        ]} />
+      </div>
       <p className="tlps-muted">
         {mode === "mock"
           ? "The mock keeps everything in memory and forgets it on reload."
@@ -67,10 +69,7 @@ export function ServicesPanel({ createServices }: { createServices?: (mode: Serv
       </p>
       {!session ? (
         <div className="tlps-area-form">
-          <label htmlFor="tlps-service-credential">
-            <span>{mode === "mock" ? "Your name" : "Project token"}</span>
-            <Input id="tlps-service-credential" type={mode === "mock" ? "text" : "password"} autoComplete="off" value={credential} onChange={(e) => setCredential(e.target.value)} />
-          </label>
+          <TextField id="tlps-service-credential" label={mode === "mock" ? "Your name" : "Project token"} type={mode === "mock" ? "text" : "password"} autoComplete="off" value={credential} onValueChange={setCredential} />
           <div className="tlps-area-actions"><Button variant="primary" disabled={busy || !credential.trim()} onClick={connect}>Connect</Button></div>
         </div>
       ) : (
@@ -83,28 +82,26 @@ export function ServicesPanel({ createServices }: { createServices?: (mode: Serv
           {project && (
             <>
               <div className="tlps-area-form">
-                <label htmlFor="tlps-service-summary"><span>What changed in this version?</span>
-                  <Input id="tlps-service-summary" maxLength={280} value={summary} onChange={(e) => setSummary(e.target.value)} />
-                </label>
+                <TextField id="tlps-service-summary" label="What changed in this version?" maxLength={280} value={summary} onValueChange={setSummary} />
                 <div className="tlps-area-actions"><Button variant="primary" disabled={busy || !summary.trim()} onClick={saveVersion}>Save current plan as version {project.currentVersion + 1}</Button></div>
               </div>
-              <div className="tlps-table-wrap">
-                <table className="tlps-area-table">
-                  <caption className="sr-only">Saved versions</caption>
-                  <thead><tr><th scope="col">Version</th><th scope="col">Summary</th><th scope="col">Plan digest</th><th scope="col">Size</th></tr></thead>
-                  <tbody>
-                    {project.versions.length === 0 ? <tr><td colSpan={4}>No versions yet.</td></tr> : project.versions.map((v) => (
-                      <tr key={v.version}><td>v{v.version}</td><td>{v.summary}</td><td><code>{v.planDigest.slice(0, 19)}…</code></td><td>{v.planBytes} bytes</td></tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+              <DataTable
+                caption="Saved versions"
+                data={project.versions.map((v) => ({ ...v, id: v.version }))}
+                empty="No versions yet."
+                columns={[
+                  { id: "version", header: "Version", accessor: (v) => `v${v.version}` },
+                  { id: "summary", header: "Summary" },
+                  { id: "planDigest", header: "Plan digest", accessor: (v) => <code>{v.planDigest.slice(0, 19)}…</code> },
+                  { id: "planBytes", header: "Size", accessor: (v) => `${v.planBytes} bytes` },
+                ]}
+              />
               <p className="tlps-muted">Activity: {events.map((event) => `${event.action} v${event.version}`).join(" · ") || "none"}</p>
             </>
           )}
         </div>
       )}
-      <p className="tlps-area-boundary" role="status">{message || "Not connected."}</p>
+      <LiveStatus visible className="tlps-area-boundary" message={message || "Not connected."} />
 
       <h2>Bookings, payments and legal clearance</h2>
       <p className="tlps-muted">These three run as mocks in both modes. They return a draft or a waiting status and never confirm, charge or clear anything.</p>

@@ -6,22 +6,22 @@ import type { TlpsOsId } from "../operatingSystems";
 import { TLPS_AI_SPACE_REGISTRY } from "../registries/aiSpaceRegistry";
 import { TLPS_WORKSPACE_TYPES } from "../registries/workspaceRegistry";
 import { TLPS_ROLES, type TlpsView } from "../types";
+import {
+  createRegisterRecord,
+  nextStatus as nextInList,
+  parseRegisterRecords,
+  sumMoney,
+  validateRecord,
+  type RecordField,
+  type RegisterRecord,
+} from "@maataa/ui/compounds";
 
 export const TLPS_AREA_STORE_KEY = "tlps.areas.v1";
 export const TLPS_AREA_STORE_SCHEMA = "tlps.area-store/1";
 export const MAX_AREA_RECORDS = 200;
 
-export type AreaFieldKind = "text" | "number" | "date" | "select";
-export interface AreaField {
-  key: string;
-  label: string;
-  kind: AreaFieldKind;
-  options?: readonly string[];
-  required?: boolean;
-  /** Amount in the area's currency; summed in the area summary. */
-  money?: boolean;
-  placeholder?: string;
-}
+/** Area fields use the shared compound schema. */
+export type AreaField = RecordField;
 
 export interface AreaDefinition {
   id: TlpsOsId;
@@ -39,13 +39,7 @@ export interface AreaDefinition {
   boundary: string;
 }
 
-export interface AreaRecord {
-  id: string;
-  values: Record<string, string>;
-  status: string;
-  sample: boolean;
-  updatedAt: string;
-}
+export type AreaRecord = RegisterRecord;
 
 export interface AreaStore {
   schema: typeof TLPS_AREA_STORE_SCHEMA;
@@ -264,23 +258,8 @@ export const AREA_DEFINITIONS: Record<TlpsOsId, AreaDefinition> = {
   },
 };
 
-const MONEY_LIMIT = 1e13;
-const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
-
 export function validateAreaValues(def: AreaDefinition, values: Record<string, string>): string[] {
-  const issues: string[] = [];
-  for (const field of def.fields) {
-    const raw = (values[field.key] ?? "").trim();
-    if (!raw) { if (field.required) issues.push(`${field.label} is required.`); continue; }
-    if (raw.length > 160) issues.push(`${field.label} must be 160 characters or fewer.`);
-    if (field.kind === "number") {
-      const n = Number(raw);
-      if (!Number.isFinite(n) || n < 0 || n > MONEY_LIMIT) issues.push(`${field.label} must be a number of 0 or more.`);
-    }
-    if (field.kind === "date" && (!ISO_DATE.test(raw) || Number.isNaN(Date.parse(`${raw}T00:00:00Z`)))) issues.push(`${field.label} must be a valid date.`);
-    if (field.kind === "select" && !field.options?.includes(raw)) issues.push(`${field.label} must be one of the listed options.`);
-  }
-  return issues;
+  return Object.values(validateRecord(def.fields, values));
 }
 
 let counter = 0;
@@ -288,15 +267,13 @@ const newId = (area: TlpsOsId) => `${area}:${Date.now().toString(36)}-${(counter
 
 export function createAreaRecord(def: AreaDefinition, values: Record<string, string>, options: { sample?: boolean; now?: string } = {}): AreaRecord {
   if (def.mode !== "register") throw new Error(`${def.id} uses the planning workflow, not a register.`);
-  const issues = validateAreaValues(def, values);
-  if (issues.length) throw new Error(issues.join(" "));
-  const clean = Object.fromEntries(def.fields.map((field) => [field.key, (values[field.key] ?? "").trim()]));
-  return { id: newId(def.id), values: clean, status: def.statuses[0], sample: options.sample ?? false, updatedAt: options.now ?? new Date().toISOString() };
+  return createRegisterRecord(def.fields, def.statuses, values, { ...options, id: newId(def.id) });
 }
 
+export const newAreaRecordId = newId;
+
 export function nextStatus(def: AreaDefinition, status: string): string | null {
-  const index = def.statuses.indexOf(status);
-  return index >= 0 && index < def.statuses.length - 1 ? def.statuses[index + 1] : null;
+  return nextInList(def.statuses, status);
 }
 
 export function sampleRecords(def: AreaDefinition): AreaRecord[] {
@@ -307,37 +284,27 @@ export function emptyAreaStore(): AreaStore {
   return { schema: TLPS_AREA_STORE_SCHEMA, areas: {} };
 }
 
-/** Parse stored data defensively: unknown areas, invalid records and extra keys are dropped. */
-export function readAreaStore(raw: string | null): AreaStore {
-  if (!raw) return emptyAreaStore();
-  let parsed: unknown;
-  try { parsed = JSON.parse(raw); } catch { return emptyAreaStore(); }
-  if (typeof parsed !== "object" || parsed === null || (parsed as AreaStore).schema !== TLPS_AREA_STORE_SCHEMA) return emptyAreaStore();
-  const source = (parsed as AreaStore).areas ?? {};
+/** Validates stored data: unknown areas, invalid records and extra keys are dropped. */
+export function parseAreaStore(raw: unknown): AreaStore | null {
+  if (typeof raw !== "object" || raw === null || (raw as AreaStore).schema !== TLPS_AREA_STORE_SCHEMA) return null;
+  const source = ((raw as AreaStore).areas ?? {}) as Record<string, unknown>;
   const store = emptyAreaStore();
   for (const def of Object.values(AREA_DEFINITIONS)) {
     if (def.mode !== "register") continue;
-    const list = (source as Record<string, unknown>)[def.id];
-    if (!Array.isArray(list)) continue;
-    const records = list.slice(0, MAX_AREA_RECORDS).flatMap((item): AreaRecord[] => {
-      if (typeof item !== "object" || item === null) return [];
-      const record = item as Partial<AreaRecord>;
-      if (typeof record.id !== "string" || typeof record.status !== "string" || !def.statuses.includes(record.status)) return [];
-      if (typeof record.values !== "object" || record.values === null) return [];
-      const values = Object.fromEntries(def.fields.map((field) => [field.key, String((record.values as Record<string, unknown>)[field.key] ?? "")]));
-      if (validateAreaValues(def, values).length) return [];
-      return [{ id: record.id, values, status: record.status, sample: record.sample === true, updatedAt: typeof record.updatedAt === "string" ? record.updatedAt : "" }];
-    });
-    store.areas[def.id] = records;
+    const records = parseRegisterRecords(source[def.id], def.fields, def.statuses, MAX_AREA_RECORDS);
+    if (records) store.areas[def.id] = records;
   }
   return store;
 }
 
+export function readAreaStore(raw: string | null): AreaStore {
+  if (!raw) return emptyAreaStore();
+  try { return parseAreaStore(JSON.parse(raw)) ?? emptyAreaStore(); } catch { return emptyAreaStore(); }
+}
+
 export function summarizeArea(def: AreaDefinition, records: readonly AreaRecord[]) {
   const byStatus = Object.fromEntries(def.statuses.map((status) => [status, records.filter((record) => record.status === status).length]));
-  const moneyFields = def.fields.filter((field) => field.money).map((field) => field.key);
-  const moneyTotal = records.reduce((sum, record) => sum + moneyFields.reduce((s, key) => s + (Number(record.values[key]) || 0), 0), 0);
-  return { total: records.length, byStatus, moneyTotal, samples: records.filter((record) => record.sample).length };
+  return { total: records.length, byStatus, moneyTotal: sumMoney(def.fields, records.map((record) => record.values)), samples: records.filter((record) => record.sample).length };
 }
 
 export interface AreaWorkspace { id: string; name: string; archetype: string; source: "tlps" | "package"; aliasOf?: string }
