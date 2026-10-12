@@ -1,1 +1,0 @@
-import{j as s}from"./vendor-react-IAN6ABvC.js";import{a4 as o}from"./maataa-registries-BsYY0ZZj.js";function t({className:a,...e}){return s.jsx("div",{"data-page-region":"pagetabs",className:o("m-page-atom","m-page-pagetabs",a),...e})}t.__docgenInfo={description:"",methods:[],displayName:"PageTabs"};export{t as PageTabs};

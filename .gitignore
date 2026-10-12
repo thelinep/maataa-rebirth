@@ -86,7 +86,7 @@ alpha8.*-compatibility-build.log
 .certification/security/
 .certification/storybook/
 .certification/performance/
-# Historical tracked Storybook snapshot remains archived; new builds use .certification.
+# Storybook build output (untracked 2026-10-12; builds go to .certification/storybook).
 storybook-static/
 .certification/release-evidence/
 .certification/consumer-react18/

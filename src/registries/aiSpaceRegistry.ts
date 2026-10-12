@@ -1248,90 +1248,6 @@ export const AI_SPACE_REGISTRY = [
     "component": "TechnologyIntelligenceWorkspace"
   },
   {
-    "id": "AI_SPACE.TLPS_BUDGET_AI",
-    "name": "TLPS Budget AI",
-    "groupIds": [
-      "S05_PRODUCT_AI"
-    ],
-    "groupLabels": [
-      "Specialized Product AI Spaces"
-    ],
-    "ordinal": 105,
-    "component": "TLPSBudgetAI"
-  },
-  {
-    "id": "AI_SPACE.TLPS_CASTING_AI",
-    "name": "TLPS Casting AI",
-    "groupIds": [
-      "S05_PRODUCT_AI"
-    ],
-    "groupLabels": [
-      "Specialized Product AI Spaces"
-    ],
-    "ordinal": 106,
-    "component": "TLPSCastingAI"
-  },
-  {
-    "id": "AI_SPACE.TLPS_LOCATION_AI",
-    "name": "TLPS Location AI",
-    "groupIds": [
-      "S05_PRODUCT_AI"
-    ],
-    "groupLabels": [
-      "Specialized Product AI Spaces"
-    ],
-    "ordinal": 107,
-    "component": "TLPSLocationAI"
-  },
-  {
-    "id": "AI_SPACE.TLPS_PRODUCTION_AI",
-    "name": "TLPS Production AI",
-    "groupIds": [
-      "S05_PRODUCT_AI"
-    ],
-    "groupLabels": [
-      "Specialized Product AI Spaces"
-    ],
-    "ordinal": 108,
-    "component": "TLPSProductionAI"
-  },
-  {
-    "id": "AI_SPACE.TLPS_SCHEDULING_AI",
-    "name": "TLPS Scheduling AI",
-    "groupIds": [
-      "S05_PRODUCT_AI"
-    ],
-    "groupLabels": [
-      "Specialized Product AI Spaces"
-    ],
-    "ordinal": 109,
-    "component": "TLPSSchedulingAI"
-  },
-  {
-    "id": "AI_SPACE.TLPS_SCRIPT_AI",
-    "name": "TLPS Script AI",
-    "groupIds": [
-      "S05_PRODUCT_AI"
-    ],
-    "groupLabels": [
-      "Specialized Product AI Spaces"
-    ],
-    "ordinal": 110,
-    "component": "TLPSScriptAI"
-  },
-  {
-    "id": "AI_SPACE.TLPS_STORYBOARD_AI",
-    "name": "TLPS Storyboard AI",
-    "groupIds": [
-      "S05_PRODUCT_AI"
-    ],
-    "groupLabels": [
-      "Specialized Product AI Spaces"
-    ],
-    "ordinal": 111,
-    "component": "TLPSStoryboardAI"
-  },
-  {
     "id": "AI_SPACE.TOOL_COMMAND_CENTER",
     "name": "Tool Command Center",
     "groupIds": [
@@ -1340,7 +1256,7 @@ export const AI_SPACE_REGISTRY = [
     "groupLabels": [
       "AI Command-Center Spaces"
     ],
-    "ordinal": 112,
+    "ordinal": 105,
     "component": "ToolCommandCenter"
   }
 ] as const;

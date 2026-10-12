@@ -5,6 +5,9 @@
 - 14 page and workspace records have clearer display names; IDs are unchanged.
 - **Breaking:** the TLPS Production, Casting and Crew workspace groups (31 IDs) and the `@maataa/ui/workspace-groups/tlps_production`, `casting` and `crew` modules moved to `apps/tlps`. The package has 616 workspace types in 55 groups.
 - The package build deletes `dist/` before compiling, so removed modules no longer ship from an earlier build.
+- **Breaking:** the 7 TLPS AI spaces (`AI_SPACE.TLPS_*`) and their `@maataa/ui/ai-spaces/TLPS*AI` components moved to `apps/tlps`. The package has 105 AI spaces and 1,570 components.
+- Generator group `G16_PRODUCTION_TLPS` is now labelled "Production" (ID unchanged).
+- `storybook-static/` is no longer tracked in git; the Storybook bundle budget now reads `.certification/storybook/assets`.
 
 ## 1.0.0-alpha.8.4 — Beta-prep
 

@@ -1,1 +1,0 @@
-import{j as a}from"./vendor-react-IAN6ABvC.js";import{a4 as t}from"./maataa-registries-BsYY0ZZj.js";function r({className:o,...e}){return a.jsx("div",{"data-page-region":"pagefooter",className:t("m-page-atom","m-page-pagefooter",o),...e})}r.__docgenInfo={description:"",methods:[],displayName:"PageFooter"};export{r as PageFooter};

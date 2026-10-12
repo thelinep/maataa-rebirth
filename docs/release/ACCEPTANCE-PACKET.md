@@ -187,6 +187,8 @@ Decision: ACCEPT LIST (freeze applied)        Decider: Hemant Kumar Dixit, relea
 - 14 records got clearer display names; their IDs are unchanged.
 - The TLPS Production, Casting and Crew workspace groups (31 IDs) moved to `apps/tlps`. `CANONICAL_IDS.json` lists them under a new `moved` section, and `pnpm api:check` enforces it. The package now has 616 workspace IDs. This removes three `@maataa/ui/workspace-groups/*` modules and 31 IDs from the package, a breaking change accepted before Beta.
 - The package build now deletes `dist/` first, so modules removed from source no longer ship from an old build.
+- The 7 TLPS AI spaces and their 7 components moved to `apps/tlps` (component IDs recorded under `moved`). The package now has 105 AI spaces and 1,570 component IDs. The generator group label "Production / TLPS" became "Production"; the group ID is unchanged.
+- `storybook-static/` (3,201 build files) is no longer tracked; the Storybook bundle budget now measures the current build in `.certification/storybook/assets` instead of the old snapshot.
 
 ```
 Decision: APPLY TAXONOMY CHANGES        Decider: Hemant Kumar Dixit, release owner        Date: 2026-10-12 (chat statement, not a signed record)

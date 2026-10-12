@@ -196,7 +196,7 @@ Current snapshot:
 - 100 layout archetypes in 18 layout groups
 - 208 canonical generators across 21 generator groups
 - 491 canonical tools across 19 tool groups
-- 112 AI spaces across 7 AI-space groups
+- 105 AI spaces across 7 AI-space groups (the 7 TLPS AI spaces live in `apps/tlps`)
 - 187 canonical device types across 41 device groups
 - 46 viewport classes, 18 input modalities, 14 orientation/folding modes
 - 46 device capabilities, 11 safe-area profiles, 25 responsive transformations

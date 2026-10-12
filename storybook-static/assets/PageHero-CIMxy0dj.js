@@ -1,1 +1,0 @@
-import{j as o}from"./vendor-react-IAN6ABvC.js";import{a4 as r}from"./maataa-registries-BsYY0ZZj.js";function m({className:e,...a}){return o.jsx("div",{"data-page-region":"pagehero",className:r("m-page-atom","m-page-pagehero",e),...a})}m.__docgenInfo={description:"",methods:[],displayName:"PageHero"};export{m as PageHero};

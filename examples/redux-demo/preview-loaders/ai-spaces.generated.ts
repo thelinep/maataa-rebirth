@@ -106,13 +106,6 @@ export const PREVIEW_LOADERS: ReadonlyMap<string, PreviewLoader> = new Map<strin
   ["@maataa/ui/ai-spaces/SiddhamSemiconductorAI", () => import("../../../src/ai-spaces/SiddhamSemiconductorAI.tsx")],
   ["@maataa/ui/ai-spaces/SourceVerificationWorkspace", () => import("../../../src/ai-spaces/SourceVerificationWorkspace.tsx")],
   ["@maataa/ui/ai-spaces/StandardsIntelligenceWorkspace", () => import("../../../src/ai-spaces/StandardsIntelligenceWorkspace.tsx")],
-  ["@maataa/ui/ai-spaces/TLPSBudgetAI", () => import("../../../src/ai-spaces/TLPSBudgetAI.tsx")],
-  ["@maataa/ui/ai-spaces/TLPSCastingAI", () => import("../../../src/ai-spaces/TLPSCastingAI.tsx")],
-  ["@maataa/ui/ai-spaces/TLPSLocationAI", () => import("../../../src/ai-spaces/TLPSLocationAI.tsx")],
-  ["@maataa/ui/ai-spaces/TLPSProductionAI", () => import("../../../src/ai-spaces/TLPSProductionAI.tsx")],
-  ["@maataa/ui/ai-spaces/TLPSSchedulingAI", () => import("../../../src/ai-spaces/TLPSSchedulingAI.tsx")],
-  ["@maataa/ui/ai-spaces/TLPSScriptAI", () => import("../../../src/ai-spaces/TLPSScriptAI.tsx")],
-  ["@maataa/ui/ai-spaces/TLPSStoryboardAI", () => import("../../../src/ai-spaces/TLPSStoryboardAI.tsx")],
   ["@maataa/ui/ai-spaces/TechnologyIntelligenceWorkspace", () => import("../../../src/ai-spaces/TechnologyIntelligenceWorkspace.tsx")],
   ["@maataa/ui/ai-spaces/ToolCommandCenter", () => import("../../../src/ai-spaces/ToolCommandCenter.tsx")],
 ]);

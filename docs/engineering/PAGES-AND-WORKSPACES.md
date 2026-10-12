@@ -58,7 +58,7 @@ Workspaces: `AdminWorkspace` 29 · `AIWorkspace` 15 · `AnalyticsWorkspace` 12 �
 
 ### What stays product-flavoured
 
-The page group `PRODUCTION_LOGISTICS` (24 pages, including Casting, Crew, Shot List and Script) and the TLPS-named AI spaces and generators remain in the package. They were outside this decision, which covered workspace groups only.
+The page group `PRODUCTION_LOGISTICS` (24 pages, including Casting, Crew, Shot List and Script) and the ten production generators remain in the package. Their names are generic film-production vocabulary. Later the same day the seven TLPS AI spaces moved to `apps/tlps`, and the generator group label changed from "Production / TLPS" to "Production"; its ID `G16_PRODUCTION_TLPS` is unchanged.
 
 ## Findings at `c141d99d` (before the decisions above)
 

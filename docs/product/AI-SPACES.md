@@ -2,6 +2,8 @@
 
 This catalog is declarative UI vocabulary. Runtime execution belongs to the host/platform layer.
 
+The seven TLPS AI spaces (`AI_SPACE.TLPS_*`) moved to the TLPS product on 2026-10-12: `apps/tlps/src/registries/aiSpaceRegistry.ts` and `apps/tlps/src/ai-spaces/`.
+
 ## S01_AI_CODING · AI Coding Spaces
 
 - `AI_SPACE.AI_CODE_STUDIO` — AI Code Studio
@@ -79,13 +81,6 @@ This catalog is declarative UI vocabulary. Runtime execution belongs to the host
 
 ## S05_PRODUCT_AI · Specialized Product AI Spaces
 
-- `AI_SPACE.TLPS_PRODUCTION_AI` — TLPS Production AI
-- `AI_SPACE.TLPS_SCRIPT_AI` — TLPS Script AI
-- `AI_SPACE.TLPS_CASTING_AI` — TLPS Casting AI
-- `AI_SPACE.TLPS_SCHEDULING_AI` — TLPS Scheduling AI
-- `AI_SPACE.TLPS_STORYBOARD_AI` — TLPS Storyboard AI
-- `AI_SPACE.TLPS_LOCATION_AI` — TLPS Location AI
-- `AI_SPACE.TLPS_BUDGET_AI` — TLPS Budget AI
 - `AI_SPACE.NEVO_EVENT_AI` — NEVO Event AI
 - `AI_SPACE.NEVO_VENDOR_AI` — NEVO Vendor AI
 - `AI_SPACE.NEVO_BOOKING_AI` — NEVO Booking AI

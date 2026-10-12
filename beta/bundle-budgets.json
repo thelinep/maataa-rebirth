@@ -6,7 +6,7 @@
     "maxCssChunkBytes": 180000
   },
   "storybook": {
-    "assetsDir": "storybook-static/assets",
+    "assetsDir": ".certification/storybook/assets",
     "maxJsChunkBytes": 1000000,
     "maxCssChunkBytes": 250000
   },

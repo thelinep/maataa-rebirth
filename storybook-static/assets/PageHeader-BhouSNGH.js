@@ -1,1 +1,0 @@
-import{j as r}from"./vendor-react-IAN6ABvC.js";import{a4 as o}from"./maataa-registries-BsYY0ZZj.js";function m({className:e,...a}){return r.jsx("div",{"data-page-region":"pageheader",className:o("m-page-atom","m-page-pageheader",e),...a})}m.__docgenInfo={description:"",methods:[],displayName:"PageHeader"};export{m as PageHeader};

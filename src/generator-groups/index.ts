@@ -254,7 +254,7 @@ export const GENERATOR_GROUPS = [
   },
   {
     "id": "G16_PRODUCTION_TLPS",
-    "label": "Production / TLPS",
+    "label": "Production",
     "items": [
       "Production Plan Generator",
       "Script Breakdown Generator",

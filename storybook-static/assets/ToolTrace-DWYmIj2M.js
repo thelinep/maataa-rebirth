@@ -1,1 +1,0 @@
-import{j as a}from"./vendor-react-IAN6ABvC.js";import{a4 as e}from"./maataa-registries-BsYY0ZZj.js";function r({className:o,...t}){return a.jsx("section",{"data-tool-region":"tooltrace",className:e("m-tool-atom","m-tool-tooltrace",o),...t})}r.__docgenInfo={description:"",methods:[],displayName:"ToolTrace"};export{r as ToolTrace};

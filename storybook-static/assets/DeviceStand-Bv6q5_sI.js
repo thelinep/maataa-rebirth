@@ -1,1 +1,0 @@
-import{j as a}from"./vendor-react-IAN6ABvC.js";import{a4 as i}from"./maataa-registries-BsYY0ZZj.js";function d({className:e,...t}){return a.jsx("div",{"data-device-region":"stand",className:i("m-device-atom","m-device-stand",e),...t})}d.__docgenInfo={description:"",methods:[],displayName:"DeviceStand"};export{d as DeviceStand};

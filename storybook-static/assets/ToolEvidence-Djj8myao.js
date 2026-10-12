@@ -1,1 +1,0 @@
-import{j as t}from"./vendor-react-IAN6ABvC.js";import{a4 as i}from"./maataa-registries-BsYY0ZZj.js";function n({className:o,...e}){return t.jsx("section",{"data-tool-region":"toolevidence",className:i("m-tool-atom","m-tool-toolevidence",o),...e})}n.__docgenInfo={description:"",methods:[],displayName:"ToolEvidence"};export{n as ToolEvidence};

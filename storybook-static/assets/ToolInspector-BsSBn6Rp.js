@@ -1,1 +1,0 @@
-import{j as s}from"./vendor-react-IAN6ABvC.js";import{a4 as e}from"./maataa-registries-BsYY0ZZj.js";function r({className:o,...t}){return s.jsx("section",{"data-tool-region":"toolinspector",className:e("m-tool-atom","m-tool-toolinspector",o),...t})}r.__docgenInfo={description:"",methods:[],displayName:"ToolInspector"};export{r as ToolInspector};

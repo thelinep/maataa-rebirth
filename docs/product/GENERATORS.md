@@ -210,7 +210,7 @@ This catalog is declarative UI vocabulary. Runtime execution belongs to the host
 - `GENERATOR.BUDGET_GENERATOR` — Budget Generator
 - `GENERATOR.SPONSORSHIP_PACKAGE_GENERATOR` — Sponsorship Package Generator
 
-## G16_PRODUCTION_TLPS · Production / TLPS
+## G16_PRODUCTION_TLPS · Production
 
 - `GENERATOR.PRODUCTION_PLAN_GENERATOR` — Production Plan Generator
 - `GENERATOR.SCRIPT_BREAKDOWN_GENERATOR` — Script Breakdown Generator

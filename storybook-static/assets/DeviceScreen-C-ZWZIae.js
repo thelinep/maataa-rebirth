@@ -1,1 +1,0 @@
-import{j as i}from"./vendor-react-IAN6ABvC.js";import{a4 as r}from"./maataa-registries-BsYY0ZZj.js";function o({className:e,...c}){return i.jsx("div",{"data-device-region":"screen",className:r("m-device-atom","m-device-screen",e),...c})}o.__docgenInfo={description:"",methods:[],displayName:"DeviceScreen"};export{o as DeviceScreen};

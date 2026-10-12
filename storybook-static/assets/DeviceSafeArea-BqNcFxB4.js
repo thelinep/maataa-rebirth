@@ -1,1 +1,0 @@
-import{j as i}from"./vendor-react-IAN6ABvC.js";import{a4 as r}from"./maataa-registries-BsYY0ZZj.js";function o({className:e,...a}){return i.jsx("div",{"data-device-region":"safe-area",className:r("m-device-atom","m-device-safe-area",e),...a})}o.__docgenInfo={description:"",methods:[],displayName:"DeviceSafeArea"};export{o as DeviceSafeArea};

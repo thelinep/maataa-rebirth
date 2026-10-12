@@ -1,1 +1,0 @@
-import{j as m}from"./vendor-react-IAN6ABvC.js";import{a4 as i}from"./maataa-registries-BsYY0ZZj.js";function r({className:e,...a}){return m.jsx("div",{"data-device-region":"camera",className:i("m-device-atom","m-device-camera",e),...a})}r.__docgenInfo={description:"",methods:[],displayName:"DeviceCamera"};export{r as DeviceCamera};

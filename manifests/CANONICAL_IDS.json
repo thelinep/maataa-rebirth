@@ -3,7 +3,7 @@
   "decision": "Gate 7 option C, release owner, 2026-10-12 (chat statement, not a signed record)",
   "migrations": {},
   "retired": [],
-  "movedDecision": "TLPS Production, Casting and Crew workspace groups moved to the TLPS product, release owner, 2026-10-12 (chat statement, not a signed record)",
+  "movedDecision": "TLPS Production, Casting and Crew workspace groups moved to the TLPS product, release owner, 2026-10-12 (chat statement, not a signed record); the 7 TLPS AI spaces (AI_SPACE.TLPS_* and their COMPONENT.AI_SPACES.TLPS*AI components) moved to the TLPS product, release owner, 2026-10-12 (chat statement, not a signed record)",
   "moved": {
     "WORKSPACE.TLPS_PRODUCTION.PRODUCTION": "apps/tlps/src/registries/workspaceRegistry.ts#TLPS_WORKSPACE_TYPES",
     "WORKSPACE.TLPS_PRODUCTION.PRODUCTION_COMMAND_CENTER": "apps/tlps/src/registries/workspaceRegistry.ts#TLPS_WORKSPACE_TYPES",
@@ -35,7 +35,14 @@
     "WORKSPACE.CREW.CREW_AVAILABILITY": "apps/tlps/src/registries/workspaceRegistry.ts#TLPS_WORKSPACE_TYPES",
     "WORKSPACE.CREW.CREW_ASSIGNMENT": "apps/tlps/src/registries/workspaceRegistry.ts#TLPS_WORKSPACE_TYPES",
     "WORKSPACE.CREW.CREW_COMMUNICATION": "apps/tlps/src/registries/workspaceRegistry.ts#TLPS_WORKSPACE_TYPES",
-    "WORKSPACE.CREW.CREW_CONTRACT": "apps/tlps/src/registries/workspaceRegistry.ts#TLPS_WORKSPACE_TYPES"
+    "WORKSPACE.CREW.CREW_CONTRACT": "apps/tlps/src/registries/workspaceRegistry.ts#TLPS_WORKSPACE_TYPES",
+    "COMPONENT.AI_SPACES.TLPSBUDGETAI": "apps/tlps/src/registries/aiSpaceRegistry.ts#TLPS_AI_SPACE_COMPONENTS",
+    "COMPONENT.AI_SPACES.TLPSCASTINGAI": "apps/tlps/src/registries/aiSpaceRegistry.ts#TLPS_AI_SPACE_COMPONENTS",
+    "COMPONENT.AI_SPACES.TLPSLOCATIONAI": "apps/tlps/src/registries/aiSpaceRegistry.ts#TLPS_AI_SPACE_COMPONENTS",
+    "COMPONENT.AI_SPACES.TLPSPRODUCTIONAI": "apps/tlps/src/registries/aiSpaceRegistry.ts#TLPS_AI_SPACE_COMPONENTS",
+    "COMPONENT.AI_SPACES.TLPSSCHEDULINGAI": "apps/tlps/src/registries/aiSpaceRegistry.ts#TLPS_AI_SPACE_COMPONENTS",
+    "COMPONENT.AI_SPACES.TLPSSCRIPTAI": "apps/tlps/src/registries/aiSpaceRegistry.ts#TLPS_AI_SPACE_COMPONENTS",
+    "COMPONENT.AI_SPACES.TLPSSTORYBOARDAI": "apps/tlps/src/registries/aiSpaceRegistry.ts#TLPS_AI_SPACE_COMPONENTS"
   },
   "ids": {
     "workspaces": [

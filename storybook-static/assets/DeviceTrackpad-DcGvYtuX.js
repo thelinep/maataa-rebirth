@@ -1,1 +1,0 @@
-import{j as c}from"./vendor-react-IAN6ABvC.js";import{a4 as i}from"./maataa-registries-BsYY0ZZj.js";function r({className:e,...a}){return c.jsx("div",{"data-device-region":"trackpad",className:i("m-device-atom","m-device-trackpad",e),...a})}r.__docgenInfo={description:"",methods:[],displayName:"DeviceTrackpad"};export{r as DeviceTrackpad};

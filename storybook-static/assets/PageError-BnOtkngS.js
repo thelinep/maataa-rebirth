@@ -1,1 +1,0 @@
-import{j as a}from"./vendor-react-IAN6ABvC.js";import{a4 as o}from"./maataa-registries-BsYY0ZZj.js";function m({className:r,...e}){return a.jsx("div",{"data-page-region":"pageerror",className:o("m-page-atom","m-page-pageerror",r),...e})}m.__docgenInfo={description:"",methods:[],displayName:"PageError"};export{m as PageError};

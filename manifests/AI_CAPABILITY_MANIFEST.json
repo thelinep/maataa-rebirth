@@ -11,8 +11,8 @@
     "toolRawEntries": 502,
     "toolTypes": 491,
     "aiSpaceGroups": 7,
-    "aiSpaceRawEntries": 112,
-    "aiSpaceTypes": 112,
+    "aiSpaceRawEntries": 105,
+    "aiSpaceTypes": 105,
     "generatorAtoms": 14,
     "toolAtoms": 13,
     "aiSpaceAtoms": 23,
@@ -274,7 +274,7 @@
     },
     {
       "id": "G16_PRODUCTION_TLPS",
-      "label": "Production / TLPS",
+      "label": "Production",
       "items": [
         "Production Plan Generator",
         "Script Breakdown Generator",
@@ -1068,13 +1068,6 @@
       "id": "S05_PRODUCT_AI",
       "label": "Specialized Product AI Spaces",
       "items": [
-        "TLPS Production AI",
-        "TLPS Script AI",
-        "TLPS Casting AI",
-        "TLPS Scheduling AI",
-        "TLPS Storyboard AI",
-        "TLPS Location AI",
-        "TLPS Budget AI",
         "NEVO Event AI",
         "NEVO Vendor AI",
         "NEVO Booking AI",
@@ -1502,7 +1495,7 @@
         "G16_PRODUCTION_TLPS"
       ],
       "groupLabels": [
-        "Production / TLPS"
+        "Production"
       ],
       "ordinal": 31,
       "component": "CallSheetGenerator"
@@ -1562,7 +1555,7 @@
         "G16_PRODUCTION_TLPS"
       ],
       "groupLabels": [
-        "Production / TLPS"
+        "Production"
       ],
       "ordinal": 36,
       "component": "CastingShortlistGenerator"
@@ -1682,7 +1675,7 @@
         "G16_PRODUCTION_TLPS"
       ],
       "groupLabels": [
-        "Production / TLPS"
+        "Production"
       ],
       "ordinal": 46,
       "component": "CrewPlanGenerator"
@@ -1874,7 +1867,7 @@
         "G16_PRODUCTION_TLPS"
       ],
       "groupLabels": [
-        "Production / TLPS"
+        "Production"
       ],
       "ordinal": 62,
       "component": "EquipmentPlanGenerator"
@@ -2284,7 +2277,7 @@
         "G16_PRODUCTION_TLPS"
       ],
       "groupLabels": [
-        "Production / TLPS"
+        "Production"
       ],
       "ordinal": 96,
       "component": "LocationPlanGenerator"
@@ -2692,7 +2685,7 @@
         "G16_PRODUCTION_TLPS"
       ],
       "groupLabels": [
-        "Production / TLPS"
+        "Production"
       ],
       "ordinal": 130,
       "component": "ProductionPlanGenerator"
@@ -3040,7 +3033,7 @@
         "G16_PRODUCTION_TLPS"
       ],
       "groupLabels": [
-        "Production / TLPS"
+        "Production"
       ],
       "ordinal": 159,
       "component": "ScriptBreakdownGenerator"
@@ -3160,7 +3153,7 @@
         "G16_PRODUCTION_TLPS"
       ],
       "groupLabels": [
-        "Production / TLPS"
+        "Production"
       ],
       "ordinal": 169,
       "component": "ShootingScheduleGenerator"
@@ -3184,7 +3177,7 @@
         "G16_PRODUCTION_TLPS"
       ],
       "groupLabels": [
-        "Production / TLPS"
+        "Production"
       ],
       "ordinal": 171,
       "component": "ShotListGenerator"
@@ -3342,7 +3335,7 @@
       ],
       "groupLabels": [
         "Creative",
-        "Production / TLPS"
+        "Production"
       ],
       "ordinal": 184,
       "component": "StoryboardGenerator"
@@ -10804,90 +10797,6 @@
       "component": "TechnologyIntelligenceWorkspace"
     },
     {
-      "id": "AI_SPACE.TLPS_BUDGET_AI",
-      "name": "TLPS Budget AI",
-      "groupIds": [
-        "S05_PRODUCT_AI"
-      ],
-      "groupLabels": [
-        "Specialized Product AI Spaces"
-      ],
-      "ordinal": 105,
-      "component": "TLPSBudgetAI"
-    },
-    {
-      "id": "AI_SPACE.TLPS_CASTING_AI",
-      "name": "TLPS Casting AI",
-      "groupIds": [
-        "S05_PRODUCT_AI"
-      ],
-      "groupLabels": [
-        "Specialized Product AI Spaces"
-      ],
-      "ordinal": 106,
-      "component": "TLPSCastingAI"
-    },
-    {
-      "id": "AI_SPACE.TLPS_LOCATION_AI",
-      "name": "TLPS Location AI",
-      "groupIds": [
-        "S05_PRODUCT_AI"
-      ],
-      "groupLabels": [
-        "Specialized Product AI Spaces"
-      ],
-      "ordinal": 107,
-      "component": "TLPSLocationAI"
-    },
-    {
-      "id": "AI_SPACE.TLPS_PRODUCTION_AI",
-      "name": "TLPS Production AI",
-      "groupIds": [
-        "S05_PRODUCT_AI"
-      ],
-      "groupLabels": [
-        "Specialized Product AI Spaces"
-      ],
-      "ordinal": 108,
-      "component": "TLPSProductionAI"
-    },
-    {
-      "id": "AI_SPACE.TLPS_SCHEDULING_AI",
-      "name": "TLPS Scheduling AI",
-      "groupIds": [
-        "S05_PRODUCT_AI"
-      ],
-      "groupLabels": [
-        "Specialized Product AI Spaces"
-      ],
-      "ordinal": 109,
-      "component": "TLPSSchedulingAI"
-    },
-    {
-      "id": "AI_SPACE.TLPS_SCRIPT_AI",
-      "name": "TLPS Script AI",
-      "groupIds": [
-        "S05_PRODUCT_AI"
-      ],
-      "groupLabels": [
-        "Specialized Product AI Spaces"
-      ],
-      "ordinal": 110,
-      "component": "TLPSScriptAI"
-    },
-    {
-      "id": "AI_SPACE.TLPS_STORYBOARD_AI",
-      "name": "TLPS Storyboard AI",
-      "groupIds": [
-        "S05_PRODUCT_AI"
-      ],
-      "groupLabels": [
-        "Specialized Product AI Spaces"
-      ],
-      "ordinal": 111,
-      "component": "TLPSStoryboardAI"
-    },
-    {
       "id": "AI_SPACE.TOOL_COMMAND_CENTER",
       "name": "Tool Command Center",
       "groupIds": [
@@ -10896,7 +10805,7 @@
       "groupLabels": [
         "AI Command-Center Spaces"
       ],
-      "ordinal": 112,
+      "ordinal": 105,
       "component": "ToolCommandCenter"
     }
   ],

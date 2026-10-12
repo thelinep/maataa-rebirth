@@ -11,7 +11,7 @@
   "registries": {
     "components": {
       "source": "src/registries/componentRegistry.ts",
-      "sha256": "7ca0926654dac1c07ca8abe0a4b7a5b17f9c9832d0c1890d15c6601929139c1d",
+      "sha256": "fabcdf4e6fd493ffc4064fe6225cfdb3f4d6a7935ac778a9d41b35503322cd69",
       "records": [
         {
           "id": "COMPONENT.FOUNDATION.ASPECTRATIO",
@@ -10925,55 +10925,6 @@
           "category": "ai-spaces",
           "kind": "component",
           "importPath": "@maataa/ui/ai-spaces/StandardsIntelligenceWorkspace"
-        },
-        {
-          "id": "COMPONENT.AI_SPACES.TLPSBUDGETAI",
-          "name": "TLPSBudgetAI",
-          "category": "ai-spaces",
-          "kind": "component",
-          "importPath": "@maataa/ui/ai-spaces/TLPSBudgetAI"
-        },
-        {
-          "id": "COMPONENT.AI_SPACES.TLPSCASTINGAI",
-          "name": "TLPSCastingAI",
-          "category": "ai-spaces",
-          "kind": "component",
-          "importPath": "@maataa/ui/ai-spaces/TLPSCastingAI"
-        },
-        {
-          "id": "COMPONENT.AI_SPACES.TLPSLOCATIONAI",
-          "name": "TLPSLocationAI",
-          "category": "ai-spaces",
-          "kind": "component",
-          "importPath": "@maataa/ui/ai-spaces/TLPSLocationAI"
-        },
-        {
-          "id": "COMPONENT.AI_SPACES.TLPSPRODUCTIONAI",
-          "name": "TLPSProductionAI",
-          "category": "ai-spaces",
-          "kind": "component",
-          "importPath": "@maataa/ui/ai-spaces/TLPSProductionAI"
-        },
-        {
-          "id": "COMPONENT.AI_SPACES.TLPSSCHEDULINGAI",
-          "name": "TLPSSchedulingAI",
-          "category": "ai-spaces",
-          "kind": "component",
-          "importPath": "@maataa/ui/ai-spaces/TLPSSchedulingAI"
-        },
-        {
-          "id": "COMPONENT.AI_SPACES.TLPSSCRIPTAI",
-          "name": "TLPSScriptAI",
-          "category": "ai-spaces",
-          "kind": "component",
-          "importPath": "@maataa/ui/ai-spaces/TLPSScriptAI"
-        },
-        {
-          "id": "COMPONENT.AI_SPACES.TLPSSTORYBOARDAI",
-          "name": "TLPSStoryboardAI",
-          "category": "ai-spaces",
-          "kind": "component",
-          "importPath": "@maataa/ui/ai-spaces/TLPSStoryboardAI"
         },
         {
           "id": "COMPONENT.AI_SPACES.TECHNOLOGYINTELLIGENCEWORKSPACE",

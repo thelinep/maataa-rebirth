@@ -1,1 +1,0 @@
-import{j as r}from"./vendor-react-IAN6ABvC.js";import{a4 as o}from"./maataa-registries-BsYY0ZZj.js";function t({className:a,...s}){return r.jsx("div",{"data-workspace-region":"workspacestatusbar",className:o("m-workspace-atom","m-workspace-workspacestatusbar",a),...s})}t.__docgenInfo={description:"",methods:[],displayName:"WorkspaceStatusBar"};export{t as WorkspaceStatusBar};

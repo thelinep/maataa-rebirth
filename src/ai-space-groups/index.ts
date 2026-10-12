@@ -90,13 +90,6 @@ export const AI_SPACE_GROUPS = [
     "id": "S05_PRODUCT_AI",
     "label": "Specialized Product AI Spaces",
     "items": [
-      "TLPS Production AI",
-      "TLPS Script AI",
-      "TLPS Casting AI",
-      "TLPS Scheduling AI",
-      "TLPS Storyboard AI",
-      "TLPS Location AI",
-      "TLPS Budget AI",
       "NEVO Event AI",
       "NEVO Vendor AI",
       "NEVO Booking AI",

@@ -1,1 +1,0 @@
-import{j as e}from"./vendor-react-IAN6ABvC.js";import{a4 as t}from"./maataa-registries-BsYY0ZZj.js";function n({className:o,...r}){return e.jsx("section",{"data-generator-region":"generatorcontrols",className:t("m-generator-atom","m-generator-generatorcontrols",o),...r})}n.__docgenInfo={description:"",methods:[],displayName:"GeneratorControls"};export{n as GeneratorControls};

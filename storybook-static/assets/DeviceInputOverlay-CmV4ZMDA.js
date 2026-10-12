@@ -1,1 +1,0 @@
-import{j as o}from"./vendor-react-IAN6ABvC.js";import{a4 as t}from"./maataa-registries-BsYY0ZZj.js";function a({className:e,...i}){return o.jsx("div",{"data-device-region":"input-overlay",className:t("m-device-atom","m-device-input-overlay",e),...i})}a.__docgenInfo={description:"",methods:[],displayName:"DeviceInputOverlay"};export{a as DeviceInputOverlay};

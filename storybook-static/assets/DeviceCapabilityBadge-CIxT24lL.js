@@ -1,1 +1,0 @@
-import{j as i}from"./vendor-react-IAN6ABvC.js";import{a4 as t}from"./maataa-registries-BsYY0ZZj.js";function o({className:a,...e}){return i.jsx("span",{"data-device-region":"capability-badge",className:t("m-device-atom","m-device-capability-badge",a),...e})}o.__docgenInfo={description:"",methods:[],displayName:"DeviceCapabilityBadge"};export{o as DeviceCapabilityBadge};

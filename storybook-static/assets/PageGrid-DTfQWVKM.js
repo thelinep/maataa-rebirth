@@ -1,1 +1,0 @@
-import{j as r}from"./vendor-react-IAN6ABvC.js";import{a4 as i}from"./maataa-registries-BsYY0ZZj.js";function o({className:a,...e}){return r.jsx("div",{"data-page-region":"pagegrid",className:i("m-page-atom","m-page-pagegrid",a),...e})}o.__docgenInfo={description:"",methods:[],displayName:"PageGrid"};export{o as PageGrid};

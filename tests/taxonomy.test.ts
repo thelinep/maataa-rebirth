@@ -8,6 +8,11 @@ import * as Pages from "../src/pages";
 import * as Workspaces from "../src/workspaces";
 import { TLPS_WORKSPACE_TYPES } from "../apps/tlps/src/registries/workspaceRegistry";
 import canonicalIds from "../manifests/CANONICAL_IDS.json";
+import { AI_SPACE_REGISTRY } from "../src/registries/aiSpaceRegistry";
+import { COMPONENT_REGISTRY } from "../src/registries/componentRegistry";
+import { GENERATOR_REGISTRY } from "../src/registries/generatorRegistry";
+import { TLPS_AI_SPACE_COMPONENTS, TLPS_AI_SPACE_REGISTRY } from "../apps/tlps/src/registries/aiSpaceRegistry";
+import * as TlpsAiSpaces from "../apps/tlps/src/ai-spaces";
 
 type TaxonomyRecord = { id: string; name: string; groupKey: string; archetype: string; aliasOf?: string };
 
@@ -64,6 +69,17 @@ describe("page and workspace taxonomy", () => {
     expect(TLPS_WORKSPACE_TYPES).toHaveLength(31);
     checkTaxonomy(TLPS_WORKSPACE_TYPES, ["ProductionWorkspace", "TeamWorkspace"], Workspaces as Record<string, unknown>);
     const moved = (canonicalIds as { moved: Record<string, string> }).moved;
-    expect(Object.keys(moved).sort()).toEqual(TLPS_WORKSPACE_TYPES.map((record) => record.id).sort());
+    expect(Object.keys(moved).filter((id) => id.startsWith("WORKSPACE.")).sort()).toEqual(TLPS_WORKSPACE_TYPES.map((record) => record.id).sort());
+  });
+
+  it("keeps the TLPS AI spaces in the TLPS product and the generator group unbranded", () => {
+    expect(AI_SPACE_REGISTRY).toHaveLength(105);
+    expect(AI_SPACE_REGISTRY.some((space) => space.id.startsWith("AI_SPACE.TLPS_"))).toBe(false);
+    expect(COMPONENT_REGISTRY.some((component) => /^TLPS.*AI$/.test(component.name))).toBe(false);
+    expect(TLPS_AI_SPACE_REGISTRY).toHaveLength(7);
+    for (const space of TLPS_AI_SPACE_REGISTRY) expect(typeof (TlpsAiSpaces as Record<string, unknown>)[space.component], space.id).toBe("function");
+    const moved = (canonicalIds as { moved: Record<string, string> }).moved;
+    expect(Object.keys(moved).filter((id) => id.startsWith("COMPONENT.")).sort()).toEqual(TLPS_AI_SPACE_COMPONENTS.map((record) => record.id).sort());
+    expect(GENERATOR_REGISTRY.some((generator) => generator.groupLabels.some((label) => label.includes("TLPS")))).toBe(false);
   });
 });

@@ -10915,55 +10915,6 @@ export const COMPONENT_REGISTRY = [
     "importPath": "@maataa/ui/ai-spaces/StandardsIntelligenceWorkspace"
   },
   {
-    "id": "COMPONENT.AI_SPACES.TLPSBUDGETAI",
-    "name": "TLPSBudgetAI",
-    "category": "ai-spaces",
-    "kind": "component",
-    "importPath": "@maataa/ui/ai-spaces/TLPSBudgetAI"
-  },
-  {
-    "id": "COMPONENT.AI_SPACES.TLPSCASTINGAI",
-    "name": "TLPSCastingAI",
-    "category": "ai-spaces",
-    "kind": "component",
-    "importPath": "@maataa/ui/ai-spaces/TLPSCastingAI"
-  },
-  {
-    "id": "COMPONENT.AI_SPACES.TLPSLOCATIONAI",
-    "name": "TLPSLocationAI",
-    "category": "ai-spaces",
-    "kind": "component",
-    "importPath": "@maataa/ui/ai-spaces/TLPSLocationAI"
-  },
-  {
-    "id": "COMPONENT.AI_SPACES.TLPSPRODUCTIONAI",
-    "name": "TLPSProductionAI",
-    "category": "ai-spaces",
-    "kind": "component",
-    "importPath": "@maataa/ui/ai-spaces/TLPSProductionAI"
-  },
-  {
-    "id": "COMPONENT.AI_SPACES.TLPSSCHEDULINGAI",
-    "name": "TLPSSchedulingAI",
-    "category": "ai-spaces",
-    "kind": "component",
-    "importPath": "@maataa/ui/ai-spaces/TLPSSchedulingAI"
-  },
-  {
-    "id": "COMPONENT.AI_SPACES.TLPSSCRIPTAI",
-    "name": "TLPSScriptAI",
-    "category": "ai-spaces",
-    "kind": "component",
-    "importPath": "@maataa/ui/ai-spaces/TLPSScriptAI"
-  },
-  {
-    "id": "COMPONENT.AI_SPACES.TLPSSTORYBOARDAI",
-    "name": "TLPSStoryboardAI",
-    "category": "ai-spaces",
-    "kind": "component",
-    "importPath": "@maataa/ui/ai-spaces/TLPSStoryboardAI"
-  },
-  {
     "id": "COMPONENT.AI_SPACES.TECHNOLOGYINTELLIGENCEWORKSPACE",
     "name": "TechnologyIntelligenceWorkspace",
     "category": "ai-spaces",
@@ -11004,37 +10955,40 @@ export const COMPONENT_REGISTRY = [
     "category": "icons",
     "kind": "component",
     "importPath": "@maataa/ui/icons/MaataaIcon"
-  }
-  ,{
+  },
+  {
     "id": "COMPONENT.COMPOSER.VISUALCOMPOSER",
     "name": "VisualComposer",
     "category": "composer",
     "kind": "component",
     "importPath": "@maataa/ui/composer/VisualComposer"
-  },{
+  },
+  {
     "id": "COMPONENT.COMPOSER.COMPOSERRENDERER",
     "name": "ComposerRenderer",
     "category": "composer",
     "kind": "component",
     "importPath": "@maataa/ui/composer/ComposerRenderer"
-  },{
+  },
+  {
     "id": "COMPONENT.COMPOSER.COMPONENTPROPINSPECTOR",
     "name": "ComponentPropInspector",
     "category": "composer",
     "kind": "component",
     "importPath": "@maataa/ui/composer/ComponentPropInspector"
-  },{
+  },
+  {
     "id": "COMPONENT.RUNTIME.COMPOSITIONRUNTIME",
     "name": "CompositionRuntime",
     "category": "runtime",
     "kind": "component",
     "importPath": "@maataa/ui/runtime/CompositionRuntime"
-  },{
+  },
+  {
     "id": "COMPONENT.RUNTIME.RESPONSIVEDEVICERUNTIME",
     "name": "ResponsiveDeviceRuntime",
     "category": "runtime",
     "kind": "component",
     "importPath": "@maataa/ui/runtime/ResponsiveDeviceRuntime"
   }
-
 ] as const satisfies readonly ComponentRegistryRecord[];

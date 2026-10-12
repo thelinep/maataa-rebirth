@@ -1,1 +1,0 @@
-import{j as m}from"./vendor-react-IAN6ABvC.js";import{a4 as i}from"./maataa-registries-BsYY0ZZj.js";function r({className:e,...o}){return m.jsx("div",{"data-device-region":"chrome",className:i("m-device-atom","m-device-chrome",e),...o})}r.__docgenInfo={description:"",methods:[],displayName:"DeviceChrome"};export{r as DeviceChrome};

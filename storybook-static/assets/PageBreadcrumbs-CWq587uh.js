@@ -1,1 +1,0 @@
-import{j as r}from"./vendor-react-IAN6ABvC.js";import{a4 as m}from"./maataa-registries-BsYY0ZZj.js";function s({className:a,...e}){return r.jsx("div",{"data-page-region":"pagebreadcrumbs",className:m("m-page-atom","m-page-pagebreadcrumbs",a),...e})}s.__docgenInfo={description:"",methods:[],displayName:"PageBreadcrumbs"};export{s as PageBreadcrumbs};

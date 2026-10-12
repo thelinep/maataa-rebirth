@@ -1,1 +1,0 @@
-import{j as t}from"./vendor-react-IAN6ABvC.js";import{a4 as i}from"./maataa-registries-BsYY0ZZj.js";function r({className:o,...e}){return t.jsx("div",{"data-device-region":"controls",className:i("m-device-atom","m-device-controls",o),...e})}r.__docgenInfo={description:"",methods:[],displayName:"DeviceControls"};export{r as DeviceControls};

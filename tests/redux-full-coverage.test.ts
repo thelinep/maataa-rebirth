@@ -110,7 +110,7 @@ describe("full Redux registry contract", () => {
       ["workspaces", selectors.selectFilteredWorkspaces, WORKSPACE_TYPES, "groupKey", "UI_DESIGN_SYSTEM"],
       ["layouts", selectors.selectFilteredLayouts, LAYOUT_TYPES, "groupKey", "CANVAS_SPATIAL"],
       ["devices", selectors.selectFilteredDevices, DEVICE_REGISTRY, "group", "PHONES"],
-      ["generators", selectors.selectFilteredGenerators, GENERATOR_REGISTRY, "groupLabels", "Production / TLPS"],
+      ["generators", selectors.selectFilteredGenerators, GENERATOR_REGISTRY, "groupLabels", "Production"],
       ["tools", selectors.selectFilteredTools, TOOL_REGISTRY, "groupLabels", "Builder Tools"],
       ["AI spaces", selectors.selectFilteredAISpaces, AI_SPACE_REGISTRY, "groupLabels", "AI Business Spaces"],
     ] as const;

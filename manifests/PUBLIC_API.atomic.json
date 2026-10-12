@@ -7800,41 +7800,6 @@
     },
     {
       "category": "ai-spaces",
-      "import": "@maataa/ui/ai-spaces/TLPSBudgetAI",
-      "name": "TLPSBudgetAI"
-    },
-    {
-      "category": "ai-spaces",
-      "import": "@maataa/ui/ai-spaces/TLPSCastingAI",
-      "name": "TLPSCastingAI"
-    },
-    {
-      "category": "ai-spaces",
-      "import": "@maataa/ui/ai-spaces/TLPSLocationAI",
-      "name": "TLPSLocationAI"
-    },
-    {
-      "category": "ai-spaces",
-      "import": "@maataa/ui/ai-spaces/TLPSProductionAI",
-      "name": "TLPSProductionAI"
-    },
-    {
-      "category": "ai-spaces",
-      "import": "@maataa/ui/ai-spaces/TLPSSchedulingAI",
-      "name": "TLPSSchedulingAI"
-    },
-    {
-      "category": "ai-spaces",
-      "import": "@maataa/ui/ai-spaces/TLPSScriptAI",
-      "name": "TLPSScriptAI"
-    },
-    {
-      "category": "ai-spaces",
-      "import": "@maataa/ui/ai-spaces/TLPSStoryboardAI",
-      "name": "TLPSStoryboardAI"
-    },
-    {
-      "category": "ai-spaces",
       "import": "@maataa/ui/ai-spaces/TechnologyIntelligenceWorkspace",
       "name": "TechnologyIntelligenceWorkspace"
     },

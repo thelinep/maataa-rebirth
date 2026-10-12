@@ -1,1 +1,0 @@
-import{a4 as r}from"./maataa-registries-BsYY0ZZj.js";import"./vendor-react-IAN6ABvC.js";function y(t,o,a,m,l){return r("m-layout-atom",`m-layout-${t}`,a&&"m-layout-inset",m&&"m-layout-scroll",l&&"m-layout-sticky",o)}export{y as atomClass};

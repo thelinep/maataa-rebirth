@@ -1,1 +1,0 @@
-import{j as a}from"./vendor-react-IAN6ABvC.js";import{a4 as i}from"./maataa-registries-BsYY0ZZj.js";function r({className:e,...o}){return a.jsx("div",{"data-device-region":"keyboard",className:i("m-device-atom","m-device-keyboard",e),...o})}r.__docgenInfo={description:"",methods:[],displayName:"DeviceKeyboard"};export{r as DeviceKeyboard};

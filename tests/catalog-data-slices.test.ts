@@ -63,8 +63,8 @@ describe("catalog family data slices", () => {
 
   it("maps all AI spaces to synthetic sessions and explicit no-model boundaries", () => {
     const slices = AI_SPACE_REGISTRY.map((record) => createAISpaceDataSlice(record.id));
-    expect(slices).toHaveLength(112);
-    expect(new Set(slices.map((slice) => slice.reference)).size).toBe(112);
+    expect(slices).toHaveLength(105);
+    expect(new Set(slices.map((slice) => slice.reference)).size).toBe(105);
     for (const record of AI_SPACE_REGISTRY) {
       const slice = createAISpaceDataSlice(record.id);
       expect(slice.recordId).toBe(record.id);

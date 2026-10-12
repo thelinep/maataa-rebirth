@@ -1,1 +1,0 @@
-const o=e=>e.builder,t=e=>e.builder.present,s=e=>e.builder.present.blocks.find(l=>l.id===e.builder.selectedBlockId)??null,c=e=>e.builder.past.length>0,n=e=>e.builder.future.length>0;export{o as selectBuilder,n as selectComposerCanRedo,c as selectComposerCanUndo,t as selectComposerScene,s as selectComposerSelectedBlock};

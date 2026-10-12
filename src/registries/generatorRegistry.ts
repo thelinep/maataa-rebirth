@@ -368,7 +368,7 @@ export const GENERATOR_REGISTRY = [
       "G16_PRODUCTION_TLPS"
     ],
     "groupLabels": [
-      "Production / TLPS"
+      "Production"
     ],
     "ordinal": 31,
     "component": "CallSheetGenerator"
@@ -428,7 +428,7 @@ export const GENERATOR_REGISTRY = [
       "G16_PRODUCTION_TLPS"
     ],
     "groupLabels": [
-      "Production / TLPS"
+      "Production"
     ],
     "ordinal": 36,
     "component": "CastingShortlistGenerator"
@@ -548,7 +548,7 @@ export const GENERATOR_REGISTRY = [
       "G16_PRODUCTION_TLPS"
     ],
     "groupLabels": [
-      "Production / TLPS"
+      "Production"
     ],
     "ordinal": 46,
     "component": "CrewPlanGenerator"
@@ -740,7 +740,7 @@ export const GENERATOR_REGISTRY = [
       "G16_PRODUCTION_TLPS"
     ],
     "groupLabels": [
-      "Production / TLPS"
+      "Production"
     ],
     "ordinal": 62,
     "component": "EquipmentPlanGenerator"
@@ -1150,7 +1150,7 @@ export const GENERATOR_REGISTRY = [
       "G16_PRODUCTION_TLPS"
     ],
     "groupLabels": [
-      "Production / TLPS"
+      "Production"
     ],
     "ordinal": 96,
     "component": "LocationPlanGenerator"
@@ -1558,7 +1558,7 @@ export const GENERATOR_REGISTRY = [
       "G16_PRODUCTION_TLPS"
     ],
     "groupLabels": [
-      "Production / TLPS"
+      "Production"
     ],
     "ordinal": 130,
     "component": "ProductionPlanGenerator"
@@ -1906,7 +1906,7 @@ export const GENERATOR_REGISTRY = [
       "G16_PRODUCTION_TLPS"
     ],
     "groupLabels": [
-      "Production / TLPS"
+      "Production"
     ],
     "ordinal": 159,
     "component": "ScriptBreakdownGenerator"
@@ -2026,7 +2026,7 @@ export const GENERATOR_REGISTRY = [
       "G16_PRODUCTION_TLPS"
     ],
     "groupLabels": [
-      "Production / TLPS"
+      "Production"
     ],
     "ordinal": 169,
     "component": "ShootingScheduleGenerator"
@@ -2050,7 +2050,7 @@ export const GENERATOR_REGISTRY = [
       "G16_PRODUCTION_TLPS"
     ],
     "groupLabels": [
-      "Production / TLPS"
+      "Production"
     ],
     "ordinal": 171,
     "component": "ShotListGenerator"
@@ -2208,7 +2208,7 @@ export const GENERATOR_REGISTRY = [
     ],
     "groupLabels": [
       "Creative",
-      "Production / TLPS"
+      "Production"
     ],
     "ordinal": 184,
     "component": "StoryboardGenerator"

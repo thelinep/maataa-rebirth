@@ -1,1 +1,0 @@
-import{j as r}from"./vendor-react-IAN6ABvC.js";import{a4 as o}from"./maataa-registries-BsYY0ZZj.js";function s({className:a,...e}){return r.jsx("div",{"data-page-region":"pagesearch",className:o("m-page-atom","m-page-pagesearch",a),...e})}s.__docgenInfo={description:"",methods:[],displayName:"PageSearch"};export{s as PageSearch};

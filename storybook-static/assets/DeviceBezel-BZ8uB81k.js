@@ -1,1 +1,0 @@
-import{j as o}from"./vendor-react-IAN6ABvC.js";import{a4 as m}from"./maataa-registries-BsYY0ZZj.js";function t({className:e,...i}){return o.jsx("div",{"data-device-region":"bezel",className:m("m-device-atom","m-device-bezel",e),...i})}t.__docgenInfo={description:"",methods:[],displayName:"DeviceBezel"};export{t as DeviceBezel};
