@@ -1,8 +1,10 @@
 # Workspace Registry
 
-A workspace is a persistent operational environment that can host multiple pages and layouts. The package defines **58 workspace groups** and their named workspace types.
+A workspace is a persistent operational environment that can host multiple pages and layouts. The package defines **55 workspace groups** and their named workspace types. Each record names the workspace archetype component that renders it (`archetype`); 12 records are aliases of another ID for the same concept (`aliasOf`, marked *alias* below). The full table with IDs is in [PAGES-AND-WORKSPACES.md](../engineering/PAGES-AND-WORKSPACES.md).
 
-The demo data layer has one synthetic JSON slice for each of the **647 canonical workspace records**. The generated inventory is [workspace-data-slices.json](../../examples/redux-demo/data/workspace-data-slices.json); regenerate it with `pnpm workspace:slices` and verify it is current with `pnpm workspace:slices:check`. These fixtures do not represent live users, integrations, bookings, approvals, or production activity.
+The TLPS Production, Casting and Crew groups moved to the TLPS product on 2026-10-12 (`apps/tlps/src/registries/workspaceRegistry.ts`).
+
+The demo data layer has one synthetic JSON slice for each of the **616 canonical workspace records**. The generated inventory is [workspace-data-slices.json](../../examples/redux-demo/data/workspace-data-slices.json); regenerate it with `pnpm workspace:slices` and verify it is current with `pnpm workspace:slices:check`. These fixtures do not represent live users, integrations, bookings, approvals, or production activity.
 
 ## W01 · Personal & Home Workspaces
 
@@ -18,7 +20,7 @@ Team Workspace, Department Workspace, Functional Team Workspace, Cross-Functiona
 
 ## W04 · Project & Program Workspaces
 
-Project Workspace, Program Workspace, Portfolio Workspace, Initiative Workspace, Workstream Workspace, Milestone Workspace, Project Planning Workspace, Project Execution Workspace, Project Review Workspace, Project Closure Workspace, Project Evidence Workspace
+Project Workspace, Program Workspace, Project Portfolio Workspace, Initiative Workspace, Workstream Workspace, Milestone Workspace, Project Planning Workspace, Project Execution Workspace, Project Review Workspace, Project Closure Workspace, Project Evidence Workspace
 
 ## W05 · Task & Productivity Workspaces
 
@@ -26,11 +28,11 @@ Task Workspace, Kanban Workspace, Scrum Workspace, Sprint Workspace, Backlog Wor
 
 ## W06 · Communication Workspaces
 
-Inbox Workspace, Mail Workspace, Messenger Workspace, Chat Workspace, Communication Hub, Thread Workspace, Announcement Workspace, Notification Center Workspace, Contact Workspace, Communication Campaign Workspace, Support Conversation Workspace
+Inbox Workspace, Mail Workspace, Messenger Workspace, Chat Workspace, Communication Hub, Thread Workspace, Announcement Workspace, Notification Center Workspace, Contact Workspace (*alias*), Communication Campaign Workspace, Support Conversation Workspace
 
 ## W07 · Documents & Knowledge Workspaces
 
-Document Workspace, Document Editor Workspace, Spreadsheet Workspace, Presentation Workspace, Notes Workspace, Notebook Workspace, Knowledge Workspace, Knowledge Base Workspace, Wiki Workspace, Documentation Workspace, Research Workspace, Reference Library Workspace, Evidence Library Workspace
+Document Workspace, Document Editor Workspace, Spreadsheet Workspace, Presentation Authoring Workspace, Notes Workspace, Notebook Workspace, Knowledge Workspace, Knowledge Base Workspace, Wiki Workspace, Documentation Workspace, Research Workspace, Reference Library Workspace, Evidence Library Workspace
 
 ## W08 · File & Asset Workspaces
 
@@ -66,7 +68,7 @@ Media Studio Workspace, Image Editing Workspace, Video Editing Workspace, Audio 
 
 ## W16 · Spatial & 3D Workspaces
 
-Spatial Workspace, Spatial Studio Workspace, CAD Workspace, 2D Plan Workspace, 3D Workspace, 3D Preview Workspace, Floor Plan Workspace, Venue Plan Workspace, Scene Workspace, Digital Twin Workspace, Simulation Workspace, Mapping Workspace, GIS Workspace, Route Planning Workspace, Location Workspace
+Spatial Workspace, Spatial Studio Workspace, CAD Workspace, 2D Plan Workspace, 3D Workspace, 3D Preview Workspace, Floor Plan Workspace, Venue Plan Workspace, Scene Workspace, Digital Twin Workspace, Simulation Workspace, Mapping Workspace, GIS Workspace, Route Planning Workspace, Spatial Location Workspace
 
 ## W17 · AI Workspaces
 
@@ -74,7 +76,7 @@ AI Workspace, AI Assistant Workspace, Agent Workspace, Agent Builder Workspace, 
 
 ## W18 · Analytics Workspaces
 
-Analytics Workspace, BI Workspace, Dashboard Workspace, Executive Analytics Workspace, Operational Analytics Workspace, Product Analytics Workspace, User Analytics Workspace, Marketing Analytics Workspace, Revenue Analytics Workspace, Finance Analytics Workspace, Funnel Workspace, Cohort Workspace, Report Builder Workspace
+Analytics Workspace, BI Workspace, Dashboard Workspace, Executive Analytics Workspace, Operational Analytics Workspace, Product Analytics Workspace, User Analytics Workspace, Marketing Analytics Workspace (*alias*), Revenue Analytics Workspace, Finance Analytics Workspace, Funnel Workspace, Cohort Workspace, Report Builder Workspace
 
 ## W19 · Command & Operations Workspaces
 
@@ -86,11 +88,11 @@ Infrastructure Workspace, Infrastructure Studio Workspace, Cloud Workspace, Serv
 
 ## W21 · Control Plane Workspaces
 
-MAATAA Control Plane Workspace, Application Registry Workspace, Environment Registry Workspace, Runtime Registry Workspace, Database Target Workspace, Infrastructure Registry Workspace, Desired State Workspace, Observed State Workspace, Reconciliation Workspace, Deployment Control Workspace
+MAATAA Control Plane Workspace, Application Registry Workspace, Environment Registry Workspace, Runtime Registry Workspace, Database Target Workspace (*alias*), Infrastructure Registry Workspace, Desired State Workspace, Observed State Workspace, State Reconciliation Workspace, Deployment Control Workspace
 
 ## W22 · Environment & Release Workspaces
 
-Development Environment Workspace, Preview Environment Workspace, Test Environment Workspace, QA Workspace, Staging Workspace, Pilot Workspace, Production Workspace, Release Workspace, Release Readiness Workspace, Deployment Workspace, Rollback Workspace
+Development Environment Workspace, Preview Environment Workspace, Test Environment Workspace, QA Workspace (*alias*), Staging Workspace, Pilot Workspace, Production Workspace, Release Workspace, Release Readiness Workspace, Deployment Workspace, Rollback Workspace
 
 ## W23 · Database Workspaces
 
@@ -102,35 +104,35 @@ Observability Workspace, Metrics Workspace, Logs Workspace, Traces Workspace, He
 
 ## W25 · Security & Identity Workspaces
 
-Identity Workspace, Authentication Workspace, Session Workspace, User Access Workspace, Role Workspace, Permission Workspace, Policy Workspace, RBAC Workspace, MFA Workspace, Security Operations Workspace, Security Review Workspace, Secret Reference Workspace, Device Security Workspace
+Identity Workspace, Authentication Workspace, Session Workspace, User Access Workspace, Role Workspace, Permission Workspace, Policy Workspace (*alias*), RBAC Workspace, MFA Workspace, Security Operations Workspace, Security Review Workspace, Secret Reference Workspace, Device Security Workspace
 
 ## W26 · Governance & Evidence Workspaces
 
-Governance Workspace, Evidence Workspace, Evidence Gate Workspace, Audit Workspace, Audit Trail Workspace, Compliance Workspace, Policy Workspace, Risk Workspace, Control Workspace, Review Workspace, Certification Workspace, Approval Workspace, Provenance Workspace
+Governance Workspace, Evidence Workspace, Evidence Gate Workspace, Audit Workspace, Audit Trail Workspace, Compliance Workspace, Policy Workspace, Risk Workspace, Control Workspace, Review Workspace (*alias*), Certification Workspace, Approval Workspace (*alias*), Provenance Workspace
 
 ## W27 · Finance Workspaces
 
-Finance Workspace, Finance Command Center, Accounting Workspace, Ledger Workspace, Budget Workspace, Expense Workspace, Revenue Workspace, Cash Flow Workspace, Forecast Workspace, Reconciliation Workspace, Invoice Workspace, Payment Workspace, Payout Workspace, Tax Workspace, Treasury Workspace
+Finance Workspace, Finance Command Center, Accounting Workspace, Ledger Workspace, Budget Workspace, Expense Workspace, Revenue Workspace, Cash Flow Workspace, Forecast Workspace, Financial Reconciliation Workspace, Invoice Workspace, Payment Workspace, Payout Workspace, Tax Workspace, Treasury Workspace
 
 ## W28 · Investment Workspaces
 
-Investor Workspace, Investor Relations Workspace, Investment Workspace, Investment Committee Workspace, Portfolio Workspace, Fund Workspace, Fundraising Workspace, Deal Workspace, Due Diligence Workspace, Cap Table Workspace, Investment Analysis Workspace, Investment Evidence Workspace
+Investor Workspace, Investor Relations Workspace, Investment Workspace, Investment Committee Workspace, Investment Portfolio Workspace, Fund Workspace, Fundraising Workspace, Investment Deal Workspace, Due Diligence Workspace, Cap Table Workspace, Investment Analysis Workspace, Investment Evidence Workspace
 
 ## W29 · CRM & Sales Workspaces
 
-CRM Workspace, Sales Workspace, Sales Pipeline Workspace, Lead Workspace, Account Workspace, Opportunity Workspace, Deal Workspace, Customer Workspace, Contact Workspace, Sales Forecast Workspace, Sales Operations Workspace, Customer Success Workspace
+CRM Workspace, Sales Workspace, Sales Pipeline Workspace, Lead Workspace, Account Workspace, Opportunity Workspace, Sales Deal Workspace, Customer Workspace, Contact Workspace, Sales Forecast Workspace, Sales Operations Workspace, Customer Success Workspace
 
 ## W30 · Marketing Workspaces
 
-Marketing Workspace, Campaign Workspace, Campaign Planning Workspace, Campaign Execution Workspace, Brand Workspace, Content Marketing Workspace, Social Media Workspace, Advertising Workspace, SEO Workspace, Marketing Automation Workspace, Marketing Analytics Workspace, Audience Workspace
+Marketing Workspace, Campaign Workspace, Campaign Planning Workspace, Campaign Execution Workspace, Brand Workspace, Content Marketing Workspace, Social Media Workspace, Advertising Workspace, SEO Workspace (*alias*), Marketing Automation Workspace, Marketing Analytics Workspace, Audience Workspace
 
 ## W31 · Commerce Workspaces
 
-Commerce Workspace, Store Workspace, Catalog Workspace, Product Workspace, SKU Workspace, Cart Operations Workspace, Order Workspace, Checkout Workspace, Fulfilment Workspace, Returns Workspace, Pricing Workspace, Promotion Workspace, Inventory Workspace
+Commerce Workspace, Store Workspace, Catalog Workspace, Product Workspace, SKU Workspace, Cart Operations Workspace, Order Workspace, Checkout Workspace, Fulfilment Workspace, Returns Workspace, Pricing Workspace, Promotion Workspace, Product Inventory Workspace
 
 ## W32 · Marketplace Workspaces
 
-Marketplace Workspace, Vendor Marketplace Workspace, Vendor Directory Workspace, Service Marketplace Workspace, Product Marketplace Workspace, Vendor Workspace, Vendor Onboarding Workspace, Vendor Operations Workspace, Service Catalog Workspace, Capability Workspace, Rate Workspace, Comparison Workspace
+Marketplace Workspace, Vendor Marketplace Workspace, Vendor Directory Workspace, Service Marketplace Workspace, Product Marketplace Workspace, Vendor Workspace, Vendor Onboarding Workspace, Vendor Operations Workspace, Service Catalog Workspace, Capability Workspace, Rate Workspace, Comparison Workspace (*alias*)
 
 ## W33 · Booking Workspaces
 
@@ -140,25 +142,13 @@ Booking Workspace, Booking Builder Workspace, Booking Operations Workspace, Avai
 
 Event Workspace, Event Builder Workspace, Event Command Center, Event Planning Workspace, Event Production Workspace, Event Schedule Workspace, Event Guest Workspace, Event Vendor Workspace, Event Service Workspace, Event Venue Workspace, Event Spatial Workspace, Event Sponsorship Workspace, Event ROI Workspace, Event Settlement Workspace
 
-## W35 · TLPS Production Workspaces
-
-Production Workspace, Production Command Center, Project Production Workspace, Pre-Production Workspace, Shoot Workspace, Post-Production Workspace, Script Workspace, Script Breakdown Workspace, Scene Workspace, Shot Workspace, Shot List Workspace, Storyboard Workspace, Schedule Board Workspace
-
-## W36 · Casting Workspaces
-
-Casting Workspace, Casting Board Workspace, Casting Search Workspace, Talent Workspace, Artist Workspace, Audition Workspace, Casting Review Workspace, Casting Approval Workspace, Casting Availability Workspace, Casting Contract Workspace
-
-## W37 · Crew Workspaces
-
-Crew Workspace, Crew Directory Workspace, Department Workspace, Crew Scheduling Workspace, Crew Availability Workspace, Crew Assignment Workspace, Crew Communication Workspace, Crew Contract Workspace
-
 ## W38 · Location & Venue Workspaces
 
-Location Workspace, Location Scout Workspace, Location Library Workspace, Venue Workspace, Venue Search Workspace, Venue Comparison Workspace, Venue Planning Workspace, Venue Floor Plan Workspace, Location Approval Workspace, Permit Workspace
+Venue Location Workspace, Location Scout Workspace, Location Library Workspace, Venue Workspace, Venue Search Workspace, Venue Comparison Workspace, Venue Planning Workspace, Venue Floor Plan Workspace, Location Approval Workspace, Permit Workspace
 
 ## W39 · Equipment & Logistics Workspaces
 
-Logistics Workspace, Logistics Command Center, Equipment Workspace, Inventory Workspace, Equipment Assignment Workspace, Transport Workspace, Travel Workspace, Accommodation Workspace, Route Workspace, Shipment Workspace, Permit Workspace, Insurance Workspace
+Logistics Workspace, Logistics Command Center, Equipment Workspace, Equipment Inventory Workspace, Equipment Assignment Workspace, Transport Workspace, Travel Workspace, Accommodation Workspace, Route Workspace, Shipment Workspace, Permit Workspace (*alias*), Insurance Workspace
 
 ## W40 · Event Guest Workspaces
 
@@ -190,7 +180,7 @@ Website Workspace, Landing Page Workspace, Marketing Site Workspace, Documentati
 
 ## W47 · Mobile Workspaces
 
-Mobile App Workspace, Mobile Builder Workspace, Mobile Preview Workspace, Device Preview Workspace, Offline Workspace, Sync Workspace, Mobile Navigation Workspace, Mobile Forms Workspace
+Mobile App Workspace, Mobile Builder Workspace, Mobile Preview Workspace, Device Preview Workspace, Offline Workspace (*alias*), Sync Workspace, Mobile Navigation Workspace, Mobile Forms Workspace
 
 ## W48 · Desktop Workspaces
 
@@ -218,11 +208,11 @@ Demo Workspace, Sandbox Workspace, Playground Workspace, Prototype Workspace, La
 
 ## W54 · Presentation & Display Workspaces
 
-Presentation Workspace, Fullscreen Workspace, Kiosk Workspace, TV Workspace, Wallboard Workspace, Public Display Workspace, Embedded Workspace, Share Workspace, Print Workspace
+Presentation Display Workspace, Fullscreen Workspace, Kiosk Workspace, TV Workspace, Wallboard Workspace, Public Display Workspace, Embedded Workspace, Share Workspace, Print Workspace
 
 ## W55 · Emergency & State Workspaces
 
-Maintenance Workspace, Recovery Workspace, Offline Workspace, Incident Workspace, Degraded Service Workspace, Emergency Operations Workspace
+Maintenance Workspace, Recovery Workspace, Offline Workspace, Incident Workspace (*alias*), Degraded Service Workspace, Emergency Operations Workspace
 
 ## W56 · MAATAA Core Studio Workspaces
 

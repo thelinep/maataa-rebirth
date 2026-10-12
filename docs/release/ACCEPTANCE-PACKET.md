@@ -180,6 +180,18 @@ After acceptance, the freeze is applied by marking exactly these exports `STABLE
 Decision: ACCEPT LIST (freeze applied)        Decider: Hemant Kumar Dixit, release owner        Date: 2026-10-12 (chat statement, not a signed record)
 ```
 
+**Taxonomy decisions (2026-10-12).** The release owner decided that the whole page and workspace taxonomy is part of the Beta promise, and applied these changes before Beta (details in [`PAGES-AND-WORKSPACES.md`](../engineering/PAGES-AND-WORKSPACES.md)):
+
+- Every page and workspace record now has an `archetype` field naming the component that renders it (22 page and 39 workspace archetypes, all used).
+- 12 duplicate workspace concepts carry `aliasOf` and point to one canonical ID; both IDs stay valid. Reconciliation was renamed instead of aliased, because the control-plane and finance records describe different things (a deviation from the approved list, reversible).
+- 14 records got clearer display names; their IDs are unchanged.
+- The TLPS Production, Casting and Crew workspace groups (31 IDs) moved to `apps/tlps`. `CANONICAL_IDS.json` lists them under a new `moved` section, and `pnpm api:check` enforces it. The package now has 616 workspace IDs. This removes three `@maataa/ui/workspace-groups/*` modules and 31 IDs from the package, a breaking change accepted before Beta.
+- The package build now deletes `dist/` first, so modules removed from source no longer ship from an old build.
+
+```
+Decision: APPLY TAXONOMY CHANGES        Decider: Hemant Kumar Dixit, release owner        Date: 2026-10-12 (chat statement, not a signed record)
+```
+
 ## 8. Private security reporting
 
 Required before RC: a private intake route and stated response commitments. Options: GitHub private vulnerability reporting on the repository host (needs the repository to be public or the feature enabled), or a dedicated monitored mailbox. Once chosen, add a root `SECURITY.md` naming the route, supported versions and response times. No route exists today; do not publish one until it is monitored.

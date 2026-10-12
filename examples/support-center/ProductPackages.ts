@@ -129,6 +129,10 @@ export const ADDITIONAL_PACKAGES = [
         "importPath": "@maataa/ui/composer"
       },
       {
+        "name": "layoutAliases.ts",
+        "importPath": "@maataa/ui/composer/layoutAliases"
+      },
+      {
         "name": "planner.ts",
         "importPath": "@maataa/ui/composer/planner"
       },
@@ -1331,10 +1335,6 @@ export const ADDITIONAL_PACKAGES = [
         "importPath": "@maataa/ui/workspace-groups/booking"
       },
       {
-        "name": "casting.ts",
-        "importPath": "@maataa/ui/workspace-groups/casting"
-      },
-      {
         "name": "cms_publishing.ts",
         "importPath": "@maataa/ui/workspace-groups/cms_publishing"
       },
@@ -1361,10 +1361,6 @@ export const ADDITIONAL_PACKAGES = [
       {
         "name": "creative.ts",
         "importPath": "@maataa/ui/workspace-groups/creative"
-      },
-      {
-        "name": "crew.ts",
-        "importPath": "@maataa/ui/workspace-groups/crew"
       },
       {
         "name": "crm_sales.ts",
@@ -1533,10 +1529,6 @@ export const ADDITIONAL_PACKAGES = [
       {
         "name": "testing.ts",
         "importPath": "@maataa/ui/workspace-groups/testing"
-      },
-      {
-        "name": "tlps_production.ts",
-        "importPath": "@maataa/ui/workspace-groups/tlps_production"
       },
       {
         "name": "ui_design_system.ts",

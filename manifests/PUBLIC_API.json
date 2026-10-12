@@ -12611,12 +12611,6 @@
       "stability": "EXPERIMENTAL"
     },
     {
-      "subpath": "./workspace-groups/casting",
-      "source": "src/workspace-groups/casting.ts",
-      "kind": "module",
-      "stability": "EXPERIMENTAL"
-    },
-    {
       "subpath": "./workspace-groups/cms_publishing",
       "source": "src/workspace-groups/cms_publishing.ts",
       "kind": "module",
@@ -12655,12 +12649,6 @@
     {
       "subpath": "./workspace-groups/creative",
       "source": "src/workspace-groups/creative.ts",
-      "kind": "module",
-      "stability": "EXPERIMENTAL"
-    },
-    {
-      "subpath": "./workspace-groups/crew",
-      "source": "src/workspace-groups/crew.ts",
       "kind": "module",
       "stability": "EXPERIMENTAL"
     },
@@ -12913,12 +12901,6 @@
     {
       "subpath": "./workspace-groups/testing",
       "source": "src/workspace-groups/testing.ts",
-      "kind": "module",
-      "stability": "EXPERIMENTAL"
-    },
-    {
-      "subpath": "./workspace-groups/tlps_production",
-      "source": "src/workspace-groups/tlps_production.ts",
       "kind": "module",
       "stability": "EXPERIMENTAL"
     },
@@ -20380,6 +20362,15 @@
       ]
     },
     {
+      "name": "PAGE_ARCHETYPES",
+      "subpath": ".",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/registries/pageRegistry.ts"
+      ]
+    },
+    {
       "name": "PAGE_GROUPS",
       "subpath": ".",
       "kind": "runtime",
@@ -20422,6 +20413,15 @@
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/page-atoms/PageActions.tsx"
+      ]
+    },
+    {
+      "name": "PageArchetype",
+      "subpath": ".",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/registries/pageRegistry.ts"
       ]
     },
     {
@@ -24880,6 +24880,15 @@
       ]
     },
     {
+      "name": "WORKSPACE_ARCHETYPES",
+      "subpath": ".",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/registries/workspaceRegistry.ts"
+      ]
+    },
+    {
       "name": "WORKSPACE_GROUPS",
       "subpath": ".",
       "kind": "runtime",
@@ -24940,6 +24949,15 @@
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/workspace-atoms/WorkspaceActivity.tsx"
+      ]
+    },
+    {
+      "name": "WorkspaceArchetype",
+      "subpath": ".",
+      "kind": "type",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/registries/workspaceRegistry.ts"
       ]
     },
     {
@@ -88861,6 +88879,15 @@
       ]
     },
     {
+      "name": "PAGE_ARCHETYPES",
+      "subpath": "./registries",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/registries/pageRegistry.ts"
+      ]
+    },
+    {
       "name": "PAGE_GROUPS",
       "subpath": "./registries",
       "kind": "runtime",
@@ -88882,6 +88909,15 @@
       "name": "PAGE_TYPES",
       "subpath": "./registries",
       "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/registries/pageRegistry.ts"
+      ]
+    },
+    {
+      "name": "PageArchetype",
+      "subpath": "./registries",
+      "kind": "type",
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/registries/pageRegistry.ts"
@@ -89131,6 +89167,15 @@
       ]
     },
     {
+      "name": "WORKSPACE_ARCHETYPES",
+      "subpath": "./registries",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/registries/workspaceRegistry.ts"
+      ]
+    },
+    {
       "name": "WORKSPACE_GROUPS",
       "subpath": "./registries",
       "kind": "runtime",
@@ -89152,6 +89197,15 @@
       "name": "WORKSPACE_TYPES",
       "subpath": "./registries",
       "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/registries/workspaceRegistry.ts"
+      ]
+    },
+    {
+      "name": "WorkspaceArchetype",
+      "subpath": "./registries",
+      "kind": "type",
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/registries/workspaceRegistry.ts"
@@ -89689,6 +89743,15 @@
       ]
     },
     {
+      "name": "PAGE_ARCHETYPES",
+      "subpath": "./registries/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/registries/pageRegistry.ts"
+      ]
+    },
+    {
       "name": "PAGE_GROUPS",
       "subpath": "./registries/index",
       "kind": "runtime",
@@ -89710,6 +89773,15 @@
       "name": "PAGE_TYPES",
       "subpath": "./registries/index",
       "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/registries/pageRegistry.ts"
+      ]
+    },
+    {
+      "name": "PageArchetype",
+      "subpath": "./registries/index",
+      "kind": "type",
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/registries/pageRegistry.ts"
@@ -89959,6 +90031,15 @@
       ]
     },
     {
+      "name": "WORKSPACE_ARCHETYPES",
+      "subpath": "./registries/index",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/registries/workspaceRegistry.ts"
+      ]
+    },
+    {
       "name": "WORKSPACE_GROUPS",
       "subpath": "./registries/index",
       "kind": "runtime",
@@ -89980,6 +90061,15 @@
       "name": "WORKSPACE_TYPES",
       "subpath": "./registries/index",
       "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/registries/workspaceRegistry.ts"
+      ]
+    },
+    {
+      "name": "WorkspaceArchetype",
+      "subpath": "./registries/index",
+      "kind": "type",
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/registries/workspaceRegistry.ts"
@@ -90103,6 +90193,15 @@
       ]
     },
     {
+      "name": "PAGE_ARCHETYPES",
+      "subpath": "./registries/pageRegistry",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/registries/pageRegistry.ts"
+      ]
+    },
+    {
       "name": "PAGE_TYPE_BY_ID",
       "subpath": "./registries/pageRegistry",
       "kind": "runtime",
@@ -90115,6 +90214,15 @@
       "name": "PAGE_TYPES",
       "subpath": "./registries/pageRegistry",
       "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/registries/pageRegistry.ts"
+      ]
+    },
+    {
+      "name": "PageArchetype",
+      "subpath": "./registries/pageRegistry",
+      "kind": "type",
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/registries/pageRegistry.ts"
@@ -90337,6 +90445,15 @@
       ]
     },
     {
+      "name": "WORKSPACE_ARCHETYPES",
+      "subpath": "./registries/workspaceRegistry",
+      "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/registries/workspaceRegistry.ts"
+      ]
+    },
+    {
       "name": "WORKSPACE_TYPE_BY_ID",
       "subpath": "./registries/workspaceRegistry",
       "kind": "runtime",
@@ -90349,6 +90466,15 @@
       "name": "WORKSPACE_TYPES",
       "subpath": "./registries/workspaceRegistry",
       "kind": "runtime",
+      "stability": "EXPERIMENTAL",
+      "sources": [
+        "src/registries/workspaceRegistry.ts"
+      ]
+    },
+    {
+      "name": "WorkspaceArchetype",
+      "subpath": "./registries/workspaceRegistry",
+      "kind": "type",
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/registries/workspaceRegistry.ts"
@@ -123790,15 +123916,6 @@
       ]
     },
     {
-      "name": "CASTING_WORKSPACES",
-      "subpath": "./workspace-groups",
-      "kind": "runtime",
-      "stability": "EXPERIMENTAL",
-      "sources": [
-        "src/workspace-groups/casting.ts"
-      ]
-    },
-    {
       "name": "CMS_PUBLISHING_WORKSPACES",
       "subpath": "./workspace-groups",
       "kind": "runtime",
@@ -123859,15 +123976,6 @@
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/workspace-groups/creative.ts"
-      ]
-    },
-    {
-      "name": "CREW_WORKSPACES",
-      "subpath": "./workspace-groups",
-      "kind": "runtime",
-      "stability": "EXPERIMENTAL",
-      "sources": [
-        "src/workspace-groups/crew.ts"
       ]
     },
     {
@@ -124240,15 +124348,6 @@
       ]
     },
     {
-      "name": "TLPS_PRODUCTION_WORKSPACES",
-      "subpath": "./workspace-groups",
-      "kind": "runtime",
-      "stability": "EXPERIMENTAL",
-      "sources": [
-        "src/workspace-groups/tlps_production.ts"
-      ]
-    },
-    {
       "name": "UI_DESIGN_SYSTEM_WORKSPACES",
       "subpath": "./workspace-groups",
       "kind": "runtime",
@@ -124312,15 +124411,6 @@
       ]
     },
     {
-      "name": "CASTING_WORKSPACES",
-      "subpath": "./workspace-groups/casting",
-      "kind": "runtime",
-      "stability": "EXPERIMENTAL",
-      "sources": [
-        "src/workspace-groups/casting.ts"
-      ]
-    },
-    {
       "name": "CMS_PUBLISHING_WORKSPACES",
       "subpath": "./workspace-groups/cms_publishing",
       "kind": "runtime",
@@ -124381,15 +124471,6 @@
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/workspace-groups/creative.ts"
-      ]
-    },
-    {
-      "name": "CREW_WORKSPACES",
-      "subpath": "./workspace-groups/crew",
-      "kind": "runtime",
-      "stability": "EXPERIMENTAL",
-      "sources": [
-        "src/workspace-groups/crew.ts"
       ]
     },
     {
@@ -124582,15 +124663,6 @@
       ]
     },
     {
-      "name": "CASTING_WORKSPACES",
-      "subpath": "./workspace-groups/index",
-      "kind": "runtime",
-      "stability": "EXPERIMENTAL",
-      "sources": [
-        "src/workspace-groups/casting.ts"
-      ]
-    },
-    {
       "name": "CMS_PUBLISHING_WORKSPACES",
       "subpath": "./workspace-groups/index",
       "kind": "runtime",
@@ -124651,15 +124723,6 @@
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/workspace-groups/creative.ts"
-      ]
-    },
-    {
-      "name": "CREW_WORKSPACES",
-      "subpath": "./workspace-groups/index",
-      "kind": "runtime",
-      "stability": "EXPERIMENTAL",
-      "sources": [
-        "src/workspace-groups/crew.ts"
       ]
     },
     {
@@ -125029,15 +125092,6 @@
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/workspace-groups/testing.ts"
-      ]
-    },
-    {
-      "name": "TLPS_PRODUCTION_WORKSPACES",
-      "subpath": "./workspace-groups/index",
-      "kind": "runtime",
-      "stability": "EXPERIMENTAL",
-      "sources": [
-        "src/workspace-groups/tlps_production.ts"
       ]
     },
     {
@@ -125281,15 +125335,6 @@
       "stability": "EXPERIMENTAL",
       "sources": [
         "src/workspace-groups/testing.ts"
-      ]
-    },
-    {
-      "name": "TLPS_PRODUCTION_WORKSPACES",
-      "subpath": "./workspace-groups/tlps_production",
-      "kind": "runtime",
-      "stability": "EXPERIMENTAL",
-      "sources": [
-        "src/workspace-groups/tlps_production.ts"
       ]
     },
     {

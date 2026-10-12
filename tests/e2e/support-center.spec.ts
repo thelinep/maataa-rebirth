@@ -66,18 +66,18 @@ test("search and inspect a canonical workspace record", async ({ page }, testInf
   await openHome(page);
   await page.getByRole("link", { name: /All workspaces/ }).click();
   await expect(page.getByRole("heading", { name: "Workspace directory" })).toBeVisible();
-  await expect(page.getByText("647 matching records")).toBeVisible();
+  await expect(page.getByText("616 matching records")).toBeVisible();
   await page.getByRole("button", { name: "Next" }).click();
   await expect(page.getByText("Page 2 of 22")).toBeVisible();
   await page.getByRole("button", { name: "Previous" }).click();
   if (testInfo.project.name === "chromium-desktop") {
     await page.screenshot({ path: path.join(evidenceDirectory, "support-center-workspaces.png"), fullPage: true, animations: "disabled" });
   }
-  await page.getByRole("searchbox", { name: "Search workspaces" }).fill("WORKSPACE.TLPS_PRODUCTION.PRODUCTION");
-  await expect(page.getByRole("link", { name: /Production Workspace WORKSPACE\.TLPS_PRODUCTION\.PRODUCTION/ })).toBeVisible();
-  await page.getByRole("link", { name: /Production Workspace WORKSPACE\.TLPS_PRODUCTION\.PRODUCTION/ }).click();
+  await page.getByRole("searchbox", { name: "Search workspaces" }).fill("WORKSPACE.EQUIPMENT_LOGISTICS.LOGISTICS");
+  await expect(page.getByRole("link", { name: /Logistics Workspace WORKSPACE\.EQUIPMENT_LOGISTICS\.LOGISTICS/ })).toBeVisible();
+  await page.getByRole("link", { name: /Logistics Workspace WORKSPACE\.EQUIPMENT_LOGISTICS\.LOGISTICS/ }).click();
   await expect(page.getByRole("heading", { name: "Production Workspace", exact: true })).toBeVisible();
-  await expect(page.getByText("WORKSPACE.TLPS_PRODUCTION.PRODUCTION", { exact: true })).toBeVisible();
+  await expect(page.getByText("WORKSPACE.EQUIPMENT_LOGISTICS.LOGISTICS", { exact: true })).toBeVisible();
   await expect(page.getByText("Registry ordinal")).toBeVisible();
   await expect(page.getByText(/It does not verify that a complete application workflow/)).toBeVisible();
   if (testInfo.project.name === "chromium-desktop") {
@@ -215,7 +215,7 @@ test("validate, review, save, export, and remove a local request handoff", async
   await page.getByLabel("Topic").selectOption("Workspaces and registries");
   await page.getByLabel("Subject").fill("Workspace detail needs clarification");
   await page.getByLabel("What were you trying to do, and what happened?").fill("I searched a canonical workspace ID and need help understanding which behavior is included in this demo.");
-  await page.getByLabel("Related workspace or canonical ID").fill("WORKSPACE.TLPS_PRODUCTION.PRODUCTION");
+  await page.getByLabel("Related workspace or canonical ID").fill("WORKSPACE.EQUIPMENT_LOGISTICS.LOGISTICS");
   await page.getByLabel("Contact email").fill("planner@example.test");
   await expect(page.getByRole("button", { name: "Review handoff" })).toBeEnabled();
   await page.getByRole("button", { name: "Review handoff" }).click();
@@ -261,8 +261,8 @@ test("record complete support center tour across guides, workspaces, and request
   await page.waitForTimeout(650);
   await page.getByRole("navigation", { name: "Main navigation" }).getByRole("link", { name: "Workspaces" }).click();
   await page.waitForTimeout(650);
-  await page.getByRole("searchbox", { name: "Search workspaces" }).fill("WORKSPACE.TLPS_PRODUCTION.PRODUCTION");
-  await page.getByRole("link", { name: /Production Workspace WORKSPACE\.TLPS_PRODUCTION\.PRODUCTION/ }).click();
+  await page.getByRole("searchbox", { name: "Search workspaces" }).fill("WORKSPACE.EQUIPMENT_LOGISTICS.LOGISTICS");
+  await page.getByRole("link", { name: /Logistics Workspace WORKSPACE\.EQUIPMENT_LOGISTICS\.LOGISTICS/ }).click();
   await page.waitForTimeout(750);
   await page.getByRole("button", { name: /Prepare a request/ }).click();
   await page.getByLabel("Subject").fill("Question about a workspace record");
@@ -307,7 +307,7 @@ test("mobile navigation and unknown-route recovery", async ({ page }, testInfo) 
 
 test("no horizontal overflow across every route at a 320px viewport", async ({ page }, testInfo) => {
   test.skip(!testInfo.project.name.includes("narrow"), "Narrow viewport verification runs in its dedicated project.");
-  for (const pathName of ["home", "screens", "guides", "faqs", "workspaces", "article/workspaces", "workspace/WORKSPACE.TLPS_PRODUCTION.PRODUCTION", "request/describe", "request/review", "requests", "missing-route"]) {
+  for (const pathName of ["home", "screens", "guides", "faqs", "workspaces", "article/workspaces", "workspace/WORKSPACE.EQUIPMENT_LOGISTICS.LOGISTICS", "request/describe", "request/review", "requests", "missing-route"]) {
     await page.goto(`/#/${pathName}`, { waitUntil: "domcontentloaded" });
     await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth && document.body.scrollWidth <= window.innerWidth), { message: `horizontal overflow on ${pathName}` }).toBe(true);
   }

@@ -1,4 +1,7 @@
-export type PageTypeRecord = Readonly<{ ordinal: number; id: string; name: string; groupId: string; groupKey: string; groupLabel: string }>;
+/** Page archetype component that renders a page type. Every PAGE_TYPES record names exactly one. */
+export const PAGE_ARCHETYPES = ["AdminPage","ApprovalPage","AuthPage","BuilderPage","ControlPlanePage","CreatePage","DashboardPage","DataPage","DetailPage","DocumentationPage","EditPage","ErrorPage","EvidencePage","ListPage","MarketingPage","OnboardingPage","PresentationPage","ReviewPage","SearchPage","SettingsPage","StudioPage","TransactionPage"] as const;
+export type PageArchetype = (typeof PAGE_ARCHETYPES)[number];
+export type PageTypeRecord = Readonly<{ ordinal: number; id: string; name: string; groupId: string; groupKey: string; groupLabel: string; archetype: PageArchetype; aliasOf?: string }>;
 
 export const PAGE_TYPES = [
   {
@@ -7,7 +10,8 @@ export const PAGE_TYPES = [
     name: "Landing Page",
     groupId: "P01",
     groupKey: "MARKETING_CORPORATE",
-    groupLabel: "Marketing & Corporate"
+    groupLabel: "Marketing & Corporate",
+    archetype: "MarketingPage"
   },
   {
     ordinal: 2,
@@ -15,7 +19,8 @@ export const PAGE_TYPES = [
     name: "Home Page",
     groupId: "P01",
     groupKey: "MARKETING_CORPORATE",
-    groupLabel: "Marketing & Corporate"
+    groupLabel: "Marketing & Corporate",
+    archetype: "MarketingPage"
   },
   {
     ordinal: 3,
@@ -23,7 +28,8 @@ export const PAGE_TYPES = [
     name: "Marketing Home Page",
     groupId: "P01",
     groupKey: "MARKETING_CORPORATE",
-    groupLabel: "Marketing & Corporate"
+    groupLabel: "Marketing & Corporate",
+    archetype: "MarketingPage"
   },
   {
     ordinal: 4,
@@ -31,7 +37,8 @@ export const PAGE_TYPES = [
     name: "Product Page",
     groupId: "P01",
     groupKey: "MARKETING_CORPORATE",
-    groupLabel: "Marketing & Corporate"
+    groupLabel: "Marketing & Corporate",
+    archetype: "MarketingPage"
   },
   {
     ordinal: 5,
@@ -39,7 +46,8 @@ export const PAGE_TYPES = [
     name: "Product Suite Page",
     groupId: "P01",
     groupKey: "MARKETING_CORPORATE",
-    groupLabel: "Marketing & Corporate"
+    groupLabel: "Marketing & Corporate",
+    archetype: "MarketingPage"
   },
   {
     ordinal: 6,
@@ -47,7 +55,8 @@ export const PAGE_TYPES = [
     name: "Feature Page",
     groupId: "P01",
     groupKey: "MARKETING_CORPORATE",
-    groupLabel: "Marketing & Corporate"
+    groupLabel: "Marketing & Corporate",
+    archetype: "MarketingPage"
   },
   {
     ordinal: 7,
@@ -55,7 +64,8 @@ export const PAGE_TYPES = [
     name: "Solution Page",
     groupId: "P01",
     groupKey: "MARKETING_CORPORATE",
-    groupLabel: "Marketing & Corporate"
+    groupLabel: "Marketing & Corporate",
+    archetype: "MarketingPage"
   },
   {
     ordinal: 8,
@@ -63,7 +73,8 @@ export const PAGE_TYPES = [
     name: "Industry Page",
     groupId: "P01",
     groupKey: "MARKETING_CORPORATE",
-    groupLabel: "Marketing & Corporate"
+    groupLabel: "Marketing & Corporate",
+    archetype: "MarketingPage"
   },
   {
     ordinal: 9,
@@ -71,7 +82,8 @@ export const PAGE_TYPES = [
     name: "Use Case Page",
     groupId: "P01",
     groupKey: "MARKETING_CORPORATE",
-    groupLabel: "Marketing & Corporate"
+    groupLabel: "Marketing & Corporate",
+    archetype: "MarketingPage"
   },
   {
     ordinal: 10,
@@ -79,7 +91,8 @@ export const PAGE_TYPES = [
     name: "Persona Page",
     groupId: "P01",
     groupKey: "MARKETING_CORPORATE",
-    groupLabel: "Marketing & Corporate"
+    groupLabel: "Marketing & Corporate",
+    archetype: "MarketingPage"
   },
   {
     ordinal: 11,
@@ -87,7 +100,8 @@ export const PAGE_TYPES = [
     name: "Campaign Page",
     groupId: "P01",
     groupKey: "MARKETING_CORPORATE",
-    groupLabel: "Marketing & Corporate"
+    groupLabel: "Marketing & Corporate",
+    archetype: "MarketingPage"
   },
   {
     ordinal: 12,
@@ -95,7 +109,8 @@ export const PAGE_TYPES = [
     name: "Launch Page",
     groupId: "P01",
     groupKey: "MARKETING_CORPORATE",
-    groupLabel: "Marketing & Corporate"
+    groupLabel: "Marketing & Corporate",
+    archetype: "MarketingPage"
   },
   {
     ordinal: 13,
@@ -103,7 +118,8 @@ export const PAGE_TYPES = [
     name: "Coming Soon Page",
     groupId: "P01",
     groupKey: "MARKETING_CORPORATE",
-    groupLabel: "Marketing & Corporate"
+    groupLabel: "Marketing & Corporate",
+    archetype: "MarketingPage"
   },
   {
     ordinal: 14,
@@ -111,7 +127,8 @@ export const PAGE_TYPES = [
     name: "Waitlist Page",
     groupId: "P01",
     groupKey: "MARKETING_CORPORATE",
-    groupLabel: "Marketing & Corporate"
+    groupLabel: "Marketing & Corporate",
+    archetype: "MarketingPage"
   },
   {
     ordinal: 15,
@@ -119,7 +136,8 @@ export const PAGE_TYPES = [
     name: "About Page",
     groupId: "P01",
     groupKey: "MARKETING_CORPORATE",
-    groupLabel: "Marketing & Corporate"
+    groupLabel: "Marketing & Corporate",
+    archetype: "MarketingPage"
   },
   {
     ordinal: 16,
@@ -127,7 +145,8 @@ export const PAGE_TYPES = [
     name: "Mission Page",
     groupId: "P01",
     groupKey: "MARKETING_CORPORATE",
-    groupLabel: "Marketing & Corporate"
+    groupLabel: "Marketing & Corporate",
+    archetype: "MarketingPage"
   },
   {
     ordinal: 17,
@@ -135,7 +154,8 @@ export const PAGE_TYPES = [
     name: "Team Page",
     groupId: "P01",
     groupKey: "MARKETING_CORPORATE",
-    groupLabel: "Marketing & Corporate"
+    groupLabel: "Marketing & Corporate",
+    archetype: "MarketingPage"
   },
   {
     ordinal: 18,
@@ -143,7 +163,8 @@ export const PAGE_TYPES = [
     name: "Careers Page",
     groupId: "P01",
     groupKey: "MARKETING_CORPORATE",
-    groupLabel: "Marketing & Corporate"
+    groupLabel: "Marketing & Corporate",
+    archetype: "MarketingPage"
   },
   {
     ordinal: 19,
@@ -151,7 +172,8 @@ export const PAGE_TYPES = [
     name: "Press Page",
     groupId: "P01",
     groupKey: "MARKETING_CORPORATE",
-    groupLabel: "Marketing & Corporate"
+    groupLabel: "Marketing & Corporate",
+    archetype: "MarketingPage"
   },
   {
     ordinal: 20,
@@ -159,7 +181,8 @@ export const PAGE_TYPES = [
     name: "Media Kit Page",
     groupId: "P01",
     groupKey: "MARKETING_CORPORATE",
-    groupLabel: "Marketing & Corporate"
+    groupLabel: "Marketing & Corporate",
+    archetype: "MarketingPage"
   },
   {
     ordinal: 21,
@@ -167,7 +190,8 @@ export const PAGE_TYPES = [
     name: "Partner Page",
     groupId: "P01",
     groupKey: "MARKETING_CORPORATE",
-    groupLabel: "Marketing & Corporate"
+    groupLabel: "Marketing & Corporate",
+    archetype: "MarketingPage"
   },
   {
     ordinal: 22,
@@ -175,7 +199,8 @@ export const PAGE_TYPES = [
     name: "Investor Page",
     groupId: "P01",
     groupKey: "MARKETING_CORPORATE",
-    groupLabel: "Marketing & Corporate"
+    groupLabel: "Marketing & Corporate",
+    archetype: "MarketingPage"
   },
   {
     ordinal: 23,
@@ -183,7 +208,8 @@ export const PAGE_TYPES = [
     name: "Contact Page",
     groupId: "P01",
     groupKey: "MARKETING_CORPORATE",
-    groupLabel: "Marketing & Corporate"
+    groupLabel: "Marketing & Corporate",
+    archetype: "MarketingPage"
   },
   {
     ordinal: 24,
@@ -191,7 +217,8 @@ export const PAGE_TYPES = [
     name: "Support Landing Page",
     groupId: "P01",
     groupKey: "MARKETING_CORPORATE",
-    groupLabel: "Marketing & Corporate"
+    groupLabel: "Marketing & Corporate",
+    archetype: "MarketingPage"
   },
   {
     ordinal: 25,
@@ -199,7 +226,8 @@ export const PAGE_TYPES = [
     name: "Pricing Page",
     groupId: "P01",
     groupKey: "MARKETING_CORPORATE",
-    groupLabel: "Marketing & Corporate"
+    groupLabel: "Marketing & Corporate",
+    archetype: "MarketingPage"
   },
   {
     ordinal: 26,
@@ -207,7 +235,8 @@ export const PAGE_TYPES = [
     name: "Pricing Comparison Page",
     groupId: "P01",
     groupKey: "MARKETING_CORPORATE",
-    groupLabel: "Marketing & Corporate"
+    groupLabel: "Marketing & Corporate",
+    archetype: "MarketingPage"
   },
   {
     ordinal: 27,
@@ -215,7 +244,8 @@ export const PAGE_TYPES = [
     name: "FAQ Page",
     groupId: "P01",
     groupKey: "MARKETING_CORPORATE",
-    groupLabel: "Marketing & Corporate"
+    groupLabel: "Marketing & Corporate",
+    archetype: "MarketingPage"
   },
   {
     ordinal: 28,
@@ -223,7 +253,8 @@ export const PAGE_TYPES = [
     name: "Testimonials Page",
     groupId: "P01",
     groupKey: "MARKETING_CORPORATE",
-    groupLabel: "Marketing & Corporate"
+    groupLabel: "Marketing & Corporate",
+    archetype: "MarketingPage"
   },
   {
     ordinal: 29,
@@ -231,7 +262,8 @@ export const PAGE_TYPES = [
     name: "Case Study Page",
     groupId: "P01",
     groupKey: "MARKETING_CORPORATE",
-    groupLabel: "Marketing & Corporate"
+    groupLabel: "Marketing & Corporate",
+    archetype: "MarketingPage"
   },
   {
     ordinal: 30,
@@ -239,15 +271,17 @@ export const PAGE_TYPES = [
     name: "Case Studies Index",
     groupId: "P01",
     groupKey: "MARKETING_CORPORATE",
-    groupLabel: "Marketing & Corporate"
+    groupLabel: "Marketing & Corporate",
+    archetype: "MarketingPage"
   },
   {
     ordinal: 31,
     id: "PAGE.CONTENT_EDITORIAL.PORTFOLIO",
-    name: "Portfolio Page",
+    name: "Creative Portfolio Page",
     groupId: "P02",
     groupKey: "CONTENT_EDITORIAL",
-    groupLabel: "Content & Editorial"
+    groupLabel: "Content & Editorial",
+    archetype: "MarketingPage"
   },
   {
     ordinal: 32,
@@ -255,7 +289,8 @@ export const PAGE_TYPES = [
     name: "Gallery Page",
     groupId: "P02",
     groupKey: "CONTENT_EDITORIAL",
-    groupLabel: "Content & Editorial"
+    groupLabel: "Content & Editorial",
+    archetype: "ListPage"
   },
   {
     ordinal: 33,
@@ -263,7 +298,8 @@ export const PAGE_TYPES = [
     name: "Blog Index",
     groupId: "P02",
     groupKey: "CONTENT_EDITORIAL",
-    groupLabel: "Content & Editorial"
+    groupLabel: "Content & Editorial",
+    archetype: "ListPage"
   },
   {
     ordinal: 34,
@@ -271,7 +307,8 @@ export const PAGE_TYPES = [
     name: "Blog Article",
     groupId: "P02",
     groupKey: "CONTENT_EDITORIAL",
-    groupLabel: "Content & Editorial"
+    groupLabel: "Content & Editorial",
+    archetype: "DetailPage"
   },
   {
     ordinal: 35,
@@ -279,7 +316,8 @@ export const PAGE_TYPES = [
     name: "News Index",
     groupId: "P02",
     groupKey: "CONTENT_EDITORIAL",
-    groupLabel: "Content & Editorial"
+    groupLabel: "Content & Editorial",
+    archetype: "ListPage"
   },
   {
     ordinal: 36,
@@ -287,7 +325,8 @@ export const PAGE_TYPES = [
     name: "News Article",
     groupId: "P02",
     groupKey: "CONTENT_EDITORIAL",
-    groupLabel: "Content & Editorial"
+    groupLabel: "Content & Editorial",
+    archetype: "DetailPage"
   },
   {
     ordinal: 37,
@@ -295,7 +334,8 @@ export const PAGE_TYPES = [
     name: "Documentation Home",
     groupId: "P03",
     groupKey: "DOCUMENTATION_DEVELOPER",
-    groupLabel: "Documentation & Developer"
+    groupLabel: "Documentation & Developer",
+    archetype: "DocumentationPage"
   },
   {
     ordinal: 38,
@@ -303,7 +343,8 @@ export const PAGE_TYPES = [
     name: "Documentation Article",
     groupId: "P03",
     groupKey: "DOCUMENTATION_DEVELOPER",
-    groupLabel: "Documentation & Developer"
+    groupLabel: "Documentation & Developer",
+    archetype: "DetailPage"
   },
   {
     ordinal: 39,
@@ -311,7 +352,8 @@ export const PAGE_TYPES = [
     name: "Knowledge Base Home",
     groupId: "P03",
     groupKey: "DOCUMENTATION_DEVELOPER",
-    groupLabel: "Documentation & Developer"
+    groupLabel: "Documentation & Developer",
+    archetype: "DocumentationPage"
   },
   {
     ordinal: 40,
@@ -319,7 +361,8 @@ export const PAGE_TYPES = [
     name: "Knowledge Article",
     groupId: "P03",
     groupKey: "DOCUMENTATION_DEVELOPER",
-    groupLabel: "Documentation & Developer"
+    groupLabel: "Documentation & Developer",
+    archetype: "DetailPage"
   },
   {
     ordinal: 41,
@@ -327,7 +370,8 @@ export const PAGE_TYPES = [
     name: "Tutorial Page",
     groupId: "P03",
     groupKey: "DOCUMENTATION_DEVELOPER",
-    groupLabel: "Documentation & Developer"
+    groupLabel: "Documentation & Developer",
+    archetype: "DocumentationPage"
   },
   {
     ordinal: 42,
@@ -335,7 +379,8 @@ export const PAGE_TYPES = [
     name: "Guide Page",
     groupId: "P03",
     groupKey: "DOCUMENTATION_DEVELOPER",
-    groupLabel: "Documentation & Developer"
+    groupLabel: "Documentation & Developer",
+    archetype: "DocumentationPage"
   },
   {
     ordinal: 43,
@@ -343,7 +388,8 @@ export const PAGE_TYPES = [
     name: "API Documentation Page",
     groupId: "P03",
     groupKey: "DOCUMENTATION_DEVELOPER",
-    groupLabel: "Documentation & Developer"
+    groupLabel: "Documentation & Developer",
+    archetype: "DocumentationPage"
   },
   {
     ordinal: 44,
@@ -351,7 +397,8 @@ export const PAGE_TYPES = [
     name: "SDK Documentation Page",
     groupId: "P03",
     groupKey: "DOCUMENTATION_DEVELOPER",
-    groupLabel: "Documentation & Developer"
+    groupLabel: "Documentation & Developer",
+    archetype: "DocumentationPage"
   },
   {
     ordinal: 45,
@@ -359,7 +406,8 @@ export const PAGE_TYPES = [
     name: "Changelog Page",
     groupId: "P03",
     groupKey: "DOCUMENTATION_DEVELOPER",
-    groupLabel: "Documentation & Developer"
+    groupLabel: "Documentation & Developer",
+    archetype: "DocumentationPage"
   },
   {
     ordinal: 46,
@@ -367,7 +415,8 @@ export const PAGE_TYPES = [
     name: "Release Notes Page",
     groupId: "P03",
     groupKey: "DOCUMENTATION_DEVELOPER",
-    groupLabel: "Documentation & Developer"
+    groupLabel: "Documentation & Developer",
+    archetype: "DocumentationPage"
   },
   {
     ordinal: 47,
@@ -375,7 +424,8 @@ export const PAGE_TYPES = [
     name: "Roadmap Page",
     groupId: "P03",
     groupKey: "DOCUMENTATION_DEVELOPER",
-    groupLabel: "Documentation & Developer"
+    groupLabel: "Documentation & Developer",
+    archetype: "DocumentationPage"
   },
   {
     ordinal: 48,
@@ -383,7 +433,8 @@ export const PAGE_TYPES = [
     name: "Status Page",
     groupId: "P03",
     groupKey: "DOCUMENTATION_DEVELOPER",
-    groupLabel: "Documentation & Developer"
+    groupLabel: "Documentation & Developer",
+    archetype: "DocumentationPage"
   },
   {
     ordinal: 49,
@@ -391,7 +442,8 @@ export const PAGE_TYPES = [
     name: "Trust Center Page",
     groupId: "P04",
     groupKey: "LEGAL_TRUST",
-    groupLabel: "Legal & Trust"
+    groupLabel: "Legal & Trust",
+    archetype: "DocumentationPage"
   },
   {
     ordinal: 50,
@@ -399,7 +451,8 @@ export const PAGE_TYPES = [
     name: "Security Page",
     groupId: "P04",
     groupKey: "LEGAL_TRUST",
-    groupLabel: "Legal & Trust"
+    groupLabel: "Legal & Trust",
+    archetype: "DocumentationPage"
   },
   {
     ordinal: 51,
@@ -407,7 +460,8 @@ export const PAGE_TYPES = [
     name: "Compliance Page",
     groupId: "P04",
     groupKey: "LEGAL_TRUST",
-    groupLabel: "Legal & Trust"
+    groupLabel: "Legal & Trust",
+    archetype: "DocumentationPage"
   },
   {
     ordinal: 52,
@@ -415,7 +469,8 @@ export const PAGE_TYPES = [
     name: "Privacy Policy Page",
     groupId: "P04",
     groupKey: "LEGAL_TRUST",
-    groupLabel: "Legal & Trust"
+    groupLabel: "Legal & Trust",
+    archetype: "DocumentationPage"
   },
   {
     ordinal: 53,
@@ -423,7 +478,8 @@ export const PAGE_TYPES = [
     name: "Terms Page",
     groupId: "P04",
     groupKey: "LEGAL_TRUST",
-    groupLabel: "Legal & Trust"
+    groupLabel: "Legal & Trust",
+    archetype: "DocumentationPage"
   },
   {
     ordinal: 54,
@@ -431,7 +487,8 @@ export const PAGE_TYPES = [
     name: "Cookie Policy Page",
     groupId: "P04",
     groupKey: "LEGAL_TRUST",
-    groupLabel: "Legal & Trust"
+    groupLabel: "Legal & Trust",
+    archetype: "DocumentationPage"
   },
   {
     ordinal: 55,
@@ -439,7 +496,8 @@ export const PAGE_TYPES = [
     name: "Refund Policy Page",
     groupId: "P04",
     groupKey: "LEGAL_TRUST",
-    groupLabel: "Legal & Trust"
+    groupLabel: "Legal & Trust",
+    archetype: "DocumentationPage"
   },
   {
     ordinal: 56,
@@ -447,7 +505,8 @@ export const PAGE_TYPES = [
     name: "Legal Notice Page",
     groupId: "P04",
     groupKey: "LEGAL_TRUST",
-    groupLabel: "Legal & Trust"
+    groupLabel: "Legal & Trust",
+    archetype: "DocumentationPage"
   },
   {
     ordinal: 57,
@@ -455,7 +514,8 @@ export const PAGE_TYPES = [
     name: "License Page",
     groupId: "P04",
     groupKey: "LEGAL_TRUST",
-    groupLabel: "Legal & Trust"
+    groupLabel: "Legal & Trust",
+    archetype: "DocumentationPage"
   },
   {
     ordinal: 58,
@@ -463,7 +523,8 @@ export const PAGE_TYPES = [
     name: "Accessibility Statement Page",
     groupId: "P04",
     groupKey: "LEGAL_TRUST",
-    groupLabel: "Legal & Trust"
+    groupLabel: "Legal & Trust",
+    archetype: "DocumentationPage"
   },
   {
     ordinal: 59,
@@ -471,7 +532,8 @@ export const PAGE_TYPES = [
     name: "Sign In Page",
     groupId: "P05",
     groupKey: "AUTHENTICATION",
-    groupLabel: "Authentication"
+    groupLabel: "Authentication",
+    archetype: "AuthPage"
   },
   {
     ordinal: 60,
@@ -479,7 +541,8 @@ export const PAGE_TYPES = [
     name: "Sign Up Page",
     groupId: "P05",
     groupKey: "AUTHENTICATION",
-    groupLabel: "Authentication"
+    groupLabel: "Authentication",
+    archetype: "AuthPage"
   },
   {
     ordinal: 61,
@@ -487,7 +550,8 @@ export const PAGE_TYPES = [
     name: "Sign Out Page",
     groupId: "P05",
     groupKey: "AUTHENTICATION",
-    groupLabel: "Authentication"
+    groupLabel: "Authentication",
+    archetype: "AuthPage"
   },
   {
     ordinal: 62,
@@ -495,7 +559,8 @@ export const PAGE_TYPES = [
     name: "Forgot Password Page",
     groupId: "P05",
     groupKey: "AUTHENTICATION",
-    groupLabel: "Authentication"
+    groupLabel: "Authentication",
+    archetype: "AuthPage"
   },
   {
     ordinal: 63,
@@ -503,7 +568,8 @@ export const PAGE_TYPES = [
     name: "Reset Password Page",
     groupId: "P05",
     groupKey: "AUTHENTICATION",
-    groupLabel: "Authentication"
+    groupLabel: "Authentication",
+    archetype: "AuthPage"
   },
   {
     ordinal: 64,
@@ -511,7 +577,8 @@ export const PAGE_TYPES = [
     name: "Email Verification Page",
     groupId: "P05",
     groupKey: "AUTHENTICATION",
-    groupLabel: "Authentication"
+    groupLabel: "Authentication",
+    archetype: "AuthPage"
   },
   {
     ordinal: 65,
@@ -519,7 +586,8 @@ export const PAGE_TYPES = [
     name: "Phone Verification Page",
     groupId: "P05",
     groupKey: "AUTHENTICATION",
-    groupLabel: "Authentication"
+    groupLabel: "Authentication",
+    archetype: "AuthPage"
   },
   {
     ordinal: 66,
@@ -527,7 +595,8 @@ export const PAGE_TYPES = [
     name: "MFA Challenge Page",
     groupId: "P05",
     groupKey: "AUTHENTICATION",
-    groupLabel: "Authentication"
+    groupLabel: "Authentication",
+    archetype: "AuthPage"
   },
   {
     ordinal: 67,
@@ -535,7 +604,8 @@ export const PAGE_TYPES = [
     name: "Passkey Page",
     groupId: "P05",
     groupKey: "AUTHENTICATION",
-    groupLabel: "Authentication"
+    groupLabel: "Authentication",
+    archetype: "AuthPage"
   },
   {
     ordinal: 68,
@@ -543,7 +613,8 @@ export const PAGE_TYPES = [
     name: "SSO Page",
     groupId: "P05",
     groupKey: "AUTHENTICATION",
-    groupLabel: "Authentication"
+    groupLabel: "Authentication",
+    archetype: "AuthPage"
   },
   {
     ordinal: 69,
@@ -551,7 +622,8 @@ export const PAGE_TYPES = [
     name: "Magic Link Page",
     groupId: "P05",
     groupKey: "AUTHENTICATION",
-    groupLabel: "Authentication"
+    groupLabel: "Authentication",
+    archetype: "AuthPage"
   },
   {
     ordinal: 70,
@@ -559,7 +631,8 @@ export const PAGE_TYPES = [
     name: "Unlock Session Page",
     groupId: "P05",
     groupKey: "AUTHENTICATION",
-    groupLabel: "Authentication"
+    groupLabel: "Authentication",
+    archetype: "AuthPage"
   },
   {
     ordinal: 71,
@@ -567,7 +640,8 @@ export const PAGE_TYPES = [
     name: "Session Expired Page",
     groupId: "P05",
     groupKey: "AUTHENTICATION",
-    groupLabel: "Authentication"
+    groupLabel: "Authentication",
+    archetype: "AuthPage"
   },
   {
     ordinal: 72,
@@ -575,7 +649,8 @@ export const PAGE_TYPES = [
     name: "Account Confirmation Page",
     groupId: "P05",
     groupKey: "AUTHENTICATION",
-    groupLabel: "Authentication"
+    groupLabel: "Authentication",
+    archetype: "AuthPage"
   },
   {
     ordinal: 73,
@@ -583,7 +658,8 @@ export const PAGE_TYPES = [
     name: "Invite Acceptance Page",
     groupId: "P05",
     groupKey: "AUTHENTICATION",
-    groupLabel: "Authentication"
+    groupLabel: "Authentication",
+    archetype: "AuthPage"
   },
   {
     ordinal: 74,
@@ -591,7 +667,8 @@ export const PAGE_TYPES = [
     name: "Access Request Page",
     groupId: "P05",
     groupKey: "AUTHENTICATION",
-    groupLabel: "Authentication"
+    groupLabel: "Authentication",
+    archetype: "AuthPage"
   },
   {
     ordinal: 75,
@@ -599,7 +676,8 @@ export const PAGE_TYPES = [
     name: "Permission Denied Page",
     groupId: "P05",
     groupKey: "AUTHENTICATION",
-    groupLabel: "Authentication"
+    groupLabel: "Authentication",
+    archetype: "ErrorPage"
   },
   {
     ordinal: 76,
@@ -607,7 +685,8 @@ export const PAGE_TYPES = [
     name: "Onboarding Welcome Page",
     groupId: "P06",
     groupKey: "ONBOARDING",
-    groupLabel: "Onboarding"
+    groupLabel: "Onboarding",
+    archetype: "OnboardingPage"
   },
   {
     ordinal: 77,
@@ -615,7 +694,8 @@ export const PAGE_TYPES = [
     name: "Onboarding Profile Page",
     groupId: "P06",
     groupKey: "ONBOARDING",
-    groupLabel: "Onboarding"
+    groupLabel: "Onboarding",
+    archetype: "OnboardingPage"
   },
   {
     ordinal: 78,
@@ -623,7 +703,8 @@ export const PAGE_TYPES = [
     name: "Onboarding Organisation Page",
     groupId: "P06",
     groupKey: "ONBOARDING",
-    groupLabel: "Onboarding"
+    groupLabel: "Onboarding",
+    archetype: "OnboardingPage"
   },
   {
     ordinal: 79,
@@ -631,7 +712,8 @@ export const PAGE_TYPES = [
     name: "Onboarding Workspace Page",
     groupId: "P06",
     groupKey: "ONBOARDING",
-    groupLabel: "Onboarding"
+    groupLabel: "Onboarding",
+    archetype: "OnboardingPage"
   },
   {
     ordinal: 80,
@@ -639,7 +721,8 @@ export const PAGE_TYPES = [
     name: "Onboarding Role Page",
     groupId: "P06",
     groupKey: "ONBOARDING",
-    groupLabel: "Onboarding"
+    groupLabel: "Onboarding",
+    archetype: "OnboardingPage"
   },
   {
     ordinal: 81,
@@ -647,7 +730,8 @@ export const PAGE_TYPES = [
     name: "Onboarding Preferences Page",
     groupId: "P06",
     groupKey: "ONBOARDING",
-    groupLabel: "Onboarding"
+    groupLabel: "Onboarding",
+    archetype: "OnboardingPage"
   },
   {
     ordinal: 82,
@@ -655,7 +739,8 @@ export const PAGE_TYPES = [
     name: "Onboarding Integration Page",
     groupId: "P06",
     groupKey: "ONBOARDING",
-    groupLabel: "Onboarding"
+    groupLabel: "Onboarding",
+    archetype: "OnboardingPage"
   },
   {
     ordinal: 83,
@@ -663,7 +748,8 @@ export const PAGE_TYPES = [
     name: "Onboarding Completion Page",
     groupId: "P06",
     groupKey: "ONBOARDING",
-    groupLabel: "Onboarding"
+    groupLabel: "Onboarding",
+    archetype: "OnboardingPage"
   },
   {
     ordinal: 84,
@@ -671,7 +757,8 @@ export const PAGE_TYPES = [
     name: "Dashboard Page",
     groupId: "P07",
     groupKey: "DASHBOARD_OVERVIEW",
-    groupLabel: "Dashboard & Overview"
+    groupLabel: "Dashboard & Overview",
+    archetype: "DashboardPage"
   },
   {
     ordinal: 85,
@@ -679,7 +766,8 @@ export const PAGE_TYPES = [
     name: "Executive Dashboard",
     groupId: "P07",
     groupKey: "DASHBOARD_OVERVIEW",
-    groupLabel: "Dashboard & Overview"
+    groupLabel: "Dashboard & Overview",
+    archetype: "DashboardPage"
   },
   {
     ordinal: 86,
@@ -687,7 +775,8 @@ export const PAGE_TYPES = [
     name: "Operational Dashboard",
     groupId: "P07",
     groupKey: "DASHBOARD_OVERVIEW",
-    groupLabel: "Dashboard & Overview"
+    groupLabel: "Dashboard & Overview",
+    archetype: "DashboardPage"
   },
   {
     ordinal: 87,
@@ -695,7 +784,8 @@ export const PAGE_TYPES = [
     name: "Analytics Dashboard",
     groupId: "P07",
     groupKey: "DASHBOARD_OVERVIEW",
-    groupLabel: "Dashboard & Overview"
+    groupLabel: "Dashboard & Overview",
+    archetype: "DashboardPage"
   },
   {
     ordinal: 88,
@@ -703,7 +793,8 @@ export const PAGE_TYPES = [
     name: "Personal Dashboard",
     groupId: "P07",
     groupKey: "DASHBOARD_OVERVIEW",
-    groupLabel: "Dashboard & Overview"
+    groupLabel: "Dashboard & Overview",
+    archetype: "DashboardPage"
   },
   {
     ordinal: 89,
@@ -711,7 +802,8 @@ export const PAGE_TYPES = [
     name: "Role Dashboard",
     groupId: "P07",
     groupKey: "DASHBOARD_OVERVIEW",
-    groupLabel: "Dashboard & Overview"
+    groupLabel: "Dashboard & Overview",
+    archetype: "DashboardPage"
   },
   {
     ordinal: 90,
@@ -719,7 +811,8 @@ export const PAGE_TYPES = [
     name: "Team Dashboard",
     groupId: "P07",
     groupKey: "DASHBOARD_OVERVIEW",
-    groupLabel: "Dashboard & Overview"
+    groupLabel: "Dashboard & Overview",
+    archetype: "DashboardPage"
   },
   {
     ordinal: 91,
@@ -727,7 +820,8 @@ export const PAGE_TYPES = [
     name: "Organisation Dashboard",
     groupId: "P07",
     groupKey: "DASHBOARD_OVERVIEW",
-    groupLabel: "Dashboard & Overview"
+    groupLabel: "Dashboard & Overview",
+    archetype: "DashboardPage"
   },
   {
     ordinal: 92,
@@ -735,7 +829,8 @@ export const PAGE_TYPES = [
     name: "Workspace Dashboard",
     groupId: "P07",
     groupKey: "DASHBOARD_OVERVIEW",
-    groupLabel: "Dashboard & Overview"
+    groupLabel: "Dashboard & Overview",
+    archetype: "DashboardPage"
   },
   {
     ordinal: 93,
@@ -743,7 +838,8 @@ export const PAGE_TYPES = [
     name: "Project Dashboard",
     groupId: "P07",
     groupKey: "DASHBOARD_OVERVIEW",
-    groupLabel: "Dashboard & Overview"
+    groupLabel: "Dashboard & Overview",
+    archetype: "DashboardPage"
   },
   {
     ordinal: 94,
@@ -751,7 +847,8 @@ export const PAGE_TYPES = [
     name: "Program Dashboard",
     groupId: "P07",
     groupKey: "DASHBOARD_OVERVIEW",
-    groupLabel: "Dashboard & Overview"
+    groupLabel: "Dashboard & Overview",
+    archetype: "DashboardPage"
   },
   {
     ordinal: 95,
@@ -759,7 +856,8 @@ export const PAGE_TYPES = [
     name: "Command Center Page",
     groupId: "P07",
     groupKey: "DASHBOARD_OVERVIEW",
-    groupLabel: "Dashboard & Overview"
+    groupLabel: "Dashboard & Overview",
+    archetype: "DashboardPage"
   },
   {
     ordinal: 96,
@@ -767,7 +865,8 @@ export const PAGE_TYPES = [
     name: "Control Room Page",
     groupId: "P07",
     groupKey: "DASHBOARD_OVERVIEW",
-    groupLabel: "Dashboard & Overview"
+    groupLabel: "Dashboard & Overview",
+    archetype: "DashboardPage"
   },
   {
     ordinal: 97,
@@ -775,7 +874,8 @@ export const PAGE_TYPES = [
     name: "Operations Wallboard Page",
     groupId: "P07",
     groupKey: "DASHBOARD_OVERVIEW",
-    groupLabel: "Dashboard & Overview"
+    groupLabel: "Dashboard & Overview",
+    archetype: "DashboardPage"
   },
   {
     ordinal: 98,
@@ -783,7 +883,8 @@ export const PAGE_TYPES = [
     name: "Cockpit Page",
     groupId: "P07",
     groupKey: "DASHBOARD_OVERVIEW",
-    groupLabel: "Dashboard & Overview"
+    groupLabel: "Dashboard & Overview",
+    archetype: "DashboardPage"
   },
   {
     ordinal: 99,
@@ -791,7 +892,8 @@ export const PAGE_TYPES = [
     name: "Overview Page",
     groupId: "P07",
     groupKey: "DASHBOARD_OVERVIEW",
-    groupLabel: "Dashboard & Overview"
+    groupLabel: "Dashboard & Overview",
+    archetype: "DashboardPage"
   },
   {
     ordinal: 100,
@@ -799,7 +901,8 @@ export const PAGE_TYPES = [
     name: "Index/List Page",
     groupId: "P08",
     groupKey: "ENTITY_CRUD",
-    groupLabel: "Entity CRUD"
+    groupLabel: "Entity CRUD",
+    archetype: "ListPage"
   },
   {
     ordinal: 101,
@@ -807,7 +910,8 @@ export const PAGE_TYPES = [
     name: "Detail Page",
     groupId: "P08",
     groupKey: "ENTITY_CRUD",
-    groupLabel: "Entity CRUD"
+    groupLabel: "Entity CRUD",
+    archetype: "DetailPage"
   },
   {
     ordinal: 102,
@@ -815,7 +919,8 @@ export const PAGE_TYPES = [
     name: "Create Page",
     groupId: "P08",
     groupKey: "ENTITY_CRUD",
-    groupLabel: "Entity CRUD"
+    groupLabel: "Entity CRUD",
+    archetype: "CreatePage"
   },
   {
     ordinal: 103,
@@ -823,7 +928,8 @@ export const PAGE_TYPES = [
     name: "Edit Page",
     groupId: "P08",
     groupKey: "ENTITY_CRUD",
-    groupLabel: "Entity CRUD"
+    groupLabel: "Entity CRUD",
+    archetype: "EditPage"
   },
   {
     ordinal: 104,
@@ -831,7 +937,8 @@ export const PAGE_TYPES = [
     name: "Clone Page",
     groupId: "P08",
     groupKey: "ENTITY_CRUD",
-    groupLabel: "Entity CRUD"
+    groupLabel: "Entity CRUD",
+    archetype: "CreatePage"
   },
   {
     ordinal: 105,
@@ -839,7 +946,8 @@ export const PAGE_TYPES = [
     name: "Review Page",
     groupId: "P08",
     groupKey: "ENTITY_CRUD",
-    groupLabel: "Entity CRUD"
+    groupLabel: "Entity CRUD",
+    archetype: "ReviewPage"
   },
   {
     ordinal: 106,
@@ -847,7 +955,8 @@ export const PAGE_TYPES = [
     name: "Approval Page",
     groupId: "P08",
     groupKey: "ENTITY_CRUD",
-    groupLabel: "Entity CRUD"
+    groupLabel: "Entity CRUD",
+    archetype: "ApprovalPage"
   },
   {
     ordinal: 107,
@@ -855,7 +964,8 @@ export const PAGE_TYPES = [
     name: "Comparison Page",
     groupId: "P08",
     groupKey: "ENTITY_CRUD",
-    groupLabel: "Entity CRUD"
+    groupLabel: "Entity CRUD",
+    archetype: "DetailPage"
   },
   {
     ordinal: 108,
@@ -863,7 +973,8 @@ export const PAGE_TYPES = [
     name: "History Page",
     groupId: "P08",
     groupKey: "ENTITY_CRUD",
-    groupLabel: "Entity CRUD"
+    groupLabel: "Entity CRUD",
+    archetype: "ListPage"
   },
   {
     ordinal: 109,
@@ -871,7 +982,8 @@ export const PAGE_TYPES = [
     name: "Activity Page",
     groupId: "P08",
     groupKey: "ENTITY_CRUD",
-    groupLabel: "Entity CRUD"
+    groupLabel: "Entity CRUD",
+    archetype: "DetailPage"
   },
   {
     ordinal: 110,
@@ -879,7 +991,8 @@ export const PAGE_TYPES = [
     name: "Audit Log Page",
     groupId: "P08",
     groupKey: "ENTITY_CRUD",
-    groupLabel: "Entity CRUD"
+    groupLabel: "Entity CRUD",
+    archetype: "EvidencePage"
   },
   {
     ordinal: 111,
@@ -887,7 +1000,8 @@ export const PAGE_TYPES = [
     name: "Version History Page",
     groupId: "P08",
     groupKey: "ENTITY_CRUD",
-    groupLabel: "Entity CRUD"
+    groupLabel: "Entity CRUD",
+    archetype: "ListPage"
   },
   {
     ordinal: 112,
@@ -895,7 +1009,8 @@ export const PAGE_TYPES = [
     name: "Diff Page",
     groupId: "P08",
     groupKey: "ENTITY_CRUD",
-    groupLabel: "Entity CRUD"
+    groupLabel: "Entity CRUD",
+    archetype: "DetailPage"
   },
   {
     ordinal: 113,
@@ -903,7 +1018,8 @@ export const PAGE_TYPES = [
     name: "Timeline Page",
     groupId: "P08",
     groupKey: "ENTITY_CRUD",
-    groupLabel: "Entity CRUD"
+    groupLabel: "Entity CRUD",
+    archetype: "DetailPage"
   },
   {
     ordinal: 114,
@@ -911,7 +1027,8 @@ export const PAGE_TYPES = [
     name: "Evidence Page",
     groupId: "P08",
     groupKey: "ENTITY_CRUD",
-    groupLabel: "Entity CRUD"
+    groupLabel: "Entity CRUD",
+    archetype: "EvidencePage"
   },
   {
     ordinal: 115,
@@ -919,7 +1036,8 @@ export const PAGE_TYPES = [
     name: "Relationships Page",
     groupId: "P08",
     groupKey: "ENTITY_CRUD",
-    groupLabel: "Entity CRUD"
+    groupLabel: "Entity CRUD",
+    archetype: "DetailPage"
   },
   {
     ordinal: 116,
@@ -927,7 +1045,8 @@ export const PAGE_TYPES = [
     name: "Dependency Page",
     groupId: "P08",
     groupKey: "ENTITY_CRUD",
-    groupLabel: "Entity CRUD"
+    groupLabel: "Entity CRUD",
+    archetype: "DetailPage"
   },
   {
     ordinal: 117,
@@ -935,7 +1054,8 @@ export const PAGE_TYPES = [
     name: "Search Page",
     groupId: "P09",
     groupKey: "SEARCH_DISCOVERY",
-    groupLabel: "Search & Discovery"
+    groupLabel: "Search & Discovery",
+    archetype: "SearchPage"
   },
   {
     ordinal: 118,
@@ -943,7 +1063,8 @@ export const PAGE_TYPES = [
     name: "Search Results Page",
     groupId: "P09",
     groupKey: "SEARCH_DISCOVERY",
-    groupLabel: "Search & Discovery"
+    groupLabel: "Search & Discovery",
+    archetype: "SearchPage"
   },
   {
     ordinal: 119,
@@ -951,7 +1072,8 @@ export const PAGE_TYPES = [
     name: "Advanced Search Page",
     groupId: "P09",
     groupKey: "SEARCH_DISCOVERY",
-    groupLabel: "Search & Discovery"
+    groupLabel: "Search & Discovery",
+    archetype: "SearchPage"
   },
   {
     ordinal: 120,
@@ -959,7 +1081,8 @@ export const PAGE_TYPES = [
     name: "Saved Searches Page",
     groupId: "P09",
     groupKey: "SEARCH_DISCOVERY",
-    groupLabel: "Search & Discovery"
+    groupLabel: "Search & Discovery",
+    archetype: "SearchPage"
   },
   {
     ordinal: 121,
@@ -967,7 +1090,8 @@ export const PAGE_TYPES = [
     name: "Filter Explorer Page",
     groupId: "P09",
     groupKey: "SEARCH_DISCOVERY",
-    groupLabel: "Search & Discovery"
+    groupLabel: "Search & Discovery",
+    archetype: "SearchPage"
   },
   {
     ordinal: 122,
@@ -975,7 +1099,8 @@ export const PAGE_TYPES = [
     name: "Data Table Page",
     groupId: "P10",
     groupKey: "DATA_SCHEMA",
-    groupLabel: "Data & Schema"
+    groupLabel: "Data & Schema",
+    archetype: "DataPage"
   },
   {
     ordinal: 123,
@@ -983,7 +1108,8 @@ export const PAGE_TYPES = [
     name: "Data Explorer Page",
     groupId: "P10",
     groupKey: "DATA_SCHEMA",
-    groupLabel: "Data & Schema"
+    groupLabel: "Data & Schema",
+    archetype: "DataPage"
   },
   {
     ordinal: 124,
@@ -991,7 +1117,8 @@ export const PAGE_TYPES = [
     name: "Data Browser Page",
     groupId: "P10",
     groupKey: "DATA_SCHEMA",
-    groupLabel: "Data & Schema"
+    groupLabel: "Data & Schema",
+    archetype: "DataPage"
   },
   {
     ordinal: 125,
@@ -999,7 +1126,8 @@ export const PAGE_TYPES = [
     name: "Data Detail Page",
     groupId: "P10",
     groupKey: "DATA_SCHEMA",
-    groupLabel: "Data & Schema"
+    groupLabel: "Data & Schema",
+    archetype: "DetailPage"
   },
   {
     ordinal: 126,
@@ -1007,7 +1135,8 @@ export const PAGE_TYPES = [
     name: "Schema Explorer Page",
     groupId: "P10",
     groupKey: "DATA_SCHEMA",
-    groupLabel: "Data & Schema"
+    groupLabel: "Data & Schema",
+    archetype: "DataPage"
   },
   {
     ordinal: 127,
@@ -1015,7 +1144,8 @@ export const PAGE_TYPES = [
     name: "Schema Detail Page",
     groupId: "P10",
     groupKey: "DATA_SCHEMA",
-    groupLabel: "Data & Schema"
+    groupLabel: "Data & Schema",
+    archetype: "DetailPage"
   },
   {
     ordinal: 128,
@@ -1023,7 +1153,8 @@ export const PAGE_TYPES = [
     name: "Data Studio Page",
     groupId: "P10",
     groupKey: "DATA_SCHEMA",
-    groupLabel: "Data & Schema"
+    groupLabel: "Data & Schema",
+    archetype: "StudioPage"
   },
   {
     ordinal: 129,
@@ -1031,7 +1162,8 @@ export const PAGE_TYPES = [
     name: "Domain Registry Page",
     groupId: "P10",
     groupKey: "DATA_SCHEMA",
-    groupLabel: "Data & Schema"
+    groupLabel: "Data & Schema",
+    archetype: "ListPage"
   },
   {
     ordinal: 130,
@@ -1039,7 +1171,8 @@ export const PAGE_TYPES = [
     name: "Domain Detail Page",
     groupId: "P10",
     groupKey: "DATA_SCHEMA",
-    groupLabel: "Data & Schema"
+    groupLabel: "Data & Schema",
+    archetype: "DetailPage"
   },
   {
     ordinal: 131,
@@ -1047,7 +1180,8 @@ export const PAGE_TYPES = [
     name: "Contract Registry Page",
     groupId: "P10",
     groupKey: "DATA_SCHEMA",
-    groupLabel: "Data & Schema"
+    groupLabel: "Data & Schema",
+    archetype: "ListPage"
   },
   {
     ordinal: 132,
@@ -1055,7 +1189,8 @@ export const PAGE_TYPES = [
     name: "Contract Detail Page",
     groupId: "P10",
     groupKey: "DATA_SCHEMA",
-    groupLabel: "Data & Schema"
+    groupLabel: "Data & Schema",
+    archetype: "DetailPage"
   },
   {
     ordinal: 133,
@@ -1063,7 +1198,8 @@ export const PAGE_TYPES = [
     name: "API Studio Page",
     groupId: "P11",
     groupKey: "API_INTEGRATION",
-    groupLabel: "API & Integration"
+    groupLabel: "API & Integration",
+    archetype: "StudioPage"
   },
   {
     ordinal: 134,
@@ -1071,7 +1207,8 @@ export const PAGE_TYPES = [
     name: "API Service Page",
     groupId: "P11",
     groupKey: "API_INTEGRATION",
-    groupLabel: "API & Integration"
+    groupLabel: "API & Integration",
+    archetype: "DetailPage"
   },
   {
     ordinal: 135,
@@ -1079,7 +1216,8 @@ export const PAGE_TYPES = [
     name: "API Endpoint Page",
     groupId: "P11",
     groupKey: "API_INTEGRATION",
-    groupLabel: "API & Integration"
+    groupLabel: "API & Integration",
+    archetype: "DetailPage"
   },
   {
     ordinal: 136,
@@ -1087,7 +1225,8 @@ export const PAGE_TYPES = [
     name: "API Request Builder Page",
     groupId: "P11",
     groupKey: "API_INTEGRATION",
-    groupLabel: "API & Integration"
+    groupLabel: "API & Integration",
+    archetype: "BuilderPage"
   },
   {
     ordinal: 137,
@@ -1095,7 +1234,8 @@ export const PAGE_TYPES = [
     name: "API Response Viewer Page",
     groupId: "P11",
     groupKey: "API_INTEGRATION",
-    groupLabel: "API & Integration"
+    groupLabel: "API & Integration",
+    archetype: "DetailPage"
   },
   {
     ordinal: 138,
@@ -1103,7 +1243,8 @@ export const PAGE_TYPES = [
     name: "API Environment Page",
     groupId: "P11",
     groupKey: "API_INTEGRATION",
-    groupLabel: "API & Integration"
+    groupLabel: "API & Integration",
+    archetype: "DetailPage"
   },
   {
     ordinal: 139,
@@ -1111,7 +1252,8 @@ export const PAGE_TYPES = [
     name: "API Mock Page",
     groupId: "P11",
     groupKey: "API_INTEGRATION",
-    groupLabel: "API & Integration"
+    groupLabel: "API & Integration",
+    archetype: "DetailPage"
   },
   {
     ordinal: 140,
@@ -1119,7 +1261,8 @@ export const PAGE_TYPES = [
     name: "API Conformance Page",
     groupId: "P11",
     groupKey: "API_INTEGRATION",
-    groupLabel: "API & Integration"
+    groupLabel: "API & Integration",
+    archetype: "DetailPage"
   },
   {
     ordinal: 141,
@@ -1127,7 +1270,8 @@ export const PAGE_TYPES = [
     name: "API Keys Page",
     groupId: "P11",
     groupKey: "API_INTEGRATION",
-    groupLabel: "API & Integration"
+    groupLabel: "API & Integration",
+    archetype: "DetailPage"
   },
   {
     ordinal: 142,
@@ -1135,7 +1279,8 @@ export const PAGE_TYPES = [
     name: "Webhook Page",
     groupId: "P11",
     groupKey: "API_INTEGRATION",
-    groupLabel: "API & Integration"
+    groupLabel: "API & Integration",
+    archetype: "DetailPage"
   },
   {
     ordinal: 143,
@@ -1143,7 +1288,8 @@ export const PAGE_TYPES = [
     name: "Webhook Delivery Page",
     groupId: "P11",
     groupKey: "API_INTEGRATION",
-    groupLabel: "API & Integration"
+    groupLabel: "API & Integration",
+    archetype: "DetailPage"
   },
   {
     ordinal: 144,
@@ -1151,7 +1297,8 @@ export const PAGE_TYPES = [
     name: "Integration Catalog Page",
     groupId: "P11",
     groupKey: "API_INTEGRATION",
-    groupLabel: "API & Integration"
+    groupLabel: "API & Integration",
+    archetype: "ListPage"
   },
   {
     ordinal: 145,
@@ -1159,7 +1306,8 @@ export const PAGE_TYPES = [
     name: "Integration Detail Page",
     groupId: "P11",
     groupKey: "API_INTEGRATION",
-    groupLabel: "API & Integration"
+    groupLabel: "API & Integration",
+    archetype: "DetailPage"
   },
   {
     ordinal: 146,
@@ -1167,7 +1315,8 @@ export const PAGE_TYPES = [
     name: "Integration Setup Page",
     groupId: "P11",
     groupKey: "API_INTEGRATION",
-    groupLabel: "API & Integration"
+    groupLabel: "API & Integration",
+    archetype: "DetailPage"
   },
   {
     ordinal: 147,
@@ -1175,7 +1324,8 @@ export const PAGE_TYPES = [
     name: "Integration Connection Page",
     groupId: "P11",
     groupKey: "API_INTEGRATION",
-    groupLabel: "API & Integration"
+    groupLabel: "API & Integration",
+    archetype: "DetailPage"
   },
   {
     ordinal: 148,
@@ -1183,7 +1333,8 @@ export const PAGE_TYPES = [
     name: "Developer Console Page",
     groupId: "P11",
     groupKey: "API_INTEGRATION",
-    groupLabel: "API & Integration"
+    groupLabel: "API & Integration",
+    archetype: "StudioPage"
   },
   {
     ordinal: 149,
@@ -1191,7 +1342,8 @@ export const PAGE_TYPES = [
     name: "Code Studio Page",
     groupId: "P12",
     groupKey: "DEVELOPMENT_SOURCE",
-    groupLabel: "Development & Source"
+    groupLabel: "Development & Source",
+    archetype: "StudioPage"
   },
   {
     ordinal: 150,
@@ -1199,7 +1351,8 @@ export const PAGE_TYPES = [
     name: "Code Editor Page",
     groupId: "P12",
     groupKey: "DEVELOPMENT_SOURCE",
-    groupLabel: "Development & Source"
+    groupLabel: "Development & Source",
+    archetype: "StudioPage"
   },
   {
     ordinal: 151,
@@ -1207,7 +1360,8 @@ export const PAGE_TYPES = [
     name: "Repository Page",
     groupId: "P12",
     groupKey: "DEVELOPMENT_SOURCE",
-    groupLabel: "Development & Source"
+    groupLabel: "Development & Source",
+    archetype: "StudioPage"
   },
   {
     ordinal: 152,
@@ -1215,7 +1369,8 @@ export const PAGE_TYPES = [
     name: "Repository Browser Page",
     groupId: "P12",
     groupKey: "DEVELOPMENT_SOURCE",
-    groupLabel: "Development & Source"
+    groupLabel: "Development & Source",
+    archetype: "StudioPage"
   },
   {
     ordinal: 153,
@@ -1223,7 +1378,8 @@ export const PAGE_TYPES = [
     name: "Commit Detail Page",
     groupId: "P12",
     groupKey: "DEVELOPMENT_SOURCE",
-    groupLabel: "Development & Source"
+    groupLabel: "Development & Source",
+    archetype: "DetailPage"
   },
   {
     ordinal: 154,
@@ -1231,7 +1387,8 @@ export const PAGE_TYPES = [
     name: "Branch Page",
     groupId: "P12",
     groupKey: "DEVELOPMENT_SOURCE",
-    groupLabel: "Development & Source"
+    groupLabel: "Development & Source",
+    archetype: "StudioPage"
   },
   {
     ordinal: 155,
@@ -1239,7 +1396,8 @@ export const PAGE_TYPES = [
     name: "Pull Request Page",
     groupId: "P12",
     groupKey: "DEVELOPMENT_SOURCE",
-    groupLabel: "Development & Source"
+    groupLabel: "Development & Source",
+    archetype: "StudioPage"
   },
   {
     ordinal: 156,
@@ -1247,7 +1405,8 @@ export const PAGE_TYPES = [
     name: "Issue Page",
     groupId: "P12",
     groupKey: "DEVELOPMENT_SOURCE",
-    groupLabel: "Development & Source"
+    groupLabel: "Development & Source",
+    archetype: "StudioPage"
   },
   {
     ordinal: 157,
@@ -1255,7 +1414,8 @@ export const PAGE_TYPES = [
     name: "Build Page",
     groupId: "P12",
     groupKey: "DEVELOPMENT_SOURCE",
-    groupLabel: "Development & Source"
+    groupLabel: "Development & Source",
+    archetype: "StudioPage"
   },
   {
     ordinal: 158,
@@ -1263,7 +1423,8 @@ export const PAGE_TYPES = [
     name: "CI/CD Page",
     groupId: "P12",
     groupKey: "DEVELOPMENT_SOURCE",
-    groupLabel: "Development & Source"
+    groupLabel: "Development & Source",
+    archetype: "StudioPage"
   },
   {
     ordinal: 159,
@@ -1271,7 +1432,8 @@ export const PAGE_TYPES = [
     name: "Pipeline Detail Page",
     groupId: "P12",
     groupKey: "DEVELOPMENT_SOURCE",
-    groupLabel: "Development & Source"
+    groupLabel: "Development & Source",
+    archetype: "DetailPage"
   },
   {
     ordinal: 160,
@@ -1279,7 +1441,8 @@ export const PAGE_TYPES = [
     name: "Deployment Page",
     groupId: "P13",
     groupKey: "INFRASTRUCTURE_RUNTIME",
-    groupLabel: "Infrastructure & Runtime"
+    groupLabel: "Infrastructure & Runtime",
+    archetype: "ControlPlanePage"
   },
   {
     ordinal: 161,
@@ -1287,7 +1450,8 @@ export const PAGE_TYPES = [
     name: "Deployment History Page",
     groupId: "P13",
     groupKey: "INFRASTRUCTURE_RUNTIME",
-    groupLabel: "Infrastructure & Runtime"
+    groupLabel: "Infrastructure & Runtime",
+    archetype: "ListPage"
   },
   {
     ordinal: 162,
@@ -1295,7 +1459,8 @@ export const PAGE_TYPES = [
     name: "Environment Page",
     groupId: "P13",
     groupKey: "INFRASTRUCTURE_RUNTIME",
-    groupLabel: "Infrastructure & Runtime"
+    groupLabel: "Infrastructure & Runtime",
+    archetype: "ControlPlanePage"
   },
   {
     ordinal: 163,
@@ -1303,7 +1468,8 @@ export const PAGE_TYPES = [
     name: "Environment Detail Page",
     groupId: "P13",
     groupKey: "INFRASTRUCTURE_RUNTIME",
-    groupLabel: "Infrastructure & Runtime"
+    groupLabel: "Infrastructure & Runtime",
+    archetype: "DetailPage"
   },
   {
     ordinal: 164,
@@ -1311,7 +1477,8 @@ export const PAGE_TYPES = [
     name: "Infrastructure Page",
     groupId: "P13",
     groupKey: "INFRASTRUCTURE_RUNTIME",
-    groupLabel: "Infrastructure & Runtime"
+    groupLabel: "Infrastructure & Runtime",
+    archetype: "ControlPlanePage"
   },
   {
     ordinal: 165,
@@ -1319,7 +1486,8 @@ export const PAGE_TYPES = [
     name: "Infrastructure Resource Page",
     groupId: "P13",
     groupKey: "INFRASTRUCTURE_RUNTIME",
-    groupLabel: "Infrastructure & Runtime"
+    groupLabel: "Infrastructure & Runtime",
+    archetype: "ControlPlanePage"
   },
   {
     ordinal: 166,
@@ -1327,7 +1495,8 @@ export const PAGE_TYPES = [
     name: "Server Page",
     groupId: "P13",
     groupKey: "INFRASTRUCTURE_RUNTIME",
-    groupLabel: "Infrastructure & Runtime"
+    groupLabel: "Infrastructure & Runtime",
+    archetype: "ControlPlanePage"
   },
   {
     ordinal: 167,
@@ -1335,7 +1504,8 @@ export const PAGE_TYPES = [
     name: "Service Page",
     groupId: "P13",
     groupKey: "INFRASTRUCTURE_RUNTIME",
-    groupLabel: "Infrastructure & Runtime"
+    groupLabel: "Infrastructure & Runtime",
+    archetype: "ControlPlanePage"
   },
   {
     ordinal: 168,
@@ -1343,7 +1513,8 @@ export const PAGE_TYPES = [
     name: "Database Page",
     groupId: "P13",
     groupKey: "INFRASTRUCTURE_RUNTIME",
-    groupLabel: "Infrastructure & Runtime"
+    groupLabel: "Infrastructure & Runtime",
+    archetype: "ControlPlanePage"
   },
   {
     ordinal: 169,
@@ -1351,7 +1522,8 @@ export const PAGE_TYPES = [
     name: "Database Explorer Page",
     groupId: "P13",
     groupKey: "INFRASTRUCTURE_RUNTIME",
-    groupLabel: "Infrastructure & Runtime"
+    groupLabel: "Infrastructure & Runtime",
+    archetype: "ControlPlanePage"
   },
   {
     ordinal: 170,
@@ -1359,7 +1531,8 @@ export const PAGE_TYPES = [
     name: "Migration Page",
     groupId: "P13",
     groupKey: "INFRASTRUCTURE_RUNTIME",
-    groupLabel: "Infrastructure & Runtime"
+    groupLabel: "Infrastructure & Runtime",
+    archetype: "ControlPlanePage"
   },
   {
     ordinal: 171,
@@ -1367,7 +1540,8 @@ export const PAGE_TYPES = [
     name: "Migration History Page",
     groupId: "P13",
     groupKey: "INFRASTRUCTURE_RUNTIME",
-    groupLabel: "Infrastructure & Runtime"
+    groupLabel: "Infrastructure & Runtime",
+    archetype: "ListPage"
   },
   {
     ordinal: 172,
@@ -1375,7 +1549,8 @@ export const PAGE_TYPES = [
     name: "Backup Page",
     groupId: "P13",
     groupKey: "INFRASTRUCTURE_RUNTIME",
-    groupLabel: "Infrastructure & Runtime"
+    groupLabel: "Infrastructure & Runtime",
+    archetype: "ControlPlanePage"
   },
   {
     ordinal: 173,
@@ -1383,7 +1558,8 @@ export const PAGE_TYPES = [
     name: "Restore Page",
     groupId: "P13",
     groupKey: "INFRASTRUCTURE_RUNTIME",
-    groupLabel: "Infrastructure & Runtime"
+    groupLabel: "Infrastructure & Runtime",
+    archetype: "ControlPlanePage"
   },
   {
     ordinal: 174,
@@ -1391,7 +1567,8 @@ export const PAGE_TYPES = [
     name: "Observability Page",
     groupId: "P14",
     groupKey: "OBSERVABILITY_RELIABILITY",
-    groupLabel: "Observability & Reliability"
+    groupLabel: "Observability & Reliability",
+    archetype: "DashboardPage"
   },
   {
     ordinal: 175,
@@ -1399,7 +1576,8 @@ export const PAGE_TYPES = [
     name: "Metrics Page",
     groupId: "P14",
     groupKey: "OBSERVABILITY_RELIABILITY",
-    groupLabel: "Observability & Reliability"
+    groupLabel: "Observability & Reliability",
+    archetype: "DashboardPage"
   },
   {
     ordinal: 176,
@@ -1407,7 +1585,8 @@ export const PAGE_TYPES = [
     name: "Logs Page",
     groupId: "P14",
     groupKey: "OBSERVABILITY_RELIABILITY",
-    groupLabel: "Observability & Reliability"
+    groupLabel: "Observability & Reliability",
+    archetype: "ListPage"
   },
   {
     ordinal: 177,
@@ -1415,7 +1594,8 @@ export const PAGE_TYPES = [
     name: "Trace Page",
     groupId: "P14",
     groupKey: "OBSERVABILITY_RELIABILITY",
-    groupLabel: "Observability & Reliability"
+    groupLabel: "Observability & Reliability",
+    archetype: "DashboardPage"
   },
   {
     ordinal: 178,
@@ -1423,7 +1603,8 @@ export const PAGE_TYPES = [
     name: "Incident Page",
     groupId: "P14",
     groupKey: "OBSERVABILITY_RELIABILITY",
-    groupLabel: "Observability & Reliability"
+    groupLabel: "Observability & Reliability",
+    archetype: "DashboardPage"
   },
   {
     ordinal: 179,
@@ -1431,7 +1612,8 @@ export const PAGE_TYPES = [
     name: "Incident Detail Page",
     groupId: "P14",
     groupKey: "OBSERVABILITY_RELIABILITY",
-    groupLabel: "Observability & Reliability"
+    groupLabel: "Observability & Reliability",
+    archetype: "DetailPage"
   },
   {
     ordinal: 180,
@@ -1439,7 +1621,8 @@ export const PAGE_TYPES = [
     name: "Alert Page",
     groupId: "P14",
     groupKey: "OBSERVABILITY_RELIABILITY",
-    groupLabel: "Observability & Reliability"
+    groupLabel: "Observability & Reliability",
+    archetype: "DashboardPage"
   },
   {
     ordinal: 181,
@@ -1447,7 +1630,8 @@ export const PAGE_TYPES = [
     name: "Alert Detail Page",
     groupId: "P14",
     groupKey: "OBSERVABILITY_RELIABILITY",
-    groupLabel: "Observability & Reliability"
+    groupLabel: "Observability & Reliability",
+    archetype: "DetailPage"
   },
   {
     ordinal: 182,
@@ -1455,7 +1639,8 @@ export const PAGE_TYPES = [
     name: "Health Page",
     groupId: "P14",
     groupKey: "OBSERVABILITY_RELIABILITY",
-    groupLabel: "Observability & Reliability"
+    groupLabel: "Observability & Reliability",
+    archetype: "DashboardPage"
   },
   {
     ordinal: 183,
@@ -1463,7 +1648,8 @@ export const PAGE_TYPES = [
     name: "Topology Page",
     groupId: "P14",
     groupKey: "OBSERVABILITY_RELIABILITY",
-    groupLabel: "Observability & Reliability"
+    groupLabel: "Observability & Reliability",
+    archetype: "DashboardPage"
   },
   {
     ordinal: 184,
@@ -1471,7 +1657,8 @@ export const PAGE_TYPES = [
     name: "Network Page",
     groupId: "P14",
     groupKey: "OBSERVABILITY_RELIABILITY",
-    groupLabel: "Observability & Reliability"
+    groupLabel: "Observability & Reliability",
+    archetype: "DashboardPage"
   },
   {
     ordinal: 185,
@@ -1479,7 +1666,8 @@ export const PAGE_TYPES = [
     name: "Secret References Page",
     groupId: "P15",
     groupKey: "ADMIN_CONFIGURATION",
-    groupLabel: "Administration & Configuration"
+    groupLabel: "Administration & Configuration",
+    archetype: "AdminPage"
   },
   {
     ordinal: 186,
@@ -1487,7 +1675,8 @@ export const PAGE_TYPES = [
     name: "Configuration Page",
     groupId: "P15",
     groupKey: "ADMIN_CONFIGURATION",
-    groupLabel: "Administration & Configuration"
+    groupLabel: "Administration & Configuration",
+    archetype: "SettingsPage"
   },
   {
     ordinal: 187,
@@ -1495,7 +1684,8 @@ export const PAGE_TYPES = [
     name: "Feature Flags Page",
     groupId: "P15",
     groupKey: "ADMIN_CONFIGURATION",
-    groupLabel: "Administration & Configuration"
+    groupLabel: "Administration & Configuration",
+    archetype: "AdminPage"
   },
   {
     ordinal: 188,
@@ -1503,7 +1693,8 @@ export const PAGE_TYPES = [
     name: "Workspace Page",
     groupId: "P15",
     groupKey: "ADMIN_CONFIGURATION",
-    groupLabel: "Administration & Configuration"
+    groupLabel: "Administration & Configuration",
+    archetype: "AdminPage"
   },
   {
     ordinal: 189,
@@ -1511,7 +1702,8 @@ export const PAGE_TYPES = [
     name: "Workspace Members Page",
     groupId: "P15",
     groupKey: "ADMIN_CONFIGURATION",
-    groupLabel: "Administration & Configuration"
+    groupLabel: "Administration & Configuration",
+    archetype: "AdminPage"
   },
   {
     ordinal: 190,
@@ -1519,7 +1711,8 @@ export const PAGE_TYPES = [
     name: "Organisation Page",
     groupId: "P15",
     groupKey: "ADMIN_CONFIGURATION",
-    groupLabel: "Administration & Configuration"
+    groupLabel: "Administration & Configuration",
+    archetype: "AdminPage"
   },
   {
     ordinal: 191,
@@ -1527,7 +1720,8 @@ export const PAGE_TYPES = [
     name: "Organisation Members Page",
     groupId: "P15",
     groupKey: "ADMIN_CONFIGURATION",
-    groupLabel: "Administration & Configuration"
+    groupLabel: "Administration & Configuration",
+    archetype: "AdminPage"
   },
   {
     ordinal: 192,
@@ -1535,7 +1729,8 @@ export const PAGE_TYPES = [
     name: "People Directory Page",
     groupId: "P15",
     groupKey: "ADMIN_CONFIGURATION",
-    groupLabel: "Administration & Configuration"
+    groupLabel: "Administration & Configuration",
+    archetype: "ListPage"
   },
   {
     ordinal: 193,
@@ -1543,7 +1738,8 @@ export const PAGE_TYPES = [
     name: "Person Profile Page",
     groupId: "P15",
     groupKey: "ADMIN_CONFIGURATION",
-    groupLabel: "Administration & Configuration"
+    groupLabel: "Administration & Configuration",
+    archetype: "DetailPage"
   },
   {
     ordinal: 194,
@@ -1551,7 +1747,8 @@ export const PAGE_TYPES = [
     name: "User Profile Page",
     groupId: "P15",
     groupKey: "ADMIN_CONFIGURATION",
-    groupLabel: "Administration & Configuration"
+    groupLabel: "Administration & Configuration",
+    archetype: "DetailPage"
   },
   {
     ordinal: 195,
@@ -1559,7 +1756,8 @@ export const PAGE_TYPES = [
     name: "Account Page",
     groupId: "P15",
     groupKey: "ADMIN_CONFIGURATION",
-    groupLabel: "Administration & Configuration"
+    groupLabel: "Administration & Configuration",
+    archetype: "AdminPage"
   },
   {
     ordinal: 196,
@@ -1567,7 +1765,8 @@ export const PAGE_TYPES = [
     name: "Preferences Page",
     groupId: "P15",
     groupKey: "ADMIN_CONFIGURATION",
-    groupLabel: "Administration & Configuration"
+    groupLabel: "Administration & Configuration",
+    archetype: "SettingsPage"
   },
   {
     ordinal: 197,
@@ -1575,7 +1774,8 @@ export const PAGE_TYPES = [
     name: "Settings Home Page",
     groupId: "P15",
     groupKey: "ADMIN_CONFIGURATION",
-    groupLabel: "Administration & Configuration"
+    groupLabel: "Administration & Configuration",
+    archetype: "SettingsPage"
   },
   {
     ordinal: 198,
@@ -1583,7 +1783,8 @@ export const PAGE_TYPES = [
     name: "General Settings Page",
     groupId: "P15",
     groupKey: "ADMIN_CONFIGURATION",
-    groupLabel: "Administration & Configuration"
+    groupLabel: "Administration & Configuration",
+    archetype: "SettingsPage"
   },
   {
     ordinal: 199,
@@ -1591,7 +1792,8 @@ export const PAGE_TYPES = [
     name: "Appearance Settings Page",
     groupId: "P15",
     groupKey: "ADMIN_CONFIGURATION",
-    groupLabel: "Administration & Configuration"
+    groupLabel: "Administration & Configuration",
+    archetype: "SettingsPage"
   },
   {
     ordinal: 200,
@@ -1599,7 +1801,8 @@ export const PAGE_TYPES = [
     name: "Notification Settings Page",
     groupId: "P15",
     groupKey: "ADMIN_CONFIGURATION",
-    groupLabel: "Administration & Configuration"
+    groupLabel: "Administration & Configuration",
+    archetype: "SettingsPage"
   },
   {
     ordinal: 201,
@@ -1607,7 +1810,8 @@ export const PAGE_TYPES = [
     name: "Security Settings Page",
     groupId: "P15",
     groupKey: "ADMIN_CONFIGURATION",
-    groupLabel: "Administration & Configuration"
+    groupLabel: "Administration & Configuration",
+    archetype: "SettingsPage"
   },
   {
     ordinal: 202,
@@ -1615,7 +1819,8 @@ export const PAGE_TYPES = [
     name: "Privacy Settings Page",
     groupId: "P15",
     groupKey: "ADMIN_CONFIGURATION",
-    groupLabel: "Administration & Configuration"
+    groupLabel: "Administration & Configuration",
+    archetype: "SettingsPage"
   },
   {
     ordinal: 203,
@@ -1623,7 +1828,8 @@ export const PAGE_TYPES = [
     name: "Language & Region Page",
     groupId: "P15",
     groupKey: "ADMIN_CONFIGURATION",
-    groupLabel: "Administration & Configuration"
+    groupLabel: "Administration & Configuration",
+    archetype: "AdminPage"
   },
   {
     ordinal: 204,
@@ -1631,7 +1837,8 @@ export const PAGE_TYPES = [
     name: "Connected Apps Page",
     groupId: "P15",
     groupKey: "ADMIN_CONFIGURATION",
-    groupLabel: "Administration & Configuration"
+    groupLabel: "Administration & Configuration",
+    archetype: "AdminPage"
   },
   {
     ordinal: 205,
@@ -1639,7 +1846,8 @@ export const PAGE_TYPES = [
     name: "Sessions Page",
     groupId: "P15",
     groupKey: "ADMIN_CONFIGURATION",
-    groupLabel: "Administration & Configuration"
+    groupLabel: "Administration & Configuration",
+    archetype: "AdminPage"
   },
   {
     ordinal: 206,
@@ -1647,7 +1855,8 @@ export const PAGE_TYPES = [
     name: "Devices Page",
     groupId: "P15",
     groupKey: "ADMIN_CONFIGURATION",
-    groupLabel: "Administration & Configuration"
+    groupLabel: "Administration & Configuration",
+    archetype: "AdminPage"
   },
   {
     ordinal: 207,
@@ -1655,7 +1864,8 @@ export const PAGE_TYPES = [
     name: "Roles Page",
     groupId: "P15",
     groupKey: "ADMIN_CONFIGURATION",
-    groupLabel: "Administration & Configuration"
+    groupLabel: "Administration & Configuration",
+    archetype: "AdminPage"
   },
   {
     ordinal: 208,
@@ -1663,7 +1873,8 @@ export const PAGE_TYPES = [
     name: "Role Detail Page",
     groupId: "P15",
     groupKey: "ADMIN_CONFIGURATION",
-    groupLabel: "Administration & Configuration"
+    groupLabel: "Administration & Configuration",
+    archetype: "DetailPage"
   },
   {
     ordinal: 209,
@@ -1671,7 +1882,8 @@ export const PAGE_TYPES = [
     name: "Permissions Page",
     groupId: "P15",
     groupKey: "ADMIN_CONFIGURATION",
-    groupLabel: "Administration & Configuration"
+    groupLabel: "Administration & Configuration",
+    archetype: "AdminPage"
   },
   {
     ordinal: 210,
@@ -1679,7 +1891,8 @@ export const PAGE_TYPES = [
     name: "Access Policies Page",
     groupId: "P15",
     groupKey: "ADMIN_CONFIGURATION",
-    groupLabel: "Administration & Configuration"
+    groupLabel: "Administration & Configuration",
+    archetype: "AdminPage"
   },
   {
     ordinal: 211,
@@ -1687,7 +1900,8 @@ export const PAGE_TYPES = [
     name: "Teams Page",
     groupId: "P15",
     groupKey: "ADMIN_CONFIGURATION",
-    groupLabel: "Administration & Configuration"
+    groupLabel: "Administration & Configuration",
+    archetype: "AdminPage"
   },
   {
     ordinal: 212,
@@ -1695,7 +1909,8 @@ export const PAGE_TYPES = [
     name: "Team Detail Page",
     groupId: "P15",
     groupKey: "ADMIN_CONFIGURATION",
-    groupLabel: "Administration & Configuration"
+    groupLabel: "Administration & Configuration",
+    archetype: "DetailPage"
   },
   {
     ordinal: 213,
@@ -1703,7 +1918,8 @@ export const PAGE_TYPES = [
     name: "Contacts Page",
     groupId: "P15",
     groupKey: "ADMIN_CONFIGURATION",
-    groupLabel: "Administration & Configuration"
+    groupLabel: "Administration & Configuration",
+    archetype: "AdminPage"
   },
   {
     ordinal: 214,
@@ -1711,7 +1927,8 @@ export const PAGE_TYPES = [
     name: "Contact Detail Page",
     groupId: "P16",
     groupKey: "CRM_SALES",
-    groupLabel: "CRM & Sales"
+    groupLabel: "CRM & Sales",
+    archetype: "DetailPage"
   },
   {
     ordinal: 215,
@@ -1719,7 +1936,8 @@ export const PAGE_TYPES = [
     name: "CRM Accounts Page",
     groupId: "P16",
     groupKey: "CRM_SALES",
-    groupLabel: "CRM & Sales"
+    groupLabel: "CRM & Sales",
+    archetype: "ListPage"
   },
   {
     ordinal: 216,
@@ -1727,7 +1945,8 @@ export const PAGE_TYPES = [
     name: "CRM Account Detail Page",
     groupId: "P16",
     groupKey: "CRM_SALES",
-    groupLabel: "CRM & Sales"
+    groupLabel: "CRM & Sales",
+    archetype: "DetailPage"
   },
   {
     ordinal: 217,
@@ -1735,7 +1954,8 @@ export const PAGE_TYPES = [
     name: "Leads Page",
     groupId: "P16",
     groupKey: "CRM_SALES",
-    groupLabel: "CRM & Sales"
+    groupLabel: "CRM & Sales",
+    archetype: "ListPage"
   },
   {
     ordinal: 218,
@@ -1743,7 +1963,8 @@ export const PAGE_TYPES = [
     name: "Lead Detail Page",
     groupId: "P16",
     groupKey: "CRM_SALES",
-    groupLabel: "CRM & Sales"
+    groupLabel: "CRM & Sales",
+    archetype: "DetailPage"
   },
   {
     ordinal: 219,
@@ -1751,7 +1972,8 @@ export const PAGE_TYPES = [
     name: "Opportunities Page",
     groupId: "P16",
     groupKey: "CRM_SALES",
-    groupLabel: "CRM & Sales"
+    groupLabel: "CRM & Sales",
+    archetype: "ListPage"
   },
   {
     ordinal: 220,
@@ -1759,7 +1981,8 @@ export const PAGE_TYPES = [
     name: "Opportunity Detail Page",
     groupId: "P16",
     groupKey: "CRM_SALES",
-    groupLabel: "CRM & Sales"
+    groupLabel: "CRM & Sales",
+    archetype: "DetailPage"
   },
   {
     ordinal: 221,
@@ -1767,7 +1990,8 @@ export const PAGE_TYPES = [
     name: "Pipeline Page",
     groupId: "P16",
     groupKey: "CRM_SALES",
-    groupLabel: "CRM & Sales"
+    groupLabel: "CRM & Sales",
+    archetype: "ListPage"
   },
   {
     ordinal: 222,
@@ -1775,7 +1999,8 @@ export const PAGE_TYPES = [
     name: "Inbox Page",
     groupId: "P17",
     groupKey: "COMMUNICATION",
-    groupLabel: "Communication"
+    groupLabel: "Communication",
+    archetype: "ListPage"
   },
   {
     ordinal: 223,
@@ -1783,7 +2008,8 @@ export const PAGE_TYPES = [
     name: "Message Thread Page",
     groupId: "P17",
     groupKey: "COMMUNICATION",
-    groupLabel: "Communication"
+    groupLabel: "Communication",
+    archetype: "DetailPage"
   },
   {
     ordinal: 224,
@@ -1791,7 +2017,8 @@ export const PAGE_TYPES = [
     name: "Compose Message Page",
     groupId: "P17",
     groupKey: "COMMUNICATION",
-    groupLabel: "Communication"
+    groupLabel: "Communication",
+    archetype: "CreatePage"
   },
   {
     ordinal: 225,
@@ -1799,7 +2026,8 @@ export const PAGE_TYPES = [
     name: "Chat Page",
     groupId: "P17",
     groupKey: "COMMUNICATION",
-    groupLabel: "Communication"
+    groupLabel: "Communication",
+    archetype: "ListPage"
   },
   {
     ordinal: 226,
@@ -1807,7 +2035,8 @@ export const PAGE_TYPES = [
     name: "Messenger Page",
     groupId: "P17",
     groupKey: "COMMUNICATION",
-    groupLabel: "Communication"
+    groupLabel: "Communication",
+    archetype: "ListPage"
   },
   {
     ordinal: 227,
@@ -1815,7 +2044,8 @@ export const PAGE_TYPES = [
     name: "Announcements Page",
     groupId: "P17",
     groupKey: "COMMUNICATION",
-    groupLabel: "Communication"
+    groupLabel: "Communication",
+    archetype: "ListPage"
   },
   {
     ordinal: 228,
@@ -1823,7 +2053,8 @@ export const PAGE_TYPES = [
     name: "Announcement Detail Page",
     groupId: "P17",
     groupKey: "COMMUNICATION",
-    groupLabel: "Communication"
+    groupLabel: "Communication",
+    archetype: "DetailPage"
   },
   {
     ordinal: 229,
@@ -1831,7 +2062,8 @@ export const PAGE_TYPES = [
     name: "Notifications Page",
     groupId: "P17",
     groupKey: "COMMUNICATION",
-    groupLabel: "Communication"
+    groupLabel: "Communication",
+    archetype: "ListPage"
   },
   {
     ordinal: 230,
@@ -1839,7 +2071,8 @@ export const PAGE_TYPES = [
     name: "Notification Detail Page",
     groupId: "P17",
     groupKey: "COMMUNICATION",
-    groupLabel: "Communication"
+    groupLabel: "Communication",
+    archetype: "DetailPage"
   },
   {
     ordinal: 231,
@@ -1847,7 +2080,8 @@ export const PAGE_TYPES = [
     name: "Mail Page",
     groupId: "P17",
     groupKey: "COMMUNICATION",
-    groupLabel: "Communication"
+    groupLabel: "Communication",
+    archetype: "ListPage"
   },
   {
     ordinal: 232,
@@ -1855,7 +2089,8 @@ export const PAGE_TYPES = [
     name: "Calendar Page",
     groupId: "P18",
     groupKey: "PRODUCTIVITY_PLANNING",
-    groupLabel: "Productivity & Planning"
+    groupLabel: "Productivity & Planning",
+    archetype: "ListPage"
   },
   {
     ordinal: 233,
@@ -1863,7 +2098,8 @@ export const PAGE_TYPES = [
     name: "Calendar Event Page",
     groupId: "P18",
     groupKey: "PRODUCTIVITY_PLANNING",
-    groupLabel: "Productivity & Planning"
+    groupLabel: "Productivity & Planning",
+    archetype: "ListPage"
   },
   {
     ordinal: 234,
@@ -1871,7 +2107,8 @@ export const PAGE_TYPES = [
     name: "Scheduler Page",
     groupId: "P18",
     groupKey: "PRODUCTIVITY_PLANNING",
-    groupLabel: "Productivity & Planning"
+    groupLabel: "Productivity & Planning",
+    archetype: "ListPage"
   },
   {
     ordinal: 235,
@@ -1879,7 +2116,8 @@ export const PAGE_TYPES = [
     name: "Agenda Page",
     groupId: "P18",
     groupKey: "PRODUCTIVITY_PLANNING",
-    groupLabel: "Productivity & Planning"
+    groupLabel: "Productivity & Planning",
+    archetype: "ListPage"
   },
   {
     ordinal: 236,
@@ -1887,7 +2125,8 @@ export const PAGE_TYPES = [
     name: "Tasks Page",
     groupId: "P18",
     groupKey: "PRODUCTIVITY_PLANNING",
-    groupLabel: "Productivity & Planning"
+    groupLabel: "Productivity & Planning",
+    archetype: "ListPage"
   },
   {
     ordinal: 237,
@@ -1895,7 +2134,8 @@ export const PAGE_TYPES = [
     name: "Task Detail Page",
     groupId: "P18",
     groupKey: "PRODUCTIVITY_PLANNING",
-    groupLabel: "Productivity & Planning"
+    groupLabel: "Productivity & Planning",
+    archetype: "DetailPage"
   },
   {
     ordinal: 238,
@@ -1903,7 +2143,8 @@ export const PAGE_TYPES = [
     name: "Kanban Page",
     groupId: "P18",
     groupKey: "PRODUCTIVITY_PLANNING",
-    groupLabel: "Productivity & Planning"
+    groupLabel: "Productivity & Planning",
+    archetype: "ListPage"
   },
   {
     ordinal: 239,
@@ -1911,7 +2152,8 @@ export const PAGE_TYPES = [
     name: "Scrum Board Page",
     groupId: "P18",
     groupKey: "PRODUCTIVITY_PLANNING",
-    groupLabel: "Productivity & Planning"
+    groupLabel: "Productivity & Planning",
+    archetype: "ListPage"
   },
   {
     ordinal: 240,
@@ -1919,7 +2161,8 @@ export const PAGE_TYPES = [
     name: "Backlog Page",
     groupId: "P18",
     groupKey: "PRODUCTIVITY_PLANNING",
-    groupLabel: "Productivity & Planning"
+    groupLabel: "Productivity & Planning",
+    archetype: "ListPage"
   },
   {
     ordinal: 241,
@@ -1927,7 +2170,8 @@ export const PAGE_TYPES = [
     name: "Sprint Page",
     groupId: "P18",
     groupKey: "PRODUCTIVITY_PLANNING",
-    groupLabel: "Productivity & Planning"
+    groupLabel: "Productivity & Planning",
+    archetype: "ListPage"
   },
   {
     ordinal: 242,
@@ -1935,7 +2179,8 @@ export const PAGE_TYPES = [
     name: "Milestones Page",
     groupId: "P18",
     groupKey: "PRODUCTIVITY_PLANNING",
-    groupLabel: "Productivity & Planning"
+    groupLabel: "Productivity & Planning",
+    archetype: "ListPage"
   },
   {
     ordinal: 243,
@@ -1943,7 +2188,8 @@ export const PAGE_TYPES = [
     name: "Gantt Page",
     groupId: "P18",
     groupKey: "PRODUCTIVITY_PLANNING",
-    groupLabel: "Productivity & Planning"
+    groupLabel: "Productivity & Planning",
+    archetype: "ListPage"
   },
   {
     ordinal: 244,
@@ -1951,7 +2197,8 @@ export const PAGE_TYPES = [
     name: "Roadmap Planner Page",
     groupId: "P18",
     groupKey: "PRODUCTIVITY_PLANNING",
-    groupLabel: "Productivity & Planning"
+    groupLabel: "Productivity & Planning",
+    archetype: "ListPage"
   },
   {
     ordinal: 245,
@@ -1959,7 +2206,8 @@ export const PAGE_TYPES = [
     name: "Project List Page",
     groupId: "P19",
     groupKey: "PROJECTS_PROGRAMS",
-    groupLabel: "Projects & Programs"
+    groupLabel: "Projects & Programs",
+    archetype: "ListPage"
   },
   {
     ordinal: 246,
@@ -1967,7 +2215,8 @@ export const PAGE_TYPES = [
     name: "Project Detail Page",
     groupId: "P19",
     groupKey: "PROJECTS_PROGRAMS",
-    groupLabel: "Projects & Programs"
+    groupLabel: "Projects & Programs",
+    archetype: "DetailPage"
   },
   {
     ordinal: 247,
@@ -1975,7 +2224,8 @@ export const PAGE_TYPES = [
     name: "Project Workspace Page",
     groupId: "P19",
     groupKey: "PROJECTS_PROGRAMS",
-    groupLabel: "Projects & Programs"
+    groupLabel: "Projects & Programs",
+    archetype: "DetailPage"
   },
   {
     ordinal: 248,
@@ -1983,7 +2233,8 @@ export const PAGE_TYPES = [
     name: "Project Files Page",
     groupId: "P19",
     groupKey: "PROJECTS_PROGRAMS",
-    groupLabel: "Projects & Programs"
+    groupLabel: "Projects & Programs",
+    archetype: "DetailPage"
   },
   {
     ordinal: 249,
@@ -1991,7 +2242,8 @@ export const PAGE_TYPES = [
     name: "Project Team Page",
     groupId: "P19",
     groupKey: "PROJECTS_PROGRAMS",
-    groupLabel: "Projects & Programs"
+    groupLabel: "Projects & Programs",
+    archetype: "DetailPage"
   },
   {
     ordinal: 250,
@@ -1999,7 +2251,8 @@ export const PAGE_TYPES = [
     name: "Project Activity Page",
     groupId: "P19",
     groupKey: "PROJECTS_PROGRAMS",
-    groupLabel: "Projects & Programs"
+    groupLabel: "Projects & Programs",
+    archetype: "DetailPage"
   },
   {
     ordinal: 251,
@@ -2007,7 +2260,8 @@ export const PAGE_TYPES = [
     name: "Project Timeline Page",
     groupId: "P19",
     groupKey: "PROJECTS_PROGRAMS",
-    groupLabel: "Projects & Programs"
+    groupLabel: "Projects & Programs",
+    archetype: "DetailPage"
   },
   {
     ordinal: 252,
@@ -2015,7 +2269,8 @@ export const PAGE_TYPES = [
     name: "Project Settings Page",
     groupId: "P19",
     groupKey: "PROJECTS_PROGRAMS",
-    groupLabel: "Projects & Programs"
+    groupLabel: "Projects & Programs",
+    archetype: "SettingsPage"
   },
   {
     ordinal: 253,
@@ -2023,7 +2278,8 @@ export const PAGE_TYPES = [
     name: "File Manager Page",
     groupId: "P20",
     groupKey: "DOCUMENTS_FILES",
-    groupLabel: "Documents & Files"
+    groupLabel: "Documents & Files",
+    archetype: "ListPage"
   },
   {
     ordinal: 254,
@@ -2031,7 +2287,8 @@ export const PAGE_TYPES = [
     name: "File Detail Page",
     groupId: "P20",
     groupKey: "DOCUMENTS_FILES",
-    groupLabel: "Documents & Files"
+    groupLabel: "Documents & Files",
+    archetype: "DetailPage"
   },
   {
     ordinal: 255,
@@ -2039,7 +2296,8 @@ export const PAGE_TYPES = [
     name: "Document Library Page",
     groupId: "P20",
     groupKey: "DOCUMENTS_FILES",
-    groupLabel: "Documents & Files"
+    groupLabel: "Documents & Files",
+    archetype: "ListPage"
   },
   {
     ordinal: 256,
@@ -2047,7 +2305,8 @@ export const PAGE_TYPES = [
     name: "Document Viewer Page",
     groupId: "P20",
     groupKey: "DOCUMENTS_FILES",
-    groupLabel: "Documents & Files"
+    groupLabel: "Documents & Files",
+    archetype: "DetailPage"
   },
   {
     ordinal: 257,
@@ -2055,7 +2314,8 @@ export const PAGE_TYPES = [
     name: "Document Editor Page",
     groupId: "P20",
     groupKey: "DOCUMENTS_FILES",
-    groupLabel: "Documents & Files"
+    groupLabel: "Documents & Files",
+    archetype: "StudioPage"
   },
   {
     ordinal: 258,
@@ -2063,7 +2323,8 @@ export const PAGE_TYPES = [
     name: "Spreadsheet Page",
     groupId: "P20",
     groupKey: "DOCUMENTS_FILES",
-    groupLabel: "Documents & Files"
+    groupLabel: "Documents & Files",
+    archetype: "StudioPage"
   },
   {
     ordinal: 259,
@@ -2071,7 +2332,8 @@ export const PAGE_TYPES = [
     name: "Presentation Page",
     groupId: "P20",
     groupKey: "DOCUMENTS_FILES",
-    groupLabel: "Documents & Files"
+    groupLabel: "Documents & Files",
+    archetype: "StudioPage"
   },
   {
     ordinal: 260,
@@ -2079,7 +2341,8 @@ export const PAGE_TYPES = [
     name: "Notes Page",
     groupId: "P20",
     groupKey: "DOCUMENTS_FILES",
-    groupLabel: "Documents & Files"
+    groupLabel: "Documents & Files",
+    archetype: "StudioPage"
   },
   {
     ordinal: 261,
@@ -2087,7 +2350,8 @@ export const PAGE_TYPES = [
     name: "Note Editor Page",
     groupId: "P20",
     groupKey: "DOCUMENTS_FILES",
-    groupLabel: "Documents & Files"
+    groupLabel: "Documents & Files",
+    archetype: "StudioPage"
   },
   {
     ordinal: 262,
@@ -2095,7 +2359,8 @@ export const PAGE_TYPES = [
     name: "Notebook Page",
     groupId: "P20",
     groupKey: "DOCUMENTS_FILES",
-    groupLabel: "Documents & Files"
+    groupLabel: "Documents & Files",
+    archetype: "StudioPage"
   },
   {
     ordinal: 263,
@@ -2103,7 +2368,8 @@ export const PAGE_TYPES = [
     name: "Whiteboard Page",
     groupId: "P20",
     groupKey: "DOCUMENTS_FILES",
-    groupLabel: "Documents & Files"
+    groupLabel: "Documents & Files",
+    archetype: "StudioPage"
   },
   {
     ordinal: 264,
@@ -2111,7 +2377,8 @@ export const PAGE_TYPES = [
     name: "Canvas Page",
     groupId: "P20",
     groupKey: "DOCUMENTS_FILES",
-    groupLabel: "Documents & Files"
+    groupLabel: "Documents & Files",
+    archetype: "StudioPage"
   },
   {
     ordinal: 265,
@@ -2119,7 +2386,8 @@ export const PAGE_TYPES = [
     name: "Diagram Page",
     groupId: "P20",
     groupKey: "DOCUMENTS_FILES",
-    groupLabel: "Documents & Files"
+    groupLabel: "Documents & Files",
+    archetype: "StudioPage"
   },
   {
     ordinal: 266,
@@ -2127,7 +2395,8 @@ export const PAGE_TYPES = [
     name: "Graph Page",
     groupId: "P20",
     groupKey: "DOCUMENTS_FILES",
-    groupLabel: "Documents & Files"
+    groupLabel: "Documents & Files",
+    archetype: "StudioPage"
   },
   {
     ordinal: 267,
@@ -2135,7 +2404,8 @@ export const PAGE_TYPES = [
     name: "Mind Map Page",
     groupId: "P20",
     groupKey: "DOCUMENTS_FILES",
-    groupLabel: "Documents & Files"
+    groupLabel: "Documents & Files",
+    archetype: "StudioPage"
   },
   {
     ordinal: 268,
@@ -2143,7 +2413,8 @@ export const PAGE_TYPES = [
     name: "Workflow Builder Page",
     groupId: "P21",
     groupKey: "BUILDERS_AUTOMATION",
-    groupLabel: "Builders & Automation"
+    groupLabel: "Builders & Automation",
+    archetype: "BuilderPage"
   },
   {
     ordinal: 269,
@@ -2151,7 +2422,8 @@ export const PAGE_TYPES = [
     name: "Workflow Detail Page",
     groupId: "P21",
     groupKey: "BUILDERS_AUTOMATION",
-    groupLabel: "Builders & Automation"
+    groupLabel: "Builders & Automation",
+    archetype: "DetailPage"
   },
   {
     ordinal: 270,
@@ -2159,7 +2431,8 @@ export const PAGE_TYPES = [
     name: "Workflow Run Page",
     groupId: "P21",
     groupKey: "BUILDERS_AUTOMATION",
-    groupLabel: "Builders & Automation"
+    groupLabel: "Builders & Automation",
+    archetype: "BuilderPage"
   },
   {
     ordinal: 271,
@@ -2167,7 +2440,8 @@ export const PAGE_TYPES = [
     name: "Workflow History Page",
     groupId: "P21",
     groupKey: "BUILDERS_AUTOMATION",
-    groupLabel: "Builders & Automation"
+    groupLabel: "Builders & Automation",
+    archetype: "ListPage"
   },
   {
     ordinal: 272,
@@ -2175,7 +2449,8 @@ export const PAGE_TYPES = [
     name: "Automation Page",
     groupId: "P21",
     groupKey: "BUILDERS_AUTOMATION",
-    groupLabel: "Builders & Automation"
+    groupLabel: "Builders & Automation",
+    archetype: "BuilderPage"
   },
   {
     ordinal: 273,
@@ -2183,7 +2458,8 @@ export const PAGE_TYPES = [
     name: "Automation Builder Page",
     groupId: "P21",
     groupKey: "BUILDERS_AUTOMATION",
-    groupLabel: "Builders & Automation"
+    groupLabel: "Builders & Automation",
+    archetype: "BuilderPage"
   },
   {
     ordinal: 274,
@@ -2191,7 +2467,8 @@ export const PAGE_TYPES = [
     name: "Rule Builder Page",
     groupId: "P21",
     groupKey: "BUILDERS_AUTOMATION",
-    groupLabel: "Builders & Automation"
+    groupLabel: "Builders & Automation",
+    archetype: "BuilderPage"
   },
   {
     ordinal: 275,
@@ -2199,7 +2476,8 @@ export const PAGE_TYPES = [
     name: "Form Builder Page",
     groupId: "P21",
     groupKey: "BUILDERS_AUTOMATION",
-    groupLabel: "Builders & Automation"
+    groupLabel: "Builders & Automation",
+    archetype: "BuilderPage"
   },
   {
     ordinal: 276,
@@ -2207,7 +2485,8 @@ export const PAGE_TYPES = [
     name: "Form Page",
     groupId: "P21",
     groupKey: "BUILDERS_AUTOMATION",
-    groupLabel: "Builders & Automation"
+    groupLabel: "Builders & Automation",
+    archetype: "CreatePage"
   },
   {
     ordinal: 277,
@@ -2215,7 +2494,8 @@ export const PAGE_TYPES = [
     name: "Form Submission Page",
     groupId: "P21",
     groupKey: "BUILDERS_AUTOMATION",
-    groupLabel: "Builders & Automation"
+    groupLabel: "Builders & Automation",
+    archetype: "DetailPage"
   },
   {
     ordinal: 278,
@@ -2223,7 +2503,8 @@ export const PAGE_TYPES = [
     name: "Survey Builder Page",
     groupId: "P21",
     groupKey: "BUILDERS_AUTOMATION",
-    groupLabel: "Builders & Automation"
+    groupLabel: "Builders & Automation",
+    archetype: "BuilderPage"
   },
   {
     ordinal: 279,
@@ -2231,7 +2512,8 @@ export const PAGE_TYPES = [
     name: "Survey Page",
     groupId: "P21",
     groupKey: "BUILDERS_AUTOMATION",
-    groupLabel: "Builders & Automation"
+    groupLabel: "Builders & Automation",
+    archetype: "CreatePage"
   },
   {
     ordinal: 280,
@@ -2239,7 +2521,8 @@ export const PAGE_TYPES = [
     name: "Page Builder Page",
     groupId: "P21",
     groupKey: "BUILDERS_AUTOMATION",
-    groupLabel: "Builders & Automation"
+    groupLabel: "Builders & Automation",
+    archetype: "BuilderPage"
   },
   {
     ordinal: 281,
@@ -2247,7 +2530,8 @@ export const PAGE_TYPES = [
     name: "App Builder Page",
     groupId: "P21",
     groupKey: "BUILDERS_AUTOMATION",
-    groupLabel: "Builders & Automation"
+    groupLabel: "Builders & Automation",
+    archetype: "BuilderPage"
   },
   {
     ordinal: 282,
@@ -2255,7 +2539,8 @@ export const PAGE_TYPES = [
     name: "Mobile Builder Page",
     groupId: "P21",
     groupKey: "BUILDERS_AUTOMATION",
-    groupLabel: "Builders & Automation"
+    groupLabel: "Builders & Automation",
+    archetype: "BuilderPage"
   },
   {
     ordinal: 283,
@@ -2263,7 +2548,8 @@ export const PAGE_TYPES = [
     name: "Template Gallery Page",
     groupId: "P21",
     groupKey: "BUILDERS_AUTOMATION",
-    groupLabel: "Builders & Automation"
+    groupLabel: "Builders & Automation",
+    archetype: "ListPage"
   },
   {
     ordinal: 284,
@@ -2271,7 +2557,8 @@ export const PAGE_TYPES = [
     name: "Template Detail Page",
     groupId: "P21",
     groupKey: "BUILDERS_AUTOMATION",
-    groupLabel: "Builders & Automation"
+    groupLabel: "Builders & Automation",
+    archetype: "DetailPage"
   },
   {
     ordinal: 285,
@@ -2279,7 +2566,8 @@ export const PAGE_TYPES = [
     name: "Component Gallery Page",
     groupId: "P22",
     groupKey: "DESIGN_SYSTEM",
-    groupLabel: "Design System"
+    groupLabel: "Design System",
+    archetype: "ListPage"
   },
   {
     ordinal: 286,
@@ -2287,7 +2575,8 @@ export const PAGE_TYPES = [
     name: "Component Detail Page",
     groupId: "P22",
     groupKey: "DESIGN_SYSTEM",
-    groupLabel: "Design System"
+    groupLabel: "Design System",
+    archetype: "DetailPage"
   },
   {
     ordinal: 287,
@@ -2295,7 +2584,8 @@ export const PAGE_TYPES = [
     name: "Design System Page",
     groupId: "P22",
     groupKey: "DESIGN_SYSTEM",
-    groupLabel: "Design System"
+    groupLabel: "Design System",
+    archetype: "DocumentationPage"
   },
   {
     ordinal: 288,
@@ -2303,7 +2593,8 @@ export const PAGE_TYPES = [
     name: "Token Explorer Page",
     groupId: "P22",
     groupKey: "DESIGN_SYSTEM",
-    groupLabel: "Design System"
+    groupLabel: "Design System",
+    archetype: "DocumentationPage"
   },
   {
     ordinal: 289,
@@ -2311,7 +2602,8 @@ export const PAGE_TYPES = [
     name: "Theme Builder Page",
     groupId: "P22",
     groupKey: "DESIGN_SYSTEM",
-    groupLabel: "Design System"
+    groupLabel: "Design System",
+    archetype: "BuilderPage"
   },
   {
     ordinal: 290,
@@ -2319,7 +2611,8 @@ export const PAGE_TYPES = [
     name: "Icon Library Page",
     groupId: "P22",
     groupKey: "DESIGN_SYSTEM",
-    groupLabel: "Design System"
+    groupLabel: "Design System",
+    archetype: "ListPage"
   },
   {
     ordinal: 291,
@@ -2327,7 +2620,8 @@ export const PAGE_TYPES = [
     name: "Asset Library Page",
     groupId: "P23",
     groupKey: "MEDIA_CREATIVE",
-    groupLabel: "Media & Creative"
+    groupLabel: "Media & Creative",
+    archetype: "ListPage"
   },
   {
     ordinal: 292,
@@ -2335,7 +2629,8 @@ export const PAGE_TYPES = [
     name: "Media Library Page",
     groupId: "P23",
     groupKey: "MEDIA_CREATIVE",
-    groupLabel: "Media & Creative"
+    groupLabel: "Media & Creative",
+    archetype: "ListPage"
   },
   {
     ordinal: 293,
@@ -2343,7 +2638,8 @@ export const PAGE_TYPES = [
     name: "Image Detail Page",
     groupId: "P23",
     groupKey: "MEDIA_CREATIVE",
-    groupLabel: "Media & Creative"
+    groupLabel: "Media & Creative",
+    archetype: "DetailPage"
   },
   {
     ordinal: 294,
@@ -2351,7 +2647,8 @@ export const PAGE_TYPES = [
     name: "Video Detail Page",
     groupId: "P23",
     groupKey: "MEDIA_CREATIVE",
-    groupLabel: "Media & Creative"
+    groupLabel: "Media & Creative",
+    archetype: "DetailPage"
   },
   {
     ordinal: 295,
@@ -2359,7 +2656,8 @@ export const PAGE_TYPES = [
     name: "Audio Detail Page",
     groupId: "P23",
     groupKey: "MEDIA_CREATIVE",
-    groupLabel: "Media & Creative"
+    groupLabel: "Media & Creative",
+    archetype: "DetailPage"
   },
   {
     ordinal: 296,
@@ -2367,7 +2665,8 @@ export const PAGE_TYPES = [
     name: "Media Viewer Page",
     groupId: "P23",
     groupKey: "MEDIA_CREATIVE",
-    groupLabel: "Media & Creative"
+    groupLabel: "Media & Creative",
+    archetype: "DetailPage"
   },
   {
     ordinal: 297,
@@ -2375,7 +2674,8 @@ export const PAGE_TYPES = [
     name: "Lightbox Page",
     groupId: "P23",
     groupKey: "MEDIA_CREATIVE",
-    groupLabel: "Media & Creative"
+    groupLabel: "Media & Creative",
+    archetype: "DetailPage"
   },
   {
     ordinal: 298,
@@ -2383,7 +2683,8 @@ export const PAGE_TYPES = [
     name: "Video Editor Page",
     groupId: "P23",
     groupKey: "MEDIA_CREATIVE",
-    groupLabel: "Media & Creative"
+    groupLabel: "Media & Creative",
+    archetype: "StudioPage"
   },
   {
     ordinal: 299,
@@ -2391,7 +2692,8 @@ export const PAGE_TYPES = [
     name: "Audio Editor Page",
     groupId: "P23",
     groupKey: "MEDIA_CREATIVE",
-    groupLabel: "Media & Creative"
+    groupLabel: "Media & Creative",
+    archetype: "StudioPage"
   },
   {
     ordinal: 300,
@@ -2399,7 +2701,8 @@ export const PAGE_TYPES = [
     name: "Media Studio Page",
     groupId: "P23",
     groupKey: "MEDIA_CREATIVE",
-    groupLabel: "Media & Creative"
+    groupLabel: "Media & Creative",
+    archetype: "StudioPage"
   },
   {
     ordinal: 301,
@@ -2407,7 +2710,8 @@ export const PAGE_TYPES = [
     name: "Creative Studio Page",
     groupId: "P23",
     groupKey: "MEDIA_CREATIVE",
-    groupLabel: "Media & Creative"
+    groupLabel: "Media & Creative",
+    archetype: "StudioPage"
   },
   {
     ordinal: 302,
@@ -2415,7 +2719,8 @@ export const PAGE_TYPES = [
     name: "3D Studio Page",
     groupId: "P24",
     groupKey: "SPATIAL_3D",
-    groupLabel: "Spatial & 3D"
+    groupLabel: "Spatial & 3D",
+    archetype: "StudioPage"
   },
   {
     ordinal: 303,
@@ -2423,7 +2728,8 @@ export const PAGE_TYPES = [
     name: "Spatial Studio Page",
     groupId: "P24",
     groupKey: "SPATIAL_3D",
-    groupLabel: "Spatial & 3D"
+    groupLabel: "Spatial & 3D",
+    archetype: "StudioPage"
   },
   {
     ordinal: 304,
@@ -2431,7 +2737,8 @@ export const PAGE_TYPES = [
     name: "CAD Page",
     groupId: "P24",
     groupKey: "SPATIAL_3D",
-    groupLabel: "Spatial & 3D"
+    groupLabel: "Spatial & 3D",
+    archetype: "StudioPage"
   },
   {
     ordinal: 305,
@@ -2439,7 +2746,8 @@ export const PAGE_TYPES = [
     name: "3D Preview Page",
     groupId: "P24",
     groupKey: "SPATIAL_3D",
-    groupLabel: "Spatial & 3D"
+    groupLabel: "Spatial & 3D",
+    archetype: "StudioPage"
   },
   {
     ordinal: 306,
@@ -2447,7 +2755,8 @@ export const PAGE_TYPES = [
     name: "Floor Plan Page",
     groupId: "P24",
     groupKey: "SPATIAL_3D",
-    groupLabel: "Spatial & 3D"
+    groupLabel: "Spatial & 3D",
+    archetype: "StudioPage"
   },
   {
     ordinal: 307,
@@ -2455,7 +2764,8 @@ export const PAGE_TYPES = [
     name: "Venue Layout Page",
     groupId: "P24",
     groupKey: "SPATIAL_3D",
-    groupLabel: "Spatial & 3D"
+    groupLabel: "Spatial & 3D",
+    archetype: "StudioPage"
   },
   {
     ordinal: 308,
@@ -2463,7 +2773,8 @@ export const PAGE_TYPES = [
     name: "Map Page",
     groupId: "P24",
     groupKey: "SPATIAL_3D",
-    groupLabel: "Spatial & 3D"
+    groupLabel: "Spatial & 3D",
+    archetype: "StudioPage"
   },
   {
     ordinal: 309,
@@ -2471,7 +2782,8 @@ export const PAGE_TYPES = [
     name: "Map Explorer Page",
     groupId: "P24",
     groupKey: "SPATIAL_3D",
-    groupLabel: "Spatial & 3D"
+    groupLabel: "Spatial & 3D",
+    archetype: "StudioPage"
   },
   {
     ordinal: 310,
@@ -2479,7 +2791,8 @@ export const PAGE_TYPES = [
     name: "Route Planner Page",
     groupId: "P24",
     groupKey: "SPATIAL_3D",
-    groupLabel: "Spatial & 3D"
+    groupLabel: "Spatial & 3D",
+    archetype: "StudioPage"
   },
   {
     ordinal: 311,
@@ -2487,7 +2800,8 @@ export const PAGE_TYPES = [
     name: "Location Detail Page",
     groupId: "P24",
     groupKey: "SPATIAL_3D",
-    groupLabel: "Spatial & 3D"
+    groupLabel: "Spatial & 3D",
+    archetype: "DetailPage"
   },
   {
     ordinal: 312,
@@ -2495,7 +2809,8 @@ export const PAGE_TYPES = [
     name: "Digital Twin Page",
     groupId: "P24",
     groupKey: "SPATIAL_3D",
-    groupLabel: "Spatial & 3D"
+    groupLabel: "Spatial & 3D",
+    archetype: "StudioPage"
   },
   {
     ordinal: 313,
@@ -2503,7 +2818,8 @@ export const PAGE_TYPES = [
     name: "Simulation Page",
     groupId: "P24",
     groupKey: "SPATIAL_3D",
-    groupLabel: "Spatial & 3D"
+    groupLabel: "Spatial & 3D",
+    archetype: "StudioPage"
   },
   {
     ordinal: 314,
@@ -2511,7 +2827,8 @@ export const PAGE_TYPES = [
     name: "AI Home Page",
     groupId: "P25",
     groupKey: "AI_KNOWLEDGE",
-    groupLabel: "AI & Knowledge"
+    groupLabel: "AI & Knowledge",
+    archetype: "StudioPage"
   },
   {
     ordinal: 315,
@@ -2519,7 +2836,8 @@ export const PAGE_TYPES = [
     name: "AI Assistant Page",
     groupId: "P25",
     groupKey: "AI_KNOWLEDGE",
-    groupLabel: "AI & Knowledge"
+    groupLabel: "AI & Knowledge",
+    archetype: "StudioPage"
   },
   {
     ordinal: 316,
@@ -2527,7 +2845,8 @@ export const PAGE_TYPES = [
     name: "AI Chat Page",
     groupId: "P25",
     groupKey: "AI_KNOWLEDGE",
-    groupLabel: "AI & Knowledge"
+    groupLabel: "AI & Knowledge",
+    archetype: "StudioPage"
   },
   {
     ordinal: 317,
@@ -2535,7 +2854,8 @@ export const PAGE_TYPES = [
     name: "Agent Catalog Page",
     groupId: "P25",
     groupKey: "AI_KNOWLEDGE",
-    groupLabel: "AI & Knowledge"
+    groupLabel: "AI & Knowledge",
+    archetype: "ListPage"
   },
   {
     ordinal: 318,
@@ -2543,7 +2863,8 @@ export const PAGE_TYPES = [
     name: "Agent Detail Page",
     groupId: "P25",
     groupKey: "AI_KNOWLEDGE",
-    groupLabel: "AI & Knowledge"
+    groupLabel: "AI & Knowledge",
+    archetype: "DetailPage"
   },
   {
     ordinal: 319,
@@ -2551,7 +2872,8 @@ export const PAGE_TYPES = [
     name: "Agent Builder Page",
     groupId: "P25",
     groupKey: "AI_KNOWLEDGE",
-    groupLabel: "AI & Knowledge"
+    groupLabel: "AI & Knowledge",
+    archetype: "BuilderPage"
   },
   {
     ordinal: 320,
@@ -2559,7 +2881,8 @@ export const PAGE_TYPES = [
     name: "Agent Run Page",
     groupId: "P25",
     groupKey: "AI_KNOWLEDGE",
-    groupLabel: "AI & Knowledge"
+    groupLabel: "AI & Knowledge",
+    archetype: "StudioPage"
   },
   {
     ordinal: 321,
@@ -2567,7 +2890,8 @@ export const PAGE_TYPES = [
     name: "Prompt Library Page",
     groupId: "P25",
     groupKey: "AI_KNOWLEDGE",
-    groupLabel: "AI & Knowledge"
+    groupLabel: "AI & Knowledge",
+    archetype: "ListPage"
   },
   {
     ordinal: 322,
@@ -2575,7 +2899,8 @@ export const PAGE_TYPES = [
     name: "Prompt Editor Page",
     groupId: "P25",
     groupKey: "AI_KNOWLEDGE",
-    groupLabel: "AI & Knowledge"
+    groupLabel: "AI & Knowledge",
+    archetype: "StudioPage"
   },
   {
     ordinal: 323,
@@ -2583,7 +2908,8 @@ export const PAGE_TYPES = [
     name: "Model Catalog Page",
     groupId: "P25",
     groupKey: "AI_KNOWLEDGE",
-    groupLabel: "AI & Knowledge"
+    groupLabel: "AI & Knowledge",
+    archetype: "ListPage"
   },
   {
     ordinal: 324,
@@ -2591,7 +2917,8 @@ export const PAGE_TYPES = [
     name: "Model Detail Page",
     groupId: "P25",
     groupKey: "AI_KNOWLEDGE",
-    groupLabel: "AI & Knowledge"
+    groupLabel: "AI & Knowledge",
+    archetype: "DetailPage"
   },
   {
     ordinal: 325,
@@ -2599,7 +2926,8 @@ export const PAGE_TYPES = [
     name: "AI Playground Page",
     groupId: "P25",
     groupKey: "AI_KNOWLEDGE",
-    groupLabel: "AI & Knowledge"
+    groupLabel: "AI & Knowledge",
+    archetype: "StudioPage"
   },
   {
     ordinal: 326,
@@ -2607,7 +2935,8 @@ export const PAGE_TYPES = [
     name: "AI Evaluation Page",
     groupId: "P25",
     groupKey: "AI_KNOWLEDGE",
-    groupLabel: "AI & Knowledge"
+    groupLabel: "AI & Knowledge",
+    archetype: "StudioPage"
   },
   {
     ordinal: 327,
@@ -2615,7 +2944,8 @@ export const PAGE_TYPES = [
     name: "AI Observability Page",
     groupId: "P25",
     groupKey: "AI_KNOWLEDGE",
-    groupLabel: "AI & Knowledge"
+    groupLabel: "AI & Knowledge",
+    archetype: "StudioPage"
   },
   {
     ordinal: 328,
@@ -2623,7 +2953,8 @@ export const PAGE_TYPES = [
     name: "Knowledge Page",
     groupId: "P25",
     groupKey: "AI_KNOWLEDGE",
-    groupLabel: "AI & Knowledge"
+    groupLabel: "AI & Knowledge",
+    archetype: "StudioPage"
   },
   {
     ordinal: 329,
@@ -2631,7 +2962,8 @@ export const PAGE_TYPES = [
     name: "Knowledge Source Page",
     groupId: "P25",
     groupKey: "AI_KNOWLEDGE",
-    groupLabel: "AI & Knowledge"
+    groupLabel: "AI & Knowledge",
+    archetype: "StudioPage"
   },
   {
     ordinal: 330,
@@ -2639,7 +2971,8 @@ export const PAGE_TYPES = [
     name: "RAG/Index Page",
     groupId: "P25",
     groupKey: "AI_KNOWLEDGE",
-    groupLabel: "AI & Knowledge"
+    groupLabel: "AI & Knowledge",
+    archetype: "ListPage"
   },
   {
     ordinal: 331,
@@ -2647,7 +2980,8 @@ export const PAGE_TYPES = [
     name: "Marketplace Home Page",
     groupId: "P26",
     groupKey: "MARKETPLACE_COMMERCE",
-    groupLabel: "Marketplace & Commerce"
+    groupLabel: "Marketplace & Commerce",
+    archetype: "ListPage"
   },
   {
     ordinal: 332,
@@ -2655,7 +2989,8 @@ export const PAGE_TYPES = [
     name: "Marketplace Search Page",
     groupId: "P26",
     groupKey: "MARKETPLACE_COMMERCE",
-    groupLabel: "Marketplace & Commerce"
+    groupLabel: "Marketplace & Commerce",
+    archetype: "SearchPage"
   },
   {
     ordinal: 333,
@@ -2663,7 +2998,8 @@ export const PAGE_TYPES = [
     name: "Category Page",
     groupId: "P26",
     groupKey: "MARKETPLACE_COMMERCE",
-    groupLabel: "Marketplace & Commerce"
+    groupLabel: "Marketplace & Commerce",
+    archetype: "ListPage"
   },
   {
     ordinal: 334,
@@ -2671,7 +3007,8 @@ export const PAGE_TYPES = [
     name: "Listing Page",
     groupId: "P26",
     groupKey: "MARKETPLACE_COMMERCE",
-    groupLabel: "Marketplace & Commerce"
+    groupLabel: "Marketplace & Commerce",
+    archetype: "ListPage"
   },
   {
     ordinal: 335,
@@ -2679,7 +3016,8 @@ export const PAGE_TYPES = [
     name: "Vendor Directory Page",
     groupId: "P26",
     groupKey: "MARKETPLACE_COMMERCE",
-    groupLabel: "Marketplace & Commerce"
+    groupLabel: "Marketplace & Commerce",
+    archetype: "ListPage"
   },
   {
     ordinal: 336,
@@ -2687,7 +3025,8 @@ export const PAGE_TYPES = [
     name: "Vendor Profile Page",
     groupId: "P26",
     groupKey: "MARKETPLACE_COMMERCE",
-    groupLabel: "Marketplace & Commerce"
+    groupLabel: "Marketplace & Commerce",
+    archetype: "DetailPage"
   },
   {
     ordinal: 337,
@@ -2695,7 +3034,8 @@ export const PAGE_TYPES = [
     name: "Vendor Dashboard Page",
     groupId: "P26",
     groupKey: "MARKETPLACE_COMMERCE",
-    groupLabel: "Marketplace & Commerce"
+    groupLabel: "Marketplace & Commerce",
+    archetype: "DashboardPage"
   },
   {
     ordinal: 338,
@@ -2703,7 +3043,8 @@ export const PAGE_TYPES = [
     name: "Service Catalog Page",
     groupId: "P26",
     groupKey: "MARKETPLACE_COMMERCE",
-    groupLabel: "Marketplace & Commerce"
+    groupLabel: "Marketplace & Commerce",
+    archetype: "ListPage"
   },
   {
     ordinal: 339,
@@ -2711,7 +3052,8 @@ export const PAGE_TYPES = [
     name: "Service Detail Page",
     groupId: "P26",
     groupKey: "MARKETPLACE_COMMERCE",
-    groupLabel: "Marketplace & Commerce"
+    groupLabel: "Marketplace & Commerce",
+    archetype: "DetailPage"
   },
   {
     ordinal: 340,
@@ -2719,7 +3061,8 @@ export const PAGE_TYPES = [
     name: "SKU Catalog Page",
     groupId: "P26",
     groupKey: "MARKETPLACE_COMMERCE",
-    groupLabel: "Marketplace & Commerce"
+    groupLabel: "Marketplace & Commerce",
+    archetype: "ListPage"
   },
   {
     ordinal: 341,
@@ -2727,7 +3070,8 @@ export const PAGE_TYPES = [
     name: "SKU Detail Page",
     groupId: "P26",
     groupKey: "MARKETPLACE_COMMERCE",
-    groupLabel: "Marketplace & Commerce"
+    groupLabel: "Marketplace & Commerce",
+    archetype: "DetailPage"
   },
   {
     ordinal: 342,
@@ -2735,7 +3079,8 @@ export const PAGE_TYPES = [
     name: "Compare Vendors Page",
     groupId: "P26",
     groupKey: "MARKETPLACE_COMMERCE",
-    groupLabel: "Marketplace & Commerce"
+    groupLabel: "Marketplace & Commerce",
+    archetype: "ListPage"
   },
   {
     ordinal: 343,
@@ -2743,7 +3088,8 @@ export const PAGE_TYPES = [
     name: "Wishlist Page",
     groupId: "P26",
     groupKey: "MARKETPLACE_COMMERCE",
-    groupLabel: "Marketplace & Commerce"
+    groupLabel: "Marketplace & Commerce",
+    archetype: "ListPage"
   },
   {
     ordinal: 344,
@@ -2751,7 +3097,8 @@ export const PAGE_TYPES = [
     name: "Favorites Page",
     groupId: "P26",
     groupKey: "MARKETPLACE_COMMERCE",
-    groupLabel: "Marketplace & Commerce"
+    groupLabel: "Marketplace & Commerce",
+    archetype: "ListPage"
   },
   {
     ordinal: 345,
@@ -2759,7 +3106,8 @@ export const PAGE_TYPES = [
     name: "Cart Page",
     groupId: "P26",
     groupKey: "MARKETPLACE_COMMERCE",
-    groupLabel: "Marketplace & Commerce"
+    groupLabel: "Marketplace & Commerce",
+    archetype: "TransactionPage"
   },
   {
     ordinal: 346,
@@ -2767,7 +3115,8 @@ export const PAGE_TYPES = [
     name: "Checkout Page",
     groupId: "P26",
     groupKey: "MARKETPLACE_COMMERCE",
-    groupLabel: "Marketplace & Commerce"
+    groupLabel: "Marketplace & Commerce",
+    archetype: "TransactionPage"
   },
   {
     ordinal: 347,
@@ -2775,7 +3124,8 @@ export const PAGE_TYPES = [
     name: "Order Confirmation Page",
     groupId: "P26",
     groupKey: "MARKETPLACE_COMMERCE",
-    groupLabel: "Marketplace & Commerce"
+    groupLabel: "Marketplace & Commerce",
+    archetype: "TransactionPage"
   },
   {
     ordinal: 348,
@@ -2783,7 +3133,8 @@ export const PAGE_TYPES = [
     name: "Orders Page",
     groupId: "P26",
     groupKey: "MARKETPLACE_COMMERCE",
-    groupLabel: "Marketplace & Commerce"
+    groupLabel: "Marketplace & Commerce",
+    archetype: "ListPage"
   },
   {
     ordinal: 349,
@@ -2791,7 +3142,8 @@ export const PAGE_TYPES = [
     name: "Order Detail Page",
     groupId: "P26",
     groupKey: "MARKETPLACE_COMMERCE",
-    groupLabel: "Marketplace & Commerce"
+    groupLabel: "Marketplace & Commerce",
+    archetype: "DetailPage"
   },
   {
     ordinal: 350,
@@ -2799,7 +3151,8 @@ export const PAGE_TYPES = [
     name: "Booking Home Page",
     groupId: "P27",
     groupKey: "BOOKING",
-    groupLabel: "Booking"
+    groupLabel: "Booking",
+    archetype: "TransactionPage"
   },
   {
     ordinal: 351,
@@ -2807,7 +3160,8 @@ export const PAGE_TYPES = [
     name: "Booking Search Page",
     groupId: "P27",
     groupKey: "BOOKING",
-    groupLabel: "Booking"
+    groupLabel: "Booking",
+    archetype: "SearchPage"
   },
   {
     ordinal: 352,
@@ -2815,7 +3169,8 @@ export const PAGE_TYPES = [
     name: "Booking Selection Page",
     groupId: "P27",
     groupKey: "BOOKING",
-    groupLabel: "Booking"
+    groupLabel: "Booking",
+    archetype: "TransactionPage"
   },
   {
     ordinal: 353,
@@ -2823,7 +3178,8 @@ export const PAGE_TYPES = [
     name: "Booking Review Page",
     groupId: "P27",
     groupKey: "BOOKING",
-    groupLabel: "Booking"
+    groupLabel: "Booking",
+    archetype: "ReviewPage"
   },
   {
     ordinal: 354,
@@ -2831,7 +3187,8 @@ export const PAGE_TYPES = [
     name: "Booking Payment Page",
     groupId: "P27",
     groupKey: "BOOKING",
-    groupLabel: "Booking"
+    groupLabel: "Booking",
+    archetype: "TransactionPage"
   },
   {
     ordinal: 355,
@@ -2839,7 +3196,8 @@ export const PAGE_TYPES = [
     name: "Booking Confirmation Page",
     groupId: "P27",
     groupKey: "BOOKING",
-    groupLabel: "Booking"
+    groupLabel: "Booking",
+    archetype: "TransactionPage"
   },
   {
     ordinal: 356,
@@ -2847,7 +3205,8 @@ export const PAGE_TYPES = [
     name: "Bookings Page",
     groupId: "P27",
     groupKey: "BOOKING",
-    groupLabel: "Booking"
+    groupLabel: "Booking",
+    archetype: "ListPage"
   },
   {
     ordinal: 357,
@@ -2855,7 +3214,8 @@ export const PAGE_TYPES = [
     name: "Booking Detail Page",
     groupId: "P27",
     groupKey: "BOOKING",
-    groupLabel: "Booking"
+    groupLabel: "Booking",
+    archetype: "DetailPage"
   },
   {
     ordinal: 358,
@@ -2863,7 +3223,8 @@ export const PAGE_TYPES = [
     name: "Quote Page",
     groupId: "P28",
     groupKey: "COMMERCIAL_FINANCE_INVESTMENT",
-    groupLabel: "Commercial, Finance & Investment"
+    groupLabel: "Commercial, Finance & Investment",
+    archetype: "DataPage"
   },
   {
     ordinal: 359,
@@ -2871,7 +3232,8 @@ export const PAGE_TYPES = [
     name: "Proposal Page",
     groupId: "P28",
     groupKey: "COMMERCIAL_FINANCE_INVESTMENT",
-    groupLabel: "Commercial, Finance & Investment"
+    groupLabel: "Commercial, Finance & Investment",
+    archetype: "DataPage"
   },
   {
     ordinal: 360,
@@ -2879,7 +3241,8 @@ export const PAGE_TYPES = [
     name: "Proposal Builder Page",
     groupId: "P28",
     groupKey: "COMMERCIAL_FINANCE_INVESTMENT",
-    groupLabel: "Commercial, Finance & Investment"
+    groupLabel: "Commercial, Finance & Investment",
+    archetype: "BuilderPage"
   },
   {
     ordinal: 361,
@@ -2887,7 +3250,8 @@ export const PAGE_TYPES = [
     name: "Contract Page",
     groupId: "P28",
     groupKey: "COMMERCIAL_FINANCE_INVESTMENT",
-    groupLabel: "Commercial, Finance & Investment"
+    groupLabel: "Commercial, Finance & Investment",
+    archetype: "DataPage"
   },
   {
     ordinal: 362,
@@ -2895,7 +3259,8 @@ export const PAGE_TYPES = [
     name: "Invoice Page",
     groupId: "P28",
     groupKey: "COMMERCIAL_FINANCE_INVESTMENT",
-    groupLabel: "Commercial, Finance & Investment"
+    groupLabel: "Commercial, Finance & Investment",
+    archetype: "DataPage"
   },
   {
     ordinal: 363,
@@ -2903,7 +3268,8 @@ export const PAGE_TYPES = [
     name: "Invoices Page",
     groupId: "P28",
     groupKey: "COMMERCIAL_FINANCE_INVESTMENT",
-    groupLabel: "Commercial, Finance & Investment"
+    groupLabel: "Commercial, Finance & Investment",
+    archetype: "DataPage"
   },
   {
     ordinal: 364,
@@ -2911,7 +3277,8 @@ export const PAGE_TYPES = [
     name: "Payments Page",
     groupId: "P28",
     groupKey: "COMMERCIAL_FINANCE_INVESTMENT",
-    groupLabel: "Commercial, Finance & Investment"
+    groupLabel: "Commercial, Finance & Investment",
+    archetype: "DataPage"
   },
   {
     ordinal: 365,
@@ -2919,7 +3286,8 @@ export const PAGE_TYPES = [
     name: "Payment Detail Page",
     groupId: "P28",
     groupKey: "COMMERCIAL_FINANCE_INVESTMENT",
-    groupLabel: "Commercial, Finance & Investment"
+    groupLabel: "Commercial, Finance & Investment",
+    archetype: "DetailPage"
   },
   {
     ordinal: 366,
@@ -2927,7 +3295,8 @@ export const PAGE_TYPES = [
     name: "Payouts Page",
     groupId: "P28",
     groupKey: "COMMERCIAL_FINANCE_INVESTMENT",
-    groupLabel: "Commercial, Finance & Investment"
+    groupLabel: "Commercial, Finance & Investment",
+    archetype: "DataPage"
   },
   {
     ordinal: 367,
@@ -2935,7 +3304,8 @@ export const PAGE_TYPES = [
     name: "Transactions Page",
     groupId: "P28",
     groupKey: "COMMERCIAL_FINANCE_INVESTMENT",
-    groupLabel: "Commercial, Finance & Investment"
+    groupLabel: "Commercial, Finance & Investment",
+    archetype: "DataPage"
   },
   {
     ordinal: 368,
@@ -2943,7 +3313,8 @@ export const PAGE_TYPES = [
     name: "Finance Dashboard Page",
     groupId: "P28",
     groupKey: "COMMERCIAL_FINANCE_INVESTMENT",
-    groupLabel: "Commercial, Finance & Investment"
+    groupLabel: "Commercial, Finance & Investment",
+    archetype: "DashboardPage"
   },
   {
     ordinal: 369,
@@ -2951,7 +3322,8 @@ export const PAGE_TYPES = [
     name: "Budget Page",
     groupId: "P28",
     groupKey: "COMMERCIAL_FINANCE_INVESTMENT",
-    groupLabel: "Commercial, Finance & Investment"
+    groupLabel: "Commercial, Finance & Investment",
+    archetype: "DataPage"
   },
   {
     ordinal: 370,
@@ -2959,7 +3331,8 @@ export const PAGE_TYPES = [
     name: "Expense Page",
     groupId: "P28",
     groupKey: "COMMERCIAL_FINANCE_INVESTMENT",
-    groupLabel: "Commercial, Finance & Investment"
+    groupLabel: "Commercial, Finance & Investment",
+    archetype: "DataPage"
   },
   {
     ordinal: 371,
@@ -2967,7 +3340,8 @@ export const PAGE_TYPES = [
     name: "Revenue Page",
     groupId: "P28",
     groupKey: "COMMERCIAL_FINANCE_INVESTMENT",
-    groupLabel: "Commercial, Finance & Investment"
+    groupLabel: "Commercial, Finance & Investment",
+    archetype: "DataPage"
   },
   {
     ordinal: 372,
@@ -2975,7 +3349,8 @@ export const PAGE_TYPES = [
     name: "Cash Flow Page",
     groupId: "P28",
     groupKey: "COMMERCIAL_FINANCE_INVESTMENT",
-    groupLabel: "Commercial, Finance & Investment"
+    groupLabel: "Commercial, Finance & Investment",
+    archetype: "DataPage"
   },
   {
     ordinal: 373,
@@ -2983,7 +3358,8 @@ export const PAGE_TYPES = [
     name: "Forecast Page",
     groupId: "P28",
     groupKey: "COMMERCIAL_FINANCE_INVESTMENT",
-    groupLabel: "Commercial, Finance & Investment"
+    groupLabel: "Commercial, Finance & Investment",
+    archetype: "DataPage"
   },
   {
     ordinal: 374,
@@ -2991,7 +3367,8 @@ export const PAGE_TYPES = [
     name: "Accounting Page",
     groupId: "P28",
     groupKey: "COMMERCIAL_FINANCE_INVESTMENT",
-    groupLabel: "Commercial, Finance & Investment"
+    groupLabel: "Commercial, Finance & Investment",
+    archetype: "DataPage"
   },
   {
     ordinal: 375,
@@ -2999,7 +3376,8 @@ export const PAGE_TYPES = [
     name: "Ledger Page",
     groupId: "P28",
     groupKey: "COMMERCIAL_FINANCE_INVESTMENT",
-    groupLabel: "Commercial, Finance & Investment"
+    groupLabel: "Commercial, Finance & Investment",
+    archetype: "DataPage"
   },
   {
     ordinal: 376,
@@ -3007,7 +3385,8 @@ export const PAGE_TYPES = [
     name: "Reconciliation Page",
     groupId: "P28",
     groupKey: "COMMERCIAL_FINANCE_INVESTMENT",
-    groupLabel: "Commercial, Finance & Investment"
+    groupLabel: "Commercial, Finance & Investment",
+    archetype: "DataPage"
   },
   {
     ordinal: 377,
@@ -3015,7 +3394,8 @@ export const PAGE_TYPES = [
     name: "Tax Page",
     groupId: "P28",
     groupKey: "COMMERCIAL_FINANCE_INVESTMENT",
-    groupLabel: "Commercial, Finance & Investment"
+    groupLabel: "Commercial, Finance & Investment",
+    archetype: "DataPage"
   },
   {
     ordinal: 378,
@@ -3023,15 +3403,17 @@ export const PAGE_TYPES = [
     name: "Investor Dashboard Page",
     groupId: "P28",
     groupKey: "COMMERCIAL_FINANCE_INVESTMENT",
-    groupLabel: "Commercial, Finance & Investment"
+    groupLabel: "Commercial, Finance & Investment",
+    archetype: "DashboardPage"
   },
   {
     ordinal: 379,
     id: "PAGE.COMMERCIAL_FINANCE_INVESTMENT.PORTFOLIO",
-    name: "Portfolio Page",
+    name: "Investment Portfolio Page",
     groupId: "P28",
     groupKey: "COMMERCIAL_FINANCE_INVESTMENT",
-    groupLabel: "Commercial, Finance & Investment"
+    groupLabel: "Commercial, Finance & Investment",
+    archetype: "DataPage"
   },
   {
     ordinal: 380,
@@ -3039,7 +3421,8 @@ export const PAGE_TYPES = [
     name: "Investment Detail Page",
     groupId: "P28",
     groupKey: "COMMERCIAL_FINANCE_INVESTMENT",
-    groupLabel: "Commercial, Finance & Investment"
+    groupLabel: "Commercial, Finance & Investment",
+    archetype: "DetailPage"
   },
   {
     ordinal: 381,
@@ -3047,7 +3430,8 @@ export const PAGE_TYPES = [
     name: "Fundraising Page",
     groupId: "P28",
     groupKey: "COMMERCIAL_FINANCE_INVESTMENT",
-    groupLabel: "Commercial, Finance & Investment"
+    groupLabel: "Commercial, Finance & Investment",
+    archetype: "DataPage"
   },
   {
     ordinal: 382,
@@ -3055,7 +3439,8 @@ export const PAGE_TYPES = [
     name: "Cap Table Page",
     groupId: "P28",
     groupKey: "COMMERCIAL_FINANCE_INVESTMENT",
-    groupLabel: "Commercial, Finance & Investment"
+    groupLabel: "Commercial, Finance & Investment",
+    archetype: "DataPage"
   },
   {
     ordinal: 383,
@@ -3063,7 +3448,8 @@ export const PAGE_TYPES = [
     name: "Event Discovery Page",
     groupId: "P29",
     groupKey: "EVENTS",
-    groupLabel: "Events"
+    groupLabel: "Events",
+    archetype: "SearchPage"
   },
   {
     ordinal: 384,
@@ -3071,7 +3457,8 @@ export const PAGE_TYPES = [
     name: "Event Category Page",
     groupId: "P29",
     groupKey: "EVENTS",
-    groupLabel: "Events"
+    groupLabel: "Events",
+    archetype: "ListPage"
   },
   {
     ordinal: 385,
@@ -3079,7 +3466,8 @@ export const PAGE_TYPES = [
     name: "Event Detail Page",
     groupId: "P29",
     groupKey: "EVENTS",
-    groupLabel: "Events"
+    groupLabel: "Events",
+    archetype: "DetailPage"
   },
   {
     ordinal: 386,
@@ -3087,7 +3475,8 @@ export const PAGE_TYPES = [
     name: "Event Builder Page",
     groupId: "P29",
     groupKey: "EVENTS",
-    groupLabel: "Events"
+    groupLabel: "Events",
+    archetype: "BuilderPage"
   },
   {
     ordinal: 387,
@@ -3095,7 +3484,8 @@ export const PAGE_TYPES = [
     name: "Event Dashboard Page",
     groupId: "P29",
     groupKey: "EVENTS",
-    groupLabel: "Events"
+    groupLabel: "Events",
+    archetype: "DashboardPage"
   },
   {
     ordinal: 388,
@@ -3103,7 +3493,8 @@ export const PAGE_TYPES = [
     name: "Event Production Page",
     groupId: "P29",
     groupKey: "EVENTS",
-    groupLabel: "Events"
+    groupLabel: "Events",
+    archetype: "DetailPage"
   },
   {
     ordinal: 389,
@@ -3111,7 +3502,8 @@ export const PAGE_TYPES = [
     name: "Event Schedule Page",
     groupId: "P29",
     groupKey: "EVENTS",
-    groupLabel: "Events"
+    groupLabel: "Events",
+    archetype: "DetailPage"
   },
   {
     ordinal: 390,
@@ -3119,7 +3511,8 @@ export const PAGE_TYPES = [
     name: "Event Guests Page",
     groupId: "P29",
     groupKey: "EVENTS",
-    groupLabel: "Events"
+    groupLabel: "Events",
+    archetype: "DetailPage"
   },
   {
     ordinal: 391,
@@ -3127,7 +3520,8 @@ export const PAGE_TYPES = [
     name: "Guest Detail Page",
     groupId: "P29",
     groupKey: "EVENTS",
-    groupLabel: "Events"
+    groupLabel: "Events",
+    archetype: "DetailPage"
   },
   {
     ordinal: 392,
@@ -3135,7 +3529,8 @@ export const PAGE_TYPES = [
     name: "Event Vendors Page",
     groupId: "P29",
     groupKey: "EVENTS",
-    groupLabel: "Events"
+    groupLabel: "Events",
+    archetype: "DetailPage"
   },
   {
     ordinal: 393,
@@ -3143,7 +3538,8 @@ export const PAGE_TYPES = [
     name: "Event Services Page",
     groupId: "P29",
     groupKey: "EVENTS",
-    groupLabel: "Events"
+    groupLabel: "Events",
+    archetype: "DetailPage"
   },
   {
     ordinal: 394,
@@ -3151,7 +3547,8 @@ export const PAGE_TYPES = [
     name: "Event Venue Page",
     groupId: "P29",
     groupKey: "EVENTS",
-    groupLabel: "Events"
+    groupLabel: "Events",
+    archetype: "DetailPage"
   },
   {
     ordinal: 395,
@@ -3159,7 +3556,8 @@ export const PAGE_TYPES = [
     name: "Event Spatial Page",
     groupId: "P29",
     groupKey: "EVENTS",
-    groupLabel: "Events"
+    groupLabel: "Events",
+    archetype: "DetailPage"
   },
   {
     ordinal: 396,
@@ -3167,7 +3565,8 @@ export const PAGE_TYPES = [
     name: "Event Sponsorship Page",
     groupId: "P29",
     groupKey: "EVENTS",
-    groupLabel: "Events"
+    groupLabel: "Events",
+    archetype: "DetailPage"
   },
   {
     ordinal: 397,
@@ -3175,7 +3574,8 @@ export const PAGE_TYPES = [
     name: "Sponsor Detail Page",
     groupId: "P29",
     groupKey: "EVENTS",
-    groupLabel: "Events"
+    groupLabel: "Events",
+    archetype: "DetailPage"
   },
   {
     ordinal: 398,
@@ -3183,7 +3583,8 @@ export const PAGE_TYPES = [
     name: "Event ROI Page",
     groupId: "P29",
     groupKey: "EVENTS",
-    groupLabel: "Events"
+    groupLabel: "Events",
+    archetype: "DetailPage"
   },
   {
     ordinal: 399,
@@ -3191,7 +3592,8 @@ export const PAGE_TYPES = [
     name: "Event Settlement Page",
     groupId: "P29",
     groupKey: "EVENTS",
-    groupLabel: "Events"
+    groupLabel: "Events",
+    archetype: "DetailPage"
   },
   {
     ordinal: 400,
@@ -3199,7 +3601,8 @@ export const PAGE_TYPES = [
     name: "Production Dashboard Page",
     groupId: "P30",
     groupKey: "PRODUCTION_LOGISTICS",
-    groupLabel: "Production & Logistics"
+    groupLabel: "Production & Logistics",
+    archetype: "DashboardPage"
   },
   {
     ordinal: 401,
@@ -3207,7 +3610,8 @@ export const PAGE_TYPES = [
     name: "Production Schedule Page",
     groupId: "P30",
     groupKey: "PRODUCTION_LOGISTICS",
-    groupLabel: "Production & Logistics"
+    groupLabel: "Production & Logistics",
+    archetype: "DetailPage"
   },
   {
     ordinal: 402,
@@ -3215,7 +3619,8 @@ export const PAGE_TYPES = [
     name: "Call Sheet Page",
     groupId: "P30",
     groupKey: "PRODUCTION_LOGISTICS",
-    groupLabel: "Production & Logistics"
+    groupLabel: "Production & Logistics",
+    archetype: "DetailPage"
   },
   {
     ordinal: 403,
@@ -3223,7 +3628,8 @@ export const PAGE_TYPES = [
     name: "Casting Page",
     groupId: "P30",
     groupKey: "PRODUCTION_LOGISTICS",
-    groupLabel: "Production & Logistics"
+    groupLabel: "Production & Logistics",
+    archetype: "DetailPage"
   },
   {
     ordinal: 404,
@@ -3231,7 +3637,8 @@ export const PAGE_TYPES = [
     name: "Casting Detail Page",
     groupId: "P30",
     groupKey: "PRODUCTION_LOGISTICS",
-    groupLabel: "Production & Logistics"
+    groupLabel: "Production & Logistics",
+    archetype: "DetailPage"
   },
   {
     ordinal: 405,
@@ -3239,7 +3646,8 @@ export const PAGE_TYPES = [
     name: "Crew Page",
     groupId: "P30",
     groupKey: "PRODUCTION_LOGISTICS",
-    groupLabel: "Production & Logistics"
+    groupLabel: "Production & Logistics",
+    archetype: "DetailPage"
   },
   {
     ordinal: 406,
@@ -3247,7 +3655,8 @@ export const PAGE_TYPES = [
     name: "Crew Detail Page",
     groupId: "P30",
     groupKey: "PRODUCTION_LOGISTICS",
-    groupLabel: "Production & Logistics"
+    groupLabel: "Production & Logistics",
+    archetype: "DetailPage"
   },
   {
     ordinal: 407,
@@ -3255,7 +3664,8 @@ export const PAGE_TYPES = [
     name: "Locations Page",
     groupId: "P30",
     groupKey: "PRODUCTION_LOGISTICS",
-    groupLabel: "Production & Logistics"
+    groupLabel: "Production & Logistics",
+    archetype: "DetailPage"
   },
   {
     ordinal: 408,
@@ -3263,7 +3673,8 @@ export const PAGE_TYPES = [
     name: "Location Workspace Page",
     groupId: "P30",
     groupKey: "PRODUCTION_LOGISTICS",
-    groupLabel: "Production & Logistics"
+    groupLabel: "Production & Logistics",
+    archetype: "DetailPage"
   },
   {
     ordinal: 409,
@@ -3271,7 +3682,8 @@ export const PAGE_TYPES = [
     name: "Shot List Page",
     groupId: "P30",
     groupKey: "PRODUCTION_LOGISTICS",
-    groupLabel: "Production & Logistics"
+    groupLabel: "Production & Logistics",
+    archetype: "ListPage"
   },
   {
     ordinal: 410,
@@ -3279,7 +3691,8 @@ export const PAGE_TYPES = [
     name: "Shot Detail Page",
     groupId: "P30",
     groupKey: "PRODUCTION_LOGISTICS",
-    groupLabel: "Production & Logistics"
+    groupLabel: "Production & Logistics",
+    archetype: "DetailPage"
   },
   {
     ordinal: 411,
@@ -3287,7 +3700,8 @@ export const PAGE_TYPES = [
     name: "Storyboard Page",
     groupId: "P30",
     groupKey: "PRODUCTION_LOGISTICS",
-    groupLabel: "Production & Logistics"
+    groupLabel: "Production & Logistics",
+    archetype: "DetailPage"
   },
   {
     ordinal: 412,
@@ -3295,7 +3709,8 @@ export const PAGE_TYPES = [
     name: "Scene Page",
     groupId: "P30",
     groupKey: "PRODUCTION_LOGISTICS",
-    groupLabel: "Production & Logistics"
+    groupLabel: "Production & Logistics",
+    archetype: "DetailPage"
   },
   {
     ordinal: 413,
@@ -3303,7 +3718,8 @@ export const PAGE_TYPES = [
     name: "Script Page",
     groupId: "P30",
     groupKey: "PRODUCTION_LOGISTICS",
-    groupLabel: "Production & Logistics"
+    groupLabel: "Production & Logistics",
+    archetype: "DetailPage"
   },
   {
     ordinal: 414,
@@ -3311,7 +3727,8 @@ export const PAGE_TYPES = [
     name: "Script Breakdown Page",
     groupId: "P30",
     groupKey: "PRODUCTION_LOGISTICS",
-    groupLabel: "Production & Logistics"
+    groupLabel: "Production & Logistics",
+    archetype: "DetailPage"
   },
   {
     ordinal: 415,
@@ -3319,7 +3736,8 @@ export const PAGE_TYPES = [
     name: "Schedule Board Page",
     groupId: "P30",
     groupKey: "PRODUCTION_LOGISTICS",
-    groupLabel: "Production & Logistics"
+    groupLabel: "Production & Logistics",
+    archetype: "DetailPage"
   },
   {
     ordinal: 416,
@@ -3327,7 +3745,8 @@ export const PAGE_TYPES = [
     name: "Equipment Page",
     groupId: "P30",
     groupKey: "PRODUCTION_LOGISTICS",
-    groupLabel: "Production & Logistics"
+    groupLabel: "Production & Logistics",
+    archetype: "DetailPage"
   },
   {
     ordinal: 417,
@@ -3335,7 +3754,8 @@ export const PAGE_TYPES = [
     name: "Logistics Page",
     groupId: "P30",
     groupKey: "PRODUCTION_LOGISTICS",
-    groupLabel: "Production & Logistics"
+    groupLabel: "Production & Logistics",
+    archetype: "DetailPage"
   },
   {
     ordinal: 418,
@@ -3343,7 +3763,8 @@ export const PAGE_TYPES = [
     name: "Travel Page",
     groupId: "P30",
     groupKey: "PRODUCTION_LOGISTICS",
-    groupLabel: "Production & Logistics"
+    groupLabel: "Production & Logistics",
+    archetype: "DetailPage"
   },
   {
     ordinal: 419,
@@ -3351,7 +3772,8 @@ export const PAGE_TYPES = [
     name: "Accommodation Page",
     groupId: "P30",
     groupKey: "PRODUCTION_LOGISTICS",
-    groupLabel: "Production & Logistics"
+    groupLabel: "Production & Logistics",
+    archetype: "DetailPage"
   },
   {
     ordinal: 420,
@@ -3359,7 +3781,8 @@ export const PAGE_TYPES = [
     name: "Transport Page",
     groupId: "P30",
     groupKey: "PRODUCTION_LOGISTICS",
-    groupLabel: "Production & Logistics"
+    groupLabel: "Production & Logistics",
+    archetype: "DetailPage"
   },
   {
     ordinal: 421,
@@ -3367,7 +3790,8 @@ export const PAGE_TYPES = [
     name: "Permits Page",
     groupId: "P30",
     groupKey: "PRODUCTION_LOGISTICS",
-    groupLabel: "Production & Logistics"
+    groupLabel: "Production & Logistics",
+    archetype: "DetailPage"
   },
   {
     ordinal: 422,
@@ -3375,7 +3799,8 @@ export const PAGE_TYPES = [
     name: "Insurance Page",
     groupId: "P30",
     groupKey: "PRODUCTION_LOGISTICS",
-    groupLabel: "Production & Logistics"
+    groupLabel: "Production & Logistics",
+    archetype: "DetailPage"
   },
   {
     ordinal: 423,
@@ -3383,7 +3808,8 @@ export const PAGE_TYPES = [
     name: "Production Finance Page",
     groupId: "P30",
     groupKey: "PRODUCTION_LOGISTICS",
-    groupLabel: "Production & Logistics"
+    groupLabel: "Production & Logistics",
+    archetype: "DetailPage"
   },
   {
     ordinal: 424,
@@ -3391,7 +3817,8 @@ export const PAGE_TYPES = [
     name: "Education Home Page",
     groupId: "P31",
     groupKey: "EDUCATION",
-    groupLabel: "Education"
+    groupLabel: "Education",
+    archetype: "DetailPage"
   },
   {
     ordinal: 425,
@@ -3399,7 +3826,8 @@ export const PAGE_TYPES = [
     name: "Course Catalog Page",
     groupId: "P31",
     groupKey: "EDUCATION",
-    groupLabel: "Education"
+    groupLabel: "Education",
+    archetype: "ListPage"
   },
   {
     ordinal: 426,
@@ -3407,7 +3835,8 @@ export const PAGE_TYPES = [
     name: "Course Detail Page",
     groupId: "P31",
     groupKey: "EDUCATION",
-    groupLabel: "Education"
+    groupLabel: "Education",
+    archetype: "DetailPage"
   },
   {
     ordinal: 427,
@@ -3415,7 +3844,8 @@ export const PAGE_TYPES = [
     name: "Lesson Page",
     groupId: "P31",
     groupKey: "EDUCATION",
-    groupLabel: "Education"
+    groupLabel: "Education",
+    archetype: "DetailPage"
   },
   {
     ordinal: 428,
@@ -3423,7 +3853,8 @@ export const PAGE_TYPES = [
     name: "Quiz Page",
     groupId: "P31",
     groupKey: "EDUCATION",
-    groupLabel: "Education"
+    groupLabel: "Education",
+    archetype: "DetailPage"
   },
   {
     ordinal: 429,
@@ -3431,7 +3862,8 @@ export const PAGE_TYPES = [
     name: "Exam Page",
     groupId: "P31",
     groupKey: "EDUCATION",
-    groupLabel: "Education"
+    groupLabel: "Education",
+    archetype: "DetailPage"
   },
   {
     ordinal: 430,
@@ -3439,7 +3871,8 @@ export const PAGE_TYPES = [
     name: "Assignment Page",
     groupId: "P31",
     groupKey: "EDUCATION",
-    groupLabel: "Education"
+    groupLabel: "Education",
+    archetype: "DetailPage"
   },
   {
     ordinal: 431,
@@ -3447,7 +3880,8 @@ export const PAGE_TYPES = [
     name: "Progress Page",
     groupId: "P31",
     groupKey: "EDUCATION",
-    groupLabel: "Education"
+    groupLabel: "Education",
+    archetype: "DetailPage"
   },
   {
     ordinal: 432,
@@ -3455,7 +3889,8 @@ export const PAGE_TYPES = [
     name: "Certificate Page",
     groupId: "P31",
     groupKey: "EDUCATION",
-    groupLabel: "Education"
+    groupLabel: "Education",
+    archetype: "DetailPage"
   },
   {
     ordinal: 433,
@@ -3463,7 +3898,8 @@ export const PAGE_TYPES = [
     name: "Community Page",
     groupId: "P32",
     groupKey: "COMMUNITY",
-    groupLabel: "Community"
+    groupLabel: "Community",
+    archetype: "ListPage"
   },
   {
     ordinal: 434,
@@ -3471,7 +3907,8 @@ export const PAGE_TYPES = [
     name: "Forum Page",
     groupId: "P32",
     groupKey: "COMMUNITY",
-    groupLabel: "Community"
+    groupLabel: "Community",
+    archetype: "ListPage"
   },
   {
     ordinal: 435,
@@ -3479,7 +3916,8 @@ export const PAGE_TYPES = [
     name: "Discussion Detail Page",
     groupId: "P32",
     groupKey: "COMMUNITY",
-    groupLabel: "Community"
+    groupLabel: "Community",
+    archetype: "DetailPage"
   },
   {
     ordinal: 436,
@@ -3487,7 +3925,8 @@ export const PAGE_TYPES = [
     name: "Members Page",
     groupId: "P32",
     groupKey: "COMMUNITY",
-    groupLabel: "Community"
+    groupLabel: "Community",
+    archetype: "ListPage"
   },
   {
     ordinal: 437,
@@ -3495,7 +3934,8 @@ export const PAGE_TYPES = [
     name: "Feed Page",
     groupId: "P32",
     groupKey: "COMMUNITY",
-    groupLabel: "Community"
+    groupLabel: "Community",
+    archetype: "ListPage"
   },
   {
     ordinal: 438,
@@ -3503,7 +3943,8 @@ export const PAGE_TYPES = [
     name: "404 Page",
     groupId: "P33",
     groupKey: "SYSTEM_STATES",
-    groupLabel: "System States"
+    groupLabel: "System States",
+    archetype: "ErrorPage"
   },
   {
     ordinal: 439,
@@ -3511,7 +3952,8 @@ export const PAGE_TYPES = [
     name: "401 Page",
     groupId: "P33",
     groupKey: "SYSTEM_STATES",
-    groupLabel: "System States"
+    groupLabel: "System States",
+    archetype: "ErrorPage"
   },
   {
     ordinal: 440,
@@ -3519,7 +3961,8 @@ export const PAGE_TYPES = [
     name: "403 Page",
     groupId: "P33",
     groupKey: "SYSTEM_STATES",
-    groupLabel: "System States"
+    groupLabel: "System States",
+    archetype: "ErrorPage"
   },
   {
     ordinal: 441,
@@ -3527,7 +3970,8 @@ export const PAGE_TYPES = [
     name: "500 Page",
     groupId: "P33",
     groupKey: "SYSTEM_STATES",
-    groupLabel: "System States"
+    groupLabel: "System States",
+    archetype: "ErrorPage"
   },
   {
     ordinal: 442,
@@ -3535,7 +3979,8 @@ export const PAGE_TYPES = [
     name: "502/503 Page",
     groupId: "P33",
     groupKey: "SYSTEM_STATES",
-    groupLabel: "System States"
+    groupLabel: "System States",
+    archetype: "ErrorPage"
   },
   {
     ordinal: 443,
@@ -3543,7 +3988,8 @@ export const PAGE_TYPES = [
     name: "Offline Page",
     groupId: "P33",
     groupKey: "SYSTEM_STATES",
-    groupLabel: "System States"
+    groupLabel: "System States",
+    archetype: "ErrorPage"
   },
   {
     ordinal: 444,
@@ -3551,7 +3997,8 @@ export const PAGE_TYPES = [
     name: "Maintenance Page",
     groupId: "P33",
     groupKey: "SYSTEM_STATES",
-    groupLabel: "System States"
+    groupLabel: "System States",
+    archetype: "ErrorPage"
   },
   {
     ordinal: 445,
@@ -3559,7 +4006,8 @@ export const PAGE_TYPES = [
     name: "Rate Limit Page",
     groupId: "P33",
     groupKey: "SYSTEM_STATES",
-    groupLabel: "System States"
+    groupLabel: "System States",
+    archetype: "ErrorPage"
   },
   {
     ordinal: 446,
@@ -3567,7 +4015,8 @@ export const PAGE_TYPES = [
     name: "Unsupported Browser Page",
     groupId: "P33",
     groupKey: "SYSTEM_STATES",
-    groupLabel: "System States"
+    groupLabel: "System States",
+    archetype: "ErrorPage"
   },
   {
     ordinal: 447,
@@ -3575,7 +4024,8 @@ export const PAGE_TYPES = [
     name: "Upgrade Required Page",
     groupId: "P33",
     groupKey: "SYSTEM_STATES",
-    groupLabel: "System States"
+    groupLabel: "System States",
+    archetype: "ErrorPage"
   },
   {
     ordinal: 448,
@@ -3583,7 +4033,8 @@ export const PAGE_TYPES = [
     name: "Empty State Page",
     groupId: "P33",
     groupKey: "SYSTEM_STATES",
-    groupLabel: "System States"
+    groupLabel: "System States",
+    archetype: "ErrorPage"
   },
   {
     ordinal: 449,
@@ -3591,7 +4042,8 @@ export const PAGE_TYPES = [
     name: "Loading Page",
     groupId: "P33",
     groupKey: "SYSTEM_STATES",
-    groupLabel: "System States"
+    groupLabel: "System States",
+    archetype: "ErrorPage"
   },
   {
     ordinal: 450,
@@ -3599,7 +4051,8 @@ export const PAGE_TYPES = [
     name: "Processing Page",
     groupId: "P34",
     groupKey: "TRANSACTION_STATES",
-    groupLabel: "Transaction States"
+    groupLabel: "Transaction States",
+    archetype: "TransactionPage"
   },
   {
     ordinal: 451,
@@ -3607,7 +4060,8 @@ export const PAGE_TYPES = [
     name: "Success Page",
     groupId: "P34",
     groupKey: "TRANSACTION_STATES",
-    groupLabel: "Transaction States"
+    groupLabel: "Transaction States",
+    archetype: "TransactionPage"
   },
   {
     ordinal: 452,
@@ -3615,7 +4069,8 @@ export const PAGE_TYPES = [
     name: "Failure Page",
     groupId: "P34",
     groupKey: "TRANSACTION_STATES",
-    groupLabel: "Transaction States"
+    groupLabel: "Transaction States",
+    archetype: "TransactionPage"
   },
   {
     ordinal: 453,
@@ -3623,7 +4078,8 @@ export const PAGE_TYPES = [
     name: "Confirmation Page",
     groupId: "P34",
     groupKey: "TRANSACTION_STATES",
-    groupLabel: "Transaction States"
+    groupLabel: "Transaction States",
+    archetype: "TransactionPage"
   },
   {
     ordinal: 454,
@@ -3631,7 +4087,8 @@ export const PAGE_TYPES = [
     name: "Redirect Page",
     groupId: "P34",
     groupKey: "TRANSACTION_STATES",
-    groupLabel: "Transaction States"
+    groupLabel: "Transaction States",
+    archetype: "TransactionPage"
   },
   {
     ordinal: 455,
@@ -3639,7 +4096,8 @@ export const PAGE_TYPES = [
     name: "Print Page",
     groupId: "P35",
     groupKey: "PRESENTATION_MODES",
-    groupLabel: "Presentation Modes"
+    groupLabel: "Presentation Modes",
+    archetype: "PresentationPage"
   },
   {
     ordinal: 456,
@@ -3647,7 +4105,8 @@ export const PAGE_TYPES = [
     name: "Share Page",
     groupId: "P35",
     groupKey: "PRESENTATION_MODES",
-    groupLabel: "Presentation Modes"
+    groupLabel: "Presentation Modes",
+    archetype: "PresentationPage"
   },
   {
     ordinal: 457,
@@ -3655,7 +4114,8 @@ export const PAGE_TYPES = [
     name: "Embed Page",
     groupId: "P35",
     groupKey: "PRESENTATION_MODES",
-    groupLabel: "Presentation Modes"
+    groupLabel: "Presentation Modes",
+    archetype: "PresentationPage"
   },
   {
     ordinal: 458,
@@ -3663,7 +4123,8 @@ export const PAGE_TYPES = [
     name: "Preview Page",
     groupId: "P35",
     groupKey: "PRESENTATION_MODES",
-    groupLabel: "Presentation Modes"
+    groupLabel: "Presentation Modes",
+    archetype: "PresentationPage"
   },
   {
     ordinal: 459,
@@ -3671,7 +4132,8 @@ export const PAGE_TYPES = [
     name: "Fullscreen Page",
     groupId: "P35",
     groupKey: "PRESENTATION_MODES",
-    groupLabel: "Presentation Modes"
+    groupLabel: "Presentation Modes",
+    archetype: "PresentationPage"
   },
   {
     ordinal: 460,
@@ -3679,7 +4141,8 @@ export const PAGE_TYPES = [
     name: "Kiosk Page",
     groupId: "P35",
     groupKey: "PRESENTATION_MODES",
-    groupLabel: "Presentation Modes"
+    groupLabel: "Presentation Modes",
+    archetype: "PresentationPage"
   },
   {
     ordinal: 461,
@@ -3687,7 +4150,8 @@ export const PAGE_TYPES = [
     name: "TV/Display Page",
     groupId: "P35",
     groupKey: "PRESENTATION_MODES",
-    groupLabel: "Presentation Modes"
+    groupLabel: "Presentation Modes",
+    archetype: "PresentationPage"
   },
   {
     ordinal: 462,
@@ -3695,7 +4159,8 @@ export const PAGE_TYPES = [
     name: "Wallboard Page",
     groupId: "P35",
     groupKey: "PRESENTATION_MODES",
-    groupLabel: "Presentation Modes"
+    groupLabel: "Presentation Modes",
+    archetype: "PresentationPage"
   },
   {
     ordinal: 463,
@@ -3703,7 +4168,8 @@ export const PAGE_TYPES = [
     name: "Demo Page",
     groupId: "P36",
     groupKey: "EXPERIMENTAL_INTERNAL",
-    groupLabel: "Experimental & Internal"
+    groupLabel: "Experimental & Internal",
+    archetype: "StudioPage"
   },
   {
     ordinal: 464,
@@ -3711,7 +4177,8 @@ export const PAGE_TYPES = [
     name: "Sandbox Page",
     groupId: "P36",
     groupKey: "EXPERIMENTAL_INTERNAL",
-    groupLabel: "Experimental & Internal"
+    groupLabel: "Experimental & Internal",
+    archetype: "StudioPage"
   },
   {
     ordinal: 465,
@@ -3719,7 +4186,8 @@ export const PAGE_TYPES = [
     name: "Playground Page",
     groupId: "P36",
     groupKey: "EXPERIMENTAL_INTERNAL",
-    groupLabel: "Experimental & Internal"
+    groupLabel: "Experimental & Internal",
+    archetype: "StudioPage"
   },
   {
     ordinal: 466,
@@ -3727,7 +4195,8 @@ export const PAGE_TYPES = [
     name: "Prototype Page",
     groupId: "P36",
     groupKey: "EXPERIMENTAL_INTERNAL",
-    groupLabel: "Experimental & Internal"
+    groupLabel: "Experimental & Internal",
+    archetype: "StudioPage"
   },
   {
     ordinal: 467,
@@ -3735,7 +4204,8 @@ export const PAGE_TYPES = [
     name: "Labs Page",
     groupId: "P36",
     groupKey: "EXPERIMENTAL_INTERNAL",
-    groupLabel: "Experimental & Internal"
+    groupLabel: "Experimental & Internal",
+    archetype: "StudioPage"
   },
   {
     ordinal: 468,
@@ -3743,7 +4213,8 @@ export const PAGE_TYPES = [
     name: "Internal Tools Page",
     groupId: "P36",
     groupKey: "EXPERIMENTAL_INTERNAL",
-    groupLabel: "Experimental & Internal"
+    groupLabel: "Experimental & Internal",
+    archetype: "StudioPage"
   },
   {
     ordinal: 469,
@@ -3751,7 +4222,8 @@ export const PAGE_TYPES = [
     name: "Admin Home Page",
     groupId: "P37",
     groupKey: "SYSTEM_ADMINISTRATION",
-    groupLabel: "System Administration"
+    groupLabel: "System Administration",
+    archetype: "AdminPage"
   },
   {
     ordinal: 470,
@@ -3759,7 +4231,8 @@ export const PAGE_TYPES = [
     name: "Admin Dashboard Page",
     groupId: "P37",
     groupKey: "SYSTEM_ADMINISTRATION",
-    groupLabel: "System Administration"
+    groupLabel: "System Administration",
+    archetype: "DashboardPage"
   },
   {
     ordinal: 471,
@@ -3767,7 +4240,8 @@ export const PAGE_TYPES = [
     name: "System Settings Page",
     groupId: "P37",
     groupKey: "SYSTEM_ADMINISTRATION",
-    groupLabel: "System Administration"
+    groupLabel: "System Administration",
+    archetype: "SettingsPage"
   },
   {
     ordinal: 472,
@@ -3775,7 +4249,8 @@ export const PAGE_TYPES = [
     name: "Feature Management Page",
     groupId: "P37",
     groupKey: "SYSTEM_ADMINISTRATION",
-    groupLabel: "System Administration"
+    groupLabel: "System Administration",
+    archetype: "AdminPage"
   },
   {
     ordinal: 473,
@@ -3783,7 +4258,8 @@ export const PAGE_TYPES = [
     name: "User Administration Page",
     groupId: "P37",
     groupKey: "SYSTEM_ADMINISTRATION",
-    groupLabel: "System Administration"
+    groupLabel: "System Administration",
+    archetype: "AdminPage"
   },
   {
     ordinal: 474,
@@ -3791,7 +4267,8 @@ export const PAGE_TYPES = [
     name: "Organisation Administration Page",
     groupId: "P37",
     groupKey: "SYSTEM_ADMINISTRATION",
-    groupLabel: "System Administration"
+    groupLabel: "System Administration",
+    archetype: "AdminPage"
   },
   {
     ordinal: 475,
@@ -3799,7 +4276,8 @@ export const PAGE_TYPES = [
     name: "Workspace Administration Page",
     groupId: "P37",
     groupKey: "SYSTEM_ADMINISTRATION",
-    groupLabel: "System Administration"
+    groupLabel: "System Administration",
+    archetype: "AdminPage"
   },
   {
     ordinal: 476,
@@ -3807,7 +4285,8 @@ export const PAGE_TYPES = [
     name: "Permission Administration Page",
     groupId: "P37",
     groupKey: "SYSTEM_ADMINISTRATION",
-    groupLabel: "System Administration"
+    groupLabel: "System Administration",
+    archetype: "AdminPage"
   },
   {
     ordinal: 477,
@@ -3815,7 +4294,8 @@ export const PAGE_TYPES = [
     name: "Integration Administration Page",
     groupId: "P37",
     groupKey: "SYSTEM_ADMINISTRATION",
-    groupLabel: "System Administration"
+    groupLabel: "System Administration",
+    archetype: "AdminPage"
   },
   {
     ordinal: 478,
@@ -3823,7 +4303,8 @@ export const PAGE_TYPES = [
     name: "Billing Administration Page",
     groupId: "P37",
     groupKey: "SYSTEM_ADMINISTRATION",
-    groupLabel: "System Administration"
+    groupLabel: "System Administration",
+    archetype: "AdminPage"
   },
   {
     ordinal: 479,
@@ -3831,7 +4312,8 @@ export const PAGE_TYPES = [
     name: "Content Administration Page",
     groupId: "P37",
     groupKey: "SYSTEM_ADMINISTRATION",
-    groupLabel: "System Administration"
+    groupLabel: "System Administration",
+    archetype: "AdminPage"
   },
   {
     ordinal: 480,
@@ -3839,7 +4321,8 @@ export const PAGE_TYPES = [
     name: "CMS Page",
     groupId: "P38",
     groupKey: "CMS_PUBLISHING",
-    groupLabel: "CMS & Publishing"
+    groupLabel: "CMS & Publishing",
+    archetype: "AdminPage"
   },
   {
     ordinal: 481,
@@ -3847,7 +4330,8 @@ export const PAGE_TYPES = [
     name: "CMS Collection Page",
     groupId: "P38",
     groupKey: "CMS_PUBLISHING",
-    groupLabel: "CMS & Publishing"
+    groupLabel: "CMS & Publishing",
+    archetype: "AdminPage"
   },
   {
     ordinal: 482,
@@ -3855,7 +4339,8 @@ export const PAGE_TYPES = [
     name: "CMS Entry Page",
     groupId: "P38",
     groupKey: "CMS_PUBLISHING",
-    groupLabel: "CMS & Publishing"
+    groupLabel: "CMS & Publishing",
+    archetype: "AdminPage"
   },
   {
     ordinal: 483,
@@ -3863,7 +4348,8 @@ export const PAGE_TYPES = [
     name: "SEO Page",
     groupId: "P38",
     groupKey: "CMS_PUBLISHING",
-    groupLabel: "CMS & Publishing"
+    groupLabel: "CMS & Publishing",
+    archetype: "AdminPage"
   },
   {
     ordinal: 484,
@@ -3871,7 +4357,8 @@ export const PAGE_TYPES = [
     name: "Redirect Management Page",
     groupId: "P38",
     groupKey: "CMS_PUBLISHING",
-    groupLabel: "CMS & Publishing"
+    groupLabel: "CMS & Publishing",
+    archetype: "AdminPage"
   },
   {
     ordinal: 485,
@@ -3879,7 +4366,8 @@ export const PAGE_TYPES = [
     name: "Localization Page",
     groupId: "P38",
     groupKey: "CMS_PUBLISHING",
-    groupLabel: "CMS & Publishing"
+    groupLabel: "CMS & Publishing",
+    archetype: "AdminPage"
   },
   {
     ordinal: 486,
@@ -3887,7 +4375,8 @@ export const PAGE_TYPES = [
     name: "Notification Administration Page",
     groupId: "P38",
     groupKey: "CMS_PUBLISHING",
-    groupLabel: "CMS & Publishing"
+    groupLabel: "CMS & Publishing",
+    archetype: "AdminPage"
   },
   {
     ordinal: 487,
@@ -3895,7 +4384,8 @@ export const PAGE_TYPES = [
     name: "Jobs/Queue Page",
     groupId: "P39",
     groupKey: "OPERATIONS_ADMINISTRATION",
-    groupLabel: "Operations Administration"
+    groupLabel: "Operations Administration",
+    archetype: "AdminPage"
   },
   {
     ordinal: 488,
@@ -3903,7 +4393,8 @@ export const PAGE_TYPES = [
     name: "Job Detail Page",
     groupId: "P39",
     groupKey: "OPERATIONS_ADMINISTRATION",
-    groupLabel: "Operations Administration"
+    groupLabel: "Operations Administration",
+    archetype: "DetailPage"
   },
   {
     ordinal: 489,
@@ -3911,7 +4402,8 @@ export const PAGE_TYPES = [
     name: "Runtime Administration Page",
     groupId: "P39",
     groupKey: "OPERATIONS_ADMINISTRATION",
-    groupLabel: "Operations Administration"
+    groupLabel: "Operations Administration",
+    archetype: "AdminPage"
   },
   {
     ordinal: 490,
@@ -3919,7 +4411,8 @@ export const PAGE_TYPES = [
     name: "Control Plane Page",
     groupId: "P40",
     groupKey: "CONTROL_PLANE",
-    groupLabel: "Control Plane"
+    groupLabel: "Control Plane",
+    archetype: "ControlPlanePage"
   },
   {
     ordinal: 491,
@@ -3927,7 +4420,8 @@ export const PAGE_TYPES = [
     name: "Application Registry Page",
     groupId: "P40",
     groupKey: "CONTROL_PLANE",
-    groupLabel: "Control Plane"
+    groupLabel: "Control Plane",
+    archetype: "ListPage"
   },
   {
     ordinal: 492,
@@ -3935,7 +4429,8 @@ export const PAGE_TYPES = [
     name: "Application Detail Page",
     groupId: "P40",
     groupKey: "CONTROL_PLANE",
-    groupLabel: "Control Plane"
+    groupLabel: "Control Plane",
+    archetype: "DetailPage"
   },
   {
     ordinal: 493,
@@ -3943,7 +4438,8 @@ export const PAGE_TYPES = [
     name: "Environment Registry Page",
     groupId: "P40",
     groupKey: "CONTROL_PLANE",
-    groupLabel: "Control Plane"
+    groupLabel: "Control Plane",
+    archetype: "ListPage"
   },
   {
     ordinal: 494,
@@ -3951,7 +4447,8 @@ export const PAGE_TYPES = [
     name: "Database Targets Page",
     groupId: "P40",
     groupKey: "CONTROL_PLANE",
-    groupLabel: "Control Plane"
+    groupLabel: "Control Plane",
+    archetype: "ControlPlanePage"
   },
   {
     ordinal: 495,
@@ -3959,7 +4456,8 @@ export const PAGE_TYPES = [
     name: "Infrastructure Inventory Page",
     groupId: "P40",
     groupKey: "CONTROL_PLANE",
-    groupLabel: "Control Plane"
+    groupLabel: "Control Plane",
+    archetype: "ListPage"
   },
   {
     ordinal: 496,
@@ -3967,7 +4465,8 @@ export const PAGE_TYPES = [
     name: "Deployment Approval Page",
     groupId: "P40",
     groupKey: "CONTROL_PLANE",
-    groupLabel: "Control Plane"
+    groupLabel: "Control Plane",
+    archetype: "ApprovalPage"
   },
   {
     ordinal: 497,
@@ -3975,7 +4474,8 @@ export const PAGE_TYPES = [
     name: "Migration Approval Page",
     groupId: "P40",
     groupKey: "CONTROL_PLANE",
-    groupLabel: "Control Plane"
+    groupLabel: "Control Plane",
+    archetype: "ApprovalPage"
   },
   {
     ordinal: 498,
@@ -3983,7 +4483,8 @@ export const PAGE_TYPES = [
     name: "Release Readiness Page",
     groupId: "P40",
     groupKey: "CONTROL_PLANE",
-    groupLabel: "Control Plane"
+    groupLabel: "Control Plane",
+    archetype: "ControlPlanePage"
   },
   {
     ordinal: 499,
@@ -3991,7 +4492,8 @@ export const PAGE_TYPES = [
     name: "Evidence Gate Page",
     groupId: "P41",
     groupKey: "EVIDENCE_APPROVAL",
-    groupLabel: "Evidence & Approval"
+    groupLabel: "Evidence & Approval",
+    archetype: "EvidencePage"
   },
   {
     ordinal: 500,
@@ -3999,7 +4501,8 @@ export const PAGE_TYPES = [
     name: "Audit/Evidence Report Page",
     groupId: "P41",
     groupKey: "EVIDENCE_APPROVAL",
-    groupLabel: "Evidence & Approval"
+    groupLabel: "Evidence & Approval",
+    archetype: "EvidencePage"
   }
 ] as const satisfies readonly PageTypeRecord[];
 

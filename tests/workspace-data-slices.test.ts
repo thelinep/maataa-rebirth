@@ -7,7 +7,7 @@ describe("workspace data slices", () => {
   it("provides a distinct synthetic slice for every canonical workspace", () => {
     const slices = WORKSPACE_TYPES.map((workspace) => createWorkspaceDataSlice(workspace));
 
-    expect(WORKSPACE_TYPES).toHaveLength(647);
+    expect(WORKSPACE_TYPES).toHaveLength(616);
     expect(slices).toHaveLength(WORKSPACE_TYPES.length);
     expect(slices.every((slice) => slice.workspaceId.length > 0)).toBe(true);
     expect(new Set(slices.map((slice) => slice.reference)).size).toBe(WORKSPACE_TYPES.length);
@@ -25,7 +25,7 @@ describe("workspace data slices", () => {
     const groups = new Set(WORKSPACE_TYPES.map((workspace) => workspace.groupKey));
     expect([...groups].every((group) => Object.hasOwn(WORKSPACE_DOMAIN_BY_GROUP, group))).toBe(true);
 
-    const tlps = createWorkspaceDataSlice(WORKSPACE_TYPES.find((workspace) => workspace.groupKey === "TLPS_PRODUCTION")!);
+    const tlps = createWorkspaceDataSlice(WORKSPACE_TYPES.find((workspace) => workspace.groupKey === "EQUIPMENT_LOGISTICS")!);
     const nevo = createWorkspaceDataSlice(WORKSPACE_TYPES.find((workspace) => workspace.groupKey === "EVENT")!);
     expect(tlps.domain).toBe("production");
     expect(tlps.sections.flatMap((section) => section.lines).join(" ")).toContain("Call-sheet");

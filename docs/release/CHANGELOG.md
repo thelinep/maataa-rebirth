@@ -1,3 +1,11 @@
+## Unreleased — taxonomy changes before Beta
+
+- Every page and workspace record now has an `archetype` field naming the component that renders it; new exports `PAGE_ARCHETYPES`, `WORKSPACE_ARCHETYPES` and types `PageArchetype`, `WorkspaceArchetype`.
+- 12 duplicate workspace concepts now carry `aliasOf`; both IDs stay valid.
+- 14 page and workspace records have clearer display names; IDs are unchanged.
+- **Breaking:** the TLPS Production, Casting and Crew workspace groups (31 IDs) and the `@maataa/ui/workspace-groups/tlps_production`, `casting` and `crew` modules moved to `apps/tlps`. The package has 616 workspace types in 55 groups.
+- The package build deletes `dist/` before compiling, so removed modules no longer ship from an earlier build.
+
 ## 1.0.0-alpha.8.4 — Beta-prep
 
 - Preserves certified Alpha 8 functionality and catalog counts.

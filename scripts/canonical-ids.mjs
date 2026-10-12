@@ -6,8 +6,11 @@
 // `migrations` (old -> new, new must exist) or in `retired` (major release only), plus a
 // recorded decision, a versioned migration helper, tests against saved compositions and
 // release notes. Additions are free.
+// `moved` (decided 2026-10-12): a product-specific ID may leave the package for a product registry.
+// The ID keeps its spelling, must exist in the named registry, and must not come back into the package.
 import fs from "node:fs";
 import path from "node:path";
+import { readCatalog } from "./read-canonical-catalog.mjs";
 
 const root = process.cwd();
 const file = path.join(root, "manifests/CANONICAL_IDS.json");
@@ -21,6 +24,15 @@ const baseline = fs.existsSync(file)
   : { schemaVersion: 1, decision: "Gate 7 option C, release owner, 2026-10-12 (chat statement, not a signed record)", migrations: {}, retired: [], ids: {} };
 
 const errors = [];
+const moved = baseline.moved ?? {};
+const productRecords = new Map();
+const productIds = (target) => {
+  if (!productRecords.has(target)) {
+    const [file, name] = target.split("#");
+    productRecords.set(target, new Set(readCatalog(path.join(root, file), name).map((record) => record.id)));
+  }
+  return productRecords.get(target);
+};
 const all = new Set(REGISTRIES.flatMap((name) => current[name]));
 for (const name of REGISTRIES) {
   const now = new Set(current[name]);
@@ -29,8 +41,13 @@ for (const name of REGISTRIES) {
     const target = baseline.migrations[id];
     if (target && all.has(target)) continue;
     if (baseline.retired.includes(id)) continue;
+    if (moved[id] && productIds(moved[id]).has(id)) continue;
     errors.push(`${name}: ${id} disappeared without a migration or retirement record`);
   }
+}
+for (const [id, target] of Object.entries(moved)) {
+  if (all.has(id)) errors.push(`moved ID ${id} is back in the package`);
+  else if (!productIds(target).has(id)) errors.push(`moved ID ${id} is missing from ${target}`);
 }
 for (const id of baseline.retired) if (all.has(id)) errors.push(`retired ID ${id} is in use again`);
 for (const [from, to] of Object.entries(baseline.migrations)) if (!all.has(to)) errors.push(`migration ${from} -> ${to} points to an unknown ID`);

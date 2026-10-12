@@ -17,10 +17,10 @@ const screens = [
   ["support-faqs", "/faqs"],
   ["support-workspaces", "/workspaces"],
   ["support-workspace-slices", "/workspace-slices"],
-  ["support-workspace-slice-tlps", "/workspace-slice/WORKSPACE.TLPS_PRODUCTION.PRODUCTION"],
+  ["support-workspace-slice-tlps", "/workspace-slice/WORKSPACE.EQUIPMENT_LOGISTICS.LOGISTICS"],
   ["support-workspace-slice-nevo", "/workspace-slice/WORKSPACE.EVENT.EVENT"],
   ["support-workspace-slices-guide", "/article/workspace-slices"],
-  ["support-workspace-detail", "/workspace/WORKSPACE.TLPS_PRODUCTION.PRODUCTION"],
+  ["support-workspace-detail", "/workspace/WORKSPACE.EQUIPMENT_LOGISTICS.LOGISTICS"],
   ["support-request-form", "/request/describe"],
   ["support-request-review", "/request/review"],
   ["support-saved-handoffs", "/requests"],
@@ -47,7 +47,7 @@ test("capture the complete Support Center screen set at desktop and mobile sizes
       category: "Product map and catalogues",
       subject: "Package export index question",
       details: "The package area index points to a module I cannot locate. Please review the listed import path and installed package version.",
-      workspace: "WORKSPACE.TLPS_PRODUCTION.PRODUCTION",
+      workspace: "WORKSPACE.EQUIPMENT_LOGISTICS.LOGISTICS",
       email: "",
     }));
   });
@@ -112,14 +112,14 @@ test("workspace slice directory and TLPS/NEVO guide expose real fixture details"
   const fixtureResponse = await page.request.get("/data/workspace-data-slices.json");
   expect(fixtureResponse.ok()).toBe(true);
   const fixture = await fixtureResponse.json() as { workspaces: Array<{ workspace: { id: string }; slice: { provenance: string } }> };
-  expect(fixture.workspaces).toHaveLength(647);
-  expect(fixture.workspaces.find(item => item.workspace.id === "WORKSPACE.TLPS_PRODUCTION.PRODUCTION")?.slice.provenance).toBe("Synthetic fixture");
+  expect(fixture.workspaces).toHaveLength(616);
+  expect(fixture.workspaces.find(item => item.workspace.id === "WORKSPACE.EQUIPMENT_LOGISTICS.LOGISTICS")?.slice.provenance).toBe("Synthetic fixture");
   expect(fixture.workspaces.find(item => item.workspace.id === "WORKSPACE.EVENT.EVENT")?.slice.provenance).toBe("Synthetic fixture");
 
   await page.goto("/#/workspace-slices", { waitUntil: "domcontentloaded" });
   await expect(page.getByRole("heading", { name: "Workspace data slices" })).toBeVisible();
-  await expect(page.getByText("647", { exact: false }).first()).toBeVisible();
-  await expect(page.getByRole("link", { name: /Production Workspace/ })).toBeVisible();
+  await expect(page.getByText("616", { exact: false }).first()).toBeVisible();
+  await expect(page.getByRole("link", { name: /Logistics Workspace/ })).toBeVisible();
   await page.getByRole("searchbox", { name: "Search workspace data slices" }).fill("WORKSPACE.EVENT.EVENT");
   const eventSliceLink = page.locator('a[href="#/workspace-slice/WORKSPACE.EVENT.EVENT"]').last();
   await expect(eventSliceLink).toBeVisible();
@@ -128,8 +128,8 @@ test("workspace slice directory and TLPS/NEVO guide expose real fixture details"
   await expect(page.getByRole("heading", { name: "We couldn’t find that page" })).toHaveCount(0);
   await expect(page.getByText("Synthetic event fixture", { exact: false })).toBeVisible();
 
-  await page.goto("/#/workspace-slice/WORKSPACE.TLPS_PRODUCTION.PRODUCTION", { waitUntil: "domcontentloaded" });
-  await expect(page.getByRole("heading", { name: "Production Workspace data slice" })).toBeVisible();
+  await page.goto("/#/workspace-slice/WORKSPACE.EQUIPMENT_LOGISTICS.LOGISTICS", { waitUntil: "domcontentloaded" });
+  await expect(page.getByRole("heading", { name: "Logistics Workspace data slice" })).toBeVisible();
   await expect(page.getByText("Synthetic production slice", { exact: false })).toBeVisible();
 
   await page.goto("/#/article/workspace-slices", { waitUntil: "domcontentloaded" });

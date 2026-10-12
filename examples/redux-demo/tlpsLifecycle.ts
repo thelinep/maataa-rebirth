@@ -66,7 +66,7 @@ export const lifecycleStageMap: Record<FilmStageId, LifecycleStageMap> = {
   },
   production: {
     systems: [os("Production OS", "Separate local demo"), os("Film OS"), os("Evidence OS"), family("Crew OS"), family("Location OS"), family("Equipment & Logistics OS")],
-    workspaces: ["Production Command Center", "Shoot Workspace", "Schedule Board Workspace", "Crew Communication Workspace", "Location Workspace", "Equipment Workspace", "Transport Workspace", "Evidence Workspace"],
+    workspaces: ["Production Command Center", "Shoot Workspace", "Schedule Board Workspace", "Crew Communication Workspace", "Venue Location Workspace", "Equipment Workspace", "Transport Workspace", "Evidence Workspace"],
   },
   "post-production": {
     systems: [os("Film OS", "Separate local demo"), os("Evidence OS"), os("Analytics OS")],

@@ -21,9 +21,6 @@ export const WORKSPACE_DOMAIN_BY_GROUP: Readonly<Record<string, WorkspaceDataDom
   PROJECT_PROGRAM: "project",
   TASK_PRODUCTIVITY: "project",
   EVENT: "event",
-  TLPS_PRODUCTION: "production",
-  CASTING: "production",
-  CREW: "production",
   EQUIPMENT_LOGISTICS: "production",
   EVENT_GUEST: "guest",
   BOOKING: "booking",
@@ -108,7 +105,7 @@ function stableIndex(value: string, length: number): number {
   return (hash >>> 0) % length;
 }
 
-export function createWorkspaceDataSlice(workspace: WorkspaceTypeRecord) {
+export function createWorkspaceDataSlice(workspace: Omit<WorkspaceTypeRecord, "archetype" | "aliasOf">) {
   const domain = WORKSPACE_DOMAIN_BY_GROUP[workspace.groupKey];
   const profile = domain ? PROFILES[domain] : undefined;
   if (!domain || !profile) throw new Error(`No workspace data slice is registered for ${workspace.groupKey}`);

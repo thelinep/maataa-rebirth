@@ -54,6 +54,6 @@ it("ignores corrupt persisted scenes rather than trusting parsed JSON",()=>{
 
 import {planCanonicalComposition} from "../src/composer/planner";
 it("bounds host planner proposals with canonical vocabulary and shared validation",async()=>{
- const planner=vi.fn(async(request)=>{expect(request.vocabulary.workspaces.length).toBe(647);expect(request.vocabulary.renderableComponents).toHaveLength(9);return {...toCompositionSpec(DEFAULT_COMPOSER_SCENE),layoutTypeId:"LAYOUT.INVENTED"};});
+ const planner=vi.fn(async(request)=>{expect(request.vocabulary.workspaces.length).toBe(616);expect(request.vocabulary.renderableComponents).toHaveLength(9);return {...toCompositionSpec(DEFAULT_COMPOSER_SCENE),layoutTypeId:"LAYOUT.INVENTED"};});
  const result=await planCanonicalComposition("Compose a workspace",planner);expect(result.accepted).toBe(false);expect(result.explanation).toMatch(/rejected before rendering/);
 });

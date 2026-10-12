@@ -493,7 +493,7 @@ const APP_SCREENS = [
     group: "Registry",
     description:
       "Inspect one canonical record, its family, and related records.",
-    path: "workspace/WORKSPACE.TLPS_PRODUCTION.PRODUCTION",
+    path: "workspace/WORKSPACE.EQUIPMENT_LOGISTICS.LOGISTICS",
     action: "Open an example",
   },
   {
@@ -1066,10 +1066,10 @@ const SUPPORT_SCREENSHOTS: Screenshot[] = [
   },
   {
     id: "support-workspace-slice-tlps",
-    title: "TLPS production workspace slice",
-    description: "Inspect the synthetic production-planning slice for TLPS.",
+    title: "Production logistics workspace slice",
+    description: "Inspect the synthetic production-logistics slice.",
     group: "Support Center",
-    route: "/workspace-slice/WORKSPACE.TLPS_PRODUCTION.PRODUCTION",
+    route: "/workspace-slice/WORKSPACE.EQUIPMENT_LOGISTICS.LOGISTICS",
   },
   {
     id: "support-workspace-slice-nevo",
@@ -1091,7 +1091,7 @@ const SUPPORT_SCREENSHOTS: Screenshot[] = [
     title: "Support Center workspace detail",
     description: "Inspect one canonical workspace record and its family.",
     group: "Support Center",
-    route: "/workspace/WORKSPACE.TLPS_PRODUCTION.PRODUCTION",
+    route: "/workspace/WORKSPACE.EQUIPMENT_LOGISTICS.LOGISTICS",
   },
   {
     id: "support-request-form",
@@ -3032,13 +3032,13 @@ export function SupportCenter() {
           </div>
           <section
             className="sc-slice-featured"
-            aria-label="Featured TLPS and NEVO slices"
+            aria-label="Featured production and event slices"
           >
-            <a href="#/workspace-slice/WORKSPACE.TLPS_PRODUCTION.PRODUCTION">
-              <span>TLPS · PRODUCTION PLANNING</span>
-              <strong>Production Workspace</strong>
+            <a href="#/workspace-slice/WORKSPACE.EQUIPMENT_LOGISTICS.LOGISTICS">
+              <span>PRODUCTION LOGISTICS</span>
+              <strong>Logistics Workspace</strong>
               <small>
-                Open the synthetic TLPS planning slice{" "}
+                Open the synthetic production-logistics slice{" "}
                 <Icon name="arrow" size={14} />
               </small>
             </a>

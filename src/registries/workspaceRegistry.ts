@@ -1,4 +1,8 @@
-export type WorkspaceTypeRecord = Readonly<{ ordinal: number; id: string; name: string; groupId: string; groupKey: string; groupLabel: string }>;
+/** Workspace archetype component that renders a workspace type. Every WORKSPACE_TYPES record names exactly one. */
+export const WORKSPACE_ARCHETYPES = ["AIWorkspace","APIStudioWorkspace","AdminWorkspace","AnalyticsWorkspace","BookingWorkspace","BuilderWorkspace","CRMWorkspace","CommandCenterWorkspace","CommerceWorkspace","CommunicationWorkspace","CommunityWorkspace","ControlPlaneWorkspace","CreativeStudioWorkspace","DataWorkspace","DatabaseWorkspace","DesignSystemWorkspace","DeveloperWorkspace","DocumentWorkspace","EducationWorkspace","EventWorkspace","FinanceWorkspace","GovernanceWorkspace","InfrastructureWorkspace","InvestmentWorkspace","MarketingWorkspace","MarketplaceWorkspace","MediaStudioWorkspace","ObservabilityWorkspace","OrganisationWorkspace","PersonalWorkspace","PresentationWorkspace","ProductionWorkspace","ProductivityWorkspace","ProjectWorkspace","SecurityWorkspace","SpatialStudioWorkspace","SupportWorkspace","TeamWorkspace","TestingWorkspace"] as const;
+export type WorkspaceArchetype = (typeof WORKSPACE_ARCHETYPES)[number];
+/** `aliasOf` marks a second ID for the same concept; both IDs stay valid and resolve to the canonical record's archetype. */
+export type WorkspaceTypeRecord = Readonly<{ ordinal: number; id: string; name: string; groupId: string; groupKey: string; groupLabel: string; archetype: WorkspaceArchetype; aliasOf?: string }>;
 
 export const WORKSPACE_TYPES = [
   {
@@ -7,7 +11,8 @@ export const WORKSPACE_TYPES = [
     name: "Personal Workspace",
     groupId: "W01",
     groupKey: "PERSONAL_HOME",
-    groupLabel: "Personal & Home Workspaces"
+    groupLabel: "Personal & Home Workspaces",
+    archetype: "PersonalWorkspace"
   },
   {
     ordinal: 2,
@@ -15,7 +20,8 @@ export const WORKSPACE_TYPES = [
     name: "My Work Workspace",
     groupId: "W01",
     groupKey: "PERSONAL_HOME",
-    groupLabel: "Personal & Home Workspaces"
+    groupLabel: "Personal & Home Workspaces",
+    archetype: "PersonalWorkspace"
   },
   {
     ordinal: 3,
@@ -23,7 +29,8 @@ export const WORKSPACE_TYPES = [
     name: "Home Workspace",
     groupId: "W01",
     groupKey: "PERSONAL_HOME",
-    groupLabel: "Personal & Home Workspaces"
+    groupLabel: "Personal & Home Workspaces",
+    archetype: "PersonalWorkspace"
   },
   {
     ordinal: 4,
@@ -31,7 +38,8 @@ export const WORKSPACE_TYPES = [
     name: "Today Workspace",
     groupId: "W01",
     groupKey: "PERSONAL_HOME",
-    groupLabel: "Personal & Home Workspaces"
+    groupLabel: "Personal & Home Workspaces",
+    archetype: "PersonalWorkspace"
   },
   {
     ordinal: 5,
@@ -39,7 +47,8 @@ export const WORKSPACE_TYPES = [
     name: "My Tasks Workspace",
     groupId: "W01",
     groupKey: "PERSONAL_HOME",
-    groupLabel: "Personal & Home Workspaces"
+    groupLabel: "Personal & Home Workspaces",
+    archetype: "PersonalWorkspace"
   },
   {
     ordinal: 6,
@@ -47,7 +56,8 @@ export const WORKSPACE_TYPES = [
     name: "My Calendar Workspace",
     groupId: "W01",
     groupKey: "PERSONAL_HOME",
-    groupLabel: "Personal & Home Workspaces"
+    groupLabel: "Personal & Home Workspaces",
+    archetype: "PersonalWorkspace"
   },
   {
     ordinal: 7,
@@ -55,7 +65,8 @@ export const WORKSPACE_TYPES = [
     name: "My Notes Workspace",
     groupId: "W01",
     groupKey: "PERSONAL_HOME",
-    groupLabel: "Personal & Home Workspaces"
+    groupLabel: "Personal & Home Workspaces",
+    archetype: "PersonalWorkspace"
   },
   {
     ordinal: 8,
@@ -63,7 +74,8 @@ export const WORKSPACE_TYPES = [
     name: "My Files Workspace",
     groupId: "W01",
     groupKey: "PERSONAL_HOME",
-    groupLabel: "Personal & Home Workspaces"
+    groupLabel: "Personal & Home Workspaces",
+    archetype: "PersonalWorkspace"
   },
   {
     ordinal: 9,
@@ -71,7 +83,8 @@ export const WORKSPACE_TYPES = [
     name: "My Activity Workspace",
     groupId: "W01",
     groupKey: "PERSONAL_HOME",
-    groupLabel: "Personal & Home Workspaces"
+    groupLabel: "Personal & Home Workspaces",
+    archetype: "PersonalWorkspace"
   },
   {
     ordinal: 10,
@@ -79,7 +92,8 @@ export const WORKSPACE_TYPES = [
     name: "My Notifications Workspace",
     groupId: "W01",
     groupKey: "PERSONAL_HOME",
-    groupLabel: "Personal & Home Workspaces"
+    groupLabel: "Personal & Home Workspaces",
+    archetype: "PersonalWorkspace"
   },
   {
     ordinal: 11,
@@ -87,7 +101,8 @@ export const WORKSPACE_TYPES = [
     name: "My Approvals Workspace",
     groupId: "W01",
     groupKey: "PERSONAL_HOME",
-    groupLabel: "Personal & Home Workspaces"
+    groupLabel: "Personal & Home Workspaces",
+    archetype: "PersonalWorkspace"
   },
   {
     ordinal: 12,
@@ -95,7 +110,8 @@ export const WORKSPACE_TYPES = [
     name: "My Drafts Workspace",
     groupId: "W01",
     groupKey: "PERSONAL_HOME",
-    groupLabel: "Personal & Home Workspaces"
+    groupLabel: "Personal & Home Workspaces",
+    archetype: "PersonalWorkspace"
   },
   {
     ordinal: 13,
@@ -103,7 +119,8 @@ export const WORKSPACE_TYPES = [
     name: "Favorites Workspace",
     groupId: "W01",
     groupKey: "PERSONAL_HOME",
-    groupLabel: "Personal & Home Workspaces"
+    groupLabel: "Personal & Home Workspaces",
+    archetype: "PersonalWorkspace"
   },
   {
     ordinal: 14,
@@ -111,7 +128,8 @@ export const WORKSPACE_TYPES = [
     name: "Recent Workspace",
     groupId: "W01",
     groupKey: "PERSONAL_HOME",
-    groupLabel: "Personal & Home Workspaces"
+    groupLabel: "Personal & Home Workspaces",
+    archetype: "PersonalWorkspace"
   },
   {
     ordinal: 15,
@@ -119,7 +137,8 @@ export const WORKSPACE_TYPES = [
     name: "Saved Workspace",
     groupId: "W01",
     groupKey: "PERSONAL_HOME",
-    groupLabel: "Personal & Home Workspaces"
+    groupLabel: "Personal & Home Workspaces",
+    archetype: "PersonalWorkspace"
   },
   {
     ordinal: 16,
@@ -127,7 +146,8 @@ export const WORKSPACE_TYPES = [
     name: "Organisation Workspace",
     groupId: "W02",
     groupKey: "ORGANISATION",
-    groupLabel: "Organisation Workspaces"
+    groupLabel: "Organisation Workspaces",
+    archetype: "OrganisationWorkspace"
   },
   {
     ordinal: 17,
@@ -135,7 +155,8 @@ export const WORKSPACE_TYPES = [
     name: "Organisation Command Center",
     groupId: "W02",
     groupKey: "ORGANISATION",
-    groupLabel: "Organisation Workspaces"
+    groupLabel: "Organisation Workspaces",
+    archetype: "OrganisationWorkspace"
   },
   {
     ordinal: 18,
@@ -143,7 +164,8 @@ export const WORKSPACE_TYPES = [
     name: "Organisation Operations Workspace",
     groupId: "W02",
     groupKey: "ORGANISATION",
-    groupLabel: "Organisation Workspaces"
+    groupLabel: "Organisation Workspaces",
+    archetype: "OrganisationWorkspace"
   },
   {
     ordinal: 19,
@@ -151,7 +173,8 @@ export const WORKSPACE_TYPES = [
     name: "Organisation People Workspace",
     groupId: "W02",
     groupKey: "ORGANISATION",
-    groupLabel: "Organisation Workspaces"
+    groupLabel: "Organisation Workspaces",
+    archetype: "OrganisationWorkspace"
   },
   {
     ordinal: 20,
@@ -159,7 +182,8 @@ export const WORKSPACE_TYPES = [
     name: "Organisation Finance Workspace",
     groupId: "W02",
     groupKey: "ORGANISATION",
-    groupLabel: "Organisation Workspaces"
+    groupLabel: "Organisation Workspaces",
+    archetype: "OrganisationWorkspace"
   },
   {
     ordinal: 21,
@@ -167,7 +191,8 @@ export const WORKSPACE_TYPES = [
     name: "Organisation Projects Workspace",
     groupId: "W02",
     groupKey: "ORGANISATION",
-    groupLabel: "Organisation Workspaces"
+    groupLabel: "Organisation Workspaces",
+    archetype: "OrganisationWorkspace"
   },
   {
     ordinal: 22,
@@ -175,7 +200,8 @@ export const WORKSPACE_TYPES = [
     name: "Organisation Documents Workspace",
     groupId: "W02",
     groupKey: "ORGANISATION",
-    groupLabel: "Organisation Workspaces"
+    groupLabel: "Organisation Workspaces",
+    archetype: "OrganisationWorkspace"
   },
   {
     ordinal: 23,
@@ -183,7 +209,8 @@ export const WORKSPACE_TYPES = [
     name: "Organisation Analytics Workspace",
     groupId: "W02",
     groupKey: "ORGANISATION",
-    groupLabel: "Organisation Workspaces"
+    groupLabel: "Organisation Workspaces",
+    archetype: "OrganisationWorkspace"
   },
   {
     ordinal: 24,
@@ -191,7 +218,8 @@ export const WORKSPACE_TYPES = [
     name: "Organisation Settings Workspace",
     groupId: "W02",
     groupKey: "ORGANISATION",
-    groupLabel: "Organisation Workspaces"
+    groupLabel: "Organisation Workspaces",
+    archetype: "OrganisationWorkspace"
   },
   {
     ordinal: 25,
@@ -199,7 +227,8 @@ export const WORKSPACE_TYPES = [
     name: "Organisation Governance Workspace",
     groupId: "W02",
     groupKey: "ORGANISATION",
-    groupLabel: "Organisation Workspaces"
+    groupLabel: "Organisation Workspaces",
+    archetype: "OrganisationWorkspace"
   },
   {
     ordinal: 26,
@@ -207,7 +236,8 @@ export const WORKSPACE_TYPES = [
     name: "Multi-Organisation Workspace",
     groupId: "W02",
     groupKey: "ORGANISATION",
-    groupLabel: "Organisation Workspaces"
+    groupLabel: "Organisation Workspaces",
+    archetype: "OrganisationWorkspace"
   },
   {
     ordinal: 27,
@@ -215,7 +245,8 @@ export const WORKSPACE_TYPES = [
     name: "Team Workspace",
     groupId: "W03",
     groupKey: "TEAM",
-    groupLabel: "Team Workspaces"
+    groupLabel: "Team Workspaces",
+    archetype: "TeamWorkspace"
   },
   {
     ordinal: 28,
@@ -223,7 +254,8 @@ export const WORKSPACE_TYPES = [
     name: "Department Workspace",
     groupId: "W03",
     groupKey: "TEAM",
-    groupLabel: "Team Workspaces"
+    groupLabel: "Team Workspaces",
+    archetype: "TeamWorkspace"
   },
   {
     ordinal: 29,
@@ -231,7 +263,8 @@ export const WORKSPACE_TYPES = [
     name: "Functional Team Workspace",
     groupId: "W03",
     groupKey: "TEAM",
-    groupLabel: "Team Workspaces"
+    groupLabel: "Team Workspaces",
+    archetype: "TeamWorkspace"
   },
   {
     ordinal: 30,
@@ -239,7 +272,8 @@ export const WORKSPACE_TYPES = [
     name: "Cross-Functional Workspace",
     groupId: "W03",
     groupKey: "TEAM",
-    groupLabel: "Team Workspaces"
+    groupLabel: "Team Workspaces",
+    archetype: "TeamWorkspace"
   },
   {
     ordinal: 31,
@@ -247,7 +281,8 @@ export const WORKSPACE_TYPES = [
     name: "Squad Workspace",
     groupId: "W03",
     groupKey: "TEAM",
-    groupLabel: "Team Workspaces"
+    groupLabel: "Team Workspaces",
+    archetype: "TeamWorkspace"
   },
   {
     ordinal: 32,
@@ -255,7 +290,8 @@ export const WORKSPACE_TYPES = [
     name: "Pod Workspace",
     groupId: "W03",
     groupKey: "TEAM",
-    groupLabel: "Team Workspaces"
+    groupLabel: "Team Workspaces",
+    archetype: "TeamWorkspace"
   },
   {
     ordinal: 33,
@@ -263,7 +299,8 @@ export const WORKSPACE_TYPES = [
     name: "Committee Workspace",
     groupId: "W03",
     groupKey: "TEAM",
-    groupLabel: "Team Workspaces"
+    groupLabel: "Team Workspaces",
+    archetype: "TeamWorkspace"
   },
   {
     ordinal: 34,
@@ -271,7 +308,8 @@ export const WORKSPACE_TYPES = [
     name: "Working Group Workspace",
     groupId: "W03",
     groupKey: "TEAM",
-    groupLabel: "Team Workspaces"
+    groupLabel: "Team Workspaces",
+    archetype: "TeamWorkspace"
   },
   {
     ordinal: 35,
@@ -279,7 +317,8 @@ export const WORKSPACE_TYPES = [
     name: "Leadership Workspace",
     groupId: "W03",
     groupKey: "TEAM",
-    groupLabel: "Team Workspaces"
+    groupLabel: "Team Workspaces",
+    archetype: "TeamWorkspace"
   },
   {
     ordinal: 36,
@@ -287,7 +326,8 @@ export const WORKSPACE_TYPES = [
     name: "Executive Workspace",
     groupId: "W03",
     groupKey: "TEAM",
-    groupLabel: "Team Workspaces"
+    groupLabel: "Team Workspaces",
+    archetype: "TeamWorkspace"
   },
   {
     ordinal: 37,
@@ -295,7 +335,8 @@ export const WORKSPACE_TYPES = [
     name: "Project Workspace",
     groupId: "W04",
     groupKey: "PROJECT_PROGRAM",
-    groupLabel: "Project & Program Workspaces"
+    groupLabel: "Project & Program Workspaces",
+    archetype: "ProjectWorkspace"
   },
   {
     ordinal: 38,
@@ -303,15 +344,17 @@ export const WORKSPACE_TYPES = [
     name: "Program Workspace",
     groupId: "W04",
     groupKey: "PROJECT_PROGRAM",
-    groupLabel: "Project & Program Workspaces"
+    groupLabel: "Project & Program Workspaces",
+    archetype: "ProjectWorkspace"
   },
   {
     ordinal: 39,
     id: "WORKSPACE.PROJECT_PROGRAM.PORTFOLIO",
-    name: "Portfolio Workspace",
+    name: "Project Portfolio Workspace",
     groupId: "W04",
     groupKey: "PROJECT_PROGRAM",
-    groupLabel: "Project & Program Workspaces"
+    groupLabel: "Project & Program Workspaces",
+    archetype: "ProjectWorkspace"
   },
   {
     ordinal: 40,
@@ -319,7 +362,8 @@ export const WORKSPACE_TYPES = [
     name: "Initiative Workspace",
     groupId: "W04",
     groupKey: "PROJECT_PROGRAM",
-    groupLabel: "Project & Program Workspaces"
+    groupLabel: "Project & Program Workspaces",
+    archetype: "ProjectWorkspace"
   },
   {
     ordinal: 41,
@@ -327,7 +371,8 @@ export const WORKSPACE_TYPES = [
     name: "Workstream Workspace",
     groupId: "W04",
     groupKey: "PROJECT_PROGRAM",
-    groupLabel: "Project & Program Workspaces"
+    groupLabel: "Project & Program Workspaces",
+    archetype: "ProjectWorkspace"
   },
   {
     ordinal: 42,
@@ -335,7 +380,8 @@ export const WORKSPACE_TYPES = [
     name: "Milestone Workspace",
     groupId: "W04",
     groupKey: "PROJECT_PROGRAM",
-    groupLabel: "Project & Program Workspaces"
+    groupLabel: "Project & Program Workspaces",
+    archetype: "ProjectWorkspace"
   },
   {
     ordinal: 43,
@@ -343,7 +389,8 @@ export const WORKSPACE_TYPES = [
     name: "Project Planning Workspace",
     groupId: "W04",
     groupKey: "PROJECT_PROGRAM",
-    groupLabel: "Project & Program Workspaces"
+    groupLabel: "Project & Program Workspaces",
+    archetype: "ProjectWorkspace"
   },
   {
     ordinal: 44,
@@ -351,7 +398,8 @@ export const WORKSPACE_TYPES = [
     name: "Project Execution Workspace",
     groupId: "W04",
     groupKey: "PROJECT_PROGRAM",
-    groupLabel: "Project & Program Workspaces"
+    groupLabel: "Project & Program Workspaces",
+    archetype: "ProjectWorkspace"
   },
   {
     ordinal: 45,
@@ -359,7 +407,8 @@ export const WORKSPACE_TYPES = [
     name: "Project Review Workspace",
     groupId: "W04",
     groupKey: "PROJECT_PROGRAM",
-    groupLabel: "Project & Program Workspaces"
+    groupLabel: "Project & Program Workspaces",
+    archetype: "ProjectWorkspace"
   },
   {
     ordinal: 46,
@@ -367,7 +416,8 @@ export const WORKSPACE_TYPES = [
     name: "Project Closure Workspace",
     groupId: "W04",
     groupKey: "PROJECT_PROGRAM",
-    groupLabel: "Project & Program Workspaces"
+    groupLabel: "Project & Program Workspaces",
+    archetype: "ProjectWorkspace"
   },
   {
     ordinal: 47,
@@ -375,7 +425,8 @@ export const WORKSPACE_TYPES = [
     name: "Project Evidence Workspace",
     groupId: "W04",
     groupKey: "PROJECT_PROGRAM",
-    groupLabel: "Project & Program Workspaces"
+    groupLabel: "Project & Program Workspaces",
+    archetype: "ProjectWorkspace"
   },
   {
     ordinal: 48,
@@ -383,7 +434,8 @@ export const WORKSPACE_TYPES = [
     name: "Task Workspace",
     groupId: "W05",
     groupKey: "TASK_PRODUCTIVITY",
-    groupLabel: "Task & Productivity Workspaces"
+    groupLabel: "Task & Productivity Workspaces",
+    archetype: "ProductivityWorkspace"
   },
   {
     ordinal: 49,
@@ -391,7 +443,8 @@ export const WORKSPACE_TYPES = [
     name: "Kanban Workspace",
     groupId: "W05",
     groupKey: "TASK_PRODUCTIVITY",
-    groupLabel: "Task & Productivity Workspaces"
+    groupLabel: "Task & Productivity Workspaces",
+    archetype: "ProductivityWorkspace"
   },
   {
     ordinal: 50,
@@ -399,7 +452,8 @@ export const WORKSPACE_TYPES = [
     name: "Scrum Workspace",
     groupId: "W05",
     groupKey: "TASK_PRODUCTIVITY",
-    groupLabel: "Task & Productivity Workspaces"
+    groupLabel: "Task & Productivity Workspaces",
+    archetype: "ProductivityWorkspace"
   },
   {
     ordinal: 51,
@@ -407,7 +461,8 @@ export const WORKSPACE_TYPES = [
     name: "Sprint Workspace",
     groupId: "W05",
     groupKey: "TASK_PRODUCTIVITY",
-    groupLabel: "Task & Productivity Workspaces"
+    groupLabel: "Task & Productivity Workspaces",
+    archetype: "ProductivityWorkspace"
   },
   {
     ordinal: 52,
@@ -415,7 +470,8 @@ export const WORKSPACE_TYPES = [
     name: "Backlog Workspace",
     groupId: "W05",
     groupKey: "TASK_PRODUCTIVITY",
-    groupLabel: "Task & Productivity Workspaces"
+    groupLabel: "Task & Productivity Workspaces",
+    archetype: "ProductivityWorkspace"
   },
   {
     ordinal: 53,
@@ -423,7 +479,8 @@ export const WORKSPACE_TYPES = [
     name: "Roadmap Workspace",
     groupId: "W05",
     groupKey: "TASK_PRODUCTIVITY",
-    groupLabel: "Task & Productivity Workspaces"
+    groupLabel: "Task & Productivity Workspaces",
+    archetype: "ProductivityWorkspace"
   },
   {
     ordinal: 54,
@@ -431,7 +488,8 @@ export const WORKSPACE_TYPES = [
     name: "Gantt Workspace",
     groupId: "W05",
     groupKey: "TASK_PRODUCTIVITY",
-    groupLabel: "Task & Productivity Workspaces"
+    groupLabel: "Task & Productivity Workspaces",
+    archetype: "ProductivityWorkspace"
   },
   {
     ordinal: 55,
@@ -439,7 +497,8 @@ export const WORKSPACE_TYPES = [
     name: "Timeline Workspace",
     groupId: "W05",
     groupKey: "TASK_PRODUCTIVITY",
-    groupLabel: "Task & Productivity Workspaces"
+    groupLabel: "Task & Productivity Workspaces",
+    archetype: "ProductivityWorkspace"
   },
   {
     ordinal: 56,
@@ -447,7 +506,8 @@ export const WORKSPACE_TYPES = [
     name: "Calendar Workspace",
     groupId: "W05",
     groupKey: "TASK_PRODUCTIVITY",
-    groupLabel: "Task & Productivity Workspaces"
+    groupLabel: "Task & Productivity Workspaces",
+    archetype: "ProductivityWorkspace"
   },
   {
     ordinal: 57,
@@ -455,7 +515,8 @@ export const WORKSPACE_TYPES = [
     name: "Scheduler Workspace",
     groupId: "W05",
     groupKey: "TASK_PRODUCTIVITY",
-    groupLabel: "Task & Productivity Workspaces"
+    groupLabel: "Task & Productivity Workspaces",
+    archetype: "ProductivityWorkspace"
   },
   {
     ordinal: 58,
@@ -463,7 +524,8 @@ export const WORKSPACE_TYPES = [
     name: "Agenda Workspace",
     groupId: "W05",
     groupKey: "TASK_PRODUCTIVITY",
-    groupLabel: "Task & Productivity Workspaces"
+    groupLabel: "Task & Productivity Workspaces",
+    archetype: "ProductivityWorkspace"
   },
   {
     ordinal: 59,
@@ -471,7 +533,8 @@ export const WORKSPACE_TYPES = [
     name: "Checklist Workspace",
     groupId: "W05",
     groupKey: "TASK_PRODUCTIVITY",
-    groupLabel: "Task & Productivity Workspaces"
+    groupLabel: "Task & Productivity Workspaces",
+    archetype: "ProductivityWorkspace"
   },
   {
     ordinal: 60,
@@ -479,7 +542,8 @@ export const WORKSPACE_TYPES = [
     name: "Approval Queue Workspace",
     groupId: "W05",
     groupKey: "TASK_PRODUCTIVITY",
-    groupLabel: "Task & Productivity Workspaces"
+    groupLabel: "Task & Productivity Workspaces",
+    archetype: "ProductivityWorkspace"
   },
   {
     ordinal: 61,
@@ -487,7 +551,8 @@ export const WORKSPACE_TYPES = [
     name: "Inbox Workspace",
     groupId: "W06",
     groupKey: "COMMUNICATION",
-    groupLabel: "Communication Workspaces"
+    groupLabel: "Communication Workspaces",
+    archetype: "CommunicationWorkspace"
   },
   {
     ordinal: 62,
@@ -495,7 +560,8 @@ export const WORKSPACE_TYPES = [
     name: "Mail Workspace",
     groupId: "W06",
     groupKey: "COMMUNICATION",
-    groupLabel: "Communication Workspaces"
+    groupLabel: "Communication Workspaces",
+    archetype: "CommunicationWorkspace"
   },
   {
     ordinal: 63,
@@ -503,7 +569,8 @@ export const WORKSPACE_TYPES = [
     name: "Messenger Workspace",
     groupId: "W06",
     groupKey: "COMMUNICATION",
-    groupLabel: "Communication Workspaces"
+    groupLabel: "Communication Workspaces",
+    archetype: "CommunicationWorkspace"
   },
   {
     ordinal: 64,
@@ -511,7 +578,8 @@ export const WORKSPACE_TYPES = [
     name: "Chat Workspace",
     groupId: "W06",
     groupKey: "COMMUNICATION",
-    groupLabel: "Communication Workspaces"
+    groupLabel: "Communication Workspaces",
+    archetype: "CommunicationWorkspace"
   },
   {
     ordinal: 65,
@@ -519,7 +587,8 @@ export const WORKSPACE_TYPES = [
     name: "Communication Hub",
     groupId: "W06",
     groupKey: "COMMUNICATION",
-    groupLabel: "Communication Workspaces"
+    groupLabel: "Communication Workspaces",
+    archetype: "CommunicationWorkspace"
   },
   {
     ordinal: 66,
@@ -527,7 +596,8 @@ export const WORKSPACE_TYPES = [
     name: "Thread Workspace",
     groupId: "W06",
     groupKey: "COMMUNICATION",
-    groupLabel: "Communication Workspaces"
+    groupLabel: "Communication Workspaces",
+    archetype: "CommunicationWorkspace"
   },
   {
     ordinal: 67,
@@ -535,7 +605,8 @@ export const WORKSPACE_TYPES = [
     name: "Announcement Workspace",
     groupId: "W06",
     groupKey: "COMMUNICATION",
-    groupLabel: "Communication Workspaces"
+    groupLabel: "Communication Workspaces",
+    archetype: "CommunicationWorkspace"
   },
   {
     ordinal: 68,
@@ -543,7 +614,8 @@ export const WORKSPACE_TYPES = [
     name: "Notification Center Workspace",
     groupId: "W06",
     groupKey: "COMMUNICATION",
-    groupLabel: "Communication Workspaces"
+    groupLabel: "Communication Workspaces",
+    archetype: "CommunicationWorkspace"
   },
   {
     ordinal: 69,
@@ -551,7 +623,9 @@ export const WORKSPACE_TYPES = [
     name: "Contact Workspace",
     groupId: "W06",
     groupKey: "COMMUNICATION",
-    groupLabel: "Communication Workspaces"
+    groupLabel: "Communication Workspaces",
+    archetype: "CRMWorkspace",
+    aliasOf: "WORKSPACE.CRM_SALES.CONTACT"
   },
   {
     ordinal: 70,
@@ -559,7 +633,8 @@ export const WORKSPACE_TYPES = [
     name: "Communication Campaign Workspace",
     groupId: "W06",
     groupKey: "COMMUNICATION",
-    groupLabel: "Communication Workspaces"
+    groupLabel: "Communication Workspaces",
+    archetype: "CommunicationWorkspace"
   },
   {
     ordinal: 71,
@@ -567,7 +642,8 @@ export const WORKSPACE_TYPES = [
     name: "Support Conversation Workspace",
     groupId: "W06",
     groupKey: "COMMUNICATION",
-    groupLabel: "Communication Workspaces"
+    groupLabel: "Communication Workspaces",
+    archetype: "CommunicationWorkspace"
   },
   {
     ordinal: 72,
@@ -575,7 +651,8 @@ export const WORKSPACE_TYPES = [
     name: "Document Workspace",
     groupId: "W07",
     groupKey: "DOCUMENT_KNOWLEDGE",
-    groupLabel: "Documents & Knowledge Workspaces"
+    groupLabel: "Documents & Knowledge Workspaces",
+    archetype: "DocumentWorkspace"
   },
   {
     ordinal: 73,
@@ -583,7 +660,8 @@ export const WORKSPACE_TYPES = [
     name: "Document Editor Workspace",
     groupId: "W07",
     groupKey: "DOCUMENT_KNOWLEDGE",
-    groupLabel: "Documents & Knowledge Workspaces"
+    groupLabel: "Documents & Knowledge Workspaces",
+    archetype: "DocumentWorkspace"
   },
   {
     ordinal: 74,
@@ -591,15 +669,17 @@ export const WORKSPACE_TYPES = [
     name: "Spreadsheet Workspace",
     groupId: "W07",
     groupKey: "DOCUMENT_KNOWLEDGE",
-    groupLabel: "Documents & Knowledge Workspaces"
+    groupLabel: "Documents & Knowledge Workspaces",
+    archetype: "DocumentWorkspace"
   },
   {
     ordinal: 75,
     id: "WORKSPACE.DOCUMENT_KNOWLEDGE.PRESENTATION",
-    name: "Presentation Workspace",
+    name: "Presentation Authoring Workspace",
     groupId: "W07",
     groupKey: "DOCUMENT_KNOWLEDGE",
-    groupLabel: "Documents & Knowledge Workspaces"
+    groupLabel: "Documents & Knowledge Workspaces",
+    archetype: "DocumentWorkspace"
   },
   {
     ordinal: 76,
@@ -607,7 +687,8 @@ export const WORKSPACE_TYPES = [
     name: "Notes Workspace",
     groupId: "W07",
     groupKey: "DOCUMENT_KNOWLEDGE",
-    groupLabel: "Documents & Knowledge Workspaces"
+    groupLabel: "Documents & Knowledge Workspaces",
+    archetype: "DocumentWorkspace"
   },
   {
     ordinal: 77,
@@ -615,7 +696,8 @@ export const WORKSPACE_TYPES = [
     name: "Notebook Workspace",
     groupId: "W07",
     groupKey: "DOCUMENT_KNOWLEDGE",
-    groupLabel: "Documents & Knowledge Workspaces"
+    groupLabel: "Documents & Knowledge Workspaces",
+    archetype: "DocumentWorkspace"
   },
   {
     ordinal: 78,
@@ -623,7 +705,8 @@ export const WORKSPACE_TYPES = [
     name: "Knowledge Workspace",
     groupId: "W07",
     groupKey: "DOCUMENT_KNOWLEDGE",
-    groupLabel: "Documents & Knowledge Workspaces"
+    groupLabel: "Documents & Knowledge Workspaces",
+    archetype: "DocumentWorkspace"
   },
   {
     ordinal: 79,
@@ -631,7 +714,8 @@ export const WORKSPACE_TYPES = [
     name: "Knowledge Base Workspace",
     groupId: "W07",
     groupKey: "DOCUMENT_KNOWLEDGE",
-    groupLabel: "Documents & Knowledge Workspaces"
+    groupLabel: "Documents & Knowledge Workspaces",
+    archetype: "DocumentWorkspace"
   },
   {
     ordinal: 80,
@@ -639,7 +723,8 @@ export const WORKSPACE_TYPES = [
     name: "Wiki Workspace",
     groupId: "W07",
     groupKey: "DOCUMENT_KNOWLEDGE",
-    groupLabel: "Documents & Knowledge Workspaces"
+    groupLabel: "Documents & Knowledge Workspaces",
+    archetype: "DocumentWorkspace"
   },
   {
     ordinal: 81,
@@ -647,7 +732,8 @@ export const WORKSPACE_TYPES = [
     name: "Documentation Workspace",
     groupId: "W07",
     groupKey: "DOCUMENT_KNOWLEDGE",
-    groupLabel: "Documents & Knowledge Workspaces"
+    groupLabel: "Documents & Knowledge Workspaces",
+    archetype: "DocumentWorkspace"
   },
   {
     ordinal: 82,
@@ -655,7 +741,8 @@ export const WORKSPACE_TYPES = [
     name: "Research Workspace",
     groupId: "W07",
     groupKey: "DOCUMENT_KNOWLEDGE",
-    groupLabel: "Documents & Knowledge Workspaces"
+    groupLabel: "Documents & Knowledge Workspaces",
+    archetype: "DocumentWorkspace"
   },
   {
     ordinal: 83,
@@ -663,7 +750,8 @@ export const WORKSPACE_TYPES = [
     name: "Reference Library Workspace",
     groupId: "W07",
     groupKey: "DOCUMENT_KNOWLEDGE",
-    groupLabel: "Documents & Knowledge Workspaces"
+    groupLabel: "Documents & Knowledge Workspaces",
+    archetype: "DocumentWorkspace"
   },
   {
     ordinal: 84,
@@ -671,7 +759,8 @@ export const WORKSPACE_TYPES = [
     name: "Evidence Library Workspace",
     groupId: "W07",
     groupKey: "DOCUMENT_KNOWLEDGE",
-    groupLabel: "Documents & Knowledge Workspaces"
+    groupLabel: "Documents & Knowledge Workspaces",
+    archetype: "DocumentWorkspace"
   },
   {
     ordinal: 85,
@@ -679,7 +768,8 @@ export const WORKSPACE_TYPES = [
     name: "File Manager Workspace",
     groupId: "W08",
     groupKey: "FILE_ASSET",
-    groupLabel: "File & Asset Workspaces"
+    groupLabel: "File & Asset Workspaces",
+    archetype: "DocumentWorkspace"
   },
   {
     ordinal: 86,
@@ -687,7 +777,8 @@ export const WORKSPACE_TYPES = [
     name: "Document Library Workspace",
     groupId: "W08",
     groupKey: "FILE_ASSET",
-    groupLabel: "File & Asset Workspaces"
+    groupLabel: "File & Asset Workspaces",
+    archetype: "DocumentWorkspace"
   },
   {
     ordinal: 87,
@@ -695,7 +786,8 @@ export const WORKSPACE_TYPES = [
     name: "Asset Library Workspace",
     groupId: "W08",
     groupKey: "FILE_ASSET",
-    groupLabel: "File & Asset Workspaces"
+    groupLabel: "File & Asset Workspaces",
+    archetype: "DocumentWorkspace"
   },
   {
     ordinal: 88,
@@ -703,7 +795,8 @@ export const WORKSPACE_TYPES = [
     name: "Media Library Workspace",
     groupId: "W08",
     groupKey: "FILE_ASSET",
-    groupLabel: "File & Asset Workspaces"
+    groupLabel: "File & Asset Workspaces",
+    archetype: "DocumentWorkspace"
   },
   {
     ordinal: 89,
@@ -711,7 +804,8 @@ export const WORKSPACE_TYPES = [
     name: "Image Library Workspace",
     groupId: "W08",
     groupKey: "FILE_ASSET",
-    groupLabel: "File & Asset Workspaces"
+    groupLabel: "File & Asset Workspaces",
+    archetype: "DocumentWorkspace"
   },
   {
     ordinal: 90,
@@ -719,7 +813,8 @@ export const WORKSPACE_TYPES = [
     name: "Video Library Workspace",
     groupId: "W08",
     groupKey: "FILE_ASSET",
-    groupLabel: "File & Asset Workspaces"
+    groupLabel: "File & Asset Workspaces",
+    archetype: "DocumentWorkspace"
   },
   {
     ordinal: 91,
@@ -727,7 +822,8 @@ export const WORKSPACE_TYPES = [
     name: "Audio Library Workspace",
     groupId: "W08",
     groupKey: "FILE_ASSET",
-    groupLabel: "File & Asset Workspaces"
+    groupLabel: "File & Asset Workspaces",
+    archetype: "DocumentWorkspace"
   },
   {
     ordinal: 92,
@@ -735,7 +831,8 @@ export const WORKSPACE_TYPES = [
     name: "Brand Asset Workspace",
     groupId: "W08",
     groupKey: "FILE_ASSET",
-    groupLabel: "File & Asset Workspaces"
+    groupLabel: "File & Asset Workspaces",
+    archetype: "DocumentWorkspace"
   },
   {
     ordinal: 93,
@@ -743,7 +840,8 @@ export const WORKSPACE_TYPES = [
     name: "Template Library Workspace",
     groupId: "W08",
     groupKey: "FILE_ASSET",
-    groupLabel: "File & Asset Workspaces"
+    groupLabel: "File & Asset Workspaces",
+    archetype: "DocumentWorkspace"
   },
   {
     ordinal: 94,
@@ -751,7 +849,8 @@ export const WORKSPACE_TYPES = [
     name: "Archive Workspace",
     groupId: "W08",
     groupKey: "FILE_ASSET",
-    groupLabel: "File & Asset Workspaces"
+    groupLabel: "File & Asset Workspaces",
+    archetype: "DocumentWorkspace"
   },
   {
     ordinal: 95,
@@ -759,7 +858,8 @@ export const WORKSPACE_TYPES = [
     name: "Data Workspace",
     groupId: "W09",
     groupKey: "DATA",
-    groupLabel: "Data Workspaces"
+    groupLabel: "Data Workspaces",
+    archetype: "DataWorkspace"
   },
   {
     ordinal: 96,
@@ -767,7 +867,8 @@ export const WORKSPACE_TYPES = [
     name: "Data Explorer Workspace",
     groupId: "W09",
     groupKey: "DATA",
-    groupLabel: "Data Workspaces"
+    groupLabel: "Data Workspaces",
+    archetype: "DataWorkspace"
   },
   {
     ordinal: 97,
@@ -775,7 +876,8 @@ export const WORKSPACE_TYPES = [
     name: "Data Browser Workspace",
     groupId: "W09",
     groupKey: "DATA",
-    groupLabel: "Data Workspaces"
+    groupLabel: "Data Workspaces",
+    archetype: "DataWorkspace"
   },
   {
     ordinal: 98,
@@ -783,7 +885,8 @@ export const WORKSPACE_TYPES = [
     name: "Data Table Workspace",
     groupId: "W09",
     groupKey: "DATA",
-    groupLabel: "Data Workspaces"
+    groupLabel: "Data Workspaces",
+    archetype: "DataWorkspace"
   },
   {
     ordinal: 99,
@@ -791,7 +894,8 @@ export const WORKSPACE_TYPES = [
     name: "Data Studio Workspace",
     groupId: "W09",
     groupKey: "DATA",
-    groupLabel: "Data Workspaces"
+    groupLabel: "Data Workspaces",
+    archetype: "DataWorkspace"
   },
   {
     ordinal: 100,
@@ -799,7 +903,8 @@ export const WORKSPACE_TYPES = [
     name: "Dataset Workspace",
     groupId: "W09",
     groupKey: "DATA",
-    groupLabel: "Data Workspaces"
+    groupLabel: "Data Workspaces",
+    archetype: "DataWorkspace"
   },
   {
     ordinal: 101,
@@ -807,7 +912,8 @@ export const WORKSPACE_TYPES = [
     name: "Schema Workspace",
     groupId: "W09",
     groupKey: "DATA",
-    groupLabel: "Data Workspaces"
+    groupLabel: "Data Workspaces",
+    archetype: "DataWorkspace"
   },
   {
     ordinal: 102,
@@ -815,7 +921,8 @@ export const WORKSPACE_TYPES = [
     name: "Schema Explorer Workspace",
     groupId: "W09",
     groupKey: "DATA",
-    groupLabel: "Data Workspaces"
+    groupLabel: "Data Workspaces",
+    archetype: "DataWorkspace"
   },
   {
     ordinal: 103,
@@ -823,7 +930,8 @@ export const WORKSPACE_TYPES = [
     name: "Domain Registry Workspace",
     groupId: "W09",
     groupKey: "DATA",
-    groupLabel: "Data Workspaces"
+    groupLabel: "Data Workspaces",
+    archetype: "DataWorkspace"
   },
   {
     ordinal: 104,
@@ -831,7 +939,8 @@ export const WORKSPACE_TYPES = [
     name: "Contract Registry Workspace",
     groupId: "W09",
     groupKey: "DATA",
-    groupLabel: "Data Workspaces"
+    groupLabel: "Data Workspaces",
+    archetype: "DataWorkspace"
   },
   {
     ordinal: 105,
@@ -839,7 +948,8 @@ export const WORKSPACE_TYPES = [
     name: "Data Quality Workspace",
     groupId: "W09",
     groupKey: "DATA",
-    groupLabel: "Data Workspaces"
+    groupLabel: "Data Workspaces",
+    archetype: "DataWorkspace"
   },
   {
     ordinal: 106,
@@ -847,7 +957,8 @@ export const WORKSPACE_TYPES = [
     name: "Data Mapping Workspace",
     groupId: "W09",
     groupKey: "DATA",
-    groupLabel: "Data Workspaces"
+    groupLabel: "Data Workspaces",
+    archetype: "DataWorkspace"
   },
   {
     ordinal: 107,
@@ -855,7 +966,8 @@ export const WORKSPACE_TYPES = [
     name: "Data Import Workspace",
     groupId: "W09",
     groupKey: "DATA",
-    groupLabel: "Data Workspaces"
+    groupLabel: "Data Workspaces",
+    archetype: "DataWorkspace"
   },
   {
     ordinal: 108,
@@ -863,7 +975,8 @@ export const WORKSPACE_TYPES = [
     name: "Data Export Workspace",
     groupId: "W09",
     groupKey: "DATA",
-    groupLabel: "Data Workspaces"
+    groupLabel: "Data Workspaces",
+    archetype: "DataWorkspace"
   },
   {
     ordinal: 109,
@@ -871,7 +984,8 @@ export const WORKSPACE_TYPES = [
     name: "API Studio Workspace",
     groupId: "W10",
     groupKey: "API",
-    groupLabel: "API Workspaces"
+    groupLabel: "API Workspaces",
+    archetype: "APIStudioWorkspace"
   },
   {
     ordinal: 110,
@@ -879,7 +993,8 @@ export const WORKSPACE_TYPES = [
     name: "API Design Workspace",
     groupId: "W10",
     groupKey: "API",
-    groupLabel: "API Workspaces"
+    groupLabel: "API Workspaces",
+    archetype: "APIStudioWorkspace"
   },
   {
     ordinal: 111,
@@ -887,7 +1002,8 @@ export const WORKSPACE_TYPES = [
     name: "API Contract Workspace",
     groupId: "W10",
     groupKey: "API",
-    groupLabel: "API Workspaces"
+    groupLabel: "API Workspaces",
+    archetype: "APIStudioWorkspace"
   },
   {
     ordinal: 112,
@@ -895,7 +1011,8 @@ export const WORKSPACE_TYPES = [
     name: "API Explorer Workspace",
     groupId: "W10",
     groupKey: "API",
-    groupLabel: "API Workspaces"
+    groupLabel: "API Workspaces",
+    archetype: "APIStudioWorkspace"
   },
   {
     ordinal: 113,
@@ -903,7 +1020,8 @@ export const WORKSPACE_TYPES = [
     name: "API Testing Workspace",
     groupId: "W10",
     groupKey: "API",
-    groupLabel: "API Workspaces"
+    groupLabel: "API Workspaces",
+    archetype: "APIStudioWorkspace"
   },
   {
     ordinal: 114,
@@ -911,7 +1029,8 @@ export const WORKSPACE_TYPES = [
     name: "API Request Workspace",
     groupId: "W10",
     groupKey: "API",
-    groupLabel: "API Workspaces"
+    groupLabel: "API Workspaces",
+    archetype: "APIStudioWorkspace"
   },
   {
     ordinal: 115,
@@ -919,7 +1038,8 @@ export const WORKSPACE_TYPES = [
     name: "API Mock Workspace",
     groupId: "W10",
     groupKey: "API",
-    groupLabel: "API Workspaces"
+    groupLabel: "API Workspaces",
+    archetype: "APIStudioWorkspace"
   },
   {
     ordinal: 116,
@@ -927,7 +1047,8 @@ export const WORKSPACE_TYPES = [
     name: "API Conformance Workspace",
     groupId: "W10",
     groupKey: "API",
-    groupLabel: "API Workspaces"
+    groupLabel: "API Workspaces",
+    archetype: "APIStudioWorkspace"
   },
   {
     ordinal: 117,
@@ -935,7 +1056,8 @@ export const WORKSPACE_TYPES = [
     name: "API Environment Workspace",
     groupId: "W10",
     groupKey: "API",
-    groupLabel: "API Workspaces"
+    groupLabel: "API Workspaces",
+    archetype: "APIStudioWorkspace"
   },
   {
     ordinal: 118,
@@ -943,7 +1065,8 @@ export const WORKSPACE_TYPES = [
     name: "API Key Workspace",
     groupId: "W10",
     groupKey: "API",
-    groupLabel: "API Workspaces"
+    groupLabel: "API Workspaces",
+    archetype: "APIStudioWorkspace"
   },
   {
     ordinal: 119,
@@ -951,7 +1074,8 @@ export const WORKSPACE_TYPES = [
     name: "Webhook Workspace",
     groupId: "W10",
     groupKey: "API",
-    groupLabel: "API Workspaces"
+    groupLabel: "API Workspaces",
+    archetype: "APIStudioWorkspace"
   },
   {
     ordinal: 120,
@@ -959,7 +1083,8 @@ export const WORKSPACE_TYPES = [
     name: "Integration API Workspace",
     groupId: "W10",
     groupKey: "API",
-    groupLabel: "API Workspaces"
+    groupLabel: "API Workspaces",
+    archetype: "APIStudioWorkspace"
   },
   {
     ordinal: 121,
@@ -967,7 +1092,8 @@ export const WORKSPACE_TYPES = [
     name: "Developer Workspace",
     groupId: "W11",
     groupKey: "DEVELOPER",
-    groupLabel: "Developer Workspaces"
+    groupLabel: "Developer Workspaces",
+    archetype: "DeveloperWorkspace"
   },
   {
     ordinal: 122,
@@ -975,7 +1101,8 @@ export const WORKSPACE_TYPES = [
     name: "Code Workspace",
     groupId: "W11",
     groupKey: "DEVELOPER",
-    groupLabel: "Developer Workspaces"
+    groupLabel: "Developer Workspaces",
+    archetype: "DeveloperWorkspace"
   },
   {
     ordinal: 123,
@@ -983,7 +1110,8 @@ export const WORKSPACE_TYPES = [
     name: "Code Studio Workspace",
     groupId: "W11",
     groupKey: "DEVELOPER",
-    groupLabel: "Developer Workspaces"
+    groupLabel: "Developer Workspaces",
+    archetype: "DeveloperWorkspace"
   },
   {
     ordinal: 124,
@@ -991,7 +1119,8 @@ export const WORKSPACE_TYPES = [
     name: "Repository Workspace",
     groupId: "W11",
     groupKey: "DEVELOPER",
-    groupLabel: "Developer Workspaces"
+    groupLabel: "Developer Workspaces",
+    archetype: "DeveloperWorkspace"
   },
   {
     ordinal: 125,
@@ -999,7 +1128,8 @@ export const WORKSPACE_TYPES = [
     name: "Source Browser Workspace",
     groupId: "W11",
     groupKey: "DEVELOPER",
-    groupLabel: "Developer Workspaces"
+    groupLabel: "Developer Workspaces",
+    archetype: "DeveloperWorkspace"
   },
   {
     ordinal: 126,
@@ -1007,7 +1137,8 @@ export const WORKSPACE_TYPES = [
     name: "Branch Workspace",
     groupId: "W11",
     groupKey: "DEVELOPER",
-    groupLabel: "Developer Workspaces"
+    groupLabel: "Developer Workspaces",
+    archetype: "DeveloperWorkspace"
   },
   {
     ordinal: 127,
@@ -1015,7 +1146,8 @@ export const WORKSPACE_TYPES = [
     name: "Pull Request Workspace",
     groupId: "W11",
     groupKey: "DEVELOPER",
-    groupLabel: "Developer Workspaces"
+    groupLabel: "Developer Workspaces",
+    archetype: "DeveloperWorkspace"
   },
   {
     ordinal: 128,
@@ -1023,7 +1155,8 @@ export const WORKSPACE_TYPES = [
     name: "Issue Workspace",
     groupId: "W11",
     groupKey: "DEVELOPER",
-    groupLabel: "Developer Workspaces"
+    groupLabel: "Developer Workspaces",
+    archetype: "DeveloperWorkspace"
   },
   {
     ordinal: 129,
@@ -1031,7 +1164,8 @@ export const WORKSPACE_TYPES = [
     name: "Build Workspace",
     groupId: "W11",
     groupKey: "DEVELOPER",
-    groupLabel: "Developer Workspaces"
+    groupLabel: "Developer Workspaces",
+    archetype: "DeveloperWorkspace"
   },
   {
     ordinal: 130,
@@ -1039,7 +1173,8 @@ export const WORKSPACE_TYPES = [
     name: "CI Workspace",
     groupId: "W11",
     groupKey: "DEVELOPER",
-    groupLabel: "Developer Workspaces"
+    groupLabel: "Developer Workspaces",
+    archetype: "DeveloperWorkspace"
   },
   {
     ordinal: 131,
@@ -1047,7 +1182,8 @@ export const WORKSPACE_TYPES = [
     name: "Pipeline Workspace",
     groupId: "W11",
     groupKey: "DEVELOPER",
-    groupLabel: "Developer Workspaces"
+    groupLabel: "Developer Workspaces",
+    archetype: "DeveloperWorkspace"
   },
   {
     ordinal: 132,
@@ -1055,7 +1191,8 @@ export const WORKSPACE_TYPES = [
     name: "Release Engineering Workspace",
     groupId: "W11",
     groupKey: "DEVELOPER",
-    groupLabel: "Developer Workspaces"
+    groupLabel: "Developer Workspaces",
+    archetype: "DeveloperWorkspace"
   },
   {
     ordinal: 133,
@@ -1063,7 +1200,8 @@ export const WORKSPACE_TYPES = [
     name: "SDK Workspace",
     groupId: "W11",
     groupKey: "DEVELOPER",
-    groupLabel: "Developer Workspaces"
+    groupLabel: "Developer Workspaces",
+    archetype: "DeveloperWorkspace"
   },
   {
     ordinal: 134,
@@ -1071,7 +1209,8 @@ export const WORKSPACE_TYPES = [
     name: "App Builder Workspace",
     groupId: "W12",
     groupKey: "APPLICATION_BUILDER",
-    groupLabel: "Application Builder Workspaces"
+    groupLabel: "Application Builder Workspaces",
+    archetype: "BuilderWorkspace"
   },
   {
     ordinal: 135,
@@ -1079,7 +1218,8 @@ export const WORKSPACE_TYPES = [
     name: "Web App Builder Workspace",
     groupId: "W12",
     groupKey: "APPLICATION_BUILDER",
-    groupLabel: "Application Builder Workspaces"
+    groupLabel: "Application Builder Workspaces",
+    archetype: "BuilderWorkspace"
   },
   {
     ordinal: 136,
@@ -1087,7 +1227,8 @@ export const WORKSPACE_TYPES = [
     name: "Mobile App Builder Workspace",
     groupId: "W12",
     groupKey: "APPLICATION_BUILDER",
-    groupLabel: "Application Builder Workspaces"
+    groupLabel: "Application Builder Workspaces",
+    archetype: "BuilderWorkspace"
   },
   {
     ordinal: 137,
@@ -1095,7 +1236,8 @@ export const WORKSPACE_TYPES = [
     name: "Desktop App Builder Workspace",
     groupId: "W12",
     groupKey: "APPLICATION_BUILDER",
-    groupLabel: "Application Builder Workspaces"
+    groupLabel: "Application Builder Workspaces",
+    archetype: "BuilderWorkspace"
   },
   {
     ordinal: 138,
@@ -1103,7 +1245,8 @@ export const WORKSPACE_TYPES = [
     name: "Page Builder Workspace",
     groupId: "W12",
     groupKey: "APPLICATION_BUILDER",
-    groupLabel: "Application Builder Workspaces"
+    groupLabel: "Application Builder Workspaces",
+    archetype: "BuilderWorkspace"
   },
   {
     ordinal: 139,
@@ -1111,7 +1254,8 @@ export const WORKSPACE_TYPES = [
     name: "Form Builder Workspace",
     groupId: "W12",
     groupKey: "APPLICATION_BUILDER",
-    groupLabel: "Application Builder Workspaces"
+    groupLabel: "Application Builder Workspaces",
+    archetype: "BuilderWorkspace"
   },
   {
     ordinal: 140,
@@ -1119,7 +1263,8 @@ export const WORKSPACE_TYPES = [
     name: "Workflow Builder Workspace",
     groupId: "W12",
     groupKey: "APPLICATION_BUILDER",
-    groupLabel: "Application Builder Workspaces"
+    groupLabel: "Application Builder Workspaces",
+    archetype: "BuilderWorkspace"
   },
   {
     ordinal: 141,
@@ -1127,7 +1272,8 @@ export const WORKSPACE_TYPES = [
     name: "Automation Builder Workspace",
     groupId: "W12",
     groupKey: "APPLICATION_BUILDER",
-    groupLabel: "Application Builder Workspaces"
+    groupLabel: "Application Builder Workspaces",
+    archetype: "BuilderWorkspace"
   },
   {
     ordinal: 142,
@@ -1135,7 +1281,8 @@ export const WORKSPACE_TYPES = [
     name: "Rule Builder Workspace",
     groupId: "W12",
     groupKey: "APPLICATION_BUILDER",
-    groupLabel: "Application Builder Workspaces"
+    groupLabel: "Application Builder Workspaces",
+    archetype: "BuilderWorkspace"
   },
   {
     ordinal: 143,
@@ -1143,7 +1290,8 @@ export const WORKSPACE_TYPES = [
     name: "Template Builder Workspace",
     groupId: "W12",
     groupKey: "APPLICATION_BUILDER",
-    groupLabel: "Application Builder Workspaces"
+    groupLabel: "Application Builder Workspaces",
+    archetype: "BuilderWorkspace"
   },
   {
     ordinal: 144,
@@ -1151,7 +1299,8 @@ export const WORKSPACE_TYPES = [
     name: "Component Builder Workspace",
     groupId: "W12",
     groupKey: "APPLICATION_BUILDER",
-    groupLabel: "Application Builder Workspaces"
+    groupLabel: "Application Builder Workspaces",
+    archetype: "BuilderWorkspace"
   },
   {
     ordinal: 145,
@@ -1159,7 +1308,8 @@ export const WORKSPACE_TYPES = [
     name: "UI Studio Workspace",
     groupId: "W13",
     groupKey: "UI_DESIGN_SYSTEM",
-    groupLabel: "UI & Design-System Workspaces"
+    groupLabel: "UI & Design-System Workspaces",
+    archetype: "DesignSystemWorkspace"
   },
   {
     ordinal: 146,
@@ -1167,7 +1317,8 @@ export const WORKSPACE_TYPES = [
     name: "Design System Workspace",
     groupId: "W13",
     groupKey: "UI_DESIGN_SYSTEM",
-    groupLabel: "UI & Design-System Workspaces"
+    groupLabel: "UI & Design-System Workspaces",
+    archetype: "DesignSystemWorkspace"
   },
   {
     ordinal: 147,
@@ -1175,7 +1326,8 @@ export const WORKSPACE_TYPES = [
     name: "Component Studio Workspace",
     groupId: "W13",
     groupKey: "UI_DESIGN_SYSTEM",
-    groupLabel: "UI & Design-System Workspaces"
+    groupLabel: "UI & Design-System Workspaces",
+    archetype: "DesignSystemWorkspace"
   },
   {
     ordinal: 148,
@@ -1183,7 +1335,8 @@ export const WORKSPACE_TYPES = [
     name: "Component Gallery Workspace",
     groupId: "W13",
     groupKey: "UI_DESIGN_SYSTEM",
-    groupLabel: "UI & Design-System Workspaces"
+    groupLabel: "UI & Design-System Workspaces",
+    archetype: "DesignSystemWorkspace"
   },
   {
     ordinal: 149,
@@ -1191,7 +1344,8 @@ export const WORKSPACE_TYPES = [
     name: "Atomic Component Workspace",
     groupId: "W13",
     groupKey: "UI_DESIGN_SYSTEM",
-    groupLabel: "UI & Design-System Workspaces"
+    groupLabel: "UI & Design-System Workspaces",
+    archetype: "DesignSystemWorkspace"
   },
   {
     ordinal: 150,
@@ -1199,7 +1353,8 @@ export const WORKSPACE_TYPES = [
     name: "Layout Studio Workspace",
     groupId: "W13",
     groupKey: "UI_DESIGN_SYSTEM",
-    groupLabel: "UI & Design-System Workspaces"
+    groupLabel: "UI & Design-System Workspaces",
+    archetype: "DesignSystemWorkspace"
   },
   {
     ordinal: 151,
@@ -1207,7 +1362,8 @@ export const WORKSPACE_TYPES = [
     name: "Page Studio Workspace",
     groupId: "W13",
     groupKey: "UI_DESIGN_SYSTEM",
-    groupLabel: "UI & Design-System Workspaces"
+    groupLabel: "UI & Design-System Workspaces",
+    archetype: "DesignSystemWorkspace"
   },
   {
     ordinal: 152,
@@ -1215,7 +1371,8 @@ export const WORKSPACE_TYPES = [
     name: "Theme Studio Workspace",
     groupId: "W13",
     groupKey: "UI_DESIGN_SYSTEM",
-    groupLabel: "UI & Design-System Workspaces"
+    groupLabel: "UI & Design-System Workspaces",
+    archetype: "DesignSystemWorkspace"
   },
   {
     ordinal: 153,
@@ -1223,7 +1380,8 @@ export const WORKSPACE_TYPES = [
     name: "Token Studio Workspace",
     groupId: "W13",
     groupKey: "UI_DESIGN_SYSTEM",
-    groupLabel: "UI & Design-System Workspaces"
+    groupLabel: "UI & Design-System Workspaces",
+    archetype: "DesignSystemWorkspace"
   },
   {
     ordinal: 154,
@@ -1231,7 +1389,8 @@ export const WORKSPACE_TYPES = [
     name: "Typography Workspace",
     groupId: "W13",
     groupKey: "UI_DESIGN_SYSTEM",
-    groupLabel: "UI & Design-System Workspaces"
+    groupLabel: "UI & Design-System Workspaces",
+    archetype: "DesignSystemWorkspace"
   },
   {
     ordinal: 155,
@@ -1239,7 +1398,8 @@ export const WORKSPACE_TYPES = [
     name: "Icon Studio Workspace",
     groupId: "W13",
     groupKey: "UI_DESIGN_SYSTEM",
-    groupLabel: "UI & Design-System Workspaces"
+    groupLabel: "UI & Design-System Workspaces",
+    archetype: "DesignSystemWorkspace"
   },
   {
     ordinal: 156,
@@ -1247,7 +1407,8 @@ export const WORKSPACE_TYPES = [
     name: "Motion Workspace",
     groupId: "W13",
     groupKey: "UI_DESIGN_SYSTEM",
-    groupLabel: "UI & Design-System Workspaces"
+    groupLabel: "UI & Design-System Workspaces",
+    archetype: "DesignSystemWorkspace"
   },
   {
     ordinal: 157,
@@ -1255,7 +1416,8 @@ export const WORKSPACE_TYPES = [
     name: "Accessibility Workspace",
     groupId: "W13",
     groupKey: "UI_DESIGN_SYSTEM",
-    groupLabel: "UI & Design-System Workspaces"
+    groupLabel: "UI & Design-System Workspaces",
+    archetype: "DesignSystemWorkspace"
   },
   {
     ordinal: 158,
@@ -1263,7 +1425,8 @@ export const WORKSPACE_TYPES = [
     name: "Creative Studio Workspace",
     groupId: "W14",
     groupKey: "CREATIVE",
-    groupLabel: "Creative Workspaces"
+    groupLabel: "Creative Workspaces",
+    archetype: "CreativeStudioWorkspace"
   },
   {
     ordinal: 159,
@@ -1271,7 +1434,8 @@ export const WORKSPACE_TYPES = [
     name: "Design Workspace",
     groupId: "W14",
     groupKey: "CREATIVE",
-    groupLabel: "Creative Workspaces"
+    groupLabel: "Creative Workspaces",
+    archetype: "CreativeStudioWorkspace"
   },
   {
     ordinal: 160,
@@ -1279,7 +1443,8 @@ export const WORKSPACE_TYPES = [
     name: "Graphic Design Workspace",
     groupId: "W14",
     groupKey: "CREATIVE",
-    groupLabel: "Creative Workspaces"
+    groupLabel: "Creative Workspaces",
+    archetype: "CreativeStudioWorkspace"
   },
   {
     ordinal: 161,
@@ -1287,7 +1452,8 @@ export const WORKSPACE_TYPES = [
     name: "Brand Studio Workspace",
     groupId: "W14",
     groupKey: "CREATIVE",
-    groupLabel: "Creative Workspaces"
+    groupLabel: "Creative Workspaces",
+    archetype: "CreativeStudioWorkspace"
   },
   {
     ordinal: 162,
@@ -1295,7 +1461,8 @@ export const WORKSPACE_TYPES = [
     name: "Campaign Creative Workspace",
     groupId: "W14",
     groupKey: "CREATIVE",
-    groupLabel: "Creative Workspaces"
+    groupLabel: "Creative Workspaces",
+    archetype: "CreativeStudioWorkspace"
   },
   {
     ordinal: 163,
@@ -1303,7 +1470,8 @@ export const WORKSPACE_TYPES = [
     name: "Content Studio Workspace",
     groupId: "W14",
     groupKey: "CREATIVE",
-    groupLabel: "Creative Workspaces"
+    groupLabel: "Creative Workspaces",
+    archetype: "CreativeStudioWorkspace"
   },
   {
     ordinal: 164,
@@ -1311,7 +1479,8 @@ export const WORKSPACE_TYPES = [
     name: "Copy Workspace",
     groupId: "W14",
     groupKey: "CREATIVE",
-    groupLabel: "Creative Workspaces"
+    groupLabel: "Creative Workspaces",
+    archetype: "CreativeStudioWorkspace"
   },
   {
     ordinal: 165,
@@ -1319,7 +1488,8 @@ export const WORKSPACE_TYPES = [
     name: "Story Workspace",
     groupId: "W14",
     groupKey: "CREATIVE",
-    groupLabel: "Creative Workspaces"
+    groupLabel: "Creative Workspaces",
+    archetype: "CreativeStudioWorkspace"
   },
   {
     ordinal: 166,
@@ -1327,7 +1497,8 @@ export const WORKSPACE_TYPES = [
     name: "Storyboard Workspace",
     groupId: "W14",
     groupKey: "CREATIVE",
-    groupLabel: "Creative Workspaces"
+    groupLabel: "Creative Workspaces",
+    archetype: "CreativeStudioWorkspace"
   },
   {
     ordinal: 167,
@@ -1335,7 +1506,8 @@ export const WORKSPACE_TYPES = [
     name: "Moodboard Workspace",
     groupId: "W14",
     groupKey: "CREATIVE",
-    groupLabel: "Creative Workspaces"
+    groupLabel: "Creative Workspaces",
+    archetype: "CreativeStudioWorkspace"
   },
   {
     ordinal: 168,
@@ -1343,7 +1515,8 @@ export const WORKSPACE_TYPES = [
     name: "Whiteboard Workspace",
     groupId: "W14",
     groupKey: "CREATIVE",
-    groupLabel: "Creative Workspaces"
+    groupLabel: "Creative Workspaces",
+    archetype: "CreativeStudioWorkspace"
   },
   {
     ordinal: 169,
@@ -1351,7 +1524,8 @@ export const WORKSPACE_TYPES = [
     name: "Ideation Workspace",
     groupId: "W14",
     groupKey: "CREATIVE",
-    groupLabel: "Creative Workspaces"
+    groupLabel: "Creative Workspaces",
+    archetype: "CreativeStudioWorkspace"
   },
   {
     ordinal: 170,
@@ -1359,7 +1533,8 @@ export const WORKSPACE_TYPES = [
     name: "Media Studio Workspace",
     groupId: "W15",
     groupKey: "MEDIA_PRODUCTION",
-    groupLabel: "Media Production Workspaces"
+    groupLabel: "Media Production Workspaces",
+    archetype: "MediaStudioWorkspace"
   },
   {
     ordinal: 171,
@@ -1367,7 +1542,8 @@ export const WORKSPACE_TYPES = [
     name: "Image Editing Workspace",
     groupId: "W15",
     groupKey: "MEDIA_PRODUCTION",
-    groupLabel: "Media Production Workspaces"
+    groupLabel: "Media Production Workspaces",
+    archetype: "MediaStudioWorkspace"
   },
   {
     ordinal: 172,
@@ -1375,7 +1551,8 @@ export const WORKSPACE_TYPES = [
     name: "Video Editing Workspace",
     groupId: "W15",
     groupKey: "MEDIA_PRODUCTION",
-    groupLabel: "Media Production Workspaces"
+    groupLabel: "Media Production Workspaces",
+    archetype: "MediaStudioWorkspace"
   },
   {
     ordinal: 173,
@@ -1383,7 +1560,8 @@ export const WORKSPACE_TYPES = [
     name: "Audio Editing Workspace",
     groupId: "W15",
     groupKey: "MEDIA_PRODUCTION",
-    groupLabel: "Media Production Workspaces"
+    groupLabel: "Media Production Workspaces",
+    archetype: "MediaStudioWorkspace"
   },
   {
     ordinal: 174,
@@ -1391,7 +1569,8 @@ export const WORKSPACE_TYPES = [
     name: "Photo Workspace",
     groupId: "W15",
     groupKey: "MEDIA_PRODUCTION",
-    groupLabel: "Media Production Workspaces"
+    groupLabel: "Media Production Workspaces",
+    archetype: "MediaStudioWorkspace"
   },
   {
     ordinal: 175,
@@ -1399,7 +1578,8 @@ export const WORKSPACE_TYPES = [
     name: "Video Workspace",
     groupId: "W15",
     groupKey: "MEDIA_PRODUCTION",
-    groupLabel: "Media Production Workspaces"
+    groupLabel: "Media Production Workspaces",
+    archetype: "MediaStudioWorkspace"
   },
   {
     ordinal: 176,
@@ -1407,7 +1587,8 @@ export const WORKSPACE_TYPES = [
     name: "Audio Workspace",
     groupId: "W15",
     groupKey: "MEDIA_PRODUCTION",
-    groupLabel: "Media Production Workspaces"
+    groupLabel: "Media Production Workspaces",
+    archetype: "MediaStudioWorkspace"
   },
   {
     ordinal: 177,
@@ -1415,7 +1596,8 @@ export const WORKSPACE_TYPES = [
     name: "Motion Graphics Workspace",
     groupId: "W15",
     groupKey: "MEDIA_PRODUCTION",
-    groupLabel: "Media Production Workspaces"
+    groupLabel: "Media Production Workspaces",
+    archetype: "MediaStudioWorkspace"
   },
   {
     ordinal: 178,
@@ -1423,7 +1605,8 @@ export const WORKSPACE_TYPES = [
     name: "Post-Production Workspace",
     groupId: "W15",
     groupKey: "MEDIA_PRODUCTION",
-    groupLabel: "Media Production Workspaces"
+    groupLabel: "Media Production Workspaces",
+    archetype: "MediaStudioWorkspace"
   },
   {
     ordinal: 179,
@@ -1431,7 +1614,8 @@ export const WORKSPACE_TYPES = [
     name: "Review & Approval Workspace",
     groupId: "W15",
     groupKey: "MEDIA_PRODUCTION",
-    groupLabel: "Media Production Workspaces"
+    groupLabel: "Media Production Workspaces",
+    archetype: "MediaStudioWorkspace"
   },
   {
     ordinal: 180,
@@ -1439,7 +1623,8 @@ export const WORKSPACE_TYPES = [
     name: "Media Delivery Workspace",
     groupId: "W15",
     groupKey: "MEDIA_PRODUCTION",
-    groupLabel: "Media Production Workspaces"
+    groupLabel: "Media Production Workspaces",
+    archetype: "MediaStudioWorkspace"
   },
   {
     ordinal: 181,
@@ -1447,7 +1632,8 @@ export const WORKSPACE_TYPES = [
     name: "Spatial Workspace",
     groupId: "W16",
     groupKey: "SPATIAL_3D",
-    groupLabel: "Spatial & 3D Workspaces"
+    groupLabel: "Spatial & 3D Workspaces",
+    archetype: "SpatialStudioWorkspace"
   },
   {
     ordinal: 182,
@@ -1455,7 +1641,8 @@ export const WORKSPACE_TYPES = [
     name: "Spatial Studio Workspace",
     groupId: "W16",
     groupKey: "SPATIAL_3D",
-    groupLabel: "Spatial & 3D Workspaces"
+    groupLabel: "Spatial & 3D Workspaces",
+    archetype: "SpatialStudioWorkspace"
   },
   {
     ordinal: 183,
@@ -1463,7 +1650,8 @@ export const WORKSPACE_TYPES = [
     name: "CAD Workspace",
     groupId: "W16",
     groupKey: "SPATIAL_3D",
-    groupLabel: "Spatial & 3D Workspaces"
+    groupLabel: "Spatial & 3D Workspaces",
+    archetype: "SpatialStudioWorkspace"
   },
   {
     ordinal: 184,
@@ -1471,7 +1659,8 @@ export const WORKSPACE_TYPES = [
     name: "2D Plan Workspace",
     groupId: "W16",
     groupKey: "SPATIAL_3D",
-    groupLabel: "Spatial & 3D Workspaces"
+    groupLabel: "Spatial & 3D Workspaces",
+    archetype: "SpatialStudioWorkspace"
   },
   {
     ordinal: 185,
@@ -1479,7 +1668,8 @@ export const WORKSPACE_TYPES = [
     name: "3D Workspace",
     groupId: "W16",
     groupKey: "SPATIAL_3D",
-    groupLabel: "Spatial & 3D Workspaces"
+    groupLabel: "Spatial & 3D Workspaces",
+    archetype: "SpatialStudioWorkspace"
   },
   {
     ordinal: 186,
@@ -1487,7 +1677,8 @@ export const WORKSPACE_TYPES = [
     name: "3D Preview Workspace",
     groupId: "W16",
     groupKey: "SPATIAL_3D",
-    groupLabel: "Spatial & 3D Workspaces"
+    groupLabel: "Spatial & 3D Workspaces",
+    archetype: "SpatialStudioWorkspace"
   },
   {
     ordinal: 187,
@@ -1495,7 +1686,8 @@ export const WORKSPACE_TYPES = [
     name: "Floor Plan Workspace",
     groupId: "W16",
     groupKey: "SPATIAL_3D",
-    groupLabel: "Spatial & 3D Workspaces"
+    groupLabel: "Spatial & 3D Workspaces",
+    archetype: "SpatialStudioWorkspace"
   },
   {
     ordinal: 188,
@@ -1503,7 +1695,8 @@ export const WORKSPACE_TYPES = [
     name: "Venue Plan Workspace",
     groupId: "W16",
     groupKey: "SPATIAL_3D",
-    groupLabel: "Spatial & 3D Workspaces"
+    groupLabel: "Spatial & 3D Workspaces",
+    archetype: "SpatialStudioWorkspace"
   },
   {
     ordinal: 189,
@@ -1511,7 +1704,8 @@ export const WORKSPACE_TYPES = [
     name: "Scene Workspace",
     groupId: "W16",
     groupKey: "SPATIAL_3D",
-    groupLabel: "Spatial & 3D Workspaces"
+    groupLabel: "Spatial & 3D Workspaces",
+    archetype: "SpatialStudioWorkspace"
   },
   {
     ordinal: 190,
@@ -1519,7 +1713,8 @@ export const WORKSPACE_TYPES = [
     name: "Digital Twin Workspace",
     groupId: "W16",
     groupKey: "SPATIAL_3D",
-    groupLabel: "Spatial & 3D Workspaces"
+    groupLabel: "Spatial & 3D Workspaces",
+    archetype: "SpatialStudioWorkspace"
   },
   {
     ordinal: 191,
@@ -1527,7 +1722,8 @@ export const WORKSPACE_TYPES = [
     name: "Simulation Workspace",
     groupId: "W16",
     groupKey: "SPATIAL_3D",
-    groupLabel: "Spatial & 3D Workspaces"
+    groupLabel: "Spatial & 3D Workspaces",
+    archetype: "SpatialStudioWorkspace"
   },
   {
     ordinal: 192,
@@ -1535,7 +1731,8 @@ export const WORKSPACE_TYPES = [
     name: "Mapping Workspace",
     groupId: "W16",
     groupKey: "SPATIAL_3D",
-    groupLabel: "Spatial & 3D Workspaces"
+    groupLabel: "Spatial & 3D Workspaces",
+    archetype: "SpatialStudioWorkspace"
   },
   {
     ordinal: 193,
@@ -1543,7 +1740,8 @@ export const WORKSPACE_TYPES = [
     name: "GIS Workspace",
     groupId: "W16",
     groupKey: "SPATIAL_3D",
-    groupLabel: "Spatial & 3D Workspaces"
+    groupLabel: "Spatial & 3D Workspaces",
+    archetype: "SpatialStudioWorkspace"
   },
   {
     ordinal: 194,
@@ -1551,15 +1749,17 @@ export const WORKSPACE_TYPES = [
     name: "Route Planning Workspace",
     groupId: "W16",
     groupKey: "SPATIAL_3D",
-    groupLabel: "Spatial & 3D Workspaces"
+    groupLabel: "Spatial & 3D Workspaces",
+    archetype: "SpatialStudioWorkspace"
   },
   {
     ordinal: 195,
     id: "WORKSPACE.SPATIAL_3D.LOCATION",
-    name: "Location Workspace",
+    name: "Spatial Location Workspace",
     groupId: "W16",
     groupKey: "SPATIAL_3D",
-    groupLabel: "Spatial & 3D Workspaces"
+    groupLabel: "Spatial & 3D Workspaces",
+    archetype: "SpatialStudioWorkspace"
   },
   {
     ordinal: 196,
@@ -1567,7 +1767,8 @@ export const WORKSPACE_TYPES = [
     name: "AI Workspace",
     groupId: "W17",
     groupKey: "AI",
-    groupLabel: "AI Workspaces"
+    groupLabel: "AI Workspaces",
+    archetype: "AIWorkspace"
   },
   {
     ordinal: 197,
@@ -1575,7 +1776,8 @@ export const WORKSPACE_TYPES = [
     name: "AI Assistant Workspace",
     groupId: "W17",
     groupKey: "AI",
-    groupLabel: "AI Workspaces"
+    groupLabel: "AI Workspaces",
+    archetype: "AIWorkspace"
   },
   {
     ordinal: 198,
@@ -1583,7 +1785,8 @@ export const WORKSPACE_TYPES = [
     name: "Agent Workspace",
     groupId: "W17",
     groupKey: "AI",
-    groupLabel: "AI Workspaces"
+    groupLabel: "AI Workspaces",
+    archetype: "AIWorkspace"
   },
   {
     ordinal: 199,
@@ -1591,7 +1794,8 @@ export const WORKSPACE_TYPES = [
     name: "Agent Builder Workspace",
     groupId: "W17",
     groupKey: "AI",
-    groupLabel: "AI Workspaces"
+    groupLabel: "AI Workspaces",
+    archetype: "AIWorkspace"
   },
   {
     ordinal: 200,
@@ -1599,7 +1803,8 @@ export const WORKSPACE_TYPES = [
     name: "Multi-Agent Workspace",
     groupId: "W17",
     groupKey: "AI",
-    groupLabel: "AI Workspaces"
+    groupLabel: "AI Workspaces",
+    archetype: "AIWorkspace"
   },
   {
     ordinal: 201,
@@ -1607,7 +1812,8 @@ export const WORKSPACE_TYPES = [
     name: "Prompt Workspace",
     groupId: "W17",
     groupKey: "AI",
-    groupLabel: "AI Workspaces"
+    groupLabel: "AI Workspaces",
+    archetype: "AIWorkspace"
   },
   {
     ordinal: 202,
@@ -1615,7 +1821,8 @@ export const WORKSPACE_TYPES = [
     name: "Prompt Studio Workspace",
     groupId: "W17",
     groupKey: "AI",
-    groupLabel: "AI Workspaces"
+    groupLabel: "AI Workspaces",
+    archetype: "AIWorkspace"
   },
   {
     ordinal: 203,
@@ -1623,7 +1830,8 @@ export const WORKSPACE_TYPES = [
     name: "Model Workspace",
     groupId: "W17",
     groupKey: "AI",
-    groupLabel: "AI Workspaces"
+    groupLabel: "AI Workspaces",
+    archetype: "AIWorkspace"
   },
   {
     ordinal: 204,
@@ -1631,7 +1839,8 @@ export const WORKSPACE_TYPES = [
     name: "Model Playground Workspace",
     groupId: "W17",
     groupKey: "AI",
-    groupLabel: "AI Workspaces"
+    groupLabel: "AI Workspaces",
+    archetype: "AIWorkspace"
   },
   {
     ordinal: 205,
@@ -1639,7 +1848,8 @@ export const WORKSPACE_TYPES = [
     name: "AI Evaluation Workspace",
     groupId: "W17",
     groupKey: "AI",
-    groupLabel: "AI Workspaces"
+    groupLabel: "AI Workspaces",
+    archetype: "AIWorkspace"
   },
   {
     ordinal: 206,
@@ -1647,7 +1857,8 @@ export const WORKSPACE_TYPES = [
     name: "AI Observability Workspace",
     groupId: "W17",
     groupKey: "AI",
-    groupLabel: "AI Workspaces"
+    groupLabel: "AI Workspaces",
+    archetype: "AIWorkspace"
   },
   {
     ordinal: 207,
@@ -1655,7 +1866,8 @@ export const WORKSPACE_TYPES = [
     name: "AI Knowledge Workspace",
     groupId: "W17",
     groupKey: "AI",
-    groupLabel: "AI Workspaces"
+    groupLabel: "AI Workspaces",
+    archetype: "AIWorkspace"
   },
   {
     ordinal: 208,
@@ -1663,7 +1875,8 @@ export const WORKSPACE_TYPES = [
     name: "RAG Workspace",
     groupId: "W17",
     groupKey: "AI",
-    groupLabel: "AI Workspaces"
+    groupLabel: "AI Workspaces",
+    archetype: "AIWorkspace"
   },
   {
     ordinal: 209,
@@ -1671,7 +1884,8 @@ export const WORKSPACE_TYPES = [
     name: "Embedding Workspace",
     groupId: "W17",
     groupKey: "AI",
-    groupLabel: "AI Workspaces"
+    groupLabel: "AI Workspaces",
+    archetype: "AIWorkspace"
   },
   {
     ordinal: 210,
@@ -1679,7 +1893,8 @@ export const WORKSPACE_TYPES = [
     name: "AI Workflow Workspace",
     groupId: "W17",
     groupKey: "AI",
-    groupLabel: "AI Workspaces"
+    groupLabel: "AI Workspaces",
+    archetype: "AIWorkspace"
   },
   {
     ordinal: 211,
@@ -1687,7 +1902,8 @@ export const WORKSPACE_TYPES = [
     name: "Analytics Workspace",
     groupId: "W18",
     groupKey: "ANALYTICS",
-    groupLabel: "Analytics Workspaces"
+    groupLabel: "Analytics Workspaces",
+    archetype: "AnalyticsWorkspace"
   },
   {
     ordinal: 212,
@@ -1695,7 +1911,8 @@ export const WORKSPACE_TYPES = [
     name: "BI Workspace",
     groupId: "W18",
     groupKey: "ANALYTICS",
-    groupLabel: "Analytics Workspaces"
+    groupLabel: "Analytics Workspaces",
+    archetype: "AnalyticsWorkspace"
   },
   {
     ordinal: 213,
@@ -1703,7 +1920,8 @@ export const WORKSPACE_TYPES = [
     name: "Dashboard Workspace",
     groupId: "W18",
     groupKey: "ANALYTICS",
-    groupLabel: "Analytics Workspaces"
+    groupLabel: "Analytics Workspaces",
+    archetype: "AnalyticsWorkspace"
   },
   {
     ordinal: 214,
@@ -1711,7 +1929,8 @@ export const WORKSPACE_TYPES = [
     name: "Executive Analytics Workspace",
     groupId: "W18",
     groupKey: "ANALYTICS",
-    groupLabel: "Analytics Workspaces"
+    groupLabel: "Analytics Workspaces",
+    archetype: "AnalyticsWorkspace"
   },
   {
     ordinal: 215,
@@ -1719,7 +1938,8 @@ export const WORKSPACE_TYPES = [
     name: "Operational Analytics Workspace",
     groupId: "W18",
     groupKey: "ANALYTICS",
-    groupLabel: "Analytics Workspaces"
+    groupLabel: "Analytics Workspaces",
+    archetype: "AnalyticsWorkspace"
   },
   {
     ordinal: 216,
@@ -1727,7 +1947,8 @@ export const WORKSPACE_TYPES = [
     name: "Product Analytics Workspace",
     groupId: "W18",
     groupKey: "ANALYTICS",
-    groupLabel: "Analytics Workspaces"
+    groupLabel: "Analytics Workspaces",
+    archetype: "AnalyticsWorkspace"
   },
   {
     ordinal: 217,
@@ -1735,7 +1956,8 @@ export const WORKSPACE_TYPES = [
     name: "User Analytics Workspace",
     groupId: "W18",
     groupKey: "ANALYTICS",
-    groupLabel: "Analytics Workspaces"
+    groupLabel: "Analytics Workspaces",
+    archetype: "AnalyticsWorkspace"
   },
   {
     ordinal: 218,
@@ -1743,7 +1965,9 @@ export const WORKSPACE_TYPES = [
     name: "Marketing Analytics Workspace",
     groupId: "W18",
     groupKey: "ANALYTICS",
-    groupLabel: "Analytics Workspaces"
+    groupLabel: "Analytics Workspaces",
+    archetype: "MarketingWorkspace",
+    aliasOf: "WORKSPACE.MARKETING.MARKETING_ANALYTICS"
   },
   {
     ordinal: 219,
@@ -1751,7 +1975,8 @@ export const WORKSPACE_TYPES = [
     name: "Revenue Analytics Workspace",
     groupId: "W18",
     groupKey: "ANALYTICS",
-    groupLabel: "Analytics Workspaces"
+    groupLabel: "Analytics Workspaces",
+    archetype: "AnalyticsWorkspace"
   },
   {
     ordinal: 220,
@@ -1759,7 +1984,8 @@ export const WORKSPACE_TYPES = [
     name: "Finance Analytics Workspace",
     groupId: "W18",
     groupKey: "ANALYTICS",
-    groupLabel: "Analytics Workspaces"
+    groupLabel: "Analytics Workspaces",
+    archetype: "AnalyticsWorkspace"
   },
   {
     ordinal: 221,
@@ -1767,7 +1993,8 @@ export const WORKSPACE_TYPES = [
     name: "Funnel Workspace",
     groupId: "W18",
     groupKey: "ANALYTICS",
-    groupLabel: "Analytics Workspaces"
+    groupLabel: "Analytics Workspaces",
+    archetype: "AnalyticsWorkspace"
   },
   {
     ordinal: 222,
@@ -1775,7 +2002,8 @@ export const WORKSPACE_TYPES = [
     name: "Cohort Workspace",
     groupId: "W18",
     groupKey: "ANALYTICS",
-    groupLabel: "Analytics Workspaces"
+    groupLabel: "Analytics Workspaces",
+    archetype: "AnalyticsWorkspace"
   },
   {
     ordinal: 223,
@@ -1783,7 +2011,8 @@ export const WORKSPACE_TYPES = [
     name: "Report Builder Workspace",
     groupId: "W18",
     groupKey: "ANALYTICS",
-    groupLabel: "Analytics Workspaces"
+    groupLabel: "Analytics Workspaces",
+    archetype: "AnalyticsWorkspace"
   },
   {
     ordinal: 224,
@@ -1791,7 +2020,8 @@ export const WORKSPACE_TYPES = [
     name: "Command Center Workspace",
     groupId: "W19",
     groupKey: "COMMAND_OPERATIONS",
-    groupLabel: "Command & Operations Workspaces"
+    groupLabel: "Command & Operations Workspaces",
+    archetype: "CommandCenterWorkspace"
   },
   {
     ordinal: 225,
@@ -1799,7 +2029,8 @@ export const WORKSPACE_TYPES = [
     name: "Operations Center Workspace",
     groupId: "W19",
     groupKey: "COMMAND_OPERATIONS",
-    groupLabel: "Command & Operations Workspaces"
+    groupLabel: "Command & Operations Workspaces",
+    archetype: "CommandCenterWorkspace"
   },
   {
     ordinal: 226,
@@ -1807,7 +2038,8 @@ export const WORKSPACE_TYPES = [
     name: "Control Room Workspace",
     groupId: "W19",
     groupKey: "COMMAND_OPERATIONS",
-    groupLabel: "Command & Operations Workspaces"
+    groupLabel: "Command & Operations Workspaces",
+    archetype: "CommandCenterWorkspace"
   },
   {
     ordinal: 227,
@@ -1815,7 +2047,8 @@ export const WORKSPACE_TYPES = [
     name: "Mission Control Workspace",
     groupId: "W19",
     groupKey: "COMMAND_OPERATIONS",
-    groupLabel: "Command & Operations Workspaces"
+    groupLabel: "Command & Operations Workspaces",
+    archetype: "CommandCenterWorkspace"
   },
   {
     ordinal: 228,
@@ -1823,7 +2056,8 @@ export const WORKSPACE_TYPES = [
     name: "Cockpit Workspace",
     groupId: "W19",
     groupKey: "COMMAND_OPERATIONS",
-    groupLabel: "Command & Operations Workspaces"
+    groupLabel: "Command & Operations Workspaces",
+    archetype: "CommandCenterWorkspace"
   },
   {
     ordinal: 229,
@@ -1831,7 +2065,8 @@ export const WORKSPACE_TYPES = [
     name: "Operations Wallboard Workspace",
     groupId: "W19",
     groupKey: "COMMAND_OPERATIONS",
-    groupLabel: "Command & Operations Workspaces"
+    groupLabel: "Command & Operations Workspaces",
+    archetype: "CommandCenterWorkspace"
   },
   {
     ordinal: 230,
@@ -1839,7 +2074,8 @@ export const WORKSPACE_TYPES = [
     name: "Monitoring Workspace",
     groupId: "W19",
     groupKey: "COMMAND_OPERATIONS",
-    groupLabel: "Command & Operations Workspaces"
+    groupLabel: "Command & Operations Workspaces",
+    archetype: "CommandCenterWorkspace"
   },
   {
     ordinal: 231,
@@ -1847,7 +2083,8 @@ export const WORKSPACE_TYPES = [
     name: "Situation Room Workspace",
     groupId: "W19",
     groupKey: "COMMAND_OPERATIONS",
-    groupLabel: "Command & Operations Workspaces"
+    groupLabel: "Command & Operations Workspaces",
+    archetype: "CommandCenterWorkspace"
   },
   {
     ordinal: 232,
@@ -1855,7 +2092,8 @@ export const WORKSPACE_TYPES = [
     name: "Incident Command Workspace",
     groupId: "W19",
     groupKey: "COMMAND_OPERATIONS",
-    groupLabel: "Command & Operations Workspaces"
+    groupLabel: "Command & Operations Workspaces",
+    archetype: "CommandCenterWorkspace"
   },
   {
     ordinal: 233,
@@ -1863,7 +2101,8 @@ export const WORKSPACE_TYPES = [
     name: "Real-Time Operations Workspace",
     groupId: "W19",
     groupKey: "COMMAND_OPERATIONS",
-    groupLabel: "Command & Operations Workspaces"
+    groupLabel: "Command & Operations Workspaces",
+    archetype: "CommandCenterWorkspace"
   },
   {
     ordinal: 234,
@@ -1871,7 +2110,8 @@ export const WORKSPACE_TYPES = [
     name: "Infrastructure Workspace",
     groupId: "W20",
     groupKey: "INFRASTRUCTURE",
-    groupLabel: "Infrastructure Workspaces"
+    groupLabel: "Infrastructure Workspaces",
+    archetype: "InfrastructureWorkspace"
   },
   {
     ordinal: 235,
@@ -1879,7 +2119,8 @@ export const WORKSPACE_TYPES = [
     name: "Infrastructure Studio Workspace",
     groupId: "W20",
     groupKey: "INFRASTRUCTURE",
-    groupLabel: "Infrastructure Workspaces"
+    groupLabel: "Infrastructure Workspaces",
+    archetype: "InfrastructureWorkspace"
   },
   {
     ordinal: 236,
@@ -1887,7 +2128,8 @@ export const WORKSPACE_TYPES = [
     name: "Cloud Workspace",
     groupId: "W20",
     groupKey: "INFRASTRUCTURE",
-    groupLabel: "Infrastructure Workspaces"
+    groupLabel: "Infrastructure Workspaces",
+    archetype: "InfrastructureWorkspace"
   },
   {
     ordinal: 237,
@@ -1895,7 +2137,8 @@ export const WORKSPACE_TYPES = [
     name: "Server Workspace",
     groupId: "W20",
     groupKey: "INFRASTRUCTURE",
-    groupLabel: "Infrastructure Workspaces"
+    groupLabel: "Infrastructure Workspaces",
+    archetype: "InfrastructureWorkspace"
   },
   {
     ordinal: 238,
@@ -1903,7 +2146,8 @@ export const WORKSPACE_TYPES = [
     name: "Service Workspace",
     groupId: "W20",
     groupKey: "INFRASTRUCTURE",
-    groupLabel: "Infrastructure Workspaces"
+    groupLabel: "Infrastructure Workspaces",
+    archetype: "InfrastructureWorkspace"
   },
   {
     ordinal: 239,
@@ -1911,7 +2155,8 @@ export const WORKSPACE_TYPES = [
     name: "Runtime Workspace",
     groupId: "W20",
     groupKey: "INFRASTRUCTURE",
-    groupLabel: "Infrastructure Workspaces"
+    groupLabel: "Infrastructure Workspaces",
+    archetype: "InfrastructureWorkspace"
   },
   {
     ordinal: 240,
@@ -1919,7 +2164,8 @@ export const WORKSPACE_TYPES = [
     name: "Network Workspace",
     groupId: "W20",
     groupKey: "INFRASTRUCTURE",
-    groupLabel: "Infrastructure Workspaces"
+    groupLabel: "Infrastructure Workspaces",
+    archetype: "InfrastructureWorkspace"
   },
   {
     ordinal: 241,
@@ -1927,7 +2173,8 @@ export const WORKSPACE_TYPES = [
     name: "Storage Workspace",
     groupId: "W20",
     groupKey: "INFRASTRUCTURE",
-    groupLabel: "Infrastructure Workspaces"
+    groupLabel: "Infrastructure Workspaces",
+    archetype: "InfrastructureWorkspace"
   },
   {
     ordinal: 242,
@@ -1935,7 +2182,8 @@ export const WORKSPACE_TYPES = [
     name: "Queue Workspace",
     groupId: "W20",
     groupKey: "INFRASTRUCTURE",
-    groupLabel: "Infrastructure Workspaces"
+    groupLabel: "Infrastructure Workspaces",
+    archetype: "InfrastructureWorkspace"
   },
   {
     ordinal: 243,
@@ -1943,7 +2191,8 @@ export const WORKSPACE_TYPES = [
     name: "Compute Workspace",
     groupId: "W20",
     groupKey: "INFRASTRUCTURE",
-    groupLabel: "Infrastructure Workspaces"
+    groupLabel: "Infrastructure Workspaces",
+    archetype: "InfrastructureWorkspace"
   },
   {
     ordinal: 244,
@@ -1951,7 +2200,8 @@ export const WORKSPACE_TYPES = [
     name: "Resource Inventory Workspace",
     groupId: "W20",
     groupKey: "INFRASTRUCTURE",
-    groupLabel: "Infrastructure Workspaces"
+    groupLabel: "Infrastructure Workspaces",
+    archetype: "InfrastructureWorkspace"
   },
   {
     ordinal: 245,
@@ -1959,7 +2209,8 @@ export const WORKSPACE_TYPES = [
     name: "Infrastructure Topology Workspace",
     groupId: "W20",
     groupKey: "INFRASTRUCTURE",
-    groupLabel: "Infrastructure Workspaces"
+    groupLabel: "Infrastructure Workspaces",
+    archetype: "InfrastructureWorkspace"
   },
   {
     ordinal: 246,
@@ -1967,7 +2218,8 @@ export const WORKSPACE_TYPES = [
     name: "MAATAA Control Plane Workspace",
     groupId: "W21",
     groupKey: "CONTROL_PLANE",
-    groupLabel: "Control Plane Workspaces"
+    groupLabel: "Control Plane Workspaces",
+    archetype: "ControlPlaneWorkspace"
   },
   {
     ordinal: 247,
@@ -1975,7 +2227,8 @@ export const WORKSPACE_TYPES = [
     name: "Application Registry Workspace",
     groupId: "W21",
     groupKey: "CONTROL_PLANE",
-    groupLabel: "Control Plane Workspaces"
+    groupLabel: "Control Plane Workspaces",
+    archetype: "ControlPlaneWorkspace"
   },
   {
     ordinal: 248,
@@ -1983,7 +2236,8 @@ export const WORKSPACE_TYPES = [
     name: "Environment Registry Workspace",
     groupId: "W21",
     groupKey: "CONTROL_PLANE",
-    groupLabel: "Control Plane Workspaces"
+    groupLabel: "Control Plane Workspaces",
+    archetype: "ControlPlaneWorkspace"
   },
   {
     ordinal: 249,
@@ -1991,7 +2245,8 @@ export const WORKSPACE_TYPES = [
     name: "Runtime Registry Workspace",
     groupId: "W21",
     groupKey: "CONTROL_PLANE",
-    groupLabel: "Control Plane Workspaces"
+    groupLabel: "Control Plane Workspaces",
+    archetype: "ControlPlaneWorkspace"
   },
   {
     ordinal: 250,
@@ -1999,7 +2254,9 @@ export const WORKSPACE_TYPES = [
     name: "Database Target Workspace",
     groupId: "W21",
     groupKey: "CONTROL_PLANE",
-    groupLabel: "Control Plane Workspaces"
+    groupLabel: "Control Plane Workspaces",
+    archetype: "DatabaseWorkspace",
+    aliasOf: "WORKSPACE.DATABASE.DATABASE_TARGET"
   },
   {
     ordinal: 251,
@@ -2007,7 +2264,8 @@ export const WORKSPACE_TYPES = [
     name: "Infrastructure Registry Workspace",
     groupId: "W21",
     groupKey: "CONTROL_PLANE",
-    groupLabel: "Control Plane Workspaces"
+    groupLabel: "Control Plane Workspaces",
+    archetype: "ControlPlaneWorkspace"
   },
   {
     ordinal: 252,
@@ -2015,7 +2273,8 @@ export const WORKSPACE_TYPES = [
     name: "Desired State Workspace",
     groupId: "W21",
     groupKey: "CONTROL_PLANE",
-    groupLabel: "Control Plane Workspaces"
+    groupLabel: "Control Plane Workspaces",
+    archetype: "ControlPlaneWorkspace"
   },
   {
     ordinal: 253,
@@ -2023,15 +2282,17 @@ export const WORKSPACE_TYPES = [
     name: "Observed State Workspace",
     groupId: "W21",
     groupKey: "CONTROL_PLANE",
-    groupLabel: "Control Plane Workspaces"
+    groupLabel: "Control Plane Workspaces",
+    archetype: "ControlPlaneWorkspace"
   },
   {
     ordinal: 254,
     id: "WORKSPACE.CONTROL_PLANE.RECONCILIATION",
-    name: "Reconciliation Workspace",
+    name: "State Reconciliation Workspace",
     groupId: "W21",
     groupKey: "CONTROL_PLANE",
-    groupLabel: "Control Plane Workspaces"
+    groupLabel: "Control Plane Workspaces",
+    archetype: "ControlPlaneWorkspace"
   },
   {
     ordinal: 255,
@@ -2039,7 +2300,8 @@ export const WORKSPACE_TYPES = [
     name: "Deployment Control Workspace",
     groupId: "W21",
     groupKey: "CONTROL_PLANE",
-    groupLabel: "Control Plane Workspaces"
+    groupLabel: "Control Plane Workspaces",
+    archetype: "ControlPlaneWorkspace"
   },
   {
     ordinal: 256,
@@ -2047,7 +2309,8 @@ export const WORKSPACE_TYPES = [
     name: "Development Environment Workspace",
     groupId: "W22",
     groupKey: "ENVIRONMENT_RELEASE",
-    groupLabel: "Environment & Release Workspaces"
+    groupLabel: "Environment & Release Workspaces",
+    archetype: "InfrastructureWorkspace"
   },
   {
     ordinal: 257,
@@ -2055,7 +2318,8 @@ export const WORKSPACE_TYPES = [
     name: "Preview Environment Workspace",
     groupId: "W22",
     groupKey: "ENVIRONMENT_RELEASE",
-    groupLabel: "Environment & Release Workspaces"
+    groupLabel: "Environment & Release Workspaces",
+    archetype: "InfrastructureWorkspace"
   },
   {
     ordinal: 258,
@@ -2063,7 +2327,8 @@ export const WORKSPACE_TYPES = [
     name: "Test Environment Workspace",
     groupId: "W22",
     groupKey: "ENVIRONMENT_RELEASE",
-    groupLabel: "Environment & Release Workspaces"
+    groupLabel: "Environment & Release Workspaces",
+    archetype: "InfrastructureWorkspace"
   },
   {
     ordinal: 259,
@@ -2071,7 +2336,9 @@ export const WORKSPACE_TYPES = [
     name: "QA Workspace",
     groupId: "W22",
     groupKey: "ENVIRONMENT_RELEASE",
-    groupLabel: "Environment & Release Workspaces"
+    groupLabel: "Environment & Release Workspaces",
+    archetype: "TestingWorkspace",
+    aliasOf: "WORKSPACE.TESTING.QA"
   },
   {
     ordinal: 260,
@@ -2079,7 +2346,8 @@ export const WORKSPACE_TYPES = [
     name: "Staging Workspace",
     groupId: "W22",
     groupKey: "ENVIRONMENT_RELEASE",
-    groupLabel: "Environment & Release Workspaces"
+    groupLabel: "Environment & Release Workspaces",
+    archetype: "InfrastructureWorkspace"
   },
   {
     ordinal: 261,
@@ -2087,7 +2355,8 @@ export const WORKSPACE_TYPES = [
     name: "Pilot Workspace",
     groupId: "W22",
     groupKey: "ENVIRONMENT_RELEASE",
-    groupLabel: "Environment & Release Workspaces"
+    groupLabel: "Environment & Release Workspaces",
+    archetype: "InfrastructureWorkspace"
   },
   {
     ordinal: 262,
@@ -2095,7 +2364,8 @@ export const WORKSPACE_TYPES = [
     name: "Production Workspace",
     groupId: "W22",
     groupKey: "ENVIRONMENT_RELEASE",
-    groupLabel: "Environment & Release Workspaces"
+    groupLabel: "Environment & Release Workspaces",
+    archetype: "InfrastructureWorkspace"
   },
   {
     ordinal: 263,
@@ -2103,7 +2373,8 @@ export const WORKSPACE_TYPES = [
     name: "Release Workspace",
     groupId: "W22",
     groupKey: "ENVIRONMENT_RELEASE",
-    groupLabel: "Environment & Release Workspaces"
+    groupLabel: "Environment & Release Workspaces",
+    archetype: "InfrastructureWorkspace"
   },
   {
     ordinal: 264,
@@ -2111,7 +2382,8 @@ export const WORKSPACE_TYPES = [
     name: "Release Readiness Workspace",
     groupId: "W22",
     groupKey: "ENVIRONMENT_RELEASE",
-    groupLabel: "Environment & Release Workspaces"
+    groupLabel: "Environment & Release Workspaces",
+    archetype: "InfrastructureWorkspace"
   },
   {
     ordinal: 265,
@@ -2119,7 +2391,8 @@ export const WORKSPACE_TYPES = [
     name: "Deployment Workspace",
     groupId: "W22",
     groupKey: "ENVIRONMENT_RELEASE",
-    groupLabel: "Environment & Release Workspaces"
+    groupLabel: "Environment & Release Workspaces",
+    archetype: "InfrastructureWorkspace"
   },
   {
     ordinal: 266,
@@ -2127,7 +2400,8 @@ export const WORKSPACE_TYPES = [
     name: "Rollback Workspace",
     groupId: "W22",
     groupKey: "ENVIRONMENT_RELEASE",
-    groupLabel: "Environment & Release Workspaces"
+    groupLabel: "Environment & Release Workspaces",
+    archetype: "InfrastructureWorkspace"
   },
   {
     ordinal: 267,
@@ -2135,7 +2409,8 @@ export const WORKSPACE_TYPES = [
     name: "Database Workspace",
     groupId: "W23",
     groupKey: "DATABASE",
-    groupLabel: "Database Workspaces"
+    groupLabel: "Database Workspaces",
+    archetype: "DatabaseWorkspace"
   },
   {
     ordinal: 268,
@@ -2143,7 +2418,8 @@ export const WORKSPACE_TYPES = [
     name: "Database Studio Workspace",
     groupId: "W23",
     groupKey: "DATABASE",
-    groupLabel: "Database Workspaces"
+    groupLabel: "Database Workspaces",
+    archetype: "DatabaseWorkspace"
   },
   {
     ordinal: 269,
@@ -2151,7 +2427,8 @@ export const WORKSPACE_TYPES = [
     name: "SQL Workspace",
     groupId: "W23",
     groupKey: "DATABASE",
-    groupLabel: "Database Workspaces"
+    groupLabel: "Database Workspaces",
+    archetype: "DatabaseWorkspace"
   },
   {
     ordinal: 270,
@@ -2159,7 +2436,8 @@ export const WORKSPACE_TYPES = [
     name: "PostgreSQL Workspace",
     groupId: "W23",
     groupKey: "DATABASE",
-    groupLabel: "Database Workspaces"
+    groupLabel: "Database Workspaces",
+    archetype: "DatabaseWorkspace"
   },
   {
     ordinal: 271,
@@ -2167,7 +2445,8 @@ export const WORKSPACE_TYPES = [
     name: "SQLite Workspace",
     groupId: "W23",
     groupKey: "DATABASE",
-    groupLabel: "Database Workspaces"
+    groupLabel: "Database Workspaces",
+    archetype: "DatabaseWorkspace"
   },
   {
     ordinal: 272,
@@ -2175,7 +2454,8 @@ export const WORKSPACE_TYPES = [
     name: "libSQL Workspace",
     groupId: "W23",
     groupKey: "DATABASE",
-    groupLabel: "Database Workspaces"
+    groupLabel: "Database Workspaces",
+    archetype: "DatabaseWorkspace"
   },
   {
     ordinal: 273,
@@ -2183,7 +2463,8 @@ export const WORKSPACE_TYPES = [
     name: "Database Target Workspace",
     groupId: "W23",
     groupKey: "DATABASE",
-    groupLabel: "Database Workspaces"
+    groupLabel: "Database Workspaces",
+    archetype: "DatabaseWorkspace"
   },
   {
     ordinal: 274,
@@ -2191,7 +2472,8 @@ export const WORKSPACE_TYPES = [
     name: "Schema Migration Workspace",
     groupId: "W23",
     groupKey: "DATABASE",
-    groupLabel: "Database Workspaces"
+    groupLabel: "Database Workspaces",
+    archetype: "DatabaseWorkspace"
   },
   {
     ordinal: 275,
@@ -2199,7 +2481,8 @@ export const WORKSPACE_TYPES = [
     name: "Migration Planning Workspace",
     groupId: "W23",
     groupKey: "DATABASE",
-    groupLabel: "Database Workspaces"
+    groupLabel: "Database Workspaces",
+    archetype: "DatabaseWorkspace"
   },
   {
     ordinal: 276,
@@ -2207,7 +2490,8 @@ export const WORKSPACE_TYPES = [
     name: "Migration Review Workspace",
     groupId: "W23",
     groupKey: "DATABASE",
-    groupLabel: "Database Workspaces"
+    groupLabel: "Database Workspaces",
+    archetype: "DatabaseWorkspace"
   },
   {
     ordinal: 277,
@@ -2215,7 +2499,8 @@ export const WORKSPACE_TYPES = [
     name: "Migration Execution Workspace",
     groupId: "W23",
     groupKey: "DATABASE",
-    groupLabel: "Database Workspaces"
+    groupLabel: "Database Workspaces",
+    archetype: "DatabaseWorkspace"
   },
   {
     ordinal: 278,
@@ -2223,7 +2508,8 @@ export const WORKSPACE_TYPES = [
     name: "Database Recovery Workspace",
     groupId: "W23",
     groupKey: "DATABASE",
-    groupLabel: "Database Workspaces"
+    groupLabel: "Database Workspaces",
+    archetype: "DatabaseWorkspace"
   },
   {
     ordinal: 279,
@@ -2231,7 +2517,8 @@ export const WORKSPACE_TYPES = [
     name: "Observability Workspace",
     groupId: "W24",
     groupKey: "RELIABILITY_OBSERVABILITY",
-    groupLabel: "Reliability & Observability Workspaces"
+    groupLabel: "Reliability & Observability Workspaces",
+    archetype: "ObservabilityWorkspace"
   },
   {
     ordinal: 280,
@@ -2239,7 +2526,8 @@ export const WORKSPACE_TYPES = [
     name: "Metrics Workspace",
     groupId: "W24",
     groupKey: "RELIABILITY_OBSERVABILITY",
-    groupLabel: "Reliability & Observability Workspaces"
+    groupLabel: "Reliability & Observability Workspaces",
+    archetype: "ObservabilityWorkspace"
   },
   {
     ordinal: 281,
@@ -2247,7 +2535,8 @@ export const WORKSPACE_TYPES = [
     name: "Logs Workspace",
     groupId: "W24",
     groupKey: "RELIABILITY_OBSERVABILITY",
-    groupLabel: "Reliability & Observability Workspaces"
+    groupLabel: "Reliability & Observability Workspaces",
+    archetype: "ObservabilityWorkspace"
   },
   {
     ordinal: 282,
@@ -2255,7 +2544,8 @@ export const WORKSPACE_TYPES = [
     name: "Traces Workspace",
     groupId: "W24",
     groupKey: "RELIABILITY_OBSERVABILITY",
-    groupLabel: "Reliability & Observability Workspaces"
+    groupLabel: "Reliability & Observability Workspaces",
+    archetype: "ObservabilityWorkspace"
   },
   {
     ordinal: 283,
@@ -2263,7 +2553,8 @@ export const WORKSPACE_TYPES = [
     name: "Health Workspace",
     groupId: "W24",
     groupKey: "RELIABILITY_OBSERVABILITY",
-    groupLabel: "Reliability & Observability Workspaces"
+    groupLabel: "Reliability & Observability Workspaces",
+    archetype: "ObservabilityWorkspace"
   },
   {
     ordinal: 284,
@@ -2271,7 +2562,8 @@ export const WORKSPACE_TYPES = [
     name: "Status Workspace",
     groupId: "W24",
     groupKey: "RELIABILITY_OBSERVABILITY",
-    groupLabel: "Reliability & Observability Workspaces"
+    groupLabel: "Reliability & Observability Workspaces",
+    archetype: "ObservabilityWorkspace"
   },
   {
     ordinal: 285,
@@ -2279,7 +2571,8 @@ export const WORKSPACE_TYPES = [
     name: "Alerts Workspace",
     groupId: "W24",
     groupKey: "RELIABILITY_OBSERVABILITY",
-    groupLabel: "Reliability & Observability Workspaces"
+    groupLabel: "Reliability & Observability Workspaces",
+    archetype: "ObservabilityWorkspace"
   },
   {
     ordinal: 286,
@@ -2287,7 +2580,8 @@ export const WORKSPACE_TYPES = [
     name: "Incident Workspace",
     groupId: "W24",
     groupKey: "RELIABILITY_OBSERVABILITY",
-    groupLabel: "Reliability & Observability Workspaces"
+    groupLabel: "Reliability & Observability Workspaces",
+    archetype: "ObservabilityWorkspace"
   },
   {
     ordinal: 287,
@@ -2295,7 +2589,8 @@ export const WORKSPACE_TYPES = [
     name: "Reliability Workspace",
     groupId: "W24",
     groupKey: "RELIABILITY_OBSERVABILITY",
-    groupLabel: "Reliability & Observability Workspaces"
+    groupLabel: "Reliability & Observability Workspaces",
+    archetype: "ObservabilityWorkspace"
   },
   {
     ordinal: 288,
@@ -2303,7 +2598,8 @@ export const WORKSPACE_TYPES = [
     name: "SRE Workspace",
     groupId: "W24",
     groupKey: "RELIABILITY_OBSERVABILITY",
-    groupLabel: "Reliability & Observability Workspaces"
+    groupLabel: "Reliability & Observability Workspaces",
+    archetype: "ObservabilityWorkspace"
   },
   {
     ordinal: 289,
@@ -2311,7 +2607,8 @@ export const WORKSPACE_TYPES = [
     name: "Backup Workspace",
     groupId: "W24",
     groupKey: "RELIABILITY_OBSERVABILITY",
-    groupLabel: "Reliability & Observability Workspaces"
+    groupLabel: "Reliability & Observability Workspaces",
+    archetype: "ObservabilityWorkspace"
   },
   {
     ordinal: 290,
@@ -2319,7 +2616,8 @@ export const WORKSPACE_TYPES = [
     name: "Restore Workspace",
     groupId: "W24",
     groupKey: "RELIABILITY_OBSERVABILITY",
-    groupLabel: "Reliability & Observability Workspaces"
+    groupLabel: "Reliability & Observability Workspaces",
+    archetype: "ObservabilityWorkspace"
   },
   {
     ordinal: 291,
@@ -2327,7 +2625,8 @@ export const WORKSPACE_TYPES = [
     name: "Disaster Recovery Workspace",
     groupId: "W24",
     groupKey: "RELIABILITY_OBSERVABILITY",
-    groupLabel: "Reliability & Observability Workspaces"
+    groupLabel: "Reliability & Observability Workspaces",
+    archetype: "ObservabilityWorkspace"
   },
   {
     ordinal: 292,
@@ -2335,7 +2634,8 @@ export const WORKSPACE_TYPES = [
     name: "Identity Workspace",
     groupId: "W25",
     groupKey: "SECURITY_IDENTITY",
-    groupLabel: "Security & Identity Workspaces"
+    groupLabel: "Security & Identity Workspaces",
+    archetype: "SecurityWorkspace"
   },
   {
     ordinal: 293,
@@ -2343,7 +2643,8 @@ export const WORKSPACE_TYPES = [
     name: "Authentication Workspace",
     groupId: "W25",
     groupKey: "SECURITY_IDENTITY",
-    groupLabel: "Security & Identity Workspaces"
+    groupLabel: "Security & Identity Workspaces",
+    archetype: "SecurityWorkspace"
   },
   {
     ordinal: 294,
@@ -2351,7 +2652,8 @@ export const WORKSPACE_TYPES = [
     name: "Session Workspace",
     groupId: "W25",
     groupKey: "SECURITY_IDENTITY",
-    groupLabel: "Security & Identity Workspaces"
+    groupLabel: "Security & Identity Workspaces",
+    archetype: "SecurityWorkspace"
   },
   {
     ordinal: 295,
@@ -2359,7 +2661,8 @@ export const WORKSPACE_TYPES = [
     name: "User Access Workspace",
     groupId: "W25",
     groupKey: "SECURITY_IDENTITY",
-    groupLabel: "Security & Identity Workspaces"
+    groupLabel: "Security & Identity Workspaces",
+    archetype: "SecurityWorkspace"
   },
   {
     ordinal: 296,
@@ -2367,7 +2670,8 @@ export const WORKSPACE_TYPES = [
     name: "Role Workspace",
     groupId: "W25",
     groupKey: "SECURITY_IDENTITY",
-    groupLabel: "Security & Identity Workspaces"
+    groupLabel: "Security & Identity Workspaces",
+    archetype: "SecurityWorkspace"
   },
   {
     ordinal: 297,
@@ -2375,7 +2679,8 @@ export const WORKSPACE_TYPES = [
     name: "Permission Workspace",
     groupId: "W25",
     groupKey: "SECURITY_IDENTITY",
-    groupLabel: "Security & Identity Workspaces"
+    groupLabel: "Security & Identity Workspaces",
+    archetype: "SecurityWorkspace"
   },
   {
     ordinal: 298,
@@ -2383,7 +2688,9 @@ export const WORKSPACE_TYPES = [
     name: "Policy Workspace",
     groupId: "W25",
     groupKey: "SECURITY_IDENTITY",
-    groupLabel: "Security & Identity Workspaces"
+    groupLabel: "Security & Identity Workspaces",
+    archetype: "GovernanceWorkspace",
+    aliasOf: "WORKSPACE.GOVERNANCE_EVIDENCE.POLICY"
   },
   {
     ordinal: 299,
@@ -2391,7 +2698,8 @@ export const WORKSPACE_TYPES = [
     name: "RBAC Workspace",
     groupId: "W25",
     groupKey: "SECURITY_IDENTITY",
-    groupLabel: "Security & Identity Workspaces"
+    groupLabel: "Security & Identity Workspaces",
+    archetype: "SecurityWorkspace"
   },
   {
     ordinal: 300,
@@ -2399,7 +2707,8 @@ export const WORKSPACE_TYPES = [
     name: "MFA Workspace",
     groupId: "W25",
     groupKey: "SECURITY_IDENTITY",
-    groupLabel: "Security & Identity Workspaces"
+    groupLabel: "Security & Identity Workspaces",
+    archetype: "SecurityWorkspace"
   },
   {
     ordinal: 301,
@@ -2407,7 +2716,8 @@ export const WORKSPACE_TYPES = [
     name: "Security Operations Workspace",
     groupId: "W25",
     groupKey: "SECURITY_IDENTITY",
-    groupLabel: "Security & Identity Workspaces"
+    groupLabel: "Security & Identity Workspaces",
+    archetype: "SecurityWorkspace"
   },
   {
     ordinal: 302,
@@ -2415,7 +2725,8 @@ export const WORKSPACE_TYPES = [
     name: "Security Review Workspace",
     groupId: "W25",
     groupKey: "SECURITY_IDENTITY",
-    groupLabel: "Security & Identity Workspaces"
+    groupLabel: "Security & Identity Workspaces",
+    archetype: "SecurityWorkspace"
   },
   {
     ordinal: 303,
@@ -2423,7 +2734,8 @@ export const WORKSPACE_TYPES = [
     name: "Secret Reference Workspace",
     groupId: "W25",
     groupKey: "SECURITY_IDENTITY",
-    groupLabel: "Security & Identity Workspaces"
+    groupLabel: "Security & Identity Workspaces",
+    archetype: "SecurityWorkspace"
   },
   {
     ordinal: 304,
@@ -2431,7 +2743,8 @@ export const WORKSPACE_TYPES = [
     name: "Device Security Workspace",
     groupId: "W25",
     groupKey: "SECURITY_IDENTITY",
-    groupLabel: "Security & Identity Workspaces"
+    groupLabel: "Security & Identity Workspaces",
+    archetype: "SecurityWorkspace"
   },
   {
     ordinal: 305,
@@ -2439,7 +2752,8 @@ export const WORKSPACE_TYPES = [
     name: "Governance Workspace",
     groupId: "W26",
     groupKey: "GOVERNANCE_EVIDENCE",
-    groupLabel: "Governance & Evidence Workspaces"
+    groupLabel: "Governance & Evidence Workspaces",
+    archetype: "GovernanceWorkspace"
   },
   {
     ordinal: 306,
@@ -2447,7 +2761,8 @@ export const WORKSPACE_TYPES = [
     name: "Evidence Workspace",
     groupId: "W26",
     groupKey: "GOVERNANCE_EVIDENCE",
-    groupLabel: "Governance & Evidence Workspaces"
+    groupLabel: "Governance & Evidence Workspaces",
+    archetype: "GovernanceWorkspace"
   },
   {
     ordinal: 307,
@@ -2455,7 +2770,8 @@ export const WORKSPACE_TYPES = [
     name: "Evidence Gate Workspace",
     groupId: "W26",
     groupKey: "GOVERNANCE_EVIDENCE",
-    groupLabel: "Governance & Evidence Workspaces"
+    groupLabel: "Governance & Evidence Workspaces",
+    archetype: "GovernanceWorkspace"
   },
   {
     ordinal: 308,
@@ -2463,7 +2779,8 @@ export const WORKSPACE_TYPES = [
     name: "Audit Workspace",
     groupId: "W26",
     groupKey: "GOVERNANCE_EVIDENCE",
-    groupLabel: "Governance & Evidence Workspaces"
+    groupLabel: "Governance & Evidence Workspaces",
+    archetype: "GovernanceWorkspace"
   },
   {
     ordinal: 309,
@@ -2471,7 +2788,8 @@ export const WORKSPACE_TYPES = [
     name: "Audit Trail Workspace",
     groupId: "W26",
     groupKey: "GOVERNANCE_EVIDENCE",
-    groupLabel: "Governance & Evidence Workspaces"
+    groupLabel: "Governance & Evidence Workspaces",
+    archetype: "GovernanceWorkspace"
   },
   {
     ordinal: 310,
@@ -2479,7 +2797,8 @@ export const WORKSPACE_TYPES = [
     name: "Compliance Workspace",
     groupId: "W26",
     groupKey: "GOVERNANCE_EVIDENCE",
-    groupLabel: "Governance & Evidence Workspaces"
+    groupLabel: "Governance & Evidence Workspaces",
+    archetype: "GovernanceWorkspace"
   },
   {
     ordinal: 311,
@@ -2487,7 +2806,8 @@ export const WORKSPACE_TYPES = [
     name: "Policy Workspace",
     groupId: "W26",
     groupKey: "GOVERNANCE_EVIDENCE",
-    groupLabel: "Governance & Evidence Workspaces"
+    groupLabel: "Governance & Evidence Workspaces",
+    archetype: "GovernanceWorkspace"
   },
   {
     ordinal: 312,
@@ -2495,7 +2815,8 @@ export const WORKSPACE_TYPES = [
     name: "Risk Workspace",
     groupId: "W26",
     groupKey: "GOVERNANCE_EVIDENCE",
-    groupLabel: "Governance & Evidence Workspaces"
+    groupLabel: "Governance & Evidence Workspaces",
+    archetype: "GovernanceWorkspace"
   },
   {
     ordinal: 313,
@@ -2503,7 +2824,8 @@ export const WORKSPACE_TYPES = [
     name: "Control Workspace",
     groupId: "W26",
     groupKey: "GOVERNANCE_EVIDENCE",
-    groupLabel: "Governance & Evidence Workspaces"
+    groupLabel: "Governance & Evidence Workspaces",
+    archetype: "GovernanceWorkspace"
   },
   {
     ordinal: 314,
@@ -2511,7 +2833,9 @@ export const WORKSPACE_TYPES = [
     name: "Review Workspace",
     groupId: "W26",
     groupKey: "GOVERNANCE_EVIDENCE",
-    groupLabel: "Governance & Evidence Workspaces"
+    groupLabel: "Governance & Evidence Workspaces",
+    archetype: "GovernanceWorkspace",
+    aliasOf: "WORKSPACE.REVIEW_DECISION.REVIEW"
   },
   {
     ordinal: 315,
@@ -2519,7 +2843,8 @@ export const WORKSPACE_TYPES = [
     name: "Certification Workspace",
     groupId: "W26",
     groupKey: "GOVERNANCE_EVIDENCE",
-    groupLabel: "Governance & Evidence Workspaces"
+    groupLabel: "Governance & Evidence Workspaces",
+    archetype: "GovernanceWorkspace"
   },
   {
     ordinal: 316,
@@ -2527,7 +2852,9 @@ export const WORKSPACE_TYPES = [
     name: "Approval Workspace",
     groupId: "W26",
     groupKey: "GOVERNANCE_EVIDENCE",
-    groupLabel: "Governance & Evidence Workspaces"
+    groupLabel: "Governance & Evidence Workspaces",
+    archetype: "GovernanceWorkspace",
+    aliasOf: "WORKSPACE.REVIEW_DECISION.APPROVAL"
   },
   {
     ordinal: 317,
@@ -2535,7 +2862,8 @@ export const WORKSPACE_TYPES = [
     name: "Provenance Workspace",
     groupId: "W26",
     groupKey: "GOVERNANCE_EVIDENCE",
-    groupLabel: "Governance & Evidence Workspaces"
+    groupLabel: "Governance & Evidence Workspaces",
+    archetype: "GovernanceWorkspace"
   },
   {
     ordinal: 318,
@@ -2543,7 +2871,8 @@ export const WORKSPACE_TYPES = [
     name: "Finance Workspace",
     groupId: "W27",
     groupKey: "FINANCE",
-    groupLabel: "Finance Workspaces"
+    groupLabel: "Finance Workspaces",
+    archetype: "FinanceWorkspace"
   },
   {
     ordinal: 319,
@@ -2551,7 +2880,8 @@ export const WORKSPACE_TYPES = [
     name: "Finance Command Center",
     groupId: "W27",
     groupKey: "FINANCE",
-    groupLabel: "Finance Workspaces"
+    groupLabel: "Finance Workspaces",
+    archetype: "FinanceWorkspace"
   },
   {
     ordinal: 320,
@@ -2559,7 +2889,8 @@ export const WORKSPACE_TYPES = [
     name: "Accounting Workspace",
     groupId: "W27",
     groupKey: "FINANCE",
-    groupLabel: "Finance Workspaces"
+    groupLabel: "Finance Workspaces",
+    archetype: "FinanceWorkspace"
   },
   {
     ordinal: 321,
@@ -2567,7 +2898,8 @@ export const WORKSPACE_TYPES = [
     name: "Ledger Workspace",
     groupId: "W27",
     groupKey: "FINANCE",
-    groupLabel: "Finance Workspaces"
+    groupLabel: "Finance Workspaces",
+    archetype: "FinanceWorkspace"
   },
   {
     ordinal: 322,
@@ -2575,7 +2907,8 @@ export const WORKSPACE_TYPES = [
     name: "Budget Workspace",
     groupId: "W27",
     groupKey: "FINANCE",
-    groupLabel: "Finance Workspaces"
+    groupLabel: "Finance Workspaces",
+    archetype: "FinanceWorkspace"
   },
   {
     ordinal: 323,
@@ -2583,7 +2916,8 @@ export const WORKSPACE_TYPES = [
     name: "Expense Workspace",
     groupId: "W27",
     groupKey: "FINANCE",
-    groupLabel: "Finance Workspaces"
+    groupLabel: "Finance Workspaces",
+    archetype: "FinanceWorkspace"
   },
   {
     ordinal: 324,
@@ -2591,7 +2925,8 @@ export const WORKSPACE_TYPES = [
     name: "Revenue Workspace",
     groupId: "W27",
     groupKey: "FINANCE",
-    groupLabel: "Finance Workspaces"
+    groupLabel: "Finance Workspaces",
+    archetype: "FinanceWorkspace"
   },
   {
     ordinal: 325,
@@ -2599,7 +2934,8 @@ export const WORKSPACE_TYPES = [
     name: "Cash Flow Workspace",
     groupId: "W27",
     groupKey: "FINANCE",
-    groupLabel: "Finance Workspaces"
+    groupLabel: "Finance Workspaces",
+    archetype: "FinanceWorkspace"
   },
   {
     ordinal: 326,
@@ -2607,15 +2943,17 @@ export const WORKSPACE_TYPES = [
     name: "Forecast Workspace",
     groupId: "W27",
     groupKey: "FINANCE",
-    groupLabel: "Finance Workspaces"
+    groupLabel: "Finance Workspaces",
+    archetype: "FinanceWorkspace"
   },
   {
     ordinal: 327,
     id: "WORKSPACE.FINANCE.RECONCILIATION",
-    name: "Reconciliation Workspace",
+    name: "Financial Reconciliation Workspace",
     groupId: "W27",
     groupKey: "FINANCE",
-    groupLabel: "Finance Workspaces"
+    groupLabel: "Finance Workspaces",
+    archetype: "FinanceWorkspace"
   },
   {
     ordinal: 328,
@@ -2623,7 +2961,8 @@ export const WORKSPACE_TYPES = [
     name: "Invoice Workspace",
     groupId: "W27",
     groupKey: "FINANCE",
-    groupLabel: "Finance Workspaces"
+    groupLabel: "Finance Workspaces",
+    archetype: "FinanceWorkspace"
   },
   {
     ordinal: 329,
@@ -2631,7 +2970,8 @@ export const WORKSPACE_TYPES = [
     name: "Payment Workspace",
     groupId: "W27",
     groupKey: "FINANCE",
-    groupLabel: "Finance Workspaces"
+    groupLabel: "Finance Workspaces",
+    archetype: "FinanceWorkspace"
   },
   {
     ordinal: 330,
@@ -2639,7 +2979,8 @@ export const WORKSPACE_TYPES = [
     name: "Payout Workspace",
     groupId: "W27",
     groupKey: "FINANCE",
-    groupLabel: "Finance Workspaces"
+    groupLabel: "Finance Workspaces",
+    archetype: "FinanceWorkspace"
   },
   {
     ordinal: 331,
@@ -2647,7 +2988,8 @@ export const WORKSPACE_TYPES = [
     name: "Tax Workspace",
     groupId: "W27",
     groupKey: "FINANCE",
-    groupLabel: "Finance Workspaces"
+    groupLabel: "Finance Workspaces",
+    archetype: "FinanceWorkspace"
   },
   {
     ordinal: 332,
@@ -2655,7 +2997,8 @@ export const WORKSPACE_TYPES = [
     name: "Treasury Workspace",
     groupId: "W27",
     groupKey: "FINANCE",
-    groupLabel: "Finance Workspaces"
+    groupLabel: "Finance Workspaces",
+    archetype: "FinanceWorkspace"
   },
   {
     ordinal: 333,
@@ -2663,7 +3006,8 @@ export const WORKSPACE_TYPES = [
     name: "Investor Workspace",
     groupId: "W28",
     groupKey: "INVESTMENT",
-    groupLabel: "Investment Workspaces"
+    groupLabel: "Investment Workspaces",
+    archetype: "InvestmentWorkspace"
   },
   {
     ordinal: 334,
@@ -2671,7 +3015,8 @@ export const WORKSPACE_TYPES = [
     name: "Investor Relations Workspace",
     groupId: "W28",
     groupKey: "INVESTMENT",
-    groupLabel: "Investment Workspaces"
+    groupLabel: "Investment Workspaces",
+    archetype: "InvestmentWorkspace"
   },
   {
     ordinal: 335,
@@ -2679,7 +3024,8 @@ export const WORKSPACE_TYPES = [
     name: "Investment Workspace",
     groupId: "W28",
     groupKey: "INVESTMENT",
-    groupLabel: "Investment Workspaces"
+    groupLabel: "Investment Workspaces",
+    archetype: "InvestmentWorkspace"
   },
   {
     ordinal: 336,
@@ -2687,15 +3033,17 @@ export const WORKSPACE_TYPES = [
     name: "Investment Committee Workspace",
     groupId: "W28",
     groupKey: "INVESTMENT",
-    groupLabel: "Investment Workspaces"
+    groupLabel: "Investment Workspaces",
+    archetype: "InvestmentWorkspace"
   },
   {
     ordinal: 337,
     id: "WORKSPACE.INVESTMENT.PORTFOLIO",
-    name: "Portfolio Workspace",
+    name: "Investment Portfolio Workspace",
     groupId: "W28",
     groupKey: "INVESTMENT",
-    groupLabel: "Investment Workspaces"
+    groupLabel: "Investment Workspaces",
+    archetype: "InvestmentWorkspace"
   },
   {
     ordinal: 338,
@@ -2703,7 +3051,8 @@ export const WORKSPACE_TYPES = [
     name: "Fund Workspace",
     groupId: "W28",
     groupKey: "INVESTMENT",
-    groupLabel: "Investment Workspaces"
+    groupLabel: "Investment Workspaces",
+    archetype: "InvestmentWorkspace"
   },
   {
     ordinal: 339,
@@ -2711,15 +3060,17 @@ export const WORKSPACE_TYPES = [
     name: "Fundraising Workspace",
     groupId: "W28",
     groupKey: "INVESTMENT",
-    groupLabel: "Investment Workspaces"
+    groupLabel: "Investment Workspaces",
+    archetype: "InvestmentWorkspace"
   },
   {
     ordinal: 340,
     id: "WORKSPACE.INVESTMENT.DEAL",
-    name: "Deal Workspace",
+    name: "Investment Deal Workspace",
     groupId: "W28",
     groupKey: "INVESTMENT",
-    groupLabel: "Investment Workspaces"
+    groupLabel: "Investment Workspaces",
+    archetype: "InvestmentWorkspace"
   },
   {
     ordinal: 341,
@@ -2727,7 +3078,8 @@ export const WORKSPACE_TYPES = [
     name: "Due Diligence Workspace",
     groupId: "W28",
     groupKey: "INVESTMENT",
-    groupLabel: "Investment Workspaces"
+    groupLabel: "Investment Workspaces",
+    archetype: "InvestmentWorkspace"
   },
   {
     ordinal: 342,
@@ -2735,7 +3087,8 @@ export const WORKSPACE_TYPES = [
     name: "Cap Table Workspace",
     groupId: "W28",
     groupKey: "INVESTMENT",
-    groupLabel: "Investment Workspaces"
+    groupLabel: "Investment Workspaces",
+    archetype: "InvestmentWorkspace"
   },
   {
     ordinal: 343,
@@ -2743,7 +3096,8 @@ export const WORKSPACE_TYPES = [
     name: "Investment Analysis Workspace",
     groupId: "W28",
     groupKey: "INVESTMENT",
-    groupLabel: "Investment Workspaces"
+    groupLabel: "Investment Workspaces",
+    archetype: "InvestmentWorkspace"
   },
   {
     ordinal: 344,
@@ -2751,7 +3105,8 @@ export const WORKSPACE_TYPES = [
     name: "Investment Evidence Workspace",
     groupId: "W28",
     groupKey: "INVESTMENT",
-    groupLabel: "Investment Workspaces"
+    groupLabel: "Investment Workspaces",
+    archetype: "InvestmentWorkspace"
   },
   {
     ordinal: 345,
@@ -2759,7 +3114,8 @@ export const WORKSPACE_TYPES = [
     name: "CRM Workspace",
     groupId: "W29",
     groupKey: "CRM_SALES",
-    groupLabel: "CRM & Sales Workspaces"
+    groupLabel: "CRM & Sales Workspaces",
+    archetype: "CRMWorkspace"
   },
   {
     ordinal: 346,
@@ -2767,7 +3123,8 @@ export const WORKSPACE_TYPES = [
     name: "Sales Workspace",
     groupId: "W29",
     groupKey: "CRM_SALES",
-    groupLabel: "CRM & Sales Workspaces"
+    groupLabel: "CRM & Sales Workspaces",
+    archetype: "CRMWorkspace"
   },
   {
     ordinal: 347,
@@ -2775,7 +3132,8 @@ export const WORKSPACE_TYPES = [
     name: "Sales Pipeline Workspace",
     groupId: "W29",
     groupKey: "CRM_SALES",
-    groupLabel: "CRM & Sales Workspaces"
+    groupLabel: "CRM & Sales Workspaces",
+    archetype: "CRMWorkspace"
   },
   {
     ordinal: 348,
@@ -2783,7 +3141,8 @@ export const WORKSPACE_TYPES = [
     name: "Lead Workspace",
     groupId: "W29",
     groupKey: "CRM_SALES",
-    groupLabel: "CRM & Sales Workspaces"
+    groupLabel: "CRM & Sales Workspaces",
+    archetype: "CRMWorkspace"
   },
   {
     ordinal: 349,
@@ -2791,7 +3150,8 @@ export const WORKSPACE_TYPES = [
     name: "Account Workspace",
     groupId: "W29",
     groupKey: "CRM_SALES",
-    groupLabel: "CRM & Sales Workspaces"
+    groupLabel: "CRM & Sales Workspaces",
+    archetype: "CRMWorkspace"
   },
   {
     ordinal: 350,
@@ -2799,15 +3159,17 @@ export const WORKSPACE_TYPES = [
     name: "Opportunity Workspace",
     groupId: "W29",
     groupKey: "CRM_SALES",
-    groupLabel: "CRM & Sales Workspaces"
+    groupLabel: "CRM & Sales Workspaces",
+    archetype: "CRMWorkspace"
   },
   {
     ordinal: 351,
     id: "WORKSPACE.CRM_SALES.DEAL",
-    name: "Deal Workspace",
+    name: "Sales Deal Workspace",
     groupId: "W29",
     groupKey: "CRM_SALES",
-    groupLabel: "CRM & Sales Workspaces"
+    groupLabel: "CRM & Sales Workspaces",
+    archetype: "CRMWorkspace"
   },
   {
     ordinal: 352,
@@ -2815,7 +3177,8 @@ export const WORKSPACE_TYPES = [
     name: "Customer Workspace",
     groupId: "W29",
     groupKey: "CRM_SALES",
-    groupLabel: "CRM & Sales Workspaces"
+    groupLabel: "CRM & Sales Workspaces",
+    archetype: "CRMWorkspace"
   },
   {
     ordinal: 353,
@@ -2823,7 +3186,8 @@ export const WORKSPACE_TYPES = [
     name: "Contact Workspace",
     groupId: "W29",
     groupKey: "CRM_SALES",
-    groupLabel: "CRM & Sales Workspaces"
+    groupLabel: "CRM & Sales Workspaces",
+    archetype: "CRMWorkspace"
   },
   {
     ordinal: 354,
@@ -2831,7 +3195,8 @@ export const WORKSPACE_TYPES = [
     name: "Sales Forecast Workspace",
     groupId: "W29",
     groupKey: "CRM_SALES",
-    groupLabel: "CRM & Sales Workspaces"
+    groupLabel: "CRM & Sales Workspaces",
+    archetype: "CRMWorkspace"
   },
   {
     ordinal: 355,
@@ -2839,7 +3204,8 @@ export const WORKSPACE_TYPES = [
     name: "Sales Operations Workspace",
     groupId: "W29",
     groupKey: "CRM_SALES",
-    groupLabel: "CRM & Sales Workspaces"
+    groupLabel: "CRM & Sales Workspaces",
+    archetype: "CRMWorkspace"
   },
   {
     ordinal: 356,
@@ -2847,7 +3213,8 @@ export const WORKSPACE_TYPES = [
     name: "Customer Success Workspace",
     groupId: "W29",
     groupKey: "CRM_SALES",
-    groupLabel: "CRM & Sales Workspaces"
+    groupLabel: "CRM & Sales Workspaces",
+    archetype: "CRMWorkspace"
   },
   {
     ordinal: 357,
@@ -2855,7 +3222,8 @@ export const WORKSPACE_TYPES = [
     name: "Marketing Workspace",
     groupId: "W30",
     groupKey: "MARKETING",
-    groupLabel: "Marketing Workspaces"
+    groupLabel: "Marketing Workspaces",
+    archetype: "MarketingWorkspace"
   },
   {
     ordinal: 358,
@@ -2863,7 +3231,8 @@ export const WORKSPACE_TYPES = [
     name: "Campaign Workspace",
     groupId: "W30",
     groupKey: "MARKETING",
-    groupLabel: "Marketing Workspaces"
+    groupLabel: "Marketing Workspaces",
+    archetype: "MarketingWorkspace"
   },
   {
     ordinal: 359,
@@ -2871,7 +3240,8 @@ export const WORKSPACE_TYPES = [
     name: "Campaign Planning Workspace",
     groupId: "W30",
     groupKey: "MARKETING",
-    groupLabel: "Marketing Workspaces"
+    groupLabel: "Marketing Workspaces",
+    archetype: "MarketingWorkspace"
   },
   {
     ordinal: 360,
@@ -2879,7 +3249,8 @@ export const WORKSPACE_TYPES = [
     name: "Campaign Execution Workspace",
     groupId: "W30",
     groupKey: "MARKETING",
-    groupLabel: "Marketing Workspaces"
+    groupLabel: "Marketing Workspaces",
+    archetype: "MarketingWorkspace"
   },
   {
     ordinal: 361,
@@ -2887,7 +3258,8 @@ export const WORKSPACE_TYPES = [
     name: "Brand Workspace",
     groupId: "W30",
     groupKey: "MARKETING",
-    groupLabel: "Marketing Workspaces"
+    groupLabel: "Marketing Workspaces",
+    archetype: "MarketingWorkspace"
   },
   {
     ordinal: 362,
@@ -2895,7 +3267,8 @@ export const WORKSPACE_TYPES = [
     name: "Content Marketing Workspace",
     groupId: "W30",
     groupKey: "MARKETING",
-    groupLabel: "Marketing Workspaces"
+    groupLabel: "Marketing Workspaces",
+    archetype: "MarketingWorkspace"
   },
   {
     ordinal: 363,
@@ -2903,7 +3276,8 @@ export const WORKSPACE_TYPES = [
     name: "Social Media Workspace",
     groupId: "W30",
     groupKey: "MARKETING",
-    groupLabel: "Marketing Workspaces"
+    groupLabel: "Marketing Workspaces",
+    archetype: "MarketingWorkspace"
   },
   {
     ordinal: 364,
@@ -2911,7 +3285,8 @@ export const WORKSPACE_TYPES = [
     name: "Advertising Workspace",
     groupId: "W30",
     groupKey: "MARKETING",
-    groupLabel: "Marketing Workspaces"
+    groupLabel: "Marketing Workspaces",
+    archetype: "MarketingWorkspace"
   },
   {
     ordinal: 365,
@@ -2919,7 +3294,9 @@ export const WORKSPACE_TYPES = [
     name: "SEO Workspace",
     groupId: "W30",
     groupKey: "MARKETING",
-    groupLabel: "Marketing Workspaces"
+    groupLabel: "Marketing Workspaces",
+    archetype: "DocumentWorkspace",
+    aliasOf: "WORKSPACE.CMS_PUBLISHING.SEO"
   },
   {
     ordinal: 366,
@@ -2927,7 +3304,8 @@ export const WORKSPACE_TYPES = [
     name: "Marketing Automation Workspace",
     groupId: "W30",
     groupKey: "MARKETING",
-    groupLabel: "Marketing Workspaces"
+    groupLabel: "Marketing Workspaces",
+    archetype: "MarketingWorkspace"
   },
   {
     ordinal: 367,
@@ -2935,7 +3313,8 @@ export const WORKSPACE_TYPES = [
     name: "Marketing Analytics Workspace",
     groupId: "W30",
     groupKey: "MARKETING",
-    groupLabel: "Marketing Workspaces"
+    groupLabel: "Marketing Workspaces",
+    archetype: "MarketingWorkspace"
   },
   {
     ordinal: 368,
@@ -2943,7 +3322,8 @@ export const WORKSPACE_TYPES = [
     name: "Audience Workspace",
     groupId: "W30",
     groupKey: "MARKETING",
-    groupLabel: "Marketing Workspaces"
+    groupLabel: "Marketing Workspaces",
+    archetype: "MarketingWorkspace"
   },
   {
     ordinal: 369,
@@ -2951,7 +3331,8 @@ export const WORKSPACE_TYPES = [
     name: "Commerce Workspace",
     groupId: "W31",
     groupKey: "COMMERCE",
-    groupLabel: "Commerce Workspaces"
+    groupLabel: "Commerce Workspaces",
+    archetype: "CommerceWorkspace"
   },
   {
     ordinal: 370,
@@ -2959,7 +3340,8 @@ export const WORKSPACE_TYPES = [
     name: "Store Workspace",
     groupId: "W31",
     groupKey: "COMMERCE",
-    groupLabel: "Commerce Workspaces"
+    groupLabel: "Commerce Workspaces",
+    archetype: "CommerceWorkspace"
   },
   {
     ordinal: 371,
@@ -2967,7 +3349,8 @@ export const WORKSPACE_TYPES = [
     name: "Catalog Workspace",
     groupId: "W31",
     groupKey: "COMMERCE",
-    groupLabel: "Commerce Workspaces"
+    groupLabel: "Commerce Workspaces",
+    archetype: "CommerceWorkspace"
   },
   {
     ordinal: 372,
@@ -2975,7 +3358,8 @@ export const WORKSPACE_TYPES = [
     name: "Product Workspace",
     groupId: "W31",
     groupKey: "COMMERCE",
-    groupLabel: "Commerce Workspaces"
+    groupLabel: "Commerce Workspaces",
+    archetype: "CommerceWorkspace"
   },
   {
     ordinal: 373,
@@ -2983,7 +3367,8 @@ export const WORKSPACE_TYPES = [
     name: "SKU Workspace",
     groupId: "W31",
     groupKey: "COMMERCE",
-    groupLabel: "Commerce Workspaces"
+    groupLabel: "Commerce Workspaces",
+    archetype: "CommerceWorkspace"
   },
   {
     ordinal: 374,
@@ -2991,7 +3376,8 @@ export const WORKSPACE_TYPES = [
     name: "Cart Operations Workspace",
     groupId: "W31",
     groupKey: "COMMERCE",
-    groupLabel: "Commerce Workspaces"
+    groupLabel: "Commerce Workspaces",
+    archetype: "CommerceWorkspace"
   },
   {
     ordinal: 375,
@@ -2999,7 +3385,8 @@ export const WORKSPACE_TYPES = [
     name: "Order Workspace",
     groupId: "W31",
     groupKey: "COMMERCE",
-    groupLabel: "Commerce Workspaces"
+    groupLabel: "Commerce Workspaces",
+    archetype: "CommerceWorkspace"
   },
   {
     ordinal: 376,
@@ -3007,7 +3394,8 @@ export const WORKSPACE_TYPES = [
     name: "Checkout Workspace",
     groupId: "W31",
     groupKey: "COMMERCE",
-    groupLabel: "Commerce Workspaces"
+    groupLabel: "Commerce Workspaces",
+    archetype: "CommerceWorkspace"
   },
   {
     ordinal: 377,
@@ -3015,7 +3403,8 @@ export const WORKSPACE_TYPES = [
     name: "Fulfilment Workspace",
     groupId: "W31",
     groupKey: "COMMERCE",
-    groupLabel: "Commerce Workspaces"
+    groupLabel: "Commerce Workspaces",
+    archetype: "CommerceWorkspace"
   },
   {
     ordinal: 378,
@@ -3023,7 +3412,8 @@ export const WORKSPACE_TYPES = [
     name: "Returns Workspace",
     groupId: "W31",
     groupKey: "COMMERCE",
-    groupLabel: "Commerce Workspaces"
+    groupLabel: "Commerce Workspaces",
+    archetype: "CommerceWorkspace"
   },
   {
     ordinal: 379,
@@ -3031,7 +3421,8 @@ export const WORKSPACE_TYPES = [
     name: "Pricing Workspace",
     groupId: "W31",
     groupKey: "COMMERCE",
-    groupLabel: "Commerce Workspaces"
+    groupLabel: "Commerce Workspaces",
+    archetype: "CommerceWorkspace"
   },
   {
     ordinal: 380,
@@ -3039,15 +3430,17 @@ export const WORKSPACE_TYPES = [
     name: "Promotion Workspace",
     groupId: "W31",
     groupKey: "COMMERCE",
-    groupLabel: "Commerce Workspaces"
+    groupLabel: "Commerce Workspaces",
+    archetype: "CommerceWorkspace"
   },
   {
     ordinal: 381,
     id: "WORKSPACE.COMMERCE.INVENTORY",
-    name: "Inventory Workspace",
+    name: "Product Inventory Workspace",
     groupId: "W31",
     groupKey: "COMMERCE",
-    groupLabel: "Commerce Workspaces"
+    groupLabel: "Commerce Workspaces",
+    archetype: "CommerceWorkspace"
   },
   {
     ordinal: 382,
@@ -3055,7 +3448,8 @@ export const WORKSPACE_TYPES = [
     name: "Marketplace Workspace",
     groupId: "W32",
     groupKey: "MARKETPLACE",
-    groupLabel: "Marketplace Workspaces"
+    groupLabel: "Marketplace Workspaces",
+    archetype: "MarketplaceWorkspace"
   },
   {
     ordinal: 383,
@@ -3063,7 +3457,8 @@ export const WORKSPACE_TYPES = [
     name: "Vendor Marketplace Workspace",
     groupId: "W32",
     groupKey: "MARKETPLACE",
-    groupLabel: "Marketplace Workspaces"
+    groupLabel: "Marketplace Workspaces",
+    archetype: "MarketplaceWorkspace"
   },
   {
     ordinal: 384,
@@ -3071,7 +3466,8 @@ export const WORKSPACE_TYPES = [
     name: "Vendor Directory Workspace",
     groupId: "W32",
     groupKey: "MARKETPLACE",
-    groupLabel: "Marketplace Workspaces"
+    groupLabel: "Marketplace Workspaces",
+    archetype: "MarketplaceWorkspace"
   },
   {
     ordinal: 385,
@@ -3079,7 +3475,8 @@ export const WORKSPACE_TYPES = [
     name: "Service Marketplace Workspace",
     groupId: "W32",
     groupKey: "MARKETPLACE",
-    groupLabel: "Marketplace Workspaces"
+    groupLabel: "Marketplace Workspaces",
+    archetype: "MarketplaceWorkspace"
   },
   {
     ordinal: 386,
@@ -3087,7 +3484,8 @@ export const WORKSPACE_TYPES = [
     name: "Product Marketplace Workspace",
     groupId: "W32",
     groupKey: "MARKETPLACE",
-    groupLabel: "Marketplace Workspaces"
+    groupLabel: "Marketplace Workspaces",
+    archetype: "MarketplaceWorkspace"
   },
   {
     ordinal: 387,
@@ -3095,7 +3493,8 @@ export const WORKSPACE_TYPES = [
     name: "Vendor Workspace",
     groupId: "W32",
     groupKey: "MARKETPLACE",
-    groupLabel: "Marketplace Workspaces"
+    groupLabel: "Marketplace Workspaces",
+    archetype: "MarketplaceWorkspace"
   },
   {
     ordinal: 388,
@@ -3103,7 +3502,8 @@ export const WORKSPACE_TYPES = [
     name: "Vendor Onboarding Workspace",
     groupId: "W32",
     groupKey: "MARKETPLACE",
-    groupLabel: "Marketplace Workspaces"
+    groupLabel: "Marketplace Workspaces",
+    archetype: "MarketplaceWorkspace"
   },
   {
     ordinal: 389,
@@ -3111,7 +3511,8 @@ export const WORKSPACE_TYPES = [
     name: "Vendor Operations Workspace",
     groupId: "W32",
     groupKey: "MARKETPLACE",
-    groupLabel: "Marketplace Workspaces"
+    groupLabel: "Marketplace Workspaces",
+    archetype: "MarketplaceWorkspace"
   },
   {
     ordinal: 390,
@@ -3119,7 +3520,8 @@ export const WORKSPACE_TYPES = [
     name: "Service Catalog Workspace",
     groupId: "W32",
     groupKey: "MARKETPLACE",
-    groupLabel: "Marketplace Workspaces"
+    groupLabel: "Marketplace Workspaces",
+    archetype: "MarketplaceWorkspace"
   },
   {
     ordinal: 391,
@@ -3127,7 +3529,8 @@ export const WORKSPACE_TYPES = [
     name: "Capability Workspace",
     groupId: "W32",
     groupKey: "MARKETPLACE",
-    groupLabel: "Marketplace Workspaces"
+    groupLabel: "Marketplace Workspaces",
+    archetype: "MarketplaceWorkspace"
   },
   {
     ordinal: 392,
@@ -3135,7 +3538,8 @@ export const WORKSPACE_TYPES = [
     name: "Rate Workspace",
     groupId: "W32",
     groupKey: "MARKETPLACE",
-    groupLabel: "Marketplace Workspaces"
+    groupLabel: "Marketplace Workspaces",
+    archetype: "MarketplaceWorkspace"
   },
   {
     ordinal: 393,
@@ -3143,7 +3547,9 @@ export const WORKSPACE_TYPES = [
     name: "Comparison Workspace",
     groupId: "W32",
     groupKey: "MARKETPLACE",
-    groupLabel: "Marketplace Workspaces"
+    groupLabel: "Marketplace Workspaces",
+    archetype: "GovernanceWorkspace",
+    aliasOf: "WORKSPACE.REVIEW_DECISION.COMPARISON"
   },
   {
     ordinal: 394,
@@ -3151,7 +3557,8 @@ export const WORKSPACE_TYPES = [
     name: "Booking Workspace",
     groupId: "W33",
     groupKey: "BOOKING",
-    groupLabel: "Booking Workspaces"
+    groupLabel: "Booking Workspaces",
+    archetype: "BookingWorkspace"
   },
   {
     ordinal: 395,
@@ -3159,7 +3566,8 @@ export const WORKSPACE_TYPES = [
     name: "Booking Builder Workspace",
     groupId: "W33",
     groupKey: "BOOKING",
-    groupLabel: "Booking Workspaces"
+    groupLabel: "Booking Workspaces",
+    archetype: "BookingWorkspace"
   },
   {
     ordinal: 396,
@@ -3167,7 +3575,8 @@ export const WORKSPACE_TYPES = [
     name: "Booking Operations Workspace",
     groupId: "W33",
     groupKey: "BOOKING",
-    groupLabel: "Booking Workspaces"
+    groupLabel: "Booking Workspaces",
+    archetype: "BookingWorkspace"
   },
   {
     ordinal: 397,
@@ -3175,7 +3584,8 @@ export const WORKSPACE_TYPES = [
     name: "Availability Workspace",
     groupId: "W33",
     groupKey: "BOOKING",
-    groupLabel: "Booking Workspaces"
+    groupLabel: "Booking Workspaces",
+    archetype: "BookingWorkspace"
   },
   {
     ordinal: 398,
@@ -3183,7 +3593,8 @@ export const WORKSPACE_TYPES = [
     name: "Reservation Workspace",
     groupId: "W33",
     groupKey: "BOOKING",
-    groupLabel: "Booking Workspaces"
+    groupLabel: "Booking Workspaces",
+    archetype: "BookingWorkspace"
   },
   {
     ordinal: 399,
@@ -3191,7 +3602,8 @@ export const WORKSPACE_TYPES = [
     name: "Quote Workspace",
     groupId: "W33",
     groupKey: "BOOKING",
-    groupLabel: "Booking Workspaces"
+    groupLabel: "Booking Workspaces",
+    archetype: "BookingWorkspace"
   },
   {
     ordinal: 400,
@@ -3199,7 +3611,8 @@ export const WORKSPACE_TYPES = [
     name: "Proposal Workspace",
     groupId: "W33",
     groupKey: "BOOKING",
-    groupLabel: "Booking Workspaces"
+    groupLabel: "Booking Workspaces",
+    archetype: "BookingWorkspace"
   },
   {
     ordinal: 401,
@@ -3207,7 +3620,8 @@ export const WORKSPACE_TYPES = [
     name: "Rate Review Workspace",
     groupId: "W33",
     groupKey: "BOOKING",
-    groupLabel: "Booking Workspaces"
+    groupLabel: "Booking Workspaces",
+    archetype: "BookingWorkspace"
   },
   {
     ordinal: 402,
@@ -3215,7 +3629,8 @@ export const WORKSPACE_TYPES = [
     name: "Confirmation Workspace",
     groupId: "W33",
     groupKey: "BOOKING",
-    groupLabel: "Booking Workspaces"
+    groupLabel: "Booking Workspaces",
+    archetype: "BookingWorkspace"
   },
   {
     ordinal: 403,
@@ -3223,7 +3638,8 @@ export const WORKSPACE_TYPES = [
     name: "Booking Fulfilment Workspace",
     groupId: "W33",
     groupKey: "BOOKING",
-    groupLabel: "Booking Workspaces"
+    groupLabel: "Booking Workspaces",
+    archetype: "BookingWorkspace"
   },
   {
     ordinal: 404,
@@ -3231,7 +3647,8 @@ export const WORKSPACE_TYPES = [
     name: "Booking Settlement Workspace",
     groupId: "W33",
     groupKey: "BOOKING",
-    groupLabel: "Booking Workspaces"
+    groupLabel: "Booking Workspaces",
+    archetype: "BookingWorkspace"
   },
   {
     ordinal: 405,
@@ -3239,7 +3656,8 @@ export const WORKSPACE_TYPES = [
     name: "Event Workspace",
     groupId: "W34",
     groupKey: "EVENT",
-    groupLabel: "Event Workspaces"
+    groupLabel: "Event Workspaces",
+    archetype: "EventWorkspace"
   },
   {
     ordinal: 406,
@@ -3247,7 +3665,8 @@ export const WORKSPACE_TYPES = [
     name: "Event Builder Workspace",
     groupId: "W34",
     groupKey: "EVENT",
-    groupLabel: "Event Workspaces"
+    groupLabel: "Event Workspaces",
+    archetype: "EventWorkspace"
   },
   {
     ordinal: 407,
@@ -3255,7 +3674,8 @@ export const WORKSPACE_TYPES = [
     name: "Event Command Center",
     groupId: "W34",
     groupKey: "EVENT",
-    groupLabel: "Event Workspaces"
+    groupLabel: "Event Workspaces",
+    archetype: "EventWorkspace"
   },
   {
     ordinal: 408,
@@ -3263,7 +3683,8 @@ export const WORKSPACE_TYPES = [
     name: "Event Planning Workspace",
     groupId: "W34",
     groupKey: "EVENT",
-    groupLabel: "Event Workspaces"
+    groupLabel: "Event Workspaces",
+    archetype: "EventWorkspace"
   },
   {
     ordinal: 409,
@@ -3271,7 +3692,8 @@ export const WORKSPACE_TYPES = [
     name: "Event Production Workspace",
     groupId: "W34",
     groupKey: "EVENT",
-    groupLabel: "Event Workspaces"
+    groupLabel: "Event Workspaces",
+    archetype: "EventWorkspace"
   },
   {
     ordinal: 410,
@@ -3279,7 +3701,8 @@ export const WORKSPACE_TYPES = [
     name: "Event Schedule Workspace",
     groupId: "W34",
     groupKey: "EVENT",
-    groupLabel: "Event Workspaces"
+    groupLabel: "Event Workspaces",
+    archetype: "EventWorkspace"
   },
   {
     ordinal: 411,
@@ -3287,7 +3710,8 @@ export const WORKSPACE_TYPES = [
     name: "Event Guest Workspace",
     groupId: "W34",
     groupKey: "EVENT",
-    groupLabel: "Event Workspaces"
+    groupLabel: "Event Workspaces",
+    archetype: "EventWorkspace"
   },
   {
     ordinal: 412,
@@ -3295,7 +3719,8 @@ export const WORKSPACE_TYPES = [
     name: "Event Vendor Workspace",
     groupId: "W34",
     groupKey: "EVENT",
-    groupLabel: "Event Workspaces"
+    groupLabel: "Event Workspaces",
+    archetype: "EventWorkspace"
   },
   {
     ordinal: 413,
@@ -3303,7 +3728,8 @@ export const WORKSPACE_TYPES = [
     name: "Event Service Workspace",
     groupId: "W34",
     groupKey: "EVENT",
-    groupLabel: "Event Workspaces"
+    groupLabel: "Event Workspaces",
+    archetype: "EventWorkspace"
   },
   {
     ordinal: 414,
@@ -3311,7 +3737,8 @@ export const WORKSPACE_TYPES = [
     name: "Event Venue Workspace",
     groupId: "W34",
     groupKey: "EVENT",
-    groupLabel: "Event Workspaces"
+    groupLabel: "Event Workspaces",
+    archetype: "EventWorkspace"
   },
   {
     ordinal: 415,
@@ -3319,7 +3746,8 @@ export const WORKSPACE_TYPES = [
     name: "Event Spatial Workspace",
     groupId: "W34",
     groupKey: "EVENT",
-    groupLabel: "Event Workspaces"
+    groupLabel: "Event Workspaces",
+    archetype: "EventWorkspace"
   },
   {
     ordinal: 416,
@@ -3327,7 +3755,8 @@ export const WORKSPACE_TYPES = [
     name: "Event Sponsorship Workspace",
     groupId: "W34",
     groupKey: "EVENT",
-    groupLabel: "Event Workspaces"
+    groupLabel: "Event Workspaces",
+    archetype: "EventWorkspace"
   },
   {
     ordinal: 417,
@@ -3335,7 +3764,8 @@ export const WORKSPACE_TYPES = [
     name: "Event ROI Workspace",
     groupId: "W34",
     groupKey: "EVENT",
-    groupLabel: "Event Workspaces"
+    groupLabel: "Event Workspaces",
+    archetype: "EventWorkspace"
   },
   {
     ordinal: 418,
@@ -3343,1839 +3773,1793 @@ export const WORKSPACE_TYPES = [
     name: "Event Settlement Workspace",
     groupId: "W34",
     groupKey: "EVENT",
-    groupLabel: "Event Workspaces"
+    groupLabel: "Event Workspaces",
+    archetype: "EventWorkspace"
   },
   {
     ordinal: 419,
-    id: "WORKSPACE.TLPS_PRODUCTION.PRODUCTION",
-    name: "Production Workspace",
-    groupId: "W35",
-    groupKey: "TLPS_PRODUCTION",
-    groupLabel: "TLPS Production Workspaces"
+    id: "WORKSPACE.LOCATION_VENUE.LOCATION",
+    name: "Venue Location Workspace",
+    groupId: "W38",
+    groupKey: "LOCATION_VENUE",
+    groupLabel: "Location & Venue Workspaces",
+    archetype: "ProductionWorkspace"
   },
   {
     ordinal: 420,
-    id: "WORKSPACE.TLPS_PRODUCTION.PRODUCTION_COMMAND_CENTER",
-    name: "Production Command Center",
-    groupId: "W35",
-    groupKey: "TLPS_PRODUCTION",
-    groupLabel: "TLPS Production Workspaces"
-  },
-  {
-    ordinal: 421,
-    id: "WORKSPACE.TLPS_PRODUCTION.PROJECT_PRODUCTION",
-    name: "Project Production Workspace",
-    groupId: "W35",
-    groupKey: "TLPS_PRODUCTION",
-    groupLabel: "TLPS Production Workspaces"
-  },
-  {
-    ordinal: 422,
-    id: "WORKSPACE.TLPS_PRODUCTION.PRE_PRODUCTION",
-    name: "Pre-Production Workspace",
-    groupId: "W35",
-    groupKey: "TLPS_PRODUCTION",
-    groupLabel: "TLPS Production Workspaces"
-  },
-  {
-    ordinal: 423,
-    id: "WORKSPACE.TLPS_PRODUCTION.SHOOT",
-    name: "Shoot Workspace",
-    groupId: "W35",
-    groupKey: "TLPS_PRODUCTION",
-    groupLabel: "TLPS Production Workspaces"
-  },
-  {
-    ordinal: 424,
-    id: "WORKSPACE.TLPS_PRODUCTION.POST_PRODUCTION",
-    name: "Post-Production Workspace",
-    groupId: "W35",
-    groupKey: "TLPS_PRODUCTION",
-    groupLabel: "TLPS Production Workspaces"
-  },
-  {
-    ordinal: 425,
-    id: "WORKSPACE.TLPS_PRODUCTION.SCRIPT",
-    name: "Script Workspace",
-    groupId: "W35",
-    groupKey: "TLPS_PRODUCTION",
-    groupLabel: "TLPS Production Workspaces"
-  },
-  {
-    ordinal: 426,
-    id: "WORKSPACE.TLPS_PRODUCTION.SCRIPT_BREAKDOWN",
-    name: "Script Breakdown Workspace",
-    groupId: "W35",
-    groupKey: "TLPS_PRODUCTION",
-    groupLabel: "TLPS Production Workspaces"
-  },
-  {
-    ordinal: 427,
-    id: "WORKSPACE.TLPS_PRODUCTION.SCENE",
-    name: "Scene Workspace",
-    groupId: "W35",
-    groupKey: "TLPS_PRODUCTION",
-    groupLabel: "TLPS Production Workspaces"
-  },
-  {
-    ordinal: 428,
-    id: "WORKSPACE.TLPS_PRODUCTION.SHOT",
-    name: "Shot Workspace",
-    groupId: "W35",
-    groupKey: "TLPS_PRODUCTION",
-    groupLabel: "TLPS Production Workspaces"
-  },
-  {
-    ordinal: 429,
-    id: "WORKSPACE.TLPS_PRODUCTION.SHOT_LIST",
-    name: "Shot List Workspace",
-    groupId: "W35",
-    groupKey: "TLPS_PRODUCTION",
-    groupLabel: "TLPS Production Workspaces"
-  },
-  {
-    ordinal: 430,
-    id: "WORKSPACE.TLPS_PRODUCTION.STORYBOARD",
-    name: "Storyboard Workspace",
-    groupId: "W35",
-    groupKey: "TLPS_PRODUCTION",
-    groupLabel: "TLPS Production Workspaces"
-  },
-  {
-    ordinal: 431,
-    id: "WORKSPACE.TLPS_PRODUCTION.SCHEDULE_BOARD",
-    name: "Schedule Board Workspace",
-    groupId: "W35",
-    groupKey: "TLPS_PRODUCTION",
-    groupLabel: "TLPS Production Workspaces"
-  },
-  {
-    ordinal: 432,
-    id: "WORKSPACE.CASTING.CASTING",
-    name: "Casting Workspace",
-    groupId: "W36",
-    groupKey: "CASTING",
-    groupLabel: "Casting Workspaces"
-  },
-  {
-    ordinal: 433,
-    id: "WORKSPACE.CASTING.CASTING_BOARD",
-    name: "Casting Board Workspace",
-    groupId: "W36",
-    groupKey: "CASTING",
-    groupLabel: "Casting Workspaces"
-  },
-  {
-    ordinal: 434,
-    id: "WORKSPACE.CASTING.CASTING_SEARCH",
-    name: "Casting Search Workspace",
-    groupId: "W36",
-    groupKey: "CASTING",
-    groupLabel: "Casting Workspaces"
-  },
-  {
-    ordinal: 435,
-    id: "WORKSPACE.CASTING.TALENT",
-    name: "Talent Workspace",
-    groupId: "W36",
-    groupKey: "CASTING",
-    groupLabel: "Casting Workspaces"
-  },
-  {
-    ordinal: 436,
-    id: "WORKSPACE.CASTING.ARTIST",
-    name: "Artist Workspace",
-    groupId: "W36",
-    groupKey: "CASTING",
-    groupLabel: "Casting Workspaces"
-  },
-  {
-    ordinal: 437,
-    id: "WORKSPACE.CASTING.AUDITION",
-    name: "Audition Workspace",
-    groupId: "W36",
-    groupKey: "CASTING",
-    groupLabel: "Casting Workspaces"
-  },
-  {
-    ordinal: 438,
-    id: "WORKSPACE.CASTING.CASTING_REVIEW",
-    name: "Casting Review Workspace",
-    groupId: "W36",
-    groupKey: "CASTING",
-    groupLabel: "Casting Workspaces"
-  },
-  {
-    ordinal: 439,
-    id: "WORKSPACE.CASTING.CASTING_APPROVAL",
-    name: "Casting Approval Workspace",
-    groupId: "W36",
-    groupKey: "CASTING",
-    groupLabel: "Casting Workspaces"
-  },
-  {
-    ordinal: 440,
-    id: "WORKSPACE.CASTING.CASTING_AVAILABILITY",
-    name: "Casting Availability Workspace",
-    groupId: "W36",
-    groupKey: "CASTING",
-    groupLabel: "Casting Workspaces"
-  },
-  {
-    ordinal: 441,
-    id: "WORKSPACE.CASTING.CASTING_CONTRACT",
-    name: "Casting Contract Workspace",
-    groupId: "W36",
-    groupKey: "CASTING",
-    groupLabel: "Casting Workspaces"
-  },
-  {
-    ordinal: 442,
-    id: "WORKSPACE.CREW.CREW",
-    name: "Crew Workspace",
-    groupId: "W37",
-    groupKey: "CREW",
-    groupLabel: "Crew Workspaces"
-  },
-  {
-    ordinal: 443,
-    id: "WORKSPACE.CREW.CREW_DIRECTORY",
-    name: "Crew Directory Workspace",
-    groupId: "W37",
-    groupKey: "CREW",
-    groupLabel: "Crew Workspaces"
-  },
-  {
-    ordinal: 444,
-    id: "WORKSPACE.CREW.DEPARTMENT",
-    name: "Department Workspace",
-    groupId: "W37",
-    groupKey: "CREW",
-    groupLabel: "Crew Workspaces"
-  },
-  {
-    ordinal: 445,
-    id: "WORKSPACE.CREW.CREW_SCHEDULING",
-    name: "Crew Scheduling Workspace",
-    groupId: "W37",
-    groupKey: "CREW",
-    groupLabel: "Crew Workspaces"
-  },
-  {
-    ordinal: 446,
-    id: "WORKSPACE.CREW.CREW_AVAILABILITY",
-    name: "Crew Availability Workspace",
-    groupId: "W37",
-    groupKey: "CREW",
-    groupLabel: "Crew Workspaces"
-  },
-  {
-    ordinal: 447,
-    id: "WORKSPACE.CREW.CREW_ASSIGNMENT",
-    name: "Crew Assignment Workspace",
-    groupId: "W37",
-    groupKey: "CREW",
-    groupLabel: "Crew Workspaces"
-  },
-  {
-    ordinal: 448,
-    id: "WORKSPACE.CREW.CREW_COMMUNICATION",
-    name: "Crew Communication Workspace",
-    groupId: "W37",
-    groupKey: "CREW",
-    groupLabel: "Crew Workspaces"
-  },
-  {
-    ordinal: 449,
-    id: "WORKSPACE.CREW.CREW_CONTRACT",
-    name: "Crew Contract Workspace",
-    groupId: "W37",
-    groupKey: "CREW",
-    groupLabel: "Crew Workspaces"
-  },
-  {
-    ordinal: 450,
-    id: "WORKSPACE.LOCATION_VENUE.LOCATION",
-    name: "Location Workspace",
-    groupId: "W38",
-    groupKey: "LOCATION_VENUE",
-    groupLabel: "Location & Venue Workspaces"
-  },
-  {
-    ordinal: 451,
     id: "WORKSPACE.LOCATION_VENUE.LOCATION_SCOUT",
     name: "Location Scout Workspace",
     groupId: "W38",
     groupKey: "LOCATION_VENUE",
-    groupLabel: "Location & Venue Workspaces"
+    groupLabel: "Location & Venue Workspaces",
+    archetype: "ProductionWorkspace"
   },
   {
-    ordinal: 452,
+    ordinal: 421,
     id: "WORKSPACE.LOCATION_VENUE.LOCATION_LIBRARY",
     name: "Location Library Workspace",
     groupId: "W38",
     groupKey: "LOCATION_VENUE",
-    groupLabel: "Location & Venue Workspaces"
+    groupLabel: "Location & Venue Workspaces",
+    archetype: "ProductionWorkspace"
   },
   {
-    ordinal: 453,
+    ordinal: 422,
     id: "WORKSPACE.LOCATION_VENUE.VENUE",
     name: "Venue Workspace",
     groupId: "W38",
     groupKey: "LOCATION_VENUE",
-    groupLabel: "Location & Venue Workspaces"
+    groupLabel: "Location & Venue Workspaces",
+    archetype: "ProductionWorkspace"
   },
   {
-    ordinal: 454,
+    ordinal: 423,
     id: "WORKSPACE.LOCATION_VENUE.VENUE_SEARCH",
     name: "Venue Search Workspace",
     groupId: "W38",
     groupKey: "LOCATION_VENUE",
-    groupLabel: "Location & Venue Workspaces"
+    groupLabel: "Location & Venue Workspaces",
+    archetype: "ProductionWorkspace"
   },
   {
-    ordinal: 455,
+    ordinal: 424,
     id: "WORKSPACE.LOCATION_VENUE.VENUE_COMPARISON",
     name: "Venue Comparison Workspace",
     groupId: "W38",
     groupKey: "LOCATION_VENUE",
-    groupLabel: "Location & Venue Workspaces"
+    groupLabel: "Location & Venue Workspaces",
+    archetype: "ProductionWorkspace"
   },
   {
-    ordinal: 456,
+    ordinal: 425,
     id: "WORKSPACE.LOCATION_VENUE.VENUE_PLANNING",
     name: "Venue Planning Workspace",
     groupId: "W38",
     groupKey: "LOCATION_VENUE",
-    groupLabel: "Location & Venue Workspaces"
+    groupLabel: "Location & Venue Workspaces",
+    archetype: "ProductionWorkspace"
   },
   {
-    ordinal: 457,
+    ordinal: 426,
     id: "WORKSPACE.LOCATION_VENUE.VENUE_FLOOR_PLAN",
     name: "Venue Floor Plan Workspace",
     groupId: "W38",
     groupKey: "LOCATION_VENUE",
-    groupLabel: "Location & Venue Workspaces"
+    groupLabel: "Location & Venue Workspaces",
+    archetype: "ProductionWorkspace"
   },
   {
-    ordinal: 458,
+    ordinal: 427,
     id: "WORKSPACE.LOCATION_VENUE.LOCATION_APPROVAL",
     name: "Location Approval Workspace",
     groupId: "W38",
     groupKey: "LOCATION_VENUE",
-    groupLabel: "Location & Venue Workspaces"
+    groupLabel: "Location & Venue Workspaces",
+    archetype: "ProductionWorkspace"
   },
   {
-    ordinal: 459,
+    ordinal: 428,
     id: "WORKSPACE.LOCATION_VENUE.PERMIT",
     name: "Permit Workspace",
     groupId: "W38",
     groupKey: "LOCATION_VENUE",
-    groupLabel: "Location & Venue Workspaces"
+    groupLabel: "Location & Venue Workspaces",
+    archetype: "ProductionWorkspace"
   },
   {
-    ordinal: 460,
+    ordinal: 429,
     id: "WORKSPACE.EQUIPMENT_LOGISTICS.LOGISTICS",
     name: "Logistics Workspace",
     groupId: "W39",
     groupKey: "EQUIPMENT_LOGISTICS",
-    groupLabel: "Equipment & Logistics Workspaces"
+    groupLabel: "Equipment & Logistics Workspaces",
+    archetype: "ProductionWorkspace"
   },
   {
-    ordinal: 461,
+    ordinal: 430,
     id: "WORKSPACE.EQUIPMENT_LOGISTICS.LOGISTICS_COMMAND_CENTER",
     name: "Logistics Command Center",
     groupId: "W39",
     groupKey: "EQUIPMENT_LOGISTICS",
-    groupLabel: "Equipment & Logistics Workspaces"
+    groupLabel: "Equipment & Logistics Workspaces",
+    archetype: "ProductionWorkspace"
   },
   {
-    ordinal: 462,
+    ordinal: 431,
     id: "WORKSPACE.EQUIPMENT_LOGISTICS.EQUIPMENT",
     name: "Equipment Workspace",
     groupId: "W39",
     groupKey: "EQUIPMENT_LOGISTICS",
-    groupLabel: "Equipment & Logistics Workspaces"
+    groupLabel: "Equipment & Logistics Workspaces",
+    archetype: "ProductionWorkspace"
   },
   {
-    ordinal: 463,
+    ordinal: 432,
     id: "WORKSPACE.EQUIPMENT_LOGISTICS.INVENTORY",
-    name: "Inventory Workspace",
+    name: "Equipment Inventory Workspace",
     groupId: "W39",
     groupKey: "EQUIPMENT_LOGISTICS",
-    groupLabel: "Equipment & Logistics Workspaces"
+    groupLabel: "Equipment & Logistics Workspaces",
+    archetype: "ProductionWorkspace"
   },
   {
-    ordinal: 464,
+    ordinal: 433,
     id: "WORKSPACE.EQUIPMENT_LOGISTICS.EQUIPMENT_ASSIGNMENT",
     name: "Equipment Assignment Workspace",
     groupId: "W39",
     groupKey: "EQUIPMENT_LOGISTICS",
-    groupLabel: "Equipment & Logistics Workspaces"
+    groupLabel: "Equipment & Logistics Workspaces",
+    archetype: "ProductionWorkspace"
   },
   {
-    ordinal: 465,
+    ordinal: 434,
     id: "WORKSPACE.EQUIPMENT_LOGISTICS.TRANSPORT",
     name: "Transport Workspace",
     groupId: "W39",
     groupKey: "EQUIPMENT_LOGISTICS",
-    groupLabel: "Equipment & Logistics Workspaces"
+    groupLabel: "Equipment & Logistics Workspaces",
+    archetype: "ProductionWorkspace"
   },
   {
-    ordinal: 466,
+    ordinal: 435,
     id: "WORKSPACE.EQUIPMENT_LOGISTICS.TRAVEL",
     name: "Travel Workspace",
     groupId: "W39",
     groupKey: "EQUIPMENT_LOGISTICS",
-    groupLabel: "Equipment & Logistics Workspaces"
+    groupLabel: "Equipment & Logistics Workspaces",
+    archetype: "ProductionWorkspace"
   },
   {
-    ordinal: 467,
+    ordinal: 436,
     id: "WORKSPACE.EQUIPMENT_LOGISTICS.ACCOMMODATION",
     name: "Accommodation Workspace",
     groupId: "W39",
     groupKey: "EQUIPMENT_LOGISTICS",
-    groupLabel: "Equipment & Logistics Workspaces"
+    groupLabel: "Equipment & Logistics Workspaces",
+    archetype: "ProductionWorkspace"
   },
   {
-    ordinal: 468,
+    ordinal: 437,
     id: "WORKSPACE.EQUIPMENT_LOGISTICS.ROUTE",
     name: "Route Workspace",
     groupId: "W39",
     groupKey: "EQUIPMENT_LOGISTICS",
-    groupLabel: "Equipment & Logistics Workspaces"
+    groupLabel: "Equipment & Logistics Workspaces",
+    archetype: "ProductionWorkspace"
   },
   {
-    ordinal: 469,
+    ordinal: 438,
     id: "WORKSPACE.EQUIPMENT_LOGISTICS.SHIPMENT",
     name: "Shipment Workspace",
     groupId: "W39",
     groupKey: "EQUIPMENT_LOGISTICS",
-    groupLabel: "Equipment & Logistics Workspaces"
+    groupLabel: "Equipment & Logistics Workspaces",
+    archetype: "ProductionWorkspace"
   },
   {
-    ordinal: 470,
+    ordinal: 439,
     id: "WORKSPACE.EQUIPMENT_LOGISTICS.PERMIT",
     name: "Permit Workspace",
     groupId: "W39",
     groupKey: "EQUIPMENT_LOGISTICS",
-    groupLabel: "Equipment & Logistics Workspaces"
+    groupLabel: "Equipment & Logistics Workspaces",
+    archetype: "ProductionWorkspace",
+    aliasOf: "WORKSPACE.LOCATION_VENUE.PERMIT"
   },
   {
-    ordinal: 471,
+    ordinal: 440,
     id: "WORKSPACE.EQUIPMENT_LOGISTICS.INSURANCE",
     name: "Insurance Workspace",
     groupId: "W39",
     groupKey: "EQUIPMENT_LOGISTICS",
-    groupLabel: "Equipment & Logistics Workspaces"
+    groupLabel: "Equipment & Logistics Workspaces",
+    archetype: "ProductionWorkspace"
   },
   {
-    ordinal: 472,
+    ordinal: 441,
     id: "WORKSPACE.EVENT_GUEST.GUEST",
     name: "Guest Workspace",
     groupId: "W40",
     groupKey: "EVENT_GUEST",
-    groupLabel: "Event Guest Workspaces"
+    groupLabel: "Event Guest Workspaces",
+    archetype: "EventWorkspace"
   },
   {
-    ordinal: 473,
+    ordinal: 442,
     id: "WORKSPACE.EVENT_GUEST.GUEST_DIRECTORY",
     name: "Guest Directory Workspace",
     groupId: "W40",
     groupKey: "EVENT_GUEST",
-    groupLabel: "Event Guest Workspaces"
+    groupLabel: "Event Guest Workspaces",
+    archetype: "EventWorkspace"
   },
   {
-    ordinal: 474,
+    ordinal: 443,
     id: "WORKSPACE.EVENT_GUEST.INVITATION",
     name: "Invitation Workspace",
     groupId: "W40",
     groupKey: "EVENT_GUEST",
-    groupLabel: "Event Guest Workspaces"
+    groupLabel: "Event Guest Workspaces",
+    archetype: "EventWorkspace"
   },
   {
-    ordinal: 475,
+    ordinal: 444,
     id: "WORKSPACE.EVENT_GUEST.RSVP",
     name: "RSVP Workspace",
     groupId: "W40",
     groupKey: "EVENT_GUEST",
-    groupLabel: "Event Guest Workspaces"
+    groupLabel: "Event Guest Workspaces",
+    archetype: "EventWorkspace"
   },
   {
-    ordinal: 476,
+    ordinal: 445,
     id: "WORKSPACE.EVENT_GUEST.GUEST_JOURNEY",
     name: "Guest Journey Workspace",
     groupId: "W40",
     groupKey: "EVENT_GUEST",
-    groupLabel: "Event Guest Workspaces"
+    groupLabel: "Event Guest Workspaces",
+    archetype: "EventWorkspace"
   },
   {
-    ordinal: 477,
+    ordinal: 446,
     id: "WORKSPACE.EVENT_GUEST.CHECK_IN",
     name: "Check-In Workspace",
     groupId: "W40",
     groupKey: "EVENT_GUEST",
-    groupLabel: "Event Guest Workspaces"
+    groupLabel: "Event Guest Workspaces",
+    archetype: "EventWorkspace"
   },
   {
-    ordinal: 478,
+    ordinal: 447,
     id: "WORKSPACE.EVENT_GUEST.ACCESS",
     name: "Access Workspace",
     groupId: "W40",
     groupKey: "EVENT_GUEST",
-    groupLabel: "Event Guest Workspaces"
+    groupLabel: "Event Guest Workspaces",
+    archetype: "EventWorkspace"
   },
   {
-    ordinal: 479,
+    ordinal: 448,
     id: "WORKSPACE.EVENT_GUEST.SEATING",
     name: "Seating Workspace",
     groupId: "W40",
     groupKey: "EVENT_GUEST",
-    groupLabel: "Event Guest Workspaces"
+    groupLabel: "Event Guest Workspaces",
+    archetype: "EventWorkspace"
   },
   {
-    ordinal: 480,
+    ordinal: 449,
     id: "WORKSPACE.EVENT_GUEST.HOSPITALITY",
     name: "Hospitality Workspace",
     groupId: "W40",
     groupKey: "EVENT_GUEST",
-    groupLabel: "Event Guest Workspaces"
+    groupLabel: "Event Guest Workspaces",
+    archetype: "EventWorkspace"
   },
   {
-    ordinal: 481,
+    ordinal: 450,
     id: "WORKSPACE.EVENT_GUEST.VIP",
     name: "VIP Workspace",
     groupId: "W40",
     groupKey: "EVENT_GUEST",
-    groupLabel: "Event Guest Workspaces"
+    groupLabel: "Event Guest Workspaces",
+    archetype: "EventWorkspace"
   },
   {
-    ordinal: 482,
+    ordinal: 451,
     id: "WORKSPACE.SPONSORSHIP.SPONSORSHIP",
     name: "Sponsorship Workspace",
     groupId: "W41",
     groupKey: "SPONSORSHIP",
-    groupLabel: "Sponsorship Workspaces"
+    groupLabel: "Sponsorship Workspaces",
+    archetype: "EventWorkspace"
   },
   {
-    ordinal: 483,
+    ordinal: 452,
     id: "WORKSPACE.SPONSORSHIP.SPONSOR",
     name: "Sponsor Workspace",
     groupId: "W41",
     groupKey: "SPONSORSHIP",
-    groupLabel: "Sponsorship Workspaces"
+    groupLabel: "Sponsorship Workspaces",
+    archetype: "EventWorkspace"
   },
   {
-    ordinal: 484,
+    ordinal: 453,
     id: "WORKSPACE.SPONSORSHIP.SPONSOR_PIPELINE",
     name: "Sponsor Pipeline Workspace",
     groupId: "W41",
     groupKey: "SPONSORSHIP",
-    groupLabel: "Sponsorship Workspaces"
+    groupLabel: "Sponsorship Workspaces",
+    archetype: "EventWorkspace"
   },
   {
-    ordinal: 485,
+    ordinal: 454,
     id: "WORKSPACE.SPONSORSHIP.SPONSOR_PACKAGE",
     name: "Sponsor Package Workspace",
     groupId: "W41",
     groupKey: "SPONSORSHIP",
-    groupLabel: "Sponsorship Workspaces"
+    groupLabel: "Sponsorship Workspaces",
+    archetype: "EventWorkspace"
   },
   {
-    ordinal: 486,
+    ordinal: 455,
     id: "WORKSPACE.SPONSORSHIP.SPONSOR_ACTIVATION",
     name: "Sponsor Activation Workspace",
     groupId: "W41",
     groupKey: "SPONSORSHIP",
-    groupLabel: "Sponsorship Workspaces"
+    groupLabel: "Sponsorship Workspaces",
+    archetype: "EventWorkspace"
   },
   {
-    ordinal: 487,
+    ordinal: 456,
     id: "WORKSPACE.SPONSORSHIP.DELIVERABLES",
     name: "Deliverables Workspace",
     groupId: "W41",
     groupKey: "SPONSORSHIP",
-    groupLabel: "Sponsorship Workspaces"
+    groupLabel: "Sponsorship Workspaces",
+    archetype: "EventWorkspace"
   },
   {
-    ordinal: 488,
+    ordinal: 457,
     id: "WORKSPACE.SPONSORSHIP.BRAND_PLACEMENT",
     name: "Brand Placement Workspace",
     groupId: "W41",
     groupKey: "SPONSORSHIP",
-    groupLabel: "Sponsorship Workspaces"
+    groupLabel: "Sponsorship Workspaces",
+    archetype: "EventWorkspace"
   },
   {
-    ordinal: 489,
+    ordinal: 458,
     id: "WORKSPACE.SPONSORSHIP.SPONSORSHIP_ROI",
     name: "Sponsorship ROI Workspace",
     groupId: "W41",
     groupKey: "SPONSORSHIP",
-    groupLabel: "Sponsorship Workspaces"
+    groupLabel: "Sponsorship Workspaces",
+    archetype: "EventWorkspace"
   },
   {
-    ordinal: 490,
+    ordinal: 459,
     id: "WORKSPACE.EDUCATION.LEARNING",
     name: "Learning Workspace",
     groupId: "W42",
     groupKey: "EDUCATION",
-    groupLabel: "Education Workspaces"
+    groupLabel: "Education Workspaces",
+    archetype: "EducationWorkspace"
   },
   {
-    ordinal: 491,
+    ordinal: 460,
     id: "WORKSPACE.EDUCATION.COURSE",
     name: "Course Workspace",
     groupId: "W42",
     groupKey: "EDUCATION",
-    groupLabel: "Education Workspaces"
+    groupLabel: "Education Workspaces",
+    archetype: "EducationWorkspace"
   },
   {
-    ordinal: 492,
+    ordinal: 461,
     id: "WORKSPACE.EDUCATION.CLASSROOM",
     name: "Classroom Workspace",
     groupId: "W42",
     groupKey: "EDUCATION",
-    groupLabel: "Education Workspaces"
+    groupLabel: "Education Workspaces",
+    archetype: "EducationWorkspace"
   },
   {
-    ordinal: 493,
+    ordinal: 462,
     id: "WORKSPACE.EDUCATION.LESSON",
     name: "Lesson Workspace",
     groupId: "W42",
     groupKey: "EDUCATION",
-    groupLabel: "Education Workspaces"
+    groupLabel: "Education Workspaces",
+    archetype: "EducationWorkspace"
   },
   {
-    ordinal: 494,
+    ordinal: 463,
     id: "WORKSPACE.EDUCATION.ASSIGNMENT",
     name: "Assignment Workspace",
     groupId: "W42",
     groupKey: "EDUCATION",
-    groupLabel: "Education Workspaces"
+    groupLabel: "Education Workspaces",
+    archetype: "EducationWorkspace"
   },
   {
-    ordinal: 495,
+    ordinal: 464,
     id: "WORKSPACE.EDUCATION.QUIZ",
     name: "Quiz Workspace",
     groupId: "W42",
     groupKey: "EDUCATION",
-    groupLabel: "Education Workspaces"
+    groupLabel: "Education Workspaces",
+    archetype: "EducationWorkspace"
   },
   {
-    ordinal: 496,
+    ordinal: 465,
     id: "WORKSPACE.EDUCATION.EXAM",
     name: "Exam Workspace",
     groupId: "W42",
     groupKey: "EDUCATION",
-    groupLabel: "Education Workspaces"
+    groupLabel: "Education Workspaces",
+    archetype: "EducationWorkspace"
   },
   {
-    ordinal: 497,
+    ordinal: 466,
     id: "WORKSPACE.EDUCATION.STUDENT",
     name: "Student Workspace",
     groupId: "W42",
     groupKey: "EDUCATION",
-    groupLabel: "Education Workspaces"
+    groupLabel: "Education Workspaces",
+    archetype: "EducationWorkspace"
   },
   {
-    ordinal: 498,
+    ordinal: 467,
     id: "WORKSPACE.EDUCATION.TEACHER",
     name: "Teacher Workspace",
     groupId: "W42",
     groupKey: "EDUCATION",
-    groupLabel: "Education Workspaces"
+    groupLabel: "Education Workspaces",
+    archetype: "EducationWorkspace"
   },
   {
-    ordinal: 499,
+    ordinal: 468,
     id: "WORKSPACE.EDUCATION.PROGRESS",
     name: "Progress Workspace",
     groupId: "W42",
     groupKey: "EDUCATION",
-    groupLabel: "Education Workspaces"
+    groupLabel: "Education Workspaces",
+    archetype: "EducationWorkspace"
   },
   {
-    ordinal: 500,
+    ordinal: 469,
     id: "WORKSPACE.EDUCATION.CERTIFICATE",
     name: "Certificate Workspace",
     groupId: "W42",
     groupKey: "EDUCATION",
-    groupLabel: "Education Workspaces"
+    groupLabel: "Education Workspaces",
+    archetype: "EducationWorkspace"
   },
   {
-    ordinal: 501,
+    ordinal: 470,
     id: "WORKSPACE.EDUCATION.CURRICULUM",
     name: "Curriculum Workspace",
     groupId: "W42",
     groupKey: "EDUCATION",
-    groupLabel: "Education Workspaces"
+    groupLabel: "Education Workspaces",
+    archetype: "EducationWorkspace"
   },
   {
-    ordinal: 502,
+    ordinal: 471,
     id: "WORKSPACE.COMMUNITY.COMMUNITY",
     name: "Community Workspace",
     groupId: "W43",
     groupKey: "COMMUNITY",
-    groupLabel: "Community Workspaces"
+    groupLabel: "Community Workspaces",
+    archetype: "CommunityWorkspace"
   },
   {
-    ordinal: 503,
+    ordinal: 472,
     id: "WORKSPACE.COMMUNITY.MEMBER",
     name: "Member Workspace",
     groupId: "W43",
     groupKey: "COMMUNITY",
-    groupLabel: "Community Workspaces"
+    groupLabel: "Community Workspaces",
+    archetype: "CommunityWorkspace"
   },
   {
-    ordinal: 504,
+    ordinal: 473,
     id: "WORKSPACE.COMMUNITY.FORUM",
     name: "Forum Workspace",
     groupId: "W43",
     groupKey: "COMMUNITY",
-    groupLabel: "Community Workspaces"
+    groupLabel: "Community Workspaces",
+    archetype: "CommunityWorkspace"
   },
   {
-    ordinal: 505,
+    ordinal: 474,
     id: "WORKSPACE.COMMUNITY.DISCUSSION",
     name: "Discussion Workspace",
     groupId: "W43",
     groupKey: "COMMUNITY",
-    groupLabel: "Community Workspaces"
+    groupLabel: "Community Workspaces",
+    archetype: "CommunityWorkspace"
   },
   {
-    ordinal: 506,
+    ordinal: 475,
     id: "WORKSPACE.COMMUNITY.FEED",
     name: "Feed Workspace",
     groupId: "W43",
     groupKey: "COMMUNITY",
-    groupLabel: "Community Workspaces"
+    groupLabel: "Community Workspaces",
+    archetype: "CommunityWorkspace"
   },
   {
-    ordinal: 507,
+    ordinal: 476,
     id: "WORKSPACE.COMMUNITY.GROUP",
     name: "Group Workspace",
     groupId: "W43",
     groupKey: "COMMUNITY",
-    groupLabel: "Community Workspaces"
+    groupLabel: "Community Workspaces",
+    archetype: "CommunityWorkspace"
   },
   {
-    ordinal: 508,
+    ordinal: 477,
     id: "WORKSPACE.COMMUNITY.COMMUNITY_MODERATION",
     name: "Community Moderation Workspace",
     groupId: "W43",
     groupKey: "COMMUNITY",
-    groupLabel: "Community Workspaces"
+    groupLabel: "Community Workspaces",
+    archetype: "CommunityWorkspace"
   },
   {
-    ordinal: 509,
+    ordinal: 478,
     id: "WORKSPACE.COMMUNITY.COMMUNITY_EVENTS",
     name: "Community Events Workspace",
     groupId: "W43",
     groupKey: "COMMUNITY",
-    groupLabel: "Community Workspaces"
+    groupLabel: "Community Workspaces",
+    archetype: "CommunityWorkspace"
   },
   {
-    ordinal: 510,
+    ordinal: 479,
     id: "WORKSPACE.SUPPORT.SUPPORT",
     name: "Support Workspace",
     groupId: "W44",
     groupKey: "SUPPORT",
-    groupLabel: "Support Workspaces"
+    groupLabel: "Support Workspaces",
+    archetype: "SupportWorkspace"
   },
   {
-    ordinal: 511,
+    ordinal: 480,
     id: "WORKSPACE.SUPPORT.HELP_DESK",
     name: "Help Desk Workspace",
     groupId: "W44",
     groupKey: "SUPPORT",
-    groupLabel: "Support Workspaces"
+    groupLabel: "Support Workspaces",
+    archetype: "SupportWorkspace"
   },
   {
-    ordinal: 512,
+    ordinal: 481,
     id: "WORKSPACE.SUPPORT.TICKET",
     name: "Ticket Workspace",
     groupId: "W44",
     groupKey: "SUPPORT",
-    groupLabel: "Support Workspaces"
+    groupLabel: "Support Workspaces",
+    archetype: "SupportWorkspace"
   },
   {
-    ordinal: 513,
+    ordinal: 482,
     id: "WORKSPACE.SUPPORT.SERVICE_DESK",
     name: "Service Desk Workspace",
     groupId: "W44",
     groupKey: "SUPPORT",
-    groupLabel: "Support Workspaces"
+    groupLabel: "Support Workspaces",
+    archetype: "SupportWorkspace"
   },
   {
-    ordinal: 514,
+    ordinal: 483,
     id: "WORKSPACE.SUPPORT.CUSTOMER_SUPPORT",
     name: "Customer Support Workspace",
     groupId: "W44",
     groupKey: "SUPPORT",
-    groupLabel: "Support Workspaces"
+    groupLabel: "Support Workspaces",
+    archetype: "SupportWorkspace"
   },
   {
-    ordinal: 515,
+    ordinal: 484,
     id: "WORKSPACE.SUPPORT.KNOWLEDGE_SUPPORT",
     name: "Knowledge Support Workspace",
     groupId: "W44",
     groupKey: "SUPPORT",
-    groupLabel: "Support Workspaces"
+    groupLabel: "Support Workspaces",
+    archetype: "SupportWorkspace"
   },
   {
-    ordinal: 516,
+    ordinal: 485,
     id: "WORKSPACE.SUPPORT.INCIDENT_SUPPORT",
     name: "Incident Support Workspace",
     groupId: "W44",
     groupKey: "SUPPORT",
-    groupLabel: "Support Workspaces"
+    groupLabel: "Support Workspaces",
+    archetype: "SupportWorkspace"
   },
   {
-    ordinal: 517,
+    ordinal: 486,
     id: "WORKSPACE.SUPPORT.SLA",
     name: "SLA Workspace",
     groupId: "W44",
     groupKey: "SUPPORT",
-    groupLabel: "Support Workspaces"
+    groupLabel: "Support Workspaces",
+    archetype: "SupportWorkspace"
   },
   {
-    ordinal: 518,
+    ordinal: 487,
     id: "WORKSPACE.SUPPORT.ESCALATION",
     name: "Escalation Workspace",
     groupId: "W44",
     groupKey: "SUPPORT",
-    groupLabel: "Support Workspaces"
+    groupLabel: "Support Workspaces",
+    archetype: "SupportWorkspace"
   },
   {
-    ordinal: 519,
+    ordinal: 488,
     id: "WORKSPACE.CMS_PUBLISHING.CMS",
     name: "CMS Workspace",
     groupId: "W45",
     groupKey: "CMS_PUBLISHING",
-    groupLabel: "CMS & Publishing Workspaces"
+    groupLabel: "CMS & Publishing Workspaces",
+    archetype: "DocumentWorkspace"
   },
   {
-    ordinal: 520,
+    ordinal: 489,
     id: "WORKSPACE.CMS_PUBLISHING.CONTENT_COLLECTION",
     name: "Content Collection Workspace",
     groupId: "W45",
     groupKey: "CMS_PUBLISHING",
-    groupLabel: "CMS & Publishing Workspaces"
+    groupLabel: "CMS & Publishing Workspaces",
+    archetype: "DocumentWorkspace"
   },
   {
-    ordinal: 521,
+    ordinal: 490,
     id: "WORKSPACE.CMS_PUBLISHING.CONTENT_ENTRY",
     name: "Content Entry Workspace",
     groupId: "W45",
     groupKey: "CMS_PUBLISHING",
-    groupLabel: "CMS & Publishing Workspaces"
+    groupLabel: "CMS & Publishing Workspaces",
+    archetype: "DocumentWorkspace"
   },
   {
-    ordinal: 522,
+    ordinal: 491,
     id: "WORKSPACE.CMS_PUBLISHING.EDITORIAL",
     name: "Editorial Workspace",
     groupId: "W45",
     groupKey: "CMS_PUBLISHING",
-    groupLabel: "CMS & Publishing Workspaces"
+    groupLabel: "CMS & Publishing Workspaces",
+    archetype: "DocumentWorkspace"
   },
   {
-    ordinal: 523,
+    ordinal: 492,
     id: "WORKSPACE.CMS_PUBLISHING.PUBLISHING",
     name: "Publishing Workspace",
     groupId: "W45",
     groupKey: "CMS_PUBLISHING",
-    groupLabel: "CMS & Publishing Workspaces"
+    groupLabel: "CMS & Publishing Workspaces",
+    archetype: "DocumentWorkspace"
   },
   {
-    ordinal: 524,
+    ordinal: 493,
     id: "WORKSPACE.CMS_PUBLISHING.SEO",
     name: "SEO Workspace",
     groupId: "W45",
     groupKey: "CMS_PUBLISHING",
-    groupLabel: "CMS & Publishing Workspaces"
+    groupLabel: "CMS & Publishing Workspaces",
+    archetype: "DocumentWorkspace"
   },
   {
-    ordinal: 525,
+    ordinal: 494,
     id: "WORKSPACE.CMS_PUBLISHING.LOCALIZATION",
     name: "Localization Workspace",
     groupId: "W45",
     groupKey: "CMS_PUBLISHING",
-    groupLabel: "CMS & Publishing Workspaces"
+    groupLabel: "CMS & Publishing Workspaces",
+    archetype: "DocumentWorkspace"
   },
   {
-    ordinal: 526,
+    ordinal: 495,
     id: "WORKSPACE.CMS_PUBLISHING.TRANSLATION",
     name: "Translation Workspace",
     groupId: "W45",
     groupKey: "CMS_PUBLISHING",
-    groupLabel: "CMS & Publishing Workspaces"
+    groupLabel: "CMS & Publishing Workspaces",
+    archetype: "DocumentWorkspace"
   },
   {
-    ordinal: 527,
+    ordinal: 496,
     id: "WORKSPACE.CMS_PUBLISHING.REDIRECT",
     name: "Redirect Workspace",
     groupId: "W45",
     groupKey: "CMS_PUBLISHING",
-    groupLabel: "CMS & Publishing Workspaces"
+    groupLabel: "CMS & Publishing Workspaces",
+    archetype: "DocumentWorkspace"
   },
   {
-    ordinal: 528,
+    ordinal: 497,
     id: "WORKSPACE.CMS_PUBLISHING.CONTENT_APPROVAL",
     name: "Content Approval Workspace",
     groupId: "W45",
     groupKey: "CMS_PUBLISHING",
-    groupLabel: "CMS & Publishing Workspaces"
+    groupLabel: "CMS & Publishing Workspaces",
+    archetype: "DocumentWorkspace"
   },
   {
-    ordinal: 529,
+    ordinal: 498,
     id: "WORKSPACE.PUBLIC_SITE.WEBSITE",
     name: "Website Workspace",
     groupId: "W46",
     groupKey: "PUBLIC_SITE",
-    groupLabel: "Public-Site Workspaces"
+    groupLabel: "Public-Site Workspaces",
+    archetype: "MarketingWorkspace"
   },
   {
-    ordinal: 530,
+    ordinal: 499,
     id: "WORKSPACE.PUBLIC_SITE.LANDING_PAGE",
     name: "Landing Page Workspace",
     groupId: "W46",
     groupKey: "PUBLIC_SITE",
-    groupLabel: "Public-Site Workspaces"
+    groupLabel: "Public-Site Workspaces",
+    archetype: "MarketingWorkspace"
   },
   {
-    ordinal: 531,
+    ordinal: 500,
     id: "WORKSPACE.PUBLIC_SITE.MARKETING_SITE",
     name: "Marketing Site Workspace",
     groupId: "W46",
     groupKey: "PUBLIC_SITE",
-    groupLabel: "Public-Site Workspaces"
+    groupLabel: "Public-Site Workspaces",
+    archetype: "MarketingWorkspace"
   },
   {
-    ordinal: 532,
+    ordinal: 501,
     id: "WORKSPACE.PUBLIC_SITE.DOCUMENTATION_SITE",
     name: "Documentation Site Workspace",
     groupId: "W46",
     groupKey: "PUBLIC_SITE",
-    groupLabel: "Public-Site Workspaces"
+    groupLabel: "Public-Site Workspaces",
+    archetype: "MarketingWorkspace"
   },
   {
-    ordinal: 533,
+    ordinal: 502,
     id: "WORKSPACE.PUBLIC_SITE.NEWS_SITE",
     name: "News Site Workspace",
     groupId: "W46",
     groupKey: "PUBLIC_SITE",
-    groupLabel: "Public-Site Workspaces"
+    groupLabel: "Public-Site Workspaces",
+    archetype: "MarketingWorkspace"
   },
   {
-    ordinal: 534,
+    ordinal: 503,
     id: "WORKSPACE.PUBLIC_SITE.BLOG",
     name: "Blog Workspace",
     groupId: "W46",
     groupKey: "PUBLIC_SITE",
-    groupLabel: "Public-Site Workspaces"
+    groupLabel: "Public-Site Workspaces",
+    archetype: "MarketingWorkspace"
   },
   {
-    ordinal: 535,
+    ordinal: 504,
     id: "WORKSPACE.PUBLIC_SITE.PORTFOLIO_SITE",
     name: "Portfolio Site Workspace",
     groupId: "W46",
     groupKey: "PUBLIC_SITE",
-    groupLabel: "Public-Site Workspaces"
+    groupLabel: "Public-Site Workspaces",
+    archetype: "MarketingWorkspace"
   },
   {
-    ordinal: 536,
+    ordinal: 505,
     id: "WORKSPACE.PUBLIC_SITE.CAREERS_SITE",
     name: "Careers Site Workspace",
     groupId: "W46",
     groupKey: "PUBLIC_SITE",
-    groupLabel: "Public-Site Workspaces"
+    groupLabel: "Public-Site Workspaces",
+    archetype: "MarketingWorkspace"
   },
   {
-    ordinal: 537,
+    ordinal: 506,
     id: "WORKSPACE.PUBLIC_SITE.INVESTOR_SITE",
     name: "Investor Site Workspace",
     groupId: "W46",
     groupKey: "PUBLIC_SITE",
-    groupLabel: "Public-Site Workspaces"
+    groupLabel: "Public-Site Workspaces",
+    archetype: "MarketingWorkspace"
   },
   {
-    ordinal: 538,
+    ordinal: 507,
     id: "WORKSPACE.PUBLIC_SITE.TRUST_CENTER",
     name: "Trust Center Workspace",
     groupId: "W46",
     groupKey: "PUBLIC_SITE",
-    groupLabel: "Public-Site Workspaces"
+    groupLabel: "Public-Site Workspaces",
+    archetype: "MarketingWorkspace"
   },
   {
-    ordinal: 539,
+    ordinal: 508,
     id: "WORKSPACE.MOBILE.MOBILE_APP",
     name: "Mobile App Workspace",
     groupId: "W47",
     groupKey: "MOBILE",
-    groupLabel: "Mobile Workspaces"
+    groupLabel: "Mobile Workspaces",
+    archetype: "ProductivityWorkspace"
   },
   {
-    ordinal: 540,
+    ordinal: 509,
     id: "WORKSPACE.MOBILE.MOBILE_BUILDER",
     name: "Mobile Builder Workspace",
     groupId: "W47",
     groupKey: "MOBILE",
-    groupLabel: "Mobile Workspaces"
+    groupLabel: "Mobile Workspaces",
+    archetype: "ProductivityWorkspace"
   },
   {
-    ordinal: 541,
+    ordinal: 510,
     id: "WORKSPACE.MOBILE.MOBILE_PREVIEW",
     name: "Mobile Preview Workspace",
     groupId: "W47",
     groupKey: "MOBILE",
-    groupLabel: "Mobile Workspaces"
+    groupLabel: "Mobile Workspaces",
+    archetype: "ProductivityWorkspace"
   },
   {
-    ordinal: 542,
+    ordinal: 511,
     id: "WORKSPACE.MOBILE.DEVICE_PREVIEW",
     name: "Device Preview Workspace",
     groupId: "W47",
     groupKey: "MOBILE",
-    groupLabel: "Mobile Workspaces"
+    groupLabel: "Mobile Workspaces",
+    archetype: "ProductivityWorkspace"
   },
   {
-    ordinal: 543,
+    ordinal: 512,
     id: "WORKSPACE.MOBILE.OFFLINE",
     name: "Offline Workspace",
     groupId: "W47",
     groupKey: "MOBILE",
-    groupLabel: "Mobile Workspaces"
+    groupLabel: "Mobile Workspaces",
+    archetype: "CommandCenterWorkspace",
+    aliasOf: "WORKSPACE.EMERGENCY_STATE.OFFLINE"
   },
   {
-    ordinal: 544,
+    ordinal: 513,
     id: "WORKSPACE.MOBILE.SYNC",
     name: "Sync Workspace",
     groupId: "W47",
     groupKey: "MOBILE",
-    groupLabel: "Mobile Workspaces"
+    groupLabel: "Mobile Workspaces",
+    archetype: "ProductivityWorkspace"
   },
   {
-    ordinal: 545,
+    ordinal: 514,
     id: "WORKSPACE.MOBILE.MOBILE_NAVIGATION",
     name: "Mobile Navigation Workspace",
     groupId: "W47",
     groupKey: "MOBILE",
-    groupLabel: "Mobile Workspaces"
+    groupLabel: "Mobile Workspaces",
+    archetype: "ProductivityWorkspace"
   },
   {
-    ordinal: 546,
+    ordinal: 515,
     id: "WORKSPACE.MOBILE.MOBILE_FORMS",
     name: "Mobile Forms Workspace",
     groupId: "W47",
     groupKey: "MOBILE",
-    groupLabel: "Mobile Workspaces"
+    groupLabel: "Mobile Workspaces",
+    archetype: "ProductivityWorkspace"
   },
   {
-    ordinal: 547,
+    ordinal: 516,
     id: "WORKSPACE.DESKTOP.DESKTOP_APP",
     name: "Desktop App Workspace",
     groupId: "W48",
     groupKey: "DESKTOP",
-    groupLabel: "Desktop Workspaces"
+    groupLabel: "Desktop Workspaces",
+    archetype: "ProductivityWorkspace"
   },
   {
-    ordinal: 548,
+    ordinal: 517,
     id: "WORKSPACE.DESKTOP.DESKTOP_BUILDER",
     name: "Desktop Builder Workspace",
     groupId: "W48",
     groupKey: "DESKTOP",
-    groupLabel: "Desktop Workspaces"
+    groupLabel: "Desktop Workspaces",
+    archetype: "ProductivityWorkspace"
   },
   {
-    ordinal: 549,
+    ordinal: 518,
     id: "WORKSPACE.DESKTOP.MULTI_WINDOW",
     name: "Multi-Window Workspace",
     groupId: "W48",
     groupKey: "DESKTOP",
-    groupLabel: "Desktop Workspaces"
+    groupLabel: "Desktop Workspaces",
+    archetype: "ProductivityWorkspace"
   },
   {
-    ordinal: 550,
+    ordinal: 519,
     id: "WORKSPACE.DESKTOP.DESKTOP_COMMAND_CENTER",
     name: "Desktop Command Center",
     groupId: "W48",
     groupKey: "DESKTOP",
-    groupLabel: "Desktop Workspaces"
+    groupLabel: "Desktop Workspaces",
+    archetype: "ProductivityWorkspace"
   },
   {
-    ordinal: 551,
+    ordinal: 520,
     id: "WORKSPACE.DESKTOP.LOCAL_FILES",
     name: "Local Files Workspace",
     groupId: "W48",
     groupKey: "DESKTOP",
-    groupLabel: "Desktop Workspaces"
+    groupLabel: "Desktop Workspaces",
+    archetype: "ProductivityWorkspace"
   },
   {
-    ordinal: 552,
+    ordinal: 521,
     id: "WORKSPACE.DESKTOP.NATIVE_INTEGRATION",
     name: "Native Integration Workspace",
     groupId: "W48",
     groupKey: "DESKTOP",
-    groupLabel: "Desktop Workspaces"
+    groupLabel: "Desktop Workspaces",
+    archetype: "ProductivityWorkspace"
   },
   {
-    ordinal: 553,
+    ordinal: 522,
     id: "WORKSPACE.REVIEW_DECISION.REVIEW",
     name: "Review Workspace",
     groupId: "W49",
     groupKey: "REVIEW_DECISION",
-    groupLabel: "Review & Decision Workspaces"
+    groupLabel: "Review & Decision Workspaces",
+    archetype: "GovernanceWorkspace"
   },
   {
-    ordinal: 554,
+    ordinal: 523,
     id: "WORKSPACE.REVIEW_DECISION.APPROVAL",
     name: "Approval Workspace",
     groupId: "W49",
     groupKey: "REVIEW_DECISION",
-    groupLabel: "Review & Decision Workspaces"
+    groupLabel: "Review & Decision Workspaces",
+    archetype: "GovernanceWorkspace"
   },
   {
-    ordinal: 555,
+    ordinal: 524,
     id: "WORKSPACE.REVIEW_DECISION.DECISION",
     name: "Decision Workspace",
     groupId: "W49",
     groupKey: "REVIEW_DECISION",
-    groupLabel: "Review & Decision Workspaces"
+    groupLabel: "Review & Decision Workspaces",
+    archetype: "GovernanceWorkspace"
   },
   {
-    ordinal: 556,
+    ordinal: 525,
     id: "WORKSPACE.REVIEW_DECISION.COMPARISON",
     name: "Comparison Workspace",
     groupId: "W49",
     groupKey: "REVIEW_DECISION",
-    groupLabel: "Review & Decision Workspaces"
+    groupLabel: "Review & Decision Workspaces",
+    archetype: "GovernanceWorkspace"
   },
   {
-    ordinal: 557,
+    ordinal: 526,
     id: "WORKSPACE.REVIEW_DECISION.DIFF",
     name: "Diff Workspace",
     groupId: "W49",
     groupKey: "REVIEW_DECISION",
-    groupLabel: "Review & Decision Workspaces"
+    groupLabel: "Review & Decision Workspaces",
+    archetype: "GovernanceWorkspace"
   },
   {
-    ordinal: 558,
+    ordinal: 527,
     id: "WORKSPACE.REVIEW_DECISION.EVIDENCE_REVIEW",
     name: "Evidence Review Workspace",
     groupId: "W49",
     groupKey: "REVIEW_DECISION",
-    groupLabel: "Review & Decision Workspaces"
+    groupLabel: "Review & Decision Workspaces",
+    archetype: "GovernanceWorkspace"
   },
   {
-    ordinal: 559,
+    ordinal: 528,
     id: "WORKSPACE.REVIEW_DECISION.QUALITY_REVIEW",
     name: "Quality Review Workspace",
     groupId: "W49",
     groupKey: "REVIEW_DECISION",
-    groupLabel: "Review & Decision Workspaces"
+    groupLabel: "Review & Decision Workspaces",
+    archetype: "GovernanceWorkspace"
   },
   {
-    ordinal: 560,
+    ordinal: 529,
     id: "WORKSPACE.REVIEW_DECISION.LEGAL_REVIEW",
     name: "Legal Review Workspace",
     groupId: "W49",
     groupKey: "REVIEW_DECISION",
-    groupLabel: "Review & Decision Workspaces"
+    groupLabel: "Review & Decision Workspaces",
+    archetype: "GovernanceWorkspace"
   },
   {
-    ordinal: 561,
+    ordinal: 530,
     id: "WORKSPACE.REVIEW_DECISION.FINANCE_REVIEW",
     name: "Finance Review Workspace",
     groupId: "W49",
     groupKey: "REVIEW_DECISION",
-    groupLabel: "Review & Decision Workspaces"
+    groupLabel: "Review & Decision Workspaces",
+    archetype: "GovernanceWorkspace"
   },
   {
-    ordinal: 562,
+    ordinal: 531,
     id: "WORKSPACE.REVIEW_DECISION.RELEASE_REVIEW",
     name: "Release Review Workspace",
     groupId: "W49",
     groupKey: "REVIEW_DECISION",
-    groupLabel: "Review & Decision Workspaces"
+    groupLabel: "Review & Decision Workspaces",
+    archetype: "GovernanceWorkspace"
   },
   {
-    ordinal: 563,
+    ordinal: 532,
     id: "WORKSPACE.SYSTEM_ADMINISTRATION.ADMIN",
     name: "Admin Workspace",
     groupId: "W50",
     groupKey: "SYSTEM_ADMINISTRATION",
-    groupLabel: "System Administration Workspaces"
+    groupLabel: "System Administration Workspaces",
+    archetype: "AdminWorkspace"
   },
   {
-    ordinal: 564,
+    ordinal: 533,
     id: "WORKSPACE.SYSTEM_ADMINISTRATION.SUPER_ADMIN",
     name: "Super Admin Workspace",
     groupId: "W50",
     groupKey: "SYSTEM_ADMINISTRATION",
-    groupLabel: "System Administration Workspaces"
+    groupLabel: "System Administration Workspaces",
+    archetype: "AdminWorkspace"
   },
   {
-    ordinal: 565,
+    ordinal: 534,
     id: "WORKSPACE.SYSTEM_ADMINISTRATION.USER_ADMINISTRATION",
     name: "User Administration Workspace",
     groupId: "W50",
     groupKey: "SYSTEM_ADMINISTRATION",
-    groupLabel: "System Administration Workspaces"
+    groupLabel: "System Administration Workspaces",
+    archetype: "AdminWorkspace"
   },
   {
-    ordinal: 566,
+    ordinal: 535,
     id: "WORKSPACE.SYSTEM_ADMINISTRATION.ORGANISATION_ADMINISTRATION",
     name: "Organisation Administration Workspace",
     groupId: "W50",
     groupKey: "SYSTEM_ADMINISTRATION",
-    groupLabel: "System Administration Workspaces"
+    groupLabel: "System Administration Workspaces",
+    archetype: "AdminWorkspace"
   },
   {
-    ordinal: 567,
+    ordinal: 536,
     id: "WORKSPACE.SYSTEM_ADMINISTRATION.WORKSPACE_ADMINISTRATION",
     name: "Workspace Administration Workspace",
     groupId: "W50",
     groupKey: "SYSTEM_ADMINISTRATION",
-    groupLabel: "System Administration Workspaces"
+    groupLabel: "System Administration Workspaces",
+    archetype: "AdminWorkspace"
   },
   {
-    ordinal: 568,
+    ordinal: 537,
     id: "WORKSPACE.SYSTEM_ADMINISTRATION.ROLES_AND_PERMISSIONS",
     name: "Roles & Permissions Workspace",
     groupId: "W50",
     groupKey: "SYSTEM_ADMINISTRATION",
-    groupLabel: "System Administration Workspaces"
+    groupLabel: "System Administration Workspaces",
+    archetype: "AdminWorkspace"
   },
   {
-    ordinal: 569,
+    ordinal: 538,
     id: "WORKSPACE.SYSTEM_ADMINISTRATION.SYSTEM_CONFIGURATION",
     name: "System Configuration Workspace",
     groupId: "W50",
     groupKey: "SYSTEM_ADMINISTRATION",
-    groupLabel: "System Administration Workspaces"
+    groupLabel: "System Administration Workspaces",
+    archetype: "AdminWorkspace"
   },
   {
-    ordinal: 570,
+    ordinal: 539,
     id: "WORKSPACE.SYSTEM_ADMINISTRATION.FEATURE_FLAG",
     name: "Feature Flag Workspace",
     groupId: "W50",
     groupKey: "SYSTEM_ADMINISTRATION",
-    groupLabel: "System Administration Workspaces"
+    groupLabel: "System Administration Workspaces",
+    archetype: "AdminWorkspace"
   },
   {
-    ordinal: 571,
+    ordinal: 540,
     id: "WORKSPACE.SYSTEM_ADMINISTRATION.INTEGRATION_ADMINISTRATION",
     name: "Integration Administration Workspace",
     groupId: "W50",
     groupKey: "SYSTEM_ADMINISTRATION",
-    groupLabel: "System Administration Workspaces"
+    groupLabel: "System Administration Workspaces",
+    archetype: "AdminWorkspace"
   },
   {
-    ordinal: 572,
+    ordinal: 541,
     id: "WORKSPACE.OPERATIONS_ADMINISTRATION.QUEUE_ADMINISTRATION",
     name: "Queue Administration Workspace",
     groupId: "W51",
     groupKey: "OPERATIONS_ADMINISTRATION",
-    groupLabel: "Operations Administration Workspaces"
+    groupLabel: "Operations Administration Workspaces",
+    archetype: "AdminWorkspace"
   },
   {
-    ordinal: 573,
+    ordinal: 542,
     id: "WORKSPACE.OPERATIONS_ADMINISTRATION.JOB_ADMINISTRATION",
     name: "Job Administration Workspace",
     groupId: "W51",
     groupKey: "OPERATIONS_ADMINISTRATION",
-    groupLabel: "Operations Administration Workspaces"
+    groupLabel: "Operations Administration Workspaces",
+    archetype: "AdminWorkspace"
   },
   {
-    ordinal: 574,
+    ordinal: 543,
     id: "WORKSPACE.OPERATIONS_ADMINISTRATION.NOTIFICATION_ADMINISTRATION",
     name: "Notification Administration Workspace",
     groupId: "W51",
     groupKey: "OPERATIONS_ADMINISTRATION",
-    groupLabel: "Operations Administration Workspaces"
+    groupLabel: "Operations Administration Workspaces",
+    archetype: "AdminWorkspace"
   },
   {
-    ordinal: 575,
+    ordinal: 544,
     id: "WORKSPACE.OPERATIONS_ADMINISTRATION.WEBHOOK_ADMINISTRATION",
     name: "Webhook Administration Workspace",
     groupId: "W51",
     groupKey: "OPERATIONS_ADMINISTRATION",
-    groupLabel: "Operations Administration Workspaces"
+    groupLabel: "Operations Administration Workspaces",
+    archetype: "AdminWorkspace"
   },
   {
-    ordinal: 576,
+    ordinal: 545,
     id: "WORKSPACE.OPERATIONS_ADMINISTRATION.RUNTIME_ADMINISTRATION",
     name: "Runtime Administration Workspace",
     groupId: "W51",
     groupKey: "OPERATIONS_ADMINISTRATION",
-    groupLabel: "Operations Administration Workspaces"
+    groupLabel: "Operations Administration Workspaces",
+    archetype: "AdminWorkspace"
   },
   {
-    ordinal: 577,
+    ordinal: 546,
     id: "WORKSPACE.OPERATIONS_ADMINISTRATION.DEPLOYMENT_ADMINISTRATION",
     name: "Deployment Administration Workspace",
     groupId: "W51",
     groupKey: "OPERATIONS_ADMINISTRATION",
-    groupLabel: "Operations Administration Workspaces"
+    groupLabel: "Operations Administration Workspaces",
+    archetype: "AdminWorkspace"
   },
   {
-    ordinal: 578,
+    ordinal: 547,
     id: "WORKSPACE.OPERATIONS_ADMINISTRATION.AUDIT_ADMINISTRATION",
     name: "Audit Administration Workspace",
     groupId: "W51",
     groupKey: "OPERATIONS_ADMINISTRATION",
-    groupLabel: "Operations Administration Workspaces"
+    groupLabel: "Operations Administration Workspaces",
+    archetype: "AdminWorkspace"
   },
   {
-    ordinal: 579,
+    ordinal: 548,
     id: "WORKSPACE.TESTING.TEST",
     name: "Test Workspace",
     groupId: "W52",
     groupKey: "TESTING",
-    groupLabel: "Testing Workspaces"
+    groupLabel: "Testing Workspaces",
+    archetype: "TestingWorkspace"
   },
   {
-    ordinal: 580,
+    ordinal: 549,
     id: "WORKSPACE.TESTING.QA",
     name: "QA Workspace",
     groupId: "W52",
     groupKey: "TESTING",
-    groupLabel: "Testing Workspaces"
+    groupLabel: "Testing Workspaces",
+    archetype: "TestingWorkspace"
   },
   {
-    ordinal: 581,
+    ordinal: 550,
     id: "WORKSPACE.TESTING.BROWSER_TEST",
     name: "Browser Test Workspace",
     groupId: "W52",
     groupKey: "TESTING",
-    groupLabel: "Testing Workspaces"
+    groupLabel: "Testing Workspaces",
+    archetype: "TestingWorkspace"
   },
   {
-    ordinal: 582,
+    ordinal: 551,
     id: "WORKSPACE.TESTING.COMPONENT_TEST",
     name: "Component Test Workspace",
     groupId: "W52",
     groupKey: "TESTING",
-    groupLabel: "Testing Workspaces"
+    groupLabel: "Testing Workspaces",
+    archetype: "TestingWorkspace"
   },
   {
-    ordinal: 583,
+    ordinal: 552,
     id: "WORKSPACE.TESTING.INTEGRATION_TEST",
     name: "Integration Test Workspace",
     groupId: "W52",
     groupKey: "TESTING",
-    groupLabel: "Testing Workspaces"
+    groupLabel: "Testing Workspaces",
+    archetype: "TestingWorkspace"
   },
   {
-    ordinal: 584,
+    ordinal: 553,
     id: "WORKSPACE.TESTING.E2E",
     name: "E2E Workspace",
     groupId: "W52",
     groupKey: "TESTING",
-    groupLabel: "Testing Workspaces"
+    groupLabel: "Testing Workspaces",
+    archetype: "TestingWorkspace"
   },
   {
-    ordinal: 585,
+    ordinal: 554,
     id: "WORKSPACE.TESTING.ACCESSIBILITY_TEST",
     name: "Accessibility Test Workspace",
     groupId: "W52",
     groupKey: "TESTING",
-    groupLabel: "Testing Workspaces"
+    groupLabel: "Testing Workspaces",
+    archetype: "TestingWorkspace"
   },
   {
-    ordinal: 586,
+    ordinal: 555,
     id: "WORKSPACE.TESTING.PERFORMANCE_TEST",
     name: "Performance Test Workspace",
     groupId: "W52",
     groupKey: "TESTING",
-    groupLabel: "Testing Workspaces"
+    groupLabel: "Testing Workspaces",
+    archetype: "TestingWorkspace"
   },
   {
-    ordinal: 587,
+    ordinal: 556,
     id: "WORKSPACE.TESTING.CONFORMANCE",
     name: "Conformance Workspace",
     groupId: "W52",
     groupKey: "TESTING",
-    groupLabel: "Testing Workspaces"
+    groupLabel: "Testing Workspaces",
+    archetype: "TestingWorkspace"
   },
   {
-    ordinal: 588,
+    ordinal: 557,
     id: "WORKSPACE.TESTING.REGRESSION",
     name: "Regression Workspace",
     groupId: "W52",
     groupKey: "TESTING",
-    groupLabel: "Testing Workspaces"
+    groupLabel: "Testing Workspaces",
+    archetype: "TestingWorkspace"
   },
   {
-    ordinal: 589,
+    ordinal: 558,
     id: "WORKSPACE.DEMO_EXPERIMENTAL.DEMO",
     name: "Demo Workspace",
     groupId: "W53",
     groupKey: "DEMO_EXPERIMENTAL",
-    groupLabel: "Demo & Experimental Workspaces"
+    groupLabel: "Demo & Experimental Workspaces",
+    archetype: "DeveloperWorkspace"
   },
   {
-    ordinal: 590,
+    ordinal: 559,
     id: "WORKSPACE.DEMO_EXPERIMENTAL.SANDBOX",
     name: "Sandbox Workspace",
     groupId: "W53",
     groupKey: "DEMO_EXPERIMENTAL",
-    groupLabel: "Demo & Experimental Workspaces"
+    groupLabel: "Demo & Experimental Workspaces",
+    archetype: "DeveloperWorkspace"
   },
   {
-    ordinal: 591,
+    ordinal: 560,
     id: "WORKSPACE.DEMO_EXPERIMENTAL.PLAYGROUND",
     name: "Playground Workspace",
     groupId: "W53",
     groupKey: "DEMO_EXPERIMENTAL",
-    groupLabel: "Demo & Experimental Workspaces"
+    groupLabel: "Demo & Experimental Workspaces",
+    archetype: "DeveloperWorkspace"
   },
   {
-    ordinal: 592,
+    ordinal: 561,
     id: "WORKSPACE.DEMO_EXPERIMENTAL.PROTOTYPE",
     name: "Prototype Workspace",
     groupId: "W53",
     groupKey: "DEMO_EXPERIMENTAL",
-    groupLabel: "Demo & Experimental Workspaces"
+    groupLabel: "Demo & Experimental Workspaces",
+    archetype: "DeveloperWorkspace"
   },
   {
-    ordinal: 593,
+    ordinal: 562,
     id: "WORKSPACE.DEMO_EXPERIMENTAL.LABS",
     name: "Labs Workspace",
     groupId: "W53",
     groupKey: "DEMO_EXPERIMENTAL",
-    groupLabel: "Demo & Experimental Workspaces"
+    groupLabel: "Demo & Experimental Workspaces",
+    archetype: "DeveloperWorkspace"
   },
   {
-    ordinal: 594,
+    ordinal: 563,
     id: "WORKSPACE.DEMO_EXPERIMENTAL.EXPERIMENTAL",
     name: "Experimental Workspace",
     groupId: "W53",
     groupKey: "DEMO_EXPERIMENTAL",
-    groupLabel: "Demo & Experimental Workspaces"
+    groupLabel: "Demo & Experimental Workspaces",
+    archetype: "DeveloperWorkspace"
   },
   {
-    ordinal: 595,
+    ordinal: 564,
     id: "WORKSPACE.DEMO_EXPERIMENTAL.PREVIEW",
     name: "Preview Workspace",
     groupId: "W53",
     groupKey: "DEMO_EXPERIMENTAL",
-    groupLabel: "Demo & Experimental Workspaces"
+    groupLabel: "Demo & Experimental Workspaces",
+    archetype: "DeveloperWorkspace"
   },
   {
-    ordinal: 596,
+    ordinal: 565,
     id: "WORKSPACE.DEMO_EXPERIMENTAL.SHOWCASE",
     name: "Showcase Workspace",
     groupId: "W53",
     groupKey: "DEMO_EXPERIMENTAL",
-    groupLabel: "Demo & Experimental Workspaces"
+    groupLabel: "Demo & Experimental Workspaces",
+    archetype: "DeveloperWorkspace"
   },
   {
-    ordinal: 597,
+    ordinal: 566,
     id: "WORKSPACE.PRESENTATION_DISPLAY.PRESENTATION",
-    name: "Presentation Workspace",
+    name: "Presentation Display Workspace",
     groupId: "W54",
     groupKey: "PRESENTATION_DISPLAY",
-    groupLabel: "Presentation & Display Workspaces"
+    groupLabel: "Presentation & Display Workspaces",
+    archetype: "PresentationWorkspace"
   },
   {
-    ordinal: 598,
+    ordinal: 567,
     id: "WORKSPACE.PRESENTATION_DISPLAY.FULLSCREEN",
     name: "Fullscreen Workspace",
     groupId: "W54",
     groupKey: "PRESENTATION_DISPLAY",
-    groupLabel: "Presentation & Display Workspaces"
+    groupLabel: "Presentation & Display Workspaces",
+    archetype: "PresentationWorkspace"
   },
   {
-    ordinal: 599,
+    ordinal: 568,
     id: "WORKSPACE.PRESENTATION_DISPLAY.KIOSK",
     name: "Kiosk Workspace",
     groupId: "W54",
     groupKey: "PRESENTATION_DISPLAY",
-    groupLabel: "Presentation & Display Workspaces"
+    groupLabel: "Presentation & Display Workspaces",
+    archetype: "PresentationWorkspace"
   },
   {
-    ordinal: 600,
+    ordinal: 569,
     id: "WORKSPACE.PRESENTATION_DISPLAY.TV",
     name: "TV Workspace",
     groupId: "W54",
     groupKey: "PRESENTATION_DISPLAY",
-    groupLabel: "Presentation & Display Workspaces"
+    groupLabel: "Presentation & Display Workspaces",
+    archetype: "PresentationWorkspace"
   },
   {
-    ordinal: 601,
+    ordinal: 570,
     id: "WORKSPACE.PRESENTATION_DISPLAY.WALLBOARD",
     name: "Wallboard Workspace",
     groupId: "W54",
     groupKey: "PRESENTATION_DISPLAY",
-    groupLabel: "Presentation & Display Workspaces"
+    groupLabel: "Presentation & Display Workspaces",
+    archetype: "PresentationWorkspace"
   },
   {
-    ordinal: 602,
+    ordinal: 571,
     id: "WORKSPACE.PRESENTATION_DISPLAY.PUBLIC_DISPLAY",
     name: "Public Display Workspace",
     groupId: "W54",
     groupKey: "PRESENTATION_DISPLAY",
-    groupLabel: "Presentation & Display Workspaces"
+    groupLabel: "Presentation & Display Workspaces",
+    archetype: "PresentationWorkspace"
   },
   {
-    ordinal: 603,
+    ordinal: 572,
     id: "WORKSPACE.PRESENTATION_DISPLAY.EMBEDDED",
     name: "Embedded Workspace",
     groupId: "W54",
     groupKey: "PRESENTATION_DISPLAY",
-    groupLabel: "Presentation & Display Workspaces"
+    groupLabel: "Presentation & Display Workspaces",
+    archetype: "PresentationWorkspace"
   },
   {
-    ordinal: 604,
+    ordinal: 573,
     id: "WORKSPACE.PRESENTATION_DISPLAY.SHARE",
     name: "Share Workspace",
     groupId: "W54",
     groupKey: "PRESENTATION_DISPLAY",
-    groupLabel: "Presentation & Display Workspaces"
+    groupLabel: "Presentation & Display Workspaces",
+    archetype: "PresentationWorkspace"
   },
   {
-    ordinal: 605,
+    ordinal: 574,
     id: "WORKSPACE.PRESENTATION_DISPLAY.PRINT",
     name: "Print Workspace",
     groupId: "W54",
     groupKey: "PRESENTATION_DISPLAY",
-    groupLabel: "Presentation & Display Workspaces"
+    groupLabel: "Presentation & Display Workspaces",
+    archetype: "PresentationWorkspace"
   },
   {
-    ordinal: 606,
+    ordinal: 575,
     id: "WORKSPACE.EMERGENCY_STATE.MAINTENANCE",
     name: "Maintenance Workspace",
     groupId: "W55",
     groupKey: "EMERGENCY_STATE",
-    groupLabel: "Emergency & State Workspaces"
+    groupLabel: "Emergency & State Workspaces",
+    archetype: "CommandCenterWorkspace"
   },
   {
-    ordinal: 607,
+    ordinal: 576,
     id: "WORKSPACE.EMERGENCY_STATE.RECOVERY",
     name: "Recovery Workspace",
     groupId: "W55",
     groupKey: "EMERGENCY_STATE",
-    groupLabel: "Emergency & State Workspaces"
+    groupLabel: "Emergency & State Workspaces",
+    archetype: "CommandCenterWorkspace"
   },
   {
-    ordinal: 608,
+    ordinal: 577,
     id: "WORKSPACE.EMERGENCY_STATE.OFFLINE",
     name: "Offline Workspace",
     groupId: "W55",
     groupKey: "EMERGENCY_STATE",
-    groupLabel: "Emergency & State Workspaces"
+    groupLabel: "Emergency & State Workspaces",
+    archetype: "CommandCenterWorkspace"
   },
   {
-    ordinal: 609,
+    ordinal: 578,
     id: "WORKSPACE.EMERGENCY_STATE.INCIDENT",
     name: "Incident Workspace",
     groupId: "W55",
     groupKey: "EMERGENCY_STATE",
-    groupLabel: "Emergency & State Workspaces"
+    groupLabel: "Emergency & State Workspaces",
+    archetype: "ObservabilityWorkspace",
+    aliasOf: "WORKSPACE.RELIABILITY_OBSERVABILITY.INCIDENT"
   },
   {
-    ordinal: 610,
+    ordinal: 579,
     id: "WORKSPACE.EMERGENCY_STATE.DEGRADED_SERVICE",
     name: "Degraded Service Workspace",
     groupId: "W55",
     groupKey: "EMERGENCY_STATE",
-    groupLabel: "Emergency & State Workspaces"
+    groupLabel: "Emergency & State Workspaces",
+    archetype: "CommandCenterWorkspace"
   },
   {
-    ordinal: 611,
+    ordinal: 580,
     id: "WORKSPACE.EMERGENCY_STATE.EMERGENCY_OPERATIONS",
     name: "Emergency Operations Workspace",
     groupId: "W55",
     groupKey: "EMERGENCY_STATE",
-    groupLabel: "Emergency & State Workspaces"
+    groupLabel: "Emergency & State Workspaces",
+    archetype: "CommandCenterWorkspace"
   },
   {
-    ordinal: 612,
+    ordinal: 581,
     id: "WORKSPACE.MAATAA_CORE_STUDIO.MAATAA_UI_STUDIO",
     name: "MAATAA UI Studio",
     groupId: "W56",
     groupKey: "MAATAA_CORE_STUDIO",
-    groupLabel: "MAATAA Core Studio Workspaces"
+    groupLabel: "MAATAA Core Studio Workspaces",
+    archetype: "BuilderWorkspace"
   },
   {
-    ordinal: 613,
+    ordinal: 582,
     id: "WORKSPACE.MAATAA_CORE_STUDIO.MAATAA_DOMAIN_STUDIO",
     name: "MAATAA Domain Studio",
     groupId: "W56",
     groupKey: "MAATAA_CORE_STUDIO",
-    groupLabel: "MAATAA Core Studio Workspaces"
+    groupLabel: "MAATAA Core Studio Workspaces",
+    archetype: "BuilderWorkspace"
   },
   {
-    ordinal: 614,
+    ordinal: 583,
     id: "WORKSPACE.MAATAA_CORE_STUDIO.MAATAA_DATA_STUDIO",
     name: "MAATAA Data Studio",
     groupId: "W56",
     groupKey: "MAATAA_CORE_STUDIO",
-    groupLabel: "MAATAA Core Studio Workspaces"
+    groupLabel: "MAATAA Core Studio Workspaces",
+    archetype: "BuilderWorkspace"
   },
   {
-    ordinal: 615,
+    ordinal: 584,
     id: "WORKSPACE.MAATAA_CORE_STUDIO.MAATAA_API_STUDIO",
     name: "MAATAA API Studio",
     groupId: "W56",
     groupKey: "MAATAA_CORE_STUDIO",
-    groupLabel: "MAATAA Core Studio Workspaces"
+    groupLabel: "MAATAA Core Studio Workspaces",
+    archetype: "BuilderWorkspace"
   },
   {
-    ordinal: 616,
+    ordinal: 585,
     id: "WORKSPACE.MAATAA_CORE_STUDIO.MAATAA_CODE_STUDIO",
     name: "MAATAA Code Studio",
     groupId: "W56",
     groupKey: "MAATAA_CORE_STUDIO",
-    groupLabel: "MAATAA Core Studio Workspaces"
+    groupLabel: "MAATAA Core Studio Workspaces",
+    archetype: "BuilderWorkspace"
   },
   {
-    ordinal: 617,
+    ordinal: 586,
     id: "WORKSPACE.MAATAA_CORE_STUDIO.MAATAA_WORKFLOW_STUDIO",
     name: "MAATAA Workflow Studio",
     groupId: "W56",
     groupKey: "MAATAA_CORE_STUDIO",
-    groupLabel: "MAATAA Core Studio Workspaces"
+    groupLabel: "MAATAA Core Studio Workspaces",
+    archetype: "BuilderWorkspace"
   },
   {
-    ordinal: 618,
+    ordinal: 587,
     id: "WORKSPACE.MAATAA_CORE_STUDIO.MAATAA_FORM_STUDIO",
     name: "MAATAA Form Studio",
     groupId: "W56",
     groupKey: "MAATAA_CORE_STUDIO",
-    groupLabel: "MAATAA Core Studio Workspaces"
+    groupLabel: "MAATAA Core Studio Workspaces",
+    archetype: "BuilderWorkspace"
   },
   {
-    ordinal: 619,
+    ordinal: 588,
     id: "WORKSPACE.MAATAA_CORE_STUDIO.MAATAA_PAGE_STUDIO",
     name: "MAATAA Page Studio",
     groupId: "W56",
     groupKey: "MAATAA_CORE_STUDIO",
-    groupLabel: "MAATAA Core Studio Workspaces"
+    groupLabel: "MAATAA Core Studio Workspaces",
+    archetype: "BuilderWorkspace"
   },
   {
-    ordinal: 620,
+    ordinal: 589,
     id: "WORKSPACE.MAATAA_CORE_STUDIO.MAATAA_APP_STUDIO",
     name: "MAATAA App Studio",
     groupId: "W56",
     groupKey: "MAATAA_CORE_STUDIO",
-    groupLabel: "MAATAA Core Studio Workspaces"
+    groupLabel: "MAATAA Core Studio Workspaces",
+    archetype: "BuilderWorkspace"
   },
   {
-    ordinal: 621,
+    ordinal: 590,
     id: "WORKSPACE.MAATAA_CORE_STUDIO.MAATAA_MOBILE_STUDIO",
     name: "MAATAA Mobile Studio",
     groupId: "W56",
     groupKey: "MAATAA_CORE_STUDIO",
-    groupLabel: "MAATAA Core Studio Workspaces"
+    groupLabel: "MAATAA Core Studio Workspaces",
+    archetype: "BuilderWorkspace"
   },
   {
-    ordinal: 622,
+    ordinal: 591,
     id: "WORKSPACE.MAATAA_CORE_STUDIO.MAATAA_THEME_STUDIO",
     name: "MAATAA Theme Studio",
     groupId: "W56",
     groupKey: "MAATAA_CORE_STUDIO",
-    groupLabel: "MAATAA Core Studio Workspaces"
+    groupLabel: "MAATAA Core Studio Workspaces",
+    archetype: "BuilderWorkspace"
   },
   {
-    ordinal: 623,
+    ordinal: 592,
     id: "WORKSPACE.MAATAA_CORE_STUDIO.MAATAA_AGENT_STUDIO",
     name: "MAATAA Agent Studio",
     groupId: "W56",
     groupKey: "MAATAA_CORE_STUDIO",
-    groupLabel: "MAATAA Core Studio Workspaces"
+    groupLabel: "MAATAA Core Studio Workspaces",
+    archetype: "BuilderWorkspace"
   },
   {
-    ordinal: 624,
+    ordinal: 593,
     id: "WORKSPACE.MAATAA_CORE_STUDIO.MAATAA_KNOWLEDGE_STUDIO",
     name: "MAATAA Knowledge Studio",
     groupId: "W56",
     groupKey: "MAATAA_CORE_STUDIO",
-    groupLabel: "MAATAA Core Studio Workspaces"
+    groupLabel: "MAATAA Core Studio Workspaces",
+    archetype: "BuilderWorkspace"
   },
   {
-    ordinal: 625,
+    ordinal: 594,
     id: "WORKSPACE.MAATAA_CORE_STUDIO.MAATAA_INFRASTRUCTURE_STUDIO",
     name: "MAATAA Infrastructure Studio",
     groupId: "W56",
     groupKey: "MAATAA_CORE_STUDIO",
-    groupLabel: "MAATAA Core Studio Workspaces"
+    groupLabel: "MAATAA Core Studio Workspaces",
+    archetype: "BuilderWorkspace"
   },
   {
-    ordinal: 626,
+    ordinal: 595,
     id: "WORKSPACE.MAATAA_CORE_STUDIO.MAATAA_CONTROL_PLANE_STUDIO",
     name: "MAATAA Control Plane Studio",
     groupId: "W56",
     groupKey: "MAATAA_CORE_STUDIO",
-    groupLabel: "MAATAA Core Studio Workspaces"
+    groupLabel: "MAATAA Core Studio Workspaces",
+    archetype: "BuilderWorkspace"
   },
   {
-    ordinal: 627,
+    ordinal: 596,
     id: "WORKSPACE.WORKSPACE_META.WORKSPACE_SELECTOR",
     name: "Workspace Selector",
     groupId: "W57",
     groupKey: "WORKSPACE_META",
-    groupLabel: "Workspace Meta/Management"
+    groupLabel: "Workspace Meta/Management",
+    archetype: "AdminWorkspace"
   },
   {
-    ordinal: 628,
+    ordinal: 597,
     id: "WORKSPACE.WORKSPACE_META.WORKSPACE_SWITCHER",
     name: "Workspace Switcher",
     groupId: "W57",
     groupKey: "WORKSPACE_META",
-    groupLabel: "Workspace Meta/Management"
+    groupLabel: "Workspace Meta/Management",
+    archetype: "AdminWorkspace"
   },
   {
-    ordinal: 629,
+    ordinal: 598,
     id: "WORKSPACE.WORKSPACE_META.WORKSPACE_DIRECTORY",
     name: "Workspace Directory",
     groupId: "W57",
     groupKey: "WORKSPACE_META",
-    groupLabel: "Workspace Meta/Management"
+    groupLabel: "Workspace Meta/Management",
+    archetype: "AdminWorkspace"
   },
   {
-    ordinal: 630,
+    ordinal: 599,
     id: "WORKSPACE.WORKSPACE_META.WORKSPACE_CREATOR",
     name: "Workspace Creator",
     groupId: "W57",
     groupKey: "WORKSPACE_META",
-    groupLabel: "Workspace Meta/Management"
+    groupLabel: "Workspace Meta/Management",
+    archetype: "AdminWorkspace"
   },
   {
-    ordinal: 631,
+    ordinal: 600,
     id: "WORKSPACE.WORKSPACE_META.WORKSPACE_TEMPLATE_GALLERY",
     name: "Workspace Template Gallery",
     groupId: "W57",
     groupKey: "WORKSPACE_META",
-    groupLabel: "Workspace Meta/Management"
+    groupLabel: "Workspace Meta/Management",
+    archetype: "AdminWorkspace"
   },
   {
-    ordinal: 632,
+    ordinal: 601,
     id: "WORKSPACE.WORKSPACE_META.WORKSPACE_SETTINGS",
     name: "Workspace Settings",
     groupId: "W57",
     groupKey: "WORKSPACE_META",
-    groupLabel: "Workspace Meta/Management"
+    groupLabel: "Workspace Meta/Management",
+    archetype: "AdminWorkspace"
   },
   {
-    ordinal: 633,
+    ordinal: 602,
     id: "WORKSPACE.WORKSPACE_META.WORKSPACE_MEMBERS",
     name: "Workspace Members",
     groupId: "W57",
     groupKey: "WORKSPACE_META",
-    groupLabel: "Workspace Meta/Management"
+    groupLabel: "Workspace Meta/Management",
+    archetype: "AdminWorkspace"
   },
   {
-    ordinal: 634,
+    ordinal: 603,
     id: "WORKSPACE.WORKSPACE_META.WORKSPACE_ROLES",
     name: "Workspace Roles",
     groupId: "W57",
     groupKey: "WORKSPACE_META",
-    groupLabel: "Workspace Meta/Management"
+    groupLabel: "Workspace Meta/Management",
+    archetype: "AdminWorkspace"
   },
   {
-    ordinal: 635,
+    ordinal: 604,
     id: "WORKSPACE.WORKSPACE_META.WORKSPACE_PERMISSIONS",
     name: "Workspace Permissions",
     groupId: "W57",
     groupKey: "WORKSPACE_META",
-    groupLabel: "Workspace Meta/Management"
+    groupLabel: "Workspace Meta/Management",
+    archetype: "AdminWorkspace"
   },
   {
-    ordinal: 636,
+    ordinal: 605,
     id: "WORKSPACE.WORKSPACE_META.WORKSPACE_INTEGRATIONS",
     name: "Workspace Integrations",
     groupId: "W57",
     groupKey: "WORKSPACE_META",
-    groupLabel: "Workspace Meta/Management"
+    groupLabel: "Workspace Meta/Management",
+    archetype: "AdminWorkspace"
   },
   {
-    ordinal: 637,
+    ordinal: 606,
     id: "WORKSPACE.WORKSPACE_META.WORKSPACE_ACTIVITY",
     name: "Workspace Activity",
     groupId: "W57",
     groupKey: "WORKSPACE_META",
-    groupLabel: "Workspace Meta/Management"
+    groupLabel: "Workspace Meta/Management",
+    archetype: "AdminWorkspace"
   },
   {
-    ordinal: 638,
+    ordinal: 607,
     id: "WORKSPACE.WORKSPACE_META.WORKSPACE_AUDIT",
     name: "Workspace Audit",
     groupId: "W57",
     groupKey: "WORKSPACE_META",
-    groupLabel: "Workspace Meta/Management"
+    groupLabel: "Workspace Meta/Management",
+    archetype: "AdminWorkspace"
   },
   {
-    ordinal: 639,
+    ordinal: 608,
     id: "WORKSPACE.WORKSPACE_META.WORKSPACE_ARCHIVE",
     name: "Workspace Archive",
     groupId: "W57",
     groupKey: "WORKSPACE_META",
-    groupLabel: "Workspace Meta/Management"
+    groupLabel: "Workspace Meta/Management",
+    archetype: "AdminWorkspace"
   },
   {
-    ordinal: 640,
+    ordinal: 609,
     id: "WORKSPACE.MULTI_WORKSPACE.WORKSPACE_HUB",
     name: "Workspace Hub",
     groupId: "W58",
     groupKey: "MULTI_WORKSPACE",
-    groupLabel: "Multi-Workspace Systems"
+    groupLabel: "Multi-Workspace Systems",
+    archetype: "OrganisationWorkspace"
   },
   {
-    ordinal: 641,
+    ordinal: 610,
     id: "WORKSPACE.MULTI_WORKSPACE.WORKSPACE_FEDERATION",
     name: "Workspace Federation",
     groupId: "W58",
     groupKey: "MULTI_WORKSPACE",
-    groupLabel: "Multi-Workspace Systems"
+    groupLabel: "Multi-Workspace Systems",
+    archetype: "OrganisationWorkspace"
   },
   {
-    ordinal: 642,
+    ordinal: 611,
     id: "WORKSPACE.MULTI_WORKSPACE.WORKSPACE_PORTFOLIO",
     name: "Workspace Portfolio",
     groupId: "W58",
     groupKey: "MULTI_WORKSPACE",
-    groupLabel: "Multi-Workspace Systems"
+    groupLabel: "Multi-Workspace Systems",
+    archetype: "OrganisationWorkspace"
   },
   {
-    ordinal: 643,
+    ordinal: 612,
     id: "WORKSPACE.MULTI_WORKSPACE.MULTI_TENANT_HUB",
     name: "Multi-Tenant Workspace Hub",
     groupId: "W58",
     groupKey: "MULTI_WORKSPACE",
-    groupLabel: "Multi-Workspace Systems"
+    groupLabel: "Multi-Workspace Systems",
+    archetype: "OrganisationWorkspace"
   },
   {
-    ordinal: 644,
+    ordinal: 613,
     id: "WORKSPACE.MULTI_WORKSPACE.CROSS_WORKSPACE_SEARCH",
     name: "Cross-Workspace Search",
     groupId: "W58",
     groupKey: "MULTI_WORKSPACE",
-    groupLabel: "Multi-Workspace Systems"
+    groupLabel: "Multi-Workspace Systems",
+    archetype: "OrganisationWorkspace"
   },
   {
-    ordinal: 645,
+    ordinal: 614,
     id: "WORKSPACE.MULTI_WORKSPACE.CROSS_WORKSPACE_ACTIVITY",
     name: "Cross-Workspace Activity",
     groupId: "W58",
     groupKey: "MULTI_WORKSPACE",
-    groupLabel: "Multi-Workspace Systems"
+    groupLabel: "Multi-Workspace Systems",
+    archetype: "OrganisationWorkspace"
   },
   {
-    ordinal: 646,
+    ordinal: 615,
     id: "WORKSPACE.MULTI_WORKSPACE.CROSS_WORKSPACE_ANALYTICS",
     name: "Cross-Workspace Analytics",
     groupId: "W58",
     groupKey: "MULTI_WORKSPACE",
-    groupLabel: "Multi-Workspace Systems"
+    groupLabel: "Multi-Workspace Systems",
+    archetype: "OrganisationWorkspace"
   },
   {
-    ordinal: 647,
+    ordinal: 616,
     id: "WORKSPACE.MULTI_WORKSPACE.CROSS_WORKSPACE_COMMAND_CENTER",
     name: "Cross-Workspace Command Center",
     groupId: "W58",
     groupKey: "MULTI_WORKSPACE",
-    groupLabel: "Multi-Workspace Systems"
+    groupLabel: "Multi-Workspace Systems",
+    archetype: "OrganisationWorkspace"
   }
 ] as const satisfies readonly WorkspaceTypeRecord[];
 

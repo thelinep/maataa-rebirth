@@ -555,12 +555,12 @@ test("every workspace selection renders a record-bound synthetic data slice", as
       .click();
   };
 
-  await selectWorkspace("WORKSPACE.TLPS_PRODUCTION.PRODUCTION");
+  await selectWorkspace("WORKSPACE.EQUIPMENT_LOGISTICS.LOGISTICS");
   const tlps = canvas.locator(
-    '[data-workspace-id="WORKSPACE.TLPS_PRODUCTION.PRODUCTION"]',
+    '[data-workspace-id="WORKSPACE.EQUIPMENT_LOGISTICS.LOGISTICS"]',
   );
   await expect(tlps).toHaveAttribute("data-workspace-slice", "production");
-  await expect(tlps).toContainText("Production Workspace");
+  await expect(tlps).toContainText("Logistics Workspace");
   await expect(tlps).toContainText("Call-sheet rehearsal");
   await expect(tlps).toContainText("no crew dispatch");
   await expect(tlps).toContainText("WS-W");

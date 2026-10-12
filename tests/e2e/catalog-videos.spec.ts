@@ -81,11 +81,11 @@ test("record Workspaces data-slice demo", async ({ page }, testInfo) => {
 
   await page.getByRole("button", { name: /^Workspaces/ }).click();
 
-  await selectRecord(page, "Workspaces", "WORKSPACE.TLPS_PRODUCTION.PRODUCTION");
-  const tlps = canvas.locator('[data-workspace-id="WORKSPACE.TLPS_PRODUCTION.PRODUCTION"]');
+  await selectRecord(page, "Workspaces", "WORKSPACE.EQUIPMENT_LOGISTICS.LOGISTICS");
+  const tlps = canvas.locator('[data-workspace-id="WORKSPACE.EQUIPMENT_LOGISTICS.LOGISTICS"]');
   await expect(tlps).toContainText("Call-sheet rehearsal");
   await expect(tlps).toContainText("Synthetic fixture");
-  await holdPreview(page, '[data-workspace-id="WORKSPACE.TLPS_PRODUCTION.PRODUCTION"]');
+  await holdPreview(page, '[data-workspace-id="WORKSPACE.EQUIPMENT_LOGISTICS.LOGISTICS"]');
 
   await selectRecord(page, "Workspaces", "WORKSPACE.EVENT.EVENT");
   const nevo = canvas.locator('[data-workspace-id="WORKSPACE.EVENT.EVENT"]');

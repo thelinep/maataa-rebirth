@@ -192,7 +192,7 @@ Registry Registry
 Current snapshot:
 
 - 500 page types in 41 page groups
-- 647 workspace types in 58 workspace groups
+- 616 workspace types in 55 workspace groups (TLPS Production, Casting and Crew live in `apps/tlps`)
 - 100 layout archetypes in 18 layout groups
 - 208 canonical generators across 21 generator groups
 - 491 canonical tools across 19 tool groups
