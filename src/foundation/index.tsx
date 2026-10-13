@@ -1,7 +1,7 @@
 import React from "react";
 import { createPortal } from "react-dom";
 import { cx } from "../utils";
-import { ThemeProvider, type MaataaTheme } from "../themes";
+import { ThemeProvider, useTheme, type MaataaTheme } from "../themes";
 export type UiProviderProps = {
   children: React.ReactNode;
   /** Controlled theme. When set, it is the source of truth and later changes apply; pair it with `onThemeChange`. */
@@ -13,7 +13,10 @@ export type UiProviderProps = {
   dir?: "ltr" | "rtl";
   className?: string;
 };
-export function UiProvider({ children, theme, defaultTheme = "system", onThemeChange, dir = "ltr", className }: UiProviderProps) { return <ThemeProvider theme={theme} defaultTheme={defaultTheme} onThemeChange={onThemeChange}><div className={cx("maataa-root", className)} dir={dir}>{children}</div></ThemeProvider>; }
+export function UiProvider({ children, theme, defaultTheme = "system", onThemeChange, dir = "ltr", className }: UiProviderProps) { return <ThemeProvider theme={theme} defaultTheme={defaultTheme} onThemeChange={onThemeChange}><UiRoot className={className} dir={dir}>{children}</UiRoot></ThemeProvider>; }
+// `.maataa-root` declares the base (light) tokens, so it must carry the resolved
+// theme itself for the `.maataa-root[data-theme=…]` rules to apply inside it.
+function UiRoot({ children, className, dir }: Pick<UiProviderProps, "children" | "className" | "dir">) { const { resolvedTheme } = useTheme(); return <div className={cx("maataa-root", className)} dir={dir} data-theme={resolvedTheme}>{children}</div>; }
 type DivProps = React.HTMLAttributes<HTMLDivElement>;
 export const Box = React.forwardRef<HTMLDivElement, DivProps>(({ className, ...p }, ref) => <div ref={ref} className={cx("m-ui", className)} {...p} />); Box.displayName="Box";
 export const Stack = React.forwardRef<HTMLDivElement, DivProps & { gap?: number | string; align?: React.CSSProperties["alignItems"] }>(({ className, gap=12, align, style, ...p }, ref) => <div ref={ref} className={cx("m-ui m-stack", className)} style={{ gap, alignItems: align, ...style }} {...p}/>); Stack.displayName="Stack";
