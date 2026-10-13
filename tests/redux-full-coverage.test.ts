@@ -46,6 +46,7 @@ describe("full Redux registry contract", () => {
 
     expect(REDUX_SELECTOR_REGISTRY).toHaveLength(52);
     for (const entry of REDUX_SELECTOR_REGISTRY) {
+      // eslint-disable-next-line import/namespace -- iterates every registry record by name; the test itself asserts each lookup exists
       const selector = selectors[entry.name as keyof typeof selectors];
       expect(typeof selector, `${entry.name} must be exported`).toBe("function");
       if (entry.name === "selectProjectById") expect(() => selector(state, "missing-project")).not.toThrow();
@@ -121,7 +122,7 @@ describe("full Redux registry contract", () => {
       expect(selector(store.getState())).toBe(selector(store.getState()));
     }
 
-    for (const [label, selector, records, groupField, groupValue] of catalogSelectors) {
+    for (const [label, selector, _records, groupField, groupValue] of catalogSelectors) {
       store.dispatch(registryActions.setRegistryQuery(""));
       store.dispatch(registryActions.setRegistryGroup(groupValue));
       const filtered = selector(store.getState());

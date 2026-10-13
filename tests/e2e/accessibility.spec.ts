@@ -1,5 +1,5 @@
 import { test, expect, type Page } from "@playwright/test";
-import AxeBuilder from "@axe-core/playwright";
+import { AxeBuilder } from "@axe-core/playwright";
 
 const routes=["/","/surface","/playground","/sandbox","/demos","/docs","/help","/support","/theme-studio"];
 const themes=["system","light","dark","high-contrast","oled"] as const;

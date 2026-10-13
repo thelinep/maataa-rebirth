@@ -9,6 +9,7 @@ const imports = COMPOSER_COMPONENT_BINDINGS;
 
 /** Serialize data for a JavaScript expression, including script-embedding boundaries. */
 function stringLiteral(value: unknown): string {
+  // eslint-disable-next-line @typescript-eslint/no-base-to-string -- codegen serialises untyped prop values; String() coercion is existing behaviour (follow-up: an object value becomes "[object Object]")
   return JSON.stringify(String(value ?? ""))
     .replace(/</g, "\\u003c")
     .replace(/>/g, "\\u003e")
@@ -39,6 +40,7 @@ function componentIdentifier(value: string, forbidden: readonly string[] = []): 
   return identifier;
 }
 function enumValue(value: unknown, choices: readonly string[], fallback: string): string {
+  // eslint-disable-next-line @typescript-eslint/no-base-to-string -- enum check: any non-string value fails the choices.includes() test and falls back, so coercion cannot leak
   const text = String(value ?? fallback);
   return choices.includes(text) ? text : fallback;
 }

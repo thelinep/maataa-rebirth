@@ -7,6 +7,7 @@ import { DataTable, Metric } from "../data";
 import { Divider } from "../foundation/Divider";
 import { Heading, Text } from "../typography";
 import type { ComposerBlock, ComposerScene } from "./types";
+import type { ButtonVariant } from "../actions";
 
 const rows = [
   {id:1,name:"Surface Registry",status:"ready"},
@@ -19,14 +20,21 @@ export function ComposerBlockView({block,disabled=false}:{block:ComposerBlock;di
   if (block.hidden) return null;
   const p = block.props;
   switch(block.kind) {
+    // eslint-disable-next-line @typescript-eslint/no-base-to-string -- composer props are untyped JSON values; String() coercion of non-string values is existing behaviour (follow-up: an object value renders as [object Object])
     case "heading": return <Heading level={Number(p.level ?? 2) as 1|2|3|4|5|6}>{String(p.text ?? "Heading")}</Heading>;
+    // eslint-disable-next-line @typescript-eslint/no-base-to-string -- composer props are untyped JSON values; String() coercion of non-string values is existing behaviour (follow-up: an object value renders as [object Object])
     case "text": return <Text>{String(p.text ?? "Text")}</Text>;
-    case "button": return <Button disabled={disabled || Boolean(p.disabled)} variant={(p.variant as any) ?? "primary"}>{String(p.label ?? "Action")}</Button>;
+    // eslint-disable-next-line @typescript-eslint/no-base-to-string -- composer props are untyped JSON values; String() coercion of non-string values is existing behaviour (follow-up: an object value renders as [object Object])
+    case "button": return <Button disabled={disabled || Boolean(p.disabled)} variant={(p.variant as ButtonVariant | undefined) ?? "primary"}>{String(p.label ?? "Action")}</Button>;
+    // eslint-disable-next-line @typescript-eslint/no-base-to-string -- composer props are untyped JSON values; String() coercion of non-string values is existing behaviour (follow-up: an object value renders as [object Object])
     case "input": return <Input disabled={disabled || Boolean(p.disabled)} aria-label={String(p.label ?? "Input")} value={String(p.value ?? "")} readOnly placeholder={String(p.placeholder ?? "")}/>;
+    // eslint-disable-next-line @typescript-eslint/no-base-to-string -- composer props are untyped JSON values; String() coercion of non-string values is existing behaviour (follow-up: an object value renders as [object Object])
     case "card": return <Card header={<strong>{String(p.title ?? "Card")}</strong>}><p>{String(p.body ?? "")}</p></Card>;
     case "table": return <DataTable data={rows} columns={columns}/>;
+    // eslint-disable-next-line @typescript-eslint/no-base-to-string -- composer props are untyped JSON values; String() coercion of non-string values is existing behaviour (follow-up: an object value renders as [object Object])
     case "metric": return <Metric label={String(p.label ?? "Metric")} value={String(p.value ?? "0")} helper={String(p.helper ?? "")}/>;
-    case "badge": return <Badge tone={(p.tone as any) ?? "info"}>{String(p.label ?? "badge")}</Badge>;
+    // eslint-disable-next-line @typescript-eslint/no-base-to-string -- composer props are untyped JSON values; String() coercion of non-string values is existing behaviour (follow-up: an object value renders as [object Object])
+    case "badge": return <Badge tone={(p.tone as React.ComponentProps<typeof Badge>["tone"]) ?? "info"}>{String(p.label ?? "badge")}</Badge>;
     case "divider": return <Divider/>;
   }
 }

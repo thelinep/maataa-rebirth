@@ -51,7 +51,7 @@ describe("codegen trust boundary", () => {
   });
   it("serializes identity attributes and rejects invalid numeric/enum props", () => {
     const scene = attackScene('"} onClick={alert(1)}');
-    expect(()=>generateComposerJsx({ ...scene, workspaceTypeId: scene.blocks[0].props.text as any })).toThrow(/Unknown workspace|not present/);
+    expect(()=>generateComposerJsx({ ...scene, workspaceTypeId: scene.blocks[0].props.text as never })).toThrow(/Unknown workspace|not present/);
     const code = generateComposerJsx(scene);
     expect(syntaxErrors(code)).toEqual([]);
     expect(code).toContain('level={2}');

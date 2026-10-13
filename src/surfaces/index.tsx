@@ -12,6 +12,7 @@ export function Modal({open,isOpen,onClose,title,description,children,footer,ret
  const visible=open??isOpen??false,titleId=useId(),descId=useId(),dialog=useRef<HTMLDivElement>(null);
  useDialogBehavior(visible,dialog,onClose,returnFocusRef);
  if(!visible||typeof document==="undefined")return null;
+ // eslint-disable-next-line jsx-a11y/no-static-element-interactions -- pointer-only backdrop dismissal; keyboard users close with Escape (useDialogBehavior) or the close button
  return createPortal(<div className="maataa-root m-modal-backdrop" onMouseDown={event=>{if(event.currentTarget===event.target)onClose();}}>
   <div ref={dialog} tabIndex={-1} data-maataa-modal className="m-dialog" role="dialog" aria-modal="true" aria-label={!title?"Dialog":undefined} aria-labelledby={title?titleId:undefined} aria-describedby={description?descId:undefined}>
    <div className="m-dialog-header"><div>{title&&<h2 id={titleId}>{title}</h2>}{description&&<p id={descId} className="m-field-description">{description}</p>}</div><Button variant="ghost" aria-label={closeLabel} onClick={onClose}>×</Button></div>
@@ -24,6 +25,7 @@ export function AlertDialog({open,onClose,title,description,onConfirm,confirmLab
 export function Drawer({open,onClose,side="right",title,children,returnFocusRef}:{open:boolean;onClose:()=>void;side?:"left"|"right"|"bottom";title?:React.ReactNode;children?:React.ReactNode;returnFocusRef?:React.RefObject<HTMLElement|null>}) {
  const dialog=useRef<HTMLElement>(null),titleId=useId();useDialogBehavior(open,dialog,onClose,returnFocusRef);
  if(!open||typeof document==="undefined")return null;
+ // eslint-disable-next-line jsx-a11y/no-static-element-interactions -- pointer-only backdrop dismissal; keyboard users close with Escape (useDialogBehavior) or the close button
  return createPortal(<div className="maataa-root m-modal-backdrop" onMouseDown={event=>{if(event.currentTarget===event.target)onClose();}}>
   <aside ref={dialog} tabIndex={-1} className="m-drawer" data-side={side} role="dialog" aria-modal="true" aria-label={!title?"Drawer":undefined} aria-labelledby={title?titleId:undefined}>
    <div style={{padding:16,display:"flex",justifyContent:"space-between"}}>{title&&<strong id={titleId}>{title}</strong>}<Button variant="ghost" aria-label="Close drawer" onClick={onClose}>×</Button></div><div style={{padding:16}}>{children}</div>
@@ -36,12 +38,14 @@ export function Popover({trigger,children,open:controlled,onOpenChange}:{trigger
  const setOpen=useCallback((value:boolean)=>{if(controlled===undefined)setInner(value);onOpenChange?.(value);},[controlled,onOpenChange]);
  useEffect(()=>{if(!open)return;panel.current?.querySelector<HTMLElement>('button,input,a[href],[tabindex="0"]')?.focus();const outside=(event:MouseEvent)=>{if(!ref.current?.contains(event.target as Node))setOpen(false);};document.addEventListener("mousedown",outside);return()=>document.removeEventListener("mousedown",outside);},[open,setOpen]);
  const original=trigger.props as {onClick?:(event:React.MouseEvent)=>void};
- return <span ref={ref} style={{position:"relative",display:"inline-block"}} onBlur={event=>{if(!event.currentTarget.contains(event.relatedTarget as Node|null))setOpen(false);}} onKeyDown={event=>{if(event.key==="Escape"&&open){event.preventDefault();setOpen(false);ref.current?.querySelector<HTMLElement>('[data-popover-trigger]')?.focus();}}}>
+ // eslint-disable-next-line jsx-a11y/no-static-element-interactions -- container only observes focus/keyboard events bubbling from its focusable trigger and content (close on blur-out / Escape)
+ return <span ref={ref} style={{position:"relative",display:"inline-block"}} onBlur={event=>{if(!event.currentTarget.contains(event.relatedTarget))setOpen(false);}} onKeyDown={event=>{if(event.key==="Escape"&&open){event.preventDefault();setOpen(false);ref.current?.querySelector<HTMLElement>('[data-popover-trigger]')?.focus();}}}>
  {React.cloneElement(trigger as React.ReactElement<React.HTMLAttributes<HTMLElement>>,{onClick:event=>{original.onClick?.(event);if(!event.defaultPrevented)setOpen(!open);},"aria-expanded":open,"aria-controls":open?id:undefined,...{"data-popover-trigger":true}})}
  {open&&<div id={id} ref={panel} className="m-popover">{children}</div>}</span>;
 }
 export function Tooltip({content,children}:{content:React.ReactNode;children:React.ReactElement}) {
  const[open,setOpen]=useState(false),id=useId();const describedBy=(children.props as {"aria-describedby"?:string})["aria-describedby"];
+ // eslint-disable-next-line jsx-a11y/no-static-element-interactions -- container only observes hover/focus bubbling from its focusable trigger to show the tooltip
  return <span style={{position:"relative",display:"inline-flex"}} onMouseEnter={()=>setOpen(true)} onMouseLeave={()=>setOpen(false)} onFocus={()=>setOpen(true)} onBlur={()=>setOpen(false)} onKeyDown={event=>{if(event.key==="Escape")setOpen(false);}}>
  {React.cloneElement(children as React.ReactElement<{"aria-describedby"?:string}>,{"aria-describedby":[describedBy,open?id:undefined].filter(Boolean).join(" ")||undefined})}
  {open&&<span id={id} role="tooltip" className="m-popover" style={{insetBlockEnd:"calc(100% + 6px)",insetInlineStart:"50%",translate:"-50% 0",whiteSpace:"nowrap"}}>{content}</span>}</span>;

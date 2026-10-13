@@ -1,5 +1,5 @@
 import * as React from "react";
-import { MAATAA_WORKSPACE_PROJECTS_KEY, readLocalWorkspaceProjects, type MaataaWorkspaceProject } from "../../apps/shared/maataa-workspace";
+import { readLocalWorkspaceProjects, type MaataaWorkspaceProject } from "../../apps/shared/maataa-workspace";
 const TlpsWorkflow = React.lazy(() => import("./TlpsWorkflow").then(module => ({ default: module.TlpsWorkflow })));
 const TlpsSurfaces = React.lazy(() => import("./TlpsSurfaces").then(module => ({ default: module.TlpsSurfaces })));
 const ThemeStudio = React.lazy(() => import("./ThemeStudio").then(module => ({ default: module.ThemeStudio })));
@@ -20,7 +20,6 @@ import {
   selectLayout,
   selectPage,
   selectTool,
-  selectUnreadNotificationCount,
   selectUI,
   selectWorkspace,
 } from "@maataa/ui/redux/selectors/coreSelectors";
@@ -39,12 +38,6 @@ import {
   PUBLIC_SURFACE_ROUTES,
   PUBLIC_SURFACE_SUPPORT_CATEGORIES,
 } from "@maataa/ui/demo/publicSurface";
-import { DEMO_AGENTS, DEMO_EVALUATIONS } from "@maataa/ui/static-data/demoAI";
-import { DEMO_EVENTS } from "@maataa/ui/static-data/demoEvents";
-import { DEMO_FINANCE_KPIS } from "@maataa/ui/static-data/demoFinance";
-import { DEMO_PROJECTS } from "@maataa/ui/static-data/demoProjects";
-import { DEMO_TASKS } from "@maataa/ui/static-data/demoTasks";
-import { DEMO_USERS } from "@maataa/ui/static-data/demoUsers";
 import { DEMO_IDENTITIES } from "@maataa/ui/static-data/demoIdentities";
 import { AI_SPACE_REGISTRY } from "@maataa/ui/registries/aiSpaceRegistry";
 import { ACTOR_REGISTRY } from "@maataa/ui/registries/actorRegistry";
@@ -71,11 +64,9 @@ import { Card } from "@maataa/ui/surfaces/Card";
 import { Badge } from "@maataa/ui/feedback/Badge";
 import { EmptyState, ErrorState, Skeleton } from "@maataa/ui/feedback";
 import { Tabs } from "@maataa/ui/navigation/Tabs";
-import { SmartphoneFrame } from "@maataa/ui/devices/SmartphoneFrame";
 import { DeviceSurface } from "@maataa/ui/devices/DeviceSurface";
 import { IdentityAvatar } from "@maataa/ui/identity/IdentityAvatar";
 import { IdentityAvatarGroup } from "@maataa/ui/identity/IdentityAvatarGroup";
-import { IdentityBadge } from "@maataa/ui/identity/IdentityBadge";
 import { MaataaIcon, type MaataaIconName } from "@maataa/ui/icons/MaataaIcon";
 import { ActualComponentPreview } from "./ActualComponentPreview";
 import { ComponentPropInspector, VisualComposer, parseCompositionInput } from "@maataa/ui/composer";
@@ -90,7 +81,6 @@ import { DemoExperience } from "./DemoExperiences";
 import { deleteComposition, duplicateComposition, emptyCompositionLibrary, loadCompositionLibrary, restoreCompositionRevision, saveComposition, writeCompositionLibrary, type CompositionLibraryV1 } from "./compositionLibrary";
 import { readStoredText } from "@maataa/ui/compounds";
 
-const money = new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
 
 type AnyRecord = Record<string, unknown>;
 type DemoLocale = "en-IN" | "hi-IN";
@@ -477,6 +467,7 @@ function DevicePreview({ item }: { item: CatalogItem }) {
 function GeneratorPreview({ item }: { item: CatalogItem }) {
   const slice = createGeneratorDataSlice(item.id);
   const [brief, setBrief] = React.useState(slice.initialInput);
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- slice is derived from item.id; reset the brief only when the selected generator changes
   React.useEffect(() => setBrief(slice.initialInput), [item.id]);
   return <div className="tool-preview catalog-slice-preview" data-generator-id={item.id} data-generator-slice={slice.domain} data-generator-reference={slice.reference}>
     <div className="tool-preview-head"><Badge tone="info">SYNTHETIC GENERATOR DATA · {slice.family}</Badge><h3>{slice.title}</h3></div>

@@ -1,6 +1,6 @@
 import React from "react";
 import { cx } from "../utils";
-import { LayoutRoot, LayoutHeader, LayoutFooter, LayoutMain, LayoutSidebar, LayoutSecondarySidebar, LayoutRail, LayoutToolbar, LayoutInspector, LayoutCanvas, LayoutDock, LayoutHero, LayoutTimeline, LayoutNav, LayoutActions, LayoutPanel, LayoutStage, LayoutPreview, LayoutPalette, LayoutProperties, LayoutStatusBar, LayoutBottomNav, LayoutFilters, LayoutList, LayoutDetails } from "../layout-atoms";
+import { LayoutRoot, LayoutHeader, LayoutFooter, LayoutMain, LayoutSidebar, LayoutSecondarySidebar, LayoutRail, LayoutToolbar, LayoutInspector, LayoutCanvas, LayoutDock, LayoutHero, LayoutTimeline, LayoutNav, LayoutActions, LayoutStage, LayoutPreview, LayoutPalette, LayoutProperties, LayoutStatusBar, LayoutBottomNav, LayoutFilters, LayoutList, LayoutDetails } from "../layout-atoms";
 
 import { atomClass } from "./layoutAtom";
 import { LAYOUT_READING_ORDER } from "./layoutReadingOrder.generated";

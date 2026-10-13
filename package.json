@@ -427,6 +427,7 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.10.0",
+    "@eslint/js": "^9.39.5",
     "@playwright/test": "^1.52.0",
     "@storybook/addon-a11y": "8.6.18",
     "@storybook/addon-essentials": "8.6.18",
@@ -443,11 +444,16 @@
     "electron": "^44.5.1",
     "electron-builder": "^26.17.0",
     "eslint": "^9.0.0",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "globals": "^16.5.0",
     "jsdom": "^26.0.0",
     "prettier": "^3.5.0",
     "react-redux": "^9.2.0",
     "storybook": "8.6.18",
     "typescript": "^5.8.0",
+    "typescript-eslint": "^8.71.2",
     "vite": "^6.0.0",
     "vitest": "4.1.11"
   },
@@ -537,7 +543,9 @@
     "docs:generate": "node scripts/generate-canonical-docs.mjs",
     "docs:check": "node scripts/generate-canonical-docs.mjs --check",
     "certify:enterprise": "node scripts/certify-enterprise.mjs",
-    "performance:runtime": "node scripts/measure-runtime-performance.mjs"
+    "performance:runtime": "node scripts/measure-runtime-performance.mjs",
+    "lint": "eslint . --max-warnings 0",
+    "lint:fix": "eslint . --fix"
   },
   "engines": {
     "node": ">=20"

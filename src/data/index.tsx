@@ -1,6 +1,5 @@
 import React, { useMemo } from "react";
 import { cx } from "../utils";
-import { Button } from "../actions";
 import { Input } from "../forms";
 import { EmptyState } from "../feedback";
 export const Table=(p:React.TableHTMLAttributes<HTMLTableElement>)=><div className="m-table-wrap"><table {...p} className={cx("m-table m-ui",p.className)}/></div>;
@@ -48,6 +47,7 @@ export function DataTable<T extends {id?:string|number}>({data,columns,empty="No
 }
 export function TableToolbar({search,onSearchChange,actions,placeholder="Search"}:{search?:string;onSearchChange?:(v:string)=>void;actions?:React.ReactNode;placeholder?:string}){return <div style={{display:"flex",gap:8,justifyContent:"space-between",alignItems:"center",marginBlockEnd:8}}>{onSearchChange&&<Input type="search" aria-label={placeholder} placeholder={placeholder} value={search??""} onChange={e=>onSearchChange(e.target.value)} style={{maxWidth:320}}/>}<div style={{display:"flex",gap:8}}>{actions}</div></div>}
 export const FilterBar=TableToolbar;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- public List prop: unknown would stop callers' typed renderItem callbacks from being assignable (breaking change)
 export function List({items,renderItem,label="List"}:{items:unknown[];renderItem:(item:any,index:number)=>React.ReactNode;label?:string}){return <ul aria-label={label} style={{margin:0,paddingInlineStart:20}}>{items.map((i,n)=><li key={n}>{renderItem(i,n)}</li>)}</ul>}
 export function DescriptionList({items}:{items:Array<{term:React.ReactNode;description:React.ReactNode}>}){return <dl style={{display:"grid",gridTemplateColumns:"max-content 1fr",gap:"8px 16px"}}>{items.flatMap((i,n)=>[<dt key={`t${n}`} style={{fontWeight:600}}>{i.term}</dt>,<dd key={`d${n}`} style={{margin:0}}>{i.description}</dd>])}</dl>}
 export function Timeline({items}:{items:Array<{id:string;title:React.ReactNode;description?:React.ReactNode;time?:React.ReactNode}>}){return <ol style={{listStyle:"none",margin:0,padding:0}}>{items.map(i=><li key={i.id} style={{padding:"0 0 16px 20px",borderInlineStart:"2px solid var(--m-border)",position:"relative"}}><span aria-hidden="true" style={{position:"absolute",inlineSize:8,blockSize:8,borderRadius:"50%",background:"var(--m-primary)",insetInlineStart:-5,insetBlockStart:6}}/><strong>{i.title}</strong>{i.time&&<small style={{display:"block",color:"var(--m-muted)"}}>{i.time}</small>}{i.description&&<div>{i.description}</div>}</li>)}</ol>}

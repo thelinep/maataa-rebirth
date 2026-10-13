@@ -21,7 +21,9 @@ function createFilteredSelector<T extends { id: string }>(records: readonly T[],
     ],
     (query, facet) => records.filter((item) => {
       const record = item as DemoRecord;
+      // eslint-disable-next-line @typescript-eslint/no-base-to-string -- demo records hold scalar fields; String() coercion for search matching is existing behaviour
       const matchesQuery = !query || searchFields.some((field) => String(record[field] ?? "").toLowerCase().includes(query));
+      // eslint-disable-next-line @typescript-eslint/no-base-to-string -- demo records hold scalar fields; String() coercion for facet matching is existing behaviour
       const matchesFacet = !facet || String(record[facetField] ?? "") === facet;
       return matchesQuery && matchesFacet;
     }),

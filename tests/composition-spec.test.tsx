@@ -13,12 +13,12 @@ describe("shared composition spec",()=>{
   expect(parseCompositionInput(JSON.stringify(spec))).toEqual(spec);expect(acceptCompositionProposal(spec).explanation).toMatch(/recorded compatibility evidence/);
  });
  it.each([null,{}, {blocks:[]}, {...DEFAULT_COMPOSER_SCENE,schemaVersion:"2"},{...DEFAULT_COMPOSER_SCENE,blocks:[{id:"a",kind:"invented",props:{}}]},{...DEFAULT_COMPOSER_SCENE,jsx:"alert(1)"}])("rejects malformed or AI-invented input without rendering",input=>{
-  expect(validateCompositionSpec(input).accepted).toBe(false);expect(()=>parseCompositionInput(JSON.stringify(input))).toThrow();expect(validateCompositionKernel(input as any).valid).toBe(false);
+  expect(validateCompositionSpec(input).accepted).toBe(false);expect(()=>parseCompositionInput(JSON.stringify(input))).toThrow();expect(validateCompositionKernel(input as never).valid).toBe(false);
  });
  it("rejects accessor input without reading it, cycles and unsafe keys",()=>{
   const getter=vi.fn(()=>"unexpected");const value={...DEFAULT_COMPOSER_SCENE};Object.defineProperty(value,"name",{get:getter});
   expect(validateCompositionSpec(value).accepted).toBe(false);expect(getter).not.toHaveBeenCalled();
-  const cycle:any={};cycle.self=cycle;expect(isCompositionData(cycle)).toBe(false);
+  const cycle:Record<string,unknown>={};cycle.self=cycle;expect(isCompositionData(cycle)).toBe(false);
   expect(isCompositionData(JSON.parse('{"__proto__":{"polluted":true}}'))).toBe(false);
  });
  it("does not invent component IDs or silently permit binding substitutions",()=>{
@@ -45,7 +45,7 @@ describe("shared composition spec",()=>{
 import { CompositionRuntime } from "../src/runtime/CompositionRuntime";
 import { loadPersistedMaataaState } from "../src/redux/persistence";
 it("cannot bypass runtime validation with a valid override",()=>{
- render(<CompositionRuntime scene={null as any} validation={{valid:true}}/>);expect(screen.getByRole("alert")).toHaveTextContent("invalid");
+ render(<CompositionRuntime scene={null as never} validation={{valid:true}}/>);expect(screen.getByRole("alert")).toHaveTextContent("invalid");
 });
 it("ignores corrupt persisted scenes rather than trusting parsed JSON",()=>{
  const storage={getItem:()=>JSON.stringify({builder:{present:{blocks:null},past:[],future:[]}})} as unknown as Storage;

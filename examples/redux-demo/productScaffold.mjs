@@ -49,7 +49,7 @@ export function previewProductScaffold(input) {
   };
   const files = [
     { path: "package.json", content: "" },
-    { path: "index.html", content: "<!doctype html>\n<html lang=\"en\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1.0\"/><title>" + project.name.replace(/[&<>\"']/g, "") + "</title></head><body><div id=\"root\"></div><script type=\"module\" src=\"/src/main.tsx\"></script></body></html>\n" },
+    { path: "index.html", content: "<!doctype html>\n<html lang=\"en\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1.0\"/><title>" + project.name.replace(/[&<>"']/g, "") + "</title></head><body><div id=\"root\"></div><script type=\"module\" src=\"/src/main.tsx\"></script></body></html>\n" },
     { path: "src/main.tsx", content: 'import React from "react";\nimport { createRoot } from "react-dom/client";\nimport "@maataa/ui/styles.css";\nimport { App } from "./App";\nimport "./style.css";\ncreateRoot(document.getElementById("root")!).render(<React.StrictMode><App /></React.StrictMode>);\n' },
     { path: "src/product.ts", content: "export const product = " + JSON.stringify({ name: project.name, idea: project.idea, audience: project.audience, features: project.nodes, openQuestions: project.unknowns, source: "reviewed product graph" }, null, 2) + " as const;\n" },
     { path: "src/App.tsx", content: appComponent() },

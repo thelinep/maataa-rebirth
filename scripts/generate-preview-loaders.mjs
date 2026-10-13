@@ -17,7 +17,7 @@ const eagerPreviewExports = new Map([
 ]);
 
 const source = readFileSync(registryPath, "utf8");
-const importPaths = [...source.matchAll(/"importPath"\s*:\s*"(@maataa\/ui\/[^\"]+)"/g)].map((match) => match[1]);
+const importPaths = [...source.matchAll(/"importPath"\s*:\s*"(@maataa\/ui\/[^"]+)"/g)].map((match) => match[1]);
 const unique = [...new Set(importPaths)];
 
 if (unique.length !== importPaths.length) {

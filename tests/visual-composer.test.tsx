@@ -1,6 +1,6 @@
 import React from "react";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { cleanup, render, screen, within } from "@testing-library/react";
+import { cleanup, render, screen, within, fireEvent } from "@testing-library/react";
 import { VisualComposer } from "../src/composer/VisualComposer";
 import { DEFAULT_COMPOSER_SCENE } from "../src/composer/defaults";
 import type { ComposerScene } from "../src/composer/types";
@@ -23,7 +23,6 @@ describe("canonical composer workflow", () => {
   });
 });
 
-import { fireEvent } from "@testing-library/react";
 import { WORKSPACE_TYPES } from "../src/registries/workspaceRegistry";
 import { PAGE_TYPES } from "../src/registries/pageRegistry";
 import { DEVICE_REGISTRY } from "../src/registries/deviceRegistry";

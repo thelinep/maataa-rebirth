@@ -76,6 +76,7 @@ describe("generator workbench", () => {
     expect(GENERATOR_REGISTRY).toHaveLength(208);
     for (const record of GENERATOR_REGISTRY) {
       const Generator = generators[
+        // eslint-disable-next-line import/namespace -- iterates every registry record by name; the test itself asserts each lookup exists
         record.component as keyof typeof generators
       ] as React.ComponentType<Record<string, unknown>> | undefined;
       expect(

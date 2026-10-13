@@ -6,7 +6,7 @@ import type { ComposerBlockKind, ComposerScene } from "../../composer/types";
 
 export interface BuilderState { past:ComposerScene[]; present:ComposerScene; future:ComposerScene[]; selectedBlockId:string|null; nextBlockNumber:number; persistenceEnabled:boolean; }
 export const initialBuilderState:BuilderState={past:[],present:DEFAULT_COMPOSER_SCENE,future:[],selectedBlockId:DEFAULT_COMPOSER_SCENE.blocks[0]?.id??null,nextBlockNumber:6,persistenceEnabled:true};
-function snapshot(scene:ComposerScene){return JSON.parse(JSON.stringify(current(scene) as ComposerScene)) as ComposerScene}
+function snapshot(scene:ComposerScene){return JSON.parse(JSON.stringify(current(scene))) as ComposerScene}
 function commit(state:BuilderState,next:ComposerScene){state.past.push(snapshot(state.present));if(state.past.length>60)state.past.shift();state.present=updateCompositionSpec({...next,updatedAt:new Date().toISOString()});state.future=[];}
 const slice=createSlice({name:"builder",initialState:initialBuilderState,reducers:{
   setScene:(s,a:PayloadAction<ComposerScene>)=>{if(!validateComposerScene(a.payload).valid)throw new Error("Invalid composition scene");commit(s,a.payload)},

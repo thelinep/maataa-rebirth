@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import { readdir, readFile, writeFile } from "node:fs/promises";
+import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import url from "node:url";
 const root = path.resolve(path.dirname(url.fileURLToPath(import.meta.url)), "..");
