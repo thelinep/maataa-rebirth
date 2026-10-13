@@ -3,6 +3,7 @@ import { loadPreviewLoader } from "./previewLoaders.generated";
 
 type PreviewItem = { id: string; name: string; meta?: string; importPath?: string };
 type RuntimeModule = Record<string, unknown>;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- previews arbitrary registry exports whose props are not known at compile time
 type RuntimeComponent = React.ElementType<any>;
 
 function isElementType(value: unknown): value is RuntimeComponent {
@@ -96,17 +97,17 @@ function ActualSpecimen({ Component, item, overrides = {} }: { Component: Runtim
     case "Blockquote": return <Component>Actual Blockquote rendered from the selected export.</Component>;
     case "Caption": return <Component>Actual Caption specimen</Component>;
     case "Truncate": return <div style={{width:260}}><Component>This is deliberately long text rendered through the actual Truncate export so overflow behavior can be seen.</Component></div>;
-    case "Button": return <div className="actual-preview-row"><Component variant={(overrides.variant as any) ?? "primary"} disabled={Boolean(overrides.disabled)} loading={Boolean(overrides.loading)}>{String(overrides.children ?? "Actual primary Button")}</Component><Component variant="secondary">Secondary</Component><Component variant="ghost">Ghost</Component></div>;
+    case "Button": return <div className="actual-preview-row"><Component variant={overrides.variant ?? "primary"} disabled={Boolean(overrides.disabled)} loading={Boolean(overrides.loading)}>{String(overrides.children ?? "Actual primary Button")}</Component><Component variant="secondary">Secondary</Component><Component variant="ghost">Ghost</Component></div>;
     case "IconButton": return <Component aria-label="Actual icon button">★</Component>;
     case "ButtonGroup": return <Component><button className="m-button">One</button><button className="m-button">Two</button><button className="m-button">Three</button></Component>;
     case "ToggleButton": return <Component pressed={checked} onPressedChange={setChecked}>{checked?"Pressed":"Not pressed"}</Component>;
-    case "ToggleGroup": return <Component value={selected} onValueChange={(v:any)=>setSelected(String(v))} items={[{value:"one",label:"One"},{value:"two",label:"Two"},{value:"three",label:"Three"}]}/>;
+    case "ToggleGroup": return <Component value={selected} onValueChange={(v:unknown)=>setSelected(String(v))} items={[{value:"one",label:"One"},{value:"two",label:"Two"},{value:"three",label:"Three"}]}/>;
     case "LinkButton": return <Component href="#/playground">Actual LinkButton</Component>;
     case "CommandButton": return <Component shortcut="⌘K">Actual CommandButton</Component>;
     case "SplitButton": return <Component label="Actual SplitButton" items={[{label:"Duplicate",onSelect:()=>{}},{label:"Archive",onSelect:()=>{}}]}/>;
     case "Input": case "SearchInput": case "NumberInput": case "DatePicker": case "TimePicker": case "ColorPicker":
-      return <Component aria-label={`${name} preview`} value={String(overrides.value ?? (name==="NumberInput"?"42":text))} placeholder={String(overrides.placeholder ?? "")} disabled={Boolean(overrides.disabled)} onChange={(e:any)=>setText(e.target.value)}/>;
-    case "Textarea": return <Component value={text} onChange={(e:any)=>setText(e.target.value)} rows={5}/>;
+      return <Component aria-label={`${name} preview`} value={String(overrides.value ?? (name==="NumberInput"?"42":text))} placeholder={String(overrides.placeholder ?? "")} disabled={Boolean(overrides.disabled)} onChange={(e:React.ChangeEvent<HTMLInputElement>)=>setText(e.target.value)}/>;
+    case "Textarea": return <Component value={text} onChange={(e:React.ChangeEvent<HTMLTextAreaElement>)=>setText(e.target.value)} rows={5}/>;
     case "PasswordInput": return <Component defaultValue="maataa-demo"/>;
     case "Checkbox": return <Component label="Actual Checkbox" checked={checked} onChange={()=>setChecked(!checked)}/>;
     case "Radio": return <Component label="Actual Radio" checked readOnly name="actual-radio"/>;
@@ -115,7 +116,7 @@ function ActualSpecimen({ Component, item, overrides = {} }: { Component: Runtim
     case "NativeSelect": case "Select": return <Component defaultValue="two"><option value="one">One</option><option value="two">Two</option><option value="three">Three</option></Component>;
     case "RadioGroup": return <Component label="Actual RadioGroup" name="preview-radio" value={selected} onValueChange={setSelected} options={[{value:"one",label:"One"},{value:"two",label:"Two"},{value:"three",label:"Three"}]}/>;
     case "Combobox": return <Component value={selected} onValueChange={setSelected} options={[{value:"one",label:"Brahmini"},{value:"two",label:"Shiv"},{value:"three",label:"Parvati"}]}/>;
-    case "MultiSelect": return <Component value={[selected]} onValueChange={(v:any)=>setSelected(v[0]??"one")} options={[{value:"one",label:"UI"},{value:"two",label:"Data"},{value:"three",label:"AI"}]}/>;
+    case "MultiSelect": return <Component value={[selected]} onValueChange={(v:string[])=>setSelected(v[0]??"one")} options={[{value:"one",label:"UI"},{value:"two",label:"Data"},{value:"three",label:"AI"}]}/>;
     case "DateRangePicker": return <Component start="2026-10-04" end="2026-10-08"/>;
     case "FieldLabel": return <Component>Actual FieldLabel</Component>;
     case "FieldDescription": return <Component>Actual supporting field description.</Component>;
@@ -137,7 +138,7 @@ function ActualSpecimen({ Component, item, overrides = {} }: { Component: Runtim
     case "Popover": return <Component trigger={<button className="m-button">Open actual Popover</button>}><div style={{padding:12}}>Popover content</div></Component>;
     case "Tooltip": case "HoverCard": return <Component content={`Actual ${name}`}><button className="m-button">Hover or focus me</button></Component>;
     case "Panel": case "Surface": return <Component><strong>Actual {name}</strong><p>This content is a child of the selected export.</p></Component>;
-    case "Badge": case "Tag": case "Chip": return <div className="actual-preview-row"><Component tone={(overrides.tone as any) ?? undefined}>{String(overrides.children ?? "Default")}</Component><Component tone="info">Info</Component><Component tone="success">Success</Component><Component tone="warning">Warning</Component></div>;
+    case "Badge": case "Tag": case "Chip": return <div className="actual-preview-row"><Component tone={overrides.tone ?? undefined}>{String(overrides.children ?? "Default")}</Component><Component tone="info">Info</Component><Component tone="success">Success</Component><Component tone="warning">Warning</Component></div>;
     case "Progress": case "ProgressBar": return <Component value={68}/>;
     case "Spinner": return <Component/>;
     case "Skeleton": return <Component style={{width:300,height:24}}/>;
@@ -146,7 +147,7 @@ function ActualSpecimen({ Component, item, overrides = {} }: { Component: Runtim
     case "Table": return <Component><thead><tr><th>Name</th><th>Status</th></tr></thead><tbody><tr><td>Surface registry</td><td>Verified</td></tr><tr><td>Preview runtime</td><td>Actual</td></tr></tbody></Component>;
     case "DataTable": return <Component data={[{id:1,name:"Surface registry",status:"verified"},{id:2,name:"Preview runtime",status:"actual"},{id:3,name:"Evidence",status:"ready"}]} columns={[{id:"name",header:"Name"},{id:"status",header:"Status"}]}/>;
     case "DescriptionList": return <Component items={[{term:"Export",description:item.name},{term:"Source",description:item.importPath??"—"},{term:"Mode",description:"actual runtime"}]}/>;
-    case "List": return <Component items={["Foundation","Composition","Evidence"]} renderItem={(value:any)=>String(value)}/>;
+    case "List": return <Component items={["Foundation","Composition","Evidence"]} renderItem={(value:unknown)=>String(value)}/>;
     case "Timeline": return <Component items={[{id:"1",title:"Module resolved",time:"10:21"},{id:"2",title:"Export rendered",time:"10:22"},{id:"3",title:"Specimen interactive",time:"10:23"}]}/>;
     case "Stat": case "Metric": case "KPI": return <Component label="Actual metric" value="92%" helper="package-owned component"/>;
     case "Tree": return <Component><li>Foundation</li><li>Actions</li><li>Forms</li></Component>;

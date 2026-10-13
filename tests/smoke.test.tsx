@@ -1,7 +1,7 @@
 import React from "react";
 import { describe, expect, it, vi } from "vitest";
 import { fireEvent, render, screen } from "@testing-library/react";
-import { UiProvider, Button, FormField, Input, Modal, Tabs, DataTable, ThemeProvider, ThemeToggle } from "../src";
+import { UiProvider, Button, FormField, Input, Modal, Tabs, DataTable } from "../src";
 
 describe("@maataa/ui smoke", () => {
   it("renders core package surface", () => {

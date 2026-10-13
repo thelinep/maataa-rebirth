@@ -28,6 +28,7 @@ export function Heading({
 }
 
 export function Label(props: React.LabelHTMLAttributes<HTMLLabelElement>) {
+  // eslint-disable-next-line jsx-a11y/label-has-associated-control -- generic label primitive: htmlFor and text are supplied by the caller through props
   return <label className={cx("m-ui m-field-label", props.className)} {...props} />;
 }
 
@@ -70,6 +71,7 @@ export function Kbd(props: React.HTMLAttributes<HTMLElement>) {
 
 export function Link(props: React.AnchorHTMLAttributes<HTMLAnchorElement>) {
   return (
+    // eslint-disable-next-line jsx-a11y/anchor-has-content -- link text arrives as children through the spread props
     <a
       className={cx("m-ui", props.className)}
       style={{ color: "var(--m-primary)", textUnderlineOffset: 3, ...props.style }}

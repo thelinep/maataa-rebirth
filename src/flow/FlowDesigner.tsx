@@ -187,7 +187,7 @@ function DesignerInner({ value, onChange, label = "Flow designer", readOnly = fa
         <p className="m-flow-heading">Nodes ({value.nodes.length})</p>
         <ul className="m-flow-list" aria-label="Nodes">
           {value.nodes.map((node) => (
-            <li key={node.id}><button type="button" aria-pressed={node.id === selectedId} onClick={() => { setSelectedId(node.id); flow.setCenter(node.position.x + 75, node.position.y + 20, { duration: 200 }); }}>{node.label}<small>{types.find((t) => t.type === node.type)?.label}</small></button></li>
+            <li key={node.id}><button type="button" aria-pressed={node.id === selectedId} onClick={() => { setSelectedId(node.id); void flow.setCenter(node.position.x + 75, node.position.y + 20, { duration: 200 }); }}>{node.label}<small>{types.find((t) => t.type === node.type)?.label}</small></button></li>
           ))}
         </ul>
         <p className="m-flow-heading">Connections ({value.edges.length})</p>

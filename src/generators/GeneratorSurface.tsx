@@ -41,6 +41,7 @@ export type GeneratorSurfaceProps = React.HTMLAttributes<HTMLDivElement> & {
   evidence?: React.ReactNode;
   status?: React.ReactNode;
   footer?: React.ReactNode;
+  // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents -- documents that async handlers are accepted; type-identical to unknown and part of the public props
   onGenerate?: (request: GeneratorRequest) => unknown | Promise<unknown>;
 };
 
@@ -146,7 +147,10 @@ export function GeneratorSurface({
       {description !== undefined && (
         <GeneratorDescription>{description}</GeneratorDescription>
       )}
-      <form className="m-generator-workbench" onSubmit={handleGenerate}>
+      <form
+        className="m-generator-workbench"
+        onSubmit={(event) => void handleGenerate(event)}
+      >
         {inputs !== undefined && <GeneratorInputs>{inputs}</GeneratorInputs>}
         <GeneratorInputs>
           <label className="m-generator-field">

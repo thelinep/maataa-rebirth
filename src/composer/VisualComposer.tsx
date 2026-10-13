@@ -68,17 +68,19 @@ export function VisualComposer({scene,selectedBlockId=null,canUndo,canRedo,onSce
       <ComboboxControl label="Page" value={scene.pageTypeId} options={options(PAGE_TYPES,recommendedPages)} onValueChange={value=>select("pageTypeId",value)}/>
       <ComboboxControl label="Layout" value={scene.layoutTypeId} options={options(LAYOUT_TYPES,recommendedLayouts)} onValueChange={value=>select("layoutTypeId",value)}/>
       <ComboboxControl label="Device" value={scene.deviceId} options={options(DEVICE_REGISTRY)} onValueChange={value=>select("deviceId",value)}/>
-      <label>State<Select value={scene.stateMode} onChange={(e)=>commit({...scene,stateMode:e.target.value as any})}>{["default","loading","empty","error","disabled","offline","success"].map((x)=><option key={x}>{x}</option>)}</Select></label>
+      <label>State<Select value={scene.stateMode} onChange={(e)=>commit({...scene,stateMode:e.target.value as ComposerScene["stateMode"]})}>{["default","loading","empty","error","disabled","offline","success"].map((x)=><option key={x}>{x}</option>)}</Select></label>
     </div>
     <div className="m-composer-grid">
       <aside className="m-composer-palette"><small>PALETTE</small>{palette.map((item)=><button key={item.kind} draggable onDragStart={(e)=>e.dataTransfer.setData("maataa/palette",item.kind)} onClick={()=>add(item.kind)}>+ {item.label}</button>)}</aside>
       <div className="m-composer-canvas" onDragOver={(e)=>e.preventDefault()} onDrop={(e)=>{const kind=e.dataTransfer.getData("maataa/palette") as ComposerBlockKind;if(palette.some((p)=>p.kind===kind))add(kind)}}>
+        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- pointer selection of a canvas node; no keyboard equivalent yet (known accessibility gap, follow-up; adding one changes behaviour) */}
         {scene.blocks.map((block)=><div key={block.id} draggable={!block.locked} className="m-composer-node" data-selected={block.id===selectedBlockId} data-hidden={block.hidden||undefined} onClick={()=>onSelectBlock?.(block.id)} onDragStart={()=>{if(!block.locked)setDragId(block.id)}} onDragOver={(e)=>e.preventDefault()} onDrop={()=>{if(dragId)move(dragId,block.id);setDragId(null)}}>
           <div className="m-composer-node-head"><span>{block.kind} · {block.id}</span><div><button onClick={(e)=>{e.stopPropagation();duplicate(block)}}>Duplicate</button><button onClick={(e)=>{e.stopPropagation();commit({...scene,blocks:scene.blocks.map((b)=>b.id===block.id?{...b,hidden:!b.hidden}:b)})}}>{block.hidden?"Show":"Hide"}</button><button onClick={(e)=>{e.stopPropagation();remove(block.id)}}>Delete</button></div></div>
           {!block.hidden && <div className="m-composer-node-body"><ComposerBlockView block={block} disabled={scene.stateMode==="disabled"}/></div>}
         </div>)}
         {scene.blocks.length===0 && <div className="m-composer-drop-empty">Drop a palette item here.</div>}
       </div>
+      {/* eslint-disable-next-line @typescript-eslint/no-base-to-string -- composer props are untyped JSON values; String() coercion of non-string values is existing behaviour (follow-up: an object value renders as [object Object]) */}
       <aside className="m-composer-inspector"><small>INSPECTOR</small>{selected?<><strong>{selected.kind}</strong><code>{selected.id}</code>{Object.entries(selected.props).map(([key,value])=><label key={key}><span>{key}</span>{typeof value==="boolean"?<input type="checkbox" checked={value} onChange={(e)=>updateSelected({[key]:e.target.checked})}/>:<Input value={String(value??"")} onChange={(e)=>updateSelected({[key]:key==="level"?Number(e.target.value):e.target.value})}/>}</label>)}</>:<p>Select a block on the canvas.</p>}<hr/><details><summary>Validation</summary>{issues.length===0?<p>No issues.</p>:issues.map((i)=><p key={`${i.code}-${i.blockId??"scene"}`} data-level={i.level}>{i.level}: {i.message}</p>)}</details><details><summary>Generated JSX</summary><pre><code>{validation.valid?generateComposerJsx(scene):"Correct scene errors before exporting JSX."}</code></pre></details></aside>
     </div>
   </div>;

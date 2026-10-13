@@ -22,7 +22,9 @@ export function validateComposerScene(scene: ComposerScene): ComposerValidationR
     if (ids.has(block.id)) issues.push({code:"DUPLICATE_BLOCK",level:"error",message:`Duplicate block id ${block.id}`,blockId:block.id});
     ids.add(block.id);
     if(block.componentId!==undefined&&(!has(COMPONENT_REGISTRY,block.componentId)||block.componentId!==COMPOSER_COMPONENT_BINDINGS[block.kind].componentId))issues.push({code:"COMPONENT_BINDING",level:"error",message:"Block component ID does not match its canonical renderer binding.",blockId:block.id});
+    // eslint-disable-next-line @typescript-eslint/no-base-to-string -- composer props are untyped JSON values; String() coercion of non-string values is existing behaviour (follow-up: an object value renders as [object Object])
     if (block.kind === "button" && !String(block.props.label ?? "").trim()) issues.push({code:"BUTTON_LABEL",level:"warning",message:"Button should have a visible label.",blockId:block.id});
+    // eslint-disable-next-line @typescript-eslint/no-base-to-string -- composer props are untyped JSON values; String() coercion of non-string values is existing behaviour (follow-up: an object value renders as [object Object])
     if (block.kind === "input" && !String(block.props.label ?? "").trim()) issues.push({code:"INPUT_NAME",level:"warning",message:"Input should have an accessible label.",blockId:block.id});
   }
   if(scene.regions){

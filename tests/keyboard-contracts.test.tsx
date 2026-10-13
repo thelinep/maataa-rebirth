@@ -2,8 +2,8 @@ import React from "react";
 import { afterEach,describe,expect,it,vi } from "vitest";
 import { cleanup,fireEvent,render,screen,within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { Modal,Drawer } from "../src/surfaces";
-import { Tabs } from "../src/navigation";
+import { Modal,Drawer, Popover,Tooltip } from "../src/surfaces";
+import { Tabs, DropdownMenu,CommandMenu } from "../src/navigation";
 import { Combobox } from "../src/forms";
 afterEach(cleanup);
 describe("dialog focus contracts",()=>{
@@ -50,8 +50,6 @@ describe("combobox keyboard contract",()=>{
  });
 });
 
-import { DropdownMenu,CommandMenu } from "../src/navigation";
-import { Popover,Tooltip } from "../src/surfaces";
 describe("broader interaction contracts",()=>{
  it("opens a menu by keyboard, navigates enabled items and restores trigger focus",async()=>{
   const user=userEvent.setup(),select=vi.fn();render(<DropdownMenu trigger={<button>Actions</button>} items={[{label:"First"},{label:"Disabled",disabled:true},{label:"Last",onSelect:select}]}/>);

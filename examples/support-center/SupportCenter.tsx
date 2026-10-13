@@ -3561,6 +3561,7 @@ export function SupportCenter() {
       )}
 
       {selectedScreenshot && (
+        // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions -- pointer-only backdrop dismissal; Escape closes the lightbox (keydown handler on the window)
         <div
           className="sc-screenshot-lightbox"
           role="dialog"
@@ -3568,6 +3569,7 @@ export function SupportCenter() {
           aria-labelledby="sc-screenshot-title"
           onClick={() => setSelectedScreenshot(null)}
         >
+          {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- only stops backdrop dismissal for clicks inside the content; not an interactive control */}
           <div onClick={(event) => event.stopPropagation()}>
             <button
               type="button"

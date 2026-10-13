@@ -16,14 +16,14 @@ export function updateEditorHistory<T>(history: EditorHistory<T>, next: T): Edit
 
 export function undoEditorHistory<T>(history: EditorHistory<T>): EditorHistory<T> {
   if (history.past.length === 0) return history;
-  const previous = history.past[history.past.length - 1]!;
+  const previous = history.past[history.past.length - 1];
   return { ...history, past: history.past.slice(0, -1), present: previous, future: [history.present, ...history.future].slice(0, history.limit) };
 }
 
 export function redoEditorHistory<T>(history: EditorHistory<T>): EditorHistory<T> {
   if (history.future.length === 0) return history;
   const next = history.future[0];
-  return { ...history, past: [...history.past, history.present].slice(-history.limit), present: next!, future: history.future.slice(1) };
+  return { ...history, past: [...history.past, history.present].slice(-history.limit), present: next, future: history.future.slice(1) };
 }
 
 export function serializeEditorDocument(value: unknown): string {

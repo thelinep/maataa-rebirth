@@ -42,8 +42,7 @@ import { IdeaToScriptPanel } from "./IdeaToScript";
 import { AreaIndex } from "./areas/AreaIndex";
 import { AreaScreen } from "./areas/AreaScreen";
 import { emptyAreaStore, parseAreaStore, TLPS_AREA_STORE_KEY } from "./areas/areaModel";
-import { useStoredValue } from "@maataa/ui/compounds";
-import { readStoredText, removeStoredValue, writeStoredValue } from "@maataa/ui/compounds";
+import { useStoredValue, readStoredText, removeStoredValue, writeStoredValue } from "@maataa/ui/compounds";
 
 const views: { id: TlpsView; label: string; description: string }[] = [
   {

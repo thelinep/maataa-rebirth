@@ -1,7 +1,6 @@
 import { createServer } from "node:http";
 import { readFile, stat } from "node:fs/promises";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 
 const electronRelativePath = "examples/support-center/electron";
 const mimeTypes = new Map([

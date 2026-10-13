@@ -31,7 +31,7 @@ export function ComboboxControl({options,value,onValueChange,placeholder="Search
     if(open) document.getElementById(`${id}-option-${index}`)?.scrollIntoView?.({block:"nearest"});
   },[open,index,id]);
   return <div className="m-search-combobox" onBlur={event=>{
-    if(!event.currentTarget.contains(event.relatedTarget as Node|null)){setOpen(false);setQuery("");}
+    if(!event.currentTarget.contains(event.relatedTarget)){setOpen(false);setQuery("");}
   }}>
     <label htmlFor={`${id}-input`}>{label}</label>
     <Input ref={input} id={`${id}-input`} role="combobox" aria-autocomplete="list" aria-expanded={open}
@@ -50,6 +50,7 @@ export function ComboboxControl({options,value,onValueChange,placeholder="Search
     <small className="m-search-selection" title={value}>{value||"No selection"}</small>
     {open&&<div className="m-search-results">
       <div role="listbox" id={listId} aria-label={`${label} results`}>
+        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/interactive-supports-focus -- options are chosen with arrow keys + Enter on the combobox input via aria-activedescendant (ARIA APG combobox); options are not focused themselves */}
         {filtered.map((option,i)=><div role="option" id={`${id}-option-${i}`} key={option.value}
           aria-selected={option.value===value} data-active={i===index||undefined}
           onMouseDown={event=>event.preventDefault()} onMouseMove={()=>setActive(i)} onClick={()=>choose(option)}>

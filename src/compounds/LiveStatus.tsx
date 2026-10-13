@@ -18,7 +18,7 @@ export function LiveStatus({ message, visible = false, politeness = "polite", cl
 export function useAnnouncer(initial = "") {
   const [message, setMessage] = useState(initial);
   const announce = useCallback((text: string) => {
-    setMessage((current) => (current === text ? `${text} ` : text));
+    setMessage((current) => (current === text ? `${text}\u00a0` : text));
   }, []);
   return [message, announce] as const;
 }

@@ -48,8 +48,8 @@ test("observer listens on its root only and detaches cleanly", () => {
   const globalListeners: string[] = [];
   const winAdd = dom.window.addEventListener.bind(dom.window);
   const docAdd = document.addEventListener.bind(document);
-  dom.window.addEventListener = ((type: string, ...rest: unknown[]) => { globalListeners.push(`window:${type}`); return (winAdd as Function)(type, ...rest); }) as never;
-  document.addEventListener = ((type: string, ...rest: unknown[]) => { globalListeners.push(`document:${type}`); return (docAdd as Function)(type, ...rest); }) as never;
+  dom.window.addEventListener = ((type: string, ...rest: unknown[]) => { globalListeners.push(`window:${type}`); return (winAdd as (...args: unknown[]) => unknown)(type, ...rest); }) as never;
+  document.addEventListener = ((type: string, ...rest: unknown[]) => { globalListeners.push(`document:${type}`); return (docAdd as (...args: unknown[]) => unknown)(type, ...rest); }) as never;
 
   const seen: string[] = [];
   const detach = attachAppLocalPointerObserver(root, (ctx) => seen.push(ctx.label));

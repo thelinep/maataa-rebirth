@@ -121,17 +121,17 @@ export function validateFlowSpec(value: unknown): string[] {
   const nodeType = new Map(value.nodes.filter(isObject).map((n) => [n.id as string, types.get(String(n.type))]));
   for (const edge of value.edges) {
     if (!isObject(edge) || !validId(edge.id) || typeof edge.source !== "string" || typeof edge.target !== "string") { issues.push("A connection is missing its ID, source or target."); continue; }
-    if (edge.label !== undefined && !validLabel(edge.label)) issues.push(`Connection ${edge.id} has an invalid label.`);
-    if (edgeIds.has(edge.id as string)) issues.push(`Connection ID ${edge.id} is used twice.`);
+    if (edge.label !== undefined && !validLabel(edge.label)) issues.push(`Connection ${edge.id as string} has an invalid label.`);
+    if (edgeIds.has(edge.id as string)) issues.push(`Connection ID ${edge.id as string} is used twice.`);
     edgeIds.add(edge.id as string);
-    if (!nodeIds.has(edge.source) || !nodeIds.has(edge.target)) { issues.push(`Connection ${edge.id} points to a missing node.`); continue; }
-    if (edge.source === edge.target) { issues.push(`Connection ${edge.id} connects a node to itself.`); continue; }
-    if (nodeType.get(edge.source)?.canSource === false) issues.push(`Connection ${edge.id} starts at a node that cannot lead anywhere.`);
-    if (nodeType.get(edge.target)?.canTarget === false) issues.push(`Connection ${edge.id} ends at a node nothing can lead into.`);
+    if (!nodeIds.has(edge.source) || !nodeIds.has(edge.target)) { issues.push(`Connection ${edge.id as string} points to a missing node.`); continue; }
+    if (edge.source === edge.target) { issues.push(`Connection ${edge.id as string} connects a node to itself.`); continue; }
+    if (nodeType.get(edge.source)?.canSource === false) issues.push(`Connection ${edge.id as string} starts at a node that cannot lead anywhere.`);
+    if (nodeType.get(edge.target)?.canTarget === false) issues.push(`Connection ${edge.id as string} ends at a node nothing can lead into.`);
     const pair = `${edge.source}→${edge.target}`;
     if (pairs.has(pair)) issues.push(`Two connections join the same nodes (${pair}).`);
     pairs.add(pair);
-    if (value.kind === "workflow" && createsCycle(accepted, edge.source, edge.target)) issues.push(`Connection ${edge.id} creates a loop; workflows must not loop.`);
+    if (value.kind === "workflow" && createsCycle(accepted, edge.source, edge.target)) issues.push(`Connection ${edge.id as string} creates a loop; workflows must not loop.`);
     accepted.push(edge as unknown as FlowEdgeSpec);
   }
   return issues;

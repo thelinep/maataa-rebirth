@@ -36,10 +36,10 @@ it("inventories the active graph with license provenance and excludes stale cach
   expect(report.uninstalledOptional).toHaveLength(1);
   expect(report.uninstalledOptional[0].status).toBe("NOT_APPLICABLE");
   const sbom = read("sbom.json");
-  expect(sbom.components.map((item: any) => item.name)).toEqual(["active"]);
+  expect(sbom.components.map((item: { name: string }) => item.name)).toEqual(["active"]);
   expect(sbom.components[0].licenses[0].license.name).toBe("MIT");
   expect(sbom.components[0].properties[0].value).toBe("active/LICENSE");
-  expect(sbom.dependencies.find((item: any) => item.ref === "pkg:npm/fixture@1.0.0").dependsOn).toEqual(["pkg:npm/active@2.0.0"]);
+  expect(sbom.dependencies.find((item: { ref: string }) => item.ref === "pkg:npm/fixture@1.0.0").dependsOn).toEqual(["pkg:npm/active@2.0.0"]);
   expect(read("licenses.json").reviewStatus).toBe("NOT_RUN");
 });
 

@@ -1,7 +1,5 @@
 import type {
-  EvidenceKind,
   TlpsDraft,
-  TlpsStatus,
 } from "./types";
 import {
   TLPS_CREW_ROLES,

@@ -11,6 +11,7 @@ const appRoot = app.isPackaged
 const desktopServer = createDesktopServer(appRoot);
 const port = 4179;
 const ownsAppLock = app.requestSingleInstanceLock();
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- holds a module-level reference to the open window for the app's lifetime (set on create, cleared on close)
 let mainWindow;
 
 function windowState(window) {

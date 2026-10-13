@@ -17,6 +17,7 @@ export function Tabs({tabs,value,onValueChange}:{tabs:Array<{id:string;label:Rea
  const active=tabs.find(tab=>tab.id===value);const focusId=enabled.some(tab=>tab.id===value)?value:enabled[0]?.id;
  const tabId=(id:string)=>`${prefix}-tab-${tabs.findIndex(tab=>tab.id===id)}`;
  const panelId=(id:string)=>`${prefix}-panel-${tabs.findIndex(tab=>tab.id===id)}`;
+ // eslint-disable-next-line jsx-a11y/interactive-supports-focus -- roving tabindex: focus lives on the role=tab children (ARIA APG tabs pattern), not the tablist
  return <div><div ref={ref} role="tablist" className="m-tabs-list" onKeyDown={event=>{
    if(!["ArrowRight","ArrowLeft","Home","End"].includes(event.key)||!enabled.length)return;
    event.preventDefault();const current=enabled.findIndex(tab=>tabId(tab.id)===(event.target as HTMLElement).id);
@@ -30,6 +31,7 @@ export function Stepper({steps,current}:{steps:Array<{id:string;label:string}>;c
 export function Menu({items,label="Menu"}:{items:Array<{label:React.ReactNode;onSelect?:()=>void;disabled?:boolean}>;label?:string}) {
  const ref=useRef<HTMLDivElement>(null),first=items.findIndex(item=>!item.disabled);
  const [focused,setFocused]=useState(first);
+ // eslint-disable-next-line jsx-a11y/interactive-supports-focus -- roving tabindex: focus lives on the role=menuitem children (ARIA APG menu pattern), not the menu
  return <div ref={ref} role="menu" aria-label={label} style={{display:"grid",gap:2}} onKeyDown={event=>{
   const enabled=Array.from(ref.current?.querySelectorAll<HTMLButtonElement>('[role="menuitem"]:not(:disabled)')??[]);
   if(!enabled.length)return;
@@ -52,7 +54,8 @@ export function DropdownMenu({trigger,items}:{trigger:React.ReactNode;items:Arra
   onClick:(event:React.MouseEvent<HTMLElement>)=>{if(React.isValidElement(trigger))(trigger.props as {onClick?:(event:React.MouseEvent<HTMLElement>)=>void}).onClick?.(event);if(!event.defaultPrevented){setLast(false);setOpen(!open);}},
   onKeyDown:(event:React.KeyboardEvent<HTMLElement>)=>{if(event.key==="ArrowDown"||event.key==="ArrowUp"){event.preventDefault();setLast(event.key==="ArrowUp");setOpen(true);}},
  };
- return <div ref={ref} style={{position:"relative",display:"inline-block"}} onBlur={event=>{if(!event.currentTarget.contains(event.relatedTarget as Node|null))setOpen(false);}} onKeyDown={event=>{if(event.key==="Escape"&&open){event.preventDefault();setOpen(false);focusTrigger();}}}>
+ // eslint-disable-next-line jsx-a11y/no-static-element-interactions -- container only observes focus/keyboard events bubbling from its focusable trigger and menu (close on blur-out / Escape)
+ return <div ref={ref} style={{position:"relative",display:"inline-block"}} onBlur={event=>{if(!event.currentTarget.contains(event.relatedTarget))setOpen(false);}} onKeyDown={event=>{if(event.key==="Escape"&&open){event.preventDefault();setOpen(false);focusTrigger();}}}>
  {React.isValidElement(trigger)?React.cloneElement(trigger as React.ReactElement<React.HTMLAttributes<HTMLElement>>,triggerProps):<button type="button" {...triggerProps}>{trigger}</button>}
  {open&&<div id={id} className="m-popover" style={{insetBlockStart:"calc(100% + 4px)",insetInlineEnd:0}}><Menu items={items.map(item=>({...item,onSelect:()=>{item.onSelect?.();setOpen(false);focusTrigger();}}))}/></div>}
  </div>;
@@ -61,6 +64,7 @@ export const ContextMenu=DropdownMenu;
 export function CommandMenu({open,onOpenChange,items,placeholder="Type a command…"}:{open:boolean;onOpenChange:(v:boolean)=>void;items:Array<{label:string;onSelect:()=>void}>;placeholder?:string}) {
  const[q,setQ]=useState("");const dialog=useRef<HTMLDivElement>(null);useDialogBehavior(open,dialog,()=>onOpenChange(false));
  if(!open||typeof document==="undefined")return null;
+ // eslint-disable-next-line jsx-a11y/no-static-element-interactions -- pointer-only backdrop dismissal; keyboard users close with Escape (useDialogBehavior)
  return createPortal(<div className="maataa-root m-modal-backdrop" onMouseDown={event=>{if(event.currentTarget===event.target)onOpenChange(false);}}><div ref={dialog} tabIndex={-1} className="m-dialog" role="dialog" aria-modal="true" aria-label="Command menu"><input className="m-input" aria-label="Search commands" placeholder={placeholder} value={q} onChange={event=>setQ(event.target.value)}/><Menu items={items.filter(item=>item.label.toLowerCase().includes(q.toLowerCase())).map(item=>({label:item.label,onSelect:()=>{item.onSelect();onOpenChange(false);}}))}/></div></div>,document.body);
 }
 export function BottomNavigation({items,activeId,onSelect}:{items:NavItemData[];activeId?:string;onSelect?:(i:NavItemData)=>void}){return <nav className="m-mobile-bottom" aria-label="Bottom navigation">{items.map(i=><NavItem key={i.id} item={i} active={activeId===i.id} onSelect={onSelect}/>)}</nav>}

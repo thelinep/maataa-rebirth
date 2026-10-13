@@ -1,9 +1,10 @@
-import React, { useId, useMemo, useState } from "react";
+import React, { useId, useState } from "react";
 export { Fieldset, Form, Legend as FieldsetLegend } from "./SemanticForm";
 import { cx } from "../utils";
 import { ComboboxControl } from "../internal/ComboboxControl";
 import { Button } from "../actions";
 export function FormField({label,description,error,required,children,id}:{label?:React.ReactNode;description?:React.ReactNode;error?:React.ReactNode;required?:boolean;children:(ids:{id:string;describedBy?:string;invalid:boolean})=>React.ReactNode;id?:string}){const auto=useId(),fieldId=id??`field-${auto}`,descId=description?`${fieldId}-desc`:undefined,errorId=error?`${fieldId}-error`:undefined,describedBy=[descId,errorId].filter(Boolean).join(" ")||undefined;return <div className="m-field"><>{label&&<label htmlFor={fieldId} className="m-field-label">{label}{required&&<span aria-hidden="true"> *</span>}</label>}</>{children({id:fieldId,describedBy,invalid:!!error})}{description&&<div id={descId} className="m-field-description">{description}</div>}{error&&<div id={errorId} className="m-field-error" role="alert">{error}</div>}</div>}
+// eslint-disable-next-line jsx-a11y/label-has-associated-control -- generic label primitive: htmlFor and text are supplied by the caller through props
 export const FieldLabel=({className,...p}:React.LabelHTMLAttributes<HTMLLabelElement>)=><label className={cx("m-field-label",className)} {...p}/>;
 export const FieldDescription=({className,...p}:React.HTMLAttributes<HTMLDivElement>)=><div className={cx("m-field-description",className)} {...p}/>;
 export const FieldError=({className,...p}:React.HTMLAttributes<HTMLDivElement>)=><div role="alert" className={cx("m-field-error",className)} {...p}/>;

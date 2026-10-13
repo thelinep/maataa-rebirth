@@ -8,7 +8,7 @@ const port=await new Promise((resolve,reject)=>{const socket=net.createServer();
 const server=spawn(process.execPath,["node_modules/vite/bin/vite.js","preview","--config","examples/redux-demo/vite.config.mjs","--port",String(port)],{stdio:["ignore","pipe","pipe"]});let serverLog="";server.stdout.on("data",data=>serverLog+=data);server.stderr.on("data",data=>serverLog+=data);
 const url=`http://127.0.0.1:${port}/#/playground`,samples=[],registries=[];
 try{
- let ready=false;for(let attempt=0;attempt<100;attempt++){try{const response=await fetch(`http://127.0.0.1:${port}/`);if(response.ok){ready=true;break;}}catch{}await new Promise(resolve=>setTimeout(resolve,100));}if(!ready)throw new Error("Performance preview did not start");
+ let ready=false;for(let attempt=0;attempt<100;attempt++){try{const response=await fetch(`http://127.0.0.1:${port}/`);if(response.ok){ready=true;break;}}catch{/* server not accepting connections yet; retry */}await new Promise(resolve=>setTimeout(resolve,100));}if(!ready)throw new Error("Performance preview did not start");
  for(const [engine,browserType] of Object.entries({chromium,firefox,webkit})){
   const browser=await browserType.launch();try{
    for(const width of [1440,390])for(let trial=1;trial<=3;trial++){

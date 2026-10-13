@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from "react";
+import React, { createContext } from "react";
 type MapCtx={width:number;height:number};const C=createContext<MapCtx>({width:100,height:100});
 export function Map({children,label="Map",className,style}:{children?:React.ReactNode;label?:string;className?:string;style?:React.CSSProperties}){return <C.Provider value={{width:100,height:100}}><div className={`m-map m-ui ${className??""}`} role="group" aria-label={label} style={style}>{children}</div></C.Provider>}
 export function MapMarker({x,y,label,onClick}:{x:number;y:number;label:string;onClick?:()=>void}){return <button type="button" className="m-map-marker" aria-label={label} title={label} onClick={onClick} style={{insetInlineStart:`${x}%`,insetBlockStart:`${y}%`}}/>}

@@ -13,6 +13,7 @@ export const maataaListenerMiddleware = createListenerMiddleware();
 
 maataaListenerMiddleware.startListening({
   actionCreator: demoActions.activateScenario,
+  // eslint-disable-next-line @typescript-eslint/require-await -- kept async: dropping it would turn a rejected promise into a synchronous throw inside the listener middleware
   effect: async (action, api) => {
     const scenario = DEMO_SCENARIOS.find((item) => item.id === action.payload);
     if (!scenario) return;

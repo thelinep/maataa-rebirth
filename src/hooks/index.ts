@@ -164,6 +164,7 @@ export function useIntersectionObserver<T extends Element = HTMLElement>(
     });
     observer.observe(target);
     return () => observer.disconnect();
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- thresholdKey stands in for observerThreshold so a new-but-equal threshold array does not recreate the observer
   }, [enabled, target, root, rootMargin, thresholdKey]);
 
   return { ref, entry, isIntersecting: entry?.isIntersecting ?? false };

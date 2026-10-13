@@ -45,7 +45,7 @@ test("spacecraft telemetry rejects malformed inputs, unknown instruments and for
     JSON.stringify({ ...valid, extra: "ignored?" }),
     JSON.stringify({ ...valid, recorded_at: { ...valid.recorded_at, verification: "verified" } }),
     JSON.stringify({ ...valid, measurements: [{ ...valid.measurements[0], instrument: "unknown-sensor" }] }),
-    JSON.stringify({ ...valid, measurements: [{ ...valid.measurements[0], value: 1e999 }] }),
+    JSON.stringify({ ...valid, measurements: [{ ...valid.measurements[0], value: Infinity }] }),
     JSON.stringify({ ...valid, navigation_solution: { position: [1, 2, 3] } }),
     "x".repeat(64_001),
   ];

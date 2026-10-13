@@ -1,5 +1,5 @@
 import { expect, it } from 'vitest';
-import { budgetTotal, newWorkflow, restoreWorkflow, transition, type TlpsWorkflow, type WorkflowAction } from '../examples/redux-demo/tlpsWorkflowModel';
+import { budgetTotal, newWorkflow, restoreWorkflow, transition, type WorkflowAction } from '../examples/redux-demo/tlpsWorkflowModel';
 const at='2026-10-05T10:00:00Z';
 function plan(){let s=newWorkflow();const actions:WorkflowAction[]=[{type:'project',project:{title:'Pilot',city:'Delhi',type:'Film',date:'2026-11-12',ceiling:500000}},{type:'budget',line:{id:'b1',name:'Camera',quantity:2,rate:50000}},{type:'crew',person:{id:'c1',name:'Asha',role:'Line producer'}},{type:'location',location:{id:'l1',name:'Studio',note:'Permission pending'}},{type:'schedule',slot:{id:'s1',time:'09:00',scene:'Interview'}}];for(const a of actions)s=transition(s,a,'producer',at);return s;}
 function approved(){return transition(transition(plan(),{type:'submit'},'producer',at),{type:'approve',note:'Local review'},'owner',at);}
@@ -17,7 +17,7 @@ it('blocks bad amounts, dates, times and unknown task checks',()=>{
  expect(()=>transition(plan(),{type:'budget',line:{id:'bad',name:'Bad',quantity:1,rate:NaN}},'producer',at)).toThrow('integer');
  expect(()=>transition(plan(),{type:'project',project:{...plan().project,date:'2026-02-31'}},'producer',at)).toThrow('Complete');
  expect(()=>transition(plan(),{type:'schedule',slot:{id:'bad',time:'25:00',scene:'Bad'}},'producer',at)).toThrow('valid call');
- const s=transition(approved(),{type:'start'},'producer',at);expect(()=>transition(s,{type:'task',task:'unknown',done:true} as any,'producer',at)).toThrow('Unknown');
+ const s=transition(approved(),{type:'start'},'producer',at);expect(()=>transition(s,{type:'task',task:'unknown',done:true} as never,'producer',at)).toThrow('Unknown');
 });
 it('completes a governed local rehearsal only with checks and distinct hashed evidence',()=>{
  let s=transition(approved(),{type:'start'},'producer',at);expect(()=>transition(s,{type:'close'},'producer',at)).toThrow('Complete setup');

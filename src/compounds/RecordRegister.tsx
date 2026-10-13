@@ -54,6 +54,7 @@ export function parseRegisterRecords(raw: unknown, fields: readonly RecordField[
     const record = item as Partial<RegisterRecord>;
     if (typeof record.id !== "string" || typeof record.status !== "string" || !statuses.includes(record.status)) return [];
     if (typeof record.values !== "object" || record.values === null) return [];
+    // eslint-disable-next-line @typescript-eslint/no-base-to-string -- record values are untyped; String() coercion for form display is existing behaviour (follow-up: object values render as [object Object])
     const values = Object.fromEntries(fields.map((field) => [field.key, String((record.values as Record<string, unknown>)[field.key] ?? "")]));
     if (Object.keys(validateRecord(fields, values)).length) return [];
     return [{ id: record.id, values, status: record.status, sample: record.sample === true, updatedAt: typeof record.updatedAt === "string" ? record.updatedAt : "" }];
