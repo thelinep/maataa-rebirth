@@ -1,6 +1,6 @@
 # Next Claude prompt: prove the native round-trip and connect MAATAA UI
 
-Copy everything between the fences into Claude Code/Cowork after opening `/Users/vesahe/Downloads/maataa-ui-full-alpha7`.
+Copy everything between the fences into Claude Code/Cowork after opening `$REPO`.
 
 ```text
 Continue the MAATAA project-path work from the current checkout. Read these first:
@@ -8,8 +8,8 @@ Continue the MAATAA project-path work from the current checkout. Read these firs
 - docs/product/MAATAA-ORGANIC-ROADMAP.md
 - docs/product/MAATAA-AUTHORITY-MAP.md
 - docs/product/CLAUDE-HEMANT-TO-TLPS-EXECUTION-PROMPT.md
-- docs/product/evidence/runtime-evidence-20261009T052806Z.log
-- docs/product/evidence/tlps-idea-to-script-20261009T052822Z.log
+- runtime-evidence-20261009T052806Z.log ([source repository only](../REPO-ONLY.md))
+- tlps-idea-to-script-20261009T052822Z.log ([source repository only](../REPO-ONLY.md))
 
 This is the next bounded slice, not a request to restart the earlier phases.
 
@@ -24,7 +24,7 @@ One synthetic `prj:` ID and monotonically increasing version must be visible at 
 ## Safety and evidence rules
 
 1. Inspect current `AGENTS.md`, `git status`, current commits, package scripts and actual source before editing. The previous evidence is historical; current alpha7 and ALLB trees were dirty at the last check. Preserve all pre-existing dirty/untracked files and all TLPS records. Never reset, clean, delete, overwrite, stage, commit, push, deploy, publish, upload, or modify Google Drive.
-2. Work inside alpha7 only. Do not modify `/Users/vesahe/revenue/live/maataa-os` or other external checkouts. Do not expose, copy or reuse the plaintext demo seed credentials reported in the OS Electron auth demo.
+2. Work inside alpha7 only. Do not modify `~/revenue/live/maataa-os` or other external checkouts. Do not expose, copy or reuse the plaintext demo seed credentials reported in the OS Electron auth demo.
 3. Use only synthetic project ideas in tests and smoke checks. A TLPS write must still require preview plus explicit human approval bound to the exact proposal digest and expected base version. A stale, replayed, rejected or conflicting proposal must not change content.
 4. Do not call localStorage a shared database, a UI guard authentication, a QEMU tick elapsed time, or a host timestamp verified Hemant time. Keep the clock basis labelled unverified. Do not qualify the Ollama model from a format check.
 5. Do not claim native success based on a browser preview, unit tests, compilation, or a screenshot of a different window. If UI automation cannot observe the native window, report the exact boundary that remains unproven and give the owner a precise manual checklist.

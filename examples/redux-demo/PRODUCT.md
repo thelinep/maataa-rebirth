@@ -31,7 +31,7 @@ Source-declared product flows span project intake, budget, approvals, production
 
 ## Evidence on Hand
 
-- `/Users/vesahe/.codex/visualizations/2026/10/05/01a10b0d-5330-7a91-a1c7-5fd6e9395bb3/tlps-enterprise/REPORT.md` — locally audited enterprise vocabulary and evidence limits.
+- `~/.codex/visualizations/2026/10/05/01a10b0d-5330-7a91-a1c7-5fd6e9395bb3/tlps-enterprise/REPORT.md` — locally audited enterprise vocabulary and evidence limits.
 - `examples/redux-demo/TlpsWorkflow.tsx` and `examples/redux-demo/tlpsWorkflowModel.ts` — current browser-local MAATAA pilot implementation.
 - `examples/redux-demo/tlps-workflow.css` — pilot styles inheriting the MAATAA demo shell.
 - Public customer proof, testimonials, confirmed bookings, completed shoots, pricing approval, security certification, and production deployment evidence were not supplied.

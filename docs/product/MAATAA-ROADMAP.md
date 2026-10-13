@@ -1,11 +1,11 @@
 # MAATAA roadmap (0–13) — status against evidence
 
 **Updated:** 2026-10-09 · Status vocabulary: **implemented/verified**, **partial**, **unverified**, **blocked**, **not started**. Verification applies only to the exact local scope and evidence named; it does not imply production or hardware readiness.
-Detailed engineering status: `PHASES-1-5-INTEGRATION-STATUS.md`. Evidence: `evidence/`.
+Detailed engineering status: `PHASES-1-5-INTEGRATION-STATUS.md`. Evidence: runtime logs ([source repository only](../REPO-ONLY.md)).
 
 ## मौजूद चीज़ों का सही स्थान
 
-Brahmini repo (`/Users/vesahe/Documents/Repos/brahmini`, `a875589f`, branch `codex/absorb-tlps-locations`, clean) को read-only देखा गया। `nova-console/data/nova.db` की copy पढ़ी गई; सिर्फ़ job/model metadata, prompts नहीं। यह repo का dev data dir है; packaged app का data dir अलग हो सकता है।
+Brahmini repo (`~/Documents/Repos/brahmini`, `a875589f`, branch `codex/absorb-tlps-locations`, clean) को read-only देखा गया। `nova-console/data/nova.db` की copy पढ़ी गई; सिर्फ़ job/model metadata, prompts नहीं। यह repo का dev data dir है; packaged app का data dir अलग हो सकता है।
 
 | चीज़ | स्थिति | प्रमाण |
 | --- | --- | --- |

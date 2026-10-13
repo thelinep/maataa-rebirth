@@ -27,9 +27,9 @@ beta/                         Beta budgets and qualification policy
 
 The repository root keeps the package manager files and tool configs that the current TypeScript, Vite, Vitest and Playwright commands resolve from there. Product planning lives in [`docs/product/PRODUCT-ROADMAP.md`](docs/product/PRODUCT-ROADMAP.md), enterprise release planning in [`docs/release/ROADMAP.md`](docs/release/ROADMAP.md), and current release-evidence rules in [`docs/release/EVIDENCE.md`](docs/release/EVIDENCE.md). Browse the rest of the docs in [`docs/README.md`](docs/README.md); generated snapshots are indexed in [`manifests/README.md`](manifests/README.md).
 
-For a navigable reconstruction of the product, pilots, Brahmini workbench, authority boundaries and release gates, open the [MAATAA ecosystem knowledge graph](docs/knowledge-graph/).
+For a navigable reconstruction of the product, pilots, Brahmini workbench, authority boundaries and release gates, open the [MAATAA ecosystem knowledge graph](docs/REPO-ONLY.md) (source repository only).
 
-Historical MAATAA UI package copies have been absorbed into this repository under [`archives/maataa-ui-source-snapshots/`](archives/maataa-ui-source-snapshots/), with source provenance and SHA-256 inventories. The canonical shared package remains `src/`; the absorption and consumer-migration boundaries are documented in the [source absorption report](docs/knowledge-graph/MAATAA_UI_SOURCE_ABSORPTION_2026-10-07.md).
+Historical MAATAA UI package copies have been absorbed into this repository under [`archives/maataa-ui-source-snapshots/`](archives/maataa-ui-source-snapshots/), with source provenance and SHA-256 inventories. The canonical shared package remains `src/`; the absorption and consumer-migration boundaries are documented in the [source absorption report](docs/REPO-ONLY.md) (source repository only).
 
 This package contains application-agnostic components only. It does **not** provide authentication, authorization, API clients, databases, business workflows, payments, infrastructure provisioning, or application routing.
 

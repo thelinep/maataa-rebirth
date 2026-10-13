@@ -1,7 +1,7 @@
 # MAATAA Desktop → Brahmini → TLPS: Phases 1–5 status
 
 **Date:** 2026-10-09 · **Builds on:** `PHASE-ZERO-AUTHORITY-BASELINE.md`
-**Evidence:** `evidence/phase5-runtime-evidence-2026-10-09.md`
+**Evidence:** `phase5-runtime-evidence-2026-10-09.md` ([source repository only](../REPO-ONLY.md))
 
 Status vocabulary: **implemented/verified**, **partial**, **unverified**, **blocked**, **not started**. “Verified” here means only the named local test/evidence scope, never production or hardware qualification.
 
@@ -89,7 +89,7 @@ File: `apps/shared/contracts/runtime-integration-gate.ts`, spec `tests/contracts
 
 ## Next gate
 
-0. Disk recovered (37 GB free measured 2026-10-09). Run `bash scripts/collect-runtime-evidence.sh` on macOS: it runs the alpha7 contract + Tauri tests, ALLB cargo tests and contract drift, and maataa-os host tests / embedded build / size / QEMU boot with `--offline --locked`, build output outside all repos, no auto-installs, and before/after git status. It writes `docs/product/evidence/runtime-evidence-<UTC>.log`.
+0. Disk recovered (37 GB free measured 2026-10-09). Run `bash scripts/collect-runtime-evidence.sh` on macOS: it runs the alpha7 contract + Tauri tests, ALLB cargo tests and contract drift, and maataa-os host tests / embedded build / size / QEMU boot with `--offline --locked`, build output outside all repos, no auto-installs, and before/after git status. It writes `runtime-evidence-<UTC>.log` to the product evidence folder ([source repository only](../REPO-ONLY.md)).
 1. Done in this run: contracts, TLPS Idea → Script checks, and the rebuilt Brahmini Workbench Playwright spec. Tauri Rust tests remain a separate gate.
 2. Done: Rust/QEMU evidence (run 20261009T003534Z) and the first live handshake (run 20261009T004442Z). Re-run both once ALLB's working tree is committed so results tie to a clean commit.
 3. Decide in ALLB (its repository, its ADR process) whether to expose `runtime_capabilities()` over the edge worker or a local service; until then the gate stays red.

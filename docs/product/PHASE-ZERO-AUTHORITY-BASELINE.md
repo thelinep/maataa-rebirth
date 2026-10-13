@@ -7,8 +7,8 @@
 
 Use a **layered authority map**, not one repository for every meaning of “runtime”:
 
-- `/Users/vesahe/Documents/Repos/allb.xyz` is the accepted canonical repository for the combined MAATAA × Siddham software runtime, shared governed-operation contracts, Edge service, Siddham hardware RTL, SDKs, and Siddham Authority desktop. This is stated in its accepted ADR 0001.
-- `/Users/vesahe/revenue/live/maataa-os` is the source for its distinct embedded Cortex-M/QEMU OS alpha and its `hemant-core` time primitives. Its own README labels it a prototype; its kernel README says the current kernel remains in the repository root.
+- `~/Documents/Repos/allb.xyz` is the accepted canonical repository for the combined MAATAA × Siddham software runtime, shared governed-operation contracts, Edge service, Siddham hardware RTL, SDKs, and Siddham Authority desktop. This is stated in its accepted ADR 0001.
+- `~/revenue/live/maataa-os` is the source for its distinct embedded Cortex-M/QEMU OS alpha and its `hemant-core` time primitives. Its own README labels it a prototype; its kernel README says the current kernel remains in the repository root.
 - MAATAA Desktop is a host shell; MAATAA UI is the product/interface layer; Brahmini is the intelligence/planning layer; TLPS and NEVO are domain products; Lipi is language/script capability. They should consume versioned contracts through explicit bridges, not grow duplicate kernels or claim integration by naming.
 
 So the prior conclusion that `maataa-os` alone is the authoritative MAATAA runtime was too broad. `allb.xyz` owns the combined MAATAA × Siddham runtime/contracts by an accepted local architecture decision; `maataa-os` owns a separate embedded OS prototype. Phase Zero must preserve this distinction until an explicit, reviewed superseding architecture decision reconciles them.
@@ -74,32 +74,32 @@ Before integrating the first TLPS flow:
 
 ## Sources reviewed
 
-- `/Users/vesahe/revenue/live/maataa-os/README.md`
-- `/Users/vesahe/revenue/live/maataa-os/doc/ARCHITECTURE.md`
-- `/Users/vesahe/revenue/live/maataa-os/doc/SYSTEM_MANIFEST.md`
-- `/Users/vesahe/revenue/live/maataa-os/doc/BUILD_GUIDE.md`
-- `/Users/vesahe/revenue/live/maataa-os/doc/ROADMAP.md`
-- `/Users/vesahe/revenue/live/maataa-os/src/main.rs`
-- `/Users/vesahe/revenue/live/maataa-os/src/kernel.rs`
-- `/Users/vesahe/revenue/live/maataa-os/crates/hemant-core/src/time/mod.rs`
-- `/Users/vesahe/revenue/live/maataa-os/crates/hemant-core/src/lib.rs`
-- `/Users/vesahe/revenue/live/maataa-os/packages/universal-runtime/src/`
-- `/Users/vesahe/Documents/Repos/maataa-hybrid-runtime/`
-- `/Users/vesahe/Documents/Repos/allb.xyz/docs/adr/0001-allb-canonical-repository.md`
-- `/Users/vesahe/Documents/Repos/allb.xyz/docs/BASELINE_VALIDATION.md`
-- `/Users/vesahe/Documents/Repos/allb.xyz/docs/PHASE2_SHARED_CONTRACTS.md`
-- `/Users/vesahe/Documents/Repos/allb.xyz/docs/ROADMAP_STATUS_MATRIX.md`
-- `/Users/vesahe/Documents/Repos/allb.xyz/src/runtime_contract.rs`
-- `/Users/vesahe/Documents/Repos/allb.xyz/src/maataa_hal.rs`
-- `/Users/vesahe/Documents/Repos/allb.xyz/src/bin/maataa_shell.rs` (untracked working-tree experiment)
-- `/Users/vesahe/Documents/Repos/allb.xyz/docs/ECOSYSTEM.md`
-- `/Users/vesahe/Documents/Repos/allb.xyz/crates/siddham-contracts/`
+- `~/revenue/live/maataa-os/README.md`
+- `~/revenue/live/maataa-os/doc/ARCHITECTURE.md`
+- `~/revenue/live/maataa-os/doc/SYSTEM_MANIFEST.md`
+- `~/revenue/live/maataa-os/doc/BUILD_GUIDE.md`
+- `~/revenue/live/maataa-os/doc/ROADMAP.md`
+- `~/revenue/live/maataa-os/src/main.rs`
+- `~/revenue/live/maataa-os/src/kernel.rs`
+- `~/revenue/live/maataa-os/crates/hemant-core/src/time/mod.rs`
+- `~/revenue/live/maataa-os/crates/hemant-core/src/lib.rs`
+- `~/revenue/live/maataa-os/packages/universal-runtime/src/`
+- `~/Documents/Repos/maataa-hybrid-runtime/`
+- `~/Documents/Repos/allb.xyz/docs/adr/0001-allb-canonical-repository.md`
+- `~/Documents/Repos/allb.xyz/docs/BASELINE_VALIDATION.md`
+- `~/Documents/Repos/allb.xyz/docs/PHASE2_SHARED_CONTRACTS.md`
+- `~/Documents/Repos/allb.xyz/docs/ROADMAP_STATUS_MATRIX.md`
+- `~/Documents/Repos/allb.xyz/src/runtime_contract.rs`
+- `~/Documents/Repos/allb.xyz/src/maataa_hal.rs`
+- `~/Documents/Repos/allb.xyz/src/bin/maataa_shell.rs` (untracked working-tree experiment)
+- `~/Documents/Repos/allb.xyz/docs/ECOSYSTEM.md`
+- `~/Documents/Repos/allb.xyz/crates/siddham-contracts/`
 - Current alpha7 product docs and active Desktop/TLPS sources in this checkout.
 
 ## Update 2026-10-09: Phases 1–5 contract slices
 
-Contract-level slices for the Phase One entry gates now exist and are tested in this checkout; status, blocked items and evidence are in `PHASES-1-5-INTEGRATION-STATUS.md` and `evidence/phase5-runtime-evidence-2026-10-09.md`. In short: a versioned Desktop→runtime handshake (default `unavailable`), a project-event envelope with per-scope ordering and unverified host time, a digest-bound TLPS intake flow that preserves existing projects, an allowlisted single-action executor, extracted and boundary-tested app-local pointer context, and a fail-closed integration gate (38 node tests: 37 pass, 1 live check not run). No live ALLB or maataa-os handshake was performed, the TLPS/Desktop UIs are not yet wired to these modules, and Rust/Playwright/QEMU checks were not run because the session's VM lacks those toolchains. The entry gates above therefore remain open at the integration level.
+Contract-level slices for the Phase One entry gates now exist and are tested in this checkout; status, blocked items and evidence are in `PHASES-1-5-INTEGRATION-STATUS.md` and `phase5-runtime-evidence-2026-10-09.md` ([source repository only](../REPO-ONLY.md)). In short: a versioned Desktop→runtime handshake (default `unavailable`), a project-event envelope with per-scope ordering and unverified host time, a digest-bound TLPS intake flow that preserves existing projects, an allowlisted single-action executor, extracted and boundary-tested app-local pointer context, and a fail-closed integration gate (38 node tests: 37 pass, 1 live check not run). No live ALLB or maataa-os handshake was performed, the TLPS/Desktop UIs are not yet wired to these modules, and Rust/Playwright/QEMU checks were not run because the session's VM lacks those toolchains. The entry gates above therefore remain open at the integration level.
 
-Fresh runtime evidence (macOS run `20261009T003534Z`, see `evidence/phase5-runtime-evidence-2026-10-09.md`): ALLB `de82c369` (dirty tree) runtime/contract/Authority tests pass in simulation mode; maataa-os `50fce492` (clean) host tests, release build and QEMU boot pass. This closes the "current-commit boot/test acceptance" gap for these two commits only. Desktop↔runtime integration remains unverified: no live handshake has run.
+Fresh runtime evidence (macOS run `20261009T003534Z`, see `phase5-runtime-evidence-2026-10-09.md` ([source repository only](../REPO-ONLY.md))): ALLB `de82c369` (dirty tree) runtime/contract/Authority tests pass in simulation mode; maataa-os `50fce492` (clean) host tests, release build and QEMU boot pass. This closes the "current-commit boot/test acceptance" gap for these two commits only. Desktop↔runtime integration remains unverified: no live handshake has run.
 
 First live handshake (run `20261009T004442Z`): the Desktop runtime adapter connected to ALLB's edge worker built from `de82c369` (dirty tree) and served locally by `wrangler dev`; identity and contract version verified. The Desktop integration gate stays red until ALLB reports its capabilities over a host interface. Local only; not deployed, not the governed Authority path.
