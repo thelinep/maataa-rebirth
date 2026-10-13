@@ -28,6 +28,18 @@ export default tseslint.config(
       "demo-dist/",
       "storybook-static/",
       "examples/*/dist/",
+      // Build outputs that .gitignore already excludes (flat config does not read .gitignore).
+      "**/dist/",
+      "**/target/",
+      "**/.next/",
+      "**/.open-next/",
+      "**/.wrangler/",
+      "**/node_modules/",
+      "*-dist/",
+      "apps/maataa-desktop-tauri/web/products/",
+      "playwright-report/",
+      "test-results/",
+      "coverage/",
     ],
   },
 
