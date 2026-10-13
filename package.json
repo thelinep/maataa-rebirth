@@ -15,6 +15,8 @@
     "README.md",
     "LICENSE",
     "docs",
+    "!docs/knowledge-graph",
+    "!docs/product/evidence",
     "manifests",
     "examples/redux-demo"
   ],
@@ -465,7 +467,7 @@
     "api:check": "node scripts/api-manifest.mjs --check && node scripts/api-stability.mjs --check && node scripts/canonical-ids.mjs --check",
     "registry:coverage": "node scripts/api-manifest.mjs --check && node scripts/audit-component-registry-coverage.mjs",
     "compare:consumers": "node scripts/compare-maataa-ui-active-consumers.mjs",
-    "prepack": "pnpm build && pnpm api:manifest && pnpm api:atomic && pnpm redux:manifest && pnpm type:manifest && pnpm depth:manifest && pnpm device:manifest && pnpm validate:devices && pnpm demo:manifest && pnpm validate:demo && pnpm surface:manifest && pnpm validate:surface && pnpm identity:manifest && pnpm validate:depth && pnpm beta:manifest",
+    "prepack": "pnpm build && pnpm api:manifest && pnpm api:atomic && pnpm redux:manifest && pnpm type:manifest && pnpm depth:manifest && pnpm device:manifest && pnpm validate:devices && pnpm demo:manifest && pnpm validate:demo && pnpm surface:manifest && pnpm validate:surface && pnpm identity:manifest && pnpm validate:depth && pnpm beta:manifest && node scripts/check-privacy.mjs",
     "api:atomic": "node scripts/atomic-manifest.mjs",
     "validate:ai": "node scripts/validate-ai-catalog.mjs",
     "device:manifest": "node scripts/device-manifest.mjs",
