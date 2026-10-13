@@ -1,7 +1,7 @@
 {
   "architecture": "atomic-layout-page-workspace-registry-ai-generator-tool-space-aware",
   "package": "@maataa/ui",
-  "version": "1.0.0-alpha.8.4",
+  "version": "1.0.0-alpha.8.7",
   "publicDirectImports": [
     {
       "category": "foundation",

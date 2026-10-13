@@ -1,7 +1,7 @@
 {
   "schemaVersion": "2.0.0",
   "package": "@maataa/ui",
-  "version": "1.0.0-alpha.8.4",
+  "version": "1.0.0-alpha.8.7",
   "generatedFrom": "TypeScript resolved symbols and package export map",
   "classificationPolicy": "Exports listed in manifests/STABLE_API.json are STABLE by the recorded gate-7 decision (2026-10-12); JSDoc-deprecated exports are DEPRECATED; all other public exports remain EXPERIMENTAL; non-exported implementation modules are INTERNAL.",
   "entryPoints": [

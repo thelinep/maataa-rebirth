@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "package": "@maataa/ui",
-  "version": "1.0.0-alpha.8.4",
+  "version": "1.0.0-alpha.8.7",
   "stage": "DEVELOPMENT_UNQUALIFIED",
   "baselineCertification": {
     "status": "STALE",
