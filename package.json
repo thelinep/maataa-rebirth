@@ -1,6 +1,6 @@
 {
   "name": "@maataa/ui",
-  "version": "1.0.0-alpha.8.4",
+  "version": "1.0.0-alpha.8.7",
   "description": "Standalone MAATAA React + TypeScript UI package — Alpha 8.4 Beta-prep with certified Alpha 8 baseline, bundle budgets/code splitting, clean packed-consumer validation, Playwright browser/a11y smoke tests, release evidence and deterministic readiness gates",
   "type": "module",
   "private": true,
