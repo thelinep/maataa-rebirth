@@ -1,0 +1,15 @@
+{
+  "schema": "maataa.desktop-products-source-fingerprint/1",
+  "sourceDigest": "sha256:ab8afad1f58c33796d74403d3e695e19f5144c42f69888ddb164f4711c85b3d8",
+  "sourcePaths": [
+    "src",
+    "examples/redux-demo",
+    "examples/support-center",
+    "apps/tlps",
+    "apps/tlp-film",
+    "apps/shared",
+    "scripts/build-tauri-desktop-products.mjs",
+    "package.json",
+    "pnpm-lock.yaml"
+  ]
+}

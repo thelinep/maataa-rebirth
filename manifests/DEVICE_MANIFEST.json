@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "package": "@maataa/ui",
-  "version": "1.0.0-alpha.8.4",
+  "version": "1.0.0-alpha.8.7",
   "boundary": "UI/device vocabulary only; hardware access and capability verification are host-owned.",
   "counts": {
     "devices": 187,
