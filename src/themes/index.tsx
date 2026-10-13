@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 export type MaataaTheme = "light" | "dark" | "system" | "high-contrast" | "oled";
 type ThemeContextValue = { theme: MaataaTheme; resolvedTheme: Exclude<MaataaTheme,"system">; setTheme: (theme: MaataaTheme) => void };
 const ThemeContext = createContext<ThemeContextValue | null>(null);
@@ -7,8 +7,8 @@ export function ThemeProvider({ children, defaultTheme = "system", theme: contro
   const theme = controlled ?? internal;
   const systemDark = typeof window !== "undefined" && window.matchMedia?.("(prefers-color-scheme: dark)").matches;
   const resolvedTheme: Exclude<MaataaTheme,"system"> = theme === "system" ? (systemDark ? "dark" : "light") : theme;
-  const setTheme = (next: MaataaTheme) => { if (controlled === undefined) setInternal(next); onThemeChange?.(next); };
-  const value = useMemo(() => ({ theme, resolvedTheme, setTheme }), [theme, resolvedTheme]);
+  const setTheme = useCallback((next: MaataaTheme) => { if (controlled === undefined) setInternal(next); onThemeChange?.(next); }, [controlled, onThemeChange]);
+  const value = useMemo(() => ({ theme, resolvedTheme, setTheme }), [theme, resolvedTheme, setTheme]);
   useEffect(() => { document.documentElement.dataset.maataaTheme = resolvedTheme; return () => { delete document.documentElement.dataset.maataaTheme; }; }, [resolvedTheme]);
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
 }
