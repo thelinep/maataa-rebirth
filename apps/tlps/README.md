@@ -18,6 +18,8 @@ Drafts persist in this browser only. Preview approval is not authenticated or se
 
 Every TLPS OS entry opens a work area (`?area=index`, or `?area=<id>`). Production, Finance, Evidence, Crew and Location open their step of the planning workflow. The other fifteen keep a browser-local register with validated fields, local status labels and sample records. Each area lists its workspaces (the TLPS Production, Casting and Crew workspaces live in `src/registries/workspaceRegistry.ts`) and the TLPS AI spaces from `src/ai-spaces`, which are not connected to a model.
 
+Selecting a workspace also opens its separate demo workflow: sample or personal records, an owner, four area-specific review notes and a JSON handover. Runs are saved independently for each area/workspace pair. Editing records or the owner restarts review. Completion means a local rehearsal only; exports explicitly deny production readiness, real payments, confirmed bookings and authenticated approval. The MAATAA public demo exposes all mapped workplaces at `/#/tlps/workplaces`.
+
 ## Sign-in and server storage
 
 `src/services/contracts.ts` defines the service boundary: auth, project storage, bookings, payments and legal clearance. Two adapters exist:

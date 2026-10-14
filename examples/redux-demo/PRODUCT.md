@@ -26,6 +26,7 @@ Source-declared product flows span project intake, budget, approvals, production
 
 - **Documented scope:** a locally audited snapshot enumerated 16 products, 18 roles, 307 pages, 70 use cases, 160 flows, and 42 declared production gaps on 5 October 2026. The source headline says 310 routes while its concrete page array contains 307.
 - **Current pilot evidence:** the MAATAA workflow stores a schema-validated draft in browser localStorage. Evidence files are hashed in the browser; only filenames, byte counts, types, and SHA-256 digests are stored. Exports explicitly say that production readiness, real payments, and confirmed bookings are false.
+- **Workplace demo extension:** the canonical TLPS area mappings generate a searchable directory of 222 distinct workplace IDs and 327 area/workplace demo pairs across all 20 work areas. Each demo reuses its area's record schema (or a planning-item schema), adds a four-step local rehearsal, and stores records, owner and review notes separately. These shared templates demonstrate local record and review interactions; they do not establish specialised services for each workplace. Export always marks production readiness, confirmed bookings, real payments and authenticated approval false.
 - **Open product and engineering requirements:** authoritative product variant, research-backed primary audience, server API and durable storage, authenticated identity, server-enforced tenant and role boundaries, actual booking/payment/legal integrations, localization, production deployment/restore, acceptance, and private security-reporting channel and response commitments.
 - Source-listed locations and planning records do not establish venue availability, permission, survey, approval, or execution readiness.
 
@@ -34,6 +35,7 @@ Source-declared product flows span project intake, budget, approvals, production
 - `~/.codex/visualizations/2026/10/05/01a10b0d-5330-7a91-a1c7-5fd6e9395bb3/tlps-enterprise/REPORT.md` — locally audited enterprise vocabulary and evidence limits.
 - `examples/redux-demo/TlpsWorkflow.tsx` and `examples/redux-demo/tlpsWorkflowModel.ts` — current browser-local MAATAA pilot implementation.
 - `examples/redux-demo/tlps-workflow.css` — pilot styles inheriting the MAATAA demo shell.
+- `examples/redux-demo/TlpsWorkplaces.tsx`, `apps/tlps/src/areas/workplaceModel.ts` and `WorkplaceDemo.tsx` — generated workplace directory and browser-local rehearsal implementation; `tests/tlps-workplace-demos.test.ts` and `tests/e2e/tlps-workplaces.spec.ts` cover mapping coverage, review prerequisites, saved-run isolation and export limits.
 - Public customer proof, testimonials, confirmed bookings, completed shoots, pricing approval, security certification, and production deployment evidence were not supplied.
 
 ## Product Principles

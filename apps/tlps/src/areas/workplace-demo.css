@@ -1,0 +1,15 @@
+.tlps-workplace-demo { color:var(--m-text); min-width:0; }
+.tlps-workplace-demo p { line-height:1.7; max-width:72ch; overflow-wrap:anywhere; }
+.tlps-workplace-demo .m-register-table { overflow-x:auto; max-width:100%; }
+.tlps-demo-table-hint { display:none; }
+.tlps-demo-review { margin-top:40px; padding-top:24px; border-top:1px solid var(--m-border); }
+.tlps-demo-owner,.tlps-demo-steps label { display:grid; gap:8px; max-width:65ch; margin:20px 0; }
+.tlps-demo-review :is(input,textarea) { width:100%; box-sizing:border-box; color:var(--m-text); background:var(--m-surface); border:1px solid var(--m-border); border-radius:var(--m-radius-sm,8px); padding:12px; font:inherit; caret-color:var(--m-primary); }
+.tlps-demo-review :is(input,textarea):focus-visible { outline:2px solid var(--m-focus,var(--m-primary)); outline-offset:3px; }
+.tlps-demo-steps { padding-left:24px; }
+.tlps-demo-steps li { padding:20px 0; border-bottom:1px solid var(--m-border); }
+.tlps-demo-steps li > div { display:flex; align-items:baseline; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+.tlps-demo-steps h3 { margin:0; font-size:1.1rem; }
+.tlps-demo-steps li > div > span { font-size:.875rem; color:var(--m-muted); }
+.tlps-demo-actions { display:flex; gap:12px; flex-wrap:wrap; margin-top:24px; }
+@media(max-width:600px) { .tlps-workplace-demo .m-record-form { grid-template-columns:minmax(0,1fr); } .tlps-demo-table-hint { display:block; } }

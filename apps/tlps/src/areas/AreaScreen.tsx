@@ -6,6 +6,8 @@ import * as TlpsAiSpaces from "../ai-spaces";
 import { TLPS_OS_CATALOG, type TlpsOsId } from "../operatingSystems";
 import type { TlpsView } from "../types";
 import { ServicesPanel } from "../services/ServicesPanel";
+import { WorkplaceDemo } from "./WorkplaceDemo";
+import { TLPS_WORKPLACES } from "./workplaceModel";
 import {
   AREA_DEFINITIONS,
   aiSpacesForArea,
@@ -42,6 +44,7 @@ export function AreaScreen({ areaId, store, onStoreChange, onOpenView, onBack }:
 
   const selected = workspaces.find((item) => item.id === workspaceId);
   const SelectedWorkspace = selected ? workspaceComponents[selected.archetype] : undefined;
+  const workplace = TLPS_WORKPLACES.find((item) => item.areaId === areaId && item.id === workspaceId);
 
   return (
     <main className="tlps-area" aria-labelledby="tlps-area-title">
@@ -99,6 +102,8 @@ export function AreaScreen({ areaId, store, onStoreChange, onOpenView, onBack }:
           </div>
         )}
       </section>
+
+      {workplace && <section className="tlps-area-panel"><h2>{workplace.name} demo workflow</h2><WorkplaceDemo key={workplace.key} workplace={workplace} /></section>}
 
       {areaId === "core-platform" && <ServicesPanel />}
       {areaId === "film-os" && <React.Suspense fallback={<p className="tlps-muted">Loading the designers…</p>}><FlowStudio /></React.Suspense>}
