@@ -11,6 +11,7 @@ import {
   productOperatingSystems,
 } from "./tlpsLifecycle";
 import "./tlps-surfaces.css";
+import { TlpsBrand } from "./TlpsBrand";
 import { readStoredText, writeStoredValue } from "@maataa/ui/compounds";
 
 type Props = { route: string; navigate: (path: string) => void };
@@ -338,6 +339,7 @@ const nav = [
   ["/tlps", "Home"],
   ["/tlps/marketing", "How it works"],
   ["/tlps/catalog", "TLPS tools"],
+  ["/tlps/brand", "Brand"],
   ["/tlps/onboarding", "Start here"],
 ] as const;
 const products = [
@@ -1270,7 +1272,9 @@ function Catalog({
 
 export function TlpsSurfaces({ route, navigate }: Props) {
   const page =
-    route === "/tlps/onboarding" ? (
+    route === "/tlps/brand" ? (
+      <TlpsBrand navigate={navigate} />
+    ) : route === "/tlps/onboarding" ? (
       <Onboarding navigate={navigate} />
     ) : route === "/tlps/marketing" ? (
       <Marketing navigate={navigate} />
@@ -1283,7 +1287,7 @@ export function TlpsSurfaces({ route, navigate }: Props) {
     <div className="page-section tlps-site">
       <header className="tlps-site-header">
         <a href="#/tlps" aria-label="TLPS home">
-          TLPS<span>Film and project planning</span>
+          tlps.in<span>Film and project planning</span>
         </a>
         <TlpsNav route={route} navigate={navigate} />
         <ScopeLine />
