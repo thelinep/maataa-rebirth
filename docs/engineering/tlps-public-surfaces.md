@@ -22,6 +22,8 @@ The current source mappings generate 222 distinct workplace IDs and 327 area/wor
 
 Each step requires at least one valid record, a plan owner and a review note. Changing records or the owner restarts review. Runs persist separately by area and workspace in `tlps.workplace-demos.v1`; invalid stored values are rejected or dropped and unsupported completion is reset. Storage failure is shown with a reminder to export. No data is sent to a server by these demos.
 
+Every workplace includes an action icon bar (New record, Load samples, Review plan, Check current step, Export handover, Restart steps) and a steps icon bar (Prepare, Review, Rehearse, Handover). Actions operate on that workplace's current records and review. Sample loading is disabled for non-empty registers. The steps bar shows the real saved review state, scrolls/focuses current or checked steps, and locks future steps; it never advances review by navigation alone. Both bars wrap for narrow screens and retain visible text labels and accessible names.
+
 “Export demo handover” includes records, sample markers, owner, step notes and local completion. It always marks production readiness, confirmed bookings, real payments and authenticated approval false. Export is available for incomplete plans too, with `demoComplete: false`. The area-specific steps are rehearsal checklists, not verified external approvals or complete implementations of specialised production services.
 
 ## Routes and local preview

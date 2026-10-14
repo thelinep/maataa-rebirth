@@ -1,6 +1,45 @@
 import { expect, test } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 
+test("workplace icon bars execute actions and navigate steps without bypassing review", async ({ page }) => {
+  await page.goto("/#/tlps/workplaces");
+  await page.getByLabel("Work area", { exact: true }).selectOption("location");
+  await page.getByRole("button", { name: /Open .* in Location OS/ }).first().click();
+  const actions = page.getByRole("group", { name: "Workplace actions" });
+  const steps = page.getByRole("navigation", { name: "Workplace workflow steps" });
+  await expect(actions.getByRole("button")).toHaveCount(6);
+  await expect(steps.getByRole("button")).toHaveCount(4);
+  await expect(steps.getByRole("button", { name: /^Review:/ })).toBeDisabled();
+  await actions.getByRole("button", { name: "New record", exact: true }).click();
+  await expect(page.getByRole("textbox", { name: /^Planning item/ })).toBeFocused();
+  await actions.getByRole("button", { name: "Review plan" }).click();
+  await expect(page.getByLabel("Plan owner", { exact: true })).toBeFocused();
+  await actions.getByRole("button", { name: "Check current step" }).click();
+  await expect(steps.getByRole("button", { name: /^Prepare:/ })).toHaveAttribute("aria-current", "step");
+  await actions.getByRole("button", { name: "Load samples" }).click();
+  await expect(actions.getByRole("button", { name: "Load samples" })).toBeDisabled();
+  await page.getByLabel("Plan owner", { exact: true }).fill("Local reviewer");
+  await page.getByLabel("Review note", { exact: true }).fill("Rehearsed location notes; access and permissions unknown.");
+  await actions.getByRole("button", { name: "Check current step" }).click();
+  await expect(steps.getByRole("button", { name: /^Review:/ })).toHaveAttribute("aria-current", "step");
+  await steps.getByRole("button", { name: /^Prepare:/ }).click();
+  await expect(steps.getByRole("button", { name: /^Review:/ })).toHaveAttribute("aria-current", "step");
+  await expect(steps.getByRole("button", { name: /^Rehearse:/ })).toBeDisabled();
+  await actions.getByRole("button", { name: "Restart steps" }).click();
+  await expect(page.getByLabel("Plan owner", { exact: true })).toHaveValue("Local reviewer");
+  await expect(steps.getByRole("button", { name: /^Prepare:/ })).toHaveAttribute("aria-current", "step");
+  const pending = page.waitForEvent("download");
+  await actions.getByRole("button", { name: "Export handover" }).click();
+  const download = await pending;
+  const data = JSON.parse(await readFile((await download.path())!, "utf8"));
+  expect(data.demoComplete).toBe(false);
+  expect(data.records).toHaveLength(1);
+  for (const width of [320, 390, 768, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+  }
+});
+
 test("workplace directory opens a saved, isolated marketplace demo and exports its rehearsal", async ({ page }) => {
   await page.goto("/#/tlps/catalog/marketplace-locations");
   await page.getByRole("button", { name: "Explore workplaces and demos" }).click();

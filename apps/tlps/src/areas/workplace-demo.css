@@ -12,4 +12,19 @@
 .tlps-demo-steps h3 { margin:0; font-size:1.1rem; }
 .tlps-demo-steps li > div > span { font-size:.875rem; color:var(--m-muted); }
 .tlps-demo-actions { display:flex; gap:12px; flex-wrap:wrap; margin-top:24px; }
+.tlps-workplace-action-bar { display:flex; flex-wrap:wrap; gap:8px; padding:16px 0; border-block:1px solid var(--m-border); margin:24px 0; }
+.tlps-workplace-action-bar button { display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:44px; }
+.tlps-workplace-action-bar svg { flex-shrink:0; }
+.tlps-workplace-steps-bar { margin:24px 0 32px; }
+.tlps-workplace-steps-bar ol { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; padding:0; list-style:none; }
+.tlps-workplace-steps-bar button { display:flex; align-items:center; gap:12px; width:100%; min-height:76px; text-align:left; padding:12px; background:var(--m-surface); color:var(--m-text); border:1px solid var(--m-border); border-radius:var(--m-radius-sm,8px); font:inherit; cursor:pointer; }
+.tlps-workplace-steps-bar button:disabled { cursor:not-allowed; color:var(--m-muted); }
+.tlps-workplace-steps-bar button[aria-current="step"] { border-color:var(--m-primary); background:var(--m-elevated,var(--m-surface)); }
+.tlps-workplace-steps-bar button:not(:disabled):hover { border-color:var(--m-primary); }
+.tlps-workplace-steps-bar :is(strong,small) { display:block; }
+.tlps-workplace-steps-bar small { margin-top:6px; color:var(--m-muted); }
+.tlps-workplace-step-icon { display:grid; place-items:center; flex-shrink:0; }
+.tlps-workplace-steps-bar [data-state="done"] .tlps-workplace-step-icon { color:var(--m-primary); }
+.tlps-workplace-steps-bar button:focus-visible,.tlps-demo-steps li:focus-visible { outline:2px solid var(--m-focus,var(--m-primary)); outline-offset:3px; }
+@media(max-width:700px) { .tlps-workplace-steps-bar ol { grid-template-columns:repeat(2,minmax(0,1fr)); } .tlps-workplace-action-bar { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); } .tlps-workplace-action-bar button { flex-direction:column; font-size:.85rem; padding:12px 8px; } }
 @media(max-width:600px) { .tlps-workplace-demo .m-record-form { grid-template-columns:minmax(0,1fr); } .tlps-demo-table-hint { display:block; } }
