@@ -36,7 +36,11 @@ Eight original illustrations were generated with built-in ImageGen and saved as 
 
 ## Game resources and payments
 
-Game UI Help links to `/#/gaming/handbook`, `/#/gaming/playbook`, `/#/gaming/guides` and `/#/gaming/payments`. The first three are working reference pages. Payments is a blocked setup page awaiting a merchant provider, account, currency and product scope; no real or mock checkout is connected. User intent is real payment integration. Do not treat this page or its artwork as payment-provider implementation or payment evidence. Credentials must remain server-side.
+Game UI Help links to `/#/gaming/handbook`, `/#/gaming/playbook`, `/#/gaming/guides` and `/#/gaming/payments`. Payments now hosts Shree Payment Services: a server-side Razorpay **test-only** Orders/Checkout/signature/webhook adapter and an honest provider capability directory. Run `pnpm shree:payments` after a Support Center build; its combined UI/API preview is `http://127.0.0.1:4181/#/gaming/payments`. Static previews cannot make payments.
+
+Configure server-only test credentials, explicit INR settlement and approved product prices from `payments/.env.example`. No Saptdhatu conversion, merchant credentials, live charge, external sandbox acceptance or fulfillment has been established. Subscriptions, physical orders and alternative provider adapters remain unavailable. Chitragupta eWallet provides readiness and explicit HTTP 501 operation gates; no blockchain wallet or custody service is connected.
+
+See [the integration guide](public/payments-api/integration-guide.md), [Shree OpenAPI](public/payments-api/shree.openapi.json), and [Chitragupta OpenAPI](public/payments-api/chitragupta.openapi.json). Run `pnpm shree:payments:test` for payment security and lifecycle fixture tests. Keys and the local ledger must never be published.
 
 ## Game UI Help
 

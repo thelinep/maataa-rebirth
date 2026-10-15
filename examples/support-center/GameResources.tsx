@@ -2,6 +2,7 @@ import * as React from "react";
 import { ARCADE_GAME_THEME } from "../redux-demo/themeStudioPresets";
 import { themeToCssVariables } from "../redux-demo/themeStudioModel";
 import "./game-support.css";
+import { ShreePayments } from "./ShreePayments";
 
 const chapters = {
   handbook: { title: "Arcade Quest handbook", intro: "A guide to the MAATAA interface and its illustrated world.", world: "welcome", entries: [
@@ -29,9 +30,6 @@ export function GameResources({ section }: { section: string }) {
   return <main className="sc-game-support" style={themeToCssVariables(ARCADE_GAME_THEME) as React.CSSProperties}><div className="sc-game-inner">
     <a href="#/gaming">Back to Game UI Help</a>
     <nav className="sc-game-resource-nav" aria-label="Game resources">{["handbook", "playbook", "guides", "payments"].map((item) => <a href={`#/gaming/${item}`} aria-current={section === item ? "page" : undefined} key={item}>{item[0].toUpperCase() + item.slice(1)}</a>)}</nav>
-    {chapter ? <><header className="sc-game-heading"><div><h1>{chapter.title}</h1><p>{chapter.intro}</p></div><img className="sc-game-key-art" src={`./artwork/${chapter.world}.webp`} width="768" height="512" alt="" /></header>{chapter.entries.map(([title, text]) => <section className="sc-game-resource-chapter" key={title}><h2>{title}</h2><p>{text}</p></section>)}<p><a href="#/artwork">Explore the artwork library</a></p></> : section === "payments" ? <>
-      <header className="sc-game-heading"><div><h1>Payments</h1><p>Real payment integration is being scoped. Checkout is unavailable until the merchant provider and server are configured.</p></div><img className="sc-game-key-art" src="./artwork/market.webp" width="768" height="512" alt="" /></header>
-      <section className="sc-game-resource-chapter"><h2>Integration status</h2><p role="status">Awaiting payment provider, merchant account and currency.</p><ol><li>Confirm the provider, merchant country, currency and products being sold.</li><li>Configure credentials on the server; never put secret keys in this interface.</li><li>Create payment sessions server-side and verify signed webhooks.</li><li>Validate test payments, failures, refunds and duplicate notifications before live checkout.</li></ol><button disabled className="m-button" type="button">Checkout unavailable</button><p>No payment has been created or collected by this page.</p></section>
-    </> : <><h1>Guide not found</h1><p>Choose a resource from the navigation above.</p></>}
+    {chapter ? <><header className="sc-game-heading"><div><h1>{chapter.title}</h1><p>{chapter.intro}</p></div><img className="sc-game-key-art" src={`./artwork/${chapter.world}.webp`} width="768" height="512" alt="" /></header>{chapter.entries.map(([title, text]) => <section className="sc-game-resource-chapter" key={title}><h2>{title}</h2><p>{text}</p></section>)}<p><a href="#/artwork">Explore the artwork library</a></p></> : section === "payments" ? <ShreePayments /> : <><h1>Guide not found</h1><p>Choose a resource from the navigation above.</p></>}
   </div></main>;
 }

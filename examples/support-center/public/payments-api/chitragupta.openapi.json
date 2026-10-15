@@ -1,0 +1,239 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Chitragupta eWallet API",
+    "version": "0.1.0",
+    "description": "Capability contract and explicit 501 gates. No chain integration, custody, signing, balances, transfers or NFT minting is implemented. Requested assets are not supported assets."
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:4181",
+      "description": "Local test server; no production server"
+    }
+  ],
+  "paths": {
+    "/api/chitragupta/capabilities": {
+      "get": {
+        "summary": "Read truthful wallet readiness (no credentials needed)",
+        "responses": {
+          "200": {
+            "description": "Wallet unconfigured; balance null, networks empty, all action capabilities false",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "service": {
+                      "const": "Chitragupta eWallet"
+                    },
+                    "status": {
+                      "const": "not_configured"
+                    },
+                    "custody": {
+                      "const": "not_selected"
+                    },
+                    "networks": {
+                      "type": "array",
+                      "maxItems": 0
+                    },
+                    "balance": {
+                      "type": "null"
+                    },
+                    "canConnect": {
+                      "const": false
+                    },
+                    "canSign": {
+                      "const": false
+                    },
+                    "canTransfer": {
+                      "const": false
+                    },
+                    "canMint": {
+                      "const": false
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/chitragupta/connections": {
+      "post": {
+        "summary": "Wallet connection gate",
+        "description": "Reserved operation; requests are rejected without parsing signing material. Never submit private keys or seed phrases. Future provider adapters need a versioned contract.",
+        "responses": {
+          "501": {
+            "description": "Wallet adapter not configured; no assets queried or moved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "const": "WALLET_NOT_CONFIGURED"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Origin or host rejected",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/chitragupta/assets": {
+      "get": {
+        "summary": "Asset balance gate",
+        "description": "Reserved operation; requests are rejected without parsing signing material. Never submit private keys or seed phrases. Future provider adapters need a versioned contract.",
+        "responses": {
+          "501": {
+            "description": "Wallet adapter not configured; no assets queried or moved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "const": "WALLET_NOT_CONFIGURED"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Origin or host rejected",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/chitragupta/nfts": {
+      "get": {
+        "summary": "NFT ownership gate",
+        "description": "Reserved operation; requests are rejected without parsing signing material. Never submit private keys or seed phrases. Future provider adapters need a versioned contract.",
+        "responses": {
+          "501": {
+            "description": "Wallet adapter not configured; no assets queried or moved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "const": "WALLET_NOT_CONFIGURED"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Origin or host rejected",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/chitragupta/transfers": {
+      "post": {
+        "summary": "Asset transfer gate",
+        "description": "Reserved operation; requests are rejected without parsing signing material. Never submit private keys or seed phrases. Future provider adapters need a versioned contract.",
+        "responses": {
+          "501": {
+            "description": "Wallet adapter not configured; no assets queried or moved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "const": "WALLET_NOT_CONFIGURED"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Origin or host rejected",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

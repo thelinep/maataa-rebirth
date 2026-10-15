@@ -42,13 +42,16 @@ async function saveEvidence(page: Page, testInfo: { project: { name: string }; t
 
 test("game resources provide reference pages and keep real checkout unavailable without a provider", async ({ page }) => {
   await page.goto("/#/gaming");
-  for (const [name, title] of [["Handbook", "Arcade Quest handbook"], ["Playbook", "Arcade Quest playbook"], ["Guides", "Arcade Quest guides"], ["Payments", "Payments"]]) {
+  for (const [name, title] of [["Handbook", "Arcade Quest handbook"], ["Playbook", "Arcade Quest playbook"], ["Guides", "Arcade Quest guides"], ["Payments", "Shree Payment Services"]]) {
     await page.getByRole("navigation", { name: "Game resources", exact: true }).getByRole("link", { name, exact: true }).click();
     await expect(page.getByRole("heading", { name: title, exact: true })).toBeVisible();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   }
   await expect(page.getByRole("button", { name: "Checkout unavailable" })).toBeDisabled();
-  await expect(page.getByRole("status")).toContainText("Awaiting payment provider");
+  await expect(page.getByText("Requested currency:")).toContainText("Saptdhatu");
+  await expect(page.getByRole("table", { name: "USD tiers with indicative INR equivalents" }).getByRole("row")).toHaveCount(9);
+  await expect(page.getByRole("cell", { name: "₹85.53", exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Chitragupta eWallet", level: 2 })).toBeVisible();
   await page.goto("/#/gaming/missing-resource");
   await expect(page.getByRole("heading", { name: "Guide not found" })).toBeVisible();
 });
@@ -365,4 +368,23 @@ test("no horizontal overflow across every route at a 320px viewport", async ({ p
     await page.goto(`/#/${pathName}`, { waitUntil: "domcontentloaded" });
     await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth && document.body.scrollWidth <= window.innerWidth), { message: `horizontal overflow on ${pathName}` }).toBe(true);
   }
+});
+
+
+test("Shree test checkout verifies with server and keeps subscriptions unavailable", async ({ page }) => {
+  const order = { id: "order_fixture", amount: 9900, currency: "INR", status: "created", paymentId: null, keyId: "rzp_test_fixture", mode: "test", fulfillment: "not_granted" };
+  await page.route("**/api/shree/config", (route) => route.fulfill({ json: { configured: true, blockers: [], settlementCurrency: "INR", services: [], products: [
+    { id: "game-access", name: "Game access", amount: 9900, currency: "INR", available: true, reason: null },
+    { id: "subscription", name: "Subscription", amount: null, currency: "INR", available: false, reason: "Recurring billing requires a configured provider plan and lifecycle adapter." },
+  ] } }));
+  await page.route("**/api/shree/orders", async (route) => { expect(route.request().postDataJSON().productId).toBe("game-access"); await route.fulfill({ json: order }); });
+  await page.route("**/api/shree/verify", async (route) => { expect(route.request().postDataJSON().orderId).toBe("order_fixture"); await route.fulfill({ json: { ...order, status: "paid", paymentId: "pay_fixture" } }); });
+  await page.route("https://checkout.razorpay.com/v1/checkout.js", (route) => route.fulfill({ contentType: "text/javascript", body: `window.Razorpay = class { constructor(options) { this.options = options; } on() {} open() { this.options.handler({ razorpay_order_id: 'order_fixture', razorpay_payment_id: 'pay_fixture', razorpay_signature: 'fixture' }); } };` }));
+  await page.goto("/#/gaming/payments");
+  await page.getByRole("button", { name: "Open Razorpay test checkout" }).click();
+  await expect(page.getByText("Test payment captured and verified. No real money was collected.")).toBeVisible();
+  await expect(page.getByText("No access, item, subscription or shipment granted by this test.")).toBeVisible();
+  await page.getByLabel("Purchase type").selectOption("subscription");
+  await expect(page.getByRole("button", { name: "Checkout unavailable" })).toBeDisabled();
+  await expect(page.getByText("Recurring billing requires a configured provider plan and lifecycle adapter.")).toBeVisible();
 });

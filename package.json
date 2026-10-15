@@ -493,6 +493,8 @@
     "support-center": "vite --config examples/support-center/vite.config.mjs",
     "support-center:catalog": "pnpm workspace:slices:check && node scripts/generate-support-center-package-index.mjs",
     "support-center:build": "pnpm support-center:catalog && vite build --config examples/support-center/vite.config.mjs",
+    "shree:payments": "node --env-file-if-exists=examples/support-center/payments/.env examples/support-center/payments/server.mjs",
+    "shree:payments:test": "node --test tests/shree-payments.test.mjs",
     "support-center:typecheck": "tsc --noEmit -p examples/support-center/tsconfig.json",
     "support-center:screenshots": "pnpm support-center:catalog && playwright test --config playwright.gallery.config.ts && playwright test --config playwright.support-gallery.config.ts",
     "maataa:desktop:build": "pnpm demo:build && pnpm support-center:build && pnpm tlp:build && pnpm tlps:build",
