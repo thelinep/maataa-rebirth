@@ -26,6 +26,12 @@ pnpm maataa:desktop:pack
 
 The screenshot command uses Playwright against the local MAATAA demo and Support Center, then writes optimized WebP captures to `public/screenshots/`. It covers 15 MAATAA routes, all 17 Full Surface catalogue tabs, seven independent demos, 18 Support Center screens, 33 responsive views, and 18 interaction states (108 captures total). Workspace slice captures include the full searchable directory, TLPS and NEVO detail views, and the guide. Re-run the command after changing those screens to refresh the gallery. The generated package index is based on the current `package.json` exports and source tree. `support-center:check` runs the Support Center flows; `maataa:desktop:check` builds all bundled products and verifies launcher, app-window, and TLPS-to-film handoff behavior. The desktop packaging command refreshes the unified app and ZIP with the latest gallery assets.
 
+## Game UI Help
+
+Open `/#/gaming` for the Arcade Quest styled support hub, reachable from Help home and the searchable Arcade Quest guide. It includes six searchable guides, topic filters, accessibility guidance, FAQs and entry to the existing local handoff flow. Theme and workplace links target the MAATAA local preview on port 4177. The hub uses the shared `ARCADE_GAME_THEME` preset without changing the active theme of other pages. The same preset is available in Theme Studio for explicit preview and application across MAATAA and TLPS.
+
+This is a video game inspired interface, not a playable game, game engine, live chat or ticket queue. Requests continue to follow the local support handoff boundary below.
+
 ## Support handoff boundary
 
 Drafts, feedback, and handoff packets use the app's local storage. The app has no connected support queue or ticket service. The final review step explains that nothing is sent; saved packets can be copied or downloaded as JSON for transfer through an approved support channel. Avoid including secrets, personal information, or confidential production records.

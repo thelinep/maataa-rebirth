@@ -12,8 +12,8 @@ import {
 } from "../examples/redux-demo/themeStudioModel";
 
 describe("Theme Studio design tokens", () => {
-  it("keeps all eight options readable and resets notebook ruling when switching themes", () => {
-    expect(new Set(BUILTIN_STUDIO_THEMES.map((theme) => theme.name)).size).toBe(8);
+  it("keeps all nine options readable and resets notebook ruling when switching themes", () => {
+    expect(new Set(BUILTIN_STUDIO_THEMES.map((theme) => theme.name)).size).toBe(9);
     for (const theme of BUILTIN_STUDIO_THEMES) {
       expect(contrastRatio(theme.colors.text, theme.colors.canvas), theme.name).toBeGreaterThanOrEqual(4.5);
       expect(contrastRatio(theme.colors.muted, theme.colors.surface), theme.name).toBeGreaterThanOrEqual(4.5);

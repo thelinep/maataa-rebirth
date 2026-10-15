@@ -40,6 +40,29 @@ async function saveEvidence(page: Page, testInfo: { project: { name: string }; t
   if (!mobile) await video.saveAs(path.join(evidenceDirectory, `${stem}.webm`));
 }
 
+test("Game UI Help searches guides and opens the local support handoff", async ({ page }) => {
+  await page.goto("/#/home");
+  await page.getByRole("link", { name: "Explore Game UI Help and Arcade Quest" }).click();
+  await expect(page.getByRole("heading", { name: "Your next quest: a clear answer." })).toBeVisible();
+  await expect(page.getByText("6 guides found")).toBeVisible();
+  await page.getByLabel("Help topic", { exact: true }).selectOption("Troubleshooting");
+  await page.getByLabel("Search Game UI Help", { exact: true }).fill("blank");
+  await expect(page.getByText("1 guide found")).toBeVisible();
+  await page.getByText("Recover a blank preview", { exact: true }).click();
+  await expect(page.getByText(/Refresh the page first:/)).toBeVisible();
+  await page.getByLabel("Search Game UI Help", { exact: true }).fill("nonexistent-match-xyz");
+  await page.getByRole("button", { name: "Clear filters" }).click();
+  await expect(page.getByText("6 guides found")).toBeVisible();
+  await page.getByText("Is this a playable video game?", { exact: true }).click();
+  await expect(page.getByText(/Game mechanics, scores, multiplayer/)).toBeVisible();
+  for (const width of [320, 390, 768, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+  }
+  await page.getByRole("button", { name: "Prepare a support handoff" }).click();
+  await expect(page).toHaveURL(/#\/request\/describe/);
+});
+
 test("help search, read an article, leave feedback, and browse FAQs", async ({ page }, testInfo) => {
   await openHome(page);
   if (testInfo.project.name === "chromium-desktop") {

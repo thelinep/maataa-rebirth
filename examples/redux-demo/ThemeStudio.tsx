@@ -166,7 +166,7 @@ export function ThemeStudio({ navigate }: { navigate: (path: string) => void }) 
       <p>Select an option to preview it. Use Apply theme when you want it across MAATAA and TLPS.</p>
       <div>{BUILTIN_STUDIO_THEMES.map((theme) => <button type="button" key={theme.name} aria-pressed={draft.name === theme.name} onClick={() => { setDraft(theme); setNotice(`${theme.name} loaded for preview`); }}>
         <span className="studio-preset-swatches" aria-hidden="true">{[theme.colors.canvas, theme.colors.surface, theme.colors.text, theme.colors.primary].map((color, index) => <i key={index} style={{ backgroundColor: color }} />)}</span>
-        <strong>{theme.name.replace("TLPS · ", "")}</strong>
+        <strong>{theme.name.replace(/^(TLPS|MAATAA) · /, "")}</strong>
       </button>)}</div>
     </section>
     <div className="theme-studio-workspace">

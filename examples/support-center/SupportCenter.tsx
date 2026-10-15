@@ -37,6 +37,7 @@ import * as ToolAtoms from "@maataa/ui/tool-atoms";
 import * as AISpaceAtoms from "@maataa/ui/ai-space-atoms";
 import * as DeviceAtoms from "@maataa/ui/device-atoms";
 import { ADDITIONAL_PACKAGES } from "./ProductPackages";
+const GameSupportCenter = React.lazy(() => import("./GameSupportCenter").then((module) => ({ default: module.GameSupportCenter })));
 import { readStoredValue, removeStoredValue, SearchField, SelectField, TextAreaField, TextField, writeStoredValue } from "@maataa/ui/compounds";
 
 type Article = {
@@ -95,6 +96,12 @@ const readGalleryGroup = () => {
 };
 
 const ARTICLES: Article[] = [
+  {
+    id: "gaming-ui", title: "Get started with Arcade Quest and Game UI Help", category: "Appearance", updated: "Local theme guide",
+    summary: "Preview the video game inspired MAATAA theme and find help for local demos.",
+    body: ["Choose MAATAA · Arcade Quest in Theme Studio. It uses a dark violet palette, lavender actions, mint focus indicators and compact solid surfaces. Selection changes the preview only; Apply theme applies it locally.", "Game UI Help includes searchable setup, troubleshooting and accessibility guides, plus the existing local support handoff. This is an interface theme and help hub, not a playable game or a connected ticket service."],
+    related: ["themes", "accessibility", "support"],
+  },
   {
     id: "start",
     title: "Start with MAATAA UI",
@@ -1767,6 +1774,7 @@ export function SupportCenter() {
               this device
             </div>
           </section>
+          <p><a className="sc-article-cta" href="#/gaming">Explore Game UI Help and Arcade Quest <Icon name="arrow" size={16} /></a></p>
           <div className="sc-search-wrap">
             <Icon name="search" size={22} />
             <input
@@ -2075,6 +2083,8 @@ export function SupportCenter() {
           )}
         </main>
       )}
+
+      {route === "gaming" && <React.Suspense fallback={<main className="sc-main"><p role="status">Loading Game UI Help…</p></main>}><GameSupportCenter onRequest={startRequest} /></React.Suspense>}
 
       {route === "screens" && (
         <main className="sc-main">
@@ -2564,6 +2574,7 @@ export function SupportCenter() {
             {article.body.map((paragraph, i) => (
               <p key={i}>{paragraph}</p>
             ))}
+            {article.id === "gaming-ui" && <a className="sc-article-cta" href="#/gaming">Open Game UI Help <Icon name="arrow" /></a>}
             {article.id === "branding-studio" && (
               <>
                 <div className="sc-article-screenshot-grid">
@@ -3531,6 +3542,7 @@ export function SupportCenter() {
       {!(
         [
           "home",
+          "gaming",
           "screens",
           "product-map",
           "screenshots",

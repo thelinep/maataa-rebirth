@@ -12,7 +12,15 @@ function preset(name: string, colors: Partial<StudioTheme["colors"]>, paper = fa
 }
 
 /** Curated options stay available independently of personal browser-saved presets. */
+export const ARCADE_GAME_THEME: StudioTheme = {
+  ...preset("MAATAA · Arcade Quest", { canvas: "#141125", surface: "#211b38", elevated: "#2d2549", text: "#f4f0ff", muted: "#c0b4d8", border: "#6e5d94", primary: "#c3a4ff", primaryText: "#1a0d35", secondary: "#352a50", success: "#8ae6bc", warning: "#f5d08a", danger: "#ffadbb", info: "#94dfea", focus: "#8ae6bc" }),
+  typography: { ...DEFAULT_STUDIO_THEME.typography, headingFont: DEFAULT_STUDIO_THEME.typography.monoFont, scale: 1.2, headingWeight: 700, lineHeight: 1.6, letterSpacing: 0 },
+  shape: { ...DEFAULT_STUDIO_THEME.shape, radius: 8, surfaceStyle: "solid", borderWidth: 1, shadowOpacity: 0, paperPattern: "plain" },
+  motion: { ...DEFAULT_STUDIO_THEME.motion, duration: 120, hoverLift: false },
+};
+
 export const BUILTIN_STUDIO_THEMES: readonly StudioTheme[] = [
+  ARCADE_GAME_THEME,
   preset("TLPS · Warm Paper", { canvas: "#fbf8f1", surface: "#fffdf8", elevated: "#f0e9dc", text: "#221d16", muted: "#645b50", border: "#c9bcaa", primary: "#795321", primaryText: "#ffffff", secondary: "#e4dac9", focus: "#795321" }),
   preset("TLPS · Cinema Gold", { canvas: "#17140f", surface: "#211d17", elevated: "#29231b", text: "#f6efe3", muted: "#bdb2a3", border: "#51483a", primary: "#d7ad2e", primaryText: "#211a07", secondary: "#3a3024", focus: "#d7ad2e" }),
   preset("TLPS · Slate Teal", { canvas: "#101e25", surface: "#182c35", elevated: "#213b46", text: "#edf6f8", muted: "#b0c6cd", border: "#45616c", primary: "#67dbc6", primaryText: "#092720", secondary: "#213b46", focus: "#67dbc6" }),

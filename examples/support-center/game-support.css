@@ -1,0 +1,22 @@
+.sc-game-support { background:var(--m-bg); color:var(--m-text); font-family:var(--m-font-sans); flex:1; min-width:0; }
+.sc-game-inner { width:min(1040px,calc(100% - 48px)); margin:0 auto; padding:40px 0 64px; }
+.sc-game-support a { color:var(--m-info); text-underline-offset:4px; }
+.sc-game-support p { line-height:1.7; max-width:70ch; }
+.sc-game-heading { display:flex; align-items:center; justify-content:space-between; gap:32px; padding:40px 0; }
+.sc-game-heading h1 { font-family:var(--m-font-heading); font-size:clamp(2rem,4vw,3.4rem); line-height:1.15; max-width:20ch; margin:0 0 20px; text-wrap:balance; }
+.sc-game-heading > svg { color:var(--m-success); flex-shrink:0; }
+.sc-game-controls { display:grid; grid-template-columns:minmax(0,1.6fr) minmax(0,1fr); gap:24px; padding:24px; background:var(--m-surface); border-radius:var(--m-radius-lg); }
+.sc-game-controls label { display:grid; gap:10px; }
+.sc-game-controls :is(input,select) { width:100%; min-height:48px; padding:12px; border:1px solid var(--m-border); border-radius:var(--m-radius-sm); background:var(--m-bg); color:var(--m-text); }
+.sc-game-controls input::placeholder { color:var(--m-muted); opacity:1; }
+.sc-game-support :is(button,a,summary,input,select):focus-visible { outline:3px solid var(--m-focus); outline-offset:4px; }
+.sc-game-guides,.sc-game-faq { padding-top:40px; }
+.sc-game-support h2 { font-family:var(--m-font-heading); font-size:1.4rem; }
+.sc-game-support details { border-bottom:1px solid var(--m-border); padding:20px 0; }
+.sc-game-support summary { cursor:pointer; font-weight:650; line-height:1.6; }
+.sc-game-support details > a { display:inline-flex; align-items:center; gap:10px; margin:8px 0; }
+.sc-game-request { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:24px; border-top:1px solid var(--m-border); margin-top:48px; padding-top:24px; }
+.sc-game-request p { max-width:55ch; }
+.sc-game-scope { color:var(--m-muted); margin-top:32px; }
+.sc-game-support ::selection { background:var(--m-primary); color:var(--m-primary-contrast); }
+@media(max-width:600px) { .sc-game-controls { grid-template-columns:minmax(0,1fr); padding:16px; } .sc-game-heading { align-items:flex-start; } .sc-game-heading > svg { display:none; } }
