@@ -21,7 +21,8 @@ export function GameSupportCenter({ onRequest }: { onRequest: () => void }) {
   return <main className="sc-game-support" style={themeToCssVariables(ARCADE_GAME_THEME) as React.CSSProperties}>
     <div className="sc-game-inner">
       <a href="#/home">Back to Support Center</a>
-      <header className="sc-game-heading"><div><h1>Your next quest: a clear answer.</h1><p>Game UI Help for MAATAA. Set up a theme, try a workplace demo, or recover your next step.</p></div><MaataaIcon name="playground" size={72} /></header>
+      <nav className="sc-game-resource-nav" aria-label="Game resources">{["handbook", "playbook", "guides", "payments"].map((item) => <a key={item} href={`#/gaming/${item}`}>{item[0].toUpperCase() + item.slice(1)}</a>)}</nav>
+      <header className="sc-game-heading"><div><h1>Your next quest: a clear answer.</h1><p>Game UI Help for MAATAA. Set up a theme, try a workplace demo, or recover your next step.</p><a href="#/artwork">Explore all artwork frames <MaataaIcon name="arrow-right" /></a></div><img className="sc-game-key-art" src="./artwork/welcome.webp" width="768" height="512" alt="" /></header>
       <div className="sc-game-controls">
         <label>Search Game UI Help<input type="search" placeholder="Themes, progress, blank screen…" value={query} onChange={(event) => setQuery(event.target.value)} /></label>
         <label>Help topic<select aria-label="Help topic" value={category} onChange={(event) => setCategory(event.target.value)}><option>All topics</option><option>Getting started</option><option>Troubleshooting</option><option>Accessibility</option></select></label>

@@ -40,6 +40,37 @@ async function saveEvidence(page: Page, testInfo: { project: { name: string }; t
   if (!mobile) await video.saveAs(path.join(evidenceDirectory, `${stem}.webm`));
 }
 
+test("game resources provide reference pages and keep real checkout unavailable without a provider", async ({ page }) => {
+  await page.goto("/#/gaming");
+  for (const [name, title] of [["Handbook", "Arcade Quest handbook"], ["Playbook", "Arcade Quest playbook"], ["Guides", "Arcade Quest guides"], ["Payments", "Payments"]]) {
+    await page.getByRole("navigation", { name: "Game resources", exact: true }).getByRole("link", { name, exact: true }).click();
+    await expect(page.getByRole("heading", { name: title, exact: true })).toBeVisible();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+  }
+  await expect(page.getByRole("button", { name: "Checkout unavailable" })).toBeDisabled();
+  await expect(page.getByRole("status")).toContainText("Awaiting payment provider");
+  await page.goto("/#/gaming/missing-resource");
+  await expect(page.getByRole("heading", { name: "Guide not found" })).toBeVisible();
+});
+
+test("artwork gallery searches every source and opens named frames", async ({ page }) => {
+  await page.goto("/#/gaming");
+  await page.getByRole("link", { name: "Explore all artwork frames" }).click();
+  await expect(page.getByRole("heading", { name: "Arcade Quest artwork" })).toBeVisible();
+  await page.getByLabel("Frame source", { exact: true }).selectOption("TLPS");
+  await expect(page.getByRole("status")).toContainText("31 frames found");
+  await page.getByLabel("Find an artwork frame", { exact: true }).fill("Casting Board");
+  await page.getByRole("link", { name: /Casting Board Workspace/ }).click();
+  await expect(page.getByTestId("artwork-frame")).toContainText("Casting Board Workspace");
+  await expect(page.getByRole("link", { name: "Download this frame" })).toHaveAttribute("href", /workspace-casting-casting-board\.webp$/);
+  for (const width of [320, 390, 768, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+  }
+  await page.goto("/#/artwork/not-a-real-frame");
+  await expect(page.getByRole("heading", { name: "Frame not found" })).toBeVisible();
+});
+
 test("Game UI Help searches guides and opens the local support handoff", async ({ page }) => {
   await page.goto("/#/home");
   await page.getByRole("link", { name: "Explore Game UI Help and Arcade Quest" }).click();

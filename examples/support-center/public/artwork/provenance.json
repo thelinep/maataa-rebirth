@@ -1,0 +1,72 @@
+{
+  "generator": "Built-in ImageGen",
+  "sourceImages": [
+    {
+      "id": "welcome",
+      "path": "/Users/vesahe/.codex/generated_images/01a139bc-44f7-7ad3-9522-83d2ad0c8923/exec-0abf7c73-54fd-48ae-8b8f-93aadc463442.png"
+    },
+    {
+      "id": "creative",
+      "path": "/Users/vesahe/.codex/generated_images/01a139bc-44f7-7ad3-9522-83d2ad0c8923/exec-f54f5ee9-6768-4414-af28-1fa32e355f15.png"
+    },
+    {
+      "id": "operations",
+      "path": "/Users/vesahe/.codex/generated_images/01a139bc-44f7-7ad3-9522-83d2ad0c8923/exec-bf20a646-ec53-442f-9fbb-7f4f9fd79749.png"
+    },
+    {
+      "id": "data",
+      "path": "/Users/vesahe/.codex/generated_images/01a139bc-44f7-7ad3-9522-83d2ad0c8923/exec-e6b9cc24-3d2f-4270-9542-6ed743a871ef.png"
+    },
+    {
+      "id": "market",
+      "path": "/Users/vesahe/.codex/generated_images/01a139bc-44f7-7ad3-9522-83d2ad0c8923/exec-539228d7-7655-4be8-8f2f-75e0d02b63bd.png"
+    },
+    {
+      "id": "people",
+      "path": "/Users/vesahe/.codex/generated_images/01a139bc-44f7-7ad3-9522-83d2ad0c8923/exec-8ca07a10-a13f-4708-80ea-0d55347cd255.png"
+    },
+    {
+      "id": "governance",
+      "path": "/Users/vesahe/.codex/generated_images/01a139bc-44f7-7ad3-9522-83d2ad0c8923/exec-f3996e61-b7c0-4a58-b95f-060c80df68c4.png"
+    },
+    {
+      "id": "platform",
+      "path": "/Users/vesahe/.codex/generated_images/01a139bc-44f7-7ad3-9522-83d2ad0c8923/exec-555f97f8-d175-464e-ae72-6cbb2955245f.png"
+    }
+  ],
+  "prompts": [
+    {
+      "id": "welcome",
+      "prompt": "Use case: stylized-concept. Asset type: polished landscape illustration for MAATAA Arcade Quest interface frames. Create a wide 3:2 composition, not a UI screenshot. Consistent art direction: exquisitely crafted isometric game environment, tactile low-poly stone and ceramic, deep violet night #141125, lavender luminous accents #c3a4ff, restrained mint light #8ae6bc, soft atmospheric depth, sophisticated editorial game concept art, crisp readable silhouettes, no bloom overload. Compose the detailed environment mainly in the right two-thirds with a calm dark left third for real HTML headings. No text, numbers, letters, logos, watermarks, UI controls, people or mascots. This is original art, no franchise references. A welcoming floating island gateway with an open violet stone arch, a gentle mint-lit path and a distant constellation of small islands. A calm exploration hub representing help and getting started."
+    },
+    {
+      "id": "creative",
+      "prompt": "Use case: stylized-concept. Asset type: polished landscape illustration for MAATAA Arcade Quest interface frames. Create a wide 3:2 composition, not a UI screenshot. Consistent art direction: exquisitely crafted isometric game environment, tactile low-poly stone and ceramic, deep violet night #141125, lavender luminous accents #c3a4ff, restrained mint light #8ae6bc, soft atmospheric depth, sophisticated editorial game concept art, crisp readable silhouettes, no bloom overload. Compose the detailed environment mainly in the right two-thirds with a calm dark left third for real HTML headings. No text, numbers, letters, logos, watermarks, UI controls, people or mascots. This is original art, no franchise references. An imaginative floating makers' atelier with sculptural blank canvases, a small stage, a film-reel sculpture, folded-paper forms and lavender worktables. Represents design, writing, media and production."
+    },
+    {
+      "id": "operations",
+      "prompt": "Use case: stylized-concept. Asset type: polished landscape illustration for MAATAA Arcade Quest interface frames. Create a wide 3:2 composition, not a UI screenshot. Consistent art direction: exquisitely crafted isometric game environment, tactile low-poly stone and ceramic, deep violet night #141125, lavender luminous accents #c3a4ff, restrained mint light #8ae6bc, soft atmospheric depth, sophisticated editorial game concept art, crisp readable silhouettes, no bloom overload. Compose the detailed environment mainly in the right two-thirds with a calm dark left third for real HTML headings. No text, numbers, letters, logos, watermarks, UI controls, people or mascots. This is original art, no franchise references. An orderly floating expedition base with tiered platforms, small supply crates, a map-like tabletop without markings, bridges and a mint-lit route through the scene. Represents projects, events, tasks and logistics."
+    },
+    {
+      "id": "data",
+      "prompt": "Use case: stylized-concept. Asset type: polished landscape illustration for MAATAA Arcade Quest interface frames. Create a wide 3:2 composition, not a UI screenshot. Consistent art direction: exquisitely crafted isometric game environment, tactile low-poly stone and ceramic, deep violet night #141125, lavender luminous accents #c3a4ff, restrained mint light #8ae6bc, soft atmospheric depth, sophisticated editorial game concept art, crisp readable silhouettes, no bloom overload. Compose the detailed environment mainly in the right two-thirds with a calm dark left third for real HTML headings. No text, numbers, letters, logos, watermarks, UI controls, people or mascots. This is original art, no franchise references. An elegant floating observatory with a crystal lens, stacks of translucent violet data prisms, orbiting small geometric nodes and tidy library towers. Represents analytics, AI, data and knowledge."
+    },
+    {
+      "id": "market",
+      "prompt": "Use case: stylized-concept. Asset type: polished landscape illustration for MAATAA Arcade Quest interface frames. Create a wide 3:2 composition, not a UI screenshot. Consistent art direction: exquisitely crafted isometric game environment, tactile low-poly stone and ceramic, deep violet night #141125, lavender luminous accents #c3a4ff, restrained mint light #8ae6bc, soft atmospheric depth, sophisticated editorial game concept art, crisp readable silhouettes, no bloom overload. Compose the detailed environment mainly in the right two-thirds with a calm dark left third for real HTML headings. No text, numbers, letters, logos, watermarks, UI controls, people or mascots. This is original art, no franchise references. A beautiful floating market square with orderly empty violet stalls, ceramic containers, small mint crystals, a central exchange pavilion and interconnected stone paths. Represents commerce, marketplaces, budget and investment planning."
+    },
+    {
+      "id": "people",
+      "prompt": "Use case: stylized-concept. Asset type: polished landscape illustration for MAATAA Arcade Quest interface frames. Create a wide 3:2 composition, not a UI screenshot. Consistent art direction: exquisitely crafted isometric game environment, tactile low-poly stone and ceramic, deep violet night #141125, lavender luminous accents #c3a4ff, restrained mint light #8ae6bc, soft atmospheric depth, sophisticated editorial game concept art, crisp readable silhouettes, no bloom overload. Compose the detailed environment mainly in the right two-thirds with a calm dark left third for real HTML headings. No text, numbers, letters, logos, watermarks, UI controls, people or mascots. This is original art, no franchise references. A tranquil floating community courtyard with a circular meeting table, empty seats, several interconnected small pavilions and branching mint-lit footpaths. Represents teams, casting, crew, guests and communication."
+    },
+    {
+      "id": "governance",
+      "prompt": "Use case: stylized-concept. Asset type: polished landscape illustration for MAATAA Arcade Quest interface frames. Create a wide 3:2 composition, not a UI screenshot. Consistent art direction: exquisitely crafted isometric game environment, tactile low-poly stone and ceramic, deep violet night #141125, lavender luminous accents #c3a4ff, restrained mint light #8ae6bc, soft atmospheric depth, sophisticated editorial game concept art, crisp readable silhouettes, no bloom overload. Compose the detailed environment mainly in the right two-thirds with a calm dark left third for real HTML headings. No text, numbers, letters, logos, watermarks, UI controls, people or mascots. This is original art, no franchise references. A serene floating archive sanctuary with a crystalline protective vault, upright stone document tablets with no markings, precisely balanced pillars and a mint-lit threshold. Represents evidence, review, security and responsible decisions."
+    },
+    {
+      "id": "platform",
+      "prompt": "Use case: stylized-concept. Asset type: polished landscape illustration for MAATAA Arcade Quest interface frames. Create a wide 3:2 composition, not a UI screenshot. Consistent art direction: exquisitely crafted isometric game environment, tactile low-poly stone and ceramic, deep violet night #141125, lavender luminous accents #c3a4ff, restrained mint light #8ae6bc, soft atmospheric depth, sophisticated editorial game concept art, crisp readable silhouettes, no bloom overload. Compose the detailed environment mainly in the right two-thirds with a calm dark left third for real HTML headings. No text, numbers, letters, logos, watermarks, UI controls, people or mascots. This is original art, no franchise references. An ingenious floating workshop of modular violet stone machines, interlocking bridges, small blank terminal-like panels, an energy core and layered platforms. Represents software development, infrastructure, devices and connected systems."
+    }
+  ],
+  "notes": "Eight original generated scene illustrations shared across named artwork frames. Frame text is rendered from the local registries, not baked into the scene images. No real project records or completed work are represented."
+}

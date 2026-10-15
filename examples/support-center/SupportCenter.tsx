@@ -38,6 +38,8 @@ import * as AISpaceAtoms from "@maataa/ui/ai-space-atoms";
 import * as DeviceAtoms from "@maataa/ui/device-atoms";
 import { ADDITIONAL_PACKAGES } from "./ProductPackages";
 const GameSupportCenter = React.lazy(() => import("./GameSupportCenter").then((module) => ({ default: module.GameSupportCenter })));
+const ArtworkGallery = React.lazy(() => import("./ArtworkGallery").then((module) => ({ default: module.ArtworkGallery })));
+const GameResources = React.lazy(() => import("./GameResources").then((module) => ({ default: module.GameResources })));
 import { readStoredValue, removeStoredValue, SearchField, SelectField, TextAreaField, TextField, writeStoredValue } from "@maataa/ui/compounds";
 
 type Article = {
@@ -2085,6 +2087,8 @@ export function SupportCenter() {
       )}
 
       {route === "gaming" && <React.Suspense fallback={<main className="sc-main"><p role="status">Loading Game UI Help…</p></main>}><GameSupportCenter onRequest={startRequest} /></React.Suspense>}
+      {route.startsWith("gaming/") && <React.Suspense fallback={<main className="sc-main"><p role="status">Loading game resources…</p></main>}><GameResources section={route.slice(7)} /></React.Suspense>}
+      {(route === "artwork" || route.startsWith("artwork/")) && <React.Suspense fallback={<main className="sc-main"><p role="status">Loading artwork…</p></main>}><ArtworkGallery route={route} /></React.Suspense>}
 
       {route === "screens" && (
         <main className="sc-main">
@@ -3543,6 +3547,7 @@ export function SupportCenter() {
         [
           "home",
           "gaming",
+          "artwork",
           "screens",
           "product-map",
           "screenshots",
@@ -3556,6 +3561,8 @@ export function SupportCenter() {
         ].includes(route) ||
         Boolean(productPackage) ||
         route.startsWith("article/") ||
+        route.startsWith("artwork/") ||
+        route.startsWith("gaming/") ||
         route.startsWith("workspace/") ||
         route.startsWith("workspace-slice/") ||
         route.startsWith("request/done/")

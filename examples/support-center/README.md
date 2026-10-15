@@ -26,6 +26,18 @@ pnpm maataa:desktop:pack
 
 The screenshot command uses Playwright against the local MAATAA demo and Support Center, then writes optimized WebP captures to `public/screenshots/`. It covers 15 MAATAA routes, all 17 Full Surface catalogue tabs, seven independent demos, 18 Support Center screens, 33 responsive views, and 18 interaction states (108 captures total). Workspace slice captures include the full searchable directory, TLPS and NEVO detail views, and the guide. Re-run the command after changing those screens to refresh the gallery. The generated package index is based on the current `package.json` exports and source tree. `support-center:check` runs the Support Center flows; `maataa:desktop:check` builds all bundled products and verifies launcher, app-window, and TLPS-to-film handoff behavior. The desktop packaging command refreshes the unified app and ZIP with the latest gallery assets.
 
+## Arcade Quest artwork frames
+
+Open `/#/artwork` from Game UI Help to search and filter the complete artwork collection by MAATAA, TLPS, Support Center or illustration world. The source registry currently covers 616 MAATAA workspace entries, all 31 TLPS product workspace entries and twelve Support Center visual states: 659 named frames total. Each detail view includes a downloadable 1200×720 WebP frame. The complete frame pack and manifest are downloadable from the gallery.
+
+Eight original illustrations were generated with built-in ImageGen and saved as optimized WebP assets under `public/artwork/`. Their exact prompts and source paths are recorded in `provenance.json` and per-image sidecars. Named frames combine those shared scenes with registry-derived titles and synthetic sample content; they are not 659 individually generated illustrations or evidence that new live workflows are connected. Existing support forms and workplace demos keep their original behavior.
+
+`scripts/export-arcade-artwork.mjs` regenerates the named frames, checks each rendered frame for clipping, and builds the manifest and ZIP using a running local Support Center preview (default port 4180). Rebuild the Support Center afterwards to copy refreshed exports into its served output. Re-run the exporter whenever the registries, artwork or frame layout changes. The manifest records counts, individual filenames, failures and overflow findings.
+
+## Game resources and payments
+
+Game UI Help links to `/#/gaming/handbook`, `/#/gaming/playbook`, `/#/gaming/guides` and `/#/gaming/payments`. The first three are working reference pages. Payments is a blocked setup page awaiting a merchant provider, account, currency and product scope; no real or mock checkout is connected. User intent is real payment integration. Do not treat this page or its artwork as payment-provider implementation or payment evidence. Credentials must remain server-side.
+
 ## Game UI Help
 
 Open `/#/gaming` for the Arcade Quest styled support hub, reachable from Help home and the searchable Arcade Quest guide. It includes six searchable guides, topic filters, accessibility guidance, FAQs and entry to the existing local handoff flow. Theme and workplace links target the MAATAA local preview on port 4177. The hub uses the shared `ARCADE_GAME_THEME` preset without changing the active theme of other pages. The same preset is available in Theme Studio for explicit preview and application across MAATAA and TLPS.
