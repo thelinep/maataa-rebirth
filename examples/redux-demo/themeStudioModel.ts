@@ -27,6 +27,7 @@ export type StudioTheme = {
     letterSpacing: number;
   };
   shape: {
+    paperPattern?: "plain" | "ruled";
     radius: number;
     surfaceStyle: "solid" | "soft" | "glass";
     borderWidth: number;
@@ -106,6 +107,7 @@ export function themeToCssVariables(theme: StudioTheme): Record<string, string> 
     ? `color-mix(in srgb, ${colors.surface} 76%, transparent)` : colors.surface;
   return {
     "--m-bg": colors.canvas, "--m-surface": colors.surface, "--m-elevated": colors.elevated,
+    "--m-paper-pattern": shape.paperPattern === "ruled" ? `repeating-linear-gradient(to bottom, transparent 0, transparent 31px, color-mix(in srgb, ${colors.primary} 6%, transparent) 31px, color-mix(in srgb, ${colors.primary} 6%, transparent) 32px)` : "none",
     "--m-text": colors.text, "--m-muted": colors.muted, "--m-border": colors.border,
     "--m-primary": colors.primary, "--m-primary-contrast": colors.primaryText, "--m-secondary": colors.secondary,
     "--m-success": colors.success, "--m-warning": colors.warning, "--m-danger": colors.danger, "--m-info": colors.info,

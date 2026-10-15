@@ -13,6 +13,7 @@
   );
   color: var(--ts-ink);
   background: var(--ts-canvas);
+  background-image:var(--m-paper-pattern,none);
   font-family: var(--m-font-sans, inherit);
   padding-top: 24px;
   padding-bottom: 32px;

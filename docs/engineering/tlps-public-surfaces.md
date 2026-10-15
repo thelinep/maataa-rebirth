@@ -14,6 +14,10 @@ The stage and OS crosswalk draws from the six authored lifecycle stages, TLPS pr
 
 Bookings, venue permission, legal clearance, real payments, authenticated access, durable server storage, and production completion are not established by these surfaces. Onboarding's “Save setup locally” button persists only the chosen setup in localStorage.
 
+## Theme options
+
+Theme Studio (`/#/theme-studio`) includes seven built-in TLPS candidates: Warm Paper, Cinema Gold, Slate Teal, Ink White, Graphite Paper, Blue Notebook and Kraft Sketch. Their central catalogue is `examples/redux-demo/themeStudioPresets.ts`; add future curated options there. Options are available both as visible swatch buttons and in the theme dropdown, independently of browser-saved personal presets. Selecting previews a draft; “Apply theme” explicitly applies it across MAATAA and TLPS and saves it on this device. Blue Notebook includes fine paper ruling through the exported `--m-paper-pattern` token. Resetting the applied theme clears the pattern along with other custom tokens. Saved older themes default to no paper pattern.
+
 ## Workplace demo workflows
 
 Every mapped workplace has a local record form, synthetic sample records, record-status controls and a four-step rehearsal tailored to its area. Register areas reuse their existing fields and samples. Production, Finance, Evidence, Crew and Location use a planning-item form for these separate workplace rehearsals; the original full film-planning demo is still available.

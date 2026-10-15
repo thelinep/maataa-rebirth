@@ -20,6 +20,7 @@ import {
   type StudioTheme,
 } from "./themeStudioModel";
 import "./theme-studio.css";
+import { BUILTIN_STUDIO_THEMES } from "./themeStudioPresets";
 import { readStoredText, removeStoredValue, writeStoredValue } from "@maataa/ui/compounds";
 
 type StudioPanel = "overview" | "typography" | "colors" | "surfaces" | "motion";
@@ -143,7 +144,7 @@ export function ThemeStudio({ navigate }: { navigate: (path: string) => void }) 
   };
 
   const choosePreset = (name: string) => {
-    const preset = presets.find((item) => item.name === name);
+    const preset = presets.find((item) => item.name === name) ?? BUILTIN_STUDIO_THEMES.find((item) => item.name === name);
     if (preset) { setDraft(preset); setNotice(`${preset.name} loaded`); }
   };
 
@@ -160,11 +161,19 @@ export function ThemeStudio({ navigate }: { navigate: (path: string) => void }) 
       <div className="studio-header-actions"><button className="ghost-button" onClick={() => navigate("/branding-studio")}>Branding Studio</button><button className="ghost-button" onClick={() => navigate("/playground")}>Preview components</button><button className="ghost-button" onClick={downloadJson}>Export JSON</button><button className="gold-button" onClick={applyGlobally}>Apply theme</button></div>
     </div>
 
+    <section className="studio-preset-library" aria-label="Theme options">
+      <h2>Theme options</h2>
+      <p>Select an option to preview it. Use Apply theme when you want it across MAATAA and TLPS.</p>
+      <div>{BUILTIN_STUDIO_THEMES.map((theme) => <button type="button" key={theme.name} aria-pressed={draft.name === theme.name} onClick={() => { setDraft(theme); setNotice(`${theme.name} loaded for preview`); }}>
+        <span className="studio-preset-swatches" aria-hidden="true">{[theme.colors.canvas, theme.colors.surface, theme.colors.text, theme.colors.primary].map((color, index) => <i key={index} style={{ backgroundColor: color }} />)}</span>
+        <strong>{theme.name.replace("TLPS · ", "")}</strong>
+      </button>)}</div>
+    </section>
     <div className="theme-studio-workspace">
       <aside className="studio-sidebar">
         <div className="studio-sidebar-title"><span>STUDIO</span><strong>Theme system</strong></div>
         <nav aria-label="Theme Studio sections">{PANELS.map((item) => <button key={item.id} className={panel === item.id ? "is-active" : ""} aria-current={panel === item.id ? "page" : undefined} onClick={() => setPanel(item.id)}><span className="studio-nav-marker"/>{item.label}<span className="studio-nav-arrow">↗</span></button>)}</nav>
-        <div className="studio-sidebar-bottom"><span>Saved on this device</span><select aria-label="Saved themes" value="" onChange={(event) => choosePreset(event.target.value)}><option value="">Load saved theme</option>{presets.map((preset) => <option key={preset.name} value={preset.name}>{preset.name}</option>)}</select><button className="studio-quiet-button" onClick={deletePreset}>Delete current preset</button></div>
+        <div className="studio-sidebar-bottom"><span>Theme library & personal presets</span><select aria-label="Saved themes" value="" onChange={(event) => choosePreset(event.target.value)}><option value="">Load a theme</option><optgroup label="Built-in TLPS themes">{BUILTIN_STUDIO_THEMES.map((preset) => <option key={preset.name} value={preset.name}>{preset.name}</option>)}</optgroup><optgroup label="Saved on this device">{presets.map((preset) => <option key={preset.name} value={preset.name}>{preset.name}</option>)}</optgroup></select><button className="studio-quiet-button" disabled={!presets.some((preset) => preset.name === draft.name)} onClick={deletePreset}>Delete current preset</button></div>
       </aside>
 
       <div className="studio-editor" aria-live="polite">

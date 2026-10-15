@@ -1,5 +1,26 @@
 import { expect, test } from "@playwright/test";
 
+test("all TLPS options preview independently and notebook styling applies to TLPS", async ({ page }) => {
+  await page.goto("/#/theme-studio");
+  const library = page.getByRole("region", { name: "Theme options", exact: true });
+  await expect(library.getByRole("button")).toHaveCount(7);
+  for (const name of ["Warm Paper", "Cinema Gold", "Slate Teal", "Ink White", "Graphite Paper", "Blue Notebook", "Kraft Sketch"]) {
+    await library.getByRole("button", { name, exact: true }).click();
+    await expect(page.getByLabel("Theme name", { exact: true })).toHaveValue(`TLPS · ${name}`);
+    await expect(page.locator("html")).not.toHaveAttribute("data-maataa-custom-theme");
+  }
+  await library.getByRole("button", { name: "Blue Notebook", exact: true }).click();
+  await expect(page.locator(".theme-studio-preview")).toHaveCSS("background-image", /repeating-linear-gradient/);
+  await page.getByRole("button", { name: "Apply theme", exact: true }).click();
+  await page.goto("/#/tlps");
+  await expect(page.locator(".tlps-site")).toHaveCSS("background-image", /repeating-linear-gradient/);
+  await page.reload();
+  await expect(page.locator(".tlps-site")).toHaveCSS("--m-bg", "#f4f5ee");
+  await page.goto("/#/theme-studio");
+  await page.getByRole("button", { name: "Reset applied theme", exact: true }).click();
+  await expect(page.locator("html")).not.toHaveAttribute("data-maataa-custom-theme");
+});
+
 test("Theme Studio edits typography and palette in a live package preview", async ({ page }) => {
   await page.goto("/#/theme-studio", { waitUntil: "domcontentloaded" });
   await expect(page.locator('[data-maataa-demo-ready="true"]')).toBeVisible();

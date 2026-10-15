@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { BUILTIN_STUDIO_THEMES } from "../examples/redux-demo/themeStudioPresets";
 import {
   DEFAULT_STUDIO_THEME,
   applyThemeTokens,
@@ -11,6 +12,18 @@ import {
 } from "../examples/redux-demo/themeStudioModel";
 
 describe("Theme Studio design tokens", () => {
+  it("keeps all seven options readable and resets notebook ruling when switching themes", () => {
+    expect(new Set(BUILTIN_STUDIO_THEMES.map((theme) => theme.name)).size).toBe(7);
+    for (const theme of BUILTIN_STUDIO_THEMES) {
+      expect(contrastRatio(theme.colors.text, theme.colors.canvas), theme.name).toBeGreaterThanOrEqual(4.5);
+      expect(contrastRatio(theme.colors.muted, theme.colors.surface), theme.name).toBeGreaterThanOrEqual(4.5);
+      expect(contrastRatio(theme.colors.primaryText, theme.colors.primary), theme.name).toBeGreaterThanOrEqual(4.5);
+      expect(parseActiveTheme(JSON.stringify(theme))?.name).toBe(theme.name);
+    }
+    const notebook = BUILTIN_STUDIO_THEMES.find((theme) => theme.name.endsWith("Blue Notebook"))!;
+    expect(themeToCssVariables(notebook)["--m-paper-pattern"]).toContain("repeating-linear-gradient");
+    expect(themeToCssVariables(DEFAULT_STUDIO_THEME)["--m-paper-pattern"]).toBe("none");
+  });
   it("measures WCAG contrast and composes exportable semantic variables", () => {
     expect(contrastRatio("#000000", "#ffffff")).toBeCloseTo(21, 1);
     const variables = themeToCssVariables(DEFAULT_STUDIO_THEME);
