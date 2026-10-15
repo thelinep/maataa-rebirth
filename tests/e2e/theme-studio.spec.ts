@@ -3,12 +3,14 @@ import { expect, test } from "@playwright/test";
 test("all TLPS options preview independently and notebook styling applies to TLPS", async ({ page }) => {
   await page.goto("/#/theme-studio");
   const library = page.getByRole("region", { name: "Theme options", exact: true });
-  await expect(library.getByRole("button")).toHaveCount(7);
-  for (const name of ["Warm Paper", "Cinema Gold", "Slate Teal", "Ink White", "Graphite Paper", "Blue Notebook", "Kraft Sketch"]) {
+  await expect(library.getByRole("button")).toHaveCount(8);
+  for (const name of ["Warm Paper", "Cinema Gold", "Slate Teal", "Ink White", "Graphite Paper", "Blue Notebook", "Kraft Sketch", "ASCII Terminal"]) {
     await library.getByRole("button", { name, exact: true }).click();
     await expect(page.getByLabel("Theme name", { exact: true })).toHaveValue(`TLPS · ${name}`);
     await expect(page.locator("html")).not.toHaveAttribute("data-maataa-custom-theme");
   }
+  await expect(page.locator(".theme-studio-preview")).toHaveCSS("--m-font-heading", /monospace/);
+  await expect(page.locator(".theme-studio-preview")).toHaveCSS("--m-radius-lg", "0px");
   await library.getByRole("button", { name: "Blue Notebook", exact: true }).click();
   await expect(page.locator(".theme-studio-preview")).toHaveCSS("background-image", /repeating-linear-gradient/);
   await page.getByRole("button", { name: "Apply theme", exact: true }).click();

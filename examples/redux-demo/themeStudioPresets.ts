@@ -20,4 +20,10 @@ export const BUILTIN_STUDIO_THEMES: readonly StudioTheme[] = [
   preset("TLPS · Graphite Paper", { canvas: "#f5f1e7", surface: "#fffdf6", elevated: "#eae4d6", text: "#302e2a", muted: "#655e53", border: "#938b7c", primary: "#49443c", primaryText: "#fffdf6", secondary: "#e4ddcf", focus: "#49443c" }, true),
   preset("TLPS · Blue Notebook", { canvas: "#f4f5ee", surface: "#fffef8", elevated: "#e7eced", text: "#253640", muted: "#52616a", border: "#899da8", primary: "#285c7a", primaryText: "#ffffff", secondary: "#e0e8ec", focus: "#285c7a" }, true, true),
   preset("TLPS · Kraft Sketch", { canvas: "#e9dcc3", surface: "#f6ead5", elevated: "#ddc9a8", text: "#392f27", muted: "#655340", border: "#9a8062", primary: "#78452e", primaryText: "#fff8e9", secondary: "#dac4a2", focus: "#78452e" }, true),
+  {
+    ...preset("TLPS · ASCII Terminal", { canvas: "#0b100d", surface: "#111a14", elevated: "#19271e", text: "#d7f5df", muted: "#9fbdab", border: "#52735e", primary: "#8de4a6", primaryText: "#0b100d", secondary: "#203327", success: "#8de4a6", warning: "#ead28c", danger: "#ffa6a6", info: "#a8d8ef", focus: "#c3ffd5" }),
+    typography: { ...DEFAULT_STUDIO_THEME.typography, bodyFont: DEFAULT_STUDIO_THEME.typography.monoFont, headingFont: DEFAULT_STUDIO_THEME.typography.monoFont, baseSize: 16, scale: 1.18, headingWeight: 600, lineHeight: 1.65, letterSpacing: 0 },
+    shape: { ...DEFAULT_STUDIO_THEME.shape, radius: 0, surfaceStyle: "solid", borderWidth: 1, density: 1, shadowBlur: 0, shadowY: 0, shadowOpacity: 0, paperPattern: "plain" },
+    motion: { ...DEFAULT_STUDIO_THEME.motion, duration: 0, hoverLift: false, reducedMotion: true },
+  },
 ];
