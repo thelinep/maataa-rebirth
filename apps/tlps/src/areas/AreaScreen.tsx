@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from "react";
+const InvestorHub = React.lazy(() => import("../investor/InvestorHub").then((module) => ({ default: module.InvestorHub })));
 import { Button } from "@maataa/ui";
 import { ChipPicker, pluralLabel, RecordRegister } from "@maataa/ui/compounds";
 import * as Workspaces from "@maataa/ui/workspaces";
@@ -64,6 +65,8 @@ export function AreaScreen({ areaId, store, onStoreChange, onOpenView, onBack }:
           <Button variant="primary" onClick={() => onOpenView(def.target!)}>Open the {def.target} step →</Button>
         </section>
       )}
+
+      {areaId === "investor-hub" && <React.Suspense fallback={<p role="status">Loading circle registers…</p>}><InvestorHub embedded /></React.Suspense>}
 
       {register && (
         <section className="tlps-area-panel" aria-labelledby="tlps-area-list">

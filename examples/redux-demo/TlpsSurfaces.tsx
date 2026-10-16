@@ -12,6 +12,7 @@ import {
 } from "./tlpsLifecycle";
 import "./tlps-surfaces.css";
 import { TlpsBrand } from "./TlpsBrand";
+const InvestorHub = React.lazy(() => import("../../apps/tlps/src/investor/InvestorHub").then((module) => ({ default: module.InvestorHub })));
 const TlpsWorkplaces = React.lazy(() => import("./TlpsWorkplaces").then((module) => ({ default: module.TlpsWorkplaces })));
 import { readStoredText, writeStoredValue } from "@maataa/ui/compounds";
 
@@ -341,6 +342,7 @@ const nav = [
   ["/tlps/marketing", "How it works"],
   ["/tlps/catalog", "TLPS tools"],
   ["/tlps/workplaces", "Workplaces"],
+  ["/tlps/investor-hub", "Investor Hub"],
   ["/tlps/brand", "Brand"],
   ["/tlps/onboarding", "Start here"],
 ] as const;
@@ -1277,7 +1279,9 @@ function Catalog({
 
 export function TlpsSurfaces({ route, navigate }: Props) {
   const page =
-    route === "/tlps/workplaces" || route.startsWith("/tlps/workplaces/") ? (
+    route === "/tlps/investor-hub" ? (
+      <React.Suspense fallback={<p role="status">Loading Investor Hub…</p>}><InvestorHub /></React.Suspense>
+    ) : route === "/tlps/workplaces" || route.startsWith("/tlps/workplaces/") ? (
       <React.Suspense fallback={<p role="status">Loading workplaces…</p>}><TlpsWorkplaces route={route} navigate={navigate} /></React.Suspense>
     ) : route === "/tlps/brand" ? (
       <TlpsBrand navigate={navigate} />

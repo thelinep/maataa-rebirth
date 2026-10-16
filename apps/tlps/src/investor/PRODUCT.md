@@ -1,0 +1,11 @@
+# TLPS Investor Hub
+
+This is a browser-local extension of the existing TLPS interface. It supports four independent planning registers: investor circles, membership-plan notes, non-binding project investment interests, and escrow milestone review notes. User decision: both membership subscriptions and capital interests, in separate flows.
+
+Membership fees represent proposed platform services, not investment capital. Investment interests do not create contracts or allocations. Escrow reviews record conditions, evidence references and proposed reviewers; they never assert held funds or authorize deposits, freezes, releases or refunds. No automatic payment request or return promise exists. Subscription billing, investor verification, data-room permissions and fund custody remain unconfigured.
+
+The shared RecordRegister provides form validation, synthetic samples, local status labels and removal. The four flow lists are kept separate within one versioned browser-storage record (`tlps.investor-hub.v1`), with up to 100 records per flow. Exported JSON states unavailable capabilities, null escrow balance and no binding commitment. A membership record can include a proposed billing period; this remains a planning note, with no configured provider billing period or plan. No currency or price tier is assigned by the export. References are plain local notes, not verified cross-record links. Records remain in this browser's storage when storage is available; if saving fails, the interface asks the user to keep the page open and export. Export downloads a local file rather than sending a provider instruction.
+
+Inherited visual authority: examples/redux-demo/TlpsSurfaces.tsx and its tlps-surfaces.css wrapper; apps/tlps/src/areas/AreaScreen.tsx; shared MAATAA Button and RecordRegister. Preserve active theme tokens, visible focus, responsive forms and clear reading order. This is a scoped extension, not a replacement design system.
+
+Entry points: MAATAA preview /#/tlps/investor-hub and the independent TLPS Investor Hub work area. The original funding-opportunity register remains available in that independent area; existing data is not migrated or overwritten. None of the new registers changes the original area's store.

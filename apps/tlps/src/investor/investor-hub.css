@@ -1,0 +1,8 @@
+.tlps-investor-hub { min-width:0; }
+.tlps-investor-hub h1 { font-family:var(--m-font-heading); font-size:clamp(2rem,4vw,3.5rem); line-height:1.15; margin:24px 0; text-wrap:balance; }
+.tlps-investor-hub p { max-width:72ch; line-height:1.7; }
+.tlps-investor-hub nav { display:flex; flex-wrap:wrap; gap:12px; margin:32px 0; }
+.tlps-investor-register,.tlps-investor-handover { border-top:1px solid var(--m-border); padding:24px 0; }
+.tlps-investor-hub h2 { font-family:var(--m-font-heading); margin:0 0 16px; }
+.tlps-investor-hub button:focus-visible { outline:3px solid var(--m-focus); outline-offset:3px; }
+.tlps-investor-hub .m-register-table { max-width:100%; overflow-x:auto; }

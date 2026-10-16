@@ -1,0 +1,38 @@
+{
+  "schema": "tlps.investor-hub.contract.v1",
+  "status": "local-planning-only",
+  "flows": {
+    "circles": {
+      "purpose": "Private group rules and coordinator references",
+      "membersVerified": false
+    },
+    "memberships": {
+      "purpose": "Platform membership fee, separate from investment capital",
+      "priceMinor": null,
+      "billingPeriod": null,
+      "providerPlanId": null,
+      "billingEnabled": false
+    },
+    "investmentInterests": {
+      "purpose": "Non-binding capital interest per project and party",
+      "binding": false,
+      "collectionEnabled": false,
+      "allocationGranted": false
+    },
+    "escrowReviews": {
+      "purpose": "Proposed milestones, evidence, reviewers and dispute terms",
+      "custodyProvider": null,
+      "escrowAccountId": null,
+      "heldBalance": null,
+      "depositEnabled": false,
+      "releaseEnabled": false,
+      "refundEnabled": false
+    }
+  },
+  "currency": {
+    "requested": "Saptdhatu",
+    "conversion": null,
+    "settlement": null
+  },
+  "note": "Membership fee receipts do not fund an investment. Capital interest does not constitute a paid subscription. Review labels never authorize custody-provider transactions. No account balances or investment returns are asserted."
+}
