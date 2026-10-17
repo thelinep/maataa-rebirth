@@ -28,3 +28,14 @@
 .tlps-workplace-steps-bar button:focus-visible,.tlps-demo-steps li:focus-visible { outline:2px solid var(--m-focus,var(--m-primary)); outline-offset:3px; }
 @media(max-width:700px) { .tlps-workplace-steps-bar ol { grid-template-columns:repeat(2,minmax(0,1fr)); } .tlps-workplace-action-bar { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); } .tlps-workplace-action-bar button { flex-direction:column; font-size:.85rem; padding:12px 8px; } }
 @media(max-width:600px) { .tlps-workplace-demo .m-record-form { grid-template-columns:minmax(0,1fr); } .tlps-demo-table-hint { display:block; } }
+
+.tlps-workplace-demo [hidden]{display:none!important}
+.tlps-workplace-intro{font-size:1.1rem}
+.tlps-workplace-scope{margin-block:12px 24px;color:var(--m-muted)}
+.tlps-workplace-scope summary{cursor:pointer;min-height:44px;display:flex;align-items:center}
+.tlps-workplace-next{display:flex;flex-direction:column;gap:8px;padding:20px 0;margin-block:16px;border-bottom:1px solid var(--m-border)}
+.tlps-workplace-next strong{font-size:1.25rem;color:var(--m-text)}
+.tlps-workplace-demo .tlps-demo-review{margin-top:24px}
+.tlps-demo-steps li[hidden]{display:none}
+
+.site-shell[data-connected-pilot="true"] > .site-header{position:relative;top:auto;transform:none}

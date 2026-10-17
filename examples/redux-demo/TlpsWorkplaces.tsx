@@ -15,7 +15,7 @@ export function TlpsWorkplaces({ route, navigate }: { route: string; navigate: (
   if (key) return <section className="tlps-workplaces">
     <Button variant="secondary" onClick={() => { setQuery(""); setArea(""); navigate("/tlps/workplaces"); }}>All workplaces</Button>
     {selected ? <>
-      <header className="tlps-workplaces-heading"><h1>{selected.name}</h1><p>{selected.areaName} · Browser-local demo</p></header>
+      <header className="tlps-workplaces-heading"><h1>{selected.name}</h1><p>{selected.areaName} · Plan on this device</p></header>
       <WorkplaceDemo key={selected.key} workplace={selected} />
     </> : <div><h1>Workplace not found</h1><p>Choose a workplace from the directory to open its demo.</p></div>}
   </section>;

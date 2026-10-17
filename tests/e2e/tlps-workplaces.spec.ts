@@ -18,6 +18,7 @@ test("workplace icon bars execute actions and navigate steps without bypassing r
   await expect(steps.getByRole("button", { name: /^Prepare:/ })).toHaveAttribute("aria-current", "step");
   await actions.getByRole("button", { name: "Load samples" }).click();
   await expect(actions.getByRole("button", { name: "Load samples" })).toBeDisabled();
+  await actions.getByRole("button", { name: "Review plan" }).click();
   await page.getByLabel("Plan owner", { exact: true }).fill("Local reviewer");
   await page.getByLabel("Review note", { exact: true }).fill("Rehearsed location notes; access and permissions unknown.");
   await actions.getByRole("button", { name: "Check current step" }).click();
@@ -26,6 +27,7 @@ test("workplace icon bars execute actions and navigate steps without bypassing r
   await expect(steps.getByRole("button", { name: /^Review:/ })).toHaveAttribute("aria-current", "step");
   await expect(steps.getByRole("button", { name: /^Rehearse:/ })).toBeDisabled();
   await actions.getByRole("button", { name: "Restart steps" }).click();
+  await actions.getByRole("button", { name: "Review plan" }).click();
   await expect(page.getByLabel("Plan owner", { exact: true })).toHaveValue("Local reviewer");
   await expect(steps.getByRole("button", { name: /^Prepare:/ })).toHaveAttribute("aria-current", "step");
   const pending = page.waitForEvent("download");
@@ -47,9 +49,11 @@ test("workplace directory opens a saved, isolated marketplace demo and exports i
   await page.getByLabel("Work area", { exact: true }).selectOption("marketplace");
   await page.getByRole("button", { name: /Open .* in Marketplace OS/ }).first().click();
   const url = page.url();
+  await page.getByRole("button", { name: "Continue to review" }).click();
   await page.getByRole("button", { name: "Check this step locally" }).click();
   await expect(page.getByText("Add a record, a plan owner and a review note before checking this step.")).toBeVisible();
-  await page.getByRole("button", { name: "Add sample records" }).click();
+  await page.getByRole("group", { name: "Workplace actions" }).getByRole("button", { name: "Load samples", exact: true }).click();
+  await page.getByRole("button", { name: "Continue to review" }).click();
   await page.getByLabel("Plan owner", { exact: true }).fill("Demo reviewer");
   for (let step = 0; step < 4; step++) {
     await page.getByLabel("Review note", { exact: true }).fill(`Rehearsal check ${step + 1}; availability remains unknown.`);
@@ -60,7 +64,7 @@ test("workplace directory opens a saved, isolated marketplace demo and exports i
   await expect(page.getByLabel("Plan owner", { exact: true })).toHaveValue("Demo reviewer");
   await expect(page.getByRole("button", { name: "Check this step locally" })).toHaveCount(0);
   const pending = page.waitForEvent("download");
-  await page.getByRole("button", { name: "Export demo handover" }).click();
+  await page.getByRole("group", { name: "Workplace actions" }).getByRole("button", { name: "Export handover", exact: true }).click();
   const download = await pending;
   const data = JSON.parse(await readFile((await download.path())!, "utf8"));
   expect(data.demoComplete).toBe(true);
