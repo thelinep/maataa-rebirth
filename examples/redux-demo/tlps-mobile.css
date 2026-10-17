@@ -1,0 +1,24 @@
+.tlps-mobile-header,.tlps-mobile-bottom,.tlps-mobile-home{display:none}
+.tlps-mobile-more{max-width:900px;margin:auto;padding:24px}
+.tlps-mobile-list{list-style:none;padding:0;margin:12px 0 24px}.tlps-mobile-list li{border-bottom:1px solid var(--ts-line)}
+.tlps-mobile-list a{display:flex;align-items:center;gap:12px;min-height:56px;padding:14px 4px;color:var(--ts-ink);text-decoration:none}.tlps-mobile-list a span{flex:1}.tlps-mobile-list svg{flex-shrink:0}.tlps-mobile-list a:hover{background:var(--ts-soft)}
+@media(max-width:767px){
+ .site-shell[data-tlps-mobile="true"]>.site-header,.site-shell[data-tlps-mobile="true"]>.site-footer{display:none}
+ .tlps-site>.tlps-site-header,.tlps-site>.tlps-site-footer{display:none}.tlps-site{padding:0 0 calc(84px + env(safe-area-inset-bottom));min-height:100dvh}
+ .tlps-mobile-header{display:flex;align-items:center;gap:16px;justify-content:space-between;padding:16px;border-bottom:1px solid var(--ts-line);background:var(--ts-canvas);min-height:72px;padding-top:max(16px,env(safe-area-inset-top))}
+ .tlps-mobile-header a{color:var(--ts-ink);text-decoration:none;display:flex;align-items:center;gap:8px;min-height:44px}.tlps-mobile-header>a:first-child{font-size:1.7rem;font-weight:800;display:block;line-height:1.15}.tlps-mobile-header>a:first-child span{display:block;font-size:.75rem;font-weight:400;margin-top:5px;color:var(--ts-muted)}
+ .tlps-mobile-create{border:1px solid var(--ts-line);border-radius:var(--m-radius-sm,8px);padding:8px 12px;background:var(--ts-panel)}
+ .tlps-mobile-bottom{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));position:fixed;inset:auto 0 0;z-index:60;background:var(--ts-panel);border-top:1px solid var(--ts-line);padding:6px 6px max(8px,env(safe-area-inset-bottom))}
+ .tlps-mobile-bottom a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;min-height:56px;text-decoration:none;color:var(--ts-muted);font-size:.75rem;border-radius:var(--m-radius-sm,8px)}.tlps-mobile-bottom a[aria-current]{color:var(--ts-ink);background:var(--ts-soft);font-weight:700}
+ .tlps-mobile-home{display:block;padding:20px 16px}.tlps-desktop-home{display:none}.tlps-mobile-home h1{font-size:2rem;line-height:1.15;margin:8px 0 12px;text-wrap:balance}.tlps-mobile-home p,.tlps-mobile-more p{line-height:1.65;max-width:65ch}.tlps-mobile-home section{margin-top:32px}.tlps-mobile-home h2,.tlps-mobile-more h2{font-size:1.3rem;margin-bottom:12px}
+ .tlps-mobile-primary{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-block:24px}.tlps-mobile-primary a{display:flex;align-items:center;justify-content:center;gap:8px;min-height:56px;padding:12px;color:var(--ts-ink);border:1px solid var(--ts-line);text-decoration:none;border-radius:var(--m-radius-sm,8px);background:var(--ts-panel)}.tlps-mobile-primary a:first-child{background:var(--m-primary);color:var(--m-primary-contrast,var(--ts-ink))}
+ .tlps-mobile-home section>a,.tlps-mobile-more section>a{color:var(--ts-ink);display:inline-flex;align-items:center;gap:8px;min-height:44px}.tlps-mobile-scope{color:var(--ts-muted);font-size:.875rem}.tlps-mobile-more{padding:20px 16px}.tlps-mobile-more section{margin-top:28px}
+ .tlps-site input,.tlps-site textarea,.tlps-site select{font-size:16px}.tlps-site button{min-height:44px}.tlps-site .tlps-catalog{padding-inline:16px}.tlps-site .tlps-workplaces{padding:16px}.tlps-site .tlps-workplace-action-bar{scroll-margin-top:16px}.tlps-my-work-nav{grid-template-columns:minmax(0,1fr)}
+ .tlps-site :focus-visible{outline:2px solid var(--m-focus,var(--ts-gold));outline-offset:3px}
+}
+
+.tlps-service-state{display:block;font-size:.8rem;color:var(--ts-muted);margin-top:6px}
+.tlps-mobile-journey summary{font-size:1.3rem;font-weight:700;cursor:pointer;min-height:48px;display:flex;align-items:center}
+#tlps-connected-content[hidden]{display:none!important}
+
+.tlps-integrated-studio{min-width:0;padding:16px}.tlps-integrated-studio>a{display:inline-flex;align-items:center;min-height:44px;color:var(--ts-ink)}.tlps-integrated-studio .page-section{max-width:100%;padding-inline:0}

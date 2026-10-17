@@ -164,14 +164,21 @@ const CATALOGS: readonly Catalog[] = [
 function useHashRoute() {
   const read = React.useCallback(() => {
     const raw = window.location.hash.replace(/^#/, "");
-    return raw || "/";
+    return raw || (window.location.hostname === "tlps.in" ? "/tlps/projects" : "/");
   }, []);
   const [route, setRoute] = React.useState(read);
   React.useEffect(() => {
-    const onChange = () => setRoute(read());
+    const onChange = () => {
+      const next = read();
+      if ((route === "/tlps" || route.startsWith("/tlps/")) && !(next === "/tlps" || next.startsWith("/tlps/"))) {
+        const event = new Event("tlps:before-exit", {cancelable:true}); window.dispatchEvent(event);
+        if (event.defaultPrevented && !window.confirm("Leave TLPS and discard unsaved project changes?")) {window.history.replaceState(null,"",`#${route}`);return;}
+      }
+      setRoute(next);
+    };
     window.addEventListener("hashchange", onChange);
     return () => window.removeEventListener("hashchange", onChange);
-  }, [read]);
+  }, [read, route]);
   const navigate = React.useCallback((path: string) => {
     window.location.hash = path;
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -243,7 +250,7 @@ function Shell({ route, navigate, children }: { route: string; navigate: (path: 
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [settingsOpen]);
   const routeLabel = (id: string, label: string) => locale === "hi-IN" ? HINDI_ROUTE_LABELS[id] ?? label : label;
-  return <div className="site-shell" data-demo-theme={resolvedTheme} data-locale={locale} data-maataa-demo-ready="true">
+  return <div className="site-shell" data-tlps-mobile={route === "/tlps" || route.startsWith("/tlps/") ? "true" : undefined} data-connected-pilot={route === "/tlps/projects" || route.startsWith("/tlps/projects/") || route.startsWith("/tlps/workplaces/") ? "true" : undefined} data-demo-theme={resolvedTheme} data-locale={locale} data-maataa-demo-ready="true">
     <header className="site-header" data-hidden={navbarHidden ? "true" : undefined} onFocusCapture={revealNavbar}>
       <button className="brand-button" onClick={() => navigate("/")} aria-label={copy.home}>
         <IdentityAvatar identity="IDENTITY.BRAHMINI" size={34}/><span><strong>MAATAA UI</strong><small>Alpha 8</small></span>
@@ -271,7 +278,7 @@ function Shell({ route, navigate, children }: { route: string; navigate: (path: 
     <footer className="site-footer">
       <div><strong>MAATAA UI</strong><p>{copy.footer}</p></div>
       <div className="footer-links">{PUBLIC_SURFACE_ROUTES.map((item) => <button key={item.id} onClick={() => navigate(item.path)}>{routeLabel(item.id, item.label)}</button>)}</div>
-      <div className="demo-muted">Demo data only · no live backend authority</div>
+      <div className="demo-muted">{route === "/tlps/projects" || route.startsWith("/tlps/projects/") ? "Connected project pilot · authenticated planning records · payments disabled" : "Demo data only · no live backend authority"}</div>
     </footer>
   </div>;
 }
@@ -782,7 +789,11 @@ function AppBody() {
   if (route === "/") content = <Landing navigate={navigate}/>;
   else if (route === "/theme-studio") content = <React.Suspense fallback={<p role="status">Loading Theme Studio…</p>}><ThemeStudio navigate={navigate}/></React.Suspense>;
   else if (route === "/branding-studio") content = <React.Suspense fallback={<p role="status">Loading Branding Studio…</p>}><BrandingStudio navigate={navigate}/></React.Suspense>;
-  else if ((route === "/tlps" || route.startsWith("/tlps/"))) content = <React.Suspense fallback={<p role="status">Loading TLPS…</p>}><TlpsSurfaces route={route} navigate={navigate}/></React.Suspense>;
+  else if ((route === "/tlps" || route.startsWith("/tlps/"))) content = <React.Suspense fallback={<p role="status">Loading TLPS…</p>}><TlpsSurfaces route={route} navigate={navigate} toolContent={(() => {
+    const tool=route.slice("/tlps/studio/".length);
+    const withinTlps=(path:string)=>navigate(({"/theme-studio":"/tlps/studio/theme","/branding-studio":"/tlps/studio/branding","/playground":"/tlps/studio/playground","/sandbox":"/tlps/studio/builder","/surface":"/tlps/studio/components","/tlps-workflow":"/tlps/studio/workflow"} as Record<string,string>)[path] ?? path);
+    return tool==="theme"?<ThemeStudio navigate={withinTlps}/>:tool==="branding"?<BrandingStudio navigate={withinTlps}/>:tool==="components"?<SurfaceExplorer/>:tool==="playground"?<Playground/>:tool==="builder"?<Sandbox/>:tool==="workflow"?<TlpsWorkflow/>:undefined;
+  })()}/></React.Suspense>;
   else if (route === "/tlps-workflow") content = <React.Suspense fallback={<p role="status">Loading TLPS workflow…</p>}><TlpsWorkflow/></React.Suspense>;
   else if (route.startsWith("/surface")) content = <SurfaceExplorer/>;
   else if (route.startsWith("/playground")) content = <Playground/>;

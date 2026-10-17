@@ -11,12 +11,17 @@ import {
   productOperatingSystems,
 } from "./tlpsLifecycle";
 import "./tlps-surfaces.css";
+import { TlpsMobileHeader, TlpsMobileNavigation, TlpsMobileHome, TlpsMore } from "./TlpsMobile";
+import { TlpsMyWork } from "./TlpsMyWork";
 import { TlpsBrand } from "./TlpsBrand";
+import { ProjectStageIconBar, TLPS_PROJECT_STAGES, type TlpsProjectStage } from "../../apps/tlps/src/project/ProjectStageIconBar";
+const ShabdkoshSelector = React.lazy(() => import("../../apps/tlps/src/selectors/ShabdkoshSelector").then(module => ({default:module.ShabdkoshSelector})));
+const ConnectedProjects = React.lazy(() => import("../../apps/tlps/src/project/ConnectedProjects").then(module => ({default:module.ConnectedProjects})));
 const InvestorHub = React.lazy(() => import("../../apps/tlps/src/investor/InvestorHub").then((module) => ({ default: module.InvestorHub })));
 const TlpsWorkplaces = React.lazy(() => import("./TlpsWorkplaces").then((module) => ({ default: module.TlpsWorkplaces })));
 import { readStoredText, writeStoredValue } from "@maataa/ui/compounds";
 
-type Props = { route: string; navigate: (path: string) => void };
+type Props = { route: string; navigate: (path: string) => void; toolContent?: React.ReactNode };
 type Audience =
   | "Writer / creator"
   | "Producer / filmmaker"
@@ -339,11 +344,16 @@ function chooseJourney(content: string): Exclude<Journey, "Choose for me"> {
 }
 const nav = [
   ["/tlps", "Home"],
+  ["/tlps/projects", "Projects"],
+  ["/tlps/my-work", "My work"],
+  ["/tlps/more", "More"],
+  ["/tlps/studio", "Studio"],
   ["/tlps/marketing", "How it works"],
   ["/tlps/catalog", "TLPS tools"],
   ["/tlps/workplaces", "Workplaces"],
   ["/tlps/investor-hub", "Investor Hub"],
   ["/tlps/brand", "Brand"],
+  ["/tlps/selectors", "Selectors"],
   ["/tlps/onboarding", "Start here"],
 ] as const;
 const products = [
@@ -412,7 +422,7 @@ function TlpsNav({
           key={path}
           aria-current={
             route === path ||
-            (path === "/tlps/catalog" && route.startsWith(path + "/"))
+            (["/tlps/catalog", "/tlps/my-work"].includes(path) && route.startsWith(path + "/"))
               ? "page"
               : undefined
           }
@@ -1147,6 +1157,7 @@ function Catalog({
   navigate: Props["navigate"];
 }) {
   const [query, setQuery] = React.useState("");
+  const [journeyStage, setJourneyStage] = React.useState<TlpsProjectStage>("idea");
   const id = route.split("/").at(-1) || "";
   const selected = products.find((product) => product.id === id);
   if (selected)
@@ -1221,6 +1232,13 @@ function Catalog({
           />
         </label>
       </div>
+      <section className="tlps-catalog-journey" aria-labelledby="tlps-journey-title">
+        <h2 id="tlps-journey-title">Idea to Release</h2>
+        <p>Your project journey, from the first idea to release and Shree planning.</p>
+        <ProjectStageIconBar value={journeyStage} onValueChange={setJourneyStage}/>
+        <p role="status"><strong>{TLPS_PROJECT_STAGES.find(stage => stage.id === journeyStage)?.label}</strong> · {TLPS_PROJECT_STAGES.find(stage => stage.id === journeyStage)?.description}</p>
+        <Button onClick={() => navigate("/tlps/onboarding")}>Start your journey</Button>
+      </section>
       <p className="tlps-catalog-note">
         We mark each tool as a demo or planned, so you can see what works today.
       </p>
@@ -1277,9 +1295,37 @@ function Catalog({
   );
 }
 
-export function TlpsSurfaces({ route, navigate }: Props) {
+export function TlpsSurfaces({ route, navigate, toolContent }: Props) {
+  const projectRoute = route === "/tlps/projects" || /^\/tlps\/projects\/prj:[0-9a-f-]{36}$/.test(route);
+  const [projectsOpened, setProjectsOpened] = React.useState(projectRoute);
+  React.useEffect(() => { if (projectRoute) setProjectsOpened(true); }, [projectRoute]);
+  React.useEffect(() => {
+    let finished = false;
+    const focus = () => {
+      if (finished) return;
+      const heading = [...document.querySelectorAll<HTMLElement>('#tlps-page-content h1, #tlps-connected-content:not([hidden]) h1')].find(h => h.getClientRects().length > 0);
+      if (heading) { finished=true; heading.tabIndex=-1; heading.focus({preventScroll:true}); window.scrollTo({top:0,behavior:'instant'}); observer.disconnect(); }
+    };
+    const observer = new MutationObserver(focus);
+    observer.observe(document.getElementById('tlps-page-content')?.parentElement ?? document.body, {childList:true,subtree:true});
+    const timer = window.setTimeout(focus, 0);
+    return () => {finished=true;window.clearTimeout(timer);observer.disconnect();};
+  }, [route]);
   const page =
-    route === "/tlps/investor-hub" ? (
+    route === "/tlps/studio" ? <section className="tlps-mobile-more"><h1>TLPS Studio</h1><p>Design, build and review with MAATAA tools, inside your TLPS workspace.</p><ul className="tlps-mobile-list">{[
+      ["theme","Theme Studio","Preview, apply and export your visual theme."],
+      ["branding","Branding Studio","Create brand assets and carry colours into your theme."],
+      ["components","Component library","Search and preview MAATAA interface components."],
+      ["playground","Component playground","Try component properties and copy examples."],
+      ["builder","Interface builder","Compose interface layouts in the existing sandbox."],
+      ["workflow","Production walkthrough","Use the full local planning and handover workflow."],
+    ].map(([id,title,description])=><li key={id}><a href={`#/tlps/studio/${id}`}><MaataaIcon name="tool" size={22}/><span><strong>{title}</strong><small className="tlps-service-state">{description}</small></span><MaataaIcon name="chevron-right" size={20}/></a></li>)}</ul><p>Studio designs and walkthroughs remain device-local. These tools do not change project access, approve production or activate payments.</p></section> : route.startsWith("/tlps/studio/") && toolContent ? <section className="tlps-integrated-studio"><a href="#/tlps/studio">Back to TLPS Studio</a>{({"/tlps/studio/components":"Component library","/tlps/studio/playground":"Component playground","/tlps/studio/builder":"Interface builder"} as Record<string,string>)[route] && <h1>{({"/tlps/studio/components":"Component library","/tlps/studio/playground":"Component playground","/tlps/studio/builder":"Interface builder"} as Record<string,string>)[route]}</h1>}<React.Suspense fallback={<p role="status">Opening studio tool…</p>}>{toolContent}</React.Suspense></section> : route === "/tlps/more" ? <TlpsMore/> : route === "/tlps/my-work" || route.startsWith("/tlps/my-work/") ? (
+      <TlpsMyWork route={route}/>
+    ) : route === "/tlps/projects" || /^\/tlps\/projects\/prj:[0-9a-f-]{36}$/.test(route) ? (
+      null
+    ) : route === "/tlps/selectors" ? (
+      <React.Suspense fallback={<p role="status">Loading selectors…</p>}><ShabdkoshSelector /></React.Suspense>
+    ) : route === "/tlps/investor-hub" ? (
       <React.Suspense fallback={<p role="status">Loading Investor Hub…</p>}><InvestorHub /></React.Suspense>
     ) : route === "/tlps/workplaces" || route.startsWith("/tlps/workplaces/") ? (
       <React.Suspense fallback={<p role="status">Loading workplaces…</p>}><TlpsWorkplaces route={route} navigate={navigate} /></React.Suspense>
@@ -1291,19 +1337,24 @@ export function TlpsSurfaces({ route, navigate }: Props) {
       <Marketing navigate={navigate} />
     ) : route.startsWith("/tlps/catalog") ? (
       <Catalog route={route} navigate={navigate} />
+    ) : route === "/tlps" ? (
+      <><TlpsMobileHome/><div className="tlps-desktop-home"><PublicHome navigate={navigate} /></div></>
     ) : (
-      <PublicHome navigate={navigate} />
+      <section className="tlps-connected"><h1>Page not found</h1><p>This TLPS page does not exist. Check the link or return to your projects.</p><Button onClick={()=>navigate("/tlps/projects")}>Open projects</Button></section>
     );
   return (
     <div className="page-section tlps-site">
+      <TlpsMobileHeader route={route}/>
       <header className="tlps-site-header">
         <a href="#/tlps" aria-label="TLPS home">
           tlps.in<span>Film and project planning</span>
         </a>
         <TlpsNav route={route} navigate={navigate} />
-        <ScopeLine />
+        {route === "/tlps/projects" || route.startsWith("/tlps/projects/") ? <p className="tlps-scope-line"><Badge>Connected pilot</Badge><span>Project records save to the authenticated database.</span></p> : <ScopeLine />}
       </header>
-      {page}
+      <div id="tlps-page-content" key={route}>{page}</div>
+      <div id="tlps-connected-content" hidden={!projectRoute}>{(projectsOpened || projectRoute) && <React.Suspense fallback={<p role="status">Loading projects…</p>}><ConnectedProjects route={route} navigate={navigate}/></React.Suspense>}</div>
+      <TlpsMobileNavigation route={route}/>
       <footer className="tlps-site-footer">
         <div>
           <strong>TLPS · MAATAA demo</strong>

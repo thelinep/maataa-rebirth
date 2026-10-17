@@ -1644,3 +1644,6 @@
     grid-template-columns: 1fr;
   }
 }
+
+.tlps-catalog-journey{margin-block:24px 40px;padding-block:20px;border-block:1px solid var(--ts-line)}
+.tlps-catalog-journey h2{margin-top:0}

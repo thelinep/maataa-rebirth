@@ -47,8 +47,8 @@ export default defineConfig({
       { find: /^@maataa\/ui\/(.+)$/, replacement: `${srcRoot}/$1` },
     ],
   },
-  server: { host: "127.0.0.1", port: 4173, strictPort: true, proxy: { "/api/brahmini": "http://127.0.0.1:4175" } },
-  preview: { host: "127.0.0.1", port: 4173, strictPort: true, proxy: { "/api/brahmini": "http://127.0.0.1:4175" } },
+  server: { host: "127.0.0.1", port: 4173, strictPort: true, proxy: { "/api/brahmini": "http://127.0.0.1:4175", "/api/maataa": { target: "http://127.0.0.1:4381", rewrite: path => path.replace(/^\/api\/maataa/, "") } } },
+  preview: { host: "127.0.0.1", port: 4173, strictPort: true, proxy: { "/api/brahmini": "http://127.0.0.1:4175", "/api/maataa": { target: "http://127.0.0.1:4381", rewrite: path => path.replace(/^\/api\/maataa/, "") } } },
   build: {
     outDir: fileURLToPath(new URL("../../demo-dist", import.meta.url)),
     emptyOutDir: true,
