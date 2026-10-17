@@ -1,0 +1,26 @@
+date_2026,milestone,change,evidence_and_limit
+5 Oct,Initial production workflow,"Browser-local project intake, budget, crew/location planning, schedule, preview review, rehearsal, evidence metadata and handover",`7deeca6f`; local demonstration rather than authenticated operational approval
+5 Oct,TLPS pilot designation,TLPS recorded as a pilot with a designated release owner,`dee8b30d`; designation is not pilot acceptance
+6 Oct,Public entry and onboarding,Public TLPS surface and guided entry,"`1b8443ef`; browser setup, not account provisioning"
+9 Oct,Standalone products,TLPS and TLP Film workflows separated into runnable product surfaces,"`bddfec53`; product separation, not separate production deployments"
+10 Oct,Shared project handoff,Shared projects across MAATAA desktop and TLPS,"`e5167f44`; existing shared metadata/handoff, not the later full TLPS body database"
+12 Oct,Taxonomy ownership,TLPS-specific workspace families and AI spaces moved into the product's source boundary,"`ca6e0e38`, `7733d057`; registry vocabulary is not complete functionality"
+12 Oct,Twenty work areas,Local work areas for all 20 OS entries,`c613c523`; demonstrations/registers with varying specialization
+12 Oct,Service boundary,Mocks and MAATAA Auth/API client established a backend-facing seam,`9a913a1f`; an interface/mock is not a connected provider
+12 Oct,Flow and scene design,Node workflow/scene designers and Film OS scene board,"`fd34454f`; authored planning UI, not automated film production"
+12 Oct,MAATAA compounds,"Work areas, services, flow studio, storage/search/setup fields reused MAATAA compound components","`fe8fdbe3`, `e8855cc0`, `0d5d2f2c`; reduced duplicate UI building blocks"
+12 Oct,Desktop boundary,Tauri desktop/API routing and per-window/session behavior evolved,"`6aa70563`, `ff908c17`; current additional IPC changes remain separate pending work"
+14 Oct,tlps.in branding,"Brand reference, voice guidance and theme-aware brand-kit export",`8d21c7b7`; no live domain deployment established
+14 Oct,Workplace directory,Searchable workplace directory and separately saved demo workflows,`eda16f07`; historical documented coverage: 222 unique mapped workplace IDs / 327 area-workplace pairs
+15 Oct,Action and step icon bars,"New record, samples, review, step check, export and restart; Prepare/Review/Rehearse/Handover step gates",`da3d24f4`; local review is not server authorization
+15 Oct,Theme Studio library,"Warm Paper, Cinema Gold, Slate Teal, Ink White, Graphite Paper, Blue Notebook and Kraft Sketch retained as presets","`74506f1a`; preview then explicit apply, browser-local preferences"
+15 Oct,ASCII theme,ASCII Terminal preset with monospace typography and terminal palette,"`1a50a353`; theme styling, not a terminal runtime"
+15 Oct,Arcade and support,"Arcade Quest theme, game UI resources and support hub","`654ef5e3`; game-styled interface, not a playable engine"
+15 Oct,Artwork and guides,"Frame library, illustrations, game handbook/playbook/guides","`435a8762`; reusable illustrated scenes, not unique illustration generation per frame"
+15 Oct,Shree / Chitragupta,Razorpay test adapter and payment/wallet contracts,`1a669417`; merchant configuration and external sandbox acceptance not established
+16 Oct,Investor Hub,"Separate circles, membership notes, non-binding investment interests and escrow-review registers","`078045b1`; no pooled funds, activated membership or custody"
+16 Oct,Status matrix,Consolidated local feature/provider/release boundaries,`docs/status/TLPS-MAATAA-STATUS-2026-10-16.md`; historical snapshot
+17 Oct,Project stages,Idea → Story → Board → Pre → Production → Post → Release → Shree component and focused Storybook story,"Current uncommitted source; navigation only. Source exports ProjectStages, but today's browser render was not rechecked"
+17 Oct,Database/API foundation,"SQLite migration, 12 typed collections, same-project references, transactional audit, idempotency, version guards, export and typed client",Current uncommitted implementation; 95 tests passed in preceding task
+17 Oct,Schema comparison,Supplied proposed 169-table grouped design assessed against the local backend,Comparison artifact; no proposed DDL applied to the actual database
+17 Oct,Route/frame comparison,Supplied 228-route mobile design assessed against current TLPS routes/screens/API,Comparison artifact; canonical mobile route family not implemented by this task

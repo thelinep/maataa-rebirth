@@ -2,6 +2,8 @@
 
 **Prepared:** 2026-10-12 · **Candidate:** `5bc8c7b8` · **Status:** NOT_RUN — needs a human reviewer, ideally one who uses a screen reader daily.
 
+**Execution attempt, 2026-10-12:** No valid release-candidate review was performed. The checkout was at `ff908c17b5d5dba865cde17ea16af531f97b5120` with eight dirty paths, so it did not match the frozen candidate in the acceptance packet (`255854d577870fbc25b8c20ca2e515a9fa700566`). The local `node_modules/.bin` launchers for Vite, Playwright and Vitest were absent, so the demo preview and automated browser checks were not run. VoiceOver/Safari on macOS and iOS and NVDA on Windows were not available for this attempt. Reviewer record: **NOT RUN**; disposition: **NOT RUN**. This records the failed attempt to establish review conditions; it does not close Gate 3 or certify the current checkout.
+
 Automated checks (axe, keyboard and focus contracts) already pass on the candidate. They do not show whether the package is understandable and operable with a screen reader; this review does.
 
 ## Setup

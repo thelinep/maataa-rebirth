@@ -1,0 +1,5355 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "TLPS local planning API",
+    "version": "1.0.0",
+    "description": "Project-scoped local SQLite persistence. Core project/bootstrap endpoints use the existing MAATAA API. No payment execution, custody, billing, capital collection or release authority. See DATABASE-API.md for cross-field validation, byte limits and migration rules."
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:4381"
+    }
+  ],
+  "security": [
+    {
+      "projectBearer": []
+    }
+  ],
+  "paths": {
+    "/v1/tlps/projects/{projectId}/profiles": {
+      "parameters": [
+        {
+          "name": "projectId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "pattern": "^prj:[0-9a-f-]{36}$"
+          }
+        }
+      ],
+      "get": {
+        "summary": "List profiles",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 50
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "pattern": "^tlps:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Active entities",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Entity"
+                      }
+                    },
+                    "nextCursor": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "items",
+                    "nextCursor"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create profiles",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]{1,128}$"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/profiles"
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Original create receipt; replay returns same receipt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Entity"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      }
+    },
+    "/v1/tlps/projects/{projectId}/profiles/{entityId}": {
+      "parameters": [
+        {
+          "name": "projectId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "pattern": "^prj:[0-9a-f-]{36}$"
+          }
+        },
+        {
+          "name": "entityId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "pattern": "^tlps:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          }
+        }
+      ],
+      "get": {
+        "summary": "Read profiles",
+        "responses": {
+          "200": {
+            "description": "Active entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Entity"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      },
+      "put": {
+        "summary": "Replace profiles",
+        "parameters": [
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Positive entity version, optionally quoted"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/profiles"
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Entity"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Tombstone profiles",
+        "parameters": [
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Positive entity version, optionally quoted"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deletion receipt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "pattern": "^tlps:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                    },
+                    "version": {
+                      "type": "integer"
+                    },
+                    "deleted": {
+                      "const": true,
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "version",
+                    "deleted"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      }
+    },
+    "/v1/tlps/projects/{projectId}/onboarding": {
+      "parameters": [
+        {
+          "name": "projectId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "pattern": "^prj:[0-9a-f-]{36}$"
+          }
+        }
+      ],
+      "get": {
+        "summary": "List onboarding",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 50
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "pattern": "^tlps:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Active entities",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Entity"
+                      }
+                    },
+                    "nextCursor": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "items",
+                    "nextCursor"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create onboarding",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]{1,128}$"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/onboarding"
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Original create receipt; replay returns same receipt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Entity"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      }
+    },
+    "/v1/tlps/projects/{projectId}/onboarding/{entityId}": {
+      "parameters": [
+        {
+          "name": "projectId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "pattern": "^prj:[0-9a-f-]{36}$"
+          }
+        },
+        {
+          "name": "entityId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "pattern": "^tlps:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          }
+        }
+      ],
+      "get": {
+        "summary": "Read onboarding",
+        "responses": {
+          "200": {
+            "description": "Active entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Entity"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      },
+      "put": {
+        "summary": "Replace onboarding",
+        "parameters": [
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Positive entity version, optionally quoted"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/onboarding"
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Entity"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Tombstone onboarding",
+        "parameters": [
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Positive entity version, optionally quoted"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deletion receipt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "pattern": "^tlps:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                    },
+                    "version": {
+                      "type": "integer"
+                    },
+                    "deleted": {
+                      "const": true,
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "version",
+                    "deleted"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      }
+    },
+    "/v1/tlps/projects/{projectId}/workplace-records": {
+      "parameters": [
+        {
+          "name": "projectId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "pattern": "^prj:[0-9a-f-]{36}$"
+          }
+        }
+      ],
+      "get": {
+        "summary": "List workplace-records",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 50
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "pattern": "^tlps:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Active entities",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Entity"
+                      }
+                    },
+                    "nextCursor": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "items",
+                    "nextCursor"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create workplace-records",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]{1,128}$"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/workplace-records"
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Original create receipt; replay returns same receipt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Entity"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      }
+    },
+    "/v1/tlps/projects/{projectId}/workplace-records/{entityId}": {
+      "parameters": [
+        {
+          "name": "projectId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "pattern": "^prj:[0-9a-f-]{36}$"
+          }
+        },
+        {
+          "name": "entityId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "pattern": "^tlps:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          }
+        }
+      ],
+      "get": {
+        "summary": "Read workplace-records",
+        "responses": {
+          "200": {
+            "description": "Active entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Entity"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      },
+      "put": {
+        "summary": "Replace workplace-records",
+        "parameters": [
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Positive entity version, optionally quoted"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/workplace-records"
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Entity"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Tombstone workplace-records",
+        "parameters": [
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Positive entity version, optionally quoted"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deletion receipt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "pattern": "^tlps:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                    },
+                    "version": {
+                      "type": "integer"
+                    },
+                    "deleted": {
+                      "const": true,
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "version",
+                    "deleted"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      }
+    },
+    "/v1/tlps/projects/{projectId}/budget-items": {
+      "parameters": [
+        {
+          "name": "projectId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "pattern": "^prj:[0-9a-f-]{36}$"
+          }
+        }
+      ],
+      "get": {
+        "summary": "List budget-items",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 50
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "pattern": "^tlps:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Active entities",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Entity"
+                      }
+                    },
+                    "nextCursor": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "items",
+                    "nextCursor"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create budget-items",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]{1,128}$"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/budget-items"
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Original create receipt; replay returns same receipt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Entity"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      }
+    },
+    "/v1/tlps/projects/{projectId}/budget-items/{entityId}": {
+      "parameters": [
+        {
+          "name": "projectId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "pattern": "^prj:[0-9a-f-]{36}$"
+          }
+        },
+        {
+          "name": "entityId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "pattern": "^tlps:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          }
+        }
+      ],
+      "get": {
+        "summary": "Read budget-items",
+        "responses": {
+          "200": {
+            "description": "Active entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Entity"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      },
+      "put": {
+        "summary": "Replace budget-items",
+        "parameters": [
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Positive entity version, optionally quoted"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/budget-items"
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Entity"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Tombstone budget-items",
+        "parameters": [
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Positive entity version, optionally quoted"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deletion receipt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "pattern": "^tlps:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                    },
+                    "version": {
+                      "type": "integer"
+                    },
+                    "deleted": {
+                      "const": true,
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "version",
+                    "deleted"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      }
+    },
+    "/v1/tlps/projects/{projectId}/crew-assignments": {
+      "parameters": [
+        {
+          "name": "projectId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "pattern": "^prj:[0-9a-f-]{36}$"
+          }
+        }
+      ],
+      "get": {
+        "summary": "List crew-assignments",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 50
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "pattern": "^tlps:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Active entities",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Entity"
+                      }
+                    },
+                    "nextCursor": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "items",
+                    "nextCursor"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create crew-assignments",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]{1,128}$"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/crew-assignments"
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Original create receipt; replay returns same receipt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Entity"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      }
+    },
+    "/v1/tlps/projects/{projectId}/crew-assignments/{entityId}": {
+      "parameters": [
+        {
+          "name": "projectId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "pattern": "^prj:[0-9a-f-]{36}$"
+          }
+        },
+        {
+          "name": "entityId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "pattern": "^tlps:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          }
+        }
+      ],
+      "get": {
+        "summary": "Read crew-assignments",
+        "responses": {
+          "200": {
+            "description": "Active entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Entity"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      },
+      "put": {
+        "summary": "Replace crew-assignments",
+        "parameters": [
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Positive entity version, optionally quoted"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/crew-assignments"
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Entity"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Tombstone crew-assignments",
+        "parameters": [
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Positive entity version, optionally quoted"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deletion receipt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "pattern": "^tlps:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                    },
+                    "version": {
+                      "type": "integer"
+                    },
+                    "deleted": {
+                      "const": true,
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "version",
+                    "deleted"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      }
+    },
+    "/v1/tlps/projects/{projectId}/locations": {
+      "parameters": [
+        {
+          "name": "projectId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "pattern": "^prj:[0-9a-f-]{36}$"
+          }
+        }
+      ],
+      "get": {
+        "summary": "List locations",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 50
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "pattern": "^tlps:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Active entities",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Entity"
+                      }
+                    },
+                    "nextCursor": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "items",
+                    "nextCursor"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create locations",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]{1,128}$"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/locations"
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Original create receipt; replay returns same receipt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Entity"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      }
+    },
+    "/v1/tlps/projects/{projectId}/locations/{entityId}": {
+      "parameters": [
+        {
+          "name": "projectId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "pattern": "^prj:[0-9a-f-]{36}$"
+          }
+        },
+        {
+          "name": "entityId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "pattern": "^tlps:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          }
+        }
+      ],
+      "get": {
+        "summary": "Read locations",
+        "responses": {
+          "200": {
+            "description": "Active entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Entity"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      },
+      "put": {
+        "summary": "Replace locations",
+        "parameters": [
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Positive entity version, optionally quoted"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/locations"
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Entity"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Tombstone locations",
+        "parameters": [
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Positive entity version, optionally quoted"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deletion receipt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "pattern": "^tlps:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                    },
+                    "version": {
+                      "type": "integer"
+                    },
+                    "deleted": {
+                      "const": true,
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "version",
+                    "deleted"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      }
+    },
+    "/v1/tlps/projects/{projectId}/schedule-items": {
+      "parameters": [
+        {
+          "name": "projectId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "pattern": "^prj:[0-9a-f-]{36}$"
+          }
+        }
+      ],
+      "get": {
+        "summary": "List schedule-items",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 50
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "pattern": "^tlps:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Active entities",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Entity"
+                      }
+                    },
+                    "nextCursor": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "items",
+                    "nextCursor"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create schedule-items",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]{1,128}$"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/schedule-items"
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Original create receipt; replay returns same receipt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Entity"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      }
+    },
+    "/v1/tlps/projects/{projectId}/schedule-items/{entityId}": {
+      "parameters": [
+        {
+          "name": "projectId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "pattern": "^prj:[0-9a-f-]{36}$"
+          }
+        },
+        {
+          "name": "entityId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "pattern": "^tlps:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          }
+        }
+      ],
+      "get": {
+        "summary": "Read schedule-items",
+        "responses": {
+          "200": {
+            "description": "Active entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Entity"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      },
+      "put": {
+        "summary": "Replace schedule-items",
+        "parameters": [
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Positive entity version, optionally quoted"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/schedule-items"
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Entity"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Tombstone schedule-items",
+        "parameters": [
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Positive entity version, optionally quoted"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deletion receipt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "pattern": "^tlps:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                    },
+                    "version": {
+                      "type": "integer"
+                    },
+                    "deleted": {
+                      "const": true,
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "version",
+                    "deleted"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      }
+    },
+    "/v1/tlps/projects/{projectId}/evidence": {
+      "parameters": [
+        {
+          "name": "projectId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "pattern": "^prj:[0-9a-f-]{36}$"
+          }
+        }
+      ],
+      "get": {
+        "summary": "List evidence",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 50
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "pattern": "^tlps:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Active entities",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Entity"
+                      }
+                    },
+                    "nextCursor": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "items",
+                    "nextCursor"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create evidence",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]{1,128}$"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/evidence"
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Original create receipt; replay returns same receipt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Entity"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      }
+    },
+    "/v1/tlps/projects/{projectId}/evidence/{entityId}": {
+      "parameters": [
+        {
+          "name": "projectId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "pattern": "^prj:[0-9a-f-]{36}$"
+          }
+        },
+        {
+          "name": "entityId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "pattern": "^tlps:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          }
+        }
+      ],
+      "get": {
+        "summary": "Read evidence",
+        "responses": {
+          "200": {
+            "description": "Active entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Entity"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      },
+      "put": {
+        "summary": "Replace evidence",
+        "parameters": [
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Positive entity version, optionally quoted"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/evidence"
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Entity"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Tombstone evidence",
+        "parameters": [
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Positive entity version, optionally quoted"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deletion receipt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "pattern": "^tlps:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                    },
+                    "version": {
+                      "type": "integer"
+                    },
+                    "deleted": {
+                      "const": true,
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "version",
+                    "deleted"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      }
+    },
+    "/v1/tlps/projects/{projectId}/circles": {
+      "parameters": [
+        {
+          "name": "projectId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "pattern": "^prj:[0-9a-f-]{36}$"
+          }
+        }
+      ],
+      "get": {
+        "summary": "List circles",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 50
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "pattern": "^tlps:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Active entities",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Entity"
+                      }
+                    },
+                    "nextCursor": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "items",
+                    "nextCursor"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create circles",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]{1,128}$"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/circles"
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Original create receipt; replay returns same receipt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Entity"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      }
+    },
+    "/v1/tlps/projects/{projectId}/circles/{entityId}": {
+      "parameters": [
+        {
+          "name": "projectId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "pattern": "^prj:[0-9a-f-]{36}$"
+          }
+        },
+        {
+          "name": "entityId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "pattern": "^tlps:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          }
+        }
+      ],
+      "get": {
+        "summary": "Read circles",
+        "responses": {
+          "200": {
+            "description": "Active entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Entity"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      },
+      "put": {
+        "summary": "Replace circles",
+        "parameters": [
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Positive entity version, optionally quoted"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/circles"
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Entity"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Tombstone circles",
+        "parameters": [
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Positive entity version, optionally quoted"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deletion receipt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "pattern": "^tlps:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                    },
+                    "version": {
+                      "type": "integer"
+                    },
+                    "deleted": {
+                      "const": true,
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "version",
+                    "deleted"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      }
+    },
+    "/v1/tlps/projects/{projectId}/membership-plans": {
+      "parameters": [
+        {
+          "name": "projectId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "pattern": "^prj:[0-9a-f-]{36}$"
+          }
+        }
+      ],
+      "get": {
+        "summary": "List membership-plans",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 50
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "pattern": "^tlps:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Active entities",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Entity"
+                      }
+                    },
+                    "nextCursor": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "items",
+                    "nextCursor"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create membership-plans",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]{1,128}$"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/membership-plans"
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Original create receipt; replay returns same receipt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Entity"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      }
+    },
+    "/v1/tlps/projects/{projectId}/membership-plans/{entityId}": {
+      "parameters": [
+        {
+          "name": "projectId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "pattern": "^prj:[0-9a-f-]{36}$"
+          }
+        },
+        {
+          "name": "entityId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "pattern": "^tlps:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          }
+        }
+      ],
+      "get": {
+        "summary": "Read membership-plans",
+        "responses": {
+          "200": {
+            "description": "Active entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Entity"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      },
+      "put": {
+        "summary": "Replace membership-plans",
+        "parameters": [
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Positive entity version, optionally quoted"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/membership-plans"
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Entity"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Tombstone membership-plans",
+        "parameters": [
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Positive entity version, optionally quoted"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deletion receipt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "pattern": "^tlps:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                    },
+                    "version": {
+                      "type": "integer"
+                    },
+                    "deleted": {
+                      "const": true,
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "version",
+                    "deleted"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      }
+    },
+    "/v1/tlps/projects/{projectId}/investment-interests": {
+      "parameters": [
+        {
+          "name": "projectId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "pattern": "^prj:[0-9a-f-]{36}$"
+          }
+        }
+      ],
+      "get": {
+        "summary": "List investment-interests",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 50
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "pattern": "^tlps:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Active entities",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Entity"
+                      }
+                    },
+                    "nextCursor": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "items",
+                    "nextCursor"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create investment-interests",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]{1,128}$"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/investment-interests"
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Original create receipt; replay returns same receipt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Entity"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      }
+    },
+    "/v1/tlps/projects/{projectId}/investment-interests/{entityId}": {
+      "parameters": [
+        {
+          "name": "projectId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "pattern": "^prj:[0-9a-f-]{36}$"
+          }
+        },
+        {
+          "name": "entityId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "pattern": "^tlps:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          }
+        }
+      ],
+      "get": {
+        "summary": "Read investment-interests",
+        "responses": {
+          "200": {
+            "description": "Active entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Entity"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      },
+      "put": {
+        "summary": "Replace investment-interests",
+        "parameters": [
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Positive entity version, optionally quoted"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/investment-interests"
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Entity"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Tombstone investment-interests",
+        "parameters": [
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Positive entity version, optionally quoted"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deletion receipt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "pattern": "^tlps:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                    },
+                    "version": {
+                      "type": "integer"
+                    },
+                    "deleted": {
+                      "const": true,
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "version",
+                    "deleted"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      }
+    },
+    "/v1/tlps/projects/{projectId}/escrow-reviews": {
+      "parameters": [
+        {
+          "name": "projectId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "pattern": "^prj:[0-9a-f-]{36}$"
+          }
+        }
+      ],
+      "get": {
+        "summary": "List escrow-reviews",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 50
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "pattern": "^tlps:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Active entities",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Entity"
+                      }
+                    },
+                    "nextCursor": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "items",
+                    "nextCursor"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create escrow-reviews",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]{1,128}$"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/escrow-reviews"
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Original create receipt; replay returns same receipt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Entity"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      }
+    },
+    "/v1/tlps/projects/{projectId}/escrow-reviews/{entityId}": {
+      "parameters": [
+        {
+          "name": "projectId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "pattern": "^prj:[0-9a-f-]{36}$"
+          }
+        },
+        {
+          "name": "entityId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "pattern": "^tlps:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          }
+        }
+      ],
+      "get": {
+        "summary": "Read escrow-reviews",
+        "responses": {
+          "200": {
+            "description": "Active entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Entity"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      },
+      "put": {
+        "summary": "Replace escrow-reviews",
+        "parameters": [
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Positive entity version, optionally quoted"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/escrow-reviews"
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Entity"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Tombstone escrow-reviews",
+        "parameters": [
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Positive entity version, optionally quoted"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deletion receipt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "pattern": "^tlps:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                    },
+                    "version": {
+                      "type": "integer"
+                    },
+                    "deleted": {
+                      "const": true,
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "version",
+                    "deleted"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      }
+    },
+    "/v1/tlps/capabilities": {
+      "get": {
+        "summary": "Schema, enums, limits and disabled financial capabilities",
+        "responses": {
+          "200": {
+            "description": "Schema, enums, limits and disabled financial capabilities",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      }
+    },
+    "/v1/tlps/skus": {
+      "get": {
+        "summary": "26 draft SKUs; null prices; checkout disabled",
+        "responses": {
+          "200": {
+            "description": "26 draft SKUs; null prices; checkout disabled",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      }
+    },
+    "/v1/tlps/projects/{projectId}/events": {
+      "get": {
+        "summary": "Append-only audit metadata",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^prj:[0-9a-f-]{36}$"
+            }
+          },
+          {
+            "name": "after",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 50
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Audit items and nextCursor sequence",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      }
+    },
+    "/v1/tlps/projects/{projectId}/export": {
+      "get": {
+        "summary": "Active planning records; no binding commitments or balances",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^prj:[0-9a-f-]{36}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Planning export",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "413": {
+            "$ref": "#/components/responses/Status413"
+          },
+          "415": {
+            "$ref": "#/components/responses/Status415"
+          },
+          "428": {
+            "$ref": "#/components/responses/Status428"
+          },
+          "500": {
+            "$ref": "#/components/responses/Status500"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "projectBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    },
+    "schemas": {
+      "profiles": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Server limit is UTF-8 bytes; nonblank text without NUL."
+          },
+          "stage": {
+            "type": "string",
+            "enum": [
+              "idea",
+              "story",
+              "board",
+              "pre",
+              "production",
+              "post",
+              "release",
+              "shree"
+            ]
+          },
+          "city": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Server limit is UTF-8 bytes; nonblank text without NUL."
+          }
+        },
+        "required": [
+          "title",
+          "stage"
+        ]
+      },
+      "onboarding": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "audience": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Server limit is UTF-8 bytes; nonblank text without NUL."
+          },
+          "idea": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000,
+            "description": "Server limit is UTF-8 bytes; nonblank text without NUL."
+          },
+          "journey": {
+            "type": "string",
+            "enum": [
+              "I2S",
+              "I2R",
+              "I2B",
+              "undecided"
+            ]
+          },
+          "automation": {
+            "type": "string",
+            "enum": [
+              "guided",
+              "assisted",
+              "manual",
+              "undecided"
+            ]
+          }
+        },
+        "required": [
+          "audience",
+          "idea",
+          "journey",
+          "automation"
+        ]
+      },
+      "workplace-records": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "areaId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "description": "Server limit is UTF-8 bytes; nonblank text without NUL."
+          },
+          "workspaceId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Server limit is UTF-8 bytes; nonblank text without NUL."
+          },
+          "values": {
+            "type": "object",
+            "minProperties": 1,
+            "maxProperties": 32,
+            "additionalProperties": {
+              "type": "string",
+              "minLength": 0,
+              "maxLength": 2048
+            }
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "review",
+              "rehearsal",
+              "handover"
+            ]
+          }
+        },
+        "required": [
+          "areaId",
+          "workspaceId",
+          "values",
+          "status"
+        ]
+      },
+      "budget-items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "label": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Server limit is UTF-8 bytes; nonblank text without NUL."
+          },
+          "quantity": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100000
+          },
+          "unitAmountMinor": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000000000000
+          },
+          "currency": {
+            "type": "string",
+            "enum": [
+              "INR"
+            ]
+          }
+        },
+        "required": [
+          "label",
+          "quantity",
+          "unitAmountMinor",
+          "currency"
+        ]
+      },
+      "crew-assignments": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Server limit is UTF-8 bytes; nonblank text without NUL."
+          },
+          "role": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Server limit is UTF-8 bytes; nonblank text without NUL."
+          },
+          "department": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Server limit is UTF-8 bytes; nonblank text without NUL."
+          },
+          "notes": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048,
+            "description": "Server limit is UTF-8 bytes; nonblank text without NUL."
+          }
+        },
+        "required": [
+          "name",
+          "role"
+        ]
+      },
+      "locations": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Server limit is UTF-8 bytes; nonblank text without NUL."
+          },
+          "city": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Server limit is UTF-8 bytes; nonblank text without NUL."
+          },
+          "notes": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048,
+            "description": "Server limit is UTF-8 bytes; nonblank text without NUL."
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "schedule-items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Server limit is UTF-8 bytes; nonblank text without NUL."
+          },
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "startMinute": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1439
+          },
+          "endMinute": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1440
+          },
+          "locationId": {
+            "type": "string",
+            "pattern": "^tlps:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          }
+        },
+        "required": [
+          "title",
+          "date",
+          "startMinute",
+          "endMinute"
+        ]
+      },
+      "evidence": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Server limit is UTF-8 bytes; nonblank text without NUL."
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "note",
+              "checklist",
+              "document",
+              "image"
+            ]
+          },
+          "sourceRef": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048,
+            "description": "Server limit is UTF-8 bytes; nonblank text without NUL."
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$"
+          }
+        },
+        "required": [
+          "title",
+          "kind",
+          "sourceRef"
+        ]
+      },
+      "circles": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Server limit is UTF-8 bytes; nonblank text without NUL."
+          },
+          "purpose": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048,
+            "description": "Server limit is UTF-8 bytes; nonblank text without NUL."
+          },
+          "coordinatorReference": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Server limit is UTF-8 bytes; nonblank text without NUL."
+          },
+          "rules": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048,
+            "description": "Server limit is UTF-8 bytes; nonblank text without NUL."
+          }
+        },
+        "required": [
+          "name",
+          "purpose"
+        ]
+      },
+      "membership-plans": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "circleId": {
+            "type": "string",
+            "pattern": "^tlps:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Server limit is UTF-8 bytes; nonblank text without NUL."
+          },
+          "period": {
+            "type": "string",
+            "enum": [
+              "undecided",
+              "monthly",
+              "yearly"
+            ]
+          },
+          "benefits": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048,
+            "description": "Server limit is UTF-8 bytes; nonblank text without NUL."
+          }
+        },
+        "required": [
+          "circleId",
+          "name",
+          "period",
+          "benefits"
+        ]
+      },
+      "investment-interests": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "circleId": {
+            "type": "string",
+            "pattern": "^tlps:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "partyReference": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Server limit is UTF-8 bytes; nonblank text without NUL."
+          },
+          "terms": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048,
+            "description": "Server limit is UTF-8 bytes; nonblank text without NUL."
+          }
+        },
+        "required": [
+          "circleId",
+          "partyReference"
+        ]
+      },
+      "escrow-reviews": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "milestone": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Server limit is UTF-8 bytes; nonblank text without NUL."
+          },
+          "condition": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048,
+            "description": "Server limit is UTF-8 bytes; nonblank text without NUL."
+          },
+          "evidenceReference": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048,
+            "description": "Server limit is UTF-8 bytes; nonblank text without NUL."
+          },
+          "reviewerReference": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Server limit is UTF-8 bytes; nonblank text without NUL."
+          },
+          "disputeTerms": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048,
+            "description": "Server limit is UTF-8 bytes; nonblank text without NUL."
+          }
+        },
+        "required": [
+          "milestone",
+          "condition"
+        ]
+      },
+      "Entity": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^tlps:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "projectId": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "profiles",
+              "onboarding",
+              "workplace-records",
+              "budget-items",
+              "crew-assignments",
+              "locations",
+              "schedule-items",
+              "evidence",
+              "circles",
+              "membership-plans",
+              "investment-interests",
+              "escrow-reviews"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "data": {
+            "type": "object"
+          },
+          "createdAt": {
+            "type": "integer"
+          },
+          "updatedAt": {
+            "type": "integer"
+          },
+          "timeBasis": {
+            "type": "string",
+            "enum": [
+              "host-unix-clock-unverified"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "projectId",
+          "kind",
+          "version",
+          "data",
+          "createdAt",
+          "updatedAt",
+          "timeBasis"
+        ]
+      },
+      "Error": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "error": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "code": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "code"
+            ]
+          }
+        },
+        "required": [
+          "error"
+        ]
+      }
+    },
+    "responses": {
+      "Status400": {
+        "description": "Invalid input",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Status401": {
+        "description": "Invalid token",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Status403": {
+        "description": "Wrong project or scope",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Status404": {
+        "description": "Not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Status409": {
+        "description": "Conflict",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Status413": {
+        "description": "Body too large",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Status415": {
+        "description": "JSON required",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Status428": {
+        "description": "Missing precondition",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Status500": {
+        "description": "Database unavailable",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,177 @@
+{
+  "scope": "disposable synthetic SQLite; source and actual project database unchanged",
+  "tableCount": 169,
+  "explicitIndexes": 279,
+  "triggers": 42,
+  "foreignKeyCheck": [],
+  "foreignKeyChildColumns": 378,
+  "withoutLeadingIndex": 84,
+  "unindexedColumns": [
+    "mfa_factors.account_id",
+    "security_events.reviewed_by_account_id",
+    "security_events.account_id",
+    "data_subject_requests.handler_account_id",
+    "data_subject_requests.account_id",
+    "retention_policies.approved_by_account_id",
+    "retention_policies.organization_id",
+    "availabilities.profile_id",
+    "applications.portfolio_file_id",
+    "offer_versions.created_by_account_id",
+    "offer_events.version_id",
+    "offer_events.actor_account_id",
+    "marketplace_reviews.reviewer_account_id",
+    "content_reports.assigned_to_account_id",
+    "content_reports.reporter_account_id",
+    "conversation_threads.created_by_account_id",
+    "conversation_threads.workspace_id",
+    "messages.reply_to_message_id",
+    "messages.sender_account_id",
+    "message_attachments.file_id",
+    "message_receipts.account_id",
+    "production_units.lead_account_id",
+    "shoot_days.location_id",
+    "shoot_days.production_unit_id",
+    "scheduled_scenes.scene_id",
+    "safety_incidents.reported_by_account_id",
+    "safety_incidents.shoot_day_id",
+    "incident_actions.owner_account_id",
+    "incident_actions.incident_id",
+    "vendor_catalog_items.vendor_id",
+    "equipment_maintenance.evidence_file_id",
+    "equipment_maintenance.equipment_asset_id",
+    "quote_requests.requester_account_id",
+    "quote_requests.project_id",
+    "quotes.vendor_id",
+    "purchase_order_lines.catalog_item_id",
+    "resource_booking_events.actor_account_id",
+    "resource_booking_events.resource_booking_id",
+    "location_contacts.location_id",
+    "proposal_versions.authored_by_account_id",
+    "campaign_details.brand_id",
+    "campaign_media_placements.vendor_id",
+    "campaign_media_placements.project_id",
+    "clearances.owner_account_id",
+    "clearances.consent_file_id",
+    "delivery_packages.distributor_organization_id",
+    "delivery_package_assets.file_id",
+    "deal_room_members.account_id",
+    "deal_room_documents.file_version_id",
+    "investor_watchlist.project_id",
+    "investor_circles.organization_id",
+    "circle_memberships.investor_profile_id",
+    "event_run_of_show_items.owner_account_id",
+    "event_run_of_show_items.project_id",
+    "event_ticket_types.project_id",
+    "event_checkin_events.scanned_by_account_id",
+    "event_checkin_events.ticket_id",
+    "exhibition_stalls.exhibitor_organization_id",
+    "visitor_metrics.verified_by_account_id",
+    "visitor_metrics.project_id",
+    "wedding_details.primary_contact_account_id",
+    "wedding_functions.venue_id",
+    "wedding_functions.project_id",
+    "wedding_guests.invited_by_account_id",
+    "wedding_guests.project_id",
+    "budget_versions.approved_by_account_id",
+    "budget_versions.created_by_account_id",
+    "budget_lines.vendor_id",
+    "budget_lines.budget_version_id",
+    "expense_claim_lines.receipt_file_id",
+    "expense_claim_lines.expense_claim_id",
+    "financial_adjustments.approved_by_account_id",
+    "financial_adjustments.project_id",
+    "workspace_subscriptions.pricing_plan_id",
+    "workspace_subscriptions.workspace_id",
+    "ai_data_scopes.project_id",
+    "ai_data_scopes.provider_config_id",
+    "ai_provider_configs.configured_by_account_id",
+    "ai_provider_configs.workspace_id",
+    "ai_provider_events.provider_config_id",
+    "prompt_templates.created_by_account_id",
+    "integration_connections.connected_by_account_id",
+    "webhook_events.integration_connection_id",
+    "legal_documents.published_by_account_id"
+  ],
+  "tests": [
+    {
+      "case": "OS mismatching project kind",
+      "result": "REJECTED",
+      "reason": "OS type must match project_kind"
+    },
+    {
+      "case": "Membership without canonical role",
+      "result": "REJECTED",
+      "reason": "membership requires a matching canonical role"
+    },
+    {
+      "case": "Approval referencing missing version",
+      "result": "REJECTED",
+      "reason": "approval must pin an immutable file, creative, or proposal version"
+    },
+    {
+      "case": "Approval referencing other-project file version",
+      "result": "ACCEPTED"
+    },
+    {
+      "case": "Deal-room document referencing other-project file",
+      "result": "ACCEPTED"
+    },
+    {
+      "case": "Evidence points at other-project file",
+      "result": "ACCEPTED"
+    },
+    {
+      "case": "Evidence link project differs from evidence",
+      "result": "ACCEPTED"
+    },
+    {
+      "case": "Immutable file version UPDATE",
+      "result": "REJECTED",
+      "reason": "version records are immutable; create a new version"
+    },
+    {
+      "case": "Immutable file version DELETE when unpinned",
+      "result": "ACCEPTED"
+    },
+    {
+      "case": "Approved version DELETE leaves dangling approval",
+      "result": "ACCEPTED"
+    },
+    {
+      "case": "Approved decision rewritten to pending",
+      "result": "ACCEPTED"
+    },
+    {
+      "case": "Audit UPDATE",
+      "result": "ACCEPTED"
+    },
+    {
+      "case": "Audit DELETE",
+      "result": "ACCEPTED"
+    },
+    {
+      "case": "Duplicate payment reference with NULL provider",
+      "result": "ACCEPTED"
+    }
+  ],
+  "seedCountsDeclared": {
+    "role_definitions": 19,
+    "permission_definitions": 20,
+    "role_permissions": 151,
+    "catalog_industries": 16,
+    "catalog_languages": 11,
+    "catalog_departments": 17,
+    "catalog_interests": 12,
+    "skills": 16
+  },
+  "seedRowsActuallyInstalled": {
+    "role_definitions": 0,
+    "permission_definitions": 0,
+    "role_permissions": 0,
+    "catalog_industries": 0,
+    "catalog_languages": 0,
+    "catalog_departments": 0,
+    "catalog_interests": 0,
+    "skills": 0
+  }
+}
