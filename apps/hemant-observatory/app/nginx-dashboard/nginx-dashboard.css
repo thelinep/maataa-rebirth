@@ -1,0 +1,144 @@
+.nginx-dashboard {
+  --m-bg: #0c1014;
+  --m-surface: #111820;
+  --m-elevated: #17212a;
+  --m-card-bg: #111820;
+  --m-text: #f3eee4;
+  --m-muted: #a9b3bc;
+  --m-border: #34414b;
+  --m-primary: #dfb454;
+  --m-primary-contrast: #17130d;
+  --m-secondary: #1c2932;
+  --m-success: #7fc8a0;
+  --m-warning: #e5b45b;
+  --m-danger: #e78b81;
+  --m-info: #87b9dd;
+  min-height: 100vh;
+  background: var(--m-bg);
+  color: var(--m-text);
+  color-scheme: dark;
+  font-family: var(--m-font-sans, Inter, ui-sans-serif, system-ui, sans-serif);
+}
+.nginx-dashboard *, .nginx-dashboard *::before, .nginx-dashboard *::after { box-sizing: border-box; }
+.nginx-dashboard button, .nginx-dashboard input { font: inherit; }
+.nginx-dashboard button:focus-visible, .nginx-dashboard a:focus-visible, .nginx-dashboard input:focus-visible { outline: 2px solid #efc96e; outline-offset: 3px; }
+.nginx-dashboard ::selection { background: #765d2c; color: #fff8e9; }
+.nginx-dashboard code, .nginx-dashboard pre { font-family: var(--m-font-mono, ui-monospace, SFMono-Regular, Menlo, monospace); }
+
+.nginx-topbar { min-height: 76px; display: flex; align-items: center; gap: 28px; padding: 12px clamp(16px, 2.3vw, 36px); border-bottom: 1px solid var(--m-border); background: #10151a; }
+.nginx-brand { display: inline-flex; align-items: center; gap: 12px; color: var(--m-text); text-decoration: none; font-weight: 760; letter-spacing: .06em; white-space: nowrap; }
+.nginx-brand small { display: block; margin-top: 3px; color: var(--m-muted); font-size: .68rem; font-weight: 560; letter-spacing: .12em; }
+.nginx-mark { display: grid; place-items: center; width: 38px; height: 38px; border: 1px solid #cfa449; border-radius: 50%; color: #dfb454; font-family: Georgia, serif; font-size: 1.25rem; }
+.nginx-global-search { display: flex; align-items: center; gap: 10px; width: min(440px, 34vw); margin-inline: auto; padding: 0 12px; border: 1px solid var(--m-border); border-radius: 8px; background: #0d1318; color: var(--m-muted); }
+.nginx-global-search > svg { width: 18px; height: 18px; flex: 0 0 auto; fill: none; stroke: currentColor; stroke-linecap: round; stroke-width: 1.8; }
+.nginx-global-search input { width: 100%; min-width: 0; height: 40px; border: 0; outline: 0; background: transparent; color: var(--m-text); }
+.nginx-global-search input::placeholder { color: #9eaab4; }
+.nginx-preview-badge { padding: 8px 12px; border: 1px solid #9d7a38; border-radius: 7px; color: #f0cb75; font-size: .77rem; letter-spacing: .07em; text-transform: uppercase; white-space: nowrap; }
+.nginx-layout { display: grid; grid-template-columns: 248px minmax(0, 1fr); min-height: calc(100vh - 76px); }
+.nginx-sidebar { display: flex; flex-direction: column; gap: 14px; padding: 22px 14px; border-right: 1px solid var(--m-border); background: #10161b; }
+.nginx-sidebar-label { padding: 0 12px 5px; color: #d3bd87; font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+.nginx-sidebar nav { display: grid; gap: 4px; }
+.nginx-nav-item { display: flex; align-items: center; gap: 11px; min-height: 42px; padding: 8px 11px; border: 1px solid transparent; border-radius: 8px; background: transparent; color: #c6ced4; text-align: left; cursor: pointer; }
+.nginx-nav-item:hover { background: #18222a; color: #fff4d8; }
+.nginx-nav-item.is-active { border-color: #6f572e; background: #272319; color: #f1ce78; }
+.nginx-nav-dot { width: 7px; height: 7px; border: 1px solid #9b8350; border-radius: 50%; flex: 0 0 auto; }
+.nginx-sidebar-note { margin-top: auto; padding: 14px 12px; border: 1px solid var(--m-border); border-radius: 9px; color: #efcb76; font-size: .85rem; }
+.nginx-sidebar-note p { margin: 8px 0 0; color: var(--m-muted); font-size: .78rem; line-height: 1.5; }
+.nginx-status-indicator { display: inline-block; width: 8px; height: 8px; margin-right: 7px; border: 1px solid #d5ad61; border-radius: 50%; vertical-align: 1px; }
+.nginx-main { min-width: 0; padding: clamp(18px, 2.3vw, 36px); }
+.nginx-page-heading, .nginx-section-heading { display: flex; justify-content: space-between; align-items: end; gap: 16px; margin-bottom: 19px; }
+.nginx-page-heading h1 { margin: 0; font-size: clamp(1.65rem, 2.6vw, 2.3rem); letter-spacing: -.025em; }
+.nginx-page-heading p, .nginx-section-heading p { margin: 7px 0 0; color: var(--m-muted); }
+.nginx-runtime-state { display: inline-flex; align-items: center; padding: 8px 11px; border: 1px solid var(--m-border); border-radius: 7px; color: #d5dce1; font-size: .82rem; white-space: nowrap; }
+.nginx-host-banner { display: flex; align-items: center; flex-wrap: wrap; gap: 10px 18px; margin-bottom: 20px; padding: 12px 15px; border: 1px solid #655331; border-radius: 9px; background: #171711; color: #e9d9b0; font-size: .83rem; }
+.nginx-host-banner > strong { color: #f1cc72; }
+.nginx-host-banner code { color: #faf2e5; }
+.nginx-host-banner small { display: block; margin-top: 3px; color: #aeb7be; font-size: .73rem; }
+.nginx-frames { display: grid; gap: 16px; align-items: start; }
+.nginx-frames-all { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.nginx-frames-single { grid-template-columns: minmax(0, 1fr); }
+.nginx-frame.m-card { min-width: 0; padding: 0; overflow: hidden; border-radius: 12px; box-shadow: none; }
+.nginx-frame-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 15px 17px; border-bottom: 1px solid var(--m-border); background: #141d24; }
+.nginx-frame-header h2 { margin: 0; font-size: 1rem; }
+.nginx-frame-header p { margin: 5px 0 0; color: var(--m-muted); font-size: .76rem; }
+.nginx-frame-actions { display: flex; align-items: center; gap: 4px; }
+.nginx-frame-actions .m-button { min-height: 34px; padding: 6px 9px; font-size: .77rem; }
+.nginx-sample-tag { display: inline-flex; align-items: center; padding: 4px 7px; border: 1px solid #5c5138; border-radius: 5px; color: #e7ca83; font-size: .66rem; letter-spacing: .06em; text-transform: uppercase; white-space: nowrap; }
+.nginx-frame-body { display: grid; gap: 14px; padding: 16px; }
+.nginx-metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.nginx-metric { display: grid; gap: 6px; min-width: 0; padding: 12px; border: 1px solid var(--m-border); border-radius: 8px; background: #0d1419; }
+.nginx-metric span { color: var(--m-muted); font-size: .72rem; }
+.nginx-metric strong { overflow-wrap: anywhere; color: #f2d080; font-size: 1.15rem; font-variant-numeric: tabular-nums; }
+.nginx-metric small { color: #aab5bc; font-size: .68rem; }
+.nginx-two-col { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 12px; align-items: start; }
+.nginx-chart { min-width: 0; padding: 12px; border: 1px solid var(--m-border); border-radius: 8px; background: #0d1419; }
+.nginx-chart-label, .nginx-chart-axis { display: flex; align-items: center; justify-content: space-between; gap: 8px; color: var(--m-muted); font-size: .72rem; }
+.nginx-chart svg { display: block; width: 100%; height: 116px; margin-top: 8px; overflow: visible; }
+.nginx-chart-line { fill: none; stroke: #e0b554; stroke-width: 3; vector-effect: non-scaling-stroke; }
+.nginx-chart-fill { fill: #d3a543; fill-opacity: .1; }
+.nginx-chart-red .nginx-chart-line { stroke: #d47b72; }
+.nginx-chart-red .nginx-chart-fill { fill: #d47b72; }
+.nginx-chart-violet .nginx-chart-line { stroke: #a795d9; }
+.nginx-chart-axis { margin-top: 2px; font-size: .65rem; }
+.nginx-table-scroll { min-width: 0; overflow-x: auto; border: 1px solid var(--m-border); border-radius: 8px; }
+.nginx-table { width: 100%; border-collapse: collapse; background: #0d1419; font-size: .76rem; text-align: left; }
+.nginx-table caption { padding: 11px 12px; color: var(--m-text); font-weight: 650; text-align: left; }
+.nginx-table th, .nginx-table td { min-width: 92px; padding: 10px 11px; border-top: 1px solid #29343d; vertical-align: top; }
+.nginx-table th { color: #bac4cc; font-size: .69rem; font-weight: 650; }
+.nginx-table td { color: #e0e4e5; }
+.nginx-notice { padding: 11px 13px; border: 1px solid #635330; border-radius: 8px; background: #171610; color: #e8d6a7; font-size: .82rem; line-height: 1.55; }
+.nginx-empty { padding: 26px; color: var(--m-muted); text-align: center; }
+.nginx-muted { margin: 0; color: var(--m-muted); font-size: .77rem; }
+.nginx-filter-row { display: flex; align-items: center; gap: 12px; color: var(--m-muted); font-size: .8rem; }
+.nginx-filter-row input { min-width: 0; flex: 1; height: 38px; padding: 8px 10px; border: 1px solid var(--m-border); border-radius: 7px; background: #0d1419; color: var(--m-text); }
+.nginx-state-strip { display: flex; flex-wrap: wrap; gap: 10px 22px; color: var(--m-muted); font-size: .81rem; }
+.nginx-state-strip strong { margin-left: 5px; color: #e8c66f; }
+.nginx-code-panel, .nginx-validation-panel { min-width: 0; border: 1px solid var(--m-border); border-radius: 8px; background: #0b1115; }
+.nginx-code-title { display: flex; justify-content: space-between; padding: 11px 13px; border-bottom: 1px solid var(--m-border); color: #e8d19b; font-size: .78rem; }
+.nginx-code-title span { color: #bac4cc; }
+.nginx-code-panel pre { max-width: 100%; margin: 0; padding: 14px; overflow: auto; color: #c5d0d5; font-size: .73rem; line-height: 1.65; white-space: pre-wrap; }
+.nginx-validation-panel { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; padding: 14px; }
+.nginx-validation-panel strong { color: #e8c66f; }
+.nginx-validation-panel p, .nginx-settings-grid p { margin: 0; color: var(--m-muted); font-size: .8rem; line-height: 1.55; }
+.nginx-settings-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.nginx-settings-grid > div { display: grid; align-content: start; gap: 10px; min-width: 0; padding: 14px; border: 1px solid var(--m-border); border-radius: 8px; background: #0d1419; }
+.nginx-settings-grid h3 { margin: 0; font-size: .9rem; }
+.nginx-settings-grid code { overflow-wrap: anywhere; }
+.nginx-states { margin-top: 26px; }
+.nginx-section-heading h2 { margin: 0; font-size: 1.2rem; }
+.nginx-state-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.nginx-state-example { display: flex; align-items: flex-start; gap: 10px; padding: 13px; border: 1px solid var(--m-border); border-radius: 8px; background: #111820; }
+.nginx-state-example strong { font-size: .81rem; }
+.nginx-state-example p { margin: 5px 0 0; color: var(--m-muted); font-size: .73rem; line-height: 1.5; }
+.state-dot { width: 10px; height: 10px; margin-top: 4px; border: 1px solid #d5ad61; border-radius: 50%; flex: 0 0 auto; }
+.state-marker { width: 9px; height: 9px; margin: 5px 4px 0; border-radius: 50%; background: #8996a0; flex: 0 0 auto; }
+.state-marker-outline { border: 1px solid #b5bec5; background: transparent; }
+.state-warning { border-color: #6b5732; background: #171610; }
+.state-warning .state-marker { background: #e0b65f; }
+.nginx-show-all { margin-top: 16px; }
+.nginx-footer { display: flex; justify-content: space-between; gap: 12px; margin-top: 30px; padding-top: 14px; border-top: 1px solid var(--m-border); color: var(--m-muted); font-size: .73rem; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+@media (min-width: 1500px) { .nginx-frames-all { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 1050px) { .nginx-layout { grid-template-columns: 205px minmax(0, 1fr); } .nginx-frames-all { grid-template-columns: 1fr; } .nginx-state-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 720px) {
+  .nginx-topbar { flex-wrap: wrap; gap: 10px; padding: 12px 15px; }
+  .nginx-brand { flex: 1; }
+  .nginx-global-search { order: 3; width: 100%; }
+  .nginx-preview-badge { font-size: .62rem; }
+  .nginx-layout { grid-template-columns: 1fr; }
+  .nginx-sidebar { padding: 10px 12px; border-right: 0; border-bottom: 1px solid var(--m-border); }
+  .nginx-sidebar-label, .nginx-sidebar-note { display: none; }
+  .nginx-sidebar nav { display: flex; overflow-x: auto; gap: 6px; scrollbar-color: #71603b #10161b; }
+  .nginx-nav-item { flex: 0 0 auto; min-height: 38px; padding: 7px 10px; font-size: .78rem; }
+  .nginx-main { padding: 18px 13px; }
+  .nginx-page-heading { align-items: flex-start; flex-direction: column; }
+  .nginx-host-banner { align-items: flex-start; flex-direction: column; }
+  .nginx-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .nginx-two-col, .nginx-settings-grid { grid-template-columns: 1fr; }
+  .nginx-frame-header { align-items: flex-start; }
+  .nginx-sample-tag { display: none; }
+  .nginx-state-grid { grid-template-columns: 1fr; }
+  .nginx-footer { flex-direction: column; }
+}
+@media (prefers-reduced-motion: reduce) { .nginx-dashboard *, .nginx-dashboard *::before, .nginx-dashboard *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; } }
