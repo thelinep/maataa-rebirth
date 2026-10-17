@@ -225,7 +225,7 @@ fn missing_and_non_tlps_projects_are_rejected() {
         Err(StoreError::Missing)
     ));
     {
-        let conn = s.0.lock().unwrap();
+        let conn = s.system().unwrap();
         conn.execute("UPDATE projects SET record_json=json_set(record_json,'$.ownerApp','maataa') WHERE project_id=?1",[&i.project_id]).unwrap();
     }
     assert!(matches!(
@@ -382,7 +382,7 @@ fn schedule_links_require_same_project_active_location() {
 fn audit_failure_rolls_back_entity_link_and_idempotency_changes() {
     let (s, i) = setup();
     {
-        let c = s.0.lock().unwrap();
+        let c = s.system().unwrap();
         c.execute_batch("CREATE TRIGGER force_audit_failure BEFORE INSERT ON tlps_events BEGIN SELECT RAISE(ABORT,'test failure'); END;").unwrap();
     }
     let data = fixture("locations", &s, &i);
@@ -394,7 +394,7 @@ fn audit_failure_rolls_back_entity_link_and_idempotency_changes() {
         s.tlps_list(&i, &i.project_id, "locations", "", 10).unwrap()["items"],
         json!([])
     );
-    let c = s.0.lock().unwrap();
+    let c = s.system().unwrap();
     let keys: i64 = c
         .query_row("SELECT count(*) FROM tlps_idempotency", [], |r| r.get(0))
         .unwrap();
@@ -408,7 +408,7 @@ fn events_are_append_only_and_exclude_record_bodies() {
     let events = s.tlps_events(&i, &i.project_id, 0, 10).unwrap();
     assert!(!events.to_string().contains("PRIVATE_PAYLOAD"));
     assert_eq!(events["items"][0]["actor"], "owner");
-    let c = s.0.lock().unwrap();
+    let c = s.system().unwrap();
     assert!(c.execute("DELETE FROM tlps_events", []).is_err());
     assert!(c
         .execute("UPDATE tlps_events SET actor='other'", [])
@@ -502,7 +502,7 @@ fn data_survives_reopening_and_migration_is_idempotent() {
             .unwrap(),
         r
     );
-    let c = reopened.0.lock().unwrap();
+    let c = reopened.system().unwrap();
     let count: i64 = c
         .query_row("SELECT count(*) FROM tlps_schema_migrations", [], |r| {
             r.get(0)
@@ -519,7 +519,7 @@ fn legacy_database_migration_retains_projects_and_other_tables() {
     s.create_principal("owner", "Owner").unwrap();
     let i = project(&s, "owner");
     {
-        let c = s.0.lock().unwrap();
+        let c = s.system().unwrap();
         c.execute_batch("DROP TABLE tlps_idempotency;DROP TABLE tlps_events;DROP TABLE tlps_links;DROP TABLE tlps_entities;DROP TABLE tlps_skus;DROP TABLE tlps_schema_migrations;").unwrap();
     }
     drop(s);
@@ -543,7 +543,7 @@ fn altered_or_future_migration_fingerprint_is_rejected() {
         "INSERT INTO tlps_schema_migrations VALUES(2,'future',0)",
     ] {
         let (s, _) = setup();
-        let c = s.0.lock().unwrap();
+        let c = s.system().unwrap();
         c.execute_batch(sql).unwrap();
         assert!(matches!(migrate(&c), Err(StoreError::Invalid)));
     }
@@ -624,7 +624,7 @@ fn database_constraints_prevent_dangling_cross_project_links() {
     let other = project(&s, "owner");
     let a = circle(&s, &i);
     let b = circle(&s, &other);
-    let c = s.0.lock().unwrap();
+    let c = s.system().unwrap();
     assert!(c
         .execute(
             "INSERT INTO tlps_links VALUES(?1,?2,?3,'circle')",
@@ -643,7 +643,7 @@ fn seeded_catalog_stays_draft_and_financial_export_is_inert() {
         assert_eq!(row["commercialStatus"], "draft");
         assert!(row["priceMinor"].is_null());
     }
-    let c = s.0.lock().unwrap();
+    let c = s.system().unwrap();
     assert!(c
         .execute(
             "UPDATE tlps_skus SET data_json=json_set(data_json,'$.checkoutEnabled',1)",
@@ -858,7 +858,7 @@ fn project_quota_has_no_partial_write_and_idempotent_replay_still_works() {
         .tlps_create(&i, &i.project_id, "locations", "original", &data)
         .unwrap();
     {
-        let c = s.0.lock().unwrap();
+        let c = s.system().unwrap();
         for n in 1..MAX_PROJECT_ENTITIES {
             c.execute("INSERT INTO tlps_entities(project_id,entity_id,kind,version,data_json,created_at,updated_at) VALUES(?1,?2,'locations',1,'{\"name\":\"Quota fixture\"}',0,0)",params![i.project_id,format!("tlps:{}",Uuid::new_v4())]).unwrap();
             assert!(n < MAX_PROJECT_ENTITIES);
@@ -997,7 +997,7 @@ fn version_preconditions_are_single_positive_integers() {
 #[test]
 fn catalog_database_constraints_reject_missing_or_wrong_type_flags() {
     let (s, _) = setup();
-    let c = s.0.lock().unwrap();
+    let c = s.system().unwrap();
     for field in [
         "commercialStatus",
         "checkoutEnabled",

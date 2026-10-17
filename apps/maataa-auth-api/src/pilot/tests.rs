@@ -234,7 +234,7 @@ fn team_audit_and_reviews_are_append_only() {
     let p = profile(&s, &o);
     s.pilot_review(&r, p["id"].as_str().unwrap(), 1, "returned", "Improve")
         .unwrap();
-    let c = s.0.lock().unwrap();
+    let c = s.system().unwrap();
     for sql in [
         "DELETE FROM tlps_pilot_audit",
         "UPDATE tlps_pilot_audit SET action='forged'",
@@ -247,7 +247,7 @@ fn team_audit_and_reviews_are_append_only() {
 #[test]
 fn pilot_schema_checksum_drift_is_rejected() {
     let (s, _, _, _, _) = setup();
-    let c = s.0.lock().unwrap();
+    let c = s.system().unwrap();
     c.execute("UPDATE tlps_pilot_migrations SET checksum='modified'", [])
         .unwrap();
     assert!(matches!(migrate(&c), Err(StoreError::Invalid)));

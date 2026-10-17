@@ -28,18 +28,36 @@ pub(super) fn migrate(c: &Connection) -> Result<(), StoreError> {
     tx.commit().map_err(|_| StoreError::Database)
 }
 fn db<T>(v: rusqlite::Result<T>) -> Result<T, StoreError> {
-    v.map_err(|_| StoreError::Database)
+    v.map_err(super::rls::db_error)
 }
-pub(super) fn managed(c: &Connection, pid: &str) -> Result<bool, StoreError> {
+/// Administrator path (system session): base tables, no request scope.
+fn managed_system(c: &Connection, pid: &str) -> Result<bool, StoreError> {
     db(c.query_row(
         "SELECT EXISTS(SELECT 1 FROM tlps_pilot_projects WHERE project_id=?1)",
         [pid],
         |r| r.get(0),
     ))
 }
+fn log_system(
+    c: &Connection,
+    pid: &str,
+    actor: &str,
+    action: &str,
+    details: Value,
+) -> Result<(), StoreError> {
+    db(c.execute("INSERT INTO tlps_pilot_audit(project_id,actor,action,details_json,recorded_at) VALUES(?1,?2,?3,?4,?5)",params![pid,actor,action,details.to_string(),now_unix_ms()]))?;
+    Ok(())
+}
+pub(super) fn managed(c: &Connection, pid: &str) -> Result<bool, StoreError> {
+    db(c.query_row(
+        "SELECT EXISTS(SELECT 1 FROM rls_tlps_pilot_projects WHERE project_id=?1)",
+        [pid],
+        |r| r.get(0),
+    ))
+}
 fn role(c: &Connection, i: &Identity) -> Result<String, StoreError> {
     db(c.query_row(
-        "SELECT role FROM tlps_pilot_members WHERE project_id=?1 AND principal_id=?2 AND active=1",
+        "SELECT role FROM rls_tlps_pilot_members WHERE project_id=?1 AND principal_id=?2 AND active=1",
         params![i.project_id, i.principal_id],
         |r| r.get::<_, String>(0),
     )
@@ -70,7 +88,7 @@ fn log(
     action: &str,
     details: Value,
 ) -> Result<(), StoreError> {
-    db(c.execute("INSERT INTO tlps_pilot_audit(project_id,actor,action,details_json,recorded_at) VALUES(?1,?2,?3,?4,?5)",params![pid,actor,action,details.to_string(),now_unix_ms()]))?;
+    db(c.execute("INSERT INTO rls_tlps_pilot_audit(project_id,actor,action,details_json,recorded_at) VALUES(?1,?2,?3,?4,?5)",params![pid,actor,action,details.to_string(),now_unix_ms()]))?;
     Ok(())
 }
 fn text(v: &Value, k: &str, n: usize) -> bool {
@@ -88,7 +106,7 @@ impl Store {
         if !valid_project_id(pid) || !["owner", "editor", "reviewer", "viewer"].contains(&r) {
             return Err(StoreError::Invalid);
         }
-        let c = self.0.lock().map_err(|_| StoreError::Database)?;
+        let c = self.system()?;
         let tx = Transaction::new_unchecked(&c, TransactionBehavior::Immediate)
             .map_err(|_| StoreError::Database)?;
         let owner: Option<String> = db(tx
@@ -101,7 +119,7 @@ impl Store {
         if owner.as_deref() != Some("tlps") {
             return Err(StoreError::Missing);
         }
-        if !managed(&tx, pid)? {
+        if !managed_system(&tx, pid)? {
             if r != "owner" || !active {
                 return Err(StoreError::Invalid);
             }
@@ -115,7 +133,7 @@ impl Store {
         if owners == 0 {
             return Err(StoreError::Conflict);
         }
-        log(
+        log_system(
             &tx,
             pid,
             "bootstrap-admin",
@@ -125,7 +143,7 @@ impl Store {
         tx.commit().map_err(|_| StoreError::Database)
     }
     pub fn pilot_session(&self, i: &Identity) -> Result<Value, StoreError> {
-        let c = self.0.lock().map_err(|_| StoreError::Database)?;
+        let c = self.scoped(i)?;
         if !has_scope(i, Scope::ProjectRead) {
             return Err(StoreError::Denied);
         }
@@ -138,10 +156,10 @@ impl Store {
         )
     }
     pub fn pilot_items(&self, i: &Identity) -> Result<Value, StoreError> {
-        let c = self.0.lock().map_err(|_| StoreError::Database)?;
+        let c = self.scoped(i)?;
         authorize(&c, i, &i.project_id, Scope::ProjectRead)?;
         role(&c, i)?;
-        let mut q=db(c.prepare("SELECT id,kind,version,data_json,created_by,updated_at FROM tlps_pilot_items WHERE project_id=?1 ORDER BY updated_at,id LIMIT 500"))?;
+        let mut q=db(c.prepare("SELECT id,kind,version,data_json,created_by,updated_at FROM rls_tlps_pilot_items WHERE project_id=?1 ORDER BY updated_at,id LIMIT 500"))?;
         let items=db(q.query_map([&i.project_id],|r|{let raw:String=r.get(3)?;Ok(json!({"id":r.get::<_,String>(0)?,"kind":r.get::<_,String>(1)?,"version":r.get::<_,i64>(2)?,"data":serde_json::from_str::<Value>(&raw).unwrap_or(Value::Null),"createdBy":r.get::<_,String>(4)?,"updatedAt":r.get::<_,i64>(5)?}))}))?.collect::<Result<Vec<_>,_>>().map_err(|_|StoreError::Database)?;
         Ok(json!({"items":items}))
     }
@@ -169,14 +187,14 @@ impl Store {
         {
             return Err(StoreError::Invalid);
         }
-        let c = self.0.lock().map_err(|_| StoreError::Database)?;
+        let c = self.scoped(i)?;
         let tx = Transaction::new_unchecked(&c, TransactionBehavior::Immediate)
             .map_err(|_| StoreError::Database)?;
         authorize(&tx, i, &i.project_id, Scope::ProjectWrite)?;
         role(&tx, i)?;
         if version == 0 {
             let n: i64 = db(tx.query_row(
-                "SELECT COUNT(*) FROM tlps_pilot_items WHERE project_id=?1",
+                "SELECT COUNT(*) FROM rls_tlps_pilot_items WHERE project_id=?1",
                 [&i.project_id],
                 |r| r.get(0),
             ))?;
@@ -184,7 +202,7 @@ impl Store {
                 return Err(StoreError::Conflict);
             }
             tx.execute(
-                "INSERT INTO tlps_pilot_items VALUES(?1,?2,?3,1,?4,?5,?6)",
+                "INSERT INTO rls_tlps_pilot_items VALUES(?1,?2,?3,1,?4,?5,?6)",
                 params![
                     i.project_id,
                     id,
@@ -196,7 +214,7 @@ impl Store {
             )
             .map_err(map_sqlite_constraint)?;
         } else {
-            let changed=db(tx.execute("UPDATE tlps_pilot_items SET data_json=?1,version=version+1,updated_at=?2 WHERE project_id=?3 AND id=?4 AND kind=?5 AND version=?6",params![data.to_string(),now_unix_ms(),i.project_id,id,kind,version]))?;
+            let changed=db(super::rls::execute_counted(&tx,"UPDATE rls_tlps_pilot_items SET data_json=?1,version=version+1,updated_at=?2 WHERE project_id=?3 AND id=?4 AND kind=?5 AND version=?6",params![data.to_string(),now_unix_ms(),i.project_id,id,kind,version]))?;
             if changed != 1 {
                 return Err(StoreError::Conflict);
             }
@@ -225,7 +243,7 @@ impl Store {
         {
             return Err(StoreError::Invalid);
         }
-        let c = self.0.lock().map_err(|_| StoreError::Database)?;
+        let c = self.scoped(i)?;
         let tx = Transaction::new_unchecked(&c, TransactionBehavior::Immediate)
             .map_err(|_| StoreError::Database)?;
         if !authorized(i, &i.project_id, Scope::ProjectWrite)
@@ -233,11 +251,11 @@ impl Store {
         {
             return Err(StoreError::Denied);
         }
-        let (raw,current):(String,i64)=db(tx.query_row("SELECT data_json,version FROM tlps_entities WHERE project_id=?1 AND entity_id=?2 AND kind='profiles' AND deleted=0",params![i.project_id,id],|r|Ok((r.get(0)?,r.get(1)?))).optional())?.ok_or(StoreError::Missing)?;
+        let (raw,current):(String,i64)=db(tx.query_row("SELECT data_json,version FROM rls_tlps_entities WHERE project_id=?1 AND entity_id=?2 AND kind='profiles' AND deleted=0",params![i.project_id,id],|r|Ok((r.get(0)?,r.get(1)?))).optional())?.ok_or(StoreError::Missing)?;
         if current != version {
             return Err(StoreError::Conflict);
         }
-        let last:String=db(tx.query_row("SELECT actor FROM tlps_events WHERE project_id=?1 AND entity_id=?2 ORDER BY sequence DESC LIMIT 1",params![i.project_id,id],|r|r.get(0)))?;
+        let last:String=db(tx.query_row("SELECT actor FROM rls_tlps_events WHERE project_id=?1 AND entity_id=?2 ORDER BY sequence DESC LIMIT 1",params![i.project_id,id],|r|r.get(0)))?;
         if last == i.principal_id {
             return Err(StoreError::Denied);
         }
@@ -251,12 +269,12 @@ impl Store {
                 return Err(StoreError::Conflict);
             }
             data["stage"] = json!(tlps::STAGES[pos + 1]);
-            db(tx.execute("UPDATE tlps_entities SET data_json=?1,version=version+1,updated_at=?2 WHERE project_id=?3 AND entity_id=?4",params![data.to_string(),now_unix_ms(),i.project_id,id]))?;
+            db(tx.execute("UPDATE rls_tlps_entities SET data_json=?1,version=version+1,updated_at=?2 WHERE project_id=?3 AND entity_id=?4",params![data.to_string(),now_unix_ms(),i.project_id,id]))?;
             tlps::audit(&tx, i, id, "profiles", version + 1, "updated", &data)?;
         }
         let review_id = Uuid::new_v4().to_string();
         tx.execute(
-            "INSERT INTO tlps_pilot_reviews VALUES(?1,?2,?3,?4,?5,?6,?7,?8)",
+            "INSERT INTO rls_tlps_pilot_reviews VALUES(?1,?2,?3,?4,?5,?6,?7,?8)",
             params![
                 review_id,
                 i.project_id,
@@ -282,10 +300,10 @@ impl Store {
         )
     }
     pub fn pilot_history(&self, i: &Identity) -> Result<Value, StoreError> {
-        let c = self.0.lock().map_err(|_| StoreError::Database)?;
+        let c = self.scoped(i)?;
         authorize(&c, i, &i.project_id, Scope::ProjectRead)?;
         role(&c, i)?;
-        let mut q=db(c.prepare("SELECT sequence,actor,action,details_json,recorded_at FROM tlps_pilot_audit WHERE project_id=?1 ORDER BY sequence DESC LIMIT 500"))?;
+        let mut q=db(c.prepare("SELECT sequence,actor,action,details_json,recorded_at FROM rls_tlps_pilot_audit WHERE project_id=?1 ORDER BY sequence DESC LIMIT 500"))?;
         let rows=db(q.query_map([&i.project_id],|r|Ok(json!({"sequence":r.get::<_,i64>(0)?,"actor":r.get::<_,String>(1)?,"action":r.get::<_,String>(2)?,"details":serde_json::from_str::<Value>(&r.get::<_,String>(3)?).unwrap_or(Value::Null),"recordedAt":r.get::<_,i64>(4)?}))))?.collect::<Result<Vec<_>,_>>().map_err(|_|StoreError::Database)?;
         Ok(json!({"items":rows}))
     }

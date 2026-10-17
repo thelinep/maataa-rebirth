@@ -1,5 +1,6 @@
 pub mod tlps;
 pub mod pilot;
+pub mod rls;
 use base64::{engine::general_purpose::URL_SAFE_NO_PAD, Engine as _};
 use http_body_util::{BodyExt, Full};
 use hyper::{
@@ -94,8 +95,9 @@ impl std::fmt::Display for StoreError {
 }
 impl std::error::Error for StoreError {}
 
+/// The SQLite store. Every use goes through an [`rls::Session`]: `system()` or `scoped()`.
 #[derive(Clone)]
-pub struct Store(Arc<Mutex<Connection>>);
+pub struct Store(Arc<Mutex<Connection>>, rls::Shared);
 
 #[cfg(unix)]
 fn validate_private_backup_directory(path: &std::path::Path) -> Result<(), StoreError> {
@@ -263,11 +265,30 @@ impl Store {
         tx.commit().map_err(|_| StoreError::Database)?;
         tlps::migrate(&conn)?;
         pilot::migrate(&conn)?;
-        Ok(Self(Arc::new(Mutex::new(conn))))
+        let shared: rls::Shared = Arc::new(Mutex::new(rls::Mode::System));
+        rls::install(&conn, &shared).map_err(|_| StoreError::Database)?;
+        rls::create_policies(&conn).map_err(|_| StoreError::Database)?;
+        *shared.lock().map_err(|_| StoreError::Database)? = rls::Mode::Locked;
+        Ok(Self(Arc::new(Mutex::new(conn)), shared))
+    }
+
+    /// Unrestricted session for migrations, administration, authentication and backups.
+    pub fn system(&self) -> Result<rls::Session<'_>, StoreError> {
+        let conn = self.0.lock().map_err(|_| StoreError::Database)?;
+        rls::Session::open(conn, self.1.clone(), rls::Mode::System)
+    }
+
+    /// Session for one authenticated request: the database itself limits every
+    /// statement to the token's project and to what its scopes and pilot role allow.
+    pub fn scoped(&self, identity: &Identity) -> Result<rls::Session<'_>, StoreError> {
+        let session = self.system()?;
+        let (managed, role) = rls::membership(&session, identity)?;
+        session.narrow(rls::RequestScope::derive(identity, managed, role))?;
+        Ok(session)
     }
 
     pub fn schema_version(&self) -> Result<i64, StoreError> {
-        let conn = self.0.lock().map_err(|_| StoreError::Database)?;
+        let conn = self.system()?;
         conn.query_row(
             "SELECT COALESCE(MAX(version),0) FROM schema_migrations",
             [],
@@ -292,7 +313,7 @@ impl Store {
         let temporary = parent.join(format!(".{name}.{}.partial", Uuid::new_v4()));
         let result = (|| {
             {
-                let conn = self.0.lock().map_err(|_| StoreError::Database)?;
+                let conn = self.system()?;
                 conn.backup(rusqlite::MAIN_DB, &temporary, None)
                     .map_err(|_| StoreError::Database)?;
             }
@@ -351,8 +372,8 @@ impl Store {
         let properties =
             serde_json::to_string(&body["properties"]).map_err(|_| StoreError::Invalid)?;
         let now = now_unix_ms();
-        let conn = self.0.lock().map_err(|_| StoreError::Database)?;
-        conn.execute("INSERT INTO knowledge_objects(project_id,object_id,object_type,label,summary,properties_json,provenance_json,created_by,recorded_at,time_basis) VALUES (?1,?2,?3,?4,?5,?6,?7,?8,?9,'host-unix-clock-unverified')", params![identity.project_id, object_id, body["objectType"].as_str(), body["label"].as_str(), body["summary"].as_str(), properties, provenance, identity.principal_id, now]).map_err(map_sqlite_constraint)?;
+        let conn = self.scoped(identity)?;
+        conn.execute("INSERT INTO rls_knowledge_objects(project_id,object_id,object_type,label,summary,properties_json,provenance_json,created_by,recorded_at,time_basis) VALUES (?1,?2,?3,?4,?5,?6,?7,?8,?9,'host-unix-clock-unverified')", params![identity.project_id, object_id, body["objectType"].as_str(), body["label"].as_str(), body["summary"].as_str(), properties, provenance, identity.principal_id, now]).map_err(map_sqlite_constraint)?;
         Ok(
             json!({"projectId":identity.project_id,"objectId":object_id,"recordedAt":now,"timeBasis":"host-unix-clock-unverified","provenance":body["provenance"]}),
         )
@@ -362,8 +383,8 @@ impl Store {
         if !has_scope(identity, Scope::KnowledgeRead) {
             return Err(StoreError::Denied);
         }
-        let conn = self.0.lock().map_err(|_| StoreError::Database)?;
-        let mut stmt = conn.prepare("SELECT object_id,object_type,label,summary,properties_json,provenance_json,recorded_at,time_basis FROM knowledge_objects WHERE project_id=?1 ORDER BY recorded_at,object_id LIMIT 500").map_err(|_| StoreError::Database)?;
+        let conn = self.scoped(identity)?;
+        let mut stmt = conn.prepare("SELECT object_id,object_type,label,summary,properties_json,provenance_json,recorded_at,time_basis FROM rls_knowledge_objects WHERE project_id=?1 ORDER BY recorded_at,object_id LIMIT 500").map_err(|_| StoreError::Database)?;
         let rows = stmt.query_map([&identity.project_id], |r| Ok(json!({"objectId":r.get::<_,String>(0)?,"objectType":r.get::<_,String>(1)?,"label":r.get::<_,String>(2)?,"summary":r.get::<_,String>(3)?,"properties":serde_json::from_str::<Value>(&r.get::<_,String>(4)?).unwrap_or(Value::Null),"provenance":serde_json::from_str::<Value>(&r.get::<_,String>(5)?).unwrap_or(Value::Null),"recordedAt":r.get::<_,i64>(6)?,"timeBasis":r.get::<_,String>(7)?}))).map_err(|_| StoreError::Database)?;
         rows.collect::<Result<Vec<_>, _>>()
             .map_err(|_| StoreError::Database)
@@ -383,8 +404,8 @@ impl Store {
         let now = now_unix_ms();
         let provenance =
             serde_json::to_string(&body["provenance"]).map_err(|_| StoreError::Invalid)?;
-        let conn = self.0.lock().map_err(|_| StoreError::Database)?;
-        conn.execute("INSERT INTO knowledge_relations(project_id,relation_id,subject_id,predicate,object_id,provenance_json,created_by,recorded_at,time_basis) VALUES (?1,?2,?3,?4,?5,?6,?7,?8,'host-unix-clock-unverified')", params![identity.project_id, body["relationId"].as_str(), body["subjectId"].as_str(), body["predicate"].as_str(), body["objectId"].as_str(), provenance, identity.principal_id, now]).map_err(map_sqlite_constraint)?;
+        let conn = self.scoped(identity)?;
+        conn.execute("INSERT INTO rls_knowledge_relations(project_id,relation_id,subject_id,predicate,object_id,provenance_json,created_by,recorded_at,time_basis) VALUES (?1,?2,?3,?4,?5,?6,?7,?8,'host-unix-clock-unverified')", params![identity.project_id, body["relationId"].as_str(), body["subjectId"].as_str(), body["predicate"].as_str(), body["objectId"].as_str(), provenance, identity.principal_id, now]).map_err(map_sqlite_constraint)?;
         Ok(
             json!({"relationId":body["relationId"],"projectId":identity.project_id,"recordedAt":now,"timeBasis":"host-unix-clock-unverified"}),
         )
@@ -406,8 +427,8 @@ impl Store {
             serde_json::to_string(&body["provenance"]).map_err(|_| StoreError::Invalid)?;
         let value = serde_json::to_string(&body["value"]).map_err(|_| StoreError::Invalid)?;
         let confidence = body.get("confidence").and_then(Value::as_f64);
-        let conn = self.0.lock().map_err(|_| StoreError::Database)?;
-        conn.execute("INSERT INTO knowledge_assertions(project_id,assertion_id,subject_id,predicate,value_json,confidence,verification_state,provenance_json,created_by,recorded_at,time_basis) VALUES (?1,?2,?3,?4,?5,?6,?7,?8,?9,?10,'host-unix-clock-unverified')", params![identity.project_id, body["assertionId"].as_str(), body["subjectId"].as_str(), body["predicate"].as_str(), value, confidence, body["verificationState"].as_str(), provenance, identity.principal_id, now]).map_err(map_sqlite_constraint)?;
+        let conn = self.scoped(identity)?;
+        conn.execute("INSERT INTO rls_knowledge_assertions(project_id,assertion_id,subject_id,predicate,value_json,confidence,verification_state,provenance_json,created_by,recorded_at,time_basis) VALUES (?1,?2,?3,?4,?5,?6,?7,?8,?9,?10,'host-unix-clock-unverified')", params![identity.project_id, body["assertionId"].as_str(), body["subjectId"].as_str(), body["predicate"].as_str(), value, confidence, body["verificationState"].as_str(), provenance, identity.principal_id, now]).map_err(map_sqlite_constraint)?;
         Ok(
             json!({"assertionId":body["assertionId"],"projectId":identity.project_id,"verificationState":body["verificationState"],"recordedAt":now,"timeBasis":"host-unix-clock-unverified"}),
         )
@@ -417,8 +438,8 @@ impl Store {
         if !has_scope(identity, Scope::KnowledgeRead) {
             return Err(StoreError::Denied);
         }
-        let conn = self.0.lock().map_err(|_| StoreError::Database)?;
-        let mut stmt = conn.prepare("SELECT assertion_id,subject_id,predicate,value_json,confidence,verification_state,provenance_json,recorded_at,time_basis FROM knowledge_assertions WHERE project_id=?1 ORDER BY recorded_at,assertion_id LIMIT 500").map_err(|_| StoreError::Database)?;
+        let conn = self.scoped(identity)?;
+        let mut stmt = conn.prepare("SELECT assertion_id,subject_id,predicate,value_json,confidence,verification_state,provenance_json,recorded_at,time_basis FROM rls_knowledge_assertions WHERE project_id=?1 ORDER BY recorded_at,assertion_id LIMIT 500").map_err(|_| StoreError::Database)?;
         let rows = stmt.query_map([&identity.project_id], |r| Ok(json!({"assertionId":r.get::<_,String>(0)?,"subjectId":r.get::<_,String>(1)?,"predicate":r.get::<_,String>(2)?,"value":serde_json::from_str::<Value>(&r.get::<_,String>(3)?).unwrap_or(Value::Null),"confidence":r.get::<_,Option<f64>>(4)?,"verificationState":r.get::<_,String>(5)?,"provenance":serde_json::from_str::<Value>(&r.get::<_,String>(6)?).unwrap_or(Value::Null),"recordedAt":r.get::<_,i64>(7)?,"timeBasis":r.get::<_,String>(8)?}))).map_err(|_| StoreError::Database)?;
         rows.collect::<Result<Vec<_>, _>>()
             .map_err(|_| StoreError::Database)
@@ -436,7 +457,7 @@ impl Store {
             return Err(StoreError::Invalid);
         }
         let now = now_unix_ms();
-        let conn = self.0.lock().map_err(|_| StoreError::Database)?;
+        let conn = self.system()?;
         match conn.execute(
             "INSERT INTO principals (principal_id, display_name, created_at) VALUES (?1, ?2, ?3)",
             params![principal_id, display_name.trim(), now],
@@ -479,7 +500,7 @@ impl Store {
         let now = now_unix_ms();
         let expires_at = now.saturating_add(ttl_seconds.saturating_mul(1_000));
         let scopes_json = serde_json::to_string(&scopes).map_err(|_| StoreError::Database)?;
-        let conn = self.0.lock().map_err(|_| StoreError::Database)?;
+        let conn = self.system()?;
         conn.execute("INSERT INTO access_tokens (token_id, token_hash, principal_id, project_id, scopes_json, created_at, expires_at) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7)", params![token_id, token_hash, principal_id, project_id, scopes_json, now, expires_at]).map_err(|e| match e { rusqlite::Error::SqliteFailure(ref err, _) if err.code == rusqlite::ErrorCode::ConstraintViolation => StoreError::Missing, _ => StoreError::Database })?;
         Ok(IssuedToken {
             token_id,
@@ -498,7 +519,7 @@ impl Store {
             return Err(StoreError::Denied);
         }
         let hash = hex(&Sha256::digest(token.as_bytes()));
-        let conn = self.0.lock().map_err(|_| StoreError::Database)?;
+        let conn = self.system()?;
         let row: Option<(String, String, String, i64, Option<i64>)> = conn.query_row(
             "SELECT principal_id, project_id, scopes_json, expires_at, revoked_at FROM access_tokens WHERE token_hash=?1",
             [&hash], |r| Ok((r.get(0)?, r.get(1)?, r.get(2)?, r.get(3)?, r.get(4)?))).optional().map_err(|_| StoreError::Database)?;
@@ -518,7 +539,7 @@ impl Store {
     }
 
     pub fn revoke_token(&self, token_id: &str) -> Result<(), StoreError> {
-        let conn = self.0.lock().map_err(|_| StoreError::Database)?;
+        let conn = self.system()?;
         let changed = conn
             .execute(
                 "UPDATE access_tokens SET revoked_at=?1 WHERE token_id=?2 AND revoked_at IS NULL",
@@ -543,12 +564,12 @@ impl Store {
         stamp_versions(&mut record, None, now)?;
         let digest = digest_json(&record)?;
         let json = serde_json::to_string(&record).map_err(|_| StoreError::Invalid)?;
-        let conn = self.0.lock().map_err(|_| StoreError::Database)?;
+        let conn = self.scoped(identity)?;
         let tx = conn
             .unchecked_transaction()
             .map_err(|_| StoreError::Database)?;
-        tx.execute("INSERT INTO projects (project_id,current_version,record_json,owner_principal_id,updated_at) VALUES (?1,0,?2,?3,?4)", params![identity.project_id, json, identity.principal_id, now]).map_err(|e| match e { rusqlite::Error::SqliteFailure(ref err, _) if err.code == rusqlite::ErrorCode::ConstraintViolation => StoreError::Duplicate, _ => StoreError::Database })?;
-        tx.execute("INSERT INTO project_events (event_id,project_id,project_version,actor,action,record_digest,recorded_at,time_basis) VALUES (?1,?2,0,?3,'project.created',?4,?5,'host-unix-clock-unverified')", params![Uuid::new_v4().to_string(), identity.project_id, identity.principal_id, digest, now]).map_err(|_| StoreError::Database)?;
+        tx.execute("INSERT INTO rls_projects (project_id,current_version,record_json,owner_principal_id,updated_at) VALUES (?1,0,?2,?3,?4)", params![identity.project_id, json, identity.principal_id, now]).map_err(|e| match e { rusqlite::Error::SqliteFailure(ref err, _) if err.code == rusqlite::ErrorCode::ConstraintViolation => StoreError::Duplicate, _ => StoreError::Database })?;
+        tx.execute("INSERT INTO rls_project_events (event_id,project_id,project_version,actor,action,record_digest,recorded_at,time_basis) VALUES (?1,?2,0,?3,'project.created',?4,?5,'host-unix-clock-unverified')", params![Uuid::new_v4().to_string(), identity.project_id, identity.principal_id, digest, now]).map_err(|_| StoreError::Database)?;
         tx.commit().map_err(|_| StoreError::Database)
     }
 
@@ -556,10 +577,10 @@ impl Store {
         if !authorized(identity, project_id, Scope::ProjectRead) {
             return Err(StoreError::Denied);
         }
-        let conn = self.0.lock().map_err(|_| StoreError::Database)?;
+        let conn = self.scoped(identity)?;
         let value: Option<String> = conn
             .query_row(
-                "SELECT record_json FROM projects WHERE project_id=?1",
+                "SELECT record_json FROM rls_projects WHERE project_id=?1",
                 [project_id],
                 |r| r.get(0),
             )
@@ -589,13 +610,13 @@ impl Store {
             return Err(StoreError::Invalid);
         }
         let now = now_unix_ms();
-        let conn = self.0.lock().map_err(|_| StoreError::Database)?;
+        let conn = self.scoped(identity)?;
         let tx = conn
             .unchecked_transaction()
             .map_err(|_| StoreError::Database)?;
         let stored: Option<(i64, String)> = tx
             .query_row(
-                "SELECT current_version, record_json FROM projects WHERE project_id=?1",
+                "SELECT current_version, record_json FROM rls_projects WHERE project_id=?1",
                 [project_id],
                 |r| Ok((r.get(0)?, r.get(1)?)),
             )
@@ -611,11 +632,11 @@ impl Store {
         stamp_versions(&mut record, Some(&stored_record), now)?;
         let digest = digest_json(&record)?;
         let json = serde_json::to_string(&record).map_err(|_| StoreError::Invalid)?;
-        let changed = tx.execute("UPDATE projects SET current_version=?1,record_json=?2,updated_at=?3 WHERE project_id=?4 AND current_version=?5", params![new_version, json, now, project_id, expected_version]).map_err(|_| StoreError::Database)?;
+        let changed = rls::execute_counted(&tx, "UPDATE rls_projects SET current_version=?1,record_json=?2,updated_at=?3 WHERE project_id=?4 AND current_version=?5", params![new_version, json, now, project_id, expected_version]).map_err(rls::db_error)?;
         if changed == 0 {
             return Err(StoreError::Conflict);
         }
-        tx.execute("INSERT INTO project_events (event_id,project_id,project_version,actor,action,record_digest,recorded_at,time_basis) VALUES (?1,?2,?3,?4,'project.updated',?5,?6,'host-unix-clock-unverified')", params![Uuid::new_v4().to_string(), project_id, new_version, identity.principal_id, digest, now]).map_err(|_| StoreError::Database)?;
+        tx.execute("INSERT INTO rls_project_events (event_id,project_id,project_version,actor,action,record_digest,recorded_at,time_basis) VALUES (?1,?2,?3,?4,'project.updated',?5,?6,'host-unix-clock-unverified')", params![Uuid::new_v4().to_string(), project_id, new_version, identity.principal_id, digest, now]).map_err(|_| StoreError::Database)?;
         tx.commit().map_err(|_| StoreError::Database)?;
         Ok(new_version)
     }
@@ -628,8 +649,8 @@ impl Store {
         if !authorized(identity, project_id, Scope::ProjectRead) {
             return Err(StoreError::Denied);
         }
-        let conn = self.0.lock().map_err(|_| StoreError::Database)?;
-        let mut stmt = conn.prepare("SELECT event_id,project_version,actor,action,record_digest,recorded_at,time_basis FROM project_events WHERE project_id=?1 ORDER BY project_version,event_id").map_err(|_| StoreError::Database)?;
+        let conn = self.scoped(identity)?;
+        let mut stmt = conn.prepare("SELECT event_id,project_version,actor,action,record_digest,recorded_at,time_basis FROM rls_project_events WHERE project_id=?1 ORDER BY project_version,event_id").map_err(|_| StoreError::Database)?;
         let rows = stmt.query_map([project_id], |r| Ok(json!({"eventId":r.get::<_,String>(0)?,"projectVersion":r.get::<_,i64>(1)?,"actor":r.get::<_,String>(2)?,"action":r.get::<_,String>(3)?,"recordDigest":r.get::<_,String>(4)?,"recordedAt":r.get::<_,i64>(5)?,"timeBasis":r.get::<_,String>(6)?}))).map_err(|_| StoreError::Database)?;
         rows.collect::<Result<Vec<_>, _>>()
             .map_err(|_| StoreError::Database)
@@ -802,7 +823,7 @@ async fn route(
     }
     if path.starts_with("/v1/tlps/pilot/") { return pilot::route(req,&state.store,&identity).await; }
     if path.starts_with("/v1/tlps/") || path == "/v1/projects" || path.starts_with("/v1/projects/") {
-        let conn=state.store.0.lock().map_err(|_|(StatusCode::INTERNAL_SERVER_ERROR,"database-error"))?;
+        let conn=state.store.scoped(&identity).map_err(map_store_error)?;
         let scope=if method==Method::GET {Scope::ProjectRead}else{Scope::ProjectWrite};
         pilot::authorize(&conn,&identity,&identity.project_id,scope).map_err(map_store_error)?;
     }
@@ -982,6 +1003,9 @@ fn authorized(identity: &Identity, project_id: &str, scope: Scope) -> bool {
     identity.project_id == project_id && has_scope(identity, scope)
 }
 fn map_sqlite_constraint(error: rusqlite::Error) -> StoreError {
+    if matches!(rls::db_error_ref(&error), StoreError::Denied) {
+        return StoreError::Denied;
+    }
     match error {
         rusqlite::Error::SqliteFailure(ref err, _)
             if err.code == rusqlite::ErrorCode::ConstraintViolation =>
@@ -1483,7 +1507,7 @@ mod tests {
             .unwrap();
         let i = s.authenticate(&issued.access_token).unwrap();
         assert_eq!(i.project_id, p);
-        let conn = s.0.lock().unwrap();
+        let conn = s.system().unwrap();
         let stored: String = conn
             .query_row(
                 "SELECT token_hash FROM access_tokens WHERE token_id=?1",
@@ -1612,7 +1636,7 @@ mod tests {
             let conn = Connection::open(temp.path()).unwrap();
             // Apply v1+v2 with the real migration bodies, then mark them as seconds.
             let store = Store::initialize(conn).unwrap();
-            let c = store.0.lock().unwrap();
+            let c = store.system().unwrap();
             c.execute("DELETE FROM schema_migrations WHERE version=3", [])
                 .unwrap();
             c.execute("UPDATE schema_migrations SET applied_at=1791000000", [])
@@ -1628,7 +1652,7 @@ mod tests {
         }
         let migrated = Store::initialize(Connection::open(temp.path()).unwrap()).unwrap();
         assert_eq!(migrated.schema_version().unwrap(), 3);
-        let c = migrated.0.lock().unwrap();
+        let c = migrated.system().unwrap();
         let get = |sql: &str| -> i64 { c.query_row(sql, [], |r| r.get(0)).unwrap() };
         assert_eq!(get("SELECT created_at FROM principals"), 1_791_000_000_000);
         assert_eq!(
@@ -1673,7 +1697,7 @@ mod tests {
     fn migrations_are_versioned_and_checksum_verified() {
         let s = Store::in_memory().unwrap();
         assert_eq!(s.schema_version().unwrap(), 3);
-        let conn = s.0.lock().unwrap();
+        let conn = s.system().unwrap();
         let count: i64 = conn
             .query_row("SELECT COUNT(*) FROM schema_migrations", [], |r| r.get(0))
             .unwrap();
@@ -1707,7 +1731,7 @@ mod tests {
         .unwrap();
         let migrated = Store::initialize(conn).unwrap();
         assert_eq!(migrated.schema_version().unwrap(), 3);
-        let conn = migrated.0.lock().unwrap();
+        let conn = migrated.system().unwrap();
         let owner: String = conn
             .query_row(
                 "SELECT owner_principal_id FROM projects WHERE project_id='legacy'",

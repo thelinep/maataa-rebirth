@@ -645,3 +645,70 @@ fn managed_pilot_http_enforces_membership_reviews_and_support_persistence() {
         403
     );
 }
+#[test]
+fn http_row_level_isolation_across_every_route() {
+    // Project B's rows must stay invisible to project A's token on every route,
+    // even when A knows B's entity IDs.
+    let s = Server::new();
+    let (a, a_token) = s.project();
+    let (b, b_token) = s.project();
+    let kinds = [
+        "profiles",
+        "onboarding",
+        "workplace-records",
+        "budget-items",
+        "crew-assignments",
+        "locations",
+        "schedule-items",
+        "evidence",
+        "circles",
+        "membership-plans",
+        "investment-interests",
+        "escrow-reviews",
+    ];
+    let mut b_ids = Vec::new();
+    for kind in kinds {
+        let data = s.fixture(&b, &b_token, kind);
+        let item = s.create(&b, &b_token, kind, &data);
+        b_ids.push((kind, item["id"].as_str().unwrap().to_owned()));
+    }
+    s.create(&a, &a_token, "locations", &json!({"name":"Mine"}));
+    let a_auth = Some(a_token.as_str());
+    for (kind, id) in &b_ids {
+        for pid in [&a, &b] {
+            let path = format!("/v1/tlps/projects/{pid}/{kind}/{id}");
+            let expected = if pid == &b { 403 } else { 404 };
+            assert_eq!(s.call("GET", &path, a_auth, &[], None).0, expected, "GET {path}");
+            assert_eq!(
+                s.call("PUT", &path, a_auth, &[("If-Match", "1")], Some(&json!({"data":{"name":"x"}}))).0 / 100,
+                4,
+                "PUT {path}"
+            );
+            assert_eq!(s.call("DELETE", &path, a_auth, &[("If-Match", "1")], None).0 / 100, 4, "DELETE {path}");
+        }
+        let (status, list) = s.call("GET", &format!("/v1/tlps/projects/{a}/{kind}"), a_auth, &[], None);
+        assert_eq!(status, 200);
+        assert!(!list.to_string().contains(id.as_str()), "{kind} list leaked {id}");
+    }
+    for path in [
+        format!("/v1/tlps/projects/{a}/events"),
+        format!("/v1/tlps/projects/{a}/export"),
+    ] {
+        let (status, body) = s.call("GET", &path, a_auth, &[], None);
+        assert_eq!(status, 200, "{path}");
+        let text = body.to_string();
+        assert!(!text.contains(&b), "{path} leaked project B");
+        assert!(b_ids.iter().all(|(_, id)| !text.contains(id.as_str())), "{path} leaked B's rows");
+    }
+    for path in [
+        format!("/v1/projects/{b}"),
+        format!("/v1/projects/{b}/events"),
+        format!("/v1/tlps/projects/{b}/events"),
+        format!("/v1/tlps/projects/{b}/export"),
+    ] {
+        assert_eq!(s.call("GET", &path, a_auth, &[], None).0, 403, "{path}");
+    }
+    // Pilot routes answer only for the token's own project.
+    let (status, _) = s.call("GET", "/v1/tlps/pilot/items", a_auth, &[], None);
+    assert_ne!(status, 200);
+}

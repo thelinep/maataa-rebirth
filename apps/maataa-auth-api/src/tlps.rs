@@ -314,6 +314,10 @@ pub fn validate(kind: &str, data: &Value) -> Result<(), StoreError> {
         Err(StoreError::Invalid)
     }
 }
+/// Counted write through a policy view (see `rls::execute_counted`).
+fn rls_count<P: rusqlite::Params>(conn: &Connection, sql: &str, params: P) -> Result<u64, StoreError> {
+    super::rls::execute_counted(conn, sql, params).map_err(map_sqlite_constraint)
+}
 fn check(
     identity: &Identity,
     pid: &str,
@@ -326,7 +330,7 @@ fn check(
     }
     let owner: Option<String> = conn
         .query_row(
-            "SELECT json_extract(record_json,'$.ownerApp') FROM projects WHERE project_id=?1",
+            "SELECT json_extract(record_json,'$.ownerApp') FROM rls_projects WHERE project_id=?1",
             [pid],
             |r| r.get(0),
         )
@@ -358,17 +362,17 @@ fn set_links(
     data: &Value,
 ) -> Result<(), StoreError> {
     tx.execute(
-        "DELETE FROM tlps_links WHERE project_id=?1 AND source_id=?2",
+        "DELETE FROM rls_tlps_links WHERE project_id=?1 AND source_id=?2",
         params![pid, id],
     )
     .map_err(|_| StoreError::Database)?;
     for (relation, target, target_kind) in links(kind, data) {
-        let exists:bool=tx.query_row("SELECT EXISTS(SELECT 1 FROM tlps_entities WHERE project_id=?1 AND entity_id=?2 AND kind=?3 AND deleted=0)",params![pid,target,target_kind],|r|r.get(0)).map_err(|_|StoreError::Database)?;
+        let exists:bool=tx.query_row("SELECT EXISTS(SELECT 1 FROM rls_tlps_entities WHERE project_id=?1 AND entity_id=?2 AND kind=?3 AND deleted=0)",params![pid,target,target_kind],|r|r.get(0)).map_err(|_|StoreError::Database)?;
         if !exists {
             return Err(StoreError::Invalid);
         }
         tx.execute(
-            "INSERT INTO tlps_links VALUES(?1,?2,?3,?4)",
+            "INSERT INTO rls_tlps_links VALUES(?1,?2,?3,?4)",
             params![pid, id, target, relation],
         )
         .map_err(map_sqlite_constraint)?;
@@ -402,7 +406,7 @@ fn row_value(row: &rusqlite::Row<'_>) -> rusqlite::Result<Value> {
     ))
 }
 const SELECT: &str =
-    "SELECT project_id,entity_id,kind,version,data_json,created_at,updated_at FROM tlps_entities";
+    "SELECT project_id,entity_id,kind,version,data_json,created_at,updated_at FROM rls_tlps_entities";
 fn read_entity(conn: &Connection, pid: &str, kind: &str, id: &str) -> Result<Value, StoreError> {
     conn.query_row(
         &format!("{SELECT} WHERE project_id=?1 AND kind=?2 AND entity_id=?3 AND deleted=0"),
@@ -422,7 +426,7 @@ pub(super) fn audit(
     operation: &str,
     data: &Value,
 ) -> Result<(), StoreError> {
-    tx.execute("INSERT INTO tlps_events(project_id,entity_id,kind,version,operation,actor,data_digest,recorded_at) VALUES(?1,?2,?3,?4,?5,?6,?7,?8)",params![identity.project_id,id,kind,version,operation,identity.principal_id,digest_json(data)?,now_unix_ms()]).map_err(|_|StoreError::Database)?;
+    tx.execute("INSERT INTO rls_tlps_events(project_id,entity_id,kind,version,operation,actor,data_digest,recorded_at) VALUES(?1,?2,?3,?4,?5,?6,?7,?8)",params![identity.project_id,id,kind,version,operation,identity.principal_id,digest_json(data)?,now_unix_ms()]).map_err(|_|StoreError::Database)?;
     Ok(())
 }
 impl Store {
@@ -434,7 +438,7 @@ impl Store {
         key: &str,
         data: &Value,
     ) -> Result<Value, StoreError> {
-        let conn = self.0.lock().map_err(|_| StoreError::Database)?;
+        let conn = self.scoped(identity)?;
         check(identity, pid, Scope::ProjectWrite, &conn)?;
         validate(kind, data)?;
         if kind == "profiles" && super::pilot::managed(&conn, pid)? && data["stage"] != "idea" {
@@ -451,7 +455,7 @@ impl Store {
         let tx = Transaction::new_unchecked(&conn, rusqlite::TransactionBehavior::Immediate)
             .map_err(|_| StoreError::Database)?;
         let digest = digest_json(&json!({"kind":kind,"data":data}))?;
-        let previous:Option<(String,String)>=tx.query_row("SELECT request_digest,response_json FROM tlps_idempotency WHERE project_id=?1 AND principal_id=?2 AND request_key=?3",params![pid,identity.principal_id,key],|r|Ok((r.get(0)?,r.get(1)?))).optional().map_err(|_|StoreError::Database)?;
+        let previous:Option<(String,String)>=tx.query_row("SELECT request_digest,response_json FROM rls_tlps_idempotency WHERE project_id=?1 AND principal_id=?2 AND request_key=?3",params![pid,identity.principal_id,key],|r|Ok((r.get(0)?,r.get(1)?))).optional().map_err(|_|StoreError::Database)?;
         if let Some((old, response)) = previous {
             return if old == digest {
                 serde_json::from_str(&response).map_err(|_| StoreError::Database)
@@ -461,7 +465,7 @@ impl Store {
         }
         let count: i64 = tx
             .query_row(
-                "SELECT COUNT(*) FROM tlps_entities WHERE project_id=?1 AND deleted=0",
+                "SELECT COUNT(*) FROM rls_tlps_entities WHERE project_id=?1 AND deleted=0",
                 [pid],
                 |r| r.get(0),
             )
@@ -471,12 +475,12 @@ impl Store {
         }
         let id = format!("tlps:{}", Uuid::new_v4());
         let now = now_unix_ms();
-        tx.execute("INSERT INTO tlps_entities(project_id,entity_id,kind,version,data_json,created_at,updated_at) VALUES(?1,?2,?3,1,?4,?5,?5)",params![pid,id,kind,data.to_string(),now]).map_err(map_sqlite_constraint)?;
+        tx.execute("INSERT INTO rls_tlps_entities(project_id,entity_id,kind,version,data_json,created_at,updated_at) VALUES(?1,?2,?3,1,?4,?5,?5)",params![pid,id,kind,data.to_string(),now]).map_err(map_sqlite_constraint)?;
         set_links(&tx, pid, &id, kind, data)?;
         audit(&tx, identity, &id, kind, 1, "created", data)?;
         let response = envelope(pid, &id, kind, 1, data.clone(), now, now);
         tx.execute(
-            "INSERT INTO tlps_idempotency VALUES(?1,?2,?3,?4,?5)",
+            "INSERT INTO rls_tlps_idempotency VALUES(?1,?2,?3,?4,?5)",
             params![
                 pid,
                 identity.principal_id,
@@ -496,7 +500,7 @@ impl Store {
         kind: &str,
         id: &str,
     ) -> Result<Value, StoreError> {
-        let conn = self.0.lock().map_err(|_| StoreError::Database)?;
+        let conn = self.scoped(identity)?;
         check(identity, pid, Scope::ProjectRead, &conn)?;
         if !COLLECTIONS.contains(&kind) || !valid_id(id) {
             return Err(StoreError::Invalid);
@@ -511,7 +515,7 @@ impl Store {
         cursor: &str,
         limit: usize,
     ) -> Result<Value, StoreError> {
-        let conn = self.0.lock().map_err(|_| StoreError::Database)?;
+        let conn = self.scoped(identity)?;
         check(identity, pid, Scope::ProjectRead, &conn)?;
         if !COLLECTIONS.contains(&kind)
             || !(1..=100).contains(&limit)
@@ -543,7 +547,7 @@ impl Store {
         expected: i64,
         data: &Value,
     ) -> Result<Value, StoreError> {
-        let conn = self.0.lock().map_err(|_| StoreError::Database)?;
+        let conn = self.scoped(identity)?;
         check(identity, pid, Scope::ProjectWrite, &conn)?;
         validate(kind, data)?;
         if kind == "profiles" && super::pilot::managed(&conn, pid)? {
@@ -563,7 +567,7 @@ impl Store {
         }
         set_links(&tx, pid, id, kind, data)?;
         let now = now_unix_ms();
-        let changed=tx.execute("UPDATE tlps_entities SET data_json=?1,version=version+1,updated_at=?2 WHERE project_id=?3 AND entity_id=?4 AND kind=?5 AND version=?6 AND deleted=0",params![data.to_string(),now,pid,id,kind,expected]).map_err(map_sqlite_constraint)?;
+        let changed=rls_count(&tx,"UPDATE rls_tlps_entities SET data_json=?1,version=version+1,updated_at=?2 WHERE project_id=?3 AND entity_id=?4 AND kind=?5 AND version=?6 AND deleted=0",params![data.to_string(),now,pid,id,kind,expected])?;
         if changed != 1 {
             return Err(StoreError::Conflict);
         }
@@ -587,7 +591,7 @@ impl Store {
         id: &str,
         expected: i64,
     ) -> Result<Value, StoreError> {
-        let conn = self.0.lock().map_err(|_| StoreError::Database)?;
+        let conn = self.scoped(identity)?;
         check(identity, pid, Scope::ProjectWrite, &conn)?;
         if kind == "profiles" && super::pilot::managed(&conn, pid)? {
             return Err(StoreError::Denied);
@@ -603,7 +607,7 @@ impl Store {
         }
         let referenced: bool = tx
             .query_row(
-                "SELECT EXISTS(SELECT 1 FROM tlps_links WHERE project_id=?1 AND target_id=?2)",
+                "SELECT EXISTS(SELECT 1 FROM rls_tlps_links WHERE project_id=?1 AND target_id=?2)",
                 params![pid, id],
                 |r| r.get(0),
             )
@@ -612,11 +616,11 @@ impl Store {
             return Err(StoreError::Conflict);
         }
         tx.execute(
-            "DELETE FROM tlps_links WHERE project_id=?1 AND source_id=?2",
+            "DELETE FROM rls_tlps_links WHERE project_id=?1 AND source_id=?2",
             params![pid, id],
         )
         .map_err(|_| StoreError::Database)?;
-        tx.execute("UPDATE tlps_entities SET deleted=1,version=version+1,updated_at=?1 WHERE project_id=?2 AND entity_id=?3 AND version=?4",params![now_unix_ms(),pid,id,expected]).map_err(|_|StoreError::Database)?;
+        tx.execute("UPDATE rls_tlps_entities SET deleted=1,version=version+1,updated_at=?1 WHERE project_id=?2 AND entity_id=?3 AND version=?4",params![now_unix_ms(),pid,id,expected]).map_err(|_|StoreError::Database)?;
         audit(
             &tx,
             identity,
@@ -636,12 +640,12 @@ impl Store {
         after: i64,
         limit: usize,
     ) -> Result<Value, StoreError> {
-        let conn = self.0.lock().map_err(|_| StoreError::Database)?;
+        let conn = self.scoped(identity)?;
         check(identity, pid, Scope::ProjectRead, &conn)?;
         if after < 0 || !(1..=100).contains(&limit) {
             return Err(StoreError::Invalid);
         }
-        let mut q=conn.prepare("SELECT sequence,entity_id,kind,version,operation,actor,data_digest,recorded_at FROM tlps_events WHERE project_id=?1 AND sequence>?2 ORDER BY sequence LIMIT ?3").map_err(|_|StoreError::Database)?;
+        let mut q=conn.prepare("SELECT sequence,entity_id,kind,version,operation,actor,data_digest,recorded_at FROM rls_tlps_events WHERE project_id=?1 AND sequence>?2 ORDER BY sequence LIMIT ?3").map_err(|_|StoreError::Database)?;
         let rows=q.query_map(params![pid,after,limit+1],|r|Ok(json!({"sequence":r.get::<_,i64>(0)?,"entityId":r.get::<_,String>(1)?,"kind":r.get::<_,String>(2)?,"version":r.get::<_,i64>(3)?,"operation":r.get::<_,String>(4)?,"actor":r.get::<_,String>(5)?,"dataDigest":r.get::<_,String>(6)?,"recordedAt":r.get::<_,i64>(7)?,"timeBasis":TIME}))).map_err(|_|StoreError::Database)?;
         let mut items: Vec<Value> = rows
             .collect::<Result<_, _>>()
@@ -658,7 +662,7 @@ impl Store {
         Ok(json!({"items":items,"nextCursor":next}))
     }
     pub fn tlps_export(&self, identity: &Identity, pid: &str) -> Result<Value, StoreError> {
-        let conn = self.0.lock().map_err(|_| StoreError::Database)?;
+        let conn = self.scoped(identity)?;
         check(identity, pid, Scope::ProjectRead, &conn)?;
         let mut q = conn
             .prepare(&format!(
@@ -679,7 +683,7 @@ impl Store {
         if !has_scope(identity, Scope::ProjectRead) {
             return Err(StoreError::Denied);
         }
-        let conn = self.0.lock().map_err(|_| StoreError::Database)?;
+        let conn = self.scoped(identity)?;
         let mut q = conn
             .prepare("SELECT data_json FROM tlps_skus ORDER BY sku")
             .map_err(|_| StoreError::Database)?;
