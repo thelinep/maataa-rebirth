@@ -1,0 +1,341 @@
+{
+  "status": "reference-example-not-verified",
+  "source_file": "MAATAA Workflow Step Bars.html",
+  "groups": [
+    {
+      "group": "TLPS",
+      "flows": [
+        {
+          "id": "tlps-workflow",
+          "name": "TLPS production workflow",
+          "source_reference": "Demo site #/tlps-workflow · tlpsWorkflowModel.ts",
+          "steps": [
+            "Project intake",
+            "Budget",
+            "Crew & location",
+            "Call sheet",
+            "Review & approval",
+            "Local rehearsal",
+            "Evidence",
+            "Closeout"
+          ]
+        },
+        {
+          "id": "tlps-app",
+          "name": "TLPS app planning flow",
+          "source_reference": "apps/tlps · start screen, then the workspace",
+          "steps": [
+            "Choose role",
+            "Work areas",
+            "Project",
+            "Plan",
+            "Owner review",
+            "Rehearsal",
+            "Handover"
+          ]
+        },
+        {
+          "id": "handoff",
+          "name": "TLPS → TLP Film handoff",
+          "source_reference": "MAATAA Desktop",
+          "steps": [
+            "Save plan locally",
+            "Open TLP Film",
+            "Preview access",
+            "Confirm import"
+          ]
+        },
+        {
+          "id": "idea-script",
+          "name": "Idea → Script",
+          "source_reference": "apps/tlps IdeaToScript · shared/contracts/idea-to-script.ts",
+          "steps": [
+            "Capture idea",
+            "Approve idea",
+            "Draft script",
+            "Review draft",
+            "Approve script",
+            "Save version 1"
+          ]
+        },
+        {
+          "id": "onboarding",
+          "name": "TLPS guided onboarding",
+          "source_reference": "Demo site #/tlps/onboarding",
+          "steps": ["Your idea", "How far to go", "How much help", "Your path"]
+        }
+      ]
+    },
+    {
+      "group": "Work areas",
+      "flows": [
+        {
+          "id": "film-os",
+          "name": "Film OS",
+          "source_reference": "Register statuses",
+          "steps": [
+            "Ideation",
+            "Script",
+            "Pre-production",
+            "Production",
+            "Post-production",
+            "Release"
+          ]
+        },
+        {
+          "id": "casting",
+          "name": "Casting",
+          "source_reference": "Register statuses",
+          "steps": [
+            "Open",
+            "Shortlisted",
+            "Audition planned",
+            "Selected (local)",
+            "Not selected"
+          ]
+        },
+        {
+          "id": "equipment",
+          "name": "Equipment & Logistics",
+          "source_reference": "Register statuses",
+          "steps": [
+            "Needed",
+            "Quote requested",
+            "Held (local note)",
+            "Returned"
+          ]
+        },
+        {
+          "id": "campaign",
+          "name": "Campaign OS",
+          "source_reference": "Register statuses",
+          "steps": [
+            "Brief",
+            "Planning",
+            "Client review",
+            "Approved (local)",
+            "Wrapped"
+          ]
+        },
+        {
+          "id": "atl",
+          "name": "ATL",
+          "source_reference": "Register statuses",
+          "steps": [
+            "Proposed",
+            "Rate requested",
+            "Client review",
+            "Approved (local)"
+          ]
+        },
+        {
+          "id": "btl",
+          "name": "BTL",
+          "source_reference": "Register statuses",
+          "steps": [
+            "Idea",
+            "Planning",
+            "Permissions pending",
+            "Ready (local)",
+            "Done"
+          ]
+        },
+        {
+          "id": "ooh",
+          "name": "OOH / DOOH",
+          "source_reference": "Register statuses",
+          "steps": [
+            "Shortlisted",
+            "Availability unknown",
+            "Client review",
+            "Approved (local)"
+          ]
+        },
+        {
+          "id": "marketplace",
+          "name": "Marketplace",
+          "source_reference": "Register statuses",
+          "steps": [
+            "Candidate",
+            "Needs confirmation",
+            "Compared",
+            "Preferred (local)"
+          ]
+        },
+        {
+          "id": "investor",
+          "name": "Investor Hub",
+          "source_reference": "Register statuses",
+          "steps": [
+            "Draft",
+            "Pitch ready",
+            "Shared (local note)",
+            "Interest noted",
+            "Closed"
+          ]
+        },
+        {
+          "id": "event",
+          "name": "Event OS",
+          "source_reference": "Register statuses",
+          "steps": [
+            "Brief",
+            "Planning",
+            "Run-of-show draft",
+            "Ready (local)",
+            "Wrapped"
+          ]
+        },
+        {
+          "id": "wedding",
+          "name": "Wedding OS",
+          "source_reference": "Register statuses",
+          "steps": [
+            "Idea",
+            "Planning",
+            "Family review",
+            "Ready (local)",
+            "Done"
+          ]
+        },
+        {
+          "id": "exhibition",
+          "name": "Exhibition & Spatial",
+          "source_reference": "Register statuses",
+          "steps": [
+            "Concept",
+            "Layout draft",
+            "Fabricator quote",
+            "Approved (local)",
+            "Dismantled"
+          ]
+        },
+        {
+          "id": "maataa-ai",
+          "name": "MAATAA AI",
+          "source_reference": "Register statuses",
+          "steps": ["Draft", "Ready to send", "Reviewed by a person"]
+        },
+        {
+          "id": "analytics",
+          "name": "Analytics",
+          "source_reference": "Register statuses",
+          "steps": ["Planned", "Draft", "Reviewed"]
+        },
+        {
+          "id": "core",
+          "name": "Core Platform",
+          "source_reference": "Register statuses",
+          "steps": ["Listed", "Invite drafted", "Active (local)", "Removed"]
+        }
+      ]
+    },
+    {
+      "group": "Film",
+      "flows": [
+        {
+          "id": "film-life",
+          "name": "Film lifecycle",
+          "source_reference": "apps/tlp-film filmTimeline.ts",
+          "steps": [
+            "Ideation",
+            "Script",
+            "Pre-production",
+            "Production",
+            "Post-production",
+            "Release"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Shared records and services",
+      "flows": [
+        {
+          "id": "versioning",
+          "name": "Project record versioning",
+          "source_reference": "shared/contracts/project-record.ts · MAATAA Auth API",
+          "steps": [
+            "Propose version",
+            "Preview",
+            "Approve",
+            "Save with If-Match",
+            "Server: version + 1"
+          ]
+        },
+        {
+          "id": "tokens",
+          "name": "Auth token lifecycle",
+          "source_reference": "MAATAA Auth API",
+          "steps": [
+            "Create person",
+            "Issue token",
+            "Use token",
+            "Expire or revoke"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "MAATAA UI site",
+      "flows": [
+        {
+          "id": "wizard",
+          "name": "Product idea wizard → app scaffold",
+          "source_reference": "productIdeaWizardModel.ts · Brahmini",
+          "steps": [
+            "Concept",
+            "People",
+            "Journey",
+            "Data",
+            "Boundaries",
+            "Experience",
+            "Pilot",
+            "Review",
+            "Preview files",
+            "Approve",
+            "Create app"
+          ]
+        },
+        {
+          "id": "branding",
+          "name": "Branding Studio",
+          "source_reference": "Demo site #/branding-studio",
+          "steps": [
+            "Brand board",
+            "Brand Kit",
+            "Theme preview",
+            "Review & assign"
+          ]
+        },
+        {
+          "id": "support",
+          "name": "Support Center request",
+          "source_reference": "Help & Docs",
+          "steps": [
+            "Prepare a request",
+            "Describe",
+            "Review handoff",
+            "Save local handoff"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "AI",
+      "flows": [
+        {
+          "id": "ai",
+          "name": "AI spaces and assistants",
+          "source_reference": "105 AI spaces · work-area assistants",
+          "steps": [
+            "Brief or ask",
+            "Model drafts",
+            "Person reviews",
+            "Nothing sent automatically"
+          ]
+        }
+      ]
+    }
+  ]
+}

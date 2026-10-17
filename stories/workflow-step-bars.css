@@ -1,0 +1,299 @@
+.wf-gallery {
+  min-height: 100vh;
+  padding: clamp(20px, 4vw, 48px);
+  background: var(--m-bg);
+  color: var(--m-text);
+  font-family: var(--m-font-sans);
+}
+.wf-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--m-border);
+}
+.wf-header h1 {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 3rem);
+  letter-spacing: -0.035em;
+}
+.wf-header p:not(.wf-kicker) {
+  max-width: 72ch;
+  margin: 10px 0 0;
+  color: var(--m-muted);
+  line-height: 1.55;
+}
+.wf-kicker {
+  margin: 0 0 8px;
+  color: var(--m-primary);
+  font-size: 0.72rem;
+  font-weight: 750;
+  letter-spacing: 0.12em;
+}
+.wf-brand {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 46px;
+  height: 46px;
+  border: 1px solid var(--m-primary);
+  border-radius: 50%;
+  color: var(--m-primary);
+  font-weight: 800;
+}
+.wf-controls {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(150px, 210px)) minmax(250px, 1fr);
+  align-items: end;
+  gap: 14px;
+  padding: 20px 0;
+}
+.wf-controls label {
+  display: grid;
+  gap: 6px;
+  color: var(--m-muted);
+  font-size: 0.82rem;
+  font-weight: 650;
+}
+.wf-controls select {
+  min-height: 40px;
+  padding: 8px 11px;
+  border: 1px solid var(--m-border);
+  border-radius: var(--m-radius-sm);
+  background: var(--m-surface);
+  color: var(--m-text);
+  font: inherit;
+}
+.wf-controls select:focus-visible,
+.wf-jump a:focus-visible,
+.wf-card button:focus-visible {
+  outline: var(--m-focus-width) solid var(--m-focus);
+  outline-offset: 2px;
+}
+.wf-disclosure {
+  margin: 0;
+  padding: 11px 14px;
+  border-inline-start: 2px solid var(--m-primary);
+  color: var(--m-muted);
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+.wf-jump {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 4px 0 22px;
+}
+.wf-jump a {
+  padding: 7px 10px;
+  border: 1px solid var(--m-border);
+  border-radius: 999px;
+  color: var(--m-text);
+  font-size: 0.82rem;
+  text-decoration: none;
+}
+.wf-jump a:hover {
+  border-color: var(--m-primary);
+}
+.wf-group {
+  padding: 18px 0 28px;
+  border-top: 1px solid var(--m-border);
+  scroll-margin-top: 16px;
+}
+.wf-group h2 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 14px;
+  font-size: 1.15rem;
+}
+.wf-group h2 span,
+.wf-card-heading > span {
+  color: var(--m-muted);
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+.wf-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 520px), 1fr));
+  gap: 14px;
+}
+.wf-card {
+  min-width: 0;
+  padding: 15px;
+  border: 1px solid var(--m-border);
+  border-radius: var(--m-radius-md);
+  background: var(--m-surface);
+}
+.wf-card-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px 12px;
+}
+.wf-card-heading h3 {
+  margin: 0;
+  font-size: 0.96rem;
+}
+.wf-card-heading small {
+  flex-basis: 100%;
+  overflow-wrap: anywhere;
+  color: var(--m-muted);
+  font-size: 0.74rem;
+}
+.wf-steps {
+  display: flex;
+  align-items: flex-start;
+  overflow-x: auto;
+  margin: 0;
+  padding: 18px 2px 12px;
+  list-style: none;
+  scrollbar-width: thin;
+}
+.wf-step {
+  display: flex;
+  flex: 1 0 auto;
+  min-width: 0;
+  align-items: center;
+}
+.wf-step:last-child {
+  flex: 0 0 auto;
+}
+.wf-step button {
+  display: grid;
+  justify-items: center;
+  gap: 7px;
+  max-width: 132px;
+  padding: 0 4px;
+  border: 0;
+  background: transparent;
+  color: var(--m-muted);
+  font: inherit;
+  cursor: pointer;
+}
+.wf-step-marker {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--m-border);
+  border-radius: 50%;
+  background: var(--m-bg);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+.wf-step.current button {
+  color: var(--m-primary);
+  font-weight: 700;
+}
+.wf-step.current .wf-step-marker {
+  border-color: var(--m-primary);
+  background: var(--m-secondary);
+  color: var(--m-primary);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--m-primary) 22%, transparent);
+}
+.wf-step.done .wf-step-marker {
+  border-color: var(--m-primary);
+  background: var(--m-primary);
+  color: var(--m-on-primary, var(--m-bg));
+}
+.wf-step-label {
+  max-width: 132px;
+  overflow: hidden;
+  text-align: center;
+  text-overflow: ellipsis;
+  font-size: 0.72rem;
+  line-height: 1.25;
+}
+.wf-connector {
+  flex: 1;
+  min-width: 14px;
+  height: 1px;
+  margin: 0 2px 22px;
+  background: var(--m-border);
+}
+.wf-connector.complete {
+  background: var(--m-primary);
+}
+.wf-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding-top: 11px;
+  border-top: 1px solid var(--m-border);
+}
+.wf-card-footer p {
+  margin: 0;
+  color: var(--m-muted);
+  font-size: 0.8rem;
+}
+.wf-card-footer strong {
+  color: var(--m-text);
+}
+.wf-card-footer div {
+  display: flex;
+  gap: 8px;
+}
+.wf-card-footer button {
+  min-height: 34px;
+  padding: 6px 12px;
+  border: 1px solid var(--m-border);
+  border-radius: var(--m-radius-sm);
+  background: var(--m-surface);
+  color: var(--m-text);
+  font: inherit;
+  cursor: pointer;
+}
+.wf-card-footer button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.wf-card.vertical .wf-steps {
+  flex-direction: column;
+  overflow: visible;
+}
+.wf-card.vertical .wf-step {
+  flex: 0 0 auto;
+  flex-direction: column;
+  align-items: stretch;
+}
+.wf-card.vertical .wf-step button {
+  display: flex;
+  max-width: none;
+  align-items: center;
+  gap: 10px;
+  text-align: left;
+}
+.wf-card.vertical .wf-step-label {
+  max-width: none;
+  text-align: left;
+  font-size: 0.8rem;
+}
+.wf-card.vertical .wf-connector {
+  flex: none;
+  width: 1px;
+  min-height: 12px;
+  margin: 1px 0 1px 17px;
+}
+.wf-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 18px;
+  border-top: 1px solid var(--m-border);
+  color: var(--m-muted);
+  font-size: 0.8rem;
+}
+@media (max-width: 760px) {
+  .wf-controls {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .wf-disclosure {
+    grid-column: 1/-1;
+  }
+  .wf-footer {
+    flex-direction: column;
+  }
+}

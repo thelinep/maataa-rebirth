@@ -465,6 +465,7 @@
     "test:contracts": "tsc -p tsconfig.contracts.json && node --experimental-strip-types --no-warnings --test tests/contracts/*.contract-spec.ts",
     "storybook": "storybook dev -p 6006",
     "storybook:build": "storybook build --output-dir .certification/storybook",
+    "workflow:preview": "node scripts/serve-workflow-preview.mjs",
     "format": "prettier --write src tests stories docs manifests README.md",
     "format:check": "prettier --check src tests stories docs manifests README.md",
     "api:manifest": "node scripts/api-manifest.mjs",
