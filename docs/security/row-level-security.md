@@ -20,6 +20,8 @@ Code: `apps/maataa-auth-api/src/rls.rs`.
 
 Refusals surface as `StoreError::Denied` (HTTP 403).
 
+5. **Deleted projects.** `Store::scoped` refuses a project listed in `project_deletions` (`StoreError::Gone`, HTTP 410). A fourth mode, **Purge**, is used only by the retention purge for one project. It is unrestricted like System, and it is the only mode in which `rls_purging(project)` is true. The append-only delete guards on `tlps_events`, `tlps_pilot_audit` and `tlps_pilot_reviews` check that function, so those rows can go only during the purge. See `src/retention.rs`.
+
 ## Capabilities
 
 Derived per request from the token's scopes and, for managed pilot projects, the principal's active role.
@@ -54,7 +56,7 @@ Every row is also limited to `project_id = rls_project()`. "Actor" means the act
 | `tlps_pilot_reviews` | see | review, actor | no (append-only) | no |
 | `tlps_pilot_audit` | see | write or review, actor | no (append-only) | no |
 | `tlps_skus` | everyone (reference data) | no | no | no |
-| `principals`, `access_tokens`, migration ledgers | system session only | | | |
+| `principals`, `access_tokens`, migration ledgers, `project_deletions` | system session only | | | |
 
 A test fails the build if any table gains a `project_id` column without a policy (`every_table_with_a_project_column_has_a_policy`).
 

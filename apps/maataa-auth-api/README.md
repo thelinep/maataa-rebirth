@@ -21,31 +21,43 @@ MAATAA_AUTH_API_DB=./data/maataa-auth-api.sqlite3 cargo run --release --offline 
 
 The backup command does not start the HTTP listener, requires a private destination directory, checks SQLite integrity and schema version, writes the snapshot with owner-only permissions, and refuses to overwrite an existing file. This supports local recovery drills; it is not an offsite or disaster-recovery system.
 
-Optional settings: `MAATAA_AUTH_API_DB` (SQLite path; default `./data/maataa-auth-api.sqlite3`), `MAATAA_AUTH_API_PORT` (development HTTP proxy port; default `4381`), and `MAATAA_AUTH_API_SOCKET` (private IPC path; default `~/Library/Application Support/MAATAA/AuthAPI/maataa-auth-api.sock` on macOS). Desktop connects only over the Unix socket. The service creates its parent with mode `0700`, sets the socket to `0600`, and refuses to replace any existing socket or non-socket path; after a crash, check that no service is running before manually removing a stale socket. The loopback HTTP listener remains for local TLPS Vite development only. Never expose it publicly; a future self-hosted deployment needs TLS termination, a selected identity authority, an owner-operated secrets manager, rate limits, backup/restore, monitoring, and a reviewed threat model.
+Optional settings: `MAATAA_AUTH_API_DB` (SQLite path; default `./data/maataa-auth-api.sqlite3`), `MAATAA_AUTH_API_PORT` (development HTTP proxy port; default `4381`; `off` opens no TCP listener, which is how the hosted pilot runs), and `MAATAA_AUTH_API_SOCKET` (private IPC path; default `~/Library/Application Support/MAATAA/AuthAPI/maataa-auth-api.sock` on macOS). Desktop connects only over the Unix socket. The service creates its parent with mode `0700`, sets the socket to `0600`, and refuses to replace any existing socket or non-socket path; after a crash, check that no service is running before manually removing a stale socket. The loopback HTTP listener remains for local TLPS Vite development only. Never expose it publicly; a future self-hosted deployment needs TLS termination, a selected identity authority, an owner-operated secrets manager, rate limits, backup/restore, monitoring, and a reviewed threat model.
 
 The current HTTP process caps concurrent connections at 128, closes connections at a 60-second deadline, adds request IDs and basic response security headers, and drains active connections for up to 10 seconds on Ctrl-C. These are bounded local-service safeguards; they are not a substitute for an edge proxy, distributed rate limiting, or production observability.
 
 ## v1 routes
 
 - `GET /healthz` — liveness only; no credentials.
-- `GET /readyz` — checks the expected SQLite schema is available; no credentials.
+- `GET /readyz` — checks all three migration ledgers (core v4, TLPS v1, pilot v1) against this build's checksums and reports them as `ledgers`; no credentials.
 - `POST /v1/admin/principals` — bootstrap bearer only; `{ "principalId": "...", "displayName": "..." }`.
 - `POST /v1/admin/tokens` — bootstrap bearer only; `{ "principalId": "...", "projectId": "prj:<uuid>", "scopes": ["project:read", "project:write"], "ttlSeconds": 3600 }`. Returns the secret once; store it in an OS secret manager.
 - `POST /v1/admin/tokens/{tokenId}/revoke` — bootstrap bearer only.
+- `POST /v1/admin/projects/{projectId}/restore` — bootstrap bearer only; undoes an owner deletion before it is purged.
 - `GET /v1/auth/whoami` — bearer-authenticated identity, project scope and permissions.
 - `POST /v1/projects` — create an empty version-zero project record, scoped to its project token.
 - `GET /v1/projects/{projectId}` — read the project record with `project:read` scope.
 - `PUT /v1/projects/{projectId}` — update with `If-Match: <current-version>`; the record must advance exactly one version.
 - `GET /v1/projects/{projectId}/events` — read metadata-only event history.
+- `DELETE /v1/projects/{projectId}` — project owner only (record owner or active pilot owner, with `project:write`). Answers 202 with `purgeAfter`; the project then answers 410 `project-deleted` until it is restored or purged.
 - `POST /v1/knowledge/objects` and `GET /v1/knowledge/objects` — write/list at most 500 metadata objects within the token's project.
 - `POST /v1/knowledge/relations` — create a project-local relationship between existing knowledge objects.
 - `POST /v1/knowledge/assertions` and `GET /v1/knowledge/assertions` — create/list project-local, source-attributed assertions. `verificationState` is limited to `unverified` or `provisional`; the service cannot promote a claim to verified.
 
 Knowledge requests require `knowledge:read` and/or `knowledge:write` scopes in addition to the project scope. Each object, relation and assertion records method/version, source reference/type/digest, actor, and a host timestamp explicitly labeled unverified. Knowledge objects are metadata only: properties accept bounded scalar values, and assertion values are bounded scalars. Relations and assertions must reference existing objects in the same project. This is a local HKDB-shaped v1 store, not a separate canonical DBB service and not yet a general graph/query engine.
 
-Schema migrations are additive and run transactionally at startup. The service records versions 1 and 2, rejects unexpected migration fingerprints and refuses a database with a newer schema version. Existing v1 tables are retained while migration v2 adds the knowledge tables.
+Schema migrations are additive and run transactionally at startup. The service records versions 1 to 4 (v4 adds `project_deletions` and runs after the TLPS and pilot ledgers, whose append-only delete guards it rewrites), rejects unexpected migration fingerprints and refuses a database with a newer schema version. Existing v1 tables are retained while migration v2 adds the knowledge tables.
 
 Project payloads are bounded to 1 MiB and validated for the current MAATA project schema identity. Activity timestamps explicitly say `host-unix-clock-unverified` and are Unix **milliseconds** (schema v3). Schema v1–v2 stored seconds under the same label; migration v3 converts every stored time column, and readers treat a value below 100,000,000,000 as legacy seconds. The server records when each project version was accepted: the client's `recordedAt` is ignored, earlier versions must be unchanged, and each new version gets the server's time. Token `ttlSeconds` stays in seconds; `expires_at` is in milliseconds. No script or artifact body is stored by this service; records should contain references and digests only.
+
+## Data retention
+
+Decision 2026-10-18, from the release owner's chat statement (not a signed record): this store holds the full TLPS project data and keeps it until the project owner deletes the project. Deletion locks the project at once. Thirty days later the purge removes every row of that project from every table (`retention::PURGE_ORDER`); only a bare tombstone in `project_deletions` remains. The running service purges hourly; `maataa-auth-api purge` runs it now.
+
+Backups follow the same window. Name them `maataa-auth-api-<date>.sqlite3` and run `maataa-auth-api prune-backups <private-backup-directory>` on a schedule; it removes only those names, and only when they are older than 30 days.
+
+## Rate limits
+
+Each principal may burst 120 requests and then 20 per second. Administrative calls share a bucket (burst 30, 1 per second), and so do failed authentications (burst 30, 1 every 2 seconds), so someone guessing tokens never slows a valid token. Over the limit the API answers 429 with `Retry-After: 1`. The hosted pilot origin adds a per-client-address limit in front.
 
 ## Row-level security
 
@@ -53,7 +65,7 @@ The database enforces row access as well as the code. Each authenticated request
 
 ## Deliberate limits
 
-This is not yet production Auth or public API hosting: there is no interactive password/passkey/OIDC login, MFA, TLS listener, cross-device deployment, CORS policy, rate limiting, organization/tenant administration, key rotation workflow, or backup automation. The SQLite knowledge slice is not the canonical DBB/HKDB service, and there is no DB Studio migration-authoring UI. The first product client is TLPS (`apps/tlps/src/services/maataaAuthApi.ts`), which uses project-scoped tokens for whoami and versioned project records. Inside MAATAA Desktop it goes through Desktop commands, which hold the token (`apps/maataa-desktop-tauri/src-tauri/src/api_bridge.rs`); in a browser it uses the Vite dev/preview proxy. A static web build has no route to the service. It is a local bearer-token and knowledge-contract foundation for synthetic data and integration work. Do not use real customer or production data until these gates are implemented and independently reviewed.
+This is not yet production Auth or public API hosting: there is no interactive password/passkey/OIDC login, MFA, TLS listener, CORS policy, organization/tenant administration, key rotation workflow, or backup automation. The SQLite knowledge slice is not the canonical DBB/HKDB service, and there is no DB Studio migration-authoring UI. The first product client is TLPS (`apps/tlps/src/services/maataaAuthApi.ts`), which uses project-scoped tokens for whoami and versioned project records. Inside MAATAA Desktop it goes through Desktop commands, which hold the token (`apps/maataa-desktop-tauri/src-tauri/src/api_bridge.rs`); in a browser it uses `/api/maataa`: the Vite dev/preview proxy locally, or the hosted pilot origin (`scripts/tlps/pilot-origin.mjs`), which reaches this service over the private socket. The TLPS data client and Connected Projects use the same transport. It is a local bearer-token and knowledge-contract foundation for synthetic data and integration work. Do not use real customer or production data until these gates are implemented and independently reviewed.
 
 ## Verify
 

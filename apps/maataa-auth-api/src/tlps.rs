@@ -59,14 +59,21 @@ const TIME: &str = "host-unix-clock-unverified";
 pub fn capabilities() -> Value {
     json!({"schema":"tlps.api/1","schemaVersion":VERSION,"storage":"sqlite-local","collections":COLLECTIONS,"stages":STAGES,"areas":AREAS,"maxEntityBytes":MAX_ENTITY_BYTES,"maxProjectEntities":MAX_PROJECT_ENTITIES,"financialCapabilities":{"billing":false,"capitalCollection":false,"custody":false,"release":false,"refund":false},"bindingCommitments":false,"escrowBalance":null,"saptdhatuConversion":null})
 }
+/// The ledger row this build expects: version and checksum of schema, catalogue and workspaces.
+pub(super) fn ledger() -> (i64, String) {
+    (
+        VERSION,
+        format!(
+            "{:x}",
+            Sha256::digest(format!("{MIGRATION}\n{CATALOG}\n{WORKSPACES}").as_bytes())
+        ),
+    )
+}
 pub(super) fn migrate(conn: &Connection) -> Result<(), StoreError> {
     let tx = Transaction::new_unchecked(conn, rusqlite::TransactionBehavior::Immediate)
         .map_err(|_| StoreError::Database)?;
     tx.execute_batch("CREATE TABLE IF NOT EXISTS tlps_schema_migrations(version INTEGER PRIMARY KEY, checksum TEXT NOT NULL, applied_at INTEGER NOT NULL);").map_err(|_| StoreError::Database)?;
-    let checksum = format!(
-        "{:x}",
-        Sha256::digest(format!("{MIGRATION}\n{CATALOG}\n{WORKSPACES}").as_bytes())
-    );
+    let checksum = ledger().1;
     let rows: Vec<(i64, String)> = {
         let mut q = tx
             .prepare("SELECT version,checksum FROM tlps_schema_migrations ORDER BY version")

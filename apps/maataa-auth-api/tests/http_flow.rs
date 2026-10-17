@@ -131,7 +131,8 @@ fn local_auth_and_project_api_round_trip_enforces_scope_version_and_revocation()
     }
     let (status, readiness) = request(port, "GET", "/readyz", None, None, None);
     assert_eq!(status, 200);
-    assert_eq!(readiness["schemaVersion"], 3);
+    assert_eq!(readiness["schemaVersion"], 4);
+    assert_eq!(readiness["ledgers"], json!({"core":4,"tlps":1,"pilot":1}));
     let (status, _) = request(
         port,
         "POST",
@@ -370,6 +371,23 @@ fn local_auth_and_project_api_round_trip_enforces_scope_version_and_revocation()
     let (status, _) = request(port, "GET", "/v1/auth/whoami", None, None, None);
     assert_eq!(status, 401);
 
+    // Owner deletion locks the project at once; an administrator may restore it
+    // until the retention window ends.
+    let project_path = format!("/v1/projects/{project}");
+    let (status, receipt) = request(port, "DELETE", &project_path, Some(access), None, None);
+    assert_eq!(status, 202);
+    assert_eq!(receipt["retentionDays"], 30);
+    assert!(receipt["purgeAfter"].as_i64().unwrap() > 100_000_000_000);
+    let (status, gone) = request(port, "GET", &project_path, Some(access), None, None);
+    assert_eq!((status, gone["error"]["code"].as_str()), (410, Some("project-deleted")));
+    let restore = format!("/v1/admin/projects/{project}/restore");
+    let (status, _) = request(port, "POST", &restore, Some(access), None, None);
+    assert_eq!(status, 401);
+    let (status, _) = request(port, "POST", &restore, Some(root), None, None);
+    assert_eq!(status, 200);
+    let (status, _) = request(port, "GET", &project_path, Some(access), None, None);
+    assert_eq!(status, 200);
+
     let (status, _) = request(
         port,
         "POST",
@@ -381,4 +399,55 @@ fn local_auth_and_project_api_round_trip_enforces_scope_version_and_revocation()
     assert_eq!(status, 200);
     let (status, _) = request(port, "GET", "/v1/auth/whoami", Some(access), None, None);
     assert_eq!(status, 401);
+}
+
+/// Hosted origins run the API with no TCP listener: only the private socket answers.
+#[cfg(unix)]
+#[test]
+fn socket_only_mode_has_no_tcp_listener() {
+    use std::os::unix::fs::PermissionsExt;
+    let temp = tempdir().unwrap();
+    let private_data = temp.path().join("private-data");
+    std::fs::create_dir(&private_data).unwrap();
+    std::fs::set_permissions(&private_data, std::fs::Permissions::from_mode(0o700)).unwrap();
+    let secret_file = private_data.join("bootstrap-token");
+    std::fs::write(&secret_file, "test-bootstrap-token-secret-32-bytes-min").unwrap();
+    std::fs::set_permissions(&secret_file, std::fs::Permissions::from_mode(0o600)).unwrap();
+    let socket = private_data.join("auth-api.sock");
+    let child = Command::new(env!("CARGO_BIN_EXE_maataa-auth-api"))
+        .env("MAATAA_BOOTSTRAP_TOKEN_FILE", &secret_file)
+        .env_remove("MAATAA_BOOTSTRAP_TOKEN")
+        .env("MAATAA_AUTH_API_DB", private_data.join("service.sqlite3"))
+        .env("MAATAA_AUTH_API_PORT", "off")
+        .env("MAATAA_AUTH_API_SOCKET", &socket)
+        .stdout(Stdio::null())
+        .stderr(Stdio::piped())
+        .spawn()
+        .unwrap();
+    let mut child = child;
+    let mut banner = String::new();
+    std::io::BufRead::read_line(
+        &mut std::io::BufReader::new(child.stderr.take().unwrap()),
+        &mut banner,
+    )
+    .unwrap();
+    let _running = Running(child);
+    assert!(banner.contains("no TCP listener"), "{banner}");
+    assert!(!banner.contains("127.0.0.1:"), "{banner}");
+    let deadline = Instant::now() + Duration::from_secs(5);
+    let response = loop {
+        if let Ok(mut stream) = UnixStream::connect(&socket) {
+            stream
+                .write_all(b"GET /readyz HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\n\r\n")
+                .unwrap();
+            let mut buf = String::new();
+            let _ = stream.read_to_string(&mut buf);
+            if buf.contains("200 OK") {
+                break buf;
+            }
+        }
+        assert!(Instant::now() < deadline, "service did not start");
+        thread::sleep(Duration::from_millis(20));
+    };
+    assert!(response.contains("\"ledgers\""));
 }

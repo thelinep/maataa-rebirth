@@ -2,11 +2,16 @@
 use super::*;
 use rusqlite::{Transaction, TransactionBehavior};
 const SQL: &str = include_str!("../migrations/tlps-pilot-v1.sql");
+pub const VERSION: i64 = 1;
+/// The ledger row this build expects.
+pub(super) fn ledger() -> (i64, String) {
+    (VERSION, format!("{:x}", Sha256::digest(SQL.as_bytes())))
+}
 pub(super) fn migrate(c: &Connection) -> Result<(), StoreError> {
     let tx = Transaction::new_unchecked(c, TransactionBehavior::Immediate)
         .map_err(|_| StoreError::Database)?;
     tx.execute_batch("CREATE TABLE IF NOT EXISTS tlps_pilot_migrations(version INTEGER PRIMARY KEY,checksum TEXT NOT NULL);").map_err(|_|StoreError::Database)?;
-    let checksum = format!("{:x}", Sha256::digest(SQL.as_bytes()));
+    let checksum = ledger().1;
     let rows: Vec<(i64, String)> = {
         let mut q = tx
             .prepare("SELECT version,checksum FROM tlps_pilot_migrations ORDER BY version")
@@ -22,7 +27,7 @@ pub(super) fn migrate(c: &Connection) -> Result<(), StoreError> {
         tx.execute_batch(SQL).map_err(|_| StoreError::Database)?;
         tx.execute("INSERT INTO tlps_pilot_migrations VALUES(1,?1)", [checksum])
             .map_err(|_| StoreError::Database)?;
-    } else if rows != vec![(1, checksum)] {
+    } else if rows != vec![(VERSION, checksum)] {
         return Err(StoreError::Invalid);
     }
     tx.commit().map_err(|_| StoreError::Database)

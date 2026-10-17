@@ -1,6 +1,7 @@
 pub mod tlps;
 pub mod pilot;
 pub mod rls;
+pub mod retention;
 use base64::{engine::general_purpose::URL_SAFE_NO_PAD, Engine as _};
 use http_body_util::{BodyExt, Full};
 use hyper::{
@@ -26,10 +27,19 @@ pub const MAX_TOKEN_TTL: i64 = 7_776_000; // 90 days
 const MIGRATION_V1_CHECKSUM: &str = "maataa-auth-api-schema-v1-baseline-2026-10";
 const MIGRATION_V2_CHECKSUM: &str = "maataa-auth-api-schema-v2-hkdb-metadata-2026-10";
 const MIGRATION_V3_CHECKSUM: &str = "maataa-auth-api-schema-v3-unix-ms-2026-10";
+/// Every core migration this build knows, in order.
+pub(crate) fn core_checksums() -> [(i64, &'static str); 4] {
+    [
+        (1, MIGRATION_V1_CHECKSUM),
+        (2, MIGRATION_V2_CHECKSUM),
+        (3, MIGRATION_V3_CHECKSUM),
+        (4, retention::MIGRATION_V4_CHECKSUM),
+    ]
+}
 /// Stored times below this are legacy Unix seconds (before schema v3); in
 /// milliseconds this bound is 1973-03-03, earlier than any MAATAA record.
 /// Highest schema migration this build applies and accepts.
-pub const SCHEMA_VERSION: i64 = 3;
+pub const SCHEMA_VERSION: i64 = 4;
 pub const LEGACY_SECONDS_BELOW: i64 = 100_000_000_000;
 const MAX_KNOWLEDGE_FIELD_BYTES: usize = 2_048;
 
@@ -72,7 +82,7 @@ pub struct IssuedToken {
     pub time_basis: &'static str,
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq)]
 pub enum StoreError {
     Invalid,
     Duplicate,
@@ -80,6 +90,8 @@ pub enum StoreError {
     Denied,
     Conflict,
     Database,
+    /// The project was deleted by its owner (pending purge or purged).
+    Gone,
 }
 impl std::fmt::Display for StoreError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
@@ -89,6 +101,7 @@ impl std::fmt::Display for StoreError {
             Self::Missing => "record not found",
             Self::Denied => "access denied",
             Self::Conflict => "version conflict",
+            Self::Gone => "project deleted",
             Self::Database => "storage operation failed",
         })
     }
@@ -265,6 +278,32 @@ impl Store {
         tx.commit().map_err(|_| StoreError::Database)?;
         tlps::migrate(&conn)?;
         pilot::migrate(&conn)?;
+        // v4 rewrites guards on TLPS and pilot tables, so it runs after their ledgers.
+        {
+            let tx = conn
+                .unchecked_transaction()
+                .map_err(|_| StoreError::Database)?;
+            let applied: Option<String> = tx
+                .query_row(
+                    "SELECT checksum FROM schema_migrations WHERE version=4",
+                    [],
+                    |r| r.get(0),
+                )
+                .optional()
+                .map_err(|_| StoreError::Database)?;
+            match applied {
+                Some(existing) if existing != retention::MIGRATION_V4_CHECKSUM => {
+                    return Err(StoreError::Invalid)
+                }
+                Some(_) => {}
+                None => {
+                    tx.execute_batch(retention::MIGRATION_V4)
+                        .map_err(|_| StoreError::Database)?;
+                    tx.execute("INSERT INTO schema_migrations(version,checksum,applied_at,time_basis) VALUES (4,?1,?2,'host-unix-clock-unverified')", params![retention::MIGRATION_V4_CHECKSUM, now_unix_ms()]).map_err(|_| StoreError::Database)?;
+                }
+            }
+            tx.commit().map_err(|_| StoreError::Database)?;
+        }
         let shared: rls::Shared = Arc::new(Mutex::new(rls::Mode::System));
         rls::install(&conn, &shared).map_err(|_| StoreError::Database)?;
         rls::create_policies(&conn).map_err(|_| StoreError::Database)?;
@@ -274,14 +313,36 @@ impl Store {
 
     /// Unrestricted session for migrations, administration, authentication and backups.
     pub fn system(&self) -> Result<rls::Session<'_>, StoreError> {
-        let conn = self.0.lock().map_err(|_| StoreError::Database)?;
-        rls::Session::open(conn, self.1.clone(), rls::Mode::System)
+        rls::Session::open(self.lock()?, self.1.clone(), rls::Mode::System)
+    }
+
+    /// Waits for the single connection. Inside the multi-threaded server the
+    /// wait is declared blocking, so the runtime moves other connections to
+    /// another worker instead of stalling them behind the database.
+    fn lock(&self) -> Result<std::sync::MutexGuard<'_, Connection>, StoreError> {
+        use tokio::runtime::{Handle, RuntimeFlavor};
+        let guard = match Handle::try_current() {
+            Ok(handle) if handle.runtime_flavor() == RuntimeFlavor::MultiThread => {
+                tokio::task::block_in_place(|| self.0.lock())
+            }
+            _ => self.0.lock(),
+        };
+        guard.map_err(|_| StoreError::Database)
+    }
+
+    /// Ledger versions when every migration ledger matches this build.
+    pub fn readiness(&self) -> Result<retention::Ledgers, StoreError> {
+        let conn = self.system()?;
+        retention::verify_ledgers(&conn)
     }
 
     /// Session for one authenticated request: the database itself limits every
     /// statement to the token's project and to what its scopes and pilot role allow.
     pub fn scoped(&self, identity: &Identity) -> Result<rls::Session<'_>, StoreError> {
         let session = self.system()?;
+        if retention::deleted(&session, &identity.project_id)? {
+            return Err(StoreError::Gone);
+        }
         let (managed, role) = rls::membership(&session, identity)?;
         session.narrow(rls::RequestScope::derive(identity, managed, role))?;
         Ok(session)
@@ -327,16 +388,11 @@ impl Store {
                 let integrity: String = check
                     .query_row("PRAGMA integrity_check", [], |r| r.get(0))
                     .map_err(|_| StoreError::Database)?;
-                let version: i64 = check
-                    .query_row(
-                        "SELECT COALESCE(MAX(version),0) FROM schema_migrations",
-                        [],
-                        |r| r.get(0),
-                    )
-                    .map_err(|_| StoreError::Database)?;
-                if integrity != "ok" || version != SCHEMA_VERSION {
+                if integrity != "ok" {
                     return Err(StoreError::Invalid);
                 }
+                // A backup must carry every ledger this build expects, not only the core one.
+                retention::verify_ledgers(&check)?;
                 check.close().map_err(|_| StoreError::Database)?;
             }
             std::fs::File::open(&temporary)
@@ -661,6 +717,49 @@ impl Store {
 pub struct AppState {
     store: Store,
     bootstrap_hash: [u8; 32],
+    limits: Arc<RateLimits>,
+}
+
+/// Token buckets per key, in process memory. Keys: one per authenticated
+/// principal, one shared by administrative calls, one shared by failed
+/// authentications (so a valid token is never slowed by someone else's
+/// guesses). The pilot origin adds a per-client-address limit in front.
+#[derive(Default)]
+pub struct RateLimits(Mutex<std::collections::HashMap<String, (f64, std::time::Instant)>>);
+
+/// Requests a principal may burst, and refill per second.
+pub const PRINCIPAL_BURST: f64 = 120.0;
+pub const PRINCIPAL_PER_SECOND: f64 = 20.0;
+const ADMIN_BURST: f64 = 30.0;
+const ADMIN_PER_SECOND: f64 = 1.0;
+const AUTH_FAILURE_BURST: f64 = 30.0;
+const AUTH_FAILURE_PER_SECOND: f64 = 0.5;
+
+impl RateLimits {
+    pub fn allow(&self, key: &str, burst: f64, per_second: f64) -> bool {
+        self.allow_at(key, burst, per_second, std::time::Instant::now())
+    }
+
+    fn allow_at(&self, key: &str, burst: f64, per_second: f64, now: std::time::Instant) -> bool {
+        let Ok(mut buckets) = self.0.lock() else {
+            return false;
+        };
+        if buckets.len() > 10_000 {
+            // Forget buckets that have refilled; they carry no state.
+            buckets.retain(|_, (tokens, at)| {
+                *tokens + now.saturating_duration_since(*at).as_secs_f64() * per_second < burst
+            });
+        }
+        let (tokens, at) = buckets.entry(key.to_owned()).or_insert((burst, now));
+        *tokens = (*tokens + now.saturating_duration_since(*at).as_secs_f64() * per_second).min(burst);
+        *at = now;
+        if *tokens >= 1.0 {
+            *tokens -= 1.0;
+            true
+        } else {
+            false
+        }
+    }
 }
 impl AppState {
     pub fn new(store: Store, bootstrap_token: &str) -> Result<Self, StoreError> {
@@ -670,6 +769,7 @@ impl AppState {
         Ok(Self {
             store,
             bootstrap_hash: Sha256::digest(bootstrap_token.as_bytes()).into(),
+            limits: Arc::default(),
         })
     }
     fn bootstrap_ok(&self, req: &Request<Incoming>) -> bool {
@@ -688,6 +788,11 @@ pub async fn handle(req: Request<Incoming>, state: AppState) -> Response<Full<By
         Err((status, code)) => json_response(status, json!({"error": {"code":code}})),
     };
     let mut response = response;
+    if response.status() == StatusCode::TOO_MANY_REQUESTS {
+        response
+            .headers_mut()
+            .insert(header::RETRY_AFTER, header::HeaderValue::from_static("1"));
+    }
     if let Ok(value) = header::HeaderValue::from_str(&request_id) {
         response.headers_mut().insert("x-request-id", value);
     }
@@ -714,18 +819,37 @@ async fn route(
         ));
     }
     if method == Method::GET && path == "/readyz" {
-        let version = state.store.schema_version().map_err(map_store_error)?;
-        return if version == SCHEMA_VERSION {
-            Ok(json_response(
+        return Ok(match state.store.readiness() {
+            Ok(ledgers) => json_response(
                 StatusCode::OK,
-                json!({"status":"ready","service":"maataa-auth-api","schemaVersion":version}),
-            ))
-        } else {
-            Ok(json_response(
+                json!({"status":"ready","service":"maataa-auth-api","schemaVersion":ledgers.core,"ledgers":ledgers}),
+            ),
+            Err(_) => json_response(
                 StatusCode::SERVICE_UNAVAILABLE,
                 json!({"status":"not-ready","service":"maataa-auth-api"}),
-            ))
-        };
+            ),
+        });
+    }
+
+    if path.starts_with("/v1/admin/") && !state.limits.allow("admin", ADMIN_BURST, ADMIN_PER_SECOND) {
+        return Err((StatusCode::TOO_MANY_REQUESTS, "rate-limited"));
+    }
+
+    if let Some(project_id) = path
+        .strip_prefix("/v1/admin/projects/")
+        .and_then(|rest| rest.strip_suffix("/restore"))
+    {
+        if method != Method::POST {
+            return Err((StatusCode::NOT_FOUND, "not-found"));
+        }
+        if !state.bootstrap_ok(&req) {
+            return Err((StatusCode::UNAUTHORIZED, "unauthorized"));
+        }
+        state.store.restore_project(project_id).map_err(map_store_error)?;
+        return Ok(json_response(
+            StatusCode::OK,
+            json!({"restored":true,"projectId":project_id}),
+        ));
     }
 
     if path == "/v1/admin/principals" && method == Method::POST {
@@ -812,9 +936,21 @@ async fn route(
         .store
         .authenticate(token)
         .map_err(|error| match error {
+            StoreError::Denied
+                if !state.limits.allow("auth-failure", AUTH_FAILURE_BURST, AUTH_FAILURE_PER_SECOND) =>
+            {
+                (StatusCode::TOO_MANY_REQUESTS, "rate-limited")
+            }
             StoreError::Denied => (StatusCode::UNAUTHORIZED, "unauthorized"),
             other => map_store_error(other),
         })?;
+    if !state.limits.allow(
+        &format!("principal:{}", identity.principal_id),
+        PRINCIPAL_BURST,
+        PRINCIPAL_PER_SECOND,
+    ) {
+        return Err((StatusCode::TOO_MANY_REQUESTS, "rate-limited"));
+    }
     if method == Method::GET && path == "/v1/auth/whoami" {
         return Ok(json_response(
             StatusCode::OK,
@@ -904,6 +1040,12 @@ async fn route(
                 .read_project(&identity, project_id)
                 .map_err(map_store_error)?;
             return Ok(json_response(StatusCode::OK, record));
+        } else if method == Method::DELETE {
+            let receipt = state
+                .store
+                .request_project_deletion(&identity, project_id)
+                .map_err(map_store_error)?;
+            return Ok(json_response(StatusCode::ACCEPTED, receipt));
         } else if method == Method::PUT {
             let expected = req
                 .headers()
@@ -972,6 +1114,7 @@ fn map_store_error(e: StoreError) -> (StatusCode, &'static str) {
         StoreError::Denied => (StatusCode::FORBIDDEN, "forbidden"),
         StoreError::Conflict => (StatusCode::CONFLICT, "version-conflict"),
         StoreError::Database => (StatusCode::INTERNAL_SERVER_ERROR, "storage-error"),
+        StoreError::Gone => (StatusCode::GONE, "project-deleted"),
     }
 }
 fn parse_scopes(value: Option<&Value>) -> Result<Vec<Scope>, ()> {
@@ -1454,7 +1597,8 @@ fn stamp_versions(record: &mut Value, stored: Option<&Value>, now: i64) -> Resul
 }
 /// Host wall clock in Unix **milliseconds**. Every stored time tagged
 /// `host-unix-clock-unverified` uses this unit (schema v3 onward).
-fn now_unix_ms() -> i64 {
+/// Host time in Unix milliseconds (unverified clock).
+pub fn now_unix_ms() -> i64 {
     SystemTime::now()
         .duration_since(UNIX_EPOCH)
         .map(|d| i64::try_from(d.as_millis()).unwrap_or(i64::MAX))
@@ -1651,7 +1795,7 @@ mod tests {
             c.execute("INSERT INTO project_events VALUES('e1','prj:00000000-0000-4000-8000-000000000000',0,'person-1','project.created','d',1791000000,'host-unix-clock-unverified')", []).unwrap();
         }
         let migrated = Store::initialize(Connection::open(temp.path()).unwrap()).unwrap();
-        assert_eq!(migrated.schema_version().unwrap(), 3);
+        assert_eq!(migrated.schema_version().unwrap(), SCHEMA_VERSION);
         let c = migrated.system().unwrap();
         let get = |sql: &str| -> i64 { c.query_row(sql, [], |r| r.get(0)).unwrap() };
         assert_eq!(get("SELECT created_at FROM principals"), 1_791_000_000_000);
@@ -1694,14 +1838,26 @@ mod tests {
         ));
     }
     #[test]
+    fn rate_limits_refill_per_key() {
+        let limits = RateLimits::default();
+        let start = std::time::Instant::now();
+        for _ in 0..3 {
+            assert!(limits.allow_at("a", 3.0, 1.0, start));
+        }
+        assert!(!limits.allow_at("a", 3.0, 1.0, start));
+        assert!(limits.allow_at("b", 3.0, 1.0, start), "keys are independent");
+        assert!(limits.allow_at("a", 3.0, 1.0, start + std::time::Duration::from_secs(1)));
+        assert!(!limits.allow_at("a", 3.0, 1.0, start + std::time::Duration::from_secs(1)));
+    }
+    #[test]
     fn migrations_are_versioned_and_checksum_verified() {
         let s = Store::in_memory().unwrap();
-        assert_eq!(s.schema_version().unwrap(), 3);
+        assert_eq!(s.schema_version().unwrap(), SCHEMA_VERSION);
         let conn = s.system().unwrap();
         let count: i64 = conn
             .query_row("SELECT COUNT(*) FROM schema_migrations", [], |r| r.get(0))
             .unwrap();
-        assert_eq!(count, 3);
+        assert_eq!(count, SCHEMA_VERSION);
         drop(conn);
         // A changed migration fingerprint is a closed failure on reopen.
         let temp = tempfile::NamedTempFile::new().unwrap();
@@ -1730,7 +1886,7 @@ mod tests {
         )
         .unwrap();
         let migrated = Store::initialize(conn).unwrap();
-        assert_eq!(migrated.schema_version().unwrap(), 3);
+        assert_eq!(migrated.schema_version().unwrap(), SCHEMA_VERSION);
         let conn = migrated.system().unwrap();
         let owner: String = conn
             .query_row(

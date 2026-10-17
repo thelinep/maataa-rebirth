@@ -50,6 +50,9 @@ pub enum Mode {
     System,
     /// One authenticated request.
     Request(RequestScope),
+    /// Purging one deleted project after its retention window (unrestricted,
+    /// and the only mode in which append-only rows of that project may go).
+    Purge(String),
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -325,6 +328,11 @@ pub fn install(conn: &Connection, shared: &Shared) -> rusqlite::Result<()> {
         })
     })?;
     let s = shared.clone();
+    conn.create_scalar_function("rls_purging", 1, flags, move |ctx| {
+        let project: Option<String> = ctx.get(0)?;
+        Ok(matches!((current(&s), project), (Mode::Purge(p), Some(q)) if p == q))
+    })?;
+    let s = shared.clone();
     let protected: Vec<&'static str> = protected_tables().collect();
     conn.authorizer(Some(move |ctx: AuthContext<'_>| {
         authorize(&current(&s), &protected, &ctx)
@@ -337,7 +345,7 @@ fn authorize(mode: &Mode, protected: &[&str], ctx: &AuthContext<'_>) -> Authoriz
     let via_policy = ctx.accessor.is_some_and(|a| a.starts_with(PREFIX));
     let policy_object = |name: &str| name.starts_with(PREFIX) && ctx.database_name == Some("temp");
     match mode {
-        Mode::System => Allow,
+        Mode::System | Mode::Purge(_) => Allow,
         Mode::Locked => match ctx.action {
             AuthAction::Select | AuthAction::Function { .. } | AuthAction::Transaction { .. } => {
                 Allow
@@ -740,8 +748,9 @@ mod tests {
                     |r| r.get(0),
                 )
                 .unwrap();
-            // access_tokens names a project but is credential data, reachable only by the system session.
-            if has_project && table != "access_tokens" {
+            // access_tokens names a project but is credential data, and project_deletions is the
+            // retention ledger; both are reachable only by the system session.
+            if has_project && table != "access_tokens" && table != "project_deletions" {
                 assert!(
                     covered.contains(&table.as_str()),
                     "{table} has project_id but no RLS policy"

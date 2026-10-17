@@ -1,6 +1,10 @@
 use hyper::service::service_fn;
 use hyper_util::rt::{TokioIo, TokioTimer};
-use maataa_auth_api::{handle, AppState, Store};
+use maataa_auth_api::{
+    handle, now_unix_ms,
+    retention::{prune_backups, RETENTION_DAYS},
+    AppState, Store,
+};
 use std::{
     env,
     error::Error,
@@ -33,24 +37,57 @@ async fn main() -> Result<(), Box<dyn Error + Send + Sync>> {
         eprintln!("verified SQLite backup created at the requested path");
         return Ok(());
     }
+    if args.first().is_some_and(|arg| arg == "purge") && args.len() == 1 {
+        let purged = Store::open(&db_path)?.purge_due(now_unix_ms())?;
+        eprintln!("purged {} deleted project(s) past the {RETENTION_DAYS}-day window", purged.len());
+        return Ok(());
+    }
+    if args.first().is_some_and(|arg| arg == "prune-backups") {
+        if args.len() != 2 {
+            return Err("usage: maataa-auth-api prune-backups <private-backup-directory>".into());
+        }
+        let removed = prune_backups(Path::new(&args[1]), std::time::SystemTime::now())?;
+        eprintln!("removed {} backup(s) older than {RETENTION_DAYS} days", removed.len());
+        return Ok(());
+    }
     if !args.is_empty() {
-        return Err("usage: maataa-auth-api [backup <new-path-in-private-directory>]".into());
+        return Err(USAGE.into());
     }
     let bootstrap = load_bootstrap_token()?;
-    let port = env::var("MAATAA_AUTH_API_PORT")
-        .ok()
-        .and_then(|v| v.parse::<u16>().ok())
-        .unwrap_or(4381);
-    let listener = TcpListener::bind(("127.0.0.1", port)).await?;
+    let listener = match tcp_port()? {
+        Some(port) => Some((TcpListener::bind(("127.0.0.1", port)).await?, port)),
+        None => None,
+    };
     #[cfg(unix)]
     let (unix_listener, socket_path) = bind_private_socket()?;
-    let state = Arc::new(AppState::new(Store::open(&db_path)?, &bootstrap)?);
+    let store = Store::open(&db_path)?;
+    let state = Arc::new(AppState::new(store.clone(), &bootstrap)?);
+    // Purge deleted projects whose retention window ended: now, then hourly.
+    let purger = tokio::spawn(async move {
+        let mut tick = tokio::time::interval(Duration::from_secs(3_600));
+        loop {
+            tick.tick().await;
+            let store = store.clone();
+            match tokio::task::spawn_blocking(move || store.purge_due(now_unix_ms())).await {
+                Ok(Ok(purged)) if !purged.is_empty() => {
+                    eprintln!("purged {} deleted project(s) past the {RETENTION_DAYS}-day window", purged.len())
+                }
+                Ok(Ok(_)) => {}
+                _ => eprintln!("scheduled purge failed; it will retry within the hour"),
+            }
+        }
+    });
     let permits = Arc::new(tokio::sync::Semaphore::new(128));
     let mut connections = JoinSet::new();
+    let tcp = listener
+        .as_ref()
+        .map(|(_, port)| format!("development HTTP proxy on http://127.0.0.1:{port}"))
+        .unwrap_or_else(|| "no TCP listener".to_owned());
     #[cfg(unix)]
-    eprintln!("MAATAA Auth/API runtime listening on a private Unix socket {}; development HTTP proxy on http://127.0.0.1:{}; database {}; maximum 128 concurrent connections; host time unverified",socket_path.display(),port,db_path);
+    eprintln!("MAATAA Auth/API runtime listening on a private Unix socket {}; {tcp}; database {}; maximum 128 concurrent connections; host time unverified",socket_path.display(),db_path);
     #[cfg(not(unix))]
-    eprintln!("MAATAA Auth/API runtime listening on development HTTP proxy http://127.0.0.1:{}; database {}; loopback-only; maximum 128 concurrent connections; host time unverified",port,db_path);
+    eprintln!("MAATAA Auth/API runtime listening on {tcp}; database {}; loopback-only; maximum 128 concurrent connections; host time unverified",db_path);
+    let listener = listener.map(|(l, _)| l);
     loop {
         tokio::select! {
             _ = tokio::signal::ctrl_c() => break,
@@ -65,13 +102,13 @@ async fn main() -> Result<(), Box<dyn Error + Send + Sync>> {
                 #[cfg(unix)]
                 let accepted = tokio::select! {
                     _ = tokio::signal::ctrl_c() => break,
-                    result = listener.accept() => AcceptedStream::Tcp(result?.0),
+                    result = accept_tcp(listener.as_ref()) => AcceptedStream::Tcp(result?.0),
                     result = unix_listener.accept() => AcceptedStream::Unix(result?.0),
                 };
                 #[cfg(not(unix))]
                 let accepted = tokio::select! {
                     _ = tokio::signal::ctrl_c() => break,
-                    result = listener.accept() => AcceptedStream::Tcp(result?.0),
+                    result = accept_tcp(listener.as_ref()) => AcceptedStream::Tcp(result?.0),
                 };
                 match accepted {
                     AcceptedStream::Tcp(stream) => spawn_connection(&mut connections, stream, Arc::clone(&state), permit),
@@ -82,6 +119,7 @@ async fn main() -> Result<(), Box<dyn Error + Send + Sync>> {
         }
     }
 
+    purger.abort();
     let drain_deadline = Instant::now() + Duration::from_secs(10);
     while !connections.is_empty() {
         tokio::select! {
@@ -102,6 +140,40 @@ async fn main() -> Result<(), Box<dyn Error + Send + Sync>> {
     }
     eprintln!("MAATAA Auth/API runtime shutdown complete");
     Ok(())
+}
+
+const USAGE: &str = "usage: maataa-auth-api [backup <new-path-in-private-directory> | purge | prune-backups <private-backup-directory>]";
+
+/// `MAATAA_AUTH_API_PORT`: a loopback port for the development HTTP proxy
+/// (default 4381), or `off` for none. Hosted origins run with `off` and reach
+/// the API only through the private Unix socket.
+fn tcp_port() -> Result<Option<u16>, Box<dyn Error + Send + Sync>> {
+    match env::var("MAATAA_AUTH_API_PORT") {
+        Err(_) => Ok(Some(4381)),
+        Ok(value) if value == "off" => {
+            if cfg!(unix) {
+                Ok(None)
+            } else {
+                Err("MAATAA_AUTH_API_PORT=off needs the Unix socket, which this platform lacks".into())
+            }
+        }
+        Ok(value) => value
+            .parse::<u16>()
+            .ok()
+            .filter(|port| *port != 0)
+            .map(Some)
+            .ok_or_else(|| "MAATAA_AUTH_API_PORT must be a port number or off".into()),
+    }
+}
+
+/// Accepts on the TCP listener, or waits forever when there is none.
+async fn accept_tcp(
+    listener: Option<&TcpListener>,
+) -> std::io::Result<(tokio::net::TcpStream, std::net::SocketAddr)> {
+    match listener {
+        Some(listener) => listener.accept().await,
+        None => std::future::pending().await,
+    }
 }
 
 fn spawn_connection<S>(
