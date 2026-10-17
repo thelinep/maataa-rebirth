@@ -506,6 +506,7 @@
     "maataa:desktop:check": "pnpm maataa:desktop:build && playwright test --config playwright.desktop.config.ts",
     "maataa:desktop:pack": "pnpm support-center:screenshots && pnpm maataa:desktop:build && pnpm maataa:browser:build && electron-builder --mac --arm64 --config examples/support-center/electron-builder.yml",
     "maataa:tauri:products:check": "node scripts/desktop-products-fingerprint.mjs",
+    "maataa:tauri:products:stamp": "node scripts/desktop-products-fingerprint.mjs --write",
     "maataa:tauri:products": "pnpm demo:build && pnpm products:build && pnpm support-center:build && node scripts/build-tauri-desktop-products.mjs",
     "maataa:tauri:build": "pnpm maataa:tauri:products && cd apps/maataa-desktop-tauri/src-tauri && cargo tauri build --bundles app --no-sign",
     "maataa:desktop:tauri:dev": "pnpm maataa:tauri:products && cd apps/maataa-desktop-tauri/src-tauri && cargo tauri dev",

@@ -3,7 +3,7 @@
 // Desktop E2E still checks products/BUILD.json so it cannot run against stale bundles.
 import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
-import { readFile } from "node:fs/promises";
+import { readFile, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 
@@ -106,8 +106,22 @@ export async function assertDesktopProductsFresh() {
   return stamp;
 }
 
+/** Rewrite the committed source manifest and its SHA-256 sidecar from the current sources. */
+export async function writeDesktopProductSourceManifest() {
+  const { sourceDigest } = await productSourceFingerprint();
+  const raw = `${JSON.stringify({ schema: SOURCE_FINGERPRINT_SCHEMA, sourceDigest, sourcePaths: PRODUCT_SOURCES }, null, 2)}\n`;
+  await writeFile(sourceManifestPath, raw);
+  await writeFile(sourceManifestShaPath, `${createHash("sha256").update(raw).digest("hex")}  ${path.basename(sourceManifestPath)}\n`);
+  return sourceDigest;
+}
+
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   try {
+    if (process.argv.includes("--write")) {
+      const digest = await writeDesktopProductSourceManifest();
+      process.stdout.write(`Wrote the desktop source fingerprint (${digest.slice(0, 19)}…). Commit manifests/DESKTOP_PRODUCTS_FINGERPRINT.*\n`);
+      process.exit(0);
+    }
     const manifest = await assertDesktopProductSourcesCurrent();
     process.stdout.write(`Desktop source inputs match the committed fingerprint (${manifest.sourceDigest.slice(0, 19)}…).\n`);
   } catch (error) {
