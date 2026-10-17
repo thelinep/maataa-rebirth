@@ -1,0 +1,93 @@
+{
+  "snapshotDate": "2026-10-16",
+  "sources": {
+    "languages": {
+      "label": "Debian iso-codes · ISO 639-3",
+      "url": "https://salsa.debian.org/iso-codes-team/iso-codes/-/raw/main/data/iso_639-3.json",
+      "sha256": "2c61a9bb90a8c50c46bfbab484838863a12335bfdd0a92b4809f3faf1756b22d",
+      "bytes": 876207
+    },
+    "countries": {
+      "label": "Debian iso-codes · ISO 3166-1",
+      "url": "https://salsa.debian.org/iso-codes-team/iso-codes/-/raw/main/data/iso_3166-1.json",
+      "sha256": "f01b812b57fba9f31ff621bf33e7c7570a01964dbeb5be2167e94decf538c89f",
+      "bytes": 43284
+    },
+    "stars": {
+      "label": "IAU WGSN · named NEC entries",
+      "url": "https://exopla.net/wp-content/uploads/2025/05/NEC.csv",
+      "sha256": "cf06ae6b8f4f2452c7b797e63116f81a3ff39b1cda72163a75b3adbaa1332b5e",
+      "bytes": 986439
+    },
+    "faint-stars": {
+      "label": "IAU WGSN · faint star names",
+      "url": "https://exopla.net/wp-content/uploads/2025/05/wgsnFaints.csv",
+      "sha256": "7c3ed4626c3bff7b798c2850d17b5984982becf07d2a01a85aefdec2dfd2c4dc",
+      "bytes": 11676
+    },
+    "planets": {
+      "label": "NASA Exoplanet Archive · PSCompPars",
+      "url": "https://exoplanetarchive.ipac.caltech.edu/TAP/sync?query=select+pl_name,hostname,discoverymethod,disc_year,sy_pnum+from+pscomppars&format=csv",
+      "sha256": "c1cccf59f2ed23aea7f6419ffd8f8d3fa6764872263d1aff6cd78abe9bc10d62",
+      "bytes": 295050
+    },
+    "satellites": {
+      "label": "NASA JPL · satellite discovery table",
+      "url": "https://ssd.jpl.nasa.gov/sats/discovery.html",
+      "sha256": "4836d801269036704bcc685000d198d92a3eb36dc9622b298b3e7c94d8c0daa5",
+      "bytes": 116148
+    },
+    "galaxies": {
+      "label": "NASA HEASARC · Messier snapshot",
+      "url": "https://heasarc.gsfc.nasa.gov/FTP/heasarc/dbase/tdat_files/heasarc_messier.tdat.gz",
+      "sha256": "baab27aa9877af1e57ad73affa106a91a2bec329fc20fed98e97e7231e9d56dc",
+      "bytes": 6342
+    },
+    "nasa-solar": {
+      "label": "NASA · Solar System",
+      "url": "https://science.nasa.gov/solar-system/solar-system-facts/"
+    },
+    "nasa-moon": {
+      "label": "NASA · Moon",
+      "url": "https://science.nasa.gov/moon/"
+    },
+    "nasa-galaxies": {
+      "label": "NASA · Galaxies",
+      "url": "https://science.nasa.gov/universe/galaxies/"
+    },
+    "isro": {
+      "label": "ISRO · selected mission names",
+      "url": "https://www.isro.gov.in/SpacecraftMissions.html"
+    }
+  },
+  "groups": {
+    "languages": {
+      "count": 7923,
+      "coverage": "All entries in the downloaded ISO 639-3 registry snapshot; includes living, historical, extinct and constructed languages. Language selection does not translate the interface."
+    },
+    "countries": {
+      "count": 249,
+      "coverage": "249 ISO 3166-1 country and territory entries in the source snapshot. Territories are included; this is not a list of 249 sovereign states."
+    },
+    "stars": {
+      "count": 503,
+      "coverage": "Named entries from WGSN NEC and faint-star CSV snapshots, plus the Sun. Unnamed NEC entries are excluded; later naming decisions may not appear. Not all stars in the universe."
+    },
+    "planets": {
+      "count": 6459,
+      "coverage": "The eight Solar System planets plus all confirmed exoplanet rows in the downloaded NASA PSCompPars snapshot. Dwarf planets are not included in this category."
+    },
+    "systems": {
+      "count": 4848,
+      "coverage": "Our Solar System plus distinct host systems represented in the downloaded NASA confirmed-exoplanet snapshot. Only our system is called the Solar System; no complete census of all systems is implied."
+    },
+    "satellites": {
+      "count": 469,
+      "coverage": "461 natural satellites: all 460 rows in the JPL planetary/Pluto table, plus Earth’s Moon. Also eight selected ISRO Earth-satellite missions; artificial coverage is illustrative, not a global spacecraft registry. No small-body moon census or live tracking."
+    },
+    "galaxies": {
+      "count": 40,
+      "coverage": "Galaxy-classified entries (S/E/E?/IR) in the HEASARC Messier table, plus the Milky Way. The source table was last modified in 2022. A bounded reference collection, not all galaxies."
+    }
+  }
+}

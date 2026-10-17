@@ -1,0 +1,74 @@
+{
+  "athlete": {
+    "file": "talents/athlete.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Basketball_Pic_3.jpg",
+    "author": "Jason J. Pryor",
+    "licenseLabel": "CC0 1.0",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "sha256": "92687ae2d8d89da555b3f995c7a0e0aa1a05d718cb5a6988a647a998f8aa8a8c"
+  },
+  "dance": {
+    "file": "talents/dance.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Dance_performance.jpg",
+    "author": "WANGYIFAN2024",
+    "licenseLabel": "CC0 1.0",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "sha256": "51083d053072bddf9b2f642e3e5c545befb1084ef1b01781e668d860eb7a5440"
+  },
+  "producer": {
+    "file": "talents/producer.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:A_music_producer.jpg",
+    "author": "Oliversamson1",
+    "licenseLabel": "CC0 1.0",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "sha256": "47b60abec9850ccb3154667642c9168fe5d9e4efc40d4a0b0e4170761d2ed9d6"
+  },
+  "puppet": {
+    "file": "talents/puppet.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:After_the_puppet_show_the_puppeteer_shows_the_kids_his_bear._(342f6217-f136-e539-ed0f-613bd59f4831).JPG",
+    "author": "NPS photographer · U.S. National Park Service",
+    "licenseLabel": "Public domain (U.S. federal work)",
+    "license": "https://www.nps.gov/aboutus/disclaimer.htm",
+    "sha256": "722b27b2bffe722f798285af3fe2d2189658c496de4a31795dcfbfa0fff0e486"
+  },
+  "runway": {
+    "file": "talents/runway.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Fashion_runway1.jpg",
+    "author": "Kwaku Berko",
+    "licenseLabel": "CC0 1.0",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "sha256": "bd77b402e28c15c7eac06c46d748584885b0985ac45941d9404f42f6bb4ca96e"
+  },
+  "singer": {
+    "file": "talents/singer.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Singer_interacting_with_the_audience_2020-07-22.jpg",
+    "author": "Marko Milivojevic",
+    "licenseLabel": "CC0 1.0",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "sha256": "07026cf4421033b4a2f527b8e7436b714fd4f365d40da91d7db8690310419427"
+  },
+  "speaker": {
+    "file": "talents/speaker.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Public_Speaking_In_Front_of_Large_Crowds.jpg",
+    "author": "delegateconnectimages",
+    "licenseLabel": "CC BY 2.0",
+    "license": "https://creativecommons.org/licenses/by/2.0/",
+    "sha256": "2f1657a5ae7e115d9108e89262ca19cbf787f890e196bf476a5fa4580a4b4922"
+  },
+  "stunt": {
+    "file": "talents/stunt.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Stunt_bicycle_rider_Chris_Clark_in_Summit_NJ.jpg",
+    "author": "Tomwsulcer",
+    "licenseLabel": "CC0 1.0",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "sha256": "e8c2946998690879dfb316cf8e62ca9fdd08262aab9d6d82ff1d2a9b27a49c2e"
+  },
+  "voiceover": {
+    "file": "talents/voiceover.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:EV_RE20_voiceover_booth.jpg",
+    "author": "Binksternet",
+    "licenseLabel": "CC BY-SA 4.0",
+    "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "sha256": "5fb62c4aabb6544446a94d780bd99728da934f5a1cc2b8bdafe0bf3298f370fd"
+  }
+}
