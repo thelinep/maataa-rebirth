@@ -104,3 +104,10 @@ apps/hemant-observatory/evidence/outside-status-*.txt
 # Local Shree test payment ledger and merchant configuration
 .local/shree-payments/
 examples/support-center/payments/.env
+
+# Private local TLPS databases and credentials.
+.local/tlps-api/
+
+# Python bytecode
+__pycache__/
+*.pyc
