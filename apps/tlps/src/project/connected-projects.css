@@ -1,0 +1,120 @@
+.tlps-connected {
+  max-width: 1200px;
+  margin: auto;
+  padding: 24px;
+  color: var(--ts-ink);
+  background: var(--ts-canvas);
+}
+.tlps-connected h1,
+.tlps-connected h2,
+.tlps-connected h3 {
+  margin-block: 24px 12px;
+}
+.tlps-connected p {
+  max-width: 72ch;
+  overflow-wrap: anywhere;
+}
+.tlps-connected form {
+  display: grid;
+  gap: 16px;
+  max-width: 720px;
+  margin-block: 24px 40px;
+}
+.tlps-connected label {
+  display: grid;
+  gap: 8px;
+}
+.tlps-connected-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.tlps-connected-layout {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr);
+  gap: 32px;
+  margin-block: 32px;
+}
+.tlps-connected-layout nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-self: start;
+}
+.tlps-connected-layout nav button {
+  font: inherit;
+  padding: 12px;
+  text-align: start;
+  border: 1px solid var(--ts-line);
+  border-radius: var(--m-radius, 8px);
+  background: var(--ts-panel);
+  color: var(--ts-ink);
+  cursor: pointer;
+  min-height: 44px;
+}
+.tlps-connected-layout nav button[aria-current] {
+  background: var(--ts-soft);
+  font-weight: 700;
+}
+.tlps-connected-records {
+  list-style: none;
+  padding: 0;
+}
+.tlps-connected-records li {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--ts-line);
+  padding-block: 16px;
+}
+.tlps-connected-records li > div {
+  flex: 1;
+  min-width: 160px;
+}
+.tlps-record-id {
+  font-family: var(--m-font-mono, monospace);
+  font-size: 0.875rem;
+  overflow-wrap: anywhere;
+}
+.tlps-connected [role="alert"] {
+  border: 1px solid var(--m-danger, var(--ts-line));
+  padding: 16px;
+  background: var(--ts-panel);
+}
+.tlps-connected pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  max-width: 100%;
+  font-size: 0.875rem;
+}
+.tlps-connected-audit {
+  max-height: 420px;
+  overflow: auto;
+  padding-inline-start: 24px;
+}
+.tlps-connected :focus-visible {
+  outline: 2px solid var(--m-focus, var(--ts-gold));
+  outline-offset: 3px;
+}
+@media (max-width: 700px) {
+  .tlps-connected {
+    padding: 16px;
+  }
+  .tlps-connected-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+  .tlps-connected-layout nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .tlps-connected-layout nav button {
+    flex: 1 1 140px;
+  }
+}
+
+/* Connected forms keep all session controls in normal document flow. */
+.site-shell[data-connected-pilot="true"] > .site-header { position:relative; top:auto; transform:none; }

@@ -1,0 +1,22 @@
+.tlps-project-stage-bar { min-width:0; }
+.tlps-project-stage-bar ol { display:grid; grid-template-columns:repeat(8,minmax(0,1fr)); gap:8px; list-style:none; margin:0; padding:0; }
+.tlps-project-stage-bar li { min-width:0; }
+.tlps-project-stage-bar button { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; width:100%; min-height:112px; padding:16px 8px; border:1px solid var(--m-border); border-radius:var(--m-radius-sm); background:var(--m-surface); color:var(--m-text); font:inherit; cursor:pointer; transition:background-color var(--m-motion-duration,120ms),border-color var(--m-motion-duration,120ms); }
+.tlps-project-stage-symbol { display:grid; place-items:center; }
+.tlps-project-stage-text { display:flex; align-items:baseline; justify-content:center; gap:6px; min-width:0; }
+.tlps-project-stage-position { color:var(--m-muted); font-size:.75rem; font-variant-numeric:tabular-nums; }
+.tlps-project-stage-text strong { font-size:.85rem; overflow-wrap:anywhere; }
+.tlps-project-stage-bar button:hover { background:var(--m-surface-hover,var(--m-surface)); border-color:var(--m-primary); }
+.tlps-project-stage-bar button[aria-current="step"] { background:var(--m-primary); border-color:var(--m-primary); color:var(--m-primary-contrast); }
+.tlps-project-stage-bar button[aria-current="step"] .tlps-project-stage-position { color:inherit; }
+.tlps-project-stage-bar button:focus-visible { outline:3px solid var(--m-focus); outline-offset:3px; }
+.tlps-project-stage-bar.is-vertical ol { grid-template-columns:minmax(0,1fr); }
+.tlps-project-stage-bar.is-vertical button { flex-direction:row; justify-content:flex-start; min-height:64px; gap:20px; padding:16px 20px; }
+.tlps-project-stage-bar.is-vertical .tlps-project-stage-text { justify-content:flex-start; }
+.wf-project-stages { padding:28px 0; border-bottom:1px solid var(--m-border); }
+.wf-project-stages h2 { margin:0 0 12px; font-family:var(--m-font-heading); }
+.wf-project-stages p { line-height:1.6; max-width:72ch; }
+.wf-project-stage-selected { margin-top:20px; }
+@media(max-width:900px) { .tlps-project-stage-bar ol { grid-template-columns:repeat(4,minmax(0,1fr)); } }
+@media(max-width:480px) { .tlps-project-stage-bar ol { grid-template-columns:repeat(2,minmax(0,1fr)); } .tlps-project-stage-bar button { min-height:100px; } }
+@media(prefers-reduced-motion:reduce) { .tlps-project-stage-bar button { transition:none; } }
