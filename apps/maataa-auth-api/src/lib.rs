@@ -1,3 +1,5 @@
+pub mod tlps;
+pub mod pilot;
 use base64::{engine::general_purpose::URL_SAFE_NO_PAD, Engine as _};
 use http_body_util::{BodyExt, Full};
 use hyper::{
@@ -259,6 +261,8 @@ impl Store {
             tx.execute("INSERT INTO schema_migrations(version,checksum,applied_at,time_basis) VALUES (?1,?2,?3,'host-unix-clock-unverified')", params![version, checksum, now_unix_ms()]).map_err(|_| StoreError::Database)?;
         }
         tx.commit().map_err(|_| StoreError::Database)?;
+        tlps::migrate(&conn)?;
+        pilot::migrate(&conn)?;
         Ok(Self(Arc::new(Mutex::new(conn))))
     }
 
@@ -774,6 +778,14 @@ async fn route(
         ));
     }
 
+    if path == "/v1/admin/tlps/memberships" && method == Method::POST {
+        if !state.bootstrap_ok(&req) { return Err((StatusCode::UNAUTHORIZED,"unauthorized")); }
+        let b=read_json(req.into_body()).await?;
+        if !has_only_keys(&b,&["projectId","principalId","role","active"]) || b["active"].as_bool().is_none() { return Err((StatusCode::BAD_REQUEST,"invalid-request")); }
+        state.store.pilot_member(b["projectId"].as_str().unwrap_or(""),b["principalId"].as_str().unwrap_or(""),b["role"].as_str().unwrap_or(""),b["active"].as_bool().unwrap_or(false)).map_err(map_store_error)?;
+        return Ok(json_response(StatusCode::OK,json!({"saved":true})));
+    }
+
     let token = bearer(&req).ok_or((StatusCode::UNAUTHORIZED, "unauthorized"))?;
     let identity = state
         .store
@@ -787,6 +799,15 @@ async fn route(
             StatusCode::OK,
             serde_json::to_value(identity).unwrap_or(Value::Null),
         ));
+    }
+    if path.starts_with("/v1/tlps/pilot/") { return pilot::route(req,&state.store,&identity).await; }
+    if path.starts_with("/v1/tlps/") || path == "/v1/projects" || path.starts_with("/v1/projects/") {
+        let conn=state.store.0.lock().map_err(|_|(StatusCode::INTERNAL_SERVER_ERROR,"database-error"))?;
+        let scope=if method==Method::GET {Scope::ProjectRead}else{Scope::ProjectWrite};
+        pilot::authorize(&conn,&identity,&identity.project_id,scope).map_err(map_store_error)?;
+    }
+    if path.starts_with("/v1/tlps/") {
+        return tlps::route(req, &state.store, &identity).await;
     }
     if path == "/v1/knowledge/objects" {
         if method == Method::POST {
