@@ -8,6 +8,7 @@ import {
   type TlpsCollectionData,
   type TlpsEntity,
 } from "../services/tlpsDataApi";
+import { defaultMaataaTransport } from "../services/maataaAuthApi";
 import {
   ProjectStageIconBar,
   type TlpsProjectStage,
@@ -47,6 +48,10 @@ function errorText(e: unknown) {
         ? "Your current project role cannot perform this action. Ask the project owner or administrator for access."
         : e.status === 401
           ? "This session expired or was revoked. Disconnect and sign in again."
+          : e.status === 410
+            ? "The project owner deleted this project. An administrator can restore it within 30 days."
+          : e.status === 429
+            ? "Too many requests in a short time. Wait a moment, then try again."
           : e.status === 404
             ? "This project or record is unavailable. Check your access with the administrator."
             : e.status === 400
@@ -62,7 +67,9 @@ export function ConnectedProjects({
   route: string;
   navigate: (path: string) => void;
 }) {
-  const secret = React.useRef<string | null>(null),
+  // One transport per mounted page: Desktop commands inside MAATAA Desktop (the
+  // token stays in the Desktop process), else /api/maataa with the token in memory.
+  const transport = React.useMemo(() => defaultMaataaTransport(), []),
     generation = React.useRef(0),
     createAttempt = React.useRef<{ signature: string; key: string } | null>(
       null,
@@ -98,10 +105,7 @@ export function ConnectedProjects({
     window.addEventListener('tlps:before-exit',exiting);
     return () => {window.removeEventListener('beforeunload',unload);window.removeEventListener('tlps:before-exit',exiting);};
   },[dirty]);
-  const api = React.useMemo(
-    () => createTlpsDataApi({ getToken: () => secret.current }),
-    [],
-  );
+  const api = React.useMemo(() => createTlpsDataApi({ transport }), [transport]);
   React.useEffect(() => {
     const update = () => setOnline(navigator.onLine);
     window.addEventListener("online", update);
@@ -109,33 +113,39 @@ export function ConnectedProjects({
     return () => {
       window.removeEventListener("online", update);
       window.removeEventListener("offline", update);
-      secret.current = null;
+      void transport.disconnect();
       generation.current++;
     };
   }, []);
-  async function raw(
-    path: string,
-    method = "GET",
-    body?: unknown,
-    token = secret.current,
-  ) {
-    if (!token) throw new TlpsDataApiError(401, "not-connected");
-    const r = await fetch(`/api/maataa${path}`, {
-      method,
-      headers: {
-        authorization: `Bearer ${token}`,
-        ...(body ? { "content-type": "application/json" } : {}),
-      },
-      ...(body ? { body: JSON.stringify(body) } : {}),
-      credentials: "omit",
-      redirect: "error",
-      cache: "no-store",
-      signal: AbortSignal.timeout(15000),
-    });
-    const b = await r.json();
-    if (!r.ok)
+  function decode(r: { status: number; body: string }) {
+    let b: any = null;
+    try {
+      b = r.body ? JSON.parse(r.body) : null;
+    } catch {
+      throw new TlpsDataApiError(502, "invalid-response");
+    }
+    if (r.status < 200 || r.status > 299)
       throw new TlpsDataApiError(r.status, b?.error?.code ?? "request-failed");
     return b;
+  }
+  async function raw(path: string, method: "GET" | "POST" = "GET", body?: unknown) {
+    let reply;
+    try {
+      reply = await transport.request(
+        method,
+        path,
+        body === undefined ? undefined : JSON.stringify(body),
+      );
+    } catch (e) {
+      throw transportError(e);
+    }
+    return decode(reply);
+  }
+  function transportError(e: unknown) {
+    const code = (e as { code?: string }).code;
+    if (code === "not-connected") return new TlpsDataApiError(401, "not-connected");
+    if (code === "invalid") return new TlpsDataApiError(400, "invalid-client-input");
+    return new TlpsDataApiError(503, "unavailable");
   }
   async function refresh(s: Session, k: TlpsCollection) {
     const epoch = generation.current;
@@ -174,15 +184,20 @@ export function ConnectedProjects({
   }
   async function connect() {
     const epoch = ++generation.current;
-    secret.current = null;
+    await transport.disconnect();
     setSession(null);
     setRecords([]);
     setProfiles([]);
     await run(async () => {
       const token = credential.trim();
       setCredential("");
-      await raw("/v1/auth/whoami", "GET", undefined, token);
-      secret.current = token;
+      let who;
+      try {
+        who = await transport.connect(token);
+      } catch (e) {
+        throw transportError(e);
+      }
+      decode(who);
       try {
         const s = (await raw("/v1/tlps/pilot/session")) as Session;
         const project = await raw(`/v1/projects/${s.projectId}`);
@@ -192,7 +207,7 @@ export function ConnectedProjects({
         await refresh(s, kind);
         setNotice("Connected. Records are saved to the project database.");
       } catch (e) {
-        secret.current = null;
+        await transport.disconnect();
         setSession(null);
         throw e;
       }
@@ -201,7 +216,7 @@ export function ConnectedProjects({
   function disconnect() {
     if (dirty && !window.confirm("Disconnect and discard your unsaved draft?")) return;
     generation.current++;
-    secret.current = null;
+    void transport.disconnect();
     setSession(null);
     setCredential("");
     setRecords([]);

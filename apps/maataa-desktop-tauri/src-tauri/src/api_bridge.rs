@@ -104,43 +104,188 @@ pub fn validate_token(token: &str) -> Result<(), String> {
 }
 
 /// The only routes a product window may reach through Desktop. Admin routes,
-/// knowledge routes and anything else are refused before any network call.
+/// knowledge routes, whoami and anything else are refused before any network
+/// call. Allowed: the project record (`/v1/projects`), the TLPS data API
+/// (`/v1/tlps/...`) and the team pilot (`/v1/tlps/pilot/...`), each with its
+/// own methods, required headers and, for listings only, a plain query.
 pub fn validate_route(
     method: &str,
     path: &str,
     body: Option<&str>,
     if_match: Option<u32>,
+    idempotency_key: Option<&str>,
 ) -> Result<(), String> {
     let refuse =
         || Err::<(), String>("invalid: MAATAA Desktop does not forward this request.".into());
-    if body.is_some_and(|text| text.len() > MAX_REQUEST_BYTES) {
+    if body.is_some_and(|text| text.len() > MAX_REQUEST_BYTES)
+        || if_match.is_some_and(|v| v > MAX_RECORD_VERSION)
+        || idempotency_key.is_some_and(|key| !is_request_key(key))
+    {
         return refuse();
     }
-    let project = path.strip_prefix("/v1/projects/");
-    match (method, path, project) {
-        ("POST", "/v1/projects", _) if body.is_some() && if_match.is_none() => Ok(()),
-        ("GET", _, Some(rest)) if body.is_none() && if_match.is_none() => {
-            let id = rest.strip_suffix("/events").unwrap_or(rest);
-            if is_record_id(id) {
-                Ok(())
-            } else {
-                refuse()
+    let (route, query) = match path.split_once('?') {
+        Some((route, query)) => (route, Some(query)),
+        None => (path, None),
+    };
+    if query.is_some_and(|q| !is_plain_query(q)) {
+        return refuse();
+    }
+    let shape = Shape {
+        body: body.is_some(),
+        if_match: if_match.is_some(),
+        key: idempotency_key.is_some(),
+        query: query.is_some(),
+    };
+    let allowed = if route == "/v1/projects" || route.starts_with("/v1/projects/") {
+        project_route(method, route, shape)
+    } else if let Some(rest) = route.strip_prefix("/v1/tlps/") {
+        tlps_route(method, rest, shape)
+    } else {
+        false
+    };
+    if allowed {
+        Ok(())
+    } else {
+        refuse()
+    }
+}
+
+/// Which optional parts a request carries.
+#[derive(Clone, Copy)]
+struct Shape {
+    body: bool,
+    if_match: bool,
+    key: bool,
+    query: bool,
+}
+
+impl Shape {
+    fn is(self, body: bool, if_match: bool, key: bool, query: bool) -> bool {
+        self.body == body && self.if_match == if_match && self.key == key && (query || !self.query)
+    }
+}
+
+fn project_route(method: &str, route: &str, shape: Shape) -> bool {
+    let plain = |body: bool, if_match: bool| shape.is(body, if_match, false, false);
+    match (method, route.strip_prefix("/v1/projects/")) {
+        ("POST", None) => route == "/v1/projects" && plain(true, false),
+        ("GET", Some(rest)) => {
+            is_record_id(rest.strip_suffix("/events").unwrap_or(rest)) && plain(false, false)
+        }
+        ("PUT", Some(id)) => is_record_id(id) && plain(true, true),
+        // Owner deletion; the API checks ownership and keeps a restore window.
+        ("DELETE", Some(id)) => is_record_id(id) && plain(false, false),
+        _ => false,
+    }
+}
+
+/// TLPS collections the API stores (apps/maataa-auth-api/migrations/tlps-v1.sql).
+pub const TLPS_COLLECTIONS: [&str; 12] = [
+    "profiles",
+    "onboarding",
+    "workplace-records",
+    "budget-items",
+    "crew-assignments",
+    "locations",
+    "schedule-items",
+    "evidence",
+    "circles",
+    "membership-plans",
+    "investment-interests",
+    "escrow-reviews",
+];
+
+fn tlps_route(method: &str, rest: &str, shape: Shape) -> bool {
+    let read = shape.is(false, false, false, false);
+    match (method, rest) {
+        ("GET", "capabilities" | "skus" | "pilot/session" | "pilot/items" | "pilot/history") => {
+            read
+        }
+        ("POST", "pilot/items" | "pilot/review") => shape.is(true, false, false, false),
+        _ => {
+            let Some(project) = rest.strip_prefix("projects/") else {
+                return false;
+            };
+            let parts: Vec<&str> = project.split('/').collect();
+            match (method, parts.as_slice()) {
+                ("GET", [id, "export"]) => is_record_id(id) && read,
+                ("GET", [id, "events"]) => is_record_id(id) && shape.is(false, false, false, true),
+                ("GET", [id, kind]) => {
+                    is_record_id(id) && is_collection(kind) && shape.is(false, false, false, true)
+                }
+                ("POST", [id, kind]) => {
+                    is_record_id(id) && is_collection(kind) && shape.is(true, false, true, false)
+                }
+                ("GET", [id, kind, entity]) => {
+                    is_record_id(id) && is_collection(kind) && is_entity_id(entity) && read
+                }
+                ("PUT", [id, kind, entity]) => {
+                    is_record_id(id)
+                        && is_collection(kind)
+                        && is_entity_id(entity)
+                        && shape.is(true, true, false, false)
+                }
+                ("DELETE", [id, kind, entity]) => {
+                    is_record_id(id)
+                        && is_collection(kind)
+                        && is_entity_id(entity)
+                        && shape.is(false, true, false, false)
+                }
+                _ => false,
             }
         }
-        ("PUT", _, Some(id))
-            if is_record_id(id)
-                && body.is_some()
-                && if_match.is_some_and(|v| v <= MAX_RECORD_VERSION) =>
-        {
-            Ok(())
-        }
-        _ => refuse(),
     }
+}
+
+/// The project a TLPS or project-record path names, if any. Desktop checks it
+/// against the session's project before forwarding.
+pub fn route_project(path: &str) -> Option<&str> {
+    let route = path.split('?').next().unwrap_or(path);
+    let rest = route
+        .strip_prefix("/v1/projects/")
+        .or_else(|| route.strip_prefix("/v1/tlps/projects/"))?;
+    Some(rest.split('/').next().unwrap_or(rest))
+}
+
+fn is_collection(kind: &str) -> bool {
+    TLPS_COLLECTIONS.contains(&kind)
+}
+
+fn is_entity_id(id: &str) -> bool {
+    id.strip_prefix("tlps:")
+        .is_some_and(|uuid| is_record_id(&format!("prj:{uuid}")))
+}
+
+fn is_request_key(key: &str) -> bool {
+    (1..=128).contains(&key.len())
+        && key
+            .bytes()
+            .all(|b| b.is_ascii_alphanumeric() || b == b'_' || b == b'-')
+}
+
+/// Listing queries only: `limit`, `cursor`, `after` with plain values. The
+/// only escape accepted is `%3A` (":" as URLSearchParams writes it).
+fn is_plain_query(query: &str) -> bool {
+    !query.is_empty()
+        && query.len() <= 200
+        && query.split('&').all(|pair| {
+            pair.split_once('=').is_some_and(|(name, value)| {
+                let value = value.replace("%3A", ":").replace("%3a", ":");
+                matches!(name, "limit" | "cursor" | "after")
+                    && !value.is_empty()
+                    && value
+                        .bytes()
+                        .all(|b| b.is_ascii_alphanumeric() || b == b':' || b == b'-')
+            })
+        })
 }
 
 /// The project ID a successful response speaks for, and its current version.
 pub fn observed_project(method: &str, path: &str, reply: &ApiReply) -> Option<(String, u32)> {
-    if !(200..=299).contains(&reply.status) || path.ends_with("/events") {
+    if !(200..=299).contains(&reply.status)
+        || path.ends_with("/events")
+        || !(path == "/v1/projects" || path.starts_with("/v1/projects/"))
+    {
         return None;
     }
     if !(method == "GET" || method == "PUT" || (method == "POST" && path == "/v1/projects")) {
@@ -199,9 +344,18 @@ pub fn send(
     token: &str,
     body: Option<&str>,
     if_match: Option<u32>,
+    idempotency_key: Option<&str>,
 ) -> Result<ApiReply, String> {
     let socket_path = configured_socket_path()?;
-    send_to(&socket_path, method, path, token, body, if_match)
+    send_to(
+        &socket_path,
+        method,
+        path,
+        token,
+        body,
+        if_match,
+        idempotency_key,
+    )
 }
 
 fn send_to(
@@ -211,6 +365,7 @@ fn send_to(
     token: &str,
     body: Option<&str>,
     if_match: Option<u32>,
+    idempotency_key: Option<&str>,
 ) -> Result<ApiReply, String> {
     let mut stream = UnixStream::connect(socket_path).map_err(|_| {
         "unavailable: The MAATAA Auth API is not running on this computer.".to_string()
@@ -222,6 +377,9 @@ fn send_to(
     );
     if let Some(version) = if_match {
         request.push_str(&format!("If-Match: \"{version}\"\r\n"));
+    }
+    if let Some(key) = idempotency_key {
+        request.push_str(&format!("Idempotency-Key: {key}\r\n"));
     }
     match body {
         Some(text) => request.push_str(&format!(
@@ -333,37 +491,234 @@ mod tests {
     }
 
     #[test]
-    fn only_project_routes_are_forwarded() {
+    fn only_project_tlps_and_pilot_routes_are_forwarded() {
         let body = Some("{}");
-        assert!(validate_route("POST", "/v1/projects", body, None).is_ok());
-        assert!(validate_route("GET", &format!("/v1/projects/{ID}"), None, None).is_ok());
-        assert!(validate_route("GET", &format!("/v1/projects/{ID}/events"), None, None).is_ok());
-        assert!(validate_route("PUT", &format!("/v1/projects/{ID}"), body, Some(1)).is_ok());
-        for (method, path, body, if_match) in [
-            ("POST", "/v1/admin/tokens", body, None),
-            ("POST", "/v1/admin/principals", body, None),
-            ("GET", "/v1/knowledge/objects", None, None),
-            ("GET", "/v1/auth/whoami", None, None),
-            ("DELETE", "/v1/projects/x", None, None),
-            ("PUT", &format!("/v1/projects/{ID}") as &str, body, None),
+        let entity = "tlps:11111111-2222-4333-8444-555555555555";
+        let ok = |m: &str, p: &str, b: Option<&str>, v: Option<u32>, k: Option<&str>| {
+            validate_route(m, p, b, v, k).is_ok()
+        };
+        // Project record.
+        assert!(ok("POST", "/v1/projects", body, None, None));
+        assert!(ok("GET", &format!("/v1/projects/{ID}"), None, None, None));
+        assert!(ok(
+            "GET",
+            &format!("/v1/projects/{ID}/events"),
+            None,
+            None,
+            None
+        ));
+        assert!(ok(
+            "PUT",
+            &format!("/v1/projects/{ID}"),
+            body,
+            Some(1),
+            None
+        ));
+        assert!(ok(
+            "DELETE",
+            &format!("/v1/projects/{ID}"),
+            None,
+            None,
+            None
+        ));
+        // TLPS data.
+        assert!(ok("GET", "/v1/tlps/capabilities", None, None, None));
+        assert!(ok("GET", "/v1/tlps/skus", None, None, None));
+        assert!(ok(
+            "GET",
+            &format!("/v1/tlps/projects/{ID}/budget-items?limit=100&cursor={entity}"),
+            None,
+            None,
+            None
+        ));
+        assert!(ok(
+            "POST",
+            &format!("/v1/tlps/projects/{ID}/locations"),
+            body,
+            None,
+            Some("req_1-a")
+        ));
+        assert!(ok(
+            "GET",
+            &format!("/v1/tlps/projects/{ID}/locations/{entity}"),
+            None,
+            None,
+            None
+        ));
+        assert!(ok(
+            "PUT",
+            &format!("/v1/tlps/projects/{ID}/locations/{entity}"),
+            body,
+            Some(2),
+            None
+        ));
+        assert!(ok(
+            "DELETE",
+            &format!("/v1/tlps/projects/{ID}/locations/{entity}"),
+            None,
+            Some(2),
+            None
+        ));
+        assert!(ok(
+            "GET",
+            &format!("/v1/tlps/projects/{ID}/events?after=0&limit=50"),
+            None,
+            None,
+            None
+        ));
+        assert!(ok("GET", &format!("/v1/tlps/projects/{ID}/locations?limit=2&cursor=tlps%3A11111111-2222-4333-8444-555555555555"), None, None, None));
+        assert!(ok(
+            "GET",
+            &format!("/v1/tlps/projects/{ID}/export"),
+            None,
+            None,
+            None
+        ));
+        // Team pilot.
+        for path in [
+            "/v1/tlps/pilot/session",
+            "/v1/tlps/pilot/items",
+            "/v1/tlps/pilot/history",
+        ] {
+            assert!(ok("GET", path, None, None, None), "{path}");
+        }
+        assert!(ok("POST", "/v1/tlps/pilot/items", body, None, None));
+        assert!(ok("POST", "/v1/tlps/pilot/review", body, None, None));
+
+        for (method, path, body, if_match, key) in [
+            ("POST", "/v1/admin/tokens", body, None, None),
+            ("POST", "/v1/admin/principals", body, None, None),
+            ("POST", "/v1/admin/tlps/memberships", body, None, None),
+            ("GET", "/v1/knowledge/objects", None, None, None),
+            ("GET", "/v1/auth/whoami", None, None, None),
+            ("DELETE", "/v1/projects/x", None, None, None),
+            (
+                "DELETE",
+                &format!("/v1/projects/{ID}") as &str,
+                body,
+                None,
+                None,
+            ),
+            (
+                "PUT",
+                &format!("/v1/projects/{ID}") as &str,
+                body,
+                None,
+                None,
+            ),
             (
                 "PUT",
                 &format!("/v1/projects/{ID}/events") as &str,
                 body,
                 Some(1),
+                None,
             ),
-            ("GET", "/v1/projects/../admin/tokens", None, None),
-            ("GET", "/v1/projects/prj:NOT-A-UUID", None, None),
-            ("GET", &format!("/v1/projects/{ID}") as &str, body, None),
-            ("POST", "/v1/projects", None, None),
+            ("GET", "/v1/projects/../admin/tokens", None, None, None),
+            ("GET", "/v1/projects/prj:NOT-A-UUID", None, None, None),
+            (
+                "GET",
+                &format!("/v1/projects/{ID}") as &str,
+                body,
+                None,
+                None,
+            ),
+            (
+                "GET",
+                &format!("/v1/projects/{ID}?limit=1") as &str,
+                None,
+                None,
+                None,
+            ),
+            ("POST", "/v1/projects", None, None, None),
+            // TLPS: unknown collection, missing key or If-Match, bad IDs and queries.
+            (
+                "GET",
+                &format!("/v1/tlps/projects/{ID}/salaries") as &str,
+                None,
+                None,
+                None,
+            ),
+            (
+                "POST",
+                &format!("/v1/tlps/projects/{ID}/locations") as &str,
+                body,
+                None,
+                None,
+            ),
+            (
+                "POST",
+                &format!("/v1/tlps/projects/{ID}/locations") as &str,
+                body,
+                None,
+                Some("bad key"),
+            ),
+            (
+                "PUT",
+                &format!("/v1/tlps/projects/{ID}/locations/{entity}") as &str,
+                body,
+                None,
+                None,
+            ),
+            (
+                "DELETE",
+                &format!("/v1/tlps/projects/{ID}/locations/{entity}") as &str,
+                None,
+                None,
+                None,
+            ),
+            (
+                "GET",
+                &format!("/v1/tlps/projects/{ID}/locations/tlps:nope") as &str,
+                None,
+                None,
+                None,
+            ),
+            (
+                "GET",
+                &format!("/v1/tlps/projects/{ID}/locations?limit=1&admin=1") as &str,
+                None,
+                None,
+                None,
+            ),
+            (
+                "GET",
+                &format!("/v1/tlps/projects/{ID}/locations?limit=1%0d") as &str,
+                None,
+                None,
+                None,
+            ),
+            (
+                "GET",
+                &format!("/v1/tlps/projects/{ID}/export?x=1") as &str,
+                None,
+                None,
+                None,
+            ),
+            ("GET", "/v1/tlps/projects/prj:x/locations", None, None, None),
+            ("PUT", "/v1/tlps/pilot/items", body, Some(1), None),
+            ("GET", "/v1/tlps/pilot/review", None, None, None),
+            ("GET", "/v1/tlps/pilot/../../admin/tokens", None, None, None),
         ] {
             assert!(
-                validate_route(method, path, body, if_match).is_err(),
+                validate_route(method, path, body, if_match, key).is_err(),
                 "forwarded {method} {path}"
             );
         }
         let huge = "x".repeat(MAX_REQUEST_BYTES + 1);
-        assert!(validate_route("POST", "/v1/projects", Some(&huge), None).is_err());
+        assert!(validate_route("POST", "/v1/projects", Some(&huge), None, None).is_err());
+    }
+
+    #[test]
+    fn the_route_names_its_project() {
+        assert_eq!(
+            route_project(&format!("/v1/projects/{ID}/events")),
+            Some(ID)
+        );
+        assert_eq!(
+            route_project(&format!("/v1/tlps/projects/{OTHER}/locations?limit=1")),
+            Some(OTHER)
+        );
+        assert_eq!(route_project("/v1/tlps/pilot/items"), None);
     }
 
     #[test]
@@ -455,7 +810,8 @@ mod tests {
                 .unwrap()
                 .as_nanos()
         ));
-        let error = send_to(&path, "GET", "/v1/auth/whoami", "mta_x", None, None).unwrap_err();
+        let error =
+            send_to(&path, "GET", "/v1/auth/whoami", "mta_x", None, None, None).unwrap_err();
         assert!(error.starts_with("unavailable"));
     }
 
@@ -518,7 +874,16 @@ mod tests {
                 .unwrap();
         });
 
-        let response = send_to(&path, "GET", "/v1/auth/whoami", "test-token", None, None).unwrap();
+        let response = send_to(
+            &path,
+            "GET",
+            "/v1/auth/whoami",
+            "test-token",
+            None,
+            None,
+            None,
+        )
+        .unwrap();
         assert_eq!(response, reply(200, "{}"));
         server.join().unwrap();
         std::fs::remove_dir_all(directory).unwrap();

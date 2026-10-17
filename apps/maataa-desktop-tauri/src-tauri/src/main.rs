@@ -726,7 +726,7 @@ async fn api_connect(
     api_bridge::validate_token(&token)?;
     let probe = token.clone();
     let reply = tauri::async_runtime::spawn_blocking(move || {
-        api_bridge::send("GET", "/v1/auth/whoami", &probe, None, None)
+        api_bridge::send("GET", "/v1/auth/whoami", &probe, None, None, None)
     })
     .await
     .map_err(|_| "unavailable: The request was interrupted.".to_string())??;
@@ -752,9 +752,20 @@ async fn api_request(
     path: String,
     body: Option<String>,
     if_match: Option<u32>,
+    idempotency_key: Option<String>,
 ) -> Result<api_bridge::ApiReply, String> {
-    api_bridge::validate_route(&method, &path, body.as_deref(), if_match)?;
+    api_bridge::validate_route(
+        &method,
+        &path,
+        body.as_deref(),
+        if_match,
+        idempotency_key.as_deref(),
+    )?;
     let session = app.state::<ApiSession>().get(window.label())?;
+    // A window speaks only for the project its token was issued for.
+    if api_bridge::route_project(&path).is_some_and(|project| project != session.project_id) {
+        return Err("invalid: This window is connected to a different project.".into());
+    }
     let (send_method, send_path, send_body) = (method.clone(), path.clone(), body.clone());
     let token = session.token.clone();
     let reply = tauri::async_runtime::spawn_blocking(move || {
@@ -764,6 +775,7 @@ async fn api_request(
             &token,
             send_body.as_deref(),
             if_match,
+            idempotency_key.as_deref(),
         )
     })
     .await

@@ -2,12 +2,13 @@
 // Two routes reach it, chosen at runtime:
 // - "desktop": inside MAATAA Desktop (Tauri), every call goes through Desktop commands.
 //   Desktop holds the bearer token in its own process (this page never keeps it), only
-//   forwards an allow-list of project routes to 127.0.0.1, and links its project entry
-//   to the API project ID and version it sees in the responses.
-// - "dev-proxy": in a browser, through the Vite dev/preview proxy at /api/maataa (the
-//   service binds to 127.0.0.1 and has no CORS policy). The token is held in memory only.
-// The server keeps the project record: titles, version summaries and the SHA-256 of each
-// plan snapshot. The plan body stays in this app. Times are Unix milliseconds.
+//   forwards an allow-list of project, TLPS and pilot routes over the private socket,
+//   and links its project entry to the API project ID and version it sees.
+// - "dev-proxy": in a browser, through /api/maataa: the Vite dev/preview proxy locally,
+//   or the pilot origin on tlps.in. The token is held in this closure only.
+// Every client of the API (this project store, the TLPS data client and Connected
+// Projects) uses one of these transports, so there is one token path per route.
+// Times are Unix milliseconds.
 import {
   approveVersion,
   createProjectRecord,
@@ -39,9 +40,14 @@ const projectPath = (id: string) => {
 };
 type FetchLike = (input: string, init?: RequestInit) => Promise<Response>;
 type Invoke = (command: string, args?: Record<string, unknown>) => Promise<unknown>;
-type Method = "GET" | "POST" | "PUT";
+type Method = "GET" | "POST" | "PUT" | "DELETE";
 
 export interface ApiResponse { status: number; body: string }
+
+/** Request guards. A bare number is an If-Match version (older call sites). */
+export interface RequestOptions { ifMatch?: number; idempotencyKey?: string }
+const optionsOf = (options?: number | RequestOptions): RequestOptions =>
+  typeof options === "number" ? { ifMatch: options } : options ?? {};
 
 /** How requests reach the API. The transport, not the adapter, holds the token. */
 export interface MaataaApiTransport {
@@ -49,7 +55,7 @@ export interface MaataaApiTransport {
   /** Checks the token with /v1/auth/whoami and keeps it only when the server accepts it. */
   connect(token: string): Promise<ApiResponse>;
   disconnect(): Promise<void>;
-  request(method: Method, path: string, body?: string, ifMatch?: number): Promise<ApiResponse>;
+  request(method: Method, path: string, body?: string, options?: number | RequestOptions): Promise<ApiResponse>;
 }
 
 const UNREACHABLE: Record<MaataaApiTransport["route"], string> = {
@@ -60,13 +66,14 @@ const UNREACHABLE: Record<MaataaApiTransport["route"], string> = {
 /** Browser route: the Vite proxy at `base`. The token lives in this closure only. */
 export function createHttpTransport(fetchImpl: FetchLike = (i, init) => fetch(i, init), base = MAATAA_API_BASE): MaataaApiTransport {
   let secret: string | null = null;
-  const send = async (token: string, method: Method, path: string, body?: string, ifMatch?: number): Promise<ApiResponse> => {
+  const send = async (token: string, method: Method, path: string, body?: string, options: RequestOptions = {}): Promise<ApiResponse> => {
     const headers: Record<string, string> = { authorization: `Bearer ${token}` };
     if (body !== undefined) headers["content-type"] = "application/json";
-    if (ifMatch !== undefined) headers["if-match"] = String(ifMatch);
+    if (options.ifMatch !== undefined) headers["if-match"] = String(options.ifMatch);
+    if (options.idempotencyKey !== undefined) headers["idempotency-key"] = options.idempotencyKey;
     let response: Response;
     try {
-      response = await fetchImpl(`${base}${path}`, { method, headers, ...(body !== undefined ? { body } : {}) });
+      response = await fetchImpl(`${base}${path}`, { method, headers, ...(body !== undefined ? { body } : {}), credentials: "omit", redirect: "error", cache: "no-store" });
     } catch {
       throw new ServiceError("unavailable", UNREACHABLE["dev-proxy"]);
     }
@@ -82,9 +89,9 @@ export function createHttpTransport(fetchImpl: FetchLike = (i, init) => fetch(i,
       return response;
     },
     async disconnect() { secret = null; },
-    async request(method, path, body, ifMatch) {
+    async request(method, path, body, options) {
       if (!secret) throw new ServiceError("not-connected", "Connect with a project token first.");
-      return send(secret, method, path, body, ifMatch);
+      return send(secret, method, path, body, optionsOf(options));
     },
   };
 }
@@ -109,7 +116,10 @@ export function createDesktopTransport(invoke: Invoke): MaataaApiTransport {
     route: "desktop",
     connect: (token) => call("api_connect", { token }),
     async disconnect() { await invoke("api_disconnect").catch(() => undefined); },
-    request: (method, path, body, ifMatch) => call("api_request", { method, path, body: body ?? null, ifMatch: ifMatch ?? null }),
+    request: (method, path, body, options) => {
+      const { ifMatch, idempotencyKey } = optionsOf(options);
+      return call("api_request", { method, path, body: body ?? null, ifMatch: ifMatch ?? null, idempotencyKey: idempotencyKey ?? null });
+    },
   };
 }
 

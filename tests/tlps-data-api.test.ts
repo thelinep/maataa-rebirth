@@ -15,3 +15,53 @@ describe('TLPS typed database API client',()=>{
  it('rejects non-JSON responses and exposes no automatic retries',async()=>{const fetchImpl=vi.fn(async()=>new Response('<html/>'));const api=createTlpsDataApi({getToken:()=> 'x',fetchImpl});await expect(api.read(pid,'locations',id)).rejects.toMatchObject({code:'invalid-response'});expect(fetchImpl).toHaveBeenCalledTimes(1);});
  it('supports explicit capabilities, draft catalogue, audit and export reads',async()=>{const f=fixture({ok:true});await f.api.capabilities();await f.api.skus();await f.api.events(pid,{after:2,limit:3});await f.api.export(pid);expect(f.fetchImpl.mock.calls.map(c=>c[0])).toEqual(['/api/maataa/v1/tlps/capabilities','/api/maataa/v1/tlps/skus',`/api/maataa/v1/tlps/projects/${pid}/events?after=2&limit=3`,`/api/maataa/v1/tlps/projects/${pid}/export`]);});
 });
+
+// The same client over the shared transport (Desktop commands or the /api/maataa proxy):
+// the token stays with the transport and guards travel as request options.
+import { createDesktopTransport, createHttpTransport } from '../apps/tlps/src/services/maataaAuthApi';
+describe('TLPS data client over the shared MAATAA transport', () => {
+  it('sends TLPS calls through Desktop commands with If-Match and the idempotency key', async () => {
+    const seen: Array<{ command: string; args?: Record<string, unknown> }> = [];
+    const invoke = vi.fn(async (command: string, args?: Record<string, unknown>) => {
+      seen.push({ command, args });
+      if (command === 'api_connect') return { status: 200, body: JSON.stringify({ project_id: pid }) };
+      if (args?.method === 'DELETE') return { status: 200, body: JSON.stringify({ id, version: 3, deleted: true }) };
+      return { status: 200, body: JSON.stringify(row) };
+    });
+    const transport = createDesktopTransport(invoke);
+    const api = createTlpsDataApi({ transport });
+    await transport.connect('mta_test');
+    await api.create(pid, 'locations', { name: 'Place' }, 'stable-key');
+    await api.update(pid, 'locations', id, 1, { name: 'Place' });
+    await api.remove(pid, 'locations', id, 2);
+    const requests = seen.filter((s) => s.command === 'api_request').map((s) => s.args);
+    expect(requests).toEqual([
+      { method: 'POST', path: `/v1/tlps/projects/${pid}/locations`, body: '{"data":{"name":"Place"}}', ifMatch: null, idempotencyKey: 'stable-key' },
+      { method: 'PUT', path: `/v1/tlps/projects/${pid}/locations/${id}`, body: '{"data":{"name":"Place"}}', ifMatch: 1, idempotencyKey: null },
+      { method: 'DELETE', path: `/v1/tlps/projects/${pid}/locations/${id}`, body: null, ifMatch: 2, idempotencyKey: null },
+    ]);
+    expect(JSON.stringify(requests)).not.toContain('mta_test');
+  });
+
+  it('maps transport refusals to client errors without a network call', async () => {
+    const fetchImpl = vi.fn();
+    const api = createTlpsDataApi({ transport: createHttpTransport(fetchImpl) });
+    await expect(api.read(pid, 'locations', id)).rejects.toMatchObject({ status: 401, code: 'not-connected' });
+    expect(fetchImpl).not.toHaveBeenCalled();
+    const refused = createTlpsDataApi({ transport: createDesktopTransport(async () => { throw 'invalid: MAATAA Desktop does not forward this request.'; }) });
+    await expect(refused.read(pid, 'locations', id)).rejects.toMatchObject({ status: 400, code: 'invalid-client-input' });
+    const down = createTlpsDataApi({ transport: createDesktopTransport(async () => { throw 'unavailable: The MAATAA Auth API is not running on this computer.'; }) });
+    await expect(down.read(pid, 'locations', id)).rejects.toMatchObject({ status: 503, code: 'unavailable' });
+  });
+
+  it('keeps the browser token in the transport and adds the guards as headers', async () => {
+    const fetchImpl = vi.fn(async (_url: string, init?: RequestInit) => new Response(JSON.stringify((init?.method ?? 'GET') === 'GET' && _url.endsWith('whoami') ? { project_id: pid } : row), { status: 200 }));
+    const transport = createHttpTransport(fetchImpl);
+    await transport.connect('mta_browser');
+    await createTlpsDataApi({ transport }).create(pid, 'locations', { name: 'Place' }, 'k-1');
+    const [url, init] = fetchImpl.mock.calls[1] as unknown as [string, RequestInit];
+    expect(url).toBe(`/api/maataa/v1/tlps/projects/${pid}/locations`);
+    expect(init.headers).toMatchObject({ authorization: 'Bearer mta_browser', 'idempotency-key': 'k-1' });
+    expect(init).toMatchObject({ credentials: 'omit', redirect: 'error', cache: 'no-store' });
+  });
+});

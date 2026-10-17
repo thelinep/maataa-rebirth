@@ -1,6 +1,6 @@
 {
   "schema": "maataa.desktop-products-source-fingerprint/1",
-  "sourceDigest": "sha256:d94453741c9348ecb201ec8493bc54cadf0ed9f158720bdfcd2eccec019f1b8a",
+  "sourceDigest": "sha256:48e5181bf14e4c53eb0045a1fb4caab0ad6fcb9b47120d0ba07ed1ec9f065830",
   "sourcePaths": [
     "src",
     "examples/redux-demo",

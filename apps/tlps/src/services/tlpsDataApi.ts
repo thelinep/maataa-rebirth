@@ -1,4 +1,8 @@
-/** Typed client for the local project-scoped TLPS API. Does not migrate browser data or persist tokens. */
+/** Typed client for the project-scoped TLPS API. Does not migrate browser data or persist tokens.
+ * Pass the shared `transport` (Desktop commands or the /api/maataa proxy) so the token stays
+ * with the transport; `getToken` + `fetchImpl` remain for tests and standalone use. */
+import { ServiceError } from './contracts';
+import type { MaataaApiTransport } from './maataaAuthApi';
 export type ProjectStage = 'idea' | 'story' | 'board' | 'pre' | 'production' | 'post' | 'release' | 'shree';
 export interface TlpsCollectionData {
   profiles: { title: string; stage: ProjectStage; city?: string };
@@ -28,18 +32,37 @@ function record<K extends TlpsCollection>(value: unknown, projectId: string, kin
   if (!object(value) || typeof value.id !== 'string' || !entityPattern.test(value.id) || value.projectId !== projectId || value.kind !== kind || !Number.isSafeInteger(value.version) || Number(value.version) < 1 || !object(value.data) || value.timeBasis !== 'host-unix-clock-unverified') throw new TlpsDataApiError(502, 'invalid-response');
   return value as unknown as TlpsEntity<K>;
 }
-export function createTlpsDataApi({ getToken, fetchImpl = fetch, base = '/api/maataa' }: { getToken: () => string | null; fetchImpl?: typeof fetch; base?: string }) {
+function fromTransportError(error: unknown): TlpsDataApiError {
+  if (error instanceof ServiceError && error.code === 'not-connected') return new TlpsDataApiError(401, 'not-connected');
+  if (error instanceof ServiceError && error.code === 'invalid') return new TlpsDataApiError(400, 'invalid-client-input');
+  return new TlpsDataApiError(503, 'unavailable');
+}
+type Options = { transport: MaataaApiTransport } | { getToken: () => string | null; fetchImpl?: typeof fetch; base?: string };
+export function createTlpsDataApi(options: Options) {
+  if ('transport' in options) return client(async (method, suffix, data, headers) => {
+    let reply;
+    try { reply = await options.transport.request(method as Parameters<MaataaApiTransport['request']>[0], suffix, data === undefined ? undefined : JSON.stringify({ data }), { ifMatch: headers['if-match'] === undefined ? undefined : Number(headers['if-match']), idempotencyKey: headers['idempotency-key'] }); }
+    catch (error) { throw fromTransportError(error); }
+    return { ok: reply.status >= 200 && reply.status <= 299, status: reply.status, json: async () => JSON.parse(reply.body) as unknown };
+  });
+  const { getToken, fetchImpl = fetch, base = '/api/maataa' } = options;
   if (!/^\/api\/[A-Za-z0-9/_-]+$/.test(base)) invalid();
   const root = base.replace(/\/$/, '');
+  return client(async (method, suffix, data, headers) => {
+    const token = getToken(); if (!token) throw new TlpsDataApiError(401, 'not-connected');
+    try { return await fetchImpl(`${root}${suffix}`, { method, headers: { authorization: `Bearer ${token}`, ...(data === undefined ? {} : { 'content-type': 'application/json' }), ...headers }, ...(data === undefined ? {} : { body: JSON.stringify({ data }) }), credentials: 'omit', redirect: 'error', cache: 'no-store', signal: AbortSignal.timeout(15000) }); }
+    catch { throw new TlpsDataApiError(503, 'unavailable'); }
+  });
+}
+type Reply = { ok: boolean; status: number; json(): Promise<unknown> };
+type Send = (method: string, suffix: string, data: unknown, headers: Record<string, string>) => Promise<Reply>;
+function client(send: Send) {
   const path = (projectId: string, kind?: TlpsCollection, id?: string) => {
     if (!projectPattern.test(projectId) || (kind !== undefined && !collections.includes(kind)) || (id !== undefined && !entityPattern.test(id))) invalid();
     return `/v1/tlps/projects/${projectId}${kind ? `/${kind}` : ''}${id ? `/${id}` : ''}`;
   };
   async function request(method: string, suffix: string, data?: unknown, headers: Record<string, string> = {}): Promise<unknown> {
-    const token = getToken(); if (!token) throw new TlpsDataApiError(401, 'not-connected');
-    let response: Response;
-    try { response = await fetchImpl(`${root}${suffix}`, { method, headers: { authorization: `Bearer ${token}`, ...(data === undefined ? {} : { 'content-type': 'application/json' }), ...headers }, ...(data === undefined ? {} : { body: JSON.stringify({ data }) }), credentials: 'omit', redirect: 'error', cache: 'no-store', signal: AbortSignal.timeout(15000) }); }
-    catch { throw new TlpsDataApiError(503, 'unavailable'); }
+    const response = await send(method, suffix, data, headers);
     let value: unknown; try { value = await response.json(); } catch { throw new TlpsDataApiError(502, 'invalid-response'); }
     if (!response.ok) { const error = object(value) && object(value.error) && typeof value.error.code === 'string' ? value.error.code : 'request-failed'; throw new TlpsDataApiError(response.status, error); }
     return value;
