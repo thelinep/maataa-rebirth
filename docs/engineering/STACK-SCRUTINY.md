@@ -299,3 +299,23 @@ It has also gained the TLPS data and pilot API, and database-enforced row-level 
 2. **Then:** A-5, A-4 and A-3.
 3. **Then:** A-6 and A-7.
 4. **Last:** the low-severity items.
+
+### Fix status, 18 Oct 2026 (pilot-ready pass)
+
+Owner decisions, recorded from chat statements (not signed records):
+
+- **Data authority (A-2):** the Auth/API store holds the full TLPS project data.
+- **Retention (A-2):** data is kept until the project owner deletes the project. Deletion locks the project at once and purges every row 30 days later. Backups follow the same 30-day window.
+
+| ID | Status | What changed |
+| --- | --- | --- |
+| A-1 | Fixed | `pilot-origin.mjs` forwards to the private Unix socket and refuses a shared socket directory. TCP needs `TLPS_ALLOW_TCP_API=1`, development only. The API takes `MAATAA_AUTH_API_PORT=off` and then opens no TCP listener. `provision-pilot.py` uses the socket too. |
+| A-2 | Fixed | Core schema v4 adds `project_deletions`. `DELETE /v1/projects/{id}` (owner only) answers 202 with `purgeAfter`, and every later request for that project answers 410. `POST /v1/admin/projects/{id}/restore` undoes it inside the window. An hourly purge, plus `maataa-auth-api purge`, removes every row in a fixed table order. A test fails if a table with `project_id` is missing from that order. Append-only guards allow deletes only during that purge (`rls_purging`). `prune-backups` removes named backups older than 30 days. The authority map now records the decision. |
+| A-3 | Partly fixed | The API rate-limits per principal (burst 120, 20/s), admin calls and failed authentications, and answers 429 with `Retry-After`. The origin limits each client address (`CF-Connecting-IP`; burst 60, 5/s). Waiting for the database is now marked blocking, so other connections move to other workers. **Still open:** one SQLite connection and no high availability. |
+| A-4 | Fixed | One transport (`MaataaApiTransport`) for the project store, the TLPS data client and Connected Projects. In Desktop the token stays in Rust. In a browser it stays in the transport closure. The Desktop allow-list now covers TLPS data, the pilot and owner deletion, with required `If-Match` / `Idempotency-Key` and plain listing queries. It refuses a path for a project other than the window's own. |
+| A-5 | Fixed | `/readyz` and backup verification check all three ledgers (core v4, TLPS v1, pilot v1) against this build's checksums. `/readyz` reports `ledgers`. |
+| A-10 | Fixed for these items | Authority map, auth-api README, IPC note, RLS note, deploy README and Desktop README updated. |
+
+Checks for this pass: auth-api 91 lib + 3 main + 2 http_flow + 20 tlps_http tests, and `clippy -D warnings`. Desktop Rust 31 tests (Linux, macOS guard removed). Vitest 689. `tsc` for TLPS and the demo. These ran in the cloud and on the Linux VM. The native macOS run is still to do.
+
+Still open: A-3 (single connection), A-6, A-7, A-8, A-9 and A-11.
