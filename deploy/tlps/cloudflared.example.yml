@@ -1,0 +1,8 @@
+# Fill private tunnel ID and credentials path after creating a dedicated TLPS tunnel.
+# Do not reuse the NEVO tunnels or commit tunnel credentials.
+tunnel: TLPS_TUNNEL_UUID
+credentials-file: /PRIVATE/PATH/tlps-tunnel.json
+ingress:
+  - hostname: tlps.in
+    service: http://127.0.0.1:4184
+  - service: http_status:404
