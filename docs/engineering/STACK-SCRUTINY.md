@@ -253,3 +253,49 @@ Still needs a native macOS run: a product window calling `api_*` through IPC, an
 - `cargo test` for the auth-api and Tauri crates.
 - The Playwright e2e suite.
 - Anything against the external OS and ALLB repositories.
+
+## Scrutiny, 18 Oct 2026
+
+Reviewed at `e26f8b45` on `codex/tlps-in-brand`, with a clean tree. Since the first review, the stack has gained a hosted path:
+
+```
+tlps.in → Cloudflare Tunnel → pilot origin (127.0.0.1:4184) → auth-api TCP :4381 → SQLite
+```
+
+It has also gained the TLPS data and pilot API, and database-enforced row-level security.
+
+### Settled since the last review
+
+- **Uncommitted work (S-8):** the pilot work is committed and pushed.
+- **Project boundary:** the database now enforces it, with pilot roles, as a second layer behind the code (`docs/security/row-level-security.md`). Every route is covered by a cross-project HTTP test.
+- **Desktop bundles:** they now carry a content fingerprint, and `pnpm maataa:tauri:products:stamp` refreshes it.
+
+### Open, most severe first
+
+| ID | Severity | Finding | Fix |
+| --- | --- | --- | --- |
+| A-1 | High | Hosted traffic reaches the API over TCP :4381 (`scripts/tlps/pilot-origin.mjs:8`). `docs/security/local-auth-api-ipc.md` says that listener is development-only and must not carry production credentials, and the auth-api README says there is no cross-device deployment. The code and three documents disagree. | Proxy the origin over the private Unix socket and keep TCP for Vite only. Otherwise, rewrite the decision with the hosted path in scope. |
+| A-2 | High | auth-api stores full TLPS planning content (`tlps_entities.data_json`), including investment interests and escrow reviews. The authority map still calls the store metadata-only, with TLPS authoritative. `deploy/tlps/README.md` says retention, backup frequency and incident ownership are unset, and that sensitive data must not be admitted until they are. | Record the owner decision, update the authority map, and set retention and backup policy before cutover. |
+| A-3 | Medium | A public hostname sits on one SQLite connection behind a `std::sync::Mutex`. Store calls run synchronously on async worker threads (no `spawn_blocking`). Neither the origin nor the API rate-limits. There is no alerting or second machine. One slow request stalls every other one. | Run store calls in `spawn_blocking`. Rate-limit per IP at the origin and in Cloudflare. Accept single-machine availability in writing for the pilot. |
+| A-4 | Medium | There are three client paths with three token models. The Desktop bridge holds the token in Rust and forwards only `/v1/projects`. The services panel uses the dev proxy. Connected Projects calls `fetch` with the token in page memory, so it works on tlps.in but not inside Desktop. | Give `tlpsDataApi` the shared transport. Extend the Desktop allow-list to `/v1/tlps/*`, which RLS now protects. |
+| A-5 | Medium | `/readyz` and backup verification check only the core schema v3 ledger. The `tlps_schema_migrations` and `tlps_pilot_migrations` ledgers are not checked, so a restore drill can pass with a broken TLPS schema. | Make one readiness check cover all three ledgers, and use it in `backup_to`. |
+| A-6 | Medium | Weight. Desktop ships the Support Center product at 170 MB: `frame-pack.zip` (81 MB) plus 1,320 frame files. The git pack is 1.37 GiB. | Exclude the zip from the Desktop bundle. Move artwork to Git LFS or a download. |
+| A-7 | Medium | One-hour tokens, audit times and idempotency all run on the unverified host clock, now behind a public hostname. | Add a clock check to the origin start-up steps and record drift in release evidence. |
+| A-8 | Low | Idea → Script model drafting needs `/api/brahmini`, which only the Vite proxy serves. Desktop and tlps.in return 404. | Label it development-only in those hosts. |
+| A-9 | Low | One bootstrap secret holds all admin power: principals, tokens and memberships. There is no rotation procedure. | Document rotation. Consider a separate membership-admin token. |
+| A-10 | Low | Docs drift. The authority map (metadata-only, schema v1/v2, no deployment), the auth-api README (no cross-device deployment) and this file's first-pass statuses lag the code. | Update them in the same change as A-1 and A-2. |
+| A-11 | Low | The tlps.in mobile routes lazy-load catalogue chunks of 1.8 MB (languages), 1.7 MB (planets) and 1.35 MB (systems). | Search on the server, or split by first letter. |
+
+### Unchanged
+
+- The OS has no clock, and nothing reads its boot report.
+- Desktop does not run the ALLB check-in.
+- DBB/HKDB, DB Studio and API Studio do not exist.
+- Local Idea → Script records stay versioned in the Desktop registry only.
+
+### Order
+
+1. **Before the tlps.in cutover:** A-1 and A-2.
+2. **Then:** A-5, A-4 and A-3.
+3. **Then:** A-6 and A-7.
+4. **Last:** the low-severity items.
