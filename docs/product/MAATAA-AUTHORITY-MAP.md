@@ -7,6 +7,10 @@ The owner-assigned domain boundary and DNS/TLS evidence status are tracked separ
 
 The ordered service-fabric backlog and notification delivery design are in [`MAATAA-SERVICE-FABRIC-EXECUTION-PLAN.md`](MAATAA-SERVICE-FABRIC-EXECUTION-PLAN.md) and [`MAATAA-NOTIFICATION-OUTBOX-DESIGN.md`](MAATAA-NOTIFICATION-OUTBOX-DESIGN.md). These are planning artifacts, not implementation evidence.
 
+## MAATAA OS clock (2026-10-18)
+
+maataa-os `eae40ccd` adds a kernel clock (`src/clock.rs`, `docs/kernel-clock.md`). SysTick runs at 1 kHz from the 168 MHz core clock of QEMU `netduinoplus2`, readings are cycle-precise, and the clock feeds `hemant-core::MonotonicTick`. The boot report now prints `time: kernel-monotonic-since-boot`, uptimes, and a Hemant reading anchored to the host clock and labelled `host-unix-clock-unverified`. `apps/shared/contracts/os-boot-report.ts` parses it as `time.status = "monotonic-since-boot"`; older kernels still parse as `unavailable`. **Closed:** "no clock" for durations and ordering inside the kernel. **Still open:** trust (no drift reference or RTC), a host request/response channel, and a preemptive scheduler on this clock. The Phase 0 and Phase 2 rows below describe the state before this change.
+
 ## Data authority and retention (decision 2026-10-18)
 
 Recorded from the release owner's chat statement, not a signed record. **The Auth/API store holds the full TLPS project data** (`tlps_entities` and the pilot tables), not only metadata. It keeps the data until the project owner deletes the project. Deletion locks the project at once and purges every row 30 days later. An administrator can restore it inside that window. Verified backups follow the same 30-day window. Code: `apps/maataa-auth-api/src/retention.rs` (core schema v4). The project record (`/v1/projects`) still refuses script and other content fields: content lives in the TLPS collections. Statements below that call the store "metadata-only" describe the earlier state.

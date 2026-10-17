@@ -319,3 +319,7 @@ Owner decisions, recorded from chat statements (not signed records):
 Checks for this pass: auth-api 91 lib + 3 main + 2 http_flow + 20 tlps_http tests, and `clippy -D warnings`. Desktop Rust 31 tests (Linux, macOS guard removed). Vitest 689. `tsc` for TLPS and the demo. These ran in the cloud and on the Linux VM. The native macOS run is still to do.
 
 Still open: A-3 (single connection), A-6, A-7, A-8, A-9 and A-11.
+
+### OS clock, 18 Oct 2026
+
+maataa-os `eae40ccd` gives the kernel a SysTick monotonic clock linked to `hemant-core`. A QEMU self-test checks that it starts at 0, advances, never goes backwards, counts a pending wrap, and keeps rate with the host wall clock (99%). The boot-report contract now carries this time. The OS row's "no clock" is closed for kernel durations and ordering. Trust, a drift reference, and a host channel remain open (`docs/kernel-clock.md` in maataa-os).

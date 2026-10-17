@@ -46,3 +46,49 @@ test("the report never presents scheduler ticks as time", () => {
   assert.deepEqual(Object.keys(result.report.time), ["status", "reason"]);
   assert.match(result.report.limitations.join(" "), /not elapsed time/);
 });
+
+// REAL QEMU stdout for maataa-os eae40ccd (kernel clock), netduinoplus2. Built in
+// the cloud workspace with -Zbuild-std from the committed tree, so this binary
+// hash differs from a native macOS build of the same commit.
+const clocked = readFileSync(new URL("./fixtures/maataa-os-qemu-boot-eae40ccd.txt", import.meta.url), "utf8");
+const clockedProvenance = {
+  osCommit: "eae40ccdbdca2f2f5b6ec6e52f67237c916957d5",
+  binarySha256: "bd0ec0ef51d318a8cabc9508d942fd38f4baa3ad9e968cd9b08c0cb400bdc4d3",
+  machine: "netduinoplus2",
+};
+
+test("a kernel with a clock reports monotonic time since boot, and Hemant time only as host-anchored", () => {
+  const result = parseQemuBootReport(clocked, clockedProvenance);
+  assert.ok(result.ok, result.ok ? "" : result.error);
+  const { time } = result.report;
+  assert.equal(time.status, "monotonic-since-boot");
+  if (time.status !== "monotonic-since-boot") return;
+  assert.equal(time.basis, "kernel-monotonic-since-boot");
+  assert.equal(time.tickHz, 1000);
+  assert.equal(time.coreClockHz, 168_000_000);
+  assert.equal(time.tickUptimesNanos.length, result.report.simulatedSchedulerTicks);
+  assert.equal(time.regressions, 0);
+  assert.ok(time.uptimeAtExitNanos !== null && time.uptimeAtExitNanos > time.uptimeAtReportNanos);
+  // Ticks sleep 10 ms of kernel time each.
+  for (let i = 1; i < time.tickUptimesNanos.length; i++) {
+    assert.ok(time.tickUptimesNanos[i] - time.tickUptimesNanos[i - 1] >= 10_000_000);
+  }
+  assert.ok(time.hemant);
+  assert.equal(time.hemant.basis, "host-unix-clock-unverified");
+  assert.match(time.hemant.nanosSinceEpoch, /^\d{19}$/);
+  assert.ok(time.hemant.position.ahoratra > 17_000);
+  // Scheduler ticks are still not time.
+  assert.match(result.report.limitations.join(" "), /not elapsed time/);
+});
+
+test("a clock report that runs backwards or is malformed fails closed", () => {
+  const lines = clocked.split("\n");
+  const firstTick = lines.findIndex((l) => l.trim().startsWith("uptime ns:") && l.startsWith("  "));
+  const backwards = [...lines];
+  backwards[firstTick] = "  uptime ns: 1";
+  assert.equal(parseQemuBootReport(backwards.join("\n"), clockedProvenance).ok, false);
+  assert.equal(parseQemuBootReport(clocked.replace("time: kernel-monotonic-since-boot", "time: trusted"), clockedProvenance).ok, false);
+  assert.equal(parseQemuBootReport(clocked.replace(/^clock: .*$/m, "clock: fast"), clockedProvenance).ok, false);
+  assert.equal(parseQemuBootReport(clocked.replace("hemant anchor: host-unix-clock-unverified", "hemant anchor: verified"), clockedProvenance).ok, false);
+  assert.equal(parseQemuBootReport(clocked.replace(/^hemant position: .*$/m, "hemant position: ahoratra 1 muhurta 99 kala 0 kastha 0 nimesha 0"), clockedProvenance).ok, false);
+});
