@@ -11,13 +11,16 @@
 use serde::{Deserialize, Serialize};
 use std::{
     io::{Read, Write},
-    net::{SocketAddr, TcpStream},
+    os::unix::{
+        fs::{FileTypeExt, MetadataExt, PermissionsExt},
+        net::UnixStream,
+    },
+    path::PathBuf,
     time::Duration,
 };
 
 use crate::project_link::{is_record_id, MAX_RECORD_VERSION};
 
-pub const DEFAULT_PORT: u16 = 4381;
 /// Same request cap as the service (`MAX_BODY_BYTES`).
 pub const MAX_REQUEST_BYTES: usize = 1_048_576;
 pub const MAX_RESPONSE_BYTES: usize = 2 * 1_048_576;
@@ -50,13 +53,40 @@ pub enum LinkChange {
     VersionObserved(ApiLink),
 }
 
-/// Port of the loopback service; the same variable the service reads.
-pub fn configured_port() -> u16 {
-    std::env::var("MAATAA_AUTH_API_PORT")
-        .ok()
-        .and_then(|value| value.parse::<u16>().ok())
-        .filter(|port| *port >= 1024)
-        .unwrap_or(DEFAULT_PORT)
+/// Private filesystem endpoint shared with the local Auth/API process.
+pub fn configured_socket_path() -> Result<PathBuf, String> {
+    let path = match std::env::var_os("MAATAA_AUTH_API_SOCKET") {
+        Some(path) => PathBuf::from(path),
+        None => {
+            let home = std::env::var_os("HOME").ok_or_else(|| {
+                "unavailable: HOME is required to locate the private Auth/API socket.".to_string()
+            })?;
+            PathBuf::from(home)
+                .join("Library/Application Support/MAATAA/AuthAPI/maataa-auth-api.sock")
+        }
+    };
+    validate_private_socket_path(&path)?;
+    Ok(path)
+}
+
+fn validate_private_socket_path(path: &std::path::Path) -> Result<(), String> {
+    let refuse =
+        || "unavailable: The Auth/API socket is missing or its permissions are unsafe.".to_string();
+    let parent = path.parent().ok_or_else(refuse)?;
+    let parent_meta = std::fs::symlink_metadata(parent).map_err(|_| refuse())?;
+    let socket_meta = std::fs::symlink_metadata(path).map_err(|_| refuse())?;
+    let home = std::env::var_os("HOME").ok_or_else(refuse)?;
+    let home_meta = std::fs::metadata(home).map_err(|_| refuse())?;
+    if !parent_meta.file_type().is_dir()
+        || parent_meta.permissions().mode() & 0o077 != 0
+        || parent_meta.uid() != home_meta.uid()
+        || !socket_meta.file_type().is_socket()
+        || socket_meta.permissions().mode() & 0o077 != 0
+        || socket_meta.uid() != parent_meta.uid()
+    {
+        return Err(refuse());
+    }
+    Ok(())
 }
 
 /// Same shape the service issues: `mta_` + URL-safe base64, 40–100 chars.
@@ -162,23 +192,33 @@ pub fn whoami_project(reply: &ApiReply) -> Option<String> {
     is_record_id(id).then(|| id.to_string())
 }
 
-/// One HTTP/1.1 request to 127.0.0.1 only. Inputs are validated by the caller.
+/// One HTTP/1.1 request over the private Unix socket. Inputs are validated by the caller.
 pub fn send(
-    port: u16,
     method: &str,
     path: &str,
     token: &str,
     body: Option<&str>,
     if_match: Option<u32>,
 ) -> Result<ApiReply, String> {
-    let address = SocketAddr::from(([127, 0, 0, 1], port));
-    let mut stream = TcpStream::connect_timeout(&address, TIMEOUT).map_err(|_| {
+    let socket_path = configured_socket_path()?;
+    send_to(&socket_path, method, path, token, body, if_match)
+}
+
+fn send_to(
+    socket_path: &std::path::Path,
+    method: &str,
+    route: &str,
+    token: &str,
+    body: Option<&str>,
+    if_match: Option<u32>,
+) -> Result<ApiReply, String> {
+    let mut stream = UnixStream::connect(socket_path).map_err(|_| {
         "unavailable: The MAATAA Auth API is not running on this computer.".to_string()
     })?;
     stream.set_read_timeout(Some(TIMEOUT)).ok();
     stream.set_write_timeout(Some(TIMEOUT)).ok();
     let mut request = format!(
-        "{method} {path} HTTP/1.1\r\nHost: 127.0.0.1:{port}\r\nAuthorization: Bearer {token}\r\nAccept: application/json\r\nConnection: close\r\n"
+        "{method} {route} HTTP/1.1\r\nHost: localhost\r\nAuthorization: Bearer {token}\r\nAccept: application/json\r\nConnection: close\r\n"
     );
     if let Some(version) = if_match {
         request.push_str(&format!("If-Match: \"{version}\"\r\n"));
@@ -266,6 +306,7 @@ fn decode_chunked(mut data: &[u8]) -> Option<Vec<u8>> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::os::unix::{fs::PermissionsExt, net::UnixListener};
 
     const ID: &str = "prj:11111111-2222-4333-8444-555555555555";
     const OTHER: &str = "prj:99999999-2222-4333-8444-555555555555";
@@ -406,8 +447,80 @@ mod tests {
 
     #[test]
     fn unreachable_service_fails_closed() {
-        // Port 1 on loopback is never the service.
-        let error = send(1, "GET", "/v1/auth/whoami", "mta_x", None, None).unwrap_err();
+        let path = std::env::temp_dir().join(format!(
+            "maataa-test-missing-socket-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        let error = send_to(&path, "GET", "/v1/auth/whoami", "mta_x", None, None).unwrap_err();
         assert!(error.starts_with("unavailable"));
+    }
+
+    #[test]
+    fn private_socket_requires_owner_only_directory_and_socket() {
+        let directory = std::path::PathBuf::from("/tmp").join(format!(
+            "mta-perm-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        std::fs::create_dir(&directory).unwrap();
+        std::fs::set_permissions(&directory, std::fs::Permissions::from_mode(0o700)).unwrap();
+        let path = directory.join("api.sock");
+        let listener = UnixListener::bind(&path).unwrap();
+        std::fs::set_permissions(&path, std::fs::Permissions::from_mode(0o600)).unwrap();
+        assert!(validate_private_socket_path(&path).is_ok());
+
+        std::fs::set_permissions(&directory, std::fs::Permissions::from_mode(0o755)).unwrap();
+        assert!(validate_private_socket_path(&path).is_err());
+        drop(listener);
+        std::fs::remove_dir_all(directory).unwrap();
+    }
+
+    #[test]
+    fn desktop_http_exchange_runs_through_the_private_socket() {
+        use std::{
+            io::{Read, Write},
+            os::unix::fs::PermissionsExt,
+        };
+        let directory = std::path::PathBuf::from("/tmp").join(format!(
+            "mta-http-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        std::fs::create_dir(&directory).unwrap();
+        std::fs::set_permissions(&directory, std::fs::Permissions::from_mode(0o700)).unwrap();
+        let path = directory.join("api.sock");
+        let listener = UnixListener::bind(&path).unwrap();
+        std::fs::set_permissions(&path, std::fs::Permissions::from_mode(0o600)).unwrap();
+        let server = std::thread::spawn(move || {
+            let (mut stream, _) = listener.accept().unwrap();
+            let mut request = Vec::new();
+            let mut chunk = [0_u8; 512];
+            while !request.windows(4).any(|window| window == b"\r\n\r\n") {
+                let read = stream.read(&mut chunk).unwrap();
+                assert!(read > 0, "client closed before completing HTTP headers");
+                request.extend_from_slice(&chunk[..read]);
+            }
+            let request = String::from_utf8(request).unwrap();
+            assert!(request.contains("GET /v1/auth/whoami HTTP/1.1"));
+            assert!(request.contains("Authorization: Bearer test-token"));
+            stream
+                .write_all(b"HTTP/1.1 200 OK\r\nContent-Length: 2\r\nConnection: close\r\n\r\n{}")
+                .unwrap();
+        });
+
+        let response = send_to(&path, "GET", "/v1/auth/whoami", "test-token", None, None).unwrap();
+        assert_eq!(response, reply(200, "{}"));
+        server.join().unwrap();
+        std::fs::remove_dir_all(directory).unwrap();
     }
 }

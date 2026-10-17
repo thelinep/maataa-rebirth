@@ -724,10 +724,9 @@ async fn api_connect(
 ) -> Result<api_bridge::ApiReply, String> {
     let token = token.trim().to_string();
     api_bridge::validate_token(&token)?;
-    let port = api_bridge::configured_port();
     let probe = token.clone();
     let reply = tauri::async_runtime::spawn_blocking(move || {
-        api_bridge::send(port, "GET", "/v1/auth/whoami", &probe, None, None)
+        api_bridge::send("GET", "/v1/auth/whoami", &probe, None, None)
     })
     .await
     .map_err(|_| "unavailable: The request was interrupted.".to_string())??;
@@ -756,12 +755,10 @@ async fn api_request(
 ) -> Result<api_bridge::ApiReply, String> {
     api_bridge::validate_route(&method, &path, body.as_deref(), if_match)?;
     let session = app.state::<ApiSession>().get(window.label())?;
-    let port = api_bridge::configured_port();
     let (send_method, send_path, send_body) = (method.clone(), path.clone(), body.clone());
     let token = session.token.clone();
     let reply = tauri::async_runtime::spawn_blocking(move || {
         api_bridge::send(
-            port,
             &send_method,
             &send_path,
             &token,
@@ -865,12 +862,11 @@ fn main() {
 #[cfg(test)]
 mod tests {
     use super::{
-        api_bridge, append_workspace_event, apply_api_link, browser_child_label,
-        browser_window_label, host_clock_snapshot, load_workspace_index, parse_public_url,
-        product_entry, save_workspace_index, validate_workspace_project, ApiSession,
-        ApiSessionState, RecordLink, WorkspaceIndex, WorkspaceProjectInput, APP_HEADER_HEIGHT,
-        BROWSER_NAV_HEIGHT, BROWSER_VIEW_TOP, MACOS_TITLEBAR_HEIGHT, TLPS_PLAN_ENTRY,
-        WORKSPACE_INDEX_VERSION,
+        append_workspace_event, apply_api_link, browser_child_label, browser_window_label,
+        host_clock_snapshot, load_workspace_index, parse_public_url, product_entry,
+        save_workspace_index, validate_workspace_project, ApiSession, ApiSessionState, RecordLink,
+        WorkspaceIndex, WorkspaceProjectInput, APP_HEADER_HEIGHT, BROWSER_NAV_HEIGHT,
+        BROWSER_VIEW_TOP, MACOS_TITLEBAR_HEIGHT, TLPS_PLAN_ENTRY, WORKSPACE_INDEX_VERSION,
     };
     use std::{
         fs,
@@ -1245,6 +1241,5 @@ mod tests {
         )
         .unwrap();
         assert!(legacy.api_link.is_none());
-        let _ = api_bridge::DEFAULT_PORT;
     }
 }

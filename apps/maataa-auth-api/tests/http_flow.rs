@@ -1,4 +1,6 @@
 use serde_json::{json, Value};
+#[cfg(unix)]
+use std::os::unix::net::UnixStream;
 use std::{
     io::{Read, Write},
     net::{TcpListener, TcpStream},
@@ -86,11 +88,13 @@ fn local_auth_and_project_api_round_trip_enforces_scope_version_and_revocation()
         std::fs::set_permissions(&secret_file, std::fs::Permissions::from_mode(0o600)).unwrap();
     }
     let db = private_data.join("service.sqlite3");
+    let socket = private_data.join("auth-api.sock");
     let child = Command::new(env!("CARGO_BIN_EXE_maataa-auth-api"))
         .env("MAATAA_BOOTSTRAP_TOKEN_FILE", &secret_file)
         .env_remove("MAATAA_BOOTSTRAP_TOKEN")
         .env("MAATAA_AUTH_API_DB", &db)
         .env("MAATAA_AUTH_API_PORT", port.to_string())
+        .env("MAATAA_AUTH_API_SOCKET", &socket)
         .stdout(Stdio::null())
         .stderr(Stdio::inherit())
         .spawn()
@@ -110,6 +114,20 @@ fn local_auth_and_project_api_round_trip_enforces_scope_version_and_revocation()
         }
         assert!(Instant::now() < deadline, "service did not start");
         thread::sleep(Duration::from_millis(20));
+    }
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::{FileTypeExt, PermissionsExt};
+        let metadata = std::fs::symlink_metadata(&socket).unwrap();
+        assert!(metadata.file_type().is_socket());
+        assert_eq!(metadata.permissions().mode() & 0o777, 0o600);
+        let mut stream = UnixStream::connect(&socket).unwrap();
+        stream
+            .write_all(b"GET /healthz HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\n\r\n")
+            .unwrap();
+        let mut response = String::new();
+        stream.read_to_string(&mut response).unwrap();
+        assert!(response.contains("200 OK"));
     }
     let (status, readiness) = request(port, "GET", "/readyz", None, None, None);
     assert_eq!(status, 200);

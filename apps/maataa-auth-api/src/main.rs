@@ -1,8 +1,21 @@
 use hyper::service::service_fn;
 use hyper_util::rt::{TokioIo, TokioTimer};
 use maataa_auth_api::{handle, AppState, Store};
-use std::{env, error::Error, path::Path, sync::Arc, time::Duration};
-use tokio::{net::TcpListener, task::JoinSet, time::Instant};
+use std::{
+    env,
+    error::Error,
+    path::{Path, PathBuf},
+    sync::Arc,
+    time::Duration,
+};
+#[cfg(unix)]
+use tokio::net::{UnixListener, UnixStream};
+use tokio::{
+    io::{AsyncRead, AsyncWrite},
+    net::TcpListener,
+    task::JoinSet,
+    time::Instant,
+};
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error + Send + Sync>> {
@@ -29,36 +42,42 @@ async fn main() -> Result<(), Box<dyn Error + Send + Sync>> {
         .and_then(|v| v.parse::<u16>().ok())
         .unwrap_or(4381);
     let listener = TcpListener::bind(("127.0.0.1", port)).await?;
+    #[cfg(unix)]
+    let (unix_listener, socket_path) = bind_private_socket()?;
     let state = Arc::new(AppState::new(Store::open(&db_path)?, &bootstrap)?);
     let permits = Arc::new(tokio::sync::Semaphore::new(128));
     let mut connections = JoinSet::new();
-    eprintln!("MAATAA Auth/API runtime listening on http://127.0.0.1:{}; database {}; loopback-only; maximum 128 concurrent connections; host time unverified",port,db_path);
+    #[cfg(unix)]
+    eprintln!("MAATAA Auth/API runtime listening on a private Unix socket {}; development HTTP proxy on http://127.0.0.1:{}; database {}; maximum 128 concurrent connections; host time unverified",socket_path.display(),port,db_path);
+    #[cfg(not(unix))]
+    eprintln!("MAATAA Auth/API runtime listening on development HTTP proxy http://127.0.0.1:{}; database {}; loopback-only; maximum 128 concurrent connections; host time unverified",port,db_path);
     loop {
         tokio::select! {
             _ = tokio::signal::ctrl_c() => break,
             Some(_) = connections.join_next(), if !connections.is_empty() => {},
             permit = Arc::clone(&permits).acquire_owned() => {
                 let permit = permit?;
+                enum AcceptedStream {
+                    Tcp(tokio::net::TcpStream),
+                    #[cfg(unix)]
+                    Unix(UnixStream),
+                }
+                #[cfg(unix)]
                 let accepted = tokio::select! {
                     _ = tokio::signal::ctrl_c() => break,
-                    result = listener.accept() => result?,
+                    result = listener.accept() => AcceptedStream::Tcp(result?.0),
+                    result = unix_listener.accept() => AcceptedStream::Unix(result?.0),
                 };
-                let (stream, _peer) = accepted;
-                let state = Arc::clone(&state);
-                connections.spawn(async move {
-                    let _permit = permit;
-                    let service = service_fn(move |req| {
-                        let state = Arc::clone(&state);
-                        async move { Ok::<_, std::convert::Infallible>(handle(req, (*state).clone()).await) }
-                    });
-                    let mut builder = hyper::server::conn::http1::Builder::new();
-                    builder.timer(TokioTimer::new());
-                    match tokio::time::timeout(Duration::from_secs(60), builder.serve_connection(TokioIo::new(stream), service)).await {
-                        Ok(Ok(())) => {},
-                        Ok(Err(error)) => eprintln!("HTTP connection ended: {error}"),
-                        Err(_) => eprintln!("HTTP connection closed at the 60-second deadline"),
-                    }
-                });
+                #[cfg(not(unix))]
+                let accepted = tokio::select! {
+                    _ = tokio::signal::ctrl_c() => break,
+                    result = listener.accept() => AcceptedStream::Tcp(result?.0),
+                };
+                match accepted {
+                    AcceptedStream::Tcp(stream) => spawn_connection(&mut connections, stream, Arc::clone(&state), permit),
+                    #[cfg(unix)]
+                    AcceptedStream::Unix(stream) => spawn_connection(&mut connections, stream, Arc::clone(&state), permit),
+                }
             }
         }
     }
@@ -74,7 +93,99 @@ async fn main() -> Result<(), Box<dyn Error + Send + Sync>> {
         }
     }
     while connections.join_next().await.is_some() {}
+    #[cfg(unix)]
+    if let Err(error) = std::fs::remove_file(&socket_path) {
+        eprintln!(
+            "could not remove private API socket {}: {error}",
+            socket_path.display()
+        );
+    }
     eprintln!("MAATAA Auth/API runtime shutdown complete");
+    Ok(())
+}
+
+fn spawn_connection<S>(
+    connections: &mut JoinSet<()>,
+    stream: S,
+    state: Arc<AppState>,
+    permit: tokio::sync::OwnedSemaphorePermit,
+) where
+    S: AsyncRead + AsyncWrite + Unpin + Send + 'static,
+{
+    connections.spawn(async move {
+        let _permit = permit;
+        let service = service_fn(move |req| {
+            let state = Arc::clone(&state);
+            async move { Ok::<_, std::convert::Infallible>(handle(req, (*state).clone()).await) }
+        });
+        let mut builder = hyper::server::conn::http1::Builder::new();
+        builder.timer(TokioTimer::new());
+        match tokio::time::timeout(
+            Duration::from_secs(60),
+            builder.serve_connection(TokioIo::new(stream), service),
+        )
+        .await
+        {
+            Ok(Ok(())) => {}
+            Ok(Err(error)) => eprintln!("HTTP connection ended: {error}"),
+            Err(_) => eprintln!("HTTP connection closed at the 60-second deadline"),
+        }
+    });
+}
+
+#[cfg(unix)]
+fn bind_private_socket() -> Result<(UnixListener, PathBuf), Box<dyn Error + Send + Sync>> {
+    use std::os::unix::fs::{FileTypeExt, PermissionsExt};
+    let path = configured_socket_path()?;
+    let parent = path
+        .parent()
+        .ok_or("socket path needs a parent directory")?;
+    ensure_private_socket_directory(parent)?;
+    match std::fs::symlink_metadata(&path) {
+        Ok(metadata) if metadata.file_type().is_socket() => {
+            return Err(format!("private API socket already exists; verify no service is running, then remove stale socket {}", path.display()).into());
+        }
+        Ok(_) => {
+            return Err(format!("refusing to replace non-socket at {}", path.display()).into())
+        }
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => {}
+        Err(error) => return Err(error.into()),
+    }
+    let listener = UnixListener::bind(&path)?;
+    if let Err(error) = std::fs::set_permissions(&path, std::fs::Permissions::from_mode(0o600)) {
+        let _ = std::fs::remove_file(&path);
+        return Err(error.into());
+    }
+    Ok((listener, path))
+}
+
+#[cfg(unix)]
+fn configured_socket_path() -> Result<PathBuf, Box<dyn Error + Send + Sync>> {
+    if let Some(path) = env::var_os("MAATAA_AUTH_API_SOCKET") {
+        return Ok(PathBuf::from(path));
+    }
+    let home =
+        env::var_os("HOME").ok_or("HOME is required to locate the private Auth/API socket")?;
+    Ok(PathBuf::from(home).join("Library/Application Support/MAATAA/AuthAPI/maataa-auth-api.sock"))
+}
+
+#[cfg(unix)]
+fn ensure_private_socket_directory(path: &Path) -> std::io::Result<()> {
+    use std::os::unix::fs::{MetadataExt, PermissionsExt};
+    ensure_private_directory(path)?;
+    let metadata = std::fs::symlink_metadata(path)?;
+    let home = env::var_os("HOME")
+        .ok_or_else(|| std::io::Error::other("HOME is required for private IPC"))?;
+    let home_metadata = std::fs::metadata(home)?;
+    if !metadata.file_type().is_dir()
+        || metadata.permissions().mode() & 0o077 != 0
+        || metadata.uid() != home_metadata.uid()
+    {
+        return Err(std::io::Error::new(
+            std::io::ErrorKind::PermissionDenied,
+            "API socket parent must be a real owner-only directory owned by the current user",
+        ));
+    }
     Ok(())
 }
 
