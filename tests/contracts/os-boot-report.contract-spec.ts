@@ -47,13 +47,14 @@ test("the report never presents scheduler ticks as time", () => {
   assert.match(result.report.limitations.join(" "), /not elapsed time/);
 });
 
-// REAL QEMU stdout for maataa-os eae40ccd (kernel clock), netduinoplus2. Built in
-// the cloud workspace with -Zbuild-std from the committed tree, so this binary
-// hash differs from a native macOS build of the same commit.
-const clocked = readFileSync(new URL("./fixtures/maataa-os-qemu-boot-eae40ccd.txt", import.meta.url), "utf8");
+// REAL QEMU stdout for maataa-os 52ad36ac (kernel clock, rebased onto
+// wortforfilms/os main), netduinoplus2. Built in the cloud workspace with
+// -Zbuild-std and the committed Cargo.lock, so this binary hash differs from
+// a native macOS build of the same commit.
+const clocked = readFileSync(new URL("./fixtures/maataa-os-qemu-boot-52ad36ac.txt", import.meta.url), "utf8");
 const clockedProvenance = {
-  osCommit: "eae40ccdbdca2f2f5b6ec6e52f67237c916957d5",
-  binarySha256: "bd0ec0ef51d318a8cabc9508d942fd38f4baa3ad9e968cd9b08c0cb400bdc4d3",
+  osCommit: "52ad36acdc63e2e97ecba2bd21e15ec4e80daa61",
+  binarySha256: "67b61bea6db4a8088aaf59607633f73952d2912858ac38aa12045f826867ee41",
   machine: "netduinoplus2",
 };
 

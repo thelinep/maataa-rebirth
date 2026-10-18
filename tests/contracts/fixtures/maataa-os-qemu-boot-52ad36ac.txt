@@ -24,10 +24,10 @@ telemetry capsule id: Ok(0)
 control capsule id: Ok(1)
 clock: systick 1000 Hz, core 168000000 Hz (board assumption)
 time: kernel-monotonic-since-boot
-uptime ns: 3623898
+uptime ns: 6271095
 hemant anchor: host-unix-clock-unverified
-hemant ns since epoch: 1507132485000517012
-hemant position: ahoratra 17443 muhurta 19 kala 26 kastha 21 nimesha 8
+hemant ns since epoch: 1507133364000599816
+hemant position: ahoratra 17443 muhurta 20 kala 5 kastha 26 nimesha 3
 
 Native local engines
 --------------------
@@ -40,38 +40,38 @@ verification self-check passed: true
 Scheduler simulation
 --------------------
 tick 1
-  uptime ns: 7757684
+  uptime ns: 12999988
   capsule[0] telemetry cycle 1 at tick 1 (251 bytes)
   capsule[1] control cycle 1 at tick 1 (23 bytes)
 health: nominal
 tick 2
-  uptime ns: 19261303
+  uptime ns: 25370803
   capsule[0] telemetry cycle 2 at tick 2 (251 bytes)
   capsule[1] control cycle 2 at tick 2 (23 bytes)
 health: nominal
 tick 3
-  uptime ns: 30138857
+  uptime ns: 37281934
   drivers sampled virtual GPIO and power rails
   capsule[0] telemetry cycle 3 at tick 3 (251 bytes)
   capsule[1] control cycle 3 at tick 3 (23 bytes)
 health: nominal
 tick 4
-  uptime ns: 41124672
+  uptime ns: 49290202
   capsule[0] telemetry cycle 4 at tick 4 (251 bytes)
   capsule[1] control cycle 4 at tick 4 (23 bytes)
 health: nominal
 tick 5
-  uptime ns: 52106017
+  uptime ns: 61408261
   capsule[0] telemetry cycle 5 at tick 5 (251 bytes)
   capsule[1] control cycle 5 at tick 5 (23 bytes)
 health: nominal
 tick 6
-  uptime ns: 63162470
+  uptime ns: 72373196
   capsule[0] telemetry cycle 6 at tick 6 (251 bytes)
   capsule[1] control cycle 6 at tick 6 (23 bytes)
 health: nominal
 
 clock regressions: 0
-uptime at exit ns: 74187244
+uptime at exit ns: 85294309
 Maataa OS prototype demo complete.
 Exiting QEMU.

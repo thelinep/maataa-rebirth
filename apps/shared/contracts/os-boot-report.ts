@@ -8,7 +8,7 @@
  * Time, by kernel version:
  * - maataa-os 50fce492 and earlier have no clock: `time.status` is
  *   "unavailable".
- * - From eae40ccd the kernel runs a SysTick clock (src/clock.rs) and prints
+ * - From 52ad36ac the kernel runs a SysTick clock (src/clock.rs) and prints
  *   `time: kernel-monotonic-since-boot`: `time.status` is
  *   "monotonic-since-boot", with uptimes in nanoseconds. That clock is not
  *   trusted (uncalibrated oscillator). A Hemant reading, when present, comes
