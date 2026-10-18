@@ -67,6 +67,8 @@ test("a kernel with a clock reports monotonic time since boot, and Hemant time o
   assert.equal(time.basis, "kernel-monotonic-since-boot");
   assert.equal(time.tickHz, 1000);
   assert.equal(time.coreClockHz, 168_000_000);
+  assert.equal(time.coreClockSource, "board-assumption");
+  assert.equal(time.board, null); // 52ad36ac predates the board line
   assert.equal(time.tickUptimesNanos.length, result.report.simulatedSchedulerTicks);
   assert.equal(time.regressions, 0);
   assert.ok(time.uptimeAtExitNanos !== null && time.uptimeAtExitNanos > time.uptimeAtReportNanos);
@@ -92,4 +94,19 @@ test("a clock report that runs backwards or is malformed fails closed", () => {
   assert.equal(parseQemuBootReport(clocked.replace(/^clock: .*$/m, "clock: fast"), clockedProvenance).ok, false);
   assert.equal(parseQemuBootReport(clocked.replace("hemant anchor: host-unix-clock-unverified", "hemant anchor: verified"), clockedProvenance).ok, false);
   assert.equal(parseQemuBootReport(clocked.replace(/^hemant position: .*$/m, "hemant position: ahoratra 1 muhurta 99 kala 0 kastha 0 nimesha 0"), clockedProvenance).ok, false);
+});
+
+test("hardware builds report an RCC-configured clock and name the board", () => {
+  const hardware = clocked
+    .replace("core 168000000 Hz (board assumption)", "core 100000000 Hz (rcc configured)")
+    .replace("time: kernel-monotonic-since-boot", "board: stm32f411\ntime: kernel-monotonic-since-boot");
+  const result = parseQemuBootReport(hardware, clockedProvenance);
+  assert.ok(result.ok, result.ok ? "" : result.error);
+  const { time } = result.report;
+  assert.ok(time.status === "monotonic-since-boot");
+  assert.equal(time.coreClockHz, 100_000_000);
+  assert.equal(time.coreClockSource, "rcc-configured");
+  assert.equal(time.board, "stm32f411");
+  assert.equal(parseQemuBootReport(hardware.replace("(rcc configured)", "(measured)"), clockedProvenance).ok, false);
+  assert.equal(parseQemuBootReport(hardware.replace("board: stm32f411", "board: <script>"), clockedProvenance).ok, false);
 });

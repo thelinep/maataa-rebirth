@@ -41,8 +41,12 @@ export type OsTime =
       status: "monotonic-since-boot";
       basis: "kernel-monotonic-since-boot";
       tickHz: number;
-      /** Board assumption printed by the kernel, not a measurement. */
+      /** Core clock the kernel configured SysTick with. Not a measurement. */
       coreClockHz: number;
+      /** "board-assumption" (QEMU, fixed) or "rcc-configured" (hardware clock tree). */
+      coreClockSource: "board-assumption" | "rcc-configured";
+      /** Board named by the kernel (maataa-os e111e7e and later), else null. */
+      board: string | null;
       uptimeAtReportNanos: number;
       /** Kernel uptime at each simulated scheduler tick, in order. */
       tickUptimesNanos: number[];
@@ -117,8 +121,11 @@ function parseTime(lines: string[]): { value: OsTime } | { error: string } {
   const basis = lines.find((l) => l.startsWith("time: "));
   if (basis === undefined) return { value: UNAVAILABLE };
   if (basis !== "time: kernel-monotonic-since-boot") return { error: "unknown kernel time basis" };
-  const clock = /^clock: systick (\d{1,7}) Hz, core (\d{1,10}) Hz \(board assumption\)$/.exec(lines.find((l) => l.startsWith("clock: ")) ?? "");
+  const clock = /^clock: systick (\d{1,7}) Hz, core (\d{1,10}) Hz \((board assumption|rcc configured)\)$/.exec(lines.find((l) => l.startsWith("clock: ")) ?? "");
   if (!clock) return { error: "clock line missing or malformed" };
+  const boardLine = lines.find((l) => l.startsWith("board: "));
+  const board = boardLine === undefined ? null : boardLine.slice("board: ".length);
+  if (board !== null && !/^[a-z0-9][a-z0-9-]{1,60}$/.test(board)) return { error: "board line malformed" };
   const number = (prefix: string): number | null | undefined => {
     const line = lines.find((l) => l.startsWith(prefix));
     if (line === undefined) return null;
@@ -159,6 +166,8 @@ function parseTime(lines: string[]): { value: OsTime } | { error: string } {
       basis: "kernel-monotonic-since-boot",
       tickHz: Number(clock[1]),
       coreClockHz: Number(clock[2]),
+      coreClockSource: clock[3] === "rcc configured" ? "rcc-configured" : "board-assumption",
+      board,
       uptimeAtReportNanos,
       tickUptimesNanos,
       uptimeAtExitNanos: exit,
